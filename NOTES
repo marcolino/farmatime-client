@@ -1,0 +1,475 @@
+NOTES
+
+Security
+ - .env files are excluded by git repositories; .env.gpg files are not;
+   when adding some secret to .env, crypt it with yarn env-crypt (or better
+   add a pre-push hook to encrypt it); it can be later decrypted with `yarn env-decrypt`.
+
+Font weigth names:
+  Thin        100
+  Extra Light 200
+  Light       300
+  Regular     400
+  Medium      500
+  Semi-Bold   600
+  Bold        700
+  Extra-Bold  800
+  Black       900
+
+REFERENCES
+
+Authentication
+ - AWS Cognito Agnita: https://levelup.gitconnected.com/agnita-authentication-for-create-react-app-using-aws-cognito-80cde1fb781b
+ - aws-amplify Amplify.configure Auth.oauth parameter "responseType" can be set to "code" or "token";
+   note that REFRESH token will only be generated when the responseType is "code"
+
+Privacy (GDPR)
+ - Privacy Policy generator: https://www.lorenzomoio.it/generatore-di-privacy-policy-gratuito
+ - Terms of Use generator: https://zyro.com/it/strumenti/generatore-di-termini-e-condizioni
+
+MUI tutorials
+ - https://levelup.gitconnected.com/material-ui-mui-v5-quick-start-with-hands-on-examples-649a0f712418
+ 
+Material-UI Templates
+ - dribbble: https://dribbble.com/tags/material_ui
+
+Performance
+ - lighthouse & jest: https://medium.com/@togmund/lighthouse-jest-testing-what-matters-acbd0ff55825
+ - Core Web Vitals (PageSpeed Insights): https://pagespeed.web.dev/?utm_source=psi&utm_medium=redirect
+
+Styling
+ - Fluid Typography: https://css-tricks.com/snippets/css/fluid-typography
+ - Color Contrast Checker: https://dequeuniversity.com/rules/axe/2.2/color-contrast?application=lighthouse
+
+Tests
+ - How to ignore partial Jest snapshot diffs: https://lanwen.ru/posts/ignore-jest-snapshot-diffs
+
+AWS
+ - Reset Cloudfront distribution alternate domain name for qiuiccasa:
+   https://console.aws.amazon.com/cloudfront/v3/home?region=eu-west-1#/distributions/E30CJEQ2PIR5NL,
+   edit, set alternate domain name to "quiccasa.sistemisolari.com"
+ - Change Route53 Hosted zones: https://console.aws.amazon.com/route53/v2/hostedzones#ListRecordSets/Z01773871GDWEBESZZ419
+   quiccasa.sistemisolari.com A record was: dleaj9yh1gim0.cloudfront.net.
+ - Automating Cognito Custom Auth Domains with Amplify: https://medium.com/@matt.lavin/automating-cognito-custom-auth-domains-with-amplify-33e7b8f13266
+ - Custom domain support with Cognito #1880: https://github.com/aws-amplify/amplify-cli/issues/1880#issuecomment-626331305
+ - Using Your Own Domain for the Hosted UI: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html
+ - Test Federated Signin: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-federation-with-social-idp.html
+ - Cache Control - Adding headers to your objects using the Amazon S3 console: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html
+
+CORS
+ - React.js API calls to AWS Lambda, API Gateway and dealing with CORS:
+   https://codeburst.io/react-js-api-calls-to-aws-lambda-api-gateway-and-dealing-with-cors-89fb897eb04d
+ - How to set up a custom domain name for Lambda & API Gateway with Serverless
+   https://www.serverless.com/blog/serverless-api-gateway-domain
+ - StackOverflow: Serverless AWS Lambda CORS Error
+   https://stackoverflow.com/questions/46627532/serverless-aws-lambda-cors-error
+
+Cache
+ - Serverless - Invalidating the Cache:
+   https://serverless-stack.com/chapters/deploy-updates.html
+   
+Email
+ - Create Email Addresses for your Route53 Custom Domain: https://medium.com/responsetap-engineering/easily-create-email-addresses-for-your-route53-custom-domain-589d099dd0f2
+ 
+Google Search Console
+ - https://search.google.com/search-console?resource_id=sc-domain%3Asistemisolari.com
+
+Create Google Places API key for a project
+ - https://console.cloud.google.com/apis/credentials?project=acme-431519
+
+I18n
+ - Language flags: https://apps.timwhitlock.info/emoji/tables/iso3166
+ - yarn -D add i18next-parser
+
+E-Commerce
+ - 9 Must-Have Features of a Progressive Web App (PWA) for E-Commerce: https://www.simicart.com/blog/progressive-web-apps-features-for-ecommerce
+
+Push Notifications
+ - Cloud messaging with Firebase: https://blog.logrocket.com/push-notifications-with-react-and-firebase
+ - Why we don't need Firebase InApp Messaging: https://stackoverflow.com/a/64373136/709439
+ - Firebase Push Notifications In React: https://www.smashingmagazine.com/2020/06/firebase-push-notifications-react
+ - Best practices for FCM registration token management: https://firebase.google.com/docs/cloud-messaging/manage-tokens
+
+Sounds
+ - Announcing “use-sound”, a React Hook for Sound Effects: https://www.joshwcomeau.com/react/announcing-use-sound-react-hook/
+
+Axios Interceptors
+ - Debugging and Resolving Axios Network Error Issues: https://www.dhiwise.com/post/common-axios-network-errors-and-how-to-solve-the
+
+React Cookie Law banner
+ - https://github.com/keepist/react-gdpr-cookie-banner?tab=readme-ov-file
+
+AI
+ - Q1: In react.js, when showing a table of items with many columns, with the possibility to edit each item in a new component, which is the best solution to show the 'item edit' component, so to be fully responsive? Should I use a dialog, for example?
+ 
+ - A1: In React.js, when dealing with a table of items that requires editing capabilities for each item, especially in a fully responsive manner, there are several approaches you can take. Each approach has its pros and cons depending on the specific requirements of your application, such as the complexity of the edit form, the amount of screen real estate available, and the overall user experience you aim to provide. Here are some common solutions:
+
+### 1. Modal Dialogs
+
+Using modal dialogs (or simply modals) is a popular choice for displaying the 'item edit' component. Modals overlay on top of the page content, drawing focus to the editing task at hand. They are highly versatile and can be made fully responsive through CSS.
+
+**Pros:**
+- **Focus:** Modals force users to interact with them before returning to the main content, ensuring that edits are completed or consciously abandoned.
+- **Space-saving:** They don’t require much space and adapt well to various screen sizes.
+- **Flexibility:** Can display complex forms and additional information without cluttering the main UI.
+
+**Cons:**
+- **Interruptive:** Some users find modals disruptive as they cover the main content and require closing before interaction with the rest of the page.
+- **Accessibility concerns:** Proper implementation is necessary to ensure accessibility, including keyboard navigation and screen reader support.
+
+### 2. Inline Editing
+
+Inline editing allows users to edit items directly within the table row itself. This approach keeps the user in context, reducing the cognitive load associated with navigating away from the list view.
+
+**Pros:**
+- **Contextual:** Users stay within the same view, maintaining context of their actions.
+- **Efficient:** Quick edits can be made without the overhead of opening a separate dialog or navigating to a new page.
+
+**Cons:**
+- **Limited space:** Complex forms might not fit well inline, leading to cramped interfaces on smaller screens.
+- **State management:** Managing edit state can become complex, especially when multiple rows are editable at once.
+
+### 3. Slide-out Panels
+
+Slide-out panels (or sidebars) offer another way to present editing options without obstructing the main content. They slide in from the side of the screen, providing ample space for complex forms while maintaining visibility of the main table.
+
+**Pros:**
+- **Spacious:** Offers more room for complex editing interfaces compared to modals.
+- **Non-intrusive:** Allows users to reference the table while editing, enhancing usability.
+
+**Cons:**
+- **Screen size dependency:** Might not be as effective on very small screens where space is at a premium.
+- **Navigation complexity:** Users might find navigating between the panel and the main content less intuitive than modals or inline editing.
+
+### 4. New Page Navigation
+
+Navigating to a new page for editing can also be considered, especially if the edit functionality is complex and requires a lot of screen real estate.
+
+**Pros:**
+- **Dedicated space:** Provides ample room for complex forms and related information.
+- **Simplicity:** Straightforward navigation flow, easy to understand for users.
+
+**Cons:**
+- **Context switching:** Moving away from the table view can disrupt the user’s workflow.
+- **Loading times:** Additional page loads can slow down the interaction, depending on application performance.
+
+### Conclusion
+
+The choice among these solutions depends on your specific needs and constraints. For a fully responsive design that balances usability and efficiency, modal dialogs are often recommended due to their flexibility and focus-inducing nature. However, always consider the user experience and test different approaches to find what works best for your application.
+
+
+
+Q2: Please produce a react.js web app, based on mui, using latest version of frameworks.
+It should be responsive, sport a responsive header with a logo and a title on the left, and two links ("Contacts" and "Products") on the right (or in a sidebar for small screens); on the right there shuld also be an "Enter!" button for guest users, and the avatar for logged users; the avatar - clicked - should open a menu with items ("Admin", "Profile" and "Logout"). There should also be a fixed footer.
+App styles should all be configurable using at least two themes. In the themes setup there should be all possible definitions for colors, background colors, spacing, etc. etc.
+
+A2:To create a React.js web app using Material-UI (MUI) that matches your specifications, we'll go through the steps needed to set up a project. This project will include a responsive header with a logo, title, links, user authentication elements, and a fixed footer. Additionally, we'll implement a theme switcher to allow easy switching between different color schemes and other style properties.
+
+### Step 1: Setting Up the Project
+
+First, we'll create a new React app using the latest version of `create-react-app` and then install Material-UI:
+
+```bash
+npx create-react-app mui-responsive-app
+cd mui-responsive-app
+npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
+```
+
+### Step 2: Project Structure
+
+Organize the project structure to handle components and themes efficiently:
+
+```
+mui-responsive-app/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── Header.js
+│   │   ├── Footer.js
+│   │   ├── UserMenu.js
+│   │   ├── ThemeToggle.js
+│   ├── themes/
+│   │   ├── lightTheme.js
+│   │   ├── darkTheme.js
+│   ├── App.js
+│   ├── index.js
+├── package.json
+```
+
+### Step 3: Create Themes
+
+In the `themes` folder, create `lightTheme.js` and `darkTheme.js` files for different styles:
+
+#### `src/themes/lightTheme.js`
+```javascript
+import { createTheme } from '@mui/material/styles';
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+    background: {
+      default: '#f4f4f4',
+      paper: '#fff',
+    },
+  },
+  spacing: 8, // default spacing factor
+});
+
+export default lightTheme;
+```
+
+#### `src/themes/darkTheme.js`
+```javascript
+import { createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#90caf9',
+    },
+    secondary: {
+      main: '#f48fb1',
+    },
+    background: {
+      default: '#303030',
+      paper: '#424242',
+    },
+  },
+  spacing: 8, // default spacing factor
+});
+
+export default darkTheme;
+```
+
+### Step 4: Create the Header Component
+
+The `Header.js` will contain the logo, title, and navigation links. It will adjust to different screen sizes using MUI's responsive components.
+
+#### `src/components/Header.js`
+```javascript
+import React, { useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import { Link } from 'react-router-dom';
+
+const Header = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setDrawerOpen(open);
+  };
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Logo and Title
+        </Typography>
+        {isMobile ? (
+          <>
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer(true)}
+            >
+              <AccountCircle />
+            </IconButton>
+            <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+              <List>
+                <ListItem button component={Link} to="/products">
+                  <ListItemText primary="Products" />
+                </ListItem>
+                <ListItem button component={Link} to="/contacts">
+                  <ListItemText primary="Contacts" />
+                </ListItem>
+                <ListItem button onClick={() => alert('Enter clicked!')}>
+                  <ListItemText primary="Enter!" />
+                </ListItem>
+              </List>
+            </Drawer>
+          </>
+        ) : (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button color="inherit" component={Link} to="/products">Products</Button>
+            <Button color="inherit" component={Link} to="/contacts">Contacts</Button>
+            <Button color="inherit" onClick={() => alert('Enter clicked!')}>Enter!</Button>
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              onClick={handleMenuOpen}
+            >
+              <AccountCircle />
+            </IconButton>
+          </Box>
+        )}
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={handleMenuClose}>Admin</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+        </Menu>
+      </Toolbar>
+    </AppBar>
+  );
+};
+
+export default Header;
+```
+
+### Step 5: Create the Footer Component
+
+#### `src/components/Footer.js`
+```javascript
+import React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
+const Footer = () => {
+  return (
+    <Box
+      component="footer"
+      sx={{
+        position: 'fixed',
+        bottom: 0,
+        width: '100%',
+        bgcolor: 'primary.main',
+        color: 'white',
+        textAlign: 'center',
+        py: 2,
+      }}
+    >
+      <Typography variant="body2">
+        © 2024 Your Company Name
+      </Typography>
+    </Box>
+  );
+};
+
+export default Footer;
+```
+
+### Step 6: Theme Toggle Component
+
+This component will toggle between the light and dark themes.
+
+#### `src/components/ThemeToggle.js`
+```javascript
+import React from 'react';
+import IconButton from '@mui/material/IconButton';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+
+const ThemeToggle = ({ theme, toggleTheme }) => {
+  return (
+    <IconButton onClick={toggleTheme} color="inherit">
+      {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+    </IconButton>
+  );
+};
+
+export default ThemeToggle;
+```
+
+### Step 7: Main App Component
+
+#### `src/App.js`
+```javascript
+import React, { useState } from 'react';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import lightTheme from './themes/lightTheme';
+import darkTheme from './themes/darkTheme';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import ThemeToggle from './components/ThemeToggle';
+
+function App() {
+  const [theme, setTheme] = useState(lightTheme);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme.palette.mode === 'light' ? darkTheme : lightTheme));
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Header />
+      <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+      {/* Add Routes and Main Content Here */}
+      <Footer />
+    </ThemeProvider>
+  );
+}
+
+export default App;
+```
+
+### Step 8: Entry Point of the Application
+
+#### `src/index.js`
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+### Final Notes
+
+1. **Routing**: For full functionality, you can use `react-router-dom` to define routes for "Contacts" and "Products" pages.
+   
+2. **User Authentication**: The user menu and "Enter!" button are placeholders. Replace these with actual authentication logic as needed.
+
+3. **Responsive Behavior**: The `useMediaQuery` hook in MUI ensures that the layout adapts to small screens by switching to a drawer for navigation.
+
+4. **Theme Customization**: Modify the theme objects in `lightTheme.js` and `darkTheme.js` to customize the appearance further.
+
+Run the application using:
+
+```bash
+npm start
+```
+
+This will start the development server and open the app in your default browser.

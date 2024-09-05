@@ -1,0 +1,30 @@
+import React from "react";
+import { useContext } from "react";
+import { makeStyles } from "@material-ui/styles";
+import { useTranslation } from "react-i18next";
+import { AuthContext } from "../providers/AuthProvider";
+
+const useStyles = makeStyles(theme => ({
+  home: {
+    fontSize: "1.5em",
+  },
+}));
+
+function Home() {
+  const classes = useStyles();
+  const { auth } = useContext(AuthContext);
+  const { t } = useTranslation();
+
+  return (
+    <div className={classes.home}>
+      {/* {{(typeof auth.user !== "undefined") && // if auth.user is undefined, we don't know yet about user authentication... */
+        <div>{t("Welcome")} {auth.user ? auth.user.firstName : t("guest user")}</div>
+      }
+      {(auth.user && auth.user.roles.includes("user") && auth.user.justRegistered) && (
+        <div>{t("Administrators are verifying your role...")}</div>
+      )}
+    </div>
+  );
+}
+
+export default React.memo(Home);
