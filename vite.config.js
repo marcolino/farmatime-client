@@ -8,7 +8,9 @@ export default defineConfig({
     port: 5005,
   },
   build: {
-    rollupOptions: {
+    outDir: "*./build",
+    emptyOutDir: true,
+    rollupOptions: { // split output in manual chunks, to avoid too big chunks
       output:{
         manualChunks(id) {
           if (id.includes("node_modules")) {

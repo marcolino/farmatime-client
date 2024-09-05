@@ -5,12 +5,12 @@ importScripts("https://www.gstatic.com/firebasejs/8.2.1/firebase-messaging.js");
 
 // initialize the Firebase app in the service worker by passing the generated config
 const firebaseConfig = { // TO-BE-COSTOMIZED...
-  apiKey: "AIzaSyAN-T9JMI8W5oF2Gip2Pcu-E_xtXBB2gE0",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "sistemisolari-quiccasa.firebaseapp.com",
   projectId: "sistemisolari-quiccasa",
   storageBucket: "sistemisolari-quiccasa.appspot.com",
-  messagingSenderId: "748892040096",
-  appId: "1:748892040096:web:69200876ed8ffa8615d2c5",
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 firebase.initializeApp(firebaseConfig);

@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 #
-# Send a push message to a registered clientd (identified by a valid token)
+# Send a push message to a registered client (identified by a valid token)
 
 SERVER_KEY="AAAArl1xq6A:APA91bG9IExDRYr-6rKKIiX358_rz6hpuigqHI7wuII4no3Yq1uraVpr8ijb-ywMxPWyVWjceXi5ILcJdg5awab4i2aqTZ6ivUktL_ZYSd3qNapNA1qQsb0ZN8oPXDEdiKN_FwnNK2eN"
 CONTENT_TYPE="application/json"
 FIREBASE_ENDPOINT="https://fcm.googleapis.com/fcm/send"
-#TO_TOKEN="ec0MeZXYkyNuap0lEEO_7G:APA91bE9UWJW-6mE1pPfhY_YtWQRPeLD3KmDifjATR5Es3QYFxpCxd7r5oidO7k7nNbzgb5RwsTmWgPKK-MXPGueQUe1Yq1zOi8qPKWo91yS5yCM7lT2XBU2zln_03EmyE8LU57upKmA"
 TO_TOKEN="eUz-8yvPw30h8BNqvLpS8l:APA91bEA5ue7tn156JcSC-5hE5PClLTWzSZ1YeVOsnneLVnsNSoSOUB2KA9BdAkeUqjSNoWJkWmc5dUsgusi-AANZUJXo9AHkhcdg8Mmgvl8Vx4gEJ9YR4Jo_yyg8IqsORpkjyfdW8JP"
 
 
