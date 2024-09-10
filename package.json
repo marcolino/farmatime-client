@@ -22,7 +22,7 @@
     "browserlist-update": "npx browserslist@latest --update-db",
     "check-unimported": "npx unimported",
     "check-deadfiles": "deadfile ./src/main.jsx --dir src",
-    "env-decrypt-CHECK-IF-REALLY-NEEDED": "echo $(tput setaf 3)Password is the name of your little boat\\!$(tput sgr0); gpg -d .env.gpg",
+    "env-decrypt-CHECK-IF-REALLY-NEEDED": "echo $(tput setaf 3)Password is the name of your little b0at\\!$(tput sgr0); gpg -d .env.gpg",
     "explore-source-map-CHECK-IF-REALLY-NEEDED": "source-map-explorer 'build/static/js/*.js'",
     "sound-ok-CHECK-IF-REALLY-NEEDED": "play -q -n synth 0.2 sin 1800 2> /dev/null",
     "sound-ko-CHECK-IF-REALLY-NEEDED": "play -q -n synth 0.2 sin 300 2> /dev/null"
