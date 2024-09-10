@@ -4,7 +4,18 @@ export const signIn = (params) => {
   return instance.post("/auth/signin", params).then(response => {
     return { ok: true, ...response.data };
   }).catch(err => {
-    return { ok: false, ...err.response.data };
+    //return { ok: false, ...err.response.data };
+    console.log('Full error object:', err);
+    if (err.response) {
+      console.log('Error response:', err.response);
+      return { ok: false, ...err.response.data };
+    } else if (err.request) {
+      console.log('No response received:', err.request);
+      return { ok: false, message: "No response from server. Please check your connection." };
+    } else {
+      console.log('Other error:', err.message);
+      return { ok: false, message: err.message };
+    }
   });
 };
 

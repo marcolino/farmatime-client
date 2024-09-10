@@ -103,3 +103,4 @@
 - cambiare errore "Cannot read properties of undefined (data) to some more significant error ("Sorry, connection or server error, please check internet connection or retry later...");
 - capire se servono service-worker.js e serviceWorkerRegistration.js
 - capire se serve il meccanismo di pre-push che fa gpg di .env, o si può evitare, come su server
+- usare errorBoundary.js

@@ -1,6 +1,6 @@
 // for full theme values, see https://mui.com/material-ui/customization/default-theme/
 
-import { createTheme } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 // base theme
 const baseTheme = createTheme({
@@ -27,13 +27,12 @@ const baseTheme = createTheme({
 });
 
 // light theme
-const themeLight = createTheme({
+const themeLight = responsiveFontSizes(createTheme({
   ...baseTheme,
   palette: {
     mode: "light",
     primary: {
-      main: "#1976d2",
-      text: "#eeeeee",
+      main: "#ff8800",
     },
     background: {
       default: "#eeeeee",
@@ -44,10 +43,10 @@ const themeLight = createTheme({
       secondary: "rgba(0, 0, 0, 0.6)",
     },
   },
-});
+}));
 
 // dark theme
-const themeDark = createTheme({
+const themeDark = responsiveFontSizes(createTheme({
   ...baseTheme,
   palette: {
     mode: "dark",
@@ -63,6 +62,6 @@ const themeDark = createTheme({
       secondary: "rgba(255, 255, 255, 0.7)",
     },
   },
-});
+}));
 
 export { themeLight, themeDark };

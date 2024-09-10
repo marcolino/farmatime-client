@@ -22,6 +22,8 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import AvatarMenu from "./AvatarMenu";
 import { AuthContext } from "../providers/AuthProvider";
+import { isAdmin } from "../libs/Validation";
+
 import config from "../config";
 
 import logoMain from "../assets/icons/LogoMain.png";
@@ -290,7 +292,7 @@ const Header = ({ isLoggedIn }) => {
             </ListItem>
             {isLoggedIn ? (
               <>
-                <ListItem button component={Link} to="/admin">
+                <ListItem button component={Link} to="/admin-panel">
                   <ListItemText primary="Admin" />
                 </ListItem>
                 <ListItem button component={Link} to="/profile">

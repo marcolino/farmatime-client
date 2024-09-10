@@ -28,10 +28,11 @@ Privacy (GDPR)
  - Terms of Use generator: https://zyro.com/it/strumenti/generatore-di-termini-e-condizioni
 
 Material UI Theme Customization
+ - MUI latest docs: https://mui.com/material-ui/getting-started/
  - MUI V5 Quickstart with hands on examples: https://levelup.gitconnected.com/material-ui-mui-v5-quick-start-with-hands-on-examples-649a0f712418
  - The ULTIMATE guide to styling/customizing Material UI (MUI): https://youtu.be/HsdjivqQ7BA?si=Em9v6dEw0GkjClbc
- - Customization theming: https://mui.com/customization/theming/
  - Customize mui themes: https://youtu.be/k8m_nLBH4UY
+ - Customization theming: https://mui.com/customization/theming/
  
 
 Performance
@@ -101,3 +102,6 @@ Axios Interceptors
 
 React Cookie Law banner
  - https://github.com/keepist/react-gdpr-cookie-banner?tab=readme-ov-file
+
+Error Boundaries
+ - Error Handling in React Applications: React Error Boundary: https://medium.com/@agamkakkar/error-handling-in-react-applications-react-error-boundary-e633d383762a

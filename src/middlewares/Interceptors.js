@@ -31,12 +31,24 @@ const clearLocalTokens = () => {
 
 // create axios instance
 const createInstance = () => {
+  // const i = axios.create({
+  //   //baseURL: "/api", // used when running on the server, in client/build folder...
+  //   baseURL: "http://localhost:5000", // used when running on the client, while developing
+  //   timeout: 10 * 1000,
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "X-Auth-Token": getLocalAccessToken(),
+  //   }
+  // });
+  // console.log("*******createInstance:", JSON.stringify(i, null, 2))
+  // return i;
   return axios.create({
-    baseURL: "/api",
+    //baseURL: "/api", // used when running on the server, in client/build folder...
+    baseURL: "http://localhost:5000/api", // used when running on the client, while developing
     timeout: 10 * 1000,
     headers: {
       "Content-Type": "application/json",
-      "X-Auth-Token": getLocalAccessToken(),
+      //"X-Auth-Token": getLocalAccessToken(),
     }
   });
 };
@@ -53,9 +65,22 @@ instance.interceptors.request.use(
     //   config.headers["Authorization"] = token;
     // }
     config.headers["Authorization"] = getLocalAccessToken();
+    console.log("instance.interceptors.request.use config:", config);
     return config;
   },
-  (error) => {
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+// Log requests and responses (TODO: DEBUG ONLY)
+instance.interceptors.request.use(
+  config => {
+    console.log("+++++++++++++ Request Config:", config);
+    return config;
+  },
+  error => {
+    console.log("++++++++++++++++++ Request Error:", error);
     return Promise.reject(error);
   }
 );
@@ -64,7 +89,8 @@ instance.interceptors.request.use(
 instance.interceptors.request.use(
   config => {
     if (typeof config.headers["Accept-Version"] === "undefined") { // if set already, keep it as-is, otherwise use default
-      const versionNumber = process.env.VITE_API_VERSION || "v1";
+      //const versionNumber = process.env.VITE_API_VERSION || "v1";
+      const versionNumber = "v1"; // TODO: process is not defined! Should use dotenv???
       config.headers["Accept-Version"] = versionNumber;
     }
     return config;
@@ -105,6 +131,9 @@ instance.interceptors.response.use(
   },
   async (error) => {
     const { config, response } = error;
+    if (!response) {
+      return Promise.reject(new Error("No response from server!"));
+    }
     if (response.status === 404) {
       //router.push({ name: 'notfound' }); // router ???
       window.location.href = "/404";

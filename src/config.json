@@ -87,6 +87,7 @@
     }
   },
   "ui": {
+    "themeMode": "light",
     "footerHeight": "1.5rem",
     "extraSmallWatershed": 600,
     "mobileDesktopWatershed": 900,

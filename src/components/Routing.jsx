@@ -5,7 +5,6 @@ import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import { getCurrentLanguage } from "../libs/I18n";
 import { toast } from "./Toast";
-// import Spinner from "./Spinner";
 import Loader from "./Loader";
 //import Profile from "./auth/Profile";
 
@@ -42,8 +41,9 @@ function Routing() {
   }, [location]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}> {/* TODO: <Suspense fallback={<Loader />}> gives an error: "TypeError: Cannot read properties of undefined (reading 'refs')" */}
-      <div style={styles.content}>
+    // <Suspense fallback={<div>Loading...</div>}> {/* TODO: <Suspense fallback={<Loader />}> gives an error: "TypeError: Cannot read properties of undefined (reading 'refs')" */}
+    <Suspense fallback={<Loader />}>
+    {/* <div style={styles.content}> */}
         <Routes /*location={location}*/>
           <Route path="/" exact element={<Home />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="/signup" element={<SignUp />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
@@ -63,7 +63,7 @@ function Routing() {
           <Route path="/handle-products" element={<WorkInProgress />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="" element={<PageNotFound />} />
         </Routes>
-      </div>
+      {/* </div> */}
     </Suspense>
   );
 }

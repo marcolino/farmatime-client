@@ -97,14 +97,14 @@ function SignIn() {
         default:
           err = response;
       }
-      setError({ email: err });
+      setError({ email: true/*err*/ });
       toast.warning(err);
       return false;
     }
 
     if (!password) {
-      const err = "Please supply a password";
-      setError({ password: err });
+      const err = t("Please supply a password");
+      setError({ password: true/*err*/ });
       toast.warning(err);
       return false;
     }

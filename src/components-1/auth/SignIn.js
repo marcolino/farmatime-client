@@ -93,7 +93,7 @@ function SignIn() {
     }
 
     if (!password) {
-      const err = "Please supply a password";
+      const err = t("Please supply a password");
       setError({ password: err });
       toast.warning(err);
       return false;
