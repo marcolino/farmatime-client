@@ -4,23 +4,23 @@ import { AuthContext } from "../providers/AuthProvider";
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
-	articles: {
+	products: {
     fontSize: "1.5em",
 	},
 }));
 
 
 
-function Articles() {
+function Products() {
 	const classes = useStyles();
   const { auth } = useContext(AuthContext);
   const { t } = useTranslation();
 
   return (
-    <div className={classes.articles}>
-      {`${t("Articles")} ${t("for")} ${auth.user ? t("authenticated user") : t("guest user")} ${auth.user ? auth.user.email : ""}`}
+    <div className={classes.products}>
+      {`${t("Products")} ${t("for")} ${auth.user ? t("authenticated user") : t("guest user")} ${auth.user ? auth.user.email : ""}`}
     </div>
   );
 }
 
-export default React.memo(Articles);
+export default React.memo(Products);

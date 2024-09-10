@@ -56,7 +56,7 @@
 - codificare in entità HTML le email (per offuscarle e limitare lo SPAM) - OK
 - far funzionare il login federato con Facebook - OK
 - documentare come aggiungere una lingua - OK
-- aggiungere la possibilità di tornare indietro (history.back) da /privacy-policy e /terms-of-use - OK
+- aggiungere la possibilità di tornare indietro (navigate.back) da /privacy-policy e /terms-of-use - OK
 - dopo aver gestito I18n, se si vuole gestire il cambio lingua da parte dell'utente, ricordarsi di cambiare "html lang" quando si cambia lingua con `i18next.on('languageChanged', (lng) => {document.documentElement.setAttribute('lang', lng);});` - OK
 - accettare invio come default submit in tutti i forms (NO) - OK
 - in signup/confirm, o dove ci sono più submit, attivare il corretto default submit (?) - OK
@@ -65,10 +65,11 @@
 - chiamare una rest autenticata dopo che il token sia scaduto - NO
 - provare a collegare una funzione lambda (?) - NO
 - usare useMemo e useCallback per tutti i componenti - OK
+- capire se serve reportWebVitals.js (NO) - OK
 
 - migliorare l'aspetto estetico del cookie consent popup
-- gestire l'auditing: tracciare la registrazione (e altro) dell'utente con react-tracking e google tag manager (forse)
-- provare a usare entrambi useLocation e useHistory da "react-router" oppure da "react-router-dom" (IA)
+- gestire l'auditing: tracciare la registrazione (e altro) dell'utente con react-tracking e google tag manager (forse, no, fatto lato server)
+- provare a usare entrambi useLocation e useNavigate da "react-router" oppure da "react-router-dom" (IA)
 - provare a trovare una api key di yandex (o un altro modo) per provare a far funzionare `scripts/translate-auto` (IA)
 - usare react-router OPPURE react-router-dom (IA)
 - rimuovere la gestione dei suoni completamente ("sound")
@@ -101,3 +102,4 @@
 - gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi
 - cambiare errore "Cannot read properties of undefined (data) to some more significant error ("Sorry, connection or server error, please check internet connection or retry later...");
 - capire se servono service-worker.js e serviceWorkerRegistration.js
+- capire se serve il meccanismo di pre-push che fa gpg di .env, o si può evitare, come su server

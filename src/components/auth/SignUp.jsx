@@ -1,0 +1,405 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { usePromiseTracker } from "react-promise-tracker";
+import { useTranslation } from "react-i18next";
+//import { makeStyles } from "@material-ui/styles";
+import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import AccountCircleOutlined from "@mui/icons-material/AccountCircleOutlined";
+import ConfirmationNumber from "@mui/icons-material/ConfirmationNumber";
+import Person from "@mui/icons-material/Person";
+import Email from "@mui/icons-material/Email";
+import Lock from "@mui/icons-material/Lock";
+import { signUp, resendSignup, signupVerification } from "../../libs/TrackPromise";
+import { toast } from "../Toast";
+import { FormInput, FormButton, FormText, FormLink } from "../FormElements";
+import { validateEmail, validatePassword } from "../../libs/Validation";
+import config from "../../config";
+
+// const styles = theme => ({
+//   avatar: {
+//     backgroundColor: theme.palette.success.main,
+//   },
+//   columnLeft: {
+//     marginLeft: theme.spacing(0.2),
+//   },
+//   columnRight: {
+//     marginLeft: "auto",
+//     marginRight: theme.spacing(0.2),
+//   },
+//   fieldset: {
+//     border: 0,
+//   },
+//   dialogContent: {
+//     whiteSpace: "pre-line", // to enable whitespaces in dialog content
+//   },
+// });
+// const useStyles = makeStyles((theme) => (styles(theme)));
+
+
+
+function SignUp() {
+  const classes = {}; //useStyles();
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmed, setPasswordConfirmed] = useState("");
+  const [codeDeliveryMedium, setCodeDeliveryMedium] = useState("");
+  const [waitingForCode, setWaitingForCode] = useState(false);
+  const [code, setCode] = useState("");
+  const [error, setError] = useState({});
+  const [formState, setFormState] = useState({ xs: true, horizontalSpacing: 0 });
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState(null);
+  const [dialogContent, setDialogContent] = useState(null);
+  const [dialogCallback, setDialogCallback] = useState(null);
+  const { promiseInProgress } = usePromiseTracker({ delay: config.spinner.delay });
+  const { t } = useTranslation();
+
+  const handleOpenDialog = (title, content, callback) => {
+    setDialogTitle(title);
+    setDialogContent(content);
+    setDialogCallback(callback);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setDialogTitle(null);
+    setDialogContent(null);
+    dialogCallback && dialogCallback();
+  };
+
+  // set up event listener to set correct grid rowSpacing based on inner width
+  useEffect(() => {
+    const setResponsiveness = () => {
+      window.innerWidth < config.ui.extraSmallWatershed
+        ? setFormState((prevState) => ({ ...prevState, xs: true, rowSpacing: 0 }))
+        : setFormState((prevState) => ({ ...prevState, xs: false, rowSpacing: 2 }));
+    };
+    setResponsiveness();
+    window.addEventListener("resize", () => setResponsiveness());
+    return () => {
+      window.removeEventListener("resize", () => setResponsiveness());
+    };
+  }, []);
+
+  const validateFormStep1 = () => {
+    
+    // validate email formally
+    const response = validateEmail(email);
+    if (response !== true) {
+      let err;
+      switch (response) {
+        case "ERROR_PLEASE_SUPPLY_AN_EMAIL":
+          err = t("Please supply an email");
+          break;
+        case "ERROR_PLEASE_SUPPLY_A_VALID_EMAIL":
+          err = t("Please supply a valid email");
+          break;
+        default:
+          err = response;
+      }
+      setError({ email: err });
+      toast.warning(err);
+      return false;
+    }
+
+    // validate password formally
+    const esponse = validatePassword(password, passwordConfirmed);
+    if (response !== true) {
+      let err;
+      switch (response) {
+        case "ERROR_PLEASE_SUPPLY_A_PASSWORD":
+          err = t("Please supply a password");
+          break;
+        case "ERROR_PLEASE_SUPPLY_A_MORE_COMPLEX_PASSWORD":
+          err = t("Please supply a more complex password");
+          break;
+        case "PLEASE_CONFIRM_THE_PASSWORD":
+          err = t("Please confirm the password");
+          break;
+        case "ERROR_THE_CONFIRMED_PASSWORD_DOES_NOT_MATCH_THE_PASSWORD":
+          err = t("The confirmed password does not match the password");
+        break;
+        default:
+          err = response;
+      }
+      setError({ password: err });
+      toast.warning(err);
+      return false;
+    }
+
+    return true;
+  };
+
+  const validateFormStep2 = () => {
+    if (code.length <= 0) {
+      setError({ code: t("Code is mandatory")});
+      return false;
+    }
+    return true;
+  };
+
+  const formSignUp = (e) => {
+    e.preventDefault();
+    if (!validateFormStep1()) return;
+    setError({});
+
+    signUp({
+      email,
+      password,
+      firstName,
+      lastName,
+      /**
+       * IMPROVE: add custom fields
+       * phone_number: phoneNumber, // E.164 number convention: country code (1 to 3 digits) + subscriber number (max 12 digits)
+       * "custom:favorite_flavor": FavoriteFlavour, // custom attribute, not standard
+       */
+    }, {
+      success: (data) => {
+        console.log("signUp success:", data);
+        const medium = data.codeDeliveryMedium.toLowerCase();
+        toast.info(t("Confirmation code just sent by {{medium}}", {medium}));
+        setCodeDeliveryMedium(medium);
+        setWaitingForCode(true);
+        setPassword("");
+      },
+      error: (err) => {
+        switch (err.code) {
+          case "EmailExistsAlready":
+          case "AccountWaitingForVerification":
+          case "DeletedUser":
+            setError({ email: err.message });
+            toast.warning(t(err.message));
+            break;
+          default:
+            setError({}); // we don't know whom to blame
+            toast.error(t(err.message));
+          }
+      },
+    });
+  };
+
+  const formsignupVerification = (e) => {
+    e.preventDefault();
+    if (!validateFormStep2()) return;
+    setError({});
+
+    signupVerification({email, code}, {
+      success: (data) => {
+        console.log("signupVerification success:", data);
+        // data is not meaningful
+        handleOpenDialog(
+          t("Registered successfully"),
+          t("You can now sign in with email and password") + ".",
+          () => formSignUpCompleted
+        );
+      },
+      error: (err) => {
+console.error("signupVerification error:", err);
+        toast.error(t(err.message));
+        setError({ code: err.message});
+      },
+    });
+  };
+  
+  const formresendSignupCode = (e) => {
+    e.preventDefault();
+    setError({});
+
+    resendSignup({email}, {
+      success: (data) => {
+        toast.info(t("Code resent successfully by {{codeDeliveryMedium}}", {codeDeliveryMedium}));
+      },
+      error: (err) => {
+console.error("resendSignup error:", err);
+        toast.error(t(err.message));
+        setError({ code: err.message});
+      },
+    });
+  };
+  
+  const formSignUpCompleted = () => {
+    setWaitingForCode(false);
+    setEmail("");
+    setCode("");
+    navigate("/signin");
+  };
+
+  return (
+    <Container maxWidth="xs">
+
+      <form className={classes.form} noValidate autoComplete="off">
+        <fieldset disabled={promiseInProgress} className={classes.fieldset}>
+          {!waitingForCode && (
+            <>
+
+              <Box m={1} />
+
+              <Grid container justifyContent="center">
+                <Avatar className={classes.avatar}>
+                  <AccountCircleOutlined />
+                </Avatar>
+              </Grid>
+
+              <Box m={3} />
+
+              <Grid container justifyContent="flex-start">
+                <FormText>
+                  {t("Register with your data")}
+                </FormText>
+              </Grid>
+
+              <Box m={1} />
+
+              <Grid container direction={"row"} spacing={formState.rowSpacing} >
+                <Grid item xs={12} sm={6}>
+                  <FormInput
+                    autoFocus
+                    id={"firstName"}
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder={t("First Name")}
+                    startAdornmentIcon={<Person />}
+                    error={error.firstName}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <FormInput
+                    id={"lastName"}
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder={t("Last Name")}
+                    startAdornmentIcon={<Person />}
+                    error={error.lastName}
+                  />
+                </Grid>
+              </Grid>
+
+              <FormInput
+                id={"email"}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t("Email")}
+                startAdornmentIcon={<Email />}
+                error={error.email}
+              />
+
+              <FormInput
+                id={"password"}
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={t("Password")}
+                startAdornmentIcon={<Lock />}
+                error={error.password}
+              />
+
+              <FormInput
+                id={"passwordConfirmed"}
+                type="password"
+                value={passwordConfirmed}
+                onChange={(e) => setPasswordConfirmed(e.target.value)}
+                placeholder={t("Password confirmation")}
+                startAdornmentIcon={<Lock />}
+                error={error.passwordConfirmed}
+              />
+
+              <Box m={1} />
+
+              <FormButton
+                onClick={formSignUp}
+              >
+                {t("Sign Up")}
+              </FormButton>
+
+              <Box m={3} />
+
+              <Grid container justifyContent="flex-start">
+                <FormText component="h6" variant="caption" color="textSecondary" align="center">
+                  {t("By signing up you agree to ours")} {" "}
+                  <FormLink component={RouterLink} to="/terms-of-use" onClick={() => navigate("/terms-of-use")} color="textPrimary">{t("terms of use")}</FormLink>
+                  {" "} {t("and you confirm you have read our")} {" "}
+                  <FormLink component={RouterLink} to="/privacy-policy" onClick={() => navigate("/privacy-policy")} color="textPrimary">{t("privacy policy")}</FormLink>
+                  {", "} {t("including cookie use")} {"."}
+                </FormText>
+              </Grid>
+
+              <Box m={1} />
+
+            </>
+          )}
+          {waitingForCode && (
+            <>
+              <FormInput
+                id={"signUpCode"}
+                type="number"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder={t("Numeric code just received by {{codeDeliveryMedium}}", {codeDeliveryMedium})}
+                startAdornmentIcon={<ConfirmationNumber />}
+                error={error.code}
+              />
+
+              <FormButton
+                onClick={formsignupVerification}
+              >
+                {t("Verify Sign Up")}
+              </FormButton>
+
+              <Grid container justifyContent="flex-end">
+                <FormButton
+                  onClick={formresendSignupCode}
+                  fullWidth={false}
+                  className={"buttonSecondary"}
+                >
+                  {t("Resend code")}
+                </FormButton>
+              </Grid>
+            </>
+          )}
+        </fieldset>
+      </form>
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {dialogTitle}
+        </DialogTitle>
+        <DialogContent id="alert-dialog-description">
+          <Typography variant="body1" className={classes.dialogContent}>
+            {dialogContent}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <FormButton
+            onClick={handleCloseDialog}
+            fullWidth={false}
+            className={"buttonSecondary"}
+            autoFocus
+          >
+            {t("Ok")}
+          </FormButton>
+        </DialogActions>
+      </Dialog>
+      
+    </Container>
+  );
+}
+
+export default React.memo(SignUp);

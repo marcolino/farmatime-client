@@ -27,8 +27,8 @@ const AvatarMenu = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem component={Button/*Link*/} to="/admin">Admin</MenuItem>
-        <MenuItem component={Button/*Link*/} to="/profile">Profile</MenuItem>
+        <MenuItem component={Link} to="/admin">Admin</MenuItem>
+        <MenuItem component={Link} to="/profile">Profile</MenuItem>
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
     </div>

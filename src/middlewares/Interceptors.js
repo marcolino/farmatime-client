@@ -64,7 +64,7 @@ instance.interceptors.request.use(
 instance.interceptors.request.use(
   config => {
     if (typeof config.headers["Accept-Version"] === "undefined") { // if set already, keep it as-is, otherwise use default
-      const versionNumber = process.env.REACT_APP_API_VERSION || "v1";
+      const versionNumber = process.env.VITE_API_VERSION || "v1";
       config.headers["Accept-Version"] = versionNumber;
     }
     return config;

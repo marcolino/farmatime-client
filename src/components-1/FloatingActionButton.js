@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Container, Button, lightColors, darkColors } from "react-floating-action-button";
-import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { StatusContext } from "../providers/StatusProvider";
 
 
@@ -9,7 +9,7 @@ import { StatusContext } from "../providers/StatusProvider";
 function FloatingActionButton(props) {
   const { status } = useContext(StatusContext);
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const showingNotifications = (location.pathname === "/notifications");
   const show = (status.pushNotifications.length && !showingNotifications);
@@ -21,7 +21,7 @@ function FloatingActionButton(props) {
   };
 
   const action = () => {
-    history.push(link);
+    navigate(link);
   };
 
   return show ? (

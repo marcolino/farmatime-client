@@ -1,18 +1,18 @@
 import React, { useState, useContext } from "react";
-import { useHistory/*, Redirect*/ } from "react-router-dom";
+import { useNavigate/*, Redirect*/ } from "react-router-dom";
 import { usePromiseTracker } from "react-promise-tracker";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/styles";
-import Avatar from "@material-ui/core/Avatar";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
+import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Person from "@material-ui/icons/Person";
-import Lock from "@material-ui/icons/Lock";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Person from "@mui/icons-material/Person";
+import Lock from "@mui/icons-material/Lock";
 //import i18n from "i18next";
 //import { signIn/*, federatedSignIn*/ } from "../../libs/TrackPromise";
 import { signIn/*, federatedSignIn*/ } from "../../libs/Fetch";
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => (styles(theme)));
 
 function SignIn() {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   //const [rememberMe, setRememberMe] = useState(true);
@@ -128,7 +128,7 @@ function SignIn() {
       // }
       setEmail("");
       setPassword("");
-      history.push("/");
+      navigate("/");
     }).catch(err => {
       console.error("signIn error catched:", err);
       toast.error(t(err.message));
@@ -153,7 +153,7 @@ function SignIn() {
     //   }
     //   setEmail("");
     //   setPassword("");
-    //   history.push("/");
+    //   navigate("/");
     // }).catch(err => {
     //   console.error("federatedSignIn error:", err);
     //   toast.error(t(err.message));
@@ -226,7 +226,7 @@ function SignIn() {
             </Grid>
             <Grid className={classes.columnRight} style={{marginTop: 5}}>
               <FormLink
-                onClick={() => history.push("/forgot-password")}
+                onClick={() => navigate("/forgot-password")}
                 className={classes.forgotPassword}
               >
                 {t("Forgot Password?")}
@@ -244,7 +244,7 @@ function SignIn() {
             </Grid>
             <Grid item>
               <FormLink
-                onClick={() => history.push("/signup")}
+                onClick={() => navigate("/signup")}
                 className={classes.signUp}
               >
                 {t("Register Now!")}

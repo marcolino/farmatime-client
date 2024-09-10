@@ -1,24 +1,24 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { makeStyles } from "@mui/material/styles";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Drawer from "@material-ui/core/Drawer";
-import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuIcon from "@material-ui/icons/Menu";
-import HomeIcon from "@material-ui/icons/Home";
-import ListAltIcon from "@material-ui/icons/ListAlt";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import SecurityIcon from "@material-ui/icons/Security";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Drawer from "@mui/material/Drawer";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SecurityIcon from "@mui/icons-material/Security";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import IconCustom from "./IconCustom";
 import IconGravatar from "./IconGravatar";
 import ImageCustom from "./ImageCustom";
@@ -87,7 +87,7 @@ const elevation = 3;
 function Header() {
   const classes = useStyles();
   const { auth } = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const [state, setState] = useState({
@@ -125,7 +125,7 @@ function Header() {
   };
 
   const handleUserJoin = () => {
-    history.push("/signin");
+    navigate("/signin");
   };
 
   const mainItems = [
@@ -141,9 +141,9 @@ function Header() {
       href: "/contacts",
     },
     {
-      label: t("Articles"),
+      label: t("Products"),
       icon: <ListAltIcon />,
-      href: "/articles",
+      href: "/products",
     },
   ];
 

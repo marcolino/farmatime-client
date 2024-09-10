@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { BrowserRouter, useLocation } from "react-router-dom";
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 //import { useTranslation } from "react-i18next";
 import { AuthProvider } from "../providers/AuthProvider";
 import { ServiceProvider } from "../providers/ServiceProvider";

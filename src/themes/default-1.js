@@ -1,11 +1,11 @@
-import { createTheme } from "@material-ui/core/styles";
-//import { createMuiTheme } from "@material-ui/core/styles";
-//import { unstable_createMuiStrictModeTheme as createMuiTheme } from "@material-ui/core/styles"; // TEMPORARY: temporary, to solve material-ui drawer "findDOMNode is deprecated in StrictModefindDOMNode is deprecated in StrictMode" warning
-//import blueGrey from "@material-ui/core/colors/blueGrey";
-import lightGreen from "@material-ui/core/colors/lightGreen";
-import grey from "@material-ui/core/colors/grey";
-import amber from "@material-ui/core/colors/amber";
-import red from "@material-ui/core/colors/red";
+import { createTheme } from "@mui/material/styles";
+//import { createMuiTheme } from "@mui/material/styles";
+//import { unstable_createMuiStrictModeTheme as createMuiTheme } from "@mui/material/styles"; // TEMPORARY: temporary, to solve material-ui drawer "findDOMNode is deprecated in StrictModefindDOMNode is deprecated in StrictMode" warning
+//import blueGrey from "@mui/material/colors/blueGrey";
+import lightGreen from "@mui/material/colors/lightGreen";
+import grey from "@mui/material/colors/grey";
+import amber from "@mui/material/colors/amber";
+import red from "@mui/material/colors/red";
 
 
 export default createTheme({

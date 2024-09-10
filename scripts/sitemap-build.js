@@ -1,12 +1,13 @@
-#!/usr/bin/env node
+#!/usr/bin/env yarn node
 /**
  * Build sitemap.xml for a react web app, starting from the routes file, using only node.js
  */
 
-const fs = require("fs");
+import fs from "fs";
+import config from "../src/config.js"; // ensure .js extension for ES module imports
 
 const sitemapFileName = "./public/sitemap.xml";
-const hostName = "https://acme.arsistemi.it"; // the url of the website: the protocol and the domain name
+const hostName = config.siteUrl; // the url of the website: the protocol and the domain name
 const routesPath = "./src/components/Routes.js";
 const defaultFrequency = "monthly";
 const defaultPriority = 0.5;

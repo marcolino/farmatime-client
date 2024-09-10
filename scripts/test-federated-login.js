@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env yarn node
 
 /**
  * Test federated signin endpoints
@@ -6,10 +6,12 @@
  * Example: curl -vs 'https://auth.sistemisolari.com/oauth2/authorize?redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=code&client_id=67c2r6sh1fo6c85u819m9pir91&identity_provider=Google&scope=phone%20email%20profile%20Xopenid%20aws.cognito.signin.user.admin&state=I4SVmIKWDHPWoPgCfWvITysuRNCrTQVq&code_challenge=3SBg3vu3ktfzebAlV5MAtKfQ-wRFEUBdrkCFHxx8aUg&code_challenge_method=S256'
  */
 
-require('dotenv').config();
-const http = require("https");
-const config = require("../src/config");
+import http from "https";
+import dotenv from "dotenv";
+//import config from "../src/config.js"; // ensure .js extension for ES module imports
+const config = {}; config.oauth = {}; // TODO...
 
+dotenv.config({ path: "../.env" });
 const redirect_uri = encodeURIComponent(config.oauth.redirectSignIn);
 const response_type = "code";
 const identity_provider = "Facebook";
@@ -22,7 +24,7 @@ const url = `
 https://${config.oauth.domain}/oauth2/authorize?
 redirect_uri=${redirect_uri}&
 response_type=${response_type}&
-client_id=${process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID}&
+client_id=${process.env.VITE_USER_POOL_WEB_CLIENT_ID}&
 identity_provider=${identity_provider}&
 scope=${scope}&
 state=${state}&
@@ -30,6 +32,7 @@ code_challenge=${code_challenge}&
 code_challenge_method=${code_challenge_method}
 `;
 
+console.log(`Checking url ${url}`);
 http.get(url, function(response) {
   const response_location = response.headers.location
   const url = new URL(response_location);

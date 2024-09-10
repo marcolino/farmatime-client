@@ -1,12 +1,12 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/styles";
 //import { toast } from "./Toast";
 import { FormTitle } from "./FormElements";
 import {
   Box, Paper, Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -20,15 +20,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const HandleArticles = () => {
+const HandleProducts = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
     <>
       <FormTitle>
-         {t("Handle articles")}
+         {t("Handle products")}
         </FormTitle>
       <Paper>
         {t("Work in progress")}...
@@ -37,4 +37,4 @@ const HandleArticles = () => {
   );
 };
 
-export default React.memo(HandleArticles);
+export default React.memo(HandleProducts);

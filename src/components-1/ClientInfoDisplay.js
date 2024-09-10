@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Paper, Typography, Chip} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { withTheme } from '@material-ui/core/styles';
+import { Paper, Typography, Chip} from "@mui/material";
+import { makeStyles } from "@mui/material/styles";
+import { withTheme } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

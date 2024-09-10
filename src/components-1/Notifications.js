@@ -1,17 +1,17 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
-import Avatar from "@material-ui/core/Avatar";
-import ShareIcon from '@material-ui/icons/Share';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Typography from "@material-ui/core/Typography";
-import red from '@material-ui/core/colors/red';
+import Avatar from "@mui/material/Avatar";
+import ShareIcon from '@mui/icons-material/Share';
+import IconButton from '@mui/material/IconButton';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Typography from "@mui/material/Typography";
+import red from '@mui/material/colors/red';
 import { StatusContext } from "../providers/StatusProvider";
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Notifications(props) {
   const { status, setStatus } = useContext(StatusContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 	const classes = useStyles();
   //const { t } = useTranslation();
 
@@ -42,7 +42,7 @@ export default function Notifications(props) {
     )});
 console.log("Notifications - (!status.pushNotifications.length):", (!status.pushNotifications.length));
     if (status.pushNotifications.length <= 1) { // setStatus is asynchronous...
-      history.goBack();
+      navigate(-1);
     }
   };
   

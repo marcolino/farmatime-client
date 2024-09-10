@@ -303,19 +303,19 @@ export const encodeEmail = (email) => {
   return React.createElement("span", { dangerouslySetInnerHTML: { __html: encodedEmail } });
 }
 
-export const getMetaValue = (name) => {
-  const metaTag = document.querySelector(`meta[name="${name}"]`);
-  try {
-    if (metaTag) {
-      return JSON.parse(metaTag.getAttribute("content"));
-    } else {
-      return {};
-    }
-  } catch (err) {
-    console.error(`Bad json while reading content of meta tag with name ${name}`);
-    return {}
-  }
-}
+// export const getMetaValue = (name) => {
+//   const metaTag = document.querySelector(`meta[name="${name}"]`);
+//   try {
+//     if (metaTag) {
+//       return JSON.parse(metaTag.getAttribute("content"));
+//     } else {
+//       return {};
+//     }
+//   } catch (err) {
+//     console.error(`Bad json while reading content of meta tag with name ${name}`);
+//     return {}
+//   }
+// }
 
 export const consoleFilter = () => {
   console.error = (...args) => {

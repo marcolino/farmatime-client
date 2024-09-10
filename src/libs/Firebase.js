@@ -3,17 +3,17 @@ import "firebase/messaging";
 
 // TODO: put in .env or config
 const firebaseConfig = { // TODO...
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
   authDomain: "sistemisolari-quiccasa.firebaseapp.com",
   projectId: "sistemisolari-quiccasa",
   storageBucket: "sistemisolari-quiccasa.appspot.com",
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
-  //measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VITE_FIREBASE_APP_ID
+  //measurementId: process.env.VITE_MEASUREMENT_ID,
 };
 // console.firebase.com - Project - Projetc Settings - Cloud Messaging - Certificati Web Push - Coppia di chiavi
-const vapidKey = process.env.REACT_APP_VAPID_KEY,
-const tokenKey = process.env.REACT_APP_TOKEN_KEY,
+const vapidKey = process.env.VITE_VAPID_KEY,
+const tokenKey = process.env.VITE_TOKEN_KEY,
 const tokenMaxValidityTimeSpan = 7 * 60 * 60 * 24 * 1000; // one week (in milliseconds)
 
 if (!firebase.apps.length) { // if never inizialized, inizialize app

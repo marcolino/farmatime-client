@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { usePromiseTracker } from "react-promise-tracker";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/styles";
-import { Grid, Container, Box } from "@material-ui/core";
+import { Grid, Container, Box } from "@mui/material";
 import {
   Person, Email, Phone, SupervisedUserCircle, PlaylistAddCheck,
   Payment, Business, LocationOn as LocationOnIcon
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { FormTitle, FormInput, FormPhoneInput, FormSelect, FormButton, FormText } from "./FormElements";
 import { getUser, updateUser, getAllRoles, getAllPlans } from "../libs/Fetch";
 //import { mergeObjects } from "../libs/Misc";
@@ -32,14 +32,14 @@ const useStyles = makeStyles((theme) => (styles(theme)));
 
 function EditUser(props) {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const userId = props?.match?.params?.userId;
   const [user, setUser] = useState(false);
   const [error, setError] = useState({});
   const { auth, setAuth } = useContext(AuthContext);
   const { promiseInProgress } = usePromiseTracker({delay: config.spinner.delay});
   const { t } = useTranslation();
-  // const apiKey = process.env.REACT_APP_GEOAPIFY_API_KEY;
+  // const apiKey = process.env.VITE_GEOAPIFY_API_KEY;
 
   const [allRoles, setAllRoles] = React.useState(false);
   const [allPlans, setAllPlans] = React.useState(false);
@@ -48,7 +48,7 @@ function EditUser(props) {
 
   if (!userId) {
     toast.error(t("No user id specified"));
-    history.goBack();
+    navigate(-1);
     return;
   }
 
@@ -279,7 +279,7 @@ function EditUser(props) {
         setAuth({ user: updatedUser });
       }
 
-      history.goBack();
+      navigate(-1);
     }).catch(err => {
       console.error("updateUser error catched:", err);
       toast.error(t(err.message));
@@ -290,7 +290,7 @@ function EditUser(props) {
   const formCancel = (e) => {
     e.preventDefault();
     setError({});
-    history.goBack();
+    navigate(-1);
   }
 
   // const resetForm = () => {

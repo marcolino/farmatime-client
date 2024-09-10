@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { usePromiseTracker } from "react-promise-tracker";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/styles";
-import Avatar from "@material-ui/core/Avatar";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import LockOpenOutlined from "@material-ui/icons/LockOpenOutlined";
-import ConfirmationNumber from "@material-ui/icons/ConfirmationNumber";
-import Lock from "@material-ui/icons/Lock";
-import LockOpen from "@material-ui/icons/LockOpen";
+import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import LockOpenOutlined from "@mui/icons-material/LockOpenOutlined";
+import ConfirmationNumber from "@mui/icons-material/ConfirmationNumber";
+import Lock from "@mui/icons-material/Lock";
+import LockOpen from "@mui/icons-material/LockOpen";
 // TODO: do not use trackpromise, but "../../libs/Fetch" ...
 //import { forgotPassword, forgotPasswordSubmit, resendResetPasswordCode } from "../../libs/TrackPromise";
 import { forgotPassword, forgotPasswordSubmit, resendResetPasswordCode } from "../../libs/Fetch";
@@ -43,7 +43,7 @@ function ForgotPassword() {
   const [waitingForCode, setWaitingForCode] = useState(false);
   const [codeDeliveryMedium, setCodeDeliveryMedium] = useState("");
   const [code, setCode] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
   const { promiseInProgress } = usePromiseTracker({delay: config.spinner.delay});
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
@@ -177,7 +177,7 @@ Please copy and paste it here.`, { medium, email }),
       handleOpenDialog(
         t(`Password reset success`),
         t(`You can now sign in with your new password`),
-        () => {history.push("/signin")}
+        () => {navigate("/signin")}
       );
     });
   };

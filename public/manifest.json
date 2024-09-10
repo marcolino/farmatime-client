@@ -1,0 +1,20 @@
+{
+  "//note": "This file is generated automatically, please do not change directly, use environment, and rebuild using scripts/manifest-build",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "64x64"
+    },
+    {
+      "src": "favicon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "favicon.ico",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

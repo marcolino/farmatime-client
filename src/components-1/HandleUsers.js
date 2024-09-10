@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/styles";
 import DialogConfirm from "./DialogConfirm";
@@ -25,8 +25,8 @@ import {
   TablePagination,
   TextField,
   Typography,
-} from "@material-ui/core";
-import { Search, Edit, Delete } from "@material-ui/icons";
+} from "@mui/material";
+import { Search, Edit, Delete } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const [users, setUsers] = useState([]);
@@ -125,8 +125,8 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
   
   const onEdit = (userId) => {
     //alert("onEdit " + userId);
-    //history.push("/edit-user", { data: { userId } });
-    history.push(`/edit-user/${userId}`);
+    //navigate("/edit-user", { data: { userId } });
+    navigate(`/edit-user/${userId}`);
   };
   
   const onRemove = async (userId) => {

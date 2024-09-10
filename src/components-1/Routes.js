@@ -16,14 +16,14 @@ const SignOut = lazy(() => import("./auth/SignOut"));
 const Profile = lazy(() => import("./auth/Profile"));
 const ForgotPassword = lazy(() => import("./auth/ForgotPassword"));
 const Searches = lazy(() => import("./Searches"));
-const Articles = lazy(() => import("./Articles"));
+const Products = lazy(() => import("./Products"));
 const Notifications = lazy(() => import("./Notifications"));
 const EditUser = lazy(() => import("./EditUser"));
 const Legal = lazy(() => import("./legal/legal"));
 const Contacts = lazy(() => import("./Contacts"));
 const AdminPanel = lazy(() => import("./AdminPanel"));
 const HandleUsers = lazy(() => import("./HandleUsers"));
-const HandleArticles = lazy(() => import("./HandleArticles"));
+const HandleProducts = lazy(() => import("./HandleProducts"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
@@ -52,7 +52,7 @@ function Routes() {
           <Route path="/signout" component={SignOut} />
           <Route path="/forgot-password" component={ForgotPassword} />
           <Route path="/searches" component={Searches} /> {/* sitemapFrequency={"daily"} sitemapPriority={1.0} */}
-          <Route path="/articles" component={Articles} /> {/* sitemapFrequency={"daily"} sitemapPriority={1.0} */}
+          <Route path="/products" component={Products} /> {/* sitemapFrequency={"daily"} sitemapPriority={1.0} */}
           <Route path="/notifications" component={Notifications} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
           <Route path="/edit-user/:userId" component={EditUser} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
           <Route path="/terms-of-use" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"termsOfUse"} /> } />
@@ -60,7 +60,7 @@ function Routes() {
           <Route path="/contacts" component={Contacts} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="/admin-panel" component={AdminPanel} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
           <Route path="/handle-users" component={HandleUsers} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
-          <Route path="/handle-articles" component={WorkInProgress/*HandleArticles*/} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
+          <Route path="/handle-products" component={WorkInProgress/*HandleProducts*/} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="" component={PageNotFound} />
         </Switch>
       </div>

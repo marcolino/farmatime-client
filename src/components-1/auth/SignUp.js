@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, Link as RouterLink } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { usePromiseTracker } from "react-promise-tracker";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/styles";
-import Avatar from "@material-ui/core/Avatar";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import AccountCircleOutlined from "@material-ui/icons/AccountCircleOutlined";
-import ConfirmationNumber from "@material-ui/icons/ConfirmationNumber";
-import Person from "@material-ui/icons/Person";
-import Email from "@material-ui/icons/Email";
-import Lock from "@material-ui/icons/Lock";
+import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import AccountCircleOutlined from "@mui/icons-material/AccountCircleOutlined";
+import ConfirmationNumber from "@mui/icons-material/ConfirmationNumber";
+import Person from "@mui/icons-material/Person";
+import Email from "@mui/icons-material/Email";
+import Lock from "@mui/icons-material/Lock";
 import { signUp, resendSignup, signupVerification } from "../../libs/TrackPromise";
 import { toast } from "../Toast";
 import { FormInput, FormButton, FormText, FormLink } from "../FormElements";
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => (styles(theme)));
 
 function SignUp() {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -233,7 +233,7 @@ console.error("resendSignup error:", err);
     setWaitingForCode(false);
     setEmail("");
     setCode("");
-    history.push("/signin");
+    navigate("/signin");
   };
 
   return (
@@ -329,9 +329,9 @@ console.error("resendSignup error:", err);
               <Grid container justifyContent="flex-start">
                 <FormText component="h6" variant="caption" color="textSecondary" align="center">
                   {t("By signing up you agree to ours")} {" "}
-                  <FormLink component={RouterLink} to="/terms-of-use" onClick={() => history.push("/terms-of-use")} color="textPrimary">{t("terms of use")}</FormLink>
+                  <FormLink component={RouterLink} to="/terms-of-use" onClick={() => navigate("/terms-of-use")} color="textPrimary">{t("terms of use")}</FormLink>
                   {" "} {t("and you confirm you have read our")} {" "}
-                  <FormLink component={RouterLink} to="/privacy-policy" onClick={() => history.push("/privacy-policy")} color="textPrimary">{t("privacy policy")}</FormLink>
+                  <FormLink component={RouterLink} to="/privacy-policy" onClick={() => navigate("/privacy-policy")} color="textPrimary">{t("privacy policy")}</FormLink>
                   {", "} {t("including cookie use")} {"."}
                 </FormText>
               </Grid>

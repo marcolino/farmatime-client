@@ -2,7 +2,7 @@
 #
 # Update sitemap to main search engines
 
-sitemapUrl="https://acme.arsistemi.it/sitemap.xml"
+sitemapUrl="https://acme-server-lingering-brook-4120.fly.dev/sitemap.xml"
 googleSuccess="Your Sitemap has been successfully added to our list of Sitemaps to crawl."
 bingSuccess="Grazie per avere inviato la sitemap."
 

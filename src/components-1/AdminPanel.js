@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/styles";
 //import { toast } from "./Toast";
@@ -8,7 +8,7 @@ import {
   Button,
   Paper,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AdminPanel = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
@@ -39,7 +39,7 @@ const AdminPanel = () => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => history.push("/handle-users")}
+            onClick={() => navigate("/handle-users")}
           >
             {t("Handle users")}
           </Button>
@@ -48,9 +48,9 @@ const AdminPanel = () => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => history.push("/handle-articles")}
+            onClick={() => navigate("/handle-products")}
           >
-            {t("Handle articles")}
+            {t("Handle products")}
           </Button>
         </Box>
       </Paper>

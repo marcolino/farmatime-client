@@ -1,5 +1,5 @@
 import React, { useEffect }  from "react";
-import Link from "@material-ui/core/Link";
+import Link from "@mui/material/Link";
 import CookieConsent from "react-cookie-consent";
 import { useTranslation } from "react-i18next";
 import config from "../config";
