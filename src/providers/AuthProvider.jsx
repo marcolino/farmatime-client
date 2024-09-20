@@ -8,10 +8,16 @@ const AuthContext = createContext(initialState);
 
 const AuthProvider = (props) => {
   //console.log("calling usePersistedState with initialstate =", initialState);
-  const [auth, setAuth] = usePersistedState('auth', initialState);
+  const [auth, setAuth] = usePersistedState("auth", initialState);
 
+  // const handleSetAuth = (state, persistentAmongSessions) => {
+  //   setAuth({ user: state.user, persistentAmongSessions });
+  // };
+  // const handleSetAuth = (state, persistentAmongSessions) => {
+  //   setAuth({ ...auth, ...state, persistentAmongSessions });
+  // };
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider value={{ auth, setAuth/*: handleSetAuth*/ }}>
       {props.children}
     </AuthContext.Provider>
   )

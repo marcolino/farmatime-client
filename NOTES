@@ -78,6 +78,12 @@ Google Search Console
 Create Google Places API key for a project
  - https://console.cloud.google.com/apis/credentials?project=acme-431519
 
+Google Developer console for oAuth
+ - [TODO...](https://console.cloud.google.com/apis/dashboard?project=acme-431519)
+
+Facebook Developer console for oAuth
+ - https://developers.facebook.com/apps/
+
 I18n
  - Language flags: https://apps.timwhitlock.info/emoji/tables/iso3166
  - yarn -D add i18next-parser
@@ -105,3 +111,122 @@ React Cookie Law banner
 
 Error Boundaries
  - Error Handling in React Applications: React Error Boundary: https://medium.com/@agamkakkar/error-handling-in-react-applications-react-error-boundary-e633d383762a
+
+Theming
+ - MUi Color Palette Creation Tool: https://m2.material.io/inline-tools/color/
+ - Palette - Material UI: https://mui.com/material-ui/customization/palette/
+
+Oauth - Open popup window
+Q:
+sWhy do I get error: Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'self'" in js on the client?
+
+A: (ChatGPT)
+The error you are encountering, "Refused to execute inline script because it violates the following Content Security Policy directive: script-src 'self'", occurs due to the Content Security Policy (CSP). CSP is a security feature that helps prevent attacks like Cross-Site Scripting (XSS) by specifying which sources of content (scripts, styles, images, etc.) the browser is allowed to load and execute.
+
+In your case, the browser is blocking the inline <script> tag from executing in your OAuth callback page because the current CSP only allows scripts from the server itself ('self'), but disallows inline scripts.
+
+Solutions:
+1. Update Content Security Policy (CSP) to Allow Inline Scripts:
+You can modify the Content Security Policy to allow inline scripts, but this approach is generally discouraged for security reasons.
+
+Express Example: You can modify the headers in your Express server to include the unsafe-inline directive in the script-src policy:
+javascript
+Copia codice
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "script-src 'self' 'unsafe-inline';"
+  );
+  next();
+});
+This will allow inline scripts to run, but use this carefully as it opens up potential security vulnerabilities.
+
+2. Move Inline Script to an External JavaScript File:
+A more secure approach is to move the inline script that posts the data to the parent window and closes the popup into an external JavaScript file.
+
+Create a separate JavaScript file for the code that will send the data to the parent window and close the popup.
+
+Create an external script file: For example, create callbackHandler.js:
+
+javascript
+Copia codice
+(function() {
+  // Send tokens to the parent window
+  window.opener.postMessage({
+    accessToken: accessTokenFromServer,
+    refreshToken: refreshTokenFromServer
+  }, '*');
+
+  // Close the popup
+  window.close();
+})();
+Modify your server code to reference the external file:
+
+javascript
+Copia codice
+app.get('/api/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+  const accessToken = req.user.accessToken;
+  const refreshToken = req.user.refreshToken;
+
+  // Serve a page that includes the external JS file
+  res.send(`
+    <html>
+      <head>
+        <script>
+          var accessTokenFromServer = '${accessToken}';
+          var refreshTokenFromServer = '${refreshToken}';
+        </script>
+        <script src="/path/to/callbackHandler.js"></script>
+      </head>
+      <body></body>
+    </html>
+  `);
+});
+By moving the code to an external script file, it satisfies the default 'self' policy of CSP, which allows scripts to be loaded from the same origin.
+
+3. Use Nonce-based CSP for Inline Scripts:
+Another secure option is to use nonces (random unique tokens) to allow specific inline scripts to run.
+
+Modify your CSP to allow inline scripts with a specific nonce:
+
+javascript
+Copia codice
+app.use((req, res, next) => {
+  const nonce = crypto.randomBytes(16).toString("base64"); // Generate a unique nonce
+  res.setHeader(
+    "Content-Security-Policy",
+    `script-src 'self' 'nonce-${nonce}';`
+  );
+  res.locals.nonce = nonce;
+  next();
+});
+In your callback response, add the nonce to the script tag:
+
+javascript
+Copia codice
+app.get('/api/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+  const accessToken = req.user.accessToken;
+  const refreshToken = req.user.refreshToken;
+  const nonce = res.locals.nonce; // Retrieve the nonce
+
+  res.send(`
+    <html>
+      <body>
+        <script nonce="${nonce}">
+          window.opener.postMessage({
+            accessToken: '${accessToken}',
+            refreshToken: '${refreshToken}'
+          }, '*');
+          window.close();
+        </script>
+      </body>
+    </html>
+  `);
+});
+This allows that specific inline script to run while maintaining the rest of the CSP restrictions.
+
+Summary:
+Option 1: Temporarily allow inline scripts using the unsafe-inline directive in the CSP, but this is less secure.
+Option 2: Move the inline script to an external JS file and reference it from your HTML response (recommended for better security).
+Option 3: Use nonce-based CSP to selectively allow trusted inline scripts while keeping strong security controls in place.
+The second option (moving the script to an external file) is often the best compromise between security and functionality.

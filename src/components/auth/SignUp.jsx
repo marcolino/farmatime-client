@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { usePromiseTracker } from "react-promise-tracker";
 import { useTranslation } from "react-i18next";
-//import { makeStyles } from "@material-ui/styles";
+//import { useTheme } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
@@ -23,30 +23,9 @@ import { FormInput, FormButton, FormText, FormLink } from "../FormElements";
 import { validateEmail, validatePassword } from "../../libs/Validation";
 import config from "../../config";
 
-// const styles = theme => ({
-//   avatar: {
-//     backgroundColor: theme.palette.success.main,
-//   },
-//   columnLeft: {
-//     marginLeft: theme.spacing(0.2),
-//   },
-//   columnRight: {
-//     marginLeft: "auto",
-//     marginRight: theme.spacing(0.2),
-//   },
-//   fieldset: {
-//     border: 0,
-//   },
-//   dialogContent: {
-//     whiteSpace: "pre-line", // to enable whitespaces in dialog content
-//   },
-// });
-// const useStyles = makeStyles((theme) => (styles(theme)));
-
-
 
 function SignUp() {
-  const classes = {}; //useStyles();
+  //const theme = useTheme();
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -76,7 +55,10 @@ function SignUp() {
     setOpenDialog(false);
     setDialogTitle(null);
     setDialogContent(null);
-    dialogCallback && dialogCallback();
+    if (dialogCallback) {
+      setDialogCallback(null);
+      dialogCallback();
+    }
   };
 
   // set up event listener to set correct grid rowSpacing based on inner width
@@ -206,7 +188,6 @@ function SignUp() {
         );
       },
       error: (err) => {
-console.error("signupVerification error:", err);
         toast.error(t(err.message));
         setError({ code: err.message});
       },
@@ -222,7 +203,6 @@ console.error("signupVerification error:", err);
         toast.info(t("Code resent successfully by {{codeDeliveryMedium}}", {codeDeliveryMedium}));
       },
       error: (err) => {
-console.error("resendSignup error:", err);
         toast.error(t(err.message));
         setError({ code: err.message});
       },
@@ -233,21 +213,21 @@ console.error("resendSignup error:", err);
     setWaitingForCode(false);
     setEmail("");
     setCode("");
-    navigate("/signin");
+    navigate("/signin", { replace: true });
   };
 
   return (
     <Container maxWidth="xs">
 
-      <form className={classes.form} noValidate autoComplete="off">
-        <fieldset disabled={promiseInProgress} className={classes.fieldset}>
+      <form noValidate autoComplete="off">
+        <fieldset disabled={promiseInProgress}>
           {!waitingForCode && (
             <>
 
               <Box m={1} />
 
               <Grid container justifyContent="center">
-                <Avatar className={classes.avatar}>
+                <Avatar>
                   <AccountCircleOutlined />
                 </Avatar>
               </Grid>
@@ -382,7 +362,7 @@ console.error("resendSignup error:", err);
           {dialogTitle}
         </DialogTitle>
         <DialogContent id="alert-dialog-description">
-          <Typography variant="body1" className={classes.dialogContent}>
+          <Typography variant="body1">
             {dialogContent}
           </Typography>
         </DialogContent>

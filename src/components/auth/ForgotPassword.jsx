@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePromiseTracker } from "react-promise-tracker";
 import { useTranslation } from "react-i18next";
-//import { makeStyles } from "@material-ui/styles";
 import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
@@ -16,59 +12,38 @@ import LockOpenOutlined from "@mui/icons-material/LockOpenOutlined";
 import ConfirmationNumber from "@mui/icons-material/ConfirmationNumber";
 import Lock from "@mui/icons-material/Lock";
 import LockOpen from "@mui/icons-material/LockOpen";
-// TODO: do not use trackpromise, but "../../libs/Fetch" ...
-//import { forgotPassword, forgotPasswordSubmit, resendResetPasswordCode } from "../../libs/TrackPromise";
-import { forgotPassword, forgotPasswordSubmit, resendResetPasswordCode } from "../../libs/Fetch";
+import TextField from "../styled/TextField";
+import Button from "../styled/Button";
+import { apiCall }  from "../../libs/Network";
 import { toast } from "../Toast";
-import { FormInput, FormButton, FormText } from "../FormElements";
 import { validateEmail, validatePassword } from "../../libs/Validation";
 import config from "../../config";
 
-// const styles = theme => ({
-//   avatar: {
-//     backgroundColor: theme.palette.success.main,
-//   },
-//   fieldset: {
-//     border: 0,
-//   },
-// });
-// const useStyles = makeStyles((theme) => (styles(theme)));
 
 function ForgotPassword() {
-  const classes = {}; //useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmed, setPasswordConfirmed] = useState("");
-  const [error, setError] = useState({ email: null, password: null, passwordConfirmed: null, code: null });
+  const [error, setError] = useState({ email: false, password: false, passwordConfirmed: false, code: false });
   const [waitingForCode, setWaitingForCode] = useState(false);
   const [codeDeliveryMedium, setCodeDeliveryMedium] = useState("");
   const [code, setCode] = useState("");
   const navigate = useNavigate();
-  const { promiseInProgress } = usePromiseTracker({delay: config.spinner.delay});
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogContent, setDialogContent] = useState(null);
   const [callbackOnCloseDialog, setCallbackOnCloseDialog] = useState(null);
-
-  const [openDialog1, setOpenDialog1] = useState(false);
-  const [dialogTitle1, setDialogTitle1] = useState(null);
-  const [dialogContent1, setDialogContent1] = useState(null);
-  const [openDialog2, setOpenDialog2] = useState(false);
-  const [dialogTitle2, setDialogTitle2] = useState(null);
-  const [dialogContent2, setDialogContent2] = useState(null);
   const { t } = useTranslation();
 
-  const handleOpenDialog = (title, content, callbackOnCLose) => {
+  const handleOpenDialog = (title, content, callbackOnClose) => {
     setDialogTitle(title);
     setDialogContent(content);
     setOpenDialog(true);
-    setCallbackOnCloseDialog(callbackOnCLose);
+    setCallbackOnCloseDialog(() => callbackOnClose);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    // setDialogTitle(null);
-    // setDialogContent(null);
     if (callbackOnCloseDialog) {
       setCallbackOnCloseDialog(null);
       callbackOnCloseDialog();
@@ -91,7 +66,7 @@ function ForgotPassword() {
             err = response;
         }
         toast.warning(err);
-        setError({ email: err });
+        setError({ email: true });
         return false;
       }
     }
@@ -117,58 +92,49 @@ function ForgotPassword() {
             err = response;
         }
         toast.warning(err);
-        setError({ password: err });
+        setError({ password: true });
         return false;
       }
     }
-
     return true;
   }
 
-  const formForgotPassword = (e) => {
+  const formForgotPassword = async(e) => {
     e.preventDefault();
     if (!validateForm()) return;
     setError({});
 
-    //console.log("formForgotPassword");
-    forgotPassword({
-      email
-    }).then(data => {
-      if (!data.ok) {
-        console.warn("forgotPassword error:", data);
-        toast.error(t(data.message));
-        setError({ email: data.message }); // TODO: should we always blame email input for error?
-        return;
-      }
-      //console.log("forgotPassword success:", data);
+    const result = await apiCall("post", "/auth/resetPassword", {
+      email,
+    });
+    if (!result.err) {
       setWaitingForCode(true);
       setPassword("");
-      const medium = data.codeDeliveryMedium;
-      const email = data.codeDeliveryEmail;
+      const medium = result.codeDeliveryMedium;
       setCodeDeliveryMedium(medium);
       handleOpenDialog(
         t("Confirmation code sent"),
-        t(`\
-Confirmation code sent via {{medium}} to {{email}}.
-Please copy and paste it here.`, { medium, email }),
+        result.message,
         () => { },
       );
-    });
+    } else {
+      toast.error(result.message);
+      setError({});
+    }
   };
   
-  const formConfirmForgotPassword = (e) => {
+  const formConfirmForgotPassword = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     setError({});
     
-    forgotPasswordSubmit({email, code, password, passwordConfirmed}).then(data => {
-      if (!data.ok) {
-        console.warn("forgotPasswordSubmit error:", data);
-        toast.error(t(data.message));
-        setError({ password: data.message}); // TODO: check whom to blame for error
-        return;
-      }
-      //console.log("confirmForgotPasswordSubmit success data:", data);
+    const result = await apiCall("post", "/auth/resetPasswordConfirm", {
+      email,
+      code,
+      password,
+      passwordConfirmed,
+    });
+    if (!result.err) {
       setWaitingForCode(false);
       setEmail("");
       setPassword("");
@@ -177,133 +143,176 @@ Please copy and paste it here.`, { medium, email }),
       handleOpenDialog(
         t(`Password reset success`),
         t(`You can now sign in with your new password`),
-        () => {navigate("/signin")}
+        () => { navigate("/signin", { replace: true }) }
       );
-    });
+    } else {
+      toast.error(result.message);
+      switch (result.data.code) {
+        case "NotFoundCode":
+          setError({ confirmationCode: true }); // blame confirmationCode field for error
+          break;
+        case "InvalidOrExpiredCode":
+          setError({ confirmationCode: true }); // blame confirmationCode field for error
+          break;
+        default:
+          setError({ password: true }); // blame password field for error
+      }
+      
+    }
   };
-  
-  const formResendResetPasswordCode = (e) => {
+
+  const formResendResetPasswordCode = async(e) => {
     e.preventDefault();
     setError({});
 
-    resendResetPasswordCode({email}).then(data => {
-      if (!data.ok) {
-        console.warn("formResendResetPasswordCode error:", data);
-        switch (data.code) {
-          case "ExpiredCodeException":
-            setError({ confirmationCode: data }); // blame confirmationCode field as guilty
+    const result = await apiCall("post", "/auth/resendResetPasswordCode", {
+      email,
+    });
+    if (!result.err) {
+      setWaitingForCode(true);
+      //setEmail("");
+      setPassword("");
+      setPasswordConfirmed("");
+      setCode("");
+      handleOpenDialog(
+        t(`Reset code resent`),
+        result.message,
+        () => { }
+      );
+    } else {
+        switch (result.code) {
+          case "NotFoundCode":
+            setError({ confirmationCode: true }); // blame confirmationCode field for error
+            break;
+          case "InvalidOrExpiredCode":
+            setError({ confirmationCode: true }); // blame confirmationCode field for error
             break;
           default:
-            setError({}); // we don't know whom to blame
+            setError({ password: true }); // blame password field for error
         }
-        toast.error(t(data.message));
-        return;
-      }
-      console.log("TODO: CHECK IF IN DATA WE HAVE MESSAGE TO SHOW TO THE USER resendResetPasswordCode success data:", data);
-      toast.info("Code resent successfully");
-    });
+        toast.error(result.message);
+    }
   };
 
   return (
-    <Container maxWidth="xs">
-
-      <form className={classes.form} noValidate autoComplete="off">
-        <fieldset disabled={promiseInProgress} className={classes.fieldset}>
-          {!waitingForCode && (
-            <>
-
-              <Box m={1} />
-
-              <Grid container justifyContent="center">
-                <Avatar className={classes.avatar}>
-                  <LockOpenOutlined />
-                </Avatar>
-              </Grid>
-
-              <Box m={3} />
-
-              <Grid container justifyContent="flex-start">
-                <FormText>
-                  {t("Reset password")}
-                </FormText>
-              </Grid>
-
-              <Box m={1} />
-
-              <FormInput
-                autoFocus
-                id={"email"}
-                value={email}
-                onChange={setEmail}
-                placeholder={t("Email")}
-                startAdornmentIcon={<LockOpen />}
-                error={error.email}
-              />
-
-              <Box m={1} />
-
-              <FormButton
-                onClick={formForgotPassword}
-              >
-                {t("Request password reset")}
-              </FormButton>
-              
-            </>
-          )}
-          {waitingForCode && (
-            <>
-
-              <FormInput
-                id={"password"}
-                type="password"
-                value={password}
-                onChange={setPassword}
-                placeholder={t("New password")}
-                startAdornmentIcon={<Lock />}
-                error={error.password}
-              />
-
-              <FormInput
-                id={"passwordConfirmed"}
-                type="password"
-                value={passwordConfirmed}
-                onChange={setPasswordConfirmed}
-                placeholder={t("New password confirmation")}
-                startAdornmentIcon={<Lock />}
-                error={error.passwordConfirmed}
-              />
-
-              <FormInput
-                id={"confirmationCode"}
-                type="number"
-                value={code}
-                onChange={setCode}
-                placeholder={t("Numeric code just received by {{codeDeliveryMedium}}", {codeDeliveryMedium})}
-                startAdornmentIcon={<ConfirmationNumber />}
-                error={error.confirmationCode}
-              />
-
-              <Box m={1} />
-
-              <FormButton
-                onClick={formConfirmForgotPassword}
-              >
-                {t("Confirm Password Reset")}
-              </FormButton>
-
-              <Grid container justifyContent="flex-end">
-                <FormButton
-                  onClick={formResendResetPasswordCode}
-                  fullWidth={false}
-                  className={"buttonSecondary"}
+    <>
+      <form noValidate autoComplete="on">
+        
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "start",
+            mt: 6,
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              maxWidth: 400,
+              p: 2,
+              border: "1px solid",
+              borderColor: "primary.main",
+              borderRadius: 4,
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mt: 0,
+                mb: 3,
+              }}
+            >
+              <Avatar sx={{ backgroundColor: "primary.main" }}>
+                <LockOpenOutlined />
+              </Avatar>
+            </Box>
+            {!waitingForCode && (
+              <>
+                <Typography variant="body2" color="textSecondary"
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    my: 1,
+                  }}
                 >
+                  {t("Reset password")}
+                </Typography>
+                <TextField
+                  autoFocus
+                  id={"email"}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={t("Email")}
+                  startIcon={<LockOpen />}
+                  error={error.email}
+                />
+                <Box m={1} />
+                <Button type="submit" onClick={formForgotPassword}>
+                  {t("Request password reset")}
+                </Button>
+              </>
+            )}
+            {waitingForCode && (
+              <>
+                <Typography variant="body2" color="textSecondary"
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    my: 1,
+                  }}
+                >
+                  {t("New password")}
+                </Typography>
+                <TextField
+                  autoFocus
+                  id={"password"}
+                  type="password"
+                  value={password}
+                  autoComplete="new-password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder={t("New password")}
+                  startIcon={<Lock />}
+                  error={error.password}
+                />
+                <Box m={1} />
+                <TextField
+                  id={"passwordConfirmed"}
+                  type="password"
+                  value={passwordConfirmed}
+                  autoComplete="new-password-confirmation"
+                  onChange={(e) => setPasswordConfirmed(e.target.value)}
+                  placeholder={t("New password confirmation")}
+                  startIcon={<Lock />}
+                  error={error.passwordConfirmed}
+                />
+                <Box m={1} />
+                <TextField
+                  id={"confirmationCode"}
+                  type="tel" /* tel type does not show arrows */
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  placeholder={t("Numeric code received by {{codeDeliveryMedium}}", {codeDeliveryMedium})}
+                  startIcon={<ConfirmationNumber />}
+                  error={error.confirmationCode}
+                />
+                <Button
+                  type="submit" onClick={formConfirmForgotPassword}>
+                  {t("Request password reset")}
+                </Button>
+                <Button
+                  type="submit" onClick={formResendResetPasswordCode}
+                  fullWidth={false} size="small" color="tertiary"
+                  sx={{ float: "right", marginLeft: "auto", marginRight: 0, mt: 1 }} >
                   {t("Resend code")}
-                </FormButton>
-              </Grid>
+                </Button>
+              </>
+            )}
+          </Box>
+        </Box>
 
-            </>
-          )}
-        </fieldset>
       </form>
 
       <Dialog
@@ -316,23 +325,22 @@ Please copy and paste it here.`, { medium, email }),
           {dialogTitle}
         </DialogTitle>
         <DialogContent id="alert-dialog-description">
-          <Typography variant="body1" style={{whiteSpace: 'pre-line'}}>
+          <Typography variant="body1" sx={{whiteSpace: "pre-line"}}>
             {dialogContent}
           </Typography>
         </DialogContent>
         <DialogActions>
-          <FormButton
+          <Button
             onClick={handleCloseDialog}
             fullWidth={false}
             className={"buttonSecondary"}
             autoFocus
           >
             {t("Ok")}
-          </FormButton>
+          </Button>
         </DialogActions>
       </Dialog>
-
-    </Container>
+    </>
   );
 }
 

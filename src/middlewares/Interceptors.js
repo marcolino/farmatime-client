@@ -1,10 +1,11 @@
 import axios from "axios";
-import Cookies from "universal-cookie";
+//import Cookies from "universal-cookie";
+//import Cookies from "js-cookie";
+import Cookie from "../libs/Cookie";
 import { toast } from "../components/Toast";
 import cfg from "../config";
 
-
-const cookies = new Cookies();
+//const cookies = new Cookies();
 
 // track whether the token is being refreshed
 let isRefreshing = false;
@@ -12,36 +13,25 @@ let refreshSubscribers = [];
 
 // storage functions
 const getLocalAccessToken = () => {
-  return cookies.get("auth")?.user?.accessToken;
+  return Cookie.get("auth")?.user?.accessToken;
 }
 
 const setLocalAccessToken = (token) => {
-  const currentAuth = cookies.get("auth");
-  cookies.set("auth", { ...currentAuth, user: { ...currentAuth.user, accessToken: token } });
+  const currentAuth = Cookie.get("auth");
+  Cookie.set("auth", { ...currentAuth, user: { ...currentAuth?.user, accessToken: token } });
 }
 
 const getLocalRefreshToken = () => {
-  return cookies.get("auth")?.user?.refreshToken;
+  return Cookie.get("auth")?.user?.refreshToken;
 }
 
 const clearLocalTokens = () => {
-  const currentAuth = cookies.get("auth");
-  cookies.set("auth", { ...currentAuth, "user": false });
+  const currentAuth = Cookie.get("auth");
+  Cookie.set("auth", { ...currentAuth, "user": false });
 };
 
 // create axios instance
 const createInstance = () => {
-  // const i = axios.create({
-  //   //baseURL: "/api", // used when running on the server, in client/build folder...
-  //   baseURL: "http://localhost:5000", // used when running on the client, while developing
-  //   timeout: 10 * 1000,
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "X-Auth-Token": getLocalAccessToken(),
-  //   }
-  // });
-  // console.log("*******createInstance:", JSON.stringify(i, null, 2))
-  // return i;
   return axios.create({
     //baseURL: "/api", // used when running on the server, in client/build folder...
     baseURL: "http://localhost:5000/api", // used when running on the client, while developing
@@ -59,11 +49,6 @@ const instanceForRefresh = createInstance();
 // add a request interceptor to append authentication token to request headers
 instance.interceptors.request.use(
   config => {
-    //const token = getLocalAccessToken();
-    // if (token) {
-    //   config.headers["X-Auth-Token"] = token;
-    //   config.headers["Authorization"] = token;
-    // }
     config.headers["Authorization"] = getLocalAccessToken();
     console.log("instance.interceptors.request.use config:", config);
     return config;
@@ -73,14 +58,14 @@ instance.interceptors.request.use(
   }
 );
 
-// Log requests and responses (TODO: DEBUG ONLY)
+// log requests and responses (DEBUG ONLY)
 instance.interceptors.request.use(
   config => {
-    console.log("+++++++++++++ Request Config:", config);
+    console.log("Request Config:", config);
     return config;
   },
   error => {
-    console.log("++++++++++++++++++ Request Error:", error);
+    console.log("Request Error:", error);
     return Promise.reject(error);
   }
 );
@@ -89,9 +74,10 @@ instance.interceptors.request.use(
 instance.interceptors.request.use(
   config => {
     if (typeof config.headers["Accept-Version"] === "undefined") { // if set already, keep it as-is, otherwise use default
-      //const versionNumber = process.env.VITE_API_VERSION || "v1";
-      const versionNumber = "v1"; // TODO: process is not defined! Should use dotenv???
-      config.headers["Accept-Version"] = versionNumber;
+      const versionNumber = import.meta.env.VITE_API_VERSION;
+      if (typeof versionNumber !== "undefined") {
+        config.headers["Accept-Version"] = versionNumber;
+      }
     }
     return config;
   }, (error) => {
@@ -135,8 +121,7 @@ instance.interceptors.response.use(
       return Promise.reject(new Error("No response from server!"));
     }
     if (response.status === 404) {
-      //router.push({ name: 'notfound' }); // router ???
-      window.location.href = "/404";
+      window.location.href = "/page-not-found";
     }
     if (response.status === 401 && config.url !== "/auth/signin") {
       if (!isRefreshing) {
@@ -151,20 +136,11 @@ instance.interceptors.response.use(
           console.log("refreshError caught:", refreshError);
           isRefreshing = false;
           clearLocalTokens();
-          //window.location.href = "/signin";
-          // refreshError.redirect = {
-          //   path: "/signin", // path to redirect to in the error boundary
-          //   message: refreshError.response.data.message // message to show
-          // };
-
           toast.warning(refreshError.response.data.message);
-
-          // delay the redirection
-          setTimeout(() => {
+          setTimeout(() => { // redirect to signin page with some delay, to allow toast to be read
             window.location.href = "/signin";
           }, cfg.ui.toastAutoCloseSeconds * 1000);
-          
-          refreshError.response.data.message = null; // avoid double error toasting on component
+          refreshError.response.data.message = null; // avoid double error toasting on component (TODO: ??? check what happens removing this line...)
           return Promise.reject(refreshError);
         }
       } else {

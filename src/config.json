@@ -60,15 +60,11 @@
     "warnBeforeSessionExpirationSeconds": 120
   },
   "spinner": {
-    "type": "Watch",
     "delay": 500,
-    "height": 200,
-    "width": 200,
+    "thickness": 4,
+    "size": 64,
     "opacity": 0.5,
-    "color": "midnightBlue",
-    "secondaryColor": "darkBlue",
-    "strokeWidth": 10,
-    "strokeWidthSecondary": 8
+    "color": "secondary"
   },
   "i18n": {
     "country": "it",
@@ -104,6 +100,9 @@
     "responseType": "code",
     "redirectSignIn": "http://localhost:5000",
     "redirectSignOut": "http://localhost:5000",
-    "federatedSigninProviders": []
+    "federatedSigninProviders": [
+      "Google",
+      "Facebook"
+    ]
   }
 }

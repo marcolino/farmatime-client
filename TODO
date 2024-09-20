@@ -66,20 +66,23 @@
 - provare a collegare una funzione lambda (?) - NO
 - usare useMemo e useCallback per tutti i componenti - OK
 - capire se serve reportWebVitals.js (NO) - OK
+- come decidere se production o development mode? (server side, config.json) - OK
+- provare a usare entrambi useLocation e useNavigate da "react-router-dom" (e non "react-router") - OK
+- provare a trovare una api key di yandex (o un altro modo) per provare a far funzionare `scripts/translate-auto` (vedi scripts/translate) - OK
+- verificare OnlineStatusProvider quando si parte offline - OK
 
+- verificare che non succedano cose brutte chiamando il server (es.: in SignIn.jsx), senza controlloare l' onlineCheck
 - migliorare l'aspetto estetico del cookie consent popup
 - gestire l'auditing: tracciare la registrazione (e altro) dell'utente con react-tracking e google tag manager (forse, no, fatto lato server)
-- provare a usare entrambi useLocation e useNavigate da "react-router" oppure da "react-router-dom" (IA)
-- provare a trovare una api key di yandex (o un altro modo) per provare a far funzionare `scripts/translate-auto` (IA)
-- usare react-router OPPURE react-router-dom (IA)
-- rimuovere la gestione dei suoni completamente ("sound")
+- rimuovere completamente la gestione dei suoni ("sound")
 - risolvere i TODO's nel codice
 - gestire la navigazione da tastiera
 - completare (e testare) gli attributi aria
-- capire e gestire testing coverage
+- aggiungere tests
+- aggiungere coverage
 - seguire i suggerimenti di chrome lighthouse per il profiling
 - gestire tags opengraph / twitter in index.html
-- completare il README.md, copiando lo stile di uno bello
+- completare il README.md, copiando lo stile di uno elegante
 - gestire (bene) il logging
 - rimuovere tutti i `console.*` non necessari
 - creare le email privacy@sistemisolari.com, info@sistemisolari.com su AWS SES (o email forwards, vedi NOTES#Email)
@@ -87,20 +90,26 @@
 - gestire URL di callback per la richiesta di eliminazione dei dati (Facebook e Google)
 - ripulire Google e Facebook console dalle impostazioni inutili per i login federati nel cloud
 - in caso di errore "User already exists" durante la registrazione, valutare se proporre di redirigere in /signin
-- integrare `yarn translations-parse` / `yarn translate-auto` nel flusso di deploy (confrontare i files 'locales/translation.json' con gli 'old', e se ci sono differenze interrompere il deploy chiedendo se si vuole tradurre)
+- integrare `yarn i18n` / `yarn i18n-auto` nel flusso di deploy (confrontare i files 'locales/translation.json' con gli 'old', e se ci sono differenze interrompere il deploy chiedendo se si vuole tradurre)
 - tests: rendere più semplice la rigenerazione degli snapshots (o decidere di non usarli)
-- verificare OnlineStatusProvider quando si parte offline
 - decidere se mantenere ed usare la gestione delle notifiche (firebase)
 - gestire timeout sessione lato server: 2 minuti prima della scadenza (timeout da impostare ad ogni login e ad ogni richiesta), dire all'utente che la sessione sta per scadere, e chiedere se vuole prolungarla; se non risponde, dopo un minuto chiamare signOut, e mandare in home; se risponde di prolungare, non fare nulla
 - controllare che in caso di offline le chiamate al server non partano neanche (mettere un controllo in un middleware)?
 - sostituire tutti i componenti con exports finali con exports singoli
 - normalizzare la formattazione del numero di telefono (+xx xxx xxxxxxx)
+- se possibile utilizzare un modulo per l'inserimento del numero di telefono (con select del prefisso internazionale)
 - in gestione utenti, chiedere conferma anche per la cancellazione di un utente con il pulsante sulla riga singola
 - collegare la voce di menu "Profilo" con "EditUser", e rendere EditUser parametrico sul modo: editprofile/edituser
-- verificare se, usando il modulo react-promise-tracker, serve  sempre l'hhok UseAxiosLoader
-- come decidere se production o development mode?
+- verificare se, usando il modulo react-promise-tracker, serve  sempre l'hook UseAxiosLoader
 - gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi
-- cambiare errore "Cannot read properties of undefined (data) to some more significant error ("Sorry, connection or server error, please check internet connection or retry later...");
+- cambiare errore "Cannot read properties of undefined (data) to some more significant error ("Sorry, a network issue or a server error occurred; please retry later...");
 - capire se servono service-worker.js e serviceWorkerRegistration.js
 - capire se serve il meccanismo di pre-push che fa gpg di .env, o si può evitare, come su server
 - usare errorBoundary.js
+- modificare il flusso di signin/signup:
+   - se l'utente risulta già avere un account (da localstorage/cookies),
+     il pulsante "Entra!" dovrebbe portare alla pagina di signin (con "non hai un accout? Registrati");
+   - se invece risulta essere nuovo, il pulsante "Entra!" dovrebbe portare alla pagina di signup (con "hai già un accout? Accedi").
+- rivededre tutti i componenti Image / Icon, e se possibile unificarli
+- save theme with user
+- let IA complete aria-labels for MUI components

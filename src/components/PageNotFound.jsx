@@ -40,7 +40,11 @@ const PageNotFound = () => {
   
   return (
     <div className={classes.container}>
-      <IconCustom name="NotFound" className={classes.image} />
+      <IconCustom name="NotFound" sx={{
+        width: "30vw",
+        height: "auto",
+        marginRight: 20,
+      }} />
       <div className={classes.textContent}>
         <p className={classes.title}>{`${t("OPS!")} ${t("Page not found")}.`}</p>
         <p className={classes.subtitle}>{`${t("Perhaps you did request the wrong page, because I could'nt find what you looked for")}.`}</p>

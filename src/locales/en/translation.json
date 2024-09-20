@@ -86,7 +86,7 @@
   "Please supply a valid first name": "",
   "Please supply a valid last name": "",
   "Please supply a valid phone": "",
-  "Please supply an email": "",
+  "Please supply an email": "Please supply an email",
   "Please supply an email body": "Please supply an email body",
   "Please supply an email subject": "Please supply an email subject",
   "privacy policy": "privacy policy",

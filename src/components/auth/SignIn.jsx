@@ -1,88 +1,41 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePromiseTracker } from "react-promise-tracker";
 import { useTranslation } from "react-i18next";
-//import { makeStyles } from "@material-ui/styles";
+//import { useTheme } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-
-import Button from "@mui/material/Button";
-
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GoogleIcon from "@mui/icons-material/Google";
+import Icon from "@mui/material/Icon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Person from "@mui/icons-material/Person";
 import Lock from "@mui/icons-material/Lock";
-//import i18n from "i18next";
-//import { signIn/*, federatedSignIn*/ } from "../../libs/TrackPromise";
-import { signIn/*, federatedSignIn*/ } from "../../libs/Fetch";
-import { FacebookIcon, GoogleIcon } from "../IconFederated";
 import { toast } from "../Toast";
-
-//import { FormInput, FormButton, FormText, FormDividerWithText, /*FormCheckbox,*/ FormLink } from "../FormElements";
-
-import { Typography as FormText } from "@mui/material";
-import { Link as FormLink } from "react-router-dom";
-
-import StyledTextField from "../form/TextField";
-import StyledButton from "../form/Button";
-
-import CustomButton from '../form/CustomButton';
-
+import TextField from "../styled/TextField";
+import Button from "../styled/Button";
 import { AuthContext } from "../../providers/AuthProvider";
-import { OnlineStatusContext } from "../../providers/OnlineStatusProvider";
 import { validateEmail } from "../../libs/Validation";
+import { apiCall }  from "../../libs/Network";
 import config from "../../config";
-
-// const styles = theme => ({
-//   avatar: {
-//     backgroundColor: theme.palette.success.main,
-//   },
-//   // rememberMe: {
-//   //   color: theme.palette.success.main,
-//   // },
-//   forgotPassword: {
-//     color: theme.palette.success.main,
-//   },
-//   signUp: {
-//     color: theme.palette.success.main,
-//   },
-//   columnLeft: {
-//     marginLeft: theme.spacing(0.2),
-//   },
-//   columnRight: {
-//     marginLeft: "auto",
-//     marginRight: theme.spacing(0.2),
-//   },
-//   fieldset: {
-//     border: 0,
-//   },
-// });
-// const useStyles = makeStyles((theme) => (styles(theme)));
-
 
 
 function SignIn() {
-  const classes = {}; //useStyles();
+  //const theme = useTheme();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState({});
   const { setAuth } = useContext(AuthContext);
-  const isOnline = useContext(OnlineStatusContext);
-  /* UNUSED */ const { promiseInProgress } = usePromiseTracker({delay: config.spinner.delay});
   const { t } = useTranslation();
 
-  const onlineCheck = () => { // TODO: put this check one level upper... Ask AI on how to do it...
-    if (!isOnline) {
-      toast.warning("Sorry, we are currently offline. Please wait for the network to become available.");
-      return false;
-    }
-    return true;
+  const handleSocialLogin = (event, provider) => {
+    event.preventDefault(); // redirect fails without preventing default behaviour!
+    window.open(`http://localhost:5000/api/auth/${provider.toLowerCase()}`, "_self");
   };
 
-  const validateForm = () => {   
+  const validateForm = () => {
     // validate email formally
     const response = validateEmail(email);
     if (response !== true) {
@@ -97,14 +50,14 @@ function SignIn() {
         default:
           err = response;
       }
-      setError({ email: true/*err*/ });
+      setError({ email: true });
       toast.warning(err);
       return false;
     }
 
     if (!password) {
       const err = t("Please supply a password");
-      setError({ password: true/*err*/ });
+      setError({ password: true });
       toast.warning(err);
       return false;
     }
@@ -112,91 +65,74 @@ function SignIn() {
     return true;
   };
 
-  const formSignIn = (e) => {
+  const formSignIn = async(e) => {
     e.preventDefault();
     if (!validateForm()) return;
-    if (!onlineCheck()) return;
     setError({});
 
-    signIn({
+    const result = await apiCall("post", "/auth/signin", {
       email,
       password,
-    }).then(data => {
-      if (!data.ok) {
-        console.warn("signIn error:", data);
-        toast.error(t(data.message));
-        setError({});
-        return;
-      }
-      console.log("signIn success:", data);
-      const user = data;
-      console.log("SETAUTH {user}:", user);
-      setAuth({ user });
-
+    });
+    if (!result.err) {
+      console.log("signIn success:", result);
+      setAuth({ user: result });
       // if (!rememberMe) { // to handle remember-me flag
       //   localStorage.clear();
       // }
       setEmail("");
       setPassword("");
-      navigate("/");
-    }).catch(err => {
-      console.error("signIn error catched:", err);
-      toast.error(t(err.message));
-      setError({}); // we can't blame some user input, it's a server side error
-    });
+      navigate("/", { replace: true });
+    } else {
+      console.error("signIn error:", result);
+      toast.error(result.message);
+      setError({});
+    }
   };
-
-  const formFederatedSignIn = (e, provider) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    if (!onlineCheck()) return;
-    setError({});
-
-    window.open("/api/auth/loginGoogle", "_self");
-
-    // federatedSignIn().then(data => {
-    //   console.log("federatedSignIn calling setAuth - data:", data);
-    //   // TODO: do we need tokens here?
-    //   setAuth({ user: { ...data.user, accessToken: data.accessToken, refreshToken: data.refreshToken }});
-    //   if (!rememberMe) {
-    //     localStorage.clear();
-    //   }
-    //   setEmail("");
-    //   setPassword("");
-    //   navigate("/");
-    // }).catch(err => {
-    //   console.error("federatedSignIn error:", err);
-    //   toast.error(t(err.message));
-    //   setError({}); // we don't know whom to blame
-    // });
-  };
-
-  //console.log("config.oauth.federatedSigninProviders.length:", config.oauth.federatedSigninProviders.length);
+  
   return (
-    <Container maxWidth="xs" sx={{ py:4 }}>
-
-      <form className={classes.form} noValidate autoComplete="off">
-        <fieldset disabled={promiseInProgress} style={{border: 0}}>
-
-          <Box m={0} />
-
-          <Grid container justifyContent="center">
-            <Avatar className={classes.avatar}>
+    <form noValidate autoComplete="off"> {/* TODO: on or off? Differences? */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "start",
+          mt: 6,
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 400,
+            p: 2,
+            border: "1px solid",
+            borderColor: "primary.main",
+            borderRadius: 4,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              mt: 0,
+              mb: 3,
+            }}
+          >
+            <Avatar sx={{ backgroundColor: "primary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
-          </Grid>
-
-          <Box m={2} />
-
-          <Grid container justifyContent="flex-start">
-            <FormText>
-              {t("Sign in with email and password")}
-            </FormText>
-          </Grid>
-
-          <Box m={0} />
-
-          <StyledTextField
+          </Box>
+          <Typography variant="body2" color="textSecondary"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              my: 1,
+            }}
+          >
+            {t("Sign in with email and password")}
+          </Typography>
+          <TextField
             autoFocus
             id={"email"}
             value={email}
@@ -204,13 +140,9 @@ function SignIn() {
             placeholder={t("Email")}
             startIcon={<Person />}
             autoComplete="email"
-            // fullWidth={true}
-            // size={"small"}
-            // margin={"dense"}
             error={error.email}
           />
-
-          <StyledTextField
+          <TextField
             id={"password"}
             type="password"
             value={password}
@@ -218,118 +150,98 @@ function SignIn() {
             placeholder={t("Password")}
             startIcon={<Lock />}
             autoComplete="current-password"
-            // fullWidth={true}
-            // size={"small"}
-            // margin={"dense"}
             error={error.password}
           />
-
-          <Box m={1} />
-
-          <CustomButton>Default Button</CustomButton>
-
-          {/* Custom variant */}
-          <CustomButton variant="contained">Contained Button</CustomButton>
-
-          {/* Custom background color */}
-          <CustomButton /*backgroundColor="#ff0000"*/>Red Button</CustomButton>
-
-          {/* Both custom variant and background color */}
-          <CustomButton variant="text" /*backgroundColor="#00ff00"*/>
-            Green Text Button
-          </CustomButton>
-          
-          <CustomButton
-            variant="contained" // or 'outlined', 'text', etc.
-            color="primary"
-            fullWidth
-            onClick={formSignIn}
-          >
+          <Button type="submit" onClick={formSignIn}>
             {t("Sign In")}
-          </CustomButton>
-  
-          <CustomButton variant="outlined">CUSTOM-BUTTON</CustomButton>
-          
-          <Grid container alignItems="center">
-            <Grid className={classes.columnLeft}>
-              {/* <FormCheckbox
-                checked={rememberMe}
-                onChange={setRememberMe}
-                className={classes.rememberMe}
+          </Button>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              mt: 1,
+            }}
+          >
+            <Typography variant="body2" color="textSecondary">
+              <Link
+                style={{ cursor: "pointer" }}
+                underline="hover"
+                onClick={() => navigate("/forgot-password", { replace: true })}
               >
-                {t("Remember me")}
-              </FormCheckbox> */}
-            </Grid>
-            <Grid className={classes.columnRight} style={{marginTop: 5}}>
-              <FormLink
-                onClick={() => navigate("/forgot-password")}
-                className={classes.forgotPassword}
-              >
-                {t("Forgot Password?")}
-              </FormLink>
-            </Grid>
-          </Grid>
-
-          <Box m={2} />
-
-          <Grid container direction="row" justifyContent="center" spacing={1}>
-            <Grid item>
-              <FormText>
-                {t("Don't have an account?")}
-              </FormText>
-            </Grid>
-            <Grid item>
-              <FormLink
+                Forgot Password?
+              </Link>
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              mt: 2,
+            }}
+          >
+            <Typography variant="body2" color="textSecondary">
+              {t("Don't have an account?")}
+              {" "}
+              <Link
+                style={{ cursor: "pointer" }}
+                underline="hover"
                 onClick={() => navigate("/signup")}
-                className={classes.signUp}
               >
                 {t("Register Now!")}
-              </FormLink>
-            </Grid>
-          </Grid>
-
-          {!!config.oauth.federatedSigninProviders.length && (
-            <>
-              <Box m={3} />
-
-              {/* <FormDividerWithText>
-                <FormText>
-                  <i>{t("or")}</i>
-                </FormText>
-              </FormDividerWithText> */} or
-
-              <Box m={3} />
-
-              <Grid container justifyContent="flex-start">
-                <FormText>
-                  {t("Sign in with a social account")}
-                </FormText>
-              </Grid>
-
-              <Box m={0} />
-
-              {/*
-                config.oauth.federatedSigninProviders.map(provider => (
-                  <FormButton
+              </Link>
+            </Typography>
+          </Box>
+          {config.oauth.federatedSigninProviders.length && (
+            <Box>
+              <Typography variant="body2" color="textSecondary"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  my: 3,
+                }}
+              >
+                {t("or")}
+              </Typography>
+              <Typography variant="body2" color="textSecondary"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  my: 1,
+                }}
+              >
+                {t("Sign in with a social account")}
+              </Typography>
+              <Box display="flex" flexDirection="row">
+              {
+                config.oauth.federatedSigninProviders.map((provider, index) => (  
+                  <Button
                     key={provider}
-                    social={provider}
-                    startIcon={
-                      provider === "Facebook" ? <FacebookIcon /> :
-                      provider === "Google" ? <GoogleIcon /> :
-                      <GoogleIcon />
+                    startIcon={(
+                      provider === "Google" ? <GoogleIcon sx={{ color: "red" }} /> :
+                      provider === "Facebook" ? <FacebookIcon sx={{ color: "blue" }} /> :
+                      <Icon sx={{ backgroundColor: "white", color: "red" }}>G</Icon>
+                      // <></>
+                    )}
+                    sx={{
+                      mr: index < (config.oauth.federatedSigninProviders.length - 1) ? 1 : 0,
+                    }}
+                    type={
+                      provider === "Google" ? "socialAuthButtonGoogle" :
+                      provider === "Facebook" ? "socialAuthButtonFacebook" :
+                      ""
                     }
-                    onClick={(e) => formFederatedSignIn(e, provider)}
+                    onClick={(e) => handleSocialLogin(e, provider)}
                   >
                     {provider}
-                  </FormButton>
+                  </Button>
                 ))
-              */}
-            </>
+              }
+              </Box>
+            </Box>
           )}
-        </fieldset>
-      </form>
-
-    </Container>
+        </Box>
+      </Box>
+    </form>
   );
 }
 

@@ -1,12 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
+// import App from "./c.jsx";
 import "./main.css";
 
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { ToastContainer, toast } from "./components/Toast";
 import { i18n } from "./i18n";
-
 import config from "./config";
 
 console.log(
@@ -15,14 +15,19 @@ console.log(
   config.mode.test ? "test" :
         "unforeseen", "mode");
   
+// createRoot(document.getElementById("root")).render(
+//   config.mode.development ? // TODO: should we really avoid StrictMode in production?
+//     <StrictMode>
+//       <App />
+//     </StrictMode>
+//     :
+//     <App />
+// );
 createRoot(document.getElementById("root")).render(
-  config.mode.development ? // TODO: should we really avoid StrictMode in production?
-    <StrictMode>
-      <App />
-    </StrictMode>
-    :
+  <StrictMode>
     <App />
-);  
+  </StrictMode>
+);
 
 
 // if we want app to work offline and load faster, we can change

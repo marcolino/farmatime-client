@@ -2,72 +2,88 @@
 import React, { useState, useContext } from "react";
 import { AppBar, Toolbar, Box, Typography, Button, IconButton, Link, Drawer, List, ListItem, ListItemText, Grid } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
-import MenuIcon from "@mui/icons-material/Menu";
-//import ListAltIcon from "@mui/icons-material/ListAlt";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import MenuIcon from "@mui/icons-material/Menu"; // ?? remove-me, use ListItemIcon ?
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SecurityIcon from '@mui/icons-material/Security';
-import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-
-//import IconCustom from "./IconCustom";
+import SecurityIcon from "@mui/icons-material/Security";
 import IconGravatar from "./IconGravatar";
 import ImageCustom from "./ImageCustom";
-
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import AvatarMenu from "./AvatarMenu";
 import { AuthContext } from "../providers/AuthProvider";
 import { isAdmin } from "../libs/Validation";
-
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import logoMain from "../assets/icons/LogoMain.png";
 import config from "../config";
 
-import logoMain from "../assets/icons/LogoMain.png";
 
-const Header = ({ isLoggedIn }) => {
+const Header = ({ theme, toggleTheme }) => {
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const theme = useTheme();
   
-  const userItems = auth.user ?
-  [
-    {
-      label: t("Profile"),
-      icon: <AccountCircleIcon />,
-      href: "/profile",
-    },
-    {
-      label: t("Sign out"),
-      icon: <ExitToAppIcon />,
-      href: "/signout",
-    },
-  ] : [
-    {
-      label: t("Sign in"),
-      icon: <VpnKeyIcon />,
-      href: "/signin",
-    },
-    {
-      label: t("Sign up"),
-      icon: <AssignmentTurnedInIcon />,
-      href: "/signup",
-    },
-  ]
-  ;
-  if (auth.user && isAdmin(auth.user)) {
-    userItems.unshift(
-      {
+  const isLoggedIn = (auth.user !== false);
+
+  const userItems = [
+    ...(isLoggedIn && isAdmin(auth.user) ?
+      [{
         label: t("Admin panel"),
         icon: <SecurityIcon />,
         href: "/admin-panel",
-      }
-    );
-  };
+      }]
+    : []),
+    {
+      label: t("Change theme"),
+      icon: (
+        <IconButton onClick={toggleTheme} sx={{ padding: 0 }}>
+          {theme.palette.mode === "light" ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+      ),
+      href: null,
+      onClick: toggleTheme
+    },
+    ...(isLoggedIn ?
+      [
+        {
+          label: `${t("Profile")} (${auth.user.roles[0].name})`,
+          icon: <AccountCircleIcon />,
+          href: "/profile",
+        },
+        {
+          label: t("Sign out"),
+          icon: <ExitToAppIcon />,
+          href: "/signout",
+          shortcutKey: "", //"Ctrl-Q"
+        },
+      ] : [
+        // {
+        //   label: t("Sign in"),
+        //   icon: <VpnKeyIcon />,
+        //   href: "/signin",
+        //   shortcutKey: ""
+        // },
+        // {
+        //   label: t("Sign up"),
+        //   icon: <AssignmentTurnedInIcon />,
+        //   href: "/signup",
+        // },
+      ]
+    ),
+  ];
+  
+  // if (isLoggedIn && isAdmin(auth.user)) {
+  //   userItems.unshift(
+  //     {
+  //       label: t("Admin panel"),
+  //       icon: <SecurityIcon />,
+  //       href: "/admin-panel",
+  //     }
+  //   );
+  // };
   
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // TODO: why "sm"? Decide it in config?
 
@@ -89,48 +105,14 @@ const Header = ({ isLoggedIn }) => {
   };
   
   const handleUserJoin = (event) => {
-    navigate("/signin");
+    navigate("/signin", { replace: true });
   };
 
-  const getUserMenuItems = () => {
-    return userItems.map(({ label, icon, href }) => (
-      <Link key={label} {...{
-        component: RouterLink,
-        to: href,
-        color: "inherit",
-        //className: classes.menuLink,
-      }}>
-        <MenuItem
-        key={label}
-        //className={classes.menuItem}
-        no_dense="true"
-        >
-          <Grid container spacing={0} alignItems="center">
-            {icon}
-            {/* <span className={classes.menuLabel}>{label}</span> */}
-            <span>{label}</span>
-          </Grid>
-        </MenuItem>
-      </Link>
-    ));
-  };
+  const [isDarkMode, setIsDarkMode] = useState(false); // TODO: from user's prop...
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" sx={{ backgroundColor: theme.palette.ochre.light }}>
       <Toolbar>
-
-        {/* <Typography variant="h6" sx={{ flexGrow: 1, textDecoration: "none", boxShadow: "none" }}>
-          {/* main brand logo icon * /}
-          <RouterLink to="/" sx={{ textDecoration: "none", boxShadow: "none" }}>
-            <IconCustom name="LogoMain" size={50} />
-            {config.title}
-          </RouterLink>
-
-          {/* main brand logo text * /}
-          <div>
-          </div>
-        </Typography> */}
-
         <Box
           component={Link}
           href="/"
@@ -144,9 +126,9 @@ const Header = ({ isLoggedIn }) => {
             alt="Main logo"
             sx={{ height: 64, marginRight: 2 }}
           />
-          <Typography variant="h6" component="span" sx={{ color: theme.palette.primary.text, flexGrow: 1, }}>
+          {/* <Typography variant="h6" component="span" sx={{ color: theme.palette.text.secondary, flexGrow: 1, }}>
             {config.title}
-          </Typography>
+          </Typography> */}
         </Box>
 
         <Box sx={{
@@ -154,71 +136,34 @@ const Header = ({ isLoggedIn }) => {
           alignItems: "center",
           flexGrow: 1,
         }}>
-          {/* {!isMobile && (
-            <Typography variant="h6" component="div" sx={{ fontFamily: "Open Sans", flexGrow: 1 }} >
-              My App
-            </Typography>
-          )} */}
-          {/* {isMobile && (
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={toggleDrawer(true)}
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          )} */}
-          {/* {!isMobile && (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Button color="inherit" component={Link} to="/products">Products</Button>
-              <Button color="inherit" component={Link} to="/contacts">Contacts</Button>
-              {isLoggedIn ? (
-                <AvatarMenu />
-              ) : (
-                <Button color="inherit">Enter!</Button>
-              )}
-            </Box>
-          )} */}
         </Box>
 
         {isMobile && (
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={toggleDrawer(true)}
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
-        {/* <Typography variant="h6" sx={{ flexGrow: 1, alignItems: "start" }}>
-          React MUI App
-        </Typography> */}
-        
-        {/* <Button color="inherit" component={RouterLink} to="/">
-          Home
-        </Button>
-        <Button color="inherit" component={RouterLink} to="/contacts">
-          Contacts
-        </Button> */}
-         {!isMobile && (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Button color="inherit" component={RouterLink} to="/products">Products</Button>
-              <Button color="inherit" component={RouterLink} to="/contacts">Contacts</Button>
-              {isLoggedIn ? (
-                <AvatarMenu />
-              ) : (
-                <Button color="inherit">Enter!</Button>
-              )}
-            </Box>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer(true)}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
+        {!isMobile && (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Button color="inherit" component={RouterLink} to="/products">Products</Button>
+            <Button color="inherit" component={RouterLink} to="/contacts">Contacts</Button>
+            {/* {isLoggedIn ? (
+              <>A<AvatarMenu />V</>
+            ) : (
+              <Button color="inherit">Enter!</Button>
+            )} */}
+          </Box>
         )}
         
         {/* user menu */}
         <>
-          {auth.user ?
+          {isLoggedIn ?
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -226,21 +171,21 @@ const Header = ({ isLoggedIn }) => {
               onClick={handleUserMenuOpen}
               color="inherit"
             >
-              {auth.user ?
+              {isLoggedIn ?
                 auth.user.profileImage ?
-                  <ImageCustom src={auth.user.profileImage} alt="user's icon" width={30} style={{borderRadius: "50%"}} />
+                  <ImageCustom src={auth.user.profileImage} alt="user's icon" width={30} style={{ borderRadius: "50%" }} />
                 :
-                  <IconGravatar
-                    email={auth.user.email}
-                    size={30}
-                  />
+                <IconGravatar
+                  email={auth.user.email}
+                  size={30}
+                />
               :
                 <AccountCircleIcon />
               }
             </IconButton>
           :
             (auth.user === false) && // if auth.user is false, we show the "Join" button;
-                                      // otherwise (it's null), we don't kow yet, so do not show anything...
+                                      // otherwise (it's null), we don't know yet, so do not show anything...
               <Button
                 variant="contained"
                 size="small"
@@ -254,28 +199,37 @@ const Header = ({ isLoggedIn }) => {
           <Menu
             id="menu-appbar"
             anchorEl={anchorUserMenuEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
+            // anchorOrigin={{
+            //   vertical: "top",
+            //   horizontal: "right",
+            // }}
             open={userMenuIsOpen}
             onClose={handleUserMenuClose}
             onClick={handleUserMenuClose} // to close on click everywhere
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            // MenuListProps={{
-            //   classes: { padding: classes.menuPadding }
+            //keepMounted
+            // transformOrigin={{
+            //   vertical: "top",
+            //   horizontal: "right",
             // }}
           >
-            {getUserMenuItems()}
+            {/* {getUserMenuItems()} */}
+            {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
+              <MenuItem key={label} component={RouterLink} to={href} dense>
+                <ListItemIcon>
+                  {icon}
+                </ListItemIcon>
+                <ListItemText onClick={onClick}>{label}</ListItemText>
+                {shortcutKey && <Typography variant="body2" sx={{ color: "text.secondary", fontStyle: "italic" }}>
+                  &nbsp; {shortcutKey}
+                </Typography>}
+              </MenuItem>
+            ))}
           </Menu>
         </>
         
       </Toolbar>
 
+      {/* TODO: review this Drawer... */}
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box
           sx={{ width: 250 }}
@@ -290,8 +244,9 @@ const Header = ({ isLoggedIn }) => {
             <ListItem button component={Link} to="/contacts">
               <ListItemText primary="Contacts" />
             </ListItem>
-            {isLoggedIn ? (
+            {auth.user ? (
               <>
+                ------------------
                 <ListItem button component={Link} to="/admin-panel">
                   <ListItemText primary="Admin" />
                 </ListItem>
@@ -302,11 +257,13 @@ const Header = ({ isLoggedIn }) => {
                   <ListItemText primary="Logout" />
                 </ListItem>
               </>
-            ) : (
-              <ListItem button>
-                <ListItemText primary="Enter!" />
-              </ListItem>
-            )}
+            ) : null
+            //(
+              // <ListItem button>
+              //   <ListItemText primary="Enter!" /> {/* TODO: never used???*/}
+              // </ListItem>
+              //)
+            }
           </List>
         </Box>
       </Drawer>

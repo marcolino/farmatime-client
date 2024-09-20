@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { usePromiseTracker } from "react-promise-tracker";
-// import { useAxiosLoader } from "../hooks/useAxiosLoader";
+import { useAxiosLoader } from "../hooks/useAxiosLoader";
 import {
   Audio, Comment, Grid, Hearts, Hourglass, Oval,
   RotatingLines, RotatingSquare, ThreeDots, Watch,
@@ -10,6 +10,7 @@ import config from "../config";
 
 
 function Loader(props) {
+  console.log("LLLLLLLLLLLLLLL1");
   const { promiseInProgress } = usePromiseTracker({delay: config.spinner.delay});
   let LoaderComponent;
   switch (config.spinner.type) {
@@ -47,28 +48,43 @@ function Loader(props) {
       marginRight: "auto",
       height: 100,
       width: 100,
+      color: "red",
     },
   });
   const useStyles = makeStyles((theme) => (styles(theme)));
   const classes = useStyles();
-  // const [loading] = useAxiosLoader();
+  const [loading] = useAxiosLoader();
+  
+  console.log("LLLLLLLLLLLLLLLL");
 
-  return (promiseInProgress /*|| loading*/) && (
-    <div className={classes.outer}>
-      <div className={classes.middle}>
-        <div className={classes.inner}>
-          <LoaderComponent
-            height={config.spinner.height}
-            width={config.spinner.width}
-            color={config.spinner.color}
-            secondaryColor={config.spinner.secondaryColor}
-            strokeWidth={config.spinner.strokeWidth}
-            strokeWidthSecondary={config.spinner.strokeWidthSecondary}
-          />
-        </div>
-      </div>
-    </div>
+  return (
+    <div> Loading! </div>
   );
+  //   <div className={classes.outer}>
+  //     <div className={classes.middle}>
+  //       <div className={classes.inner}>
+  //         LOADER
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
+  // return (promiseInProgress || loading) && (
+  //   <div className={classes.outer}>
+  //     <div className={classes.middle}>
+  //       <div className={classes.inner}>
+  //         <LoaderComponent
+  //           height={config.spinner.height}
+  //           width={config.spinner.width}
+  //           color={config.spinner.color}
+  //           secondaryColor={config.spinner.secondaryColor}
+  //           strokeWidth={config.spinner.strokeWidth}
+  //           strokeWidthSecondary={config.spinner.strokeWidthSecondary}
+  //         />
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 };
 
-export default React.memo(Loader);
+export default Loader;

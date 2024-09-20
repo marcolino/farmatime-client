@@ -11,6 +11,8 @@ import Loader from "./Loader";
 const Home = lazy(() => import("./Home"));
 const SignUp = lazy(() => import("./auth/SignUp")); 
 const SignIn = lazy(() => import("./auth/SignIn"));
+const SocialSignInSuccess = lazy(() => import("./auth/SocialSignInSuccess"));
+const SocialSignInError = lazy(() => import("./auth/SocialSignInError"));
 const SignOut = lazy(() => import("./auth/SignOut"));
 const Profile = lazy(() => import("./auth/Profile"));
 const ForgotPassword = lazy(() => import("./auth/ForgotPassword"));
@@ -48,6 +50,8 @@ function Routing() {
           <Route path="/" exact element={<Home />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="/signup" element={<SignUp />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/signin" element={<SignIn />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
+          <Route path="/social-signin-success" element={<SocialSignInSuccess />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
+          <Route path="/social-signin-error" element={<SocialSignInError />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/profile" element={<Profile />} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -61,7 +65,8 @@ function Routing() {
           <Route path="/admin-panel" element={<AdminPanel />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
           <Route path="/handle-users" element={<HandleUsers />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
           <Route path="/handle-products" element={<WorkInProgress />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="" element={<PageNotFound />} />
+          <Route path="/page-not-found" element={<PageNotFound />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       {/* </div> */}
     </Suspense>

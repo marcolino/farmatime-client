@@ -64,13 +64,13 @@ function SignIn() {
   /* UNUSED */ const { promiseInProgress } = usePromiseTracker({delay: config.spinner.delay});
   const { t } = useTranslation();
 
-  const onlineCheck = () => { // TODO: put this check one level upper... Ask AI on how to do it...
-    if (!isOnline) {
-      toast.warning("Sorry, we are currently offline. Please wait for the network to become available.");
-      return false;
-    }
-    return true;
-  };
+  // const onlineCheck = () => { // TODO: put this check one level upper... Ask AI on how to do it...
+  //   if (!isOnline) {
+  //     toast.warning("Sorry, we are currently offline. Please wait for the network to become available.");
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const validateForm = () => {   
     // validate email formally
@@ -105,7 +105,7 @@ function SignIn() {
   const formSignIn = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-    if (!onlineCheck()) return;
+    //if (!onlineCheck()) return;
     setError({});
 
     signIn({
@@ -139,7 +139,7 @@ function SignIn() {
   const formFederatedSignIn = (e, provider) => {
     e.preventDefault();
     if (!validateForm()) return;
-    if (!onlineCheck()) return;
+    //if (!onlineCheck()) return;
     setError({});
 
     window.open("/api/auth/loginGoogle", "_self");
@@ -227,7 +227,6 @@ function SignIn() {
             <Grid className={classes.columnRight} style={{marginTop: 5}}>
               <FormLink
                 onClick={() => navigate("/forgot-password")}
-                className={classes.forgotPassword}
               >
                 {t("Forgot Password?")}
               </FormLink>

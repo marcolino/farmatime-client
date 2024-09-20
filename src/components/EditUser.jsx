@@ -278,7 +278,6 @@ function EditUser(props) {
         console.log(" *** updated user ***:", data.user);
         setAuth({ user: updatedUser });
       }
-
       navigate(-1);
     }).catch(err => {
       console.error("updateUser error catched:", err);

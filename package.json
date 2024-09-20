@@ -1,7 +1,7 @@
 {
   "name": "acme-client",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "start-dev": "vite",
@@ -18,6 +18,8 @@
     "rawbuild": "yarn build && yarn sw-add-blacklist && yarn postbuild",
     "sw-add-blacklist": "node scripts/add-blacklist-urls-to-service-worker",
     "postbuild": "rm -rf ../acme-server/client/build; cp -a build ../acme-server/client/build",
+    "i18n": "i18next 'src/**/*.js' --config 'src/i18next-parser.config.js' --silent",
+    "i18n-auto": "scripts/translate.py",
     "lighthouse": "lighthouse http://localhost:5005/ --output json --output-path test/lighthouseOutput.json",
     "browserlist-update": "npx browserslist@latest --update-db",
     "check-unimported": "npx unimported",
@@ -33,16 +35,20 @@
     "@mui/icons-material": "^6.0.2",
     "@mui/material": "^6.0.2",
     "@mui/system": "^6.0.2",
+    "@react-oauth/google": "^0.12.1",
     "@svgr/rollup": "^8.1.0",
     "axios": "^1.7.7",
     "i18next": "^23.14.0",
     "i18next-browser-languagedetector": "^8.0.0",
+    "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
     "libphonenumber-js": "^1.11.7",
     "moment": "^2.30.1",
+    "passport-facebook": "^3.0.0",
     "prop-types": "^15.8.1",
     "query-string": "^9.1.0",
     "react": "^18.3.1",
+    "react-cookie-consent": "^9.0.0",
     "react-dom": "^18.3.1",
     "react-gravatar": "^2.6.3",
     "react-i18next": "^15.0.1",
@@ -51,8 +57,7 @@
     "react-loader-spinner": "^6.1.6",
     "react-promise-tracker": "^2.1.1",
     "react-router-dom": "^6.26.1",
-    "react-toastify": "^10.0.5",
-    "universal-cookie": "^7.2.0"
+    "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -85,8 +90,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "installConfig": {
-    "pnp": false
   }
 }
