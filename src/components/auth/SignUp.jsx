@@ -44,36 +44,36 @@ function SignUp() {
   const { promiseInProgress } = usePromiseTracker({ delay: config.spinner.delay });
   const { t } = useTranslation();
 
-  const handleOpenDialog = (title, content, callback) => {
+  const handleOpenDialog = (title, content, callbackOnClose) => {
     setDialogTitle(title);
     setDialogContent(content);
-    setDialogCallback(callback);
+    setDialogCallback(callbackOnClose);
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setDialogTitle(null);
-    setDialogContent(null);
+    //setDialogTitle(null);
+    //setDialogContent(null);
     if (dialogCallback) {
       setDialogCallback(null);
       dialogCallback();
     }
   };
 
-  // set up event listener to set correct grid rowSpacing based on inner width
-  useEffect(() => {
-    const setResponsiveness = () => {
-      window.innerWidth < config.ui.extraSmallWatershed
-        ? setFormState((prevState) => ({ ...prevState, xs: true, rowSpacing: 0 }))
-        : setFormState((prevState) => ({ ...prevState, xs: false, rowSpacing: 2 }));
-    };
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-    return () => {
-      window.removeEventListener("resize", () => setResponsiveness());
-    };
-  }, []);
+  // // set up event listener to set correct grid rowSpacing based on inner width
+  // useEffect(() => {
+  //   const setResponsiveness = () => {
+  //     window.innerWidth < config.ui.extraSmallWatershed
+  //       ? setFormState((prevState) => ({ ...prevState, xs: true, rowSpacing: 0 }))
+  //       : setFormState((prevState) => ({ ...prevState, xs: false, rowSpacing: 2 }));
+  //   };
+  //   setResponsiveness();
+  //   window.addEventListener("resize", () => setResponsiveness());
+  //   return () => {
+  //     window.removeEventListener("resize", () => setResponsiveness());
+  //   };
+  // }, []);
 
   const validateFormStep1 = () => {
     

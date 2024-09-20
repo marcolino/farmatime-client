@@ -32,21 +32,21 @@ function ForgotPassword() {
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogContent, setDialogContent] = useState(null);
-  const [callbackOnCloseDialog, setCallbackOnCloseDialog] = useState(null);
+  const [dialogCallback, setDialogCallback] = useState(null);
   const { t } = useTranslation();
 
   const handleOpenDialog = (title, content, callbackOnClose) => {
     setDialogTitle(title);
     setDialogContent(content);
+    setDialogCallback(() => callbackOnClose);
     setOpenDialog(true);
-    setCallbackOnCloseDialog(() => callbackOnClose);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    if (callbackOnCloseDialog) {
-      setCallbackOnCloseDialog(null);
-      callbackOnCloseDialog();
+    if (dialogCallback) {
+      setDialogCallback(null);
+      dialogCallback();
     }
   };
 
