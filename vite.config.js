@@ -32,8 +32,8 @@ export default defineConfig({
         // clientsClaim: true,
         // skipWaiting: true,
         // disable workbox during development
-        clientsClaim: process.env.NODE_ENV === "development",
-        skipWaiting: process.env.NODE_ENV === "development",
+        clientsClaim: config.mode.production,
+        skipWaiting: config.mode.production,
         globPatterns: [
           "../index.html",
           "**/*.{js,jsx,css,html}",
