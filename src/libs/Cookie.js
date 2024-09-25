@@ -3,10 +3,16 @@ import Cookies from "js-cookie";
 const Cookie = {
   get: (key) => {
     const value = Cookies.get(key);
-    if (value) {
-      return JSON.parse(value);
+    try {
+      if (value) {
+        return JSON.parse(value);
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error(`cookie key "${key}" value is not valid json:`, JSON.stringify(value));
+      return null;
     }
-    return null;
   },
 
   set: (key, value, options = {}) => {

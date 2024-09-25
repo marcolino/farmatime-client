@@ -111,5 +111,7 @@
      il pulsante "Entra!" dovrebbe portare alla pagina di signin (con "non hai un accout? Registrati");
    - se invece risulta essere nuovo, il pulsante "Entra!" dovrebbe portare alla pagina di signup (con "hai già un accout? Accedi").
 - rivededre tutti i componenti Image / Icon, e se possibile unificarli
-- save theme with user
-- let IA complete aria-labels for MUI components
+- salvare il tema con l'utente
+- chiedere ad IA di completare le labels aria per tutti i componenti MUI
+- rivedere libs/Firebase, o capire se c'è un metodo migliore (con vite/react16+) per gestire le notifiche in app
+- camiare i Button dei Dialog, devono essere più visibili...

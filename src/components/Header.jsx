@@ -49,7 +49,7 @@ const Header = ({ theme, toggleTheme }) => {
     ...(isLoggedIn ?
       [
         {
-          label: `${t("Profile")} (${auth.user.roles[0].name})`,
+          label: `${t("Profile")} (${auth.user?.roles[0]?.name})`,
           icon: <AccountCircleIcon />,
           href: "/profile",
         },

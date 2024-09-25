@@ -1,13 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
-import { toast } from "../Toast";
+import { useSnackbar }  from "../../providers/SnackbarManager";
 import config from "../../config";
 
 
 function SocialSignInError() {
   const navigate = useNavigate();
   const { setAuth } = useContext(AuthContext);
+  const { showSnackbar } = useSnackbar();
+
   const params = new URLSearchParams(location.search);
   const stringifiedData = params.get("data");
   const error = JSON.parse(stringifiedData);
@@ -16,7 +18,8 @@ function SocialSignInError() {
   console.log("+++++ SocialSignInError error:", error);
   
   useEffect(() => {
-    toast.error(error.message); // TODO: check me!
+    //toast.error(error.message); // TODO: check me!
+    showSnackbar(error.message, "error");
     setAuth({ user: false }); // reset auth
     navigate("/", { replace: true }); // redirect to home route
   }, [error, navigate]);

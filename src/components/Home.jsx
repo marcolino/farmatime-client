@@ -1,33 +1,43 @@
 import React from "react";
 import { useContext } from "react";
-import { styled } from "@mui/system";
 import { Paper } from "@mui/material";
+import { Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import {
-  Typography,
-} from "@mui/material";
 import { AuthContext } from "../providers/AuthProvider";
+//import useImperativeSnackbar from "../hooks/useImperativeSnackbar";
+import { useSnackbar } from "../providers/SnackbarManager";
 
-// const useStyles = makeStyles(theme => ({
-//   home: {
-//     fontSize: "1.5em",
-//   },
-// }));
 
 function Home() {
-  const classes = {}; //useStyles();
+  // const classes = {}; //useStyles();
   const { auth } = useContext(AuthContext);
   const { t } = useTranslation();
+  const { showSnackbar } = useSnackbar();
+
+  // show Snackbar with the default dismiss action
+  const handleClickWithDefaultAction = () => {
+    showSnackbar("This Snackbar is beautiful\n\nBye...", "info");
+  };
 
   return (
-    <Paper className={classes.home}>
-      {/* {{(typeof auth.user !== "undefined") && // if auth.user is undefined, we don't know yet about user authentication... */}
-      <Typography>ciao</Typography>
-      {/* <Typography>{t("Welcome")} {auth.user ? auth.user.firstName : t("guest user")}</Typography> */}
-      {/* <Typography variant="subtitle1">BODY1 DYNAMIC FONT SIZE</Typography> */}
-      {/* {(auth.user && auth.user.roles.includes("user") && auth.user.justRegistered) && (
+    <Paper>
+      {(!auth.user) && // if auth.user is undefined, we don't know yet about user authentication... */}
+        <Typography>ciao, utente ospite</Typography>
+      }
+      {(auth.user) && // if auth.user is undefined, we don't know yet about user authentication... */}
+        <Typography>ciao, utente autenticato</Typography>
+      }
+      {(auth.user && auth.user.roles.includes("user") && auth.user.justRegistered) && (
         <Typography>{t("Administrators are verifying your role...")}</Typography>
-      )} */}
+      )}
+
+      <Box sx={{ mt: 2 }} />
+      
+      <Button variant="contained" onClick={handleClickWithDefaultAction}>
+        Show Snackbar
+      </Button>
+
     </Paper>
   );
 }

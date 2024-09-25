@@ -1,11 +1,12 @@
 import axios from "axios";
-//import Cookies from "universal-cookie";
-//import Cookies from "js-cookie";
 import Cookie from "../libs/Cookie";
-import { toast } from "../components/Toast";
+//import { useRedirect } from "../providers/RedirectProvider";
+import { setDisableLoaderGlobal } from "../providers/LoaderState";
+
+import { showGlobalSnackbar } from "../providers/SnackbarManager";
 import cfg from "../config";
 
-//const cookies = new Cookies();
+//const { setIsRedirecting } = useRedirect();
 
 // track whether the token is being refreshed
 let isRefreshing = false;
@@ -17,8 +18,44 @@ const getLocalAccessToken = () => {
 }
 
 const setLocalAccessToken = (token) => {
-  const currentAuth = Cookie.get("auth");
-  Cookie.set("auth", { ...currentAuth, user: { ...currentAuth?.user, accessToken: token } });
+  let auth;
+  try {
+    // get the current auth cookie
+    auth = Cookie.get("auth");
+    if (!auth) {
+      const message = "Auth cookie not found!";
+      console.error(message);
+      throw new Error(message);
+    }
+
+    // create a deep copy of the auth object
+    const updatedAuth = JSON.parse(JSON.stringify(auth));
+
+    // update the token
+    if (updatedAuth.user && typeof updatedAuth.user === "object") {
+      updatedAuth.user.accessToken = token;
+    } else {
+      const message = `Invalid auth cookie structure: ${updatedAuth}`;
+      console.error(message);
+      throw new Error(message);
+    }
+
+    // set the updated auth cookie
+    try {
+      //Cookie.set("auth", JSON.stringify(updatedAuth));
+      Cookie.set("auth", updatedAuth);
+      console.log("token successfully updated");
+      return true;
+    } catch (error) {
+      const message = `Failed to set auth cookie: ${error.toString()}`;
+      console.error(message);
+      throw new Error(message);
+    }
+  } catch (error) {
+    const message = `Error updating auth token: ${error.toString()}`;
+    console.error(message);
+    throw new Error(message);
+  }
 }
 
 const getLocalRefreshToken = () => {
@@ -33,24 +70,23 @@ const clearLocalTokens = () => {
 // create axios instance
 const createInstance = () => {
   return axios.create({
-    //baseURL: "/api", // used when running on the server, in client/build folder...
-    baseURL: "http://localhost:5000/api", // used when running on the client, while developing
-    timeout: 10 * 1000,
+    //baseURL: "/api", // used when running on the server, in client/build folder... (TODO: use value in config)
+    baseURL: "http://localhost:5000/api", // used when running on the client, while developing (TODO: use value in config)
+    timeout: 10 * 1000, // (TODO: use value in config)
     headers: {
       "Content-Type": "application/json",
-      //"X-Auth-Token": getLocalAccessToken(),
     }
   });
 };
 
 const instance = createInstance();
-const instanceForRefresh = createInstance();
+const instanceForRefresh = createInstance(true);
 
 // add a request interceptor to append authentication token to request headers
 instance.interceptors.request.use(
   config => {
     config.headers["Authorization"] = getLocalAccessToken();
-    console.log("instance.interceptors.request.use config:", config);
+    //console.log("instance.interceptors.request.use config:", config);
     return config;
   },
   error => {
@@ -58,14 +94,14 @@ instance.interceptors.request.use(
   }
 );
 
-// log requests and responses (DEBUG ONLY)
-instance.interceptors.request.use(
+// log requests and responses, only while developing
+cfg.mode.development && instance.interceptors.request.use(
   config => {
-    console.log("Request Config:", config);
+    //console.log("interceptor request config:", config);
     return config;
   },
   error => {
-    console.log("Request Error:", error);
+    console.log("interceptor request error:", error);
     return Promise.reject(error);
   }
 );
@@ -100,11 +136,9 @@ const refreshAccessToken = async () => {
   try {
     const token = getLocalRefreshToken();
     const response = await instanceForRefresh.post("/auth/refreshtoken", { token });
-    console.log("instanceForRefresh response:", response);
     setLocalAccessToken(response.data.accessToken);
     return response.data.accessToken;
   } catch (error) {
-    console.log("instanceForRefresh error:", error);
     clearLocalTokens(); // clear tokens if refresh fails
     throw error;
   }
@@ -136,19 +170,21 @@ instance.interceptors.response.use(
           console.log("refreshError caught:", refreshError);
           isRefreshing = false;
           clearLocalTokens();
-          toast.warning(refreshError.response.data.message);
-          setTimeout(() => { // redirect to signin page with some delay, to allow toast to be read
+          showGlobalSnackbar(refreshError.response.data.message, "warning");
+          setDisableLoaderGlobal(true); // to disable the loader before redirection
+          setTimeout(() => { // redirect to signin page with some delay, to allow snackbar to be read
+            setDisableLoaderGlobal(false); // to reenable the loader after redirection
             window.location.href = "/signin";
-          }, cfg.ui.toastAutoCloseSeconds * 1000);
-          refreshError.response.data.message = null; // avoid double error toasting on component (TODO: ??? check what happens removing this line...)
-          return Promise.reject(refreshError);
+          }, cfg.ui.snacks.autoHideDurationSeconds * 1000);
+          refreshError.response.data.message = null; // avoid double error showing snackbar on component (TODO: check what happens removing this line...)
+          //return Promise.reject(refreshError);
         }
       } else {
         // token refresh already in progress
         return new Promise((resolve, reject) => {
           subscribeTokenRefresh(token => {
-            //config.headers["X-Auth-Token"] = token; // TODO: REMOVE-ME?
-            config.headers["Authorization"] = token;
+            //config.headers["Authorization"] = token;
+            config.headers["Authorization"] = `Bearer ${token}`;
             resolve(instance(config));
           });
         });

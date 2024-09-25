@@ -1,36 +1,68 @@
-import { useState, useCallback, useMemo, useEffect } from "react";
-//import axios from "axios";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import instance from "../middlewares/Interceptors";
+import config from "../config";
 
-//const instance = axios.create(); // export this and use it in all your components
-
-export const useAxiosLoader = () => {
-//console.log("*** useAxiosLoader");
+export const useAxiosLoader = (delayThreshold = config.spinner.delay, setDisableLoader = () => {}) => {
   const [counter, setCounter] = useState(0);
-  const inc = useCallback(() => setCounter(counter => counter + 1), [setCounter]); // add to counter
-  const dec = useCallback(() => setCounter(counter => counter - 1), [setCounter]); // remove from counter
-  
+  const [loading, setLoading] = useState(false);
+  const timerRef = useRef(null);
+
+  const clearTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  const inc = useCallback(() => {
+    setCounter(prevCounter => {
+      const newCounter = prevCounter + 1;
+      return newCounter;
+    });
+
+    clearTimer();
+
+    timerRef.current = setTimeout(() => {
+      setLoading(true);
+    }, delayThreshold);
+  }, [delayThreshold, clearTimer]);
+
+  const dec = useCallback(() => {
+    setCounter(prevCounter => {
+      const newCounter = prevCounter - 1;
+
+      if (newCounter === 0) {
+        clearTimer();
+        setLoading(false);
+      }
+
+      return newCounter;
+    });
+  }, [clearTimer]);
+
   const interceptors = useMemo(() => ({
-    /* eslint-disable no-sequences */
     request: config => (inc(), config),
     response: response => (dec(), response),
-    error: error => (dec(), Promise.reject(error)),
-  }), [inc, dec]); // create the interceptors
-  
+    error: error => {
+      dec();
+      // check if it's a redirection scenario
+      if (error.response?.status === 401) {
+        // disable the loader before starting the redirect timeout
+        setDisableLoader(true);
+      }
+      return Promise.reject(error);
+    },
+  }), [inc, dec, setDisableLoader]);
+
   useEffect(() => {
-    // add request interceptors
     const reqInterceptor = instance.interceptors.request.use(interceptors.request, interceptors.error);
-    // add response interceptors
     const resInterceptor = instance.interceptors.response.use(interceptors.response, interceptors.error);
     return () => {
-      // remove all intercepts when done
       instance.interceptors.request.eject(reqInterceptor);
       instance.interceptors.response.eject(resInterceptor);
+      clearTimer();
     };
-  }, [interceptors]);
-  
-  if (counter > 0) {
-    console.log("useAxiosLoader", counter)
-  }
-  return [counter > 0];
+  }, [interceptors, clearTimer]);
+
+  return [loading];
 };

@@ -34,11 +34,13 @@ fi
 favicon512="public/favicon-512.png"
 favicon192="public/favicon-192.png"
 favicon128="public/favicon-128.png"
+apple_touch_icon="public/apple-touch-icon.png"+
 favicon="public/favicon.ico"
 
 convert "$sourceImage" -resize 512x512 "$favicon512"
 convert "$sourceImage" -resize 192x192 "$favicon192"
 convert "$sourceImage" -resize 192x192 "$favicon128"
+convert "$sourceImage" -resize 512x512 "$apple_touch_icon"
 convert "$favicon128" -define icon:auto-resize=64,48,32,16 "$favicon"
 
 cp "$sourceImage" "$logoMain"

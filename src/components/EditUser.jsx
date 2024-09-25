@@ -11,7 +11,7 @@ import {
 import { FormTitle, FormInput, FormPhoneInput, FormSelect, FormButton, FormText } from "./FormElements";
 import { getUser, updateUser, getAllRoles, getAllPlans } from "../libs/Fetch";
 //import { mergeObjects } from "../libs/Misc";
-import { toast } from "./Toast";
+import { useSnackbar }  from "../SnackbarManager";
 import { AuthContext } from "../providers/AuthProvider";
 import {
   validateFirstName,
@@ -37,7 +37,8 @@ function EditUser(props) {
   const [user, setUser] = useState(false);
   const [error, setError] = useState({});
   const { auth, setAuth } = useContext(AuthContext);
-  const { promiseInProgress } = usePromiseTracker({delay: config.spinner.delay});
+  const { promiseInProgress } = usePromiseTracker({ delay: config.spinner.delay });
+  const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
   // const apiKey = process.env.VITE_GEOAPIFY_API_KEY;
 
@@ -47,7 +48,8 @@ function EditUser(props) {
   const [updateReady, setUpdateReady] = useState(false); // to handle form values changes refresh
 
   if (!userId) {
-    toast.error(t("No user id specified"));
+    //toast.error(t("No user id specified"));
+    showSnackbar(t("No user id specified", "error"));
     navigate(-1);
     return;
   }
@@ -62,24 +64,26 @@ function EditUser(props) {
   useEffect(() => {
     getAllRoles().then((data) => {
       if (!data.ok) {
-        console.warn("getAllRoles error:", data);
+        //console.warn("getAllRoles error:", data);
         if (data.message) {
-          toast.error(t(data.message)); 
+          //toast.error(t(data.message));
+          showSnackbar(data.message, "error");
         }
         return;
       }
       //console.info("getAllRoles data:", data);
       setAllRoles(data.roles);
-      console.log("getAllRoles success:", data);
+      //console.log("getAllRoles success:", data);
     });
   }, [t]);
 
   useEffect(() => {
     getAllPlans().then((data) => {
       if (!data.ok) {
-        console.warn("getAllPlans error:", data);
+        //console.warn("getAllPlans error:", data);
         if (data.message) {
-          toast.error(t(data.message)); 
+          //toast.error(t(data.message)); 
+          showSnackbar(data.message, "error");
         }
         return;
       }
@@ -92,15 +96,16 @@ function EditUser(props) {
   useEffect(() => {
     getUser({ userId }).then((data) => {
       if (!data.ok) {
-        console.warn("getUser error:", data);
+        //console.warn("getUser error:", data);
         if (data.message) {
-          toast.error(t(data.message)); 
+          //toast.error(t(data.message)); 
+          showSnackbar(data.message, "error");
         }
         return;
       }
       //toast.info(`${data.user.firstName} ${data.user.lastName} loaded`);
       setUser(data.user);
-      console.log("getUser success:", data);
+      //console.log("getUser success:", data);
     });
   }, [t]);
 
@@ -122,7 +127,8 @@ function EditUser(props) {
           err = response;
       }
       setError({ firstName: err });
-      toast.warning(err);
+      //toast.warning(err);
+      showSnackbar(err, "warning");
       return false;
     }
 
@@ -141,7 +147,8 @@ function EditUser(props) {
           err = response;
       }
       setError({ lastName: err });
-      toast.warning(err);
+      //toast.warning(err);
+      showSnackbar(err, "warning");
       return false;
     }
 
@@ -160,7 +167,8 @@ function EditUser(props) {
           err = response;
       }
       setError({ email: err });
-      toast.warning(err);
+      //toast.warning(err);
+      showSnackbar(err, "warning");
       return false;
     }
 
@@ -191,7 +199,8 @@ function EditUser(props) {
           err = response;
       }
       setError({ email: err });
-      toast.warning(err);
+      //toast.warning(err);
+      showSnackbar(err, "warning");
       return false;
     }
 
@@ -255,7 +264,8 @@ function EditUser(props) {
     updateUser({ userId, ...user }).then(data => {
       if (!data.ok) {
         console.warn("updateUser error:", data);
-        toast.error(t(data.message));
+        //toast.error(t(data.message));
+        showSnackbar(data.message, "warning");
         setError({});
         return;
       }
@@ -281,7 +291,8 @@ function EditUser(props) {
       navigate(-1);
     }).catch(err => {
       console.error("updateUser error catched:", err);
-      toast.error(t(err.message));
+      //toast.error(t(err.message));
+      showSnackbar(err.message, "error");
       setError({}); // we can't blame some user input, it's a server side error
     });
   };

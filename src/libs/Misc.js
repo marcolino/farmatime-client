@@ -335,15 +335,15 @@ export const encodeEmail = (email) => {
 //   }
 // }
 
-export const consoleFilter = () => {
-  console.error = (...args) => {
-    const originalWarn = console.error;
-    if (
-      typeof args[0] === "string" &&
-      args[0].includes("findDOMNode is deprecated") // TODO: material-ui v4 gives these warnings, we should upgrade to MUI v5...
-    ) {
-      return; // skip this specific warning
-    }
-    originalWarn(...args); // continue showing other warnings
-  };
-}
+// export const consoleFilter = () => {
+//   console.error = (...args) => {
+//     const originalWarn = console.error;
+//     if (
+//       typeof args[0] === "string" &&
+//       args[0].includes("findDOMNode is deprecated") // TODO: material-ui v4 gives these warnings, we should upgrade to MUI v5...
+//     ) {
+//       return; // skip this specific warning
+//     }
+//     originalWarn(...args); // continue showing other warnings
+//   };
+// }

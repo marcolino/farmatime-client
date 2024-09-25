@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-//import { useTheme } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
@@ -12,7 +11,7 @@ import Icon from "@mui/material/Icon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Person from "@mui/icons-material/Person";
 import Lock from "@mui/icons-material/Lock";
-import { toast } from "../Toast";
+import { useSnackbar }  from "../../providers/SnackbarManager";
 import TextField from "../styled/TextField";
 import Button from "../styled/Button";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -22,12 +21,12 @@ import config from "../../config";
 
 
 function SignIn() {
-  //const theme = useTheme();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
   const { setAuth } = useContext(AuthContext);
+  const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
 
   const handleSocialLogin = (event, provider) => {
@@ -51,14 +50,14 @@ function SignIn() {
           err = response;
       }
       setError({ email: true });
-      toast.warning(err);
+      showSnackbar(err, "warning");
       return false;
     }
 
     if (!password) {
       const err = t("Please supply a password");
       setError({ password: true });
-      toast.warning(err);
+      showSnackbar(err, "warning");
       return false;
     }
 
@@ -75,7 +74,7 @@ function SignIn() {
       password,
     });
     if (!result.err) {
-      console.log("signIn success:", result);
+      showSnackbar(t("sign in successful"), "success");
       setAuth({ user: result });
       // if (!rememberMe) { // to handle remember-me flag
       //   localStorage.clear();
@@ -85,13 +84,13 @@ function SignIn() {
       navigate("/", { replace: true });
     } else {
       console.error("signIn error:", result);
-      toast.error(result.message);
+      showSnackbar(result.message, "error");
       setError({});
     }
   };
   
   return (
-    <form noValidate autoComplete="off"> {/* TODO: on or off? Differences? */}
+    <form noValidate autoComplete="on">
       <Box
         sx={{
           display: "flex",

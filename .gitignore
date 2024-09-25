@@ -12,6 +12,7 @@
 test/lighthouseOutput.json
 
 # misc
+dev-dist
 .yarn
 .env
 .env.dev

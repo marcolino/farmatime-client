@@ -7,8 +7,10 @@ import DialogEmailCreation from "./DialogEmailCreation";
 import { FormTitle } from "./FormElements";
 import moment from "moment";
 import "moment/locale/it"; // TODO: import all needed locales... (!!!)
-import { getUsers, removeUser, sendEmailToUsers } from "../libs/Fetch";
-import { toast } from "./Toast";
+//import { getUsers, removeUser, sendEmailToUsers } from "../libs/Fetch";
+import { apiCall }  from "../libs/Network";
+import { useSnackbar } from "../providers/SnackbarManager";
+
 import {
   Box,
   Button,
@@ -101,88 +103,75 @@ import { Search, Edit, Delete } from "@mui/icons-material";
 
 
 const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
-  const classes = {}; //useStyles();
+  //const classes = {}; //useStyles();
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
-
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    getUsers({}).then((data) => {
-      if (!data.ok) {
-        console.warn("getUsers error:", data);
-        if (data.message) {
-          toast.error(t(data.message)); 
-        }
-        return;
+    (async () => {
+      const result = await apiCall("get", "/user/getAllUsersWithFullInfo");
+      if (result.err) {
+        showSnackbar(result.message, result.status === 401 ? "warning" : "error");
+      } else {
+        setUsers(result.users);
       }
-      //toast.info(`${data.users.length} users loaded`);
-      setUsers(data.users);
-      console.log("getUsers success:", data);
-    });
-  }, [t]);
+    })();
+  }, []); // empty dependency array: this effect runs once when the component mounts
   
   const onEdit = (userId) => {
-    //alert("onEdit " + userId);
-    //navigate("/edit-user", { data: { userId } });
     navigate(`/edit-user/${userId}`);
   };
   
   const onRemove = async (userId) => {
-    //removeUser({ filter: { _id: userId } }).then((data) => {
     removeUser({ filter: [userId] }).then((data) => {
-        if (!data.ok) {
+      if (!data.ok) {
         console.warn("removeUser error:", data);
-        if (data.message) {
-          toast.error(t(data.message));
-        }
+        showSnackbar(data.message ?? "Error removing user", "error");
         return;
       }
       // update the state to filter the removed user from the list
       setUsers(previousUsers => previousUsers.filter(user => user._id !== userId));
     }).catch(error => {
       console.error(`Error deleting user with id ${userId}: ${error.message}`);
-      toast.error(`${t("Error deleting user with id")} ${userId}: ${error.message}`);
+      showSnackbar(t("Error deleting user with id {{id}}: {{error}", {id: userId, error: error.message}), "error");
     });
   };
 
   const onBulkEmail = async (userIds, params) => {
     sendEmailToUsers({ filter: userIds, ...params }).then((data) => {
-    //sendEmailToUsers({ _id: { $in: userIds }}, ...params).then((data) => {
       if (!data.ok) {
         console.warn("sendEmailToUsers error:", data);
         if (data.message) {
-          toast.error(data.message);
+          showSnackbar(data.message ?? "Error sending email to users", "error");
         }
         return;
       }
-      toast.success(t("Email sent to {{count}} selected users", { count: userIds.length }));
+      showSnackbar(t("Email sent to {{count}} selected users", { count: userIds.length }), "success");
     }).catch(error => {
-      console.error(`Error bulk sending email to users with ids ${userIds}: ${error.message}`);
-      toast.error(`${t("Error bulk sending email to users with ids")} ${userIds}: ${error.message}`);
+      console.error(`Error bulk sending email to ${userIds.length} users with ids ${userIds}: ${error.message}`);
+      showSnackbar(t("Error bulk sending email to {{count}} users with ids: {{error}}", { count: userIds.length, error: error.message }), "error");
     });
   };
 
   const onBulkRemove = async (userIds, params) => {
     removeUser({ filter: userIds, ...params }).then((data) => {
-    //removeUser({ filter: { _id: { "$in": userIds } } }).then((data) => {
         if (!data.ok) {
-        console.warn("removeUser error:", data);
-        if (data.message) {
-          toast.error(data.message);
-        }
+        console.warn("bulkRemove user error:", data);
+        showSnackbar(data.message ?? "Error bulk removing user", "error");
         return;
       }
       // update the state to filter the removed user from the list
       setUsers(previousUsers => previousUsers.filter(user => !userIds.includes(user._id)));
     }).catch(error => {
-      console.error(`Error bulk deleting users with ids ${userIds}: ${error.message}`);
-      toast.error(`${t("Error bulk deleting users with ids")} ${userIds}: ${error.message}`);
+      console.error(`Error bulk deleting ${userIds.length} users with ids ${userIds}: ${error.message}`);
+      showSnackbar(t("Error bulk deleting {{count}} users with ids: {{error}}", {count: userIds.length, error: error.message}), "error");
     });
   };
 
-  moment.locale("it");
+  moment.locale("it"); // TODO: use current language...
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -240,6 +229,7 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
         break;
       default:
         alert("unforeseen bulk action " + selectedIds.join(", ") + " " + action); // TODO...
+        throw (new Error("unforeseen bulk action " + selectedIds.join(", ") + " " + action)); // TODO: what happens throwing here?
     }
   }
 
@@ -294,7 +284,7 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
 
   const sortButton = (props) => {
     return (
-      <Typography component="span" className={[classes.sortButton, (sortColumn === props.column) ? classes.sortButtonActive : classes.sortButtonInactive]}>
+      <Typography component="span" /*className={[classes.sortButton, (sortColumn === props.column) ? classes.sortButtonActive : classes.sortButtonInactive]}*/>
         { (sortColumn === props.column) ? (sortDirection === "asc" ? "▼" : "▲") : "▢" }
       </Typography>
     );
@@ -302,11 +292,16 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
 
   return (
     <>
-      <FormTitle>
+      {/* <FormTitle>
         {t("Users handling")}
-      </FormTitle>
+      </FormTitle> */}
+      <Box>
+        <Typography variant="h6">
+        {t("Users handling")}
+        </Typography>
+      </Box>
 
-      <Box sx={{ marginBottom: 8}} className={classes.filter}>
+      <Box sx={{ marginBottom: 8}} /*className={classes.filter}*/>
         <TextField
           label={t("Filter users")}
           value={filter}
@@ -321,53 +316,53 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
                 <Search />
               </InputAdornment>
             ),
-            classes: { root: classes.outlinedInput, notchedOutline: classes.notchedOutline },
+            //classes: { root: classes.outlinedInput, notchedOutline: classes.notchedOutline },
           }}
           sx={{ marginLeft: "auto", marginRight: 2 }}
         />
       </Box>
       <Paper>
-        <TableContainer className={[classes.root, classes.tableContainer]}>
-          <Table stickyHeader className={classes.table}>
+        <TableContainer /*className={[classes.root, classes.tableContainer]}*/>
+          <Table stickyHeader /*className={classes.table}*/>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox" className={classes.tableHeader}>
+                <TableCell padding="checkbox" /*className={classes.tableHeader}*/>
                   <Checkbox
                     indeterminate={selected.length > 0 && selected.length < users.length}
                     checked={users.length > 0 && selected.length === users.length}
                     onChange={handleSelectAllClick}
-                    className={classes.headerCheckbox}
+                    //className={classes.headerCheckbox}
                   />
                 </TableCell>
-                <TableCell className={`${classes.tableHeader} ${classes.tableCell}`} onClick={handleSort("firstName")}>
+                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/ onClick={handleSort("firstName")}>
                   {t("First name")} {sortButton({ column: "firstName" })}
                 </TableCell>
-                <TableCell className={`${classes.tableHeader} ${classes.tableCell}`} onClick={handleSort("lastName")}>
+                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/ onClick={handleSort("lastName")}>
                   {t("Last name")} {sortButton({ column: "lastName" })}
                 </TableCell>
-                <TableCell className={`${classes.tableHeader} ${classes.tableCell}`} onClick={handleSort("email")}>
+                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/ onClick={handleSort("email")}>
                   {t("Email")} {sortButton({ column: "email" })}
                 </TableCell>
-                <TableCell className={`${classes.tableHeader} ${classes.tableCell}`}>
+                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/>
                   {t("Phone")}
                 </TableCell>
-                <TableCell className={`${classes.tableHeader} ${classes.tableCell}`}>
+                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/>
                   {t("Roles")}
                 </TableCell>
-                <TableCell className={`${classes.tableHeader} ${classes.tableCell}`}>
+                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/>
                   {t("Fiscal Code")}
                 </TableCell>
-                <TableCell className={`${classes.tableHeader} ${classes.tableCell}`} onClick={handleSort("businessName")}>
+                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/ onClick={handleSort("businessName")}>
                   {t("Business name")} {sortButton({ column: "businessName" })}
                 </TableCell>
-                <TableCell className={`${classes.tableHeader} ${classes.tableCell}`}>
+                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/>
                   {t("Actions")}
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {sortedUsers
-                .filter((user) => user.firstName.toLowerCase().includes(filter.toLowerCase()))
+                .filter((user) => user?.firstName?.toLowerCase().includes(filter.toLowerCase()))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((user) => {
                   const isItemSelected = isSelected(user._id);
@@ -381,17 +376,17 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
                       key={user._id}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox" className={classes.tableCell}>
+                      <TableCell padding="checkbox" /*className={classes.tableCell}*/>
                         <Checkbox checked={isItemSelected} />
                       </TableCell>
-                      <TableCell className={classes.tableCell}>{user.firstName}</TableCell>
-                      <TableCell className={classes.tableCell}>{user.lastName}</TableCell>
-                      <TableCell className={classes.tableCell}>{user.email}</TableCell>
-                      <TableCell className={classes.tableCell}>{user.phone}</TableCell>
-                      <TableCell className={classes.tableCell}>{user.roles.sort((a, b) => a["priority"] < b["priority"]).map(role => role["name"]).join(", ")}</TableCell>
-                      <TableCell className={classes.tableCell}>{user.fiscalCode}</TableCell>
-                      <TableCell className={classes.tableCell}>{user.businessName}</TableCell>
-                      <TableCell className={`${classes.tableCell} ${classes.actionsCell}`}>
+                      <TableCell /*className={classes.tableCell}*/>{user.firstName}</TableCell>
+                      <TableCell /*className={classes.tableCell}*/>{user.lastName}</TableCell>
+                      <TableCell /*className={classes.tableCell}*/>{user.email}</TableCell>
+                      <TableCell /*className={classes.tableCell}*/>{user.phone}</TableCell>
+                      <TableCell /*className={classes.tableCell}*/>{user.roles.sort((a, b) => a["priority"] < b["priority"]).map(role => role["name"]).join(", ")}</TableCell>
+                      <TableCell /*className={classes.tableCell}*/>{user.fiscalCode}</TableCell>
+                      <TableCell /*className={classes.tableCell}*/>{user.businessName}</TableCell>
+                      <TableCell /*className={`${classes.tableCell} ${classes.actionsCell}`}*/>
                         <IconButton size="small" onClick={() => onEdit(user._id)}>
                           <Edit fontSize="small" />
                         </IconButton>
@@ -418,7 +413,7 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
           <Button
             variant="contained"
             color="secondary"
-            className={[classes.bulkButton]}
+            /*className={[classes.bulkButton]}*/
             onClick={() => handleEmailCreationOpen("emailBulk")}
             disabled={selected.length === 0}
           >
@@ -427,7 +422,7 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
           <Button
             variant="contained"
             color="primary"
-            className={[classes.bulkButton, classes.removeButton]}
+            /*className={[classes.bulkButton, classes.removeButton]}*/
             onClick={() => handleConfirmOpen("removeBulk")}
             disabled={selected.length === 0}
           >
@@ -439,10 +434,10 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
       <DialogConfirm
         open={confirmOpen}
         onClose={handleConfirmClose}
+        onCancel={handleConfirmClose} // TODO... ok?
         onConfirm={handleConfirm}
         title={t("Confirm Delete")}
-        // TODO: handle singular/plural
-        message={t("Are you sure you want to delete all the {{count}} selected users?", { count: selected.length })}
+        message={t("Are you sure you want to delete all {{count}} selected users?", { count: selected.length })}
         confirmText={t("Confirm")}
         cancelText={t("Cancel")}
       />
@@ -455,7 +450,7 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
         //message={t("Are you sure you want to send this email to all the {{count}} selected users?", { count: selected.length })}
         subjectLabel={t("Subject")}
         bodyLabel={t("Body")}
-        confirmText={t("Send email to selected users")}
+        confirmText={t("Send email to {{count}} selected users", { count: selected.length })}
         cancelText={t("Cancel")}
       />
     </>

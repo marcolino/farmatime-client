@@ -7,8 +7,8 @@ const Auth = {
   signupVerification: (params) => {
     return fetcher(`/api/auth/signupVerification`, "POST", params);
   },
-  resendSignup: (params) => {
-    return fetcher("/api/auth/resendSignupCode", "POST", params);
+  resendSignupVerificationCode: (params) => {
+    return fetcher("/api/auth/resendSignupVerificationCode", "POST", params);
   },
   signIn: (params) => {
     return fetcher("/api/auth/signin", "POST", params);
@@ -69,54 +69,5 @@ const fetcher = (url, method, params) => {
     });
   });
 };
-
-////////////////////////////////////////////////////////
-const fetcherORIG = (url, method, params) => {
-console.log("fetcher:", url, method, params);
-  return new Promise((resolve, reject) => {
-    if (method === "GET" && params) {
-      url += "?" + Object.keys(params).map((key) => {
-        return encodeURIComponent(key) + "=" + encodeURIComponent(params[key])
-      }).join("&");
-    }
-console.log("fetcher url 2:", url);
-var opt = {
-  method,
-  headers: new Headers(config.api.headers),
-  ...(params && method !== "GET" && { body: JSON.stringify(params) }),
-  redirect: config.api.redirect,
-}
-console.log("fetcher opt:", opt);
-    fetch(url, {
-      method,
-      headers: new Headers(config.api.headers),
-      ...(params && method !== "GET" && { body: JSON.stringify(params) }),
-      //body: new URLSearchParams(params),
-      redirect: config.api.redirect,
-    })
-      .then(res => {
-console.log("fetcher res:", res);
-        try {   
-          res.json().then(data => {
-console.log(`fetcher from ${url} res:`, res);
-            if (!res.ok) {
-              console.error(`fetch ${url} error:`, data.error);
-              reject({ status: res.status, statusText: res.statusText, message: data.error });
-            }
-            //if (!res.ok) reject({status: res.status, statusText: res.statusText, message: data.message ? data.message : res.statusText})
-            resolve(data);
-          });
-        } catch (err) {
-          console.error(`fetch ${url} json error:`, err);
-          reject(err);
-        }
-      })
-      .catch(err => {
-        console.error(`fetch ${url} error:`, err);
-        reject(err);
-      })
-    ;
-  });
-}
 
 export default Auth;

@@ -63,8 +63,8 @@
     "delay": 500,
     "thickness": 4,
     "size": 64,
-    "opacity": 0.5,
-    "color": "secondary"
+    "opacity": 0.9,
+    "color": "ochra"
   },
   "i18n": {
     "country": "it",
@@ -88,7 +88,11 @@
     "extraSmallWatershed": 600,
     "mobileDesktopWatershed": 900,
     "usePlans": true,
-    "toastAutoCloseSeconds": 7
+    "toastAutoCloseSeconds": 7,
+    "snacks": {
+      "maxInStack": 3,
+      "autoHideDurationSeconds": 5
+    }
   },
   "oauth": {
     "domain": "auth.sistemisolari.com",

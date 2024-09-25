@@ -11,11 +11,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import LockOpenOutlined from "@mui/icons-material/LockOpenOutlined";
 import ConfirmationNumber from "@mui/icons-material/ConfirmationNumber";
 import Lock from "@mui/icons-material/Lock";
-import LockOpen from "@mui/icons-material/LockOpen";
+import Email from "@mui/icons-material/Email";
 import TextField from "../styled/TextField";
 import Button from "../styled/Button";
 import { apiCall }  from "../../libs/Network";
-import { toast } from "../Toast";
+import { useSnackbar }  from "../../providers/SnackbarManager";
 import { validateEmail, validatePassword } from "../../libs/Validation";
 import config from "../../config";
 
@@ -33,6 +33,7 @@ function ForgotPassword() {
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogContent, setDialogContent] = useState(null);
   const [dialogCallback, setDialogCallback] = useState(null);
+  const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
 
   const handleOpenDialog = (title, content, callbackOnClose) => {
@@ -65,22 +66,23 @@ function ForgotPassword() {
           default:
             err = response;
         }
-        toast.warning(err);
+        //toast.warning(err);
+        showSnackbar(err, "warning");
         setError({ email: true });
         return false;
       }
     }
 
     if (waitingForCode) {
-      const response = validatePassword(password, passwordConfirmed);
-      if (response !== true) {
+      const [ validation, explanation ] = validatePassword(password, passwordConfirmed);
+      if (validation !== true) {
         let err;
-        switch (response) {
+        switch (validation) {
           case "ERROR_PLEASE_SUPPLY_A_PASSWORD":
             err = t("Please supply a password");
             break;
           case "ERROR_PLEASE_SUPPLY_A_MORE_COMPLEX_PASSWORD":
-            err = t("Please supply a more complex password");
+            err = t("Please supply a more complex password") + ".\n\n" + explanation;
             break;
           case "PLEASE_CONFIRM_THE_PASSWORD":
             err = t("Please confirm the password");
@@ -89,9 +91,10 @@ function ForgotPassword() {
             err = t("The confirmed password does not match the password");
           break;
           default:
-            err = response;
+            err = validation;
         }
-        toast.warning(err);
+        //toast.warning(err);
+        showSnackbar(err, "warning");
         setError({ password: true });
         return false;
       }
@@ -108,6 +111,7 @@ function ForgotPassword() {
       email,
     });
     if (!result.err) {
+      console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
       setWaitingForCode(true);
       setPassword("");
       const medium = result.codeDeliveryMedium;
@@ -118,12 +122,13 @@ function ForgotPassword() {
         () => { },
       );
     } else {
-      toast.error(result.message);
+      //toast.error(result.message);
+      showSnackbar(err, "error");
       setError({});
     }
   };
   
-  const formConfirmForgotPassword = async (e) => {
+  const formForgotPasswordConfirm = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     setError({});
@@ -142,11 +147,12 @@ function ForgotPassword() {
       setCode("");
       handleOpenDialog(
         t(`Password reset success`),
-        t(`You can now sign in with your new password`),
+        t(`You can sign in with your new password`),
         () => { navigate("/signin", { replace: true }) }
       );
     } else {
-      toast.error(result.message);
+      //toast.error(result.message);
+      showSnackbar(result.message, "error");
       switch (result.data.code) {
         case "NotFoundCode":
           setError({ confirmationCode: true }); // blame confirmationCode field for error
@@ -169,6 +175,7 @@ function ForgotPassword() {
       email,
     });
     if (!result.err) {
+      console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
       setWaitingForCode(true);
       //setEmail("");
       setPassword("");
@@ -190,130 +197,128 @@ function ForgotPassword() {
           default:
             setError({ password: true }); // blame password field for error
         }
-        toast.error(result.message);
+      //toast.error(result.message);
+      showSnackbar(result.message, "error");
     }
   };
 
   return (
-    <>
-      <form noValidate autoComplete="on">
-        
+    <form noValidate autoComplete="on">
+      
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "start",
+          mt: 6,
+        }}
+      >
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "start",
-            mt: 6,
+            width: "100%",
+            maxWidth: 400,
+            p: 2,
+            border: "1px solid",
+            borderColor: "primary.main",
+            borderRadius: 4,
           }}
         >
           <Box
             sx={{
-              width: "100%",
-              maxWidth: 400,
-              p: 2,
-              border: "1px solid",
-              borderColor: "primary.main",
-              borderRadius: 4,
+              display: "flex",
+              justifyContent: "center",
+              mt: 0,
+              mb: 3,
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                mt: 0,
-                mb: 3,
-              }}
-            >
-              <Avatar sx={{ backgroundColor: "primary.main" }}>
-                <LockOpenOutlined />
-              </Avatar>
-            </Box>
-            {!waitingForCode && (
-              <>
-                <Typography variant="body2" color="textSecondary"
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    my: 1,
-                  }}
-                >
-                  {t("Reset password")}
-                </Typography>
-                <TextField
-                  autoFocus
-                  id={"email"}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t("Email")}
-                  startIcon={<LockOpen />}
-                  error={error.email}
-                />
-                <Box m={1} />
-                <Button type="submit" onClick={formForgotPassword}>
-                  {t("Request password reset")}
-                </Button>
-              </>
-            )}
-            {waitingForCode && (
-              <>
-                <Typography variant="body2" color="textSecondary"
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    my: 1,
-                  }}
-                >
-                  {t("New password")}
-                </Typography>
-                <TextField
-                  autoFocus
-                  id={"password"}
-                  type="password"
-                  value={password}
-                  autoComplete="new-password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t("New password")}
-                  startIcon={<Lock />}
-                  error={error.password}
-                />
-                <Box m={1} />
-                <TextField
-                  id={"passwordConfirmed"}
-                  type="password"
-                  value={passwordConfirmed}
-                  autoComplete="new-password-confirmation"
-                  onChange={(e) => setPasswordConfirmed(e.target.value)}
-                  placeholder={t("New password confirmation")}
-                  startIcon={<Lock />}
-                  error={error.passwordConfirmed}
-                />
-                <Box m={1} />
-                <TextField
-                  id={"confirmationCode"}
-                  type="tel" /* tel type does not show arrows */
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  placeholder={t("Numeric code received by {{codeDeliveryMedium}}", {codeDeliveryMedium})}
-                  startIcon={<ConfirmationNumber />}
-                  error={error.confirmationCode}
-                />
-                <Button
-                  type="submit" onClick={formConfirmForgotPassword}>
-                  {t("Request password reset")}
-                </Button>
-                <Button
-                  type="submit" onClick={formResendResetPasswordCode}
-                  fullWidth={false} size="small" color="tertiary"
-                  sx={{ float: "right", marginLeft: "auto", marginRight: 0, mt: 1 }} >
-                  {t("Resend code")}
-                </Button>
-              </>
-            )}
+            <Avatar sx={{ backgroundColor: "primary.main" }}>
+              <LockOpenOutlined />
+            </Avatar>
           </Box>
+          {!waitingForCode && (
+            <>
+              <Typography variant="body2" color="textSecondary"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  my: 1,
+                }}
+              >
+                {t("Reset password")}
+              </Typography>
+              <TextField
+                autoFocus
+                id={"email"}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t("Email")}
+                startIcon={<Email />}
+                error={error.email}
+              />
+              <Box m={1} />
+              <Button type="submit" onClick={formForgotPassword}>
+                {t("Request password reset")}
+              </Button>
+            </>
+          )}
+          {waitingForCode && (
+            <>
+              <Typography variant="body2" color="textSecondary"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  my: 1,
+                }}
+              >
+                {t("New password")}
+              </Typography>
+              <TextField
+                autoFocus
+                id={"password"}
+                type="password"
+                value={password}
+                autoComplete="new-password"
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={t("New password")}
+                startIcon={<Lock />}
+                error={error.password}
+              />
+              <Box m={1} />
+              <TextField
+                id={"passwordConfirmed"}
+                type="password"
+                value={passwordConfirmed}
+                autoComplete="new-password-confirmation"
+                onChange={(e) => setPasswordConfirmed(e.target.value)}
+                placeholder={t("New password confirmation")}
+                startIcon={<Lock />}
+                error={error.passwordConfirmed}
+              />
+              <Box m={1} />
+              <TextField
+                id={"confirmationCode"}
+                type="tel" /* tel type does not show arrows */
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder={t("Numeric code received by {{codeDeliveryMedium}}", {codeDeliveryMedium})}
+                startIcon={<ConfirmationNumber />}
+                error={error.confirmationCode}
+              />
+              <Button
+                type="submit" onClick={formForgotPasswordConfirm}>
+                {t("Request password reset")}
+              </Button>
+              <Button
+                type="submit" onClick={formResendResetPasswordCode}
+                fullWidth={false} size="small" color="tertiary"
+                sx={{ float: "right", marginLeft: "auto", marginRight: 0, mt: 2 }} >
+                {t("Resend code")}
+              </Button>
+            </>
+          )}
         </Box>
-
-      </form>
+      </Box>
 
       <Dialog
         open={openDialog}
@@ -333,14 +338,14 @@ function ForgotPassword() {
           <Button
             onClick={handleCloseDialog}
             fullWidth={false}
-            className={"buttonSecondary"}
             autoFocus
           >
             {t("Ok")}
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+      
+    </form>
   );
 }
 

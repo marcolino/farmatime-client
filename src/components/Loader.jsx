@@ -1,20 +1,27 @@
 import React from "react";
-//import { usePromiseTracker } from "react-promise-tracker";
-import { useAxiosLoader } from "../hooks/useAxiosLoader";
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress } from "@mui/material";
+//import { useRedirect } from "../providers/RedirectProvider";
+import { useLoader } from "../providers/LoaderProvider";
 import config from "../config";
 
 
-function Loader(props) {
-  //const { promiseInProgress } = usePromiseTracker({delay: config.spinner.delay});
-  const [loading] = useAxiosLoader();
-
-  return loading && (
+function Loader({ loading = false, lazyloading = false, disabled = false }) {
+  //console.log("Loader - loading:", loading, ", lazyloading:", lazyloading);
+  //const { isRedirecting } = useRedirect();
+  const { disableLoader } = useLoader();
+  
+  return (loading || lazyloading) && !disableLoader && (
     <Box
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="100vh"
+      position="fixed"
+      top={0}
+      left={0}
+      width="100%"
+      height="100%"
+      zIndex="999"
+      backgroundColor="rgba(0, 0, 0, 0.0)"
     >
       <CircularProgress
         variant="indeterminate"

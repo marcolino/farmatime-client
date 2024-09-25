@@ -1,0 +1,36 @@
+import { useState, useEffect } from "react";
+
+const useInactivityTimer = (isLoggedIn, timeout, onTimeout) => {
+  const [lastActivity, setLastActivity] = useState(null);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setLastActivity(null); // reset timer when logged out
+      return;
+    }
+
+    const handleActivity = () => setLastActivity(Date.now());
+
+    const events = ["mousemove", "keydown", "click"];
+    events.forEach(event => window.addEventListener(event, handleActivity));
+
+    if (lastActivity === null) {
+      setLastActivity(Date.now()); // initialize timer after login
+    }
+
+    const interval = setInterval(() => {
+      if (lastActivity && Date.now() - lastActivity > timeout) {
+        onTimeout();
+      }
+    }, 60 * 1000); // TODO: to config (lastActivityCheckTimeoutSeconds)
+
+    return () => {
+      events.forEach(event => window.removeEventListener(event, handleActivity));
+      clearInterval(interval);
+    };
+  }, [isLoggedIn, lastActivity, timeout, onTimeout]);
+
+  return lastActivity;
+};
+
+export default useInactivityTimer;

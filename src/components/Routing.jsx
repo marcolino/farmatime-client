@@ -1,12 +1,10 @@
 import React, { useEffect, Suspense, lazy } from "react";
-import { Routes, Route } from "react-router-dom"; // TODO: Ok? if so, accorpate with next row
-import { useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import { getCurrentLanguage } from "../libs/I18n";
-import { toast } from "./Toast";
+import { useSnackbar }  from "../providers/SnackbarManager";
 import Loader from "./Loader";
-//import Profile from "./auth/Profile";
 
 const Home = lazy(() => import("./Home"));
 const SignUp = lazy(() => import("./auth/SignUp")); 
@@ -16,7 +14,6 @@ const SocialSignInError = lazy(() => import("./auth/SocialSignInError"));
 const SignOut = lazy(() => import("./auth/SignOut"));
 const Profile = lazy(() => import("./auth/Profile"));
 const ForgotPassword = lazy(() => import("./auth/ForgotPassword"));
-// const Searches = lazy(() => import("./Searches"));
 const Products = lazy(() => import("./Products"));
 const Notifications = lazy(() => import("./Notifications"));
 const EditUser = lazy(() => import("./EditUser"));
@@ -32,77 +29,42 @@ const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
 function Routing() {
   const location = useLocation();
+  const { showSnackbar } = useSnackbar();
   const { i18n } = useTranslation();
 
   // check for error parameters in location url
   useEffect(() => {
     const search = queryString.parse(location.search);
     if (search.error) {
-      toast.warning(`Social login did not work, sorry.\n${search.error}: ${search.error_description}`);
+      showSnackbar(i18n.t("Social login did not work, sorry.\n{{error}}: {{errorDescription}}", { error: search.error, errorDescription: search.error_description }));
     }
   }, [location]);
 
   return (
-    // <Suspense fallback={<div>Loading...</div>}> {/* TODO: <Suspense fallback={<Loader />}> gives an error: "TypeError: Cannot read properties of undefined (reading 'refs')" */}
-    <Suspense fallback={<Loader />}>
-    {/* <div style={styles.content}> */}
-        <Routes /*location={location}*/>
-          <Route path="/" exact element={<Home />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/signup" element={<SignUp />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/signin" element={<SignIn />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/social-signin-success" element={<SocialSignInSuccess />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/social-signin-error" element={<SocialSignInError />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/signout" element={<SignOut />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          {/* <Route path="/searches" element={<Searches />} /> sitemapFrequency={"daily"} sitemapPriority={1.0} */}
-          <Route path="/products" element={<Products />} /> {/* sitemapFrequency={"daily"} sitemapPriority={1.0} */}
-          <Route path="/notifications" element={<Notifications />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
-          <Route path="/edit-user/:userId" element={<EditUser />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
-          <Route path="/terms-of-use" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"termsOfUse"} /> } />
-          <Route path="/privacy-policy" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"privacyPolicy"} />} />
-          <Route path="/contacts" element={<Contacts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/admin-panel" element={<AdminPanel />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
-          <Route path="/handle-users" element={<HandleUsers />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
-          <Route path="/handle-products" element={<WorkInProgress />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/page-not-found" element={<PageNotFound />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      {/* </div> */}
+    <Suspense fallback={<Loader lazyloading={true} />}>
+      <Routes>
+        <Route path="/" exact element={<Home />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
+        <Route path="/signup" element={<SignUp />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
+        <Route path="/signin" element={<SignIn />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
+        <Route path="/social-signin-success" element={<SocialSignInSuccess />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
+        <Route path="/social-signin-error" element={<SocialSignInError />} />c
+        <Route path="/profile" element={<Profile />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
+        <Route path="/signout" element={<SignOut />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
+        <Route path="/forgot-password" element={<ForgotPassword />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
+        <Route path="/products" element={<Products />} /> {/* sitemapFrequency={"daily"} sitemapPriority={1.0} */}
+        <Route path="/notifications" element={<Notifications />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
+        <Route path="/edit-user/:userId" element={<EditUser />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
+        <Route path="/terms-of-use" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"termsOfUse"} /> } />
+        <Route path="/privacy-policy" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"privacyPolicy"} />} />
+        <Route path="/contacts" element={<Contacts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
+        <Route path="/admin-panel" element={<AdminPanel />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
+        <Route path="/handle-users" element={<HandleUsers />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
+        <Route path="/handle-products" element={<WorkInProgress />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
+        <Route path="/page-not-found" element={<PageNotFound />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
     </Suspense>
   );
 }
-
-// TODO: are the following styles used?
-const styles = {};
-
-styles["fade-enter"] = {
-  opacity: 0,
-  zIndex: 1,
-};
-
-styles["fade-enter"] = {
-  opacity: 0,
-  transition: "opacity 250ms ease-in",
-};
-
-styles["fade-enter-active"] = {
-  opacity: 1,
-  transition: "opacity 250ms ease-in",
-};
-
-// styles.fill = {
-//   position: "absolute",
-//   left: 0,
-//   right: 0,
-//   top: 100,
-//   bottom: 0
-// };
-
-// styles.content = {
-//   ...styles.fill,
-//   top: "140px",
-//   textAlign: "center"
-// };
 
 export default React.memo(Routing);

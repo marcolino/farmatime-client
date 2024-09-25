@@ -1,4 +1,5 @@
 import parsePhoneNumber from "libphonenumber-js";
+import { i18n } from "../i18n";
 
 export const isAdmin = (user) => {
   if (!user) {
@@ -75,37 +76,52 @@ export const validatePhone = (phone) => {
 export const validatePassword = (password, passwordConfirmed) => {
   // check for password presence
   if (!password) {
-    return "ERROR_PLEASE_SUPPLY_A_PASSWORD";
+    return ["ERROR_PLEASE_SUPPLY_A_PASSWORD"];
   }
 
   // check password for minimum complexity
-  if (!checkPassword(password)) {
-    return "ERROR_PLEASE_SUPPLY_A_MORE_COMPLEX_PASSWORD";
+  const explanation = checkPassword(password);
+  if (explanation !== null) {
+    return ["ERROR_PLEASE_SUPPLY_A_MORE_COMPLEX_PASSWORD", explanation];
   }
 
   // check for password confirmed presence
   if (!passwordConfirmed) {
-    return "PLEASE_CONFIRM_THE_PASSWORD";
+    return ["PLEASE_CONFIRM_THE_PASSWORD"];
   }
 
   // check password and password confirmed do match
   if (password !== passwordConfirmed) {
-    return "ERROR_THE_CONFIRMED_PASSWORD_DOES_NOT_MATCH_THE_PASSWORD";
+    return ["ERROR_THE_CONFIRMED_PASSWORD_DOES_NOT_MATCH_THE_PASSWORD"];
   }
 
-  return true;
+  return [true];
 };
 
+/**
+ * 
+ * @param {string} password 
+ * @returns null if passord passes complexity requirements
+ *          a string (i18n'ed) to expain requirements
+ */
 const checkPassword = (password) => {
   /**
    * ^	                The password string will start this way
-   * (?=.*[a-z])	      The string must contain at least 1 lowercase alphabetical character
-   * (?=.*[A-Z])	      The string must contain at least 1 uppercase alphabetical character
-   * (?=.*[0-9])	      The string must contain at least 1 numeric character
+   * (?=.*[a-z])	      The string must contain at least one lowercase alphabetical character
+   * (?=.*[A-Z])	      The string must contain at least one uppercase alphabetical character
+   * (?=.*[0-9])	      The string must contain at least one numeric character
    * (?=.*[!@#$%^&*])	  The string must contain at least one special character,
    *                     but we are escaping reserved RegEx characters to avoid conflict
    * (?=.{8,})	        The string must be eight characters or longer
    */
   const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
-  return re.test(String(password));
+
+  return re.test(String(password)) ? null : i18n.t("\
+The password must contain at least:\n\
+  - one lowercase alphabetical character,\n\
+  - one uppercase alphabetical character,\n\
+  - one numeric character,\n\
+  - one special character,\n\
+  - and a total of at least eight characters.\n\
+");
 }

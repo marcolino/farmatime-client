@@ -3,10 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box, TextField } from "@mui/material";
 import { Subject } from "@mui/icons-material";
 import { FormInput, FormButton } from "./FormElements";
-import { toast } from "./Toast";
+import { useSnackbar } from "../providers/SnackbarManager";
 
 function DialogEmailCreation({ open, onClose, onConfirm }) {
   //const classes = useStyles();
+  const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
@@ -16,13 +17,15 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
     if (!subject) {
       let err = t("Please supply an email subject");
       setError({ subject: err });
-      toast.warning(err);
+      //toast.warning(err);
+      showSnackbar(err, "warning");
       return false;
     }
     if (!body) {
       let err = t("Please supply an email body");
       setError({ body: err });
-      toast.warning(err);
+      //toast.warning(err);
+      showSnackbar(err, "warning");
       return false;
     }
     return true;
@@ -34,7 +37,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
   }
 
   const onCloseWithValidation = (e) => {
-    onClose();
+    onClose();Dialog
     cleanForm();
   }
 
