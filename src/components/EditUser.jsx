@@ -1,58 +1,99 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { usePromiseTracker } from "react-promise-tracker";
+import { useNavigate, useParams /*, useLocation*/ } from "react-router-dom";
+//import { usePromiseTracker } from "react-promise-tracker";
 import { useTranslation } from "react-i18next";
-//import { makeStyles } from "@material-ui/styles";
-import { Grid, Container, Box } from "@mui/material";
+//import { FormInput, FormPhoneInput, FormSelect } from "./FormElements";
 import {
-  Person, Email, Phone, SupervisedUserCircle, PlaylistAddCheck,
+  Container,
+  Box,
+  Button,
+} from "@mui/material";
+import SectionHeader from "./custom/SectionHeader";
+import TextField from "./custom/TextField";
+import TextFieldPhone from "./custom/TextFieldPhone";
+import Select from "./custom/Select";
+import { apiCall } from "../libs/Network";
+import { AuthContext } from "../providers/AuthProvider";
+import { useSnackbar } from "../providers/SnackbarManager";
+import {
+  Person, Email, SupervisedUserCircle, PlaylistAddCheck,
   Payment, Business, LocationOn as LocationOnIcon
 } from "@mui/icons-material";
-import { FormTitle, FormInput, FormPhoneInput, FormSelect, FormButton, FormText } from "./FormElements";
-import { getUser, updateUser, getAllRoles, getAllPlans } from "../libs/Fetch";
-//import { mergeObjects } from "../libs/Misc";
-import { useSnackbar }  from "../SnackbarManager";
-import { AuthContext } from "../providers/AuthProvider";
 import {
+  isAdmin,
   validateFirstName,
   validateLastName,
   validateEmail,
   validatePhone,
 } from "../libs/Validation";
+import { i18n }  from "../i18n";
 import config from "../config";
 
-// const styles = theme => ({
-//   fieldset: {
-//     border: 0,
-//   },
-// });
-// const useStyles = makeStyles((theme) => (styles(theme)));
 
-
-
-function EditUser(props) {
-  const classes = {}; //useStyles();
+function EditUser() {
   const navigate = useNavigate();
-  const userId = props?.match?.params?.userId;
+  //const userId = props?.match?.params?.userId;
   const [user, setUser] = useState(false);
   const [error, setError] = useState({});
   const { auth, setAuth } = useContext(AuthContext);
-  const { promiseInProgress } = usePromiseTracker({ delay: config.spinner.delay });
+  //const { promiseInProgress } = usePromiseTracker({ delay: config.spinner.delay });
   const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
   // const apiKey = process.env.VITE_GEOAPIFY_API_KEY;
 
-  const [allRoles, setAllRoles] = React.useState(false);
-  const [allPlans, setAllPlans] = React.useState(false);
-    
-  const [updateReady, setUpdateReady] = useState(false); // to handle form values changes refresh
-
+  const { userId } = useParams();
+  console.log("userId:", userId);
   if (!userId) {
-    //toast.error(t("No user id specified"));
     showSnackbar(t("No user id specified", "error"));
     navigate(-1);
     return;
   }
+  // const location = useLocation();
+  // console.log("Additional state:", location.state);
+  
+  const [allRoles, setAllRoles] = useState(false);
+  const [allPlans, setAllPlans] = useState(false);
+    
+  const [updateReady, setUpdateReady] = useState(false); // to handle form values changes refresh
+  //const [sameUserProfile, setSameUserProfile] = useState(false); // to know if profile is the logged user's
+  
+  useEffect(() => { // get all users on mount
+    (async() => {
+      const result = await apiCall("get", "/user/getUser", { userId: userId });
+      if (result.err) {
+        if (result.status === 401) alert("401 !!!"); // TODO: check if really we have to care about 401 here...
+        showSnackbar(result.message, result.status === 401 ? "warning" : "error");
+      } else {
+        setUser(result.user);
+        // if (result.user._id === userId) {
+        //   setSameUserProfile(true);
+        // }
+      }
+    })();
+  }, [userId]);
+  // empty dependency array: this effect runs once when the component mounts
+  
+  useEffect(() => {
+    (async() => {
+      const result = await apiCall("get", "/user/getAllRoles");
+      if (result.err) {
+        showSnackbar(result.message, "error");
+      } else {
+        setAllRoles(result.roles);
+      }
+    })();
+  }, [t]);
+  
+  useEffect(() => {
+    (async() => {
+      const result = await apiCall("get", "/user/getAllPlans");
+      if (result.err) {
+        showSnackbar(result.message, "error");
+      } else {
+        setAllPlans(result.plans);
+      }
+    })();
+  }, [t]);
 
   useEffect(() => {
     if (updateReady) {
@@ -60,54 +101,6 @@ function EditUser(props) {
       formSubmit();
     }
   }, [updateReady]);
-
-  useEffect(() => {
-    getAllRoles().then((data) => {
-      if (!data.ok) {
-        //console.warn("getAllRoles error:", data);
-        if (data.message) {
-          //toast.error(t(data.message));
-          showSnackbar(data.message, "error");
-        }
-        return;
-      }
-      //console.info("getAllRoles data:", data);
-      setAllRoles(data.roles);
-      //console.log("getAllRoles success:", data);
-    });
-  }, [t]);
-
-  useEffect(() => {
-    getAllPlans().then((data) => {
-      if (!data.ok) {
-        //console.warn("getAllPlans error:", data);
-        if (data.message) {
-          //toast.error(t(data.message)); 
-          showSnackbar(data.message, "error");
-        }
-        return;
-      }
-      //console.info("getAllPlans data:", data);
-      setAllPlans(data.plans);
-      console.log("getAllPlans success:", data);
-    });
-  }, [t]);
-
-  useEffect(() => {
-    getUser({ userId }).then((data) => {
-      if (!data.ok) {
-        //console.warn("getUser error:", data);
-        if (data.message) {
-          //toast.error(t(data.message)); 
-          showSnackbar(data.message, "error");
-        }
-        return;
-      }
-      //toast.info(`${data.user.firstName} ${data.user.lastName} loaded`);
-      setUser(data.user);
-      //console.log("getUser success:", data);
-    });
-  }, [t]);
 
   const validateForm = () => {
     let response;
@@ -127,7 +120,6 @@ function EditUser(props) {
           err = response;
       }
       setError({ firstName: err });
-      //toast.warning(err);
       showSnackbar(err, "warning");
       return false;
     }
@@ -147,7 +139,6 @@ function EditUser(props) {
           err = response;
       }
       setError({ lastName: err });
-      //toast.warning(err);
       showSnackbar(err, "warning");
       return false;
     }
@@ -199,7 +190,6 @@ function EditUser(props) {
           err = response;
       }
       setError({ email: err });
-      //toast.warning(err);
       showSnackbar(err, "warning");
       return false;
     }
@@ -224,16 +214,12 @@ function EditUser(props) {
   };
 
   const setRoles = (values) => {
-    // console.log("handleRolesChange values:", values);
     const roles = allRoles.filter(role => values.includes(role.name));
-    // console.log("handleRolesChange roles:", roles);
     setUser({ ...user, roles });
   };
 
   const setPlan = (value) => {
-    // console.log("handlePlanChange value:", value);
     const plan = allPlans.find(plan => value === plan.name);
-    // console.log("handlePlanChange plan:", plan);
     setUser({ ...user, plan });
   };
 
@@ -261,15 +247,33 @@ function EditUser(props) {
   }
 
   const formSubmit = (e) => {
-    updateUser({ userId, ...user }).then(data => {
-      if (!data.ok) {
-        console.warn("updateUser error:", data);
-        //toast.error(t(data.message));
-        showSnackbar(data.message, "warning");
-        setError({});
-        return;
+    (async () => {
+      const result = await apiCall("post", "/user/updateUser", { userId, ...user });
+      if (result.err) {
+        showSnackbar(result.message, "error");
+      } else {
+        setAllPlans(result.plans);
+        // TODO: put the following code in a function, used also in signIn, for sure...
+        if (auth.user.id === result.user._id) { // the user is the logged one
+          // update user fields in auth
+          const updatedUser = auth.user;
+          updatedUser.email = result.user.email;
+          updatedUser.firstName = result.user.firstName;
+          updatedUser.lastName = result.user.lastName;
+          console.log(" *** updated user ***:", result.user);
+          setAuth({ user: updatedUser });
+        }
+        navigate(-1);
       }
-      console.log("updateUser success:", data.user);
+    })();
+    // updateUser({ userId, ...user }).then(data => {
+    //   if (data.err) {
+    //     console.warn("updateUser error:", data);
+    //     showSnackbar(data.message, "warning");
+    //     setError({});
+    //     return;
+    //   }
+    //   console.log("updateUser success:", data.user);
 
 /**
  * TODO: check why these fields are in auth, and if they are really needed:
@@ -279,22 +283,11 @@ function EditUser(props) {
  * and roles (which is ['admin'])
  */
       
-      if (auth.user.id === data.user._id) { // the user is the logged one
-        // update user fields in auth
-        const updatedUser = auth.user;
-        updatedUser.email = data.user.email;
-        updatedUser.firstName = data.user.firstName;
-        updatedUser.lastName = data.user.lastName;
-        console.log(" *** updated user ***:", data.user);
-        setAuth({ user: updatedUser });
-      }
-      navigate(-1);
-    }).catch(err => {
-      console.error("updateUser error catched:", err);
-      //toast.error(t(err.message));
-      showSnackbar(err.message, "error");
-      setError({}); // we can't blame some user input, it's a server side error
-    });
+    // }).catch(err => {
+    //   console.error("updateUser error catched:", err);
+    //   showSnackbar(err.message, "error");
+    //   setError({}); // we can't blame some user input, it's a server side error
+    // });
   };
 
   const formCancel = (e) => {
@@ -302,21 +295,8 @@ function EditUser(props) {
     setError({});
     navigate(-1);
   }
-
-  // const resetForm = () => {
-  //   set
-  //   setFirstName("");
-  //   setEmail("");
-  // }
-
-  // function onPlaceSelect(value) {
-  //   console.log("onPlaceSelect:", value);
-  // }
-
-  // function onSuggectionChange(value) {
-  //   console.log("onSuggectionChange:", value);
-  // }
  
+  // TODO: do something better, to check for data is present... :-/
   if (!user) {
     return (
       <p> loading user... </p>
@@ -335,138 +315,139 @@ function EditUser(props) {
   
   return (
     <>
-      <FormTitle>
+      <SectionHeader text={t("Users handling")}>
         {t("Edit user")}
-      </FormTitle>
+      </SectionHeader>
 
       <Container maxWidth="xs">
+        <form noValidate autoComplete="off">
+          <TextField
+            autoFocus
+            id={"firstName"}
+            value={user.firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            placeholder={t("First Name")}
+            startIcon={<Person />}
+            error={error.firstName}
+          />
 
-        <form className={classes.form} noValidate autoComplete="off">
-          <fieldset disabled={promiseInProgress} className={classes.fieldset}>
+          <TextField
+            id={"lastName"}
+            value={user.lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            placeholder={t("Last Name")}
+            startIcon={<Person />}
+            error={error.lastName}
+          />
 
-            <Box m={2} />
+          <TextField
+            id={"email"}
+            value={user.email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={t("Email")}
+            startIcon={<Email />}
+            error={error.email}
+          />
 
-            <FormInput
-              autofocus
-              id={"firstName"}
-              value={user.firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder={t("First Name")}
-              startAdornmentIcon={<Person />}
-              error={error.firstName}
-            />
+          <TextFieldPhone
+            id={"phone"}
+            value={user.phone}
+            onChange={(value) => setPhone(value)}
+            placeholder={t("Phone")}
+            error={error.phone}
+          />
 
-            <FormInput
-              id={"lastName"}
-              value={user.lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder={t("Last Name")}
-              startAdornmentIcon={<Person />}
-              error={error.lastName}
-            />
-
-            <FormInput
-              id={"email"}
-              value={user.email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("Email")}
-              startAdornmentIcon={<Email />}
-              error={error.email}
-            />
-
-            <FormPhoneInput
-              id={"phone"}
-              value={user.phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder={t("Phone")}
-              startAdornmentIcon={<Phone />}
-              error={error.phone}
-            />
-
-            <FormSelect
-              id={"roles"}
+          <Select
+            id={"roles"}
+            //value={user ? user?.roles?.map(role => role.name) : []}
+            value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => role.name)}
+            options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => role.name)}
+            optionsDisabled={allRoles.map(role => role.priority > auth.user.roles[0].priority)}
+            multiple={true}
+            onChange={(e) => setRoles(e.target.value)}
+            placeholder={t("Roles")}
+            startIcon={<SupervisedUserCircle />}
+            error={error.roles}
+          />
+        
+          {config.ui.usePlans && (
+            <Select
+              id={"plan"}
               //value={user ? user?.roles?.map(role => role.name) : []}
-              value={user.roles.map(role => role.name)}
-              options={allRoles.map(role => role.name)}
-              multiple={true}
-              onChange={(e) => setRoles(e.target.value)}
-              placeholder={t("Roles")}
-              startAdornmentIcon={<SupervisedUserCircle />}
-              error={error.roles}
+              value={user.plan.name}
+              options={allPlans.map(plan => plan.name)}
+              optionsDisabled={allPlans.map(role => !isAdmin(auth.user))}
+              multiple={false}
+              onChange={(e) => setPlan(e.target.value)}
+              placeholder={t("Plan")}
+              startIcon={<PlaylistAddCheck />}
+              error={error.plan}
             />
+          )}
           
-            {config.ui.usePlans && (
-              <FormSelect
-                id={"plan"}
-                //value={user ? user?.roles?.map(role => role.name) : []}
-                value={user.plan.name}
-                options={allPlans.map(plan => plan.name)}
-                multiple={false}
-                onChange={(e) => setPlan(e.target.value)}
-                placeholder={t("Plan")}
-                startAdornmentIcon={<PlaylistAddCheck />}
-                error={error.plan}
-              />
-            )}
-            
-            <FormInput
-              id={"address"}
-              value={user.address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder={t("Address")}
-              startAdornmentIcon={<LocationOnIcon />}
-              error={error.address}
-            />
-            {/* <PlacesAutocomplete /> */}
-            
-            <FormInput
-              id={"fiscalCode"}
-              value={user.fiscalCode}
-              onChange={(e) => setFiscalCode(e.target.value)}
-              placeholder={t("Tax Code or VAT Number")}
-              startAdornmentIcon={<Payment />}
-              error={error.address}
-            />
+          <TextField
+            id={"address"}
+            value={user.address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder={t("Address")}
+            startIcon={<LocationOnIcon />}
+            error={error.address}
+          />
+          {/* <PlacesAutocomplete /> */}
+          
+          <TextField
+            id={"fiscalCode"}
+            value={user.fiscalCode}
+            onChange={(e) => setFiscalCode(e.target.value)}
+            placeholder={t("Tax Code or VAT Number")}
+            startIcon={<Payment />}
+            error={error.address}
+            inputProps={{ style: { textTransform: "uppercase" } }}
+          />
 
-            <FormInput
-              id={"businessName"}
-              value={user.businessName}
-              onChange={(e) => setBusinessName(e.target.value)}
-              placeholder={t("Business name")}
-              startAdornmentIcon={<Business />}
-              error={error.businessName}
-            />
+          <TextField
+            id={"businessName"}
+            value={user.businessName}
+            onChange={(e) => setBusinessName(e.target.value)}
+            placeholder={t("Business name")}
+            startIcon={<Business />}
+            error={error.businessName}
+          />
 
-            {/* <FormInput
-              id={"profileImage"}
-              value={user.profileImage}
-              onChange={(e) => setProfileImage(e.target.value)}
-              placeholder={t("Profile image")}
-              startAdornmentIcon={<PermIdentity />}
-              error={error.profileImage}
-            /> */}
-  
-            <Box m={2} />
+          {/* <TextField
+            id={"profileImage"}
+            value={user.profileImage}
+            onChange={(e) => setProfileImage(e.target.value)}
+            placeholder={t("Profile image")}
+            startIcon={<PermIdentity />}
+            error={error.profileImage}
+          /> */}
 
-            <FormButton
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end', // Aligns the buttons to the right
+              gap: 2, // Adds spacing between the buttons
+              mt: 2, // Optional: Add margin-top for spacing
+            }}
+          >
+            <Button
+              onClick={formCancel}
+              fullWidth={false}
+              variant="contained"
+              color="secondary"
+            >
+              {t("Cancel")}
+            </Button>
+            <Button
               onClick={formSubmitBeforeUpdate}
+              variant="contained"
+              color="success"
             >
               {t("Confirm")}
-            </FormButton>
-
-            <Grid container justifyContent="flex-end">
-              <FormButton
-                onClick={formCancel}
-                fullWidth={false}
-                className={"buttonSecondary"}
-              >
-                {t("Cancel")}
-              </FormButton>
-              </Grid>
-
-          </fieldset>
+            </Button>
+          </Box>
         </form>
-
       </Container>
     </>
   );

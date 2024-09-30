@@ -1,5 +1,6 @@
+//import moment from "moment";
 import config from "../config";
-import { resources } from "../i18n";
+import { i18n, resources } from "../i18n";
 
 /**
  * Find the first language from the browser's language, also primarized (ex.: "en_US" => "en") if needed,

@@ -10,7 +10,7 @@ To add a new language locale support:
 
  - take note the ISO 639-1 code (2 characters, i.e.: "en", "it", ...) of the language to be added; from here on we indicate it as "XX".
  - create a folder named "XX" in ./src/locales folder.
- - add `"XX"` in locales array in src/i18next-parser.config.js file.
+ - add `"XX"` in locales array in i18next-parser.config.js file.
  - run `yarn i18n`.
  - add `import xx from "./locales/XX/translation.json";` on the top of "src/i18n.js" file, and
        `XX: { translation: XX },` in the resources object some lines below in the same file.

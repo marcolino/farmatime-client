@@ -12,8 +12,9 @@ import LockOpenOutlined from "@mui/icons-material/LockOpenOutlined";
 import ConfirmationNumber from "@mui/icons-material/ConfirmationNumber";
 import Lock from "@mui/icons-material/Lock";
 import Email from "@mui/icons-material/Email";
-import TextField from "../styled/TextField";
-import Button from "../styled/Button";
+import TextField from "../custom/TextField";
+import TextFieldPassword from "../custom/TextFieldPassword";
+import Button from "../custom/Button";
 import { apiCall }  from "../../libs/Network";
 import { useSnackbar }  from "../../providers/SnackbarManager";
 import { validateEmail, validatePassword } from "../../libs/Validation";
@@ -273,7 +274,7 @@ function ForgotPassword() {
               >
                 {t("New password")}
               </Typography>
-              <TextField
+              <TextFieldPassword
                 autoFocus
                 id={"password"}
                 type="password"
@@ -285,7 +286,7 @@ function ForgotPassword() {
                 error={error.password}
               />
               <Box m={1} />
-              <TextField
+              <TextFieldPassword
                 id={"passwordConfirmed"}
                 type="password"
                 value={passwordConfirmed}
@@ -300,6 +301,7 @@ function ForgotPassword() {
                 id={"confirmationCode"}
                 type="tel" /* tel type does not show arrows */
                 value={code}
+                autoComplete="off"
                 onChange={(e) => setCode(e.target.value)}
                 placeholder={t("Numeric code received by {{codeDeliveryMedium}}", {codeDeliveryMedium})}
                 startIcon={<ConfirmationNumber />}

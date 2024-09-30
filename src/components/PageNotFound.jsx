@@ -1,59 +1,77 @@
 import React from "react";
-// import { makeStyles } from "@material-ui/styles";
-import Link from "@mui/material/Link";
-import IconCustom from "./IconCustom";
+import { Grid, Box, Typography, Link, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 
-// const useStyles = makeStyles(theme => ({
-//   container: {
-//     display: "flex",
-//     alignItems: "center",
-//     justifyContent: "flex-start",
-//     padding: 20,
-//   },  
-//   image: {
-//     width: "30vw",
-//     height: "auto",
-//     marginRight: 20, /* space between image and text */
-//   },
-//   textContent: {
-//     maxWidth: "50vw", /* limit width of paragraph */
-//   },
-//   title: {
-//     fontSize: "2em",
-//     fontWeight: "bold", 
-//     // margin: 0,
-//   },
-//   subtitle: {
-//     fontSize: "1.2em",  
-//     marginTop: 5, /* space above subtitle */
-//   },
-//   goBack: {
-//     fontSize: "1.2em", /* paragraph size */
-//     marginTop: 10, /* space above link */
-//   },
-// }));
-
 const PageNotFound = () => {
-  const classes = {}; //useStyles();
   const { t } = useTranslation();
-  
+  const theme = useTheme();
+  const isLandscape = useMediaQuery(theme.breakpoints.up("sm"));
+
   return (
-    <div className={classes.container}>
-      <IconCustom name="NotFound" sx={{
-        width: "30vw",
-        height: "auto",
-        marginRight: 20,
-      }} />
-      <div className={classes.textContent}>
-        <p className={classes.title}>{`${t("OPS!")} ${t("Page not found")}.`}</p>
-        <p className={classes.subtitle}>{`${t("Perhaps you did request the wrong page, because I could'nt find what you looked for")}.`}</p>
-        <p></p>
-        <Link href="/" variant="body2" className={classes.goBack}>
-          <h3>{t("Go back to home page")}</h3>
-        </Link>
-      </div>
-    </div>
+    <Box 
+      sx={{ 
+        height: "calc(100vh - 250px)",
+        display: "flex",
+        alignItems: "center",
+        p: 2,
+      }}
+    >
+      <Grid 
+        container 
+        spacing={2} 
+        direction={isLandscape ? "row" : "column"}
+        alignItems="center"
+      >
+        <Grid item xs={12} sm={6} sx={{ textAlign: "center" }}>
+          <Box
+            component="img"
+            sx={{
+              maxWidth: "100%",
+              maxHeight: { xs: "16rem", sm: "40rem", md: "48rem", lg: "56rem", xl: "64rem" },
+              mt: { xs: "7rem", sm: "7.5rem", md: "8rem", lg: "8.5rem", xl: "9rem" },
+              objectFit: "contain",
+            }}
+            alt="Not found image"
+            src={"/src/assets/icons/NotFound.png"}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Box sx={{
+            mt: 4,
+            textAlign: "left",
+            fontSize: { xs: "1.1rem", sm: "1.2rem", md: "1.3rem", lg: "1.4rem", xl: "1.5rem" }
+          }}>
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                mb: 2,
+                fontWeight: "bold",
+              }}
+            >
+              {t("Oooops!")}
+            </Typography>
+            <Typography 
+              variant="body1"
+              sx={{ 
+                mb: 2,
+              }}
+            >
+              {t("Perhaps you did request a wrong page, because I couldn't find it")}.
+            </Typography>
+            <Link 
+              href="/"
+              color="warning"
+              sx={{ 
+                display: "inline-block",
+              }}
+            >
+              {t("Go back to home page")}
+            </Link>
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 

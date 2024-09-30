@@ -3,18 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import AccountCircleOutlined from "@mui/icons-material/AccountCircleOutlined";
-import ConfirmationNumber from "@mui/icons-material/ConfirmationNumber";
-import Person from "@mui/icons-material/Person";
-import Email from "@mui/icons-material/Email";
-import Lock from "@mui/icons-material/Lock";
-import TextField from "../styled/TextField";
-import Button from "../styled/Button";
+import {
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material/DialogTitle";
+import TextField from "../custom/TextField";
+import TextFieldPassword from "../custom/TextFieldPassword";
+import Button from "../custom/Button";
+import {
+  AccountCircleOutlined,
+  ConfirmationNumber,
+  Person,
+  Email,
+  Lock
+} from "@mui/icons-material";
 import { useSnackbar }  from "../../providers/SnackbarManager";
 import { apiCall }  from "../../libs/Network";
 import { validateFirstName, validateLastName, validateEmail, validatePassword } from "../../libs/Validation";
@@ -316,7 +321,7 @@ function SignUp() {
                 startIcon={<Email />}
                 error={error.email}
               />
-              <TextField
+              <TextFieldPassword
                 id={"password"}
                 type="password"
                 value={password}
@@ -326,7 +331,7 @@ function SignUp() {
                 autoComplete="password"
                 error={error.password}
               />
-              <TextField
+              <TextFieldPassword
                 id={"passwordConfirmed"}
                 type="password"
                 value={passwordConfirmed}

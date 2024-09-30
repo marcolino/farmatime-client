@@ -12,8 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Person from "@mui/icons-material/Person";
 import Lock from "@mui/icons-material/Lock";
 import { useSnackbar }  from "../../providers/SnackbarManager";
-import TextField from "../styled/TextField";
-import Button from "../styled/Button";
+import TextField from "../custom/TextField";
+import TextFieldPassword from "../custom/TextFieldPassword";
+import Button from "../custom/Button";
 import { AuthContext } from "../../providers/AuthProvider";
 import { validateEmail } from "../../libs/Validation";
 import { apiCall }  from "../../libs/Network";
@@ -141,7 +142,7 @@ function SignIn() {
             autoComplete="email"
             error={error.email}
           />
-          <TextField
+          <TextFieldPassword
             id={"password"}
             type="password"
             value={password}

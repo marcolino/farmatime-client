@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box, TextField } from "@mui/material";
+//import { FormInput, FormButton } from "./FormElements";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Box,
+  Button,
+} from "@mui/material";
+import TextField from "./custom/TextField";
 import { Subject } from "@mui/icons-material";
-import { FormInput, FormButton } from "./FormElements";
 import { useSnackbar } from "../providers/SnackbarManager";
 
+
 function DialogEmailCreation({ open, onClose, onConfirm }) {
-  //const classes = useStyles();
   const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
   const [subject, setSubject] = useState("");
@@ -17,14 +26,12 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
     if (!subject) {
       let err = t("Please supply an email subject");
       setError({ subject: err });
-      //toast.warning(err);
       showSnackbar(err, "warning");
       return false;
     }
     if (!body) {
       let err = t("Please supply an email body");
       setError({ body: err });
-      //toast.warning(err);
       showSnackbar(err, "warning");
       return false;
     }
@@ -37,7 +44,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
   }
 
   const onCloseWithValidation = (e) => {
-    onClose();Dialog
+    onClose();
     cleanForm();
   }
 
@@ -56,10 +63,10 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
       fullWidth
       maxWidth="sm"
     >
-      <DialogTitle>{t("Create email")}</DialogTitle>
+      <DialogTitle>{t("Create and send email")}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          <FormInput
+          <TextField
             autoFocus
             id={"subject"}
             value={subject}
@@ -69,7 +76,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
             error={error.subject}
           />
           <Box m={0} />
-          <FormInput
+          <TextField
             id={"body"}
             value={body}
             onChange={e => setBody(e.target.value)}
@@ -81,15 +88,15 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
             maxRows={Infinity}
           />
           <Box m={0} />
-          </DialogContentText>
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <FormButton onClick={onCloseWithValidation} color="secondary">
+        <Button onClick={onCloseWithValidation} color="secondary" variant="contained">
           {t("Cancel")}
-        </FormButton>
-        <FormButton onClick={onConfirmWithValidation} color="primary">
-          {t("Send email to selected users")}
-        </FormButton>
+        </Button>
+        <Button onClick={onConfirmWithValidation} color="primary" variant="contained">
+          {t("Send email")}
+        </Button>
       </DialogActions>
     </Dialog>
   );

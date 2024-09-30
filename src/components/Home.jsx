@@ -15,10 +15,10 @@ function Home() {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
 
-  // show Snackbar with the default dismiss action
-  const handleClickWithDefaultAction = () => {
-    showSnackbar("This Snackbar is beautiful\n\nBye...", "info");
-  };
+  // // show Snackbar with the default dismiss action
+  // const handleClickWithDefaultAction = () => {
+  //   showSnackbar("This Snackbar is beautiful\n\nBye...", "info");
+  // };
 
   return (
     <Paper>
@@ -32,11 +32,11 @@ function Home() {
         <Typography>{t("Administrators are verifying your role...")}</Typography>
       )}
 
-      <Box sx={{ mt: 2 }} />
+      {/* <Box sx={{ mt: 2 }} />
       
       <Button variant="contained" onClick={handleClickWithDefaultAction}>
         Show Snackbar
-      </Button>
+      </Button> */}
 
     </Paper>
   );

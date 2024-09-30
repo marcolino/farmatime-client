@@ -42,8 +42,8 @@ const setLocalAccessToken = (token) => {
 
     // set the updated auth cookie
     try {
-      //Cookie.set("auth", JSON.stringify(updatedAuth));
-      Cookie.set("auth", updatedAuth);
+      Cookie.set("auth", JSON.stringify(updatedAuth));
+      //Cookie.set("auth", updatedAuth);
       console.log("token successfully updated");
       return true;
     } catch (error) {
@@ -174,10 +174,10 @@ instance.interceptors.response.use(
           setDisableLoaderGlobal(true); // to disable the loader before redirection
           setTimeout(() => { // redirect to signin page with some delay, to allow snackbar to be read
             setDisableLoaderGlobal(false); // to reenable the loader after redirection
-            window.location.href = "/signin";
+            /////////////////////////////////////window.location.href = "/signin";
           }, cfg.ui.snacks.autoHideDurationSeconds * 1000);
           refreshError.response.data.message = null; // avoid double error showing snackbar on component (TODO: check what happens removing this line...)
-          //return Promise.reject(refreshError);
+          return Promise.reject(refreshError);
         }
       } else {
         // token refresh already in progress

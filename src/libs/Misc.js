@@ -14,30 +14,38 @@ export const isEmptyObject = (obj) => {
   );
 };
 
-export const isArray = (obj) => {
-  return variable && variable.constructor === Array;
+export const isString = (v) => {
+  return (typeof v === "string");
 };
 
-// merge objects with precedence to the first one:
-// uses the fields from the second only if not present in the first one
-export const mergeObjects = (obj1, obj2) => {
-  // iterate over the keys of obj2
-  Object.keys(obj2).forEach(key => {
-    // check if the current key exists in obj1
-    if (!obj1.hasOwnProperty(key)) {
-      // if not, add it to obj1 along with its value
-      obj1[key] = obj2[key];
-    } else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
-      // if the key exists and both values are objects, recursively merge them
-      mergeObjects(obj1[key], obj2[key]);
-    }
-    // if the key exists and the values are not objects, do nothing (precedence to obj1)
-  });
+export const isArray = (v) => {
+  //return v && v.constructor === Array;
+  return (typeof v === "object" && Array.isArray(v));
+};
 
-  return obj1;
+export const isObject = (v) => {
+  return (typeof v === "object" && !Array.isArray(v));
 }
 
-// deeply merge objects with precedence to the first one:
+// // merge objects with precedence to the source one
+// // uses the fields from the source only if not present in the target one
+// export const mergeObjects = (target, source) => {
+//   // iterate over the keys of source
+//   Object.keys(source).forEach(key => {
+//     // check if the current key exists in target
+//     if (!target.hasOwnProperty(key)) {
+//       // if not, add it to target along with its value
+//       target[key] = source[key];
+//     } else if (typeof target[key] === 'object' && typeof source[key] === 'object') {
+//       // if the key exists and both values are objects, recursively merge them
+//       mergeObjects(target[key], source[key]);
+//     }
+//     // if the key exists and the values are not objects, do nothing (precedence to target)
+//   });
+//   return target;
+// }
+
+// deeply merge objects with precedence to the source one
 export const deepMergeObjects = (target, source) => {
   for (let key in source) {
     // check if the value is an object or an array
@@ -62,15 +70,15 @@ export const findValueInObjectsArrayByProp = (array, keyProp, valProp, value) =>
   return ((typeof result === "object") && (result !== null)) ? result[valProp] : undefined;
 }
 
-export const isAuthLocation = (location) => {
-  return (
-    (location.pathname === "/signup") ||
-    (location.pathname === "/signin") ||
-    (location.pathname === "/profile") ||
-    (location.pathname === "/signout") ||
-    (location.pathname === "/forgot-password")
-  );
-}
+// export const isAuthLocation = (location) => {
+//   return (
+//     (location.pathname === "/signup") ||
+//     (location.pathname === "/signin") ||
+//     (location.pathname === "/profile") ||
+//     (location.pathname === "/signout") ||
+//     (location.pathname === "/forgot-password")
+//   );
+// }
 
 export const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||

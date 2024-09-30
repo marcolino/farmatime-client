@@ -4,7 +4,7 @@ import { createTheme, responsiveFontSizes, alpha, getContrastRatio } from "@mui/
 import { deepMergeObjects } from "../libs/Misc";
 
 // custom colors
-const violet = "#953bee";
+const violet = "#7F00FF";
 
 // custom base theme props
 const customBaseThemeProps = {
@@ -53,39 +53,29 @@ const customThemeLightProps = {
   palette: {
     mode: "light",
     primary: {
-      main: "#a5dc6f", //#74ca1f
+      main: "rgba(116, 202, 31, 0.8)",
     },
     secondary: {
-      main: "#c4e3b1ff", // #8bed4e
+      main: "rgba(131, 255, 54, 0.8)",
     },
     tertiary: {
-      main: "#6a9052", // #499f13
+      main: "rgba(73, 159, 19, 0.543)",
     },
     background: {
-      default: "rgb(248, 252, 255)",
-      paper: "#e4e4e7",
+      default: "#ecf7ff",
+      paper: "#d9daff",
     },
     text: {
       primary: "rgba(0, 0, 0, 0.87)",
       secondary: "rgba(0, 0, 0, 0.77)",
     },
-    gun: {  
-      main: '#939393',
-      light: '#e9e9e9',
-      dark: '#3f3f3f',
-      contrastText: '#fefdf1',
-    },
-    marine: {
-      main: '#262a9a',
-      light: '#1f227d',
-      dark: '#111342',
-      contrastText: '#fefce6',
-    },
+
     ochre: {
-      main: '#fbf4b4', //#e3d026',
-      light: '#fff9c5',
-      dark: '#e3d026',
-      contrastText: '#242105',
+      main: '#E3D026',
+      light: '#f4eca3',
+      dark: '#A29415',
+      // contrastText: '#242105',
+      contrastText: 'red',
     },
     violet: {
       main: alpha(violet, 0.7),
@@ -147,16 +137,17 @@ const customThemeDarkProps = {
       main: "#90caf9",
     },
     secondary: {
-      main: "rgb(29, 111, 71)",
+      main: "rgba(58, 208, 228, 0.8)",
     },
     background: {
       default: "#303030",
       paper: "#424242",
     },
     text: {
-      primary: "rgb(255, 255, 255)",
-      secondary: "rgb(230, 230, 230)",
+      primary: "rgba(255, 255, 255, 1)",
+      secondary: "rgba(255, 255, 255, 0.7)",
     },
+
     ochre: {
       main: '#6e6512',
       light: '#8f8317',

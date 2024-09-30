@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-//import { makeStyles } from "@material-ui/styles";
+import { useTheme } from "@mui/material/styles";
+import { DateTime } from "luxon";
 import DialogConfirm from "./DialogConfirm";
 import DialogEmailCreation from "./DialogEmailCreation";
-import { FormTitle } from "./FormElements";
-import moment from "moment";
-import "moment/locale/it"; // TODO: import all needed locales... (!!!)
-//import { getUsers, removeUser, sendEmailToUsers } from "../libs/Fetch";
-import { apiCall }  from "../libs/Network";
+import { apiCall } from "../libs/Network";
+import { isString, isArray, isObject } from "../libs/Misc";
 import { useSnackbar } from "../providers/SnackbarManager";
+import { i18n } from "../i18n";
 
 import {
   Box,
   Button,
   Checkbox,
   IconButton,
-  InputAdornment,
   Paper,
   Table,
   TableBody,
@@ -25,93 +23,30 @@ import {
   TableHead,
   TableRow,
   TablePagination,
-  TextField,
   Typography,
 } from "@mui/material";
+import TextFieldSearch from "./custom/TextFieldSearch";
+import SectionHeader from "./custom/SectionHeader";
 import { Search, Edit, Delete } from "@mui/icons-material";
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     "& .MuiTableCell-head": {
-//       color: theme.palette.header.color,
-//       backgroundColor: theme.palette.header.backgroundColor,
-//     },
-//   },
-//   outlinedInput: {
-//     "& $notchedOutline": {
-//       borderColor: "lightgray",
-//     },
-//     "&$focused $notchedOutline": {
-//       borderColor: "blue",
-//     },
-//   },
-//   notchedOutline: {},
-//   focused: {},
-//   table: {
-//     fontSize: "0.9em",
-//     minWidth: 650,
-//   },
-//   tableContainer: {
-//     maxHeight: 440,
-//   },
-//   tableHeader: {
-//     backgroundColor: theme.palette.background.default,
-//     position: "sticky",
-//     top: 0,
-//     zIndex: 1,
-//   },
-//   tableCell: {
-//     padding: "2px 16px",
-//   },
-//   actionsCell: {
-//     whiteSpace: "nowrap",
-//   },
-//   headerCheckbox: {
-//     paddingLeft: "20px",
-//   },
-//   title: {
-//     padding: 8,
-//     paddingRight: 24,
-//     borderRadius: 4,
-//     textAlign: "right",
-//     color: theme.palette.title.color,
-//     backgroundColor: theme.palette.title.backgroundColor,
-//   },
-//   filter: {
-//     padding: 2,
-//     textAlign: "right",
-//   },
-//   sortButton: {
-//     marginLeft: 12,
-//     // backgroundColor: "green",
-//   },
-//   sortButtonActive: {
-//     // fontSize: "1.5em",
-//     opacity: "80%"
-//   },
-//   sortButtonInactive: {
-//     opacity: "40%",
-//   },
-//   bulkButton: {
-//     marginRight: 8,
-//   },
-//   removeButton: {
-//     //color: theme.palette.danger.color,
-//     backgroundColor: theme.palette.danger.backgroundColor,
-//   },
-// }));
-
-
 const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
-  //const classes = {}; //useStyles();
+  const theme = useTheme();
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("");
+  
+  const rowsPerPageOptions = [5, 10, 25, 50, 100];
 
-  useEffect(() => {
-    (async () => {
+  // to use localized dates
+  const localizedDate = DateTime.fromJSDate(new Date())
+    .setLocale(i18n.language)
+    .toLocaleString(DateTime.DATETIME_FULL)
+  ;
+  
+  useEffect(() => { // get all users on mount
+    (async() => {
       const result = await apiCall("get", "/user/getAllUsersWithFullInfo");
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
@@ -120,29 +55,38 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
       }
     })();
   }, []); // empty dependency array: this effect runs once when the component mounts
-  
+
+  const removeUser = (params) => {
+    return apiCall("post", "/user/removeUser", params);
+  }
+
+  const sendEmailToUsers = (params) => {
+    return apiCall("post", "/user/sendEmailToUsers", params);
+  }
+
   const onEdit = (userId) => {
     navigate(`/edit-user/${userId}`);
   };
   
-  const onRemove = async (userId) => {
+  const onRemove = async(userId) => {
     removeUser({ filter: [userId] }).then((data) => {
-      if (!data.ok) {
+      if (data.err) {
         console.warn("removeUser error:", data);
         showSnackbar(data.message ?? "Error removing user", "error");
         return;
       }
       // update the state to filter the removed user from the list
       setUsers(previousUsers => previousUsers.filter(user => user._id !== userId));
+      setSelected([]);
     }).catch(error => {
       console.error(`Error deleting user with id ${userId}: ${error.message}`);
       showSnackbar(t("Error deleting user with id {{id}}: {{error}", {id: userId, error: error.message}), "error");
     });
   };
 
-  const onBulkEmail = async (userIds, params) => {
+  const onBulkEmail = async(userIds, params) => {
     sendEmailToUsers({ filter: userIds, ...params }).then((data) => {
-      if (!data.ok) {
+      if (data.err) {
         console.warn("sendEmailToUsers error:", data);
         if (data.message) {
           showSnackbar(data.message ?? "Error sending email to users", "error");
@@ -156,22 +100,23 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
     });
   };
 
-  const onBulkRemove = async (userIds, params) => {
+  const onBulkRemove = async(userIds, params) => {
     removeUser({ filter: userIds, ...params }).then((data) => {
-        if (!data.ok) {
+      if (data.err) {
         console.warn("bulkRemove user error:", data);
         showSnackbar(data.message ?? "Error bulk removing user", "error");
         return;
       }
-      // update the state to filter the removed user from the list
       setUsers(previousUsers => previousUsers.filter(user => !userIds.includes(user._id)));
+      setSelected([]);
+      showSnackbar(t("Deleted {{count}} users", { count: userIds.length }), "success");
     }).catch(error => {
       console.error(`Error bulk deleting ${userIds.length} users with ids ${userIds}: ${error.message}`);
       showSnackbar(t("Error bulk deleting {{count}} users with ids: {{error}}", {count: userIds.length, error: error.message}), "error");
     });
   };
 
-  moment.locale("it"); // TODO: use current language...
+//  moment.locale("it"); // TODO: use current language...
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -272,10 +217,22 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
   
     if (sortColumn !== null) {
       sortedUsers.sort((a, b) => {
-        let one = a[sortColumn]?.toLowerCase();
-        let two = b[sortColumn]?.toLowerCase();
-        if (one < two) return sortDirection === "asc" ? -1 : 1;
-        if (one > two) return sortDirection === "asc" ? 1 : -1;
+        if (isString(a[sortColumn])) {
+          let one = a[sortColumn]?.toLowerCase();
+          let two = b[sortColumn]?.toLowerCase();
+          if (one < two) return sortDirection === "asc" ? -1 : 1;
+          if (one > two) return sortDirection === "asc" ? 1 : -1;
+        }
+        if (isArray(a[sortColumn])) {
+          let one = a[sortColumn][0].priority;
+          let two = b[sortColumn][0].priority;
+          if (one < two) return sortDirection === "asc" ? -1 : 1;
+          if (one > two) return sortDirection === "asc" ? 1 : -1;
+        }
+        if (isObject(a[sortColumn])) {
+          // to be implemented if we will have object fields
+          console.warn("unforeseen sort of \"object\" field type");
+        }
         return 0;
       });
     }
@@ -284,7 +241,7 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
 
   const sortButton = (props) => {
     return (
-      <Typography component="span" /*className={[classes.sortButton, (sortColumn === props.column) ? classes.sortButtonActive : classes.sortButtonInactive]}*/>
+      <Typography component="span">
         { (sortColumn === props.column) ? (sortDirection === "asc" ? "▼" : "▲") : "▢" }
       </Typography>
     );
@@ -292,70 +249,76 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
 
   return (
     <>
-      {/* <FormTitle>
+      <SectionHeader>
         {t("Users handling")}
-      </FormTitle> */}
-      <Box>
-        <Typography variant="h6">
-        {t("Users handling")}
-        </Typography>
-      </Box>
+      </SectionHeader>
 
-      <Box sx={{ marginBottom: 8}} /*className={classes.filter}*/>
-        <TextField
-          label={t("Filter users")}
+      <Box sx={{
+        my: theme.spacing(2),
+        display: "flex",
+        justifyContent: "flex-end",
+        width: "100%",
+      }}>
+        <TextFieldSearch
+          label={t("Search")}
           value={filter}
           onChange={handleFilterChange}
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
+          startIcon={<Search />}
+          fullWidth={false}
+          sx={{
+            color: theme.palette.text.primary
           }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="end">
-                <Search />
-              </InputAdornment>
-            ),
-            //classes: { root: classes.outlinedInput, notchedOutline: classes.notchedOutline },
-          }}
-          sx={{ marginLeft: "auto", marginRight: 2 }}
         />
       </Box>
-      <Paper>
-        <TableContainer /*className={[classes.root, classes.tableContainer]}*/>
-          <Table stickyHeader /*className={classes.table}*/>
+
+      <Paper sx={{
+        overflow: "hidden",
+        backgroundColor: theme.palette.background.default,
+        color: theme.palette.text.secondary,
+      }}>
+        <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 26rem))" }}>
+          {/* 12rem is the minimum vertical space for the table,
+              26rem is the extimated vertical space for elements above and below the table */}
+          <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox" /*className={classes.tableHeader}*/>
+              <TableRow 
+                sx={(theme) => ({
+                  "& th": {
+                    backgroundColor: theme.palette.secondary.main,
+                    color: theme.palette.common.black,
+                    py: 0,
+                    whiteSpace: "nowrap",
+                  }
+                })}>
+                <TableCell padding="checkbox">
                   <Checkbox
                     indeterminate={selected.length > 0 && selected.length < users.length}
                     checked={users.length > 0 && selected.length === users.length}
                     onChange={handleSelectAllClick}
-                    //className={classes.headerCheckbox}
                   />
                 </TableCell>
-                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/ onClick={handleSort("firstName")}>
+                <TableCell onClick={handleSort("firstName")}>
                   {t("First name")} {sortButton({ column: "firstName" })}
                 </TableCell>
-                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/ onClick={handleSort("lastName")}>
+                <TableCell onClick={handleSort("lastName")}>
                   {t("Last name")} {sortButton({ column: "lastName" })}
                 </TableCell>
-                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/ onClick={handleSort("email")}>
+                <TableCell onClick={handleSort("email")}>
                   {t("Email")} {sortButton({ column: "email" })}
                 </TableCell>
-                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/>
+                <TableCell>
                   {t("Phone")}
                 </TableCell>
-                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/>
-                  {t("Roles")}
+                <TableCell onClick={handleSort("roles")}>
+                  {t("Roles")} {sortButton({ column: "roles" })}
                 </TableCell>
-                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/>
+                <TableCell>
                   {t("Fiscal Code")}
                 </TableCell>
-                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/ onClick={handleSort("businessName")}>
+                <TableCell onClick={handleSort("businessName")}>
                   {t("Business name")} {sortButton({ column: "businessName" })}
                 </TableCell>
-                <TableCell /*className={`${classes.tableHeader} ${classes.tableCell}`}*/>
+                <TableCell>
                   {t("Actions")}
                 </TableCell>
               </TableRow>
@@ -375,18 +338,25 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
                       tabIndex={-1}
                       key={user._id}
                       selected={isItemSelected}
+                      sx={(theme) => ({
+                        "& td": {
+                          backgroundColor: theme.palette.ochre.light,
+                          color: theme.palette.common.text,
+                          py: 0,
+                        }
+                      })}
                     >
-                      <TableCell padding="checkbox" /*className={classes.tableCell}*/>
+                      <TableCell padding="checkbox">
                         <Checkbox checked={isItemSelected} />
                       </TableCell>
-                      <TableCell /*className={classes.tableCell}*/>{user.firstName}</TableCell>
-                      <TableCell /*className={classes.tableCell}*/>{user.lastName}</TableCell>
-                      <TableCell /*className={classes.tableCell}*/>{user.email}</TableCell>
-                      <TableCell /*className={classes.tableCell}*/>{user.phone}</TableCell>
-                      <TableCell /*className={classes.tableCell}*/>{user.roles.sort((a, b) => a["priority"] < b["priority"]).map(role => role["name"]).join(", ")}</TableCell>
-                      <TableCell /*className={classes.tableCell}*/>{user.fiscalCode}</TableCell>
-                      <TableCell /*className={classes.tableCell}*/>{user.businessName}</TableCell>
-                      <TableCell /*className={`${classes.tableCell} ${classes.actionsCell}`}*/>
+                      <TableCell>{user.firstName}</TableCell>
+                      <TableCell>{user.lastName}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.phone}</TableCell>
+                      <TableCell>{user.roles.sort((a, b) => a["priority"] < b["priority"]).map(role => role["name"]).join(", ")}</TableCell>
+                      <TableCell>{user.fiscalCode}</TableCell>
+                      <TableCell>{user.businessName}</TableCell>
+                      <TableCell>
                         <IconButton size="small" onClick={() => onEdit(user._id)}>
                           <Edit fontSize="small" />
                         </IconButton>
@@ -401,7 +371,7 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={rowsPerPageOptions}
           component="div"
           count={users.length}
           rowsPerPage={rowsPerPage}
@@ -409,22 +379,22 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        <Box sx={{ padding: 8 }}>
+        <Box sx={{ padding: theme.spacing(2) }}>
           <Button
             variant="contained"
-            color="secondary"
-            /*className={[classes.bulkButton]}*/
+            color="primary"
             onClick={() => handleEmailCreationOpen("emailBulk")}
             disabled={selected.length === 0}
+            sx={{mr: theme.spacing(2)}}
           >
             {t("Email selected users")}
           </Button>
           <Button
             variant="contained"
             color="primary"
-            /*className={[classes.bulkButton, classes.removeButton]}*/
             onClick={() => handleConfirmOpen("removeBulk")}
             disabled={selected.length === 0}
+            sx={{mr: theme.spacing(2)}}
           >
             {t("Remove selected users")}
           </Button>
@@ -445,11 +415,10 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
         open={emailCreationOpen}
         onClose={handleEmailCreationClose}
         onConfirm={handleEmailCreation}
-        title={t("Create email")}
-        // TODO: handle singular/plural
-        //message={t("Are you sure you want to send this email to all the {{count}} selected users?", { count: selected.length })}
-        subjectLabel={t("Subject")}
-        bodyLabel={t("Body")}
+        //title={t("Create and send email")}
+        message={t("Are you sure you want to send this email to all the {{count}} selected users?", { count: selected.length })}
+        //subjectLabel={t("Subject")}
+        //bodyLabel={t("Body")}
         confirmText={t("Send email to {{count}} selected users", { count: selected.length })}
         cancelText={t("Cancel")}
       />

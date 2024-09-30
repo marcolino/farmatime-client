@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+//import moment from "moment";
 import LanguageDetector from "i18next-browser-languagedetector";
 import config from "./config";
 
@@ -32,6 +33,9 @@ i18n
       order: [ "navigator" ], // only detect from browser
       checkWhitelist: true, // only detect languages that are in the whitelist
     },
+  }).then(() => {
+    const currentLanguage = i18n.language || i18n.options.fallbackLng[0];
+    //moment.locale(currentLanguage); // set the initial locale for Moment.js
   })
 ;
 

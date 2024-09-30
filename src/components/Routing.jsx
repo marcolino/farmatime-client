@@ -19,7 +19,6 @@ const Notifications = lazy(() => import("./Notifications"));
 const EditUser = lazy(() => import("./EditUser"));
 const Legal = lazy(() => import("./legal/legal"));
 const Contacts = lazy(() => import("./Contacts"));
-const AdminPanel = lazy(() => import("./AdminPanel"));
 const HandleUsers = lazy(() => import("./HandleUsers"));
 const HandleProducts = lazy(() => import("./HandleProducts"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
@@ -57,7 +56,6 @@ function Routing() {
         <Route path="/terms-of-use" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"termsOfUse"} /> } />
         <Route path="/privacy-policy" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"privacyPolicy"} />} />
         <Route path="/contacts" element={<Contacts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-        <Route path="/admin-panel" element={<AdminPanel />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
         <Route path="/handle-users" element={<HandleUsers />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
         <Route path="/handle-products" element={<WorkInProgress />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
         <Route path="/page-not-found" element={<PageNotFound />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}

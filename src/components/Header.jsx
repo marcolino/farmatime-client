@@ -1,24 +1,45 @@
-// components/Header.js
 import React, { useState, useContext } from "react";
-import { AppBar, Toolbar, Box, Typography, Button, IconButton, Link, Drawer, List, ListItem, ListItemText, Grid } from "@mui/material";
+import { AppBar, Toolbar, Box, Typography, Button, IconButton, Link, Drawer, List, ListItem, ListItemText, useMediaQuery } from "@mui/material";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import MenuIcon from "@mui/icons-material/Menu"; // ?? remove-me, use ListItemIcon ?
+import { Menu, MenuItem, ListItemIcon, Tooltip} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SecurityIcon from "@mui/icons-material/Security";
-import IconGravatar from "./IconGravatar";
-import ImageCustom from "./ImageCustom";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { AuthContext } from "../providers/AuthProvider";
-import { isAdmin } from "../libs/Validation";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import IconGravatar from "./IconGravatar";
+import ImageCustom from "./ImageCustom";
+import { AuthContext } from "../providers/AuthProvider";
+import { isAdmin } from "../libs/Validation";
 import logoMain from "../assets/icons/LogoMain.png";
-import config from "../config";
+//import config from "../config";
+
+
+
+// import React, { useState, useContext } from "react";
+// import { AppBar, Toolbar, Box, Typography, Button, IconButton, Link, Drawer, List, ListItem, ListItemText, Grid } from "@mui/material";
+// import { useTranslation } from "react-i18next";
+// import Menu from "@mui/material/Menu";
+// import MenuItem from "@mui/material/MenuItem";
+// import ListItemIcon from "@mui/material/ListItemIcon";
+// import MenuIcon from "@mui/icons-material/Menu"; // ?? remove-me, use ListItemIcon ?
+// import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+// import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+// import IconGravatar from "./IconGravatar";
+// import ImageCustom from "./ImageCustom";
+// import { Link as RouterLink, useNavigate } from "react-router-dom";
+// import useMediaQuery from "@mui/material/useMediaQuery";
+// import { AuthContext } from "../providers/AuthProvider";
+// import { isAdmin } from "../libs/Validation";
+// import Brightness4Icon from "@mui/icons-material/Brightness4";
+// import Brightness7Icon from "@mui/icons-material/Brightness7";
+// import logoMain from "../assets/icons/LogoMain.png";
+// import config from "../config";
 
 
 const Header = ({ theme, toggleTheme }) => {
@@ -31,9 +52,14 @@ const Header = ({ theme, toggleTheme }) => {
   const userItems = [
     ...(isLoggedIn && isAdmin(auth.user) ?
       [{
-        label: t("Admin panel"),
-        icon: <SecurityIcon />,
-        href: "/admin-panel",
+        label: t("Handle users"),
+        icon: <ManageAccountsIcon />,
+        href: "/handle-users",
+      },
+      {
+        label: t("Handle products"),
+        icon: <ShoppingCartIcon />,
+        href: "/handle-products",
       }]
     : []),
     {
@@ -51,7 +77,7 @@ const Header = ({ theme, toggleTheme }) => {
         {
           label: `${t("Profile")} (${auth.user?.roles[0]?.name})`,
           icon: <AccountCircleIcon />,
-          href: "/profile",
+          href: `/edit-user/${auth.user?.id}`,
         },
         {
           label: t("Sign out"),
@@ -111,7 +137,10 @@ const Header = ({ theme, toggleTheme }) => {
   const [isDarkMode, setIsDarkMode] = useState(false); // TODO: from user's prop...
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: theme.palette.ochre.light }}>
+    <AppBar
+      position="sticky"
+      elevation={1}
+      sx={{ backgroundColor: theme.palette.ochre.light }}>
       <Toolbar>
         <Box
           component={Link}
@@ -164,25 +193,27 @@ const Header = ({ theme, toggleTheme }) => {
         {/* user menu */}
         <>
           {isLoggedIn ?
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleUserMenuOpen}
-              color="inherit"
-            >
-              {isLoggedIn ?
-                auth.user.profileImage ?
-                  <ImageCustom src={auth.user.profileImage} alt="user's icon" width={30} style={{ borderRadius: "50%" }} />
+            <Tooltip title={`${auth?.user?.email} (${auth?.user?.roles[0]?.name})`}>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleUserMenuOpen}
+                color="inherit"
+              >
+                {isLoggedIn ?
+                  auth.user.profileImage ?
+                    <ImageCustom src={auth.user.profileImage} alt="user's icon" width={30} style={{ borderRadius: "50%" }} />
+                  :
+                  <IconGravatar
+                    email={auth.user.email}
+                    size={30}
+                  />
                 :
-                <IconGravatar
-                  email={auth.user.email}
-                  size={30}
-                />
-              :
-                <AccountCircleIcon />
-              }
-            </IconButton>
+                  <AccountCircleIcon />
+                }
+              </IconButton>
+            </Tooltip>
           :
             (auth.user === false) && // if auth.user is false, we show the "Join" button;
                                       // otherwise (it's null), we don't know yet, so do not show anything...

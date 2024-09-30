@@ -1,36 +1,36 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useTheme } from "@mui/material/styles";
+import React, { useState } from "react";
 import Gravatar from "react-gravatar";
 
-
-function IconGravatar({ email, size = 32, style, className }, ...props) {
-  // const styles = theme => ({
-  //   customAvatarIcon: {
-  //   },
-  // });
-  // const useStyles = makeStyles((theme) => (styles(theme)));
-  // const classes = useStyles();
+function IconGravatar({
+  email,
+  size = 32,
+  rating = "pg",
+  ...props
+}) {
+  const [imageError, setImageError] = useState(false);
+  const defaultImage = "./avatar.png"; // should be in "public" folder
 
   return (
-    <Gravatar
-      email={email}
-      size={size}
-      style={style}
-      //className={className ? className : classes.customAvatarIcon}
-    />
-  );    
-};
-
-IconGravatar.propTypes = {
-  email: PropTypes.string.isRequired,
-  size: PropTypes.number,
-  style: PropTypes.object,
-  className: PropTypes.string,
-};
-
-// IconGravatar.defaultProps = {
-//   size: 32,
-// };
+    <>
+      {!imageError ? (
+        <Gravatar
+          email={email}
+          size={size}
+          rating={rating}
+          default={defaultImage}
+          onError={() => setImageError(true)} // set error flag if Gravatar fails
+          {...props}
+        />
+      ) : (
+        <img
+          src={defaultImage}
+          alt="default avatar"
+          width={size}
+          height={size}
+        />
+      )}
+    </>
+  );
+}
 
 export default React.memo(IconGravatar);

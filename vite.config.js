@@ -29,21 +29,19 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       workbox: {
-        // clientsClaim: true,
-        // skipWaiting: true,
         // disable workbox during development
         clientsClaim: config.mode.production,
         skipWaiting: config.mode.production,
-        globPatterns: [
-          "../index.html",
-          "**/*.{js,jsx,css,html}",
-          "**/assets/**/*.{png,svg,wav,mp3}"
-        ],
-        // globPatterns: process.env.NODE_ENV === "production" ? [
+        // globPatterns: [
         //   "../index.html",
         //   "**/*.{js,jsx,css,html}",
         //   "**/assets/**/*.{png,svg,wav,mp3}"
-        // ] : [], // empty patterns in development
+        // ],
+        globPatterns: config.mode.production ? [
+          "../index.html",
+          "**/*.{js,jsx,css,html}",
+          "**/assets/**/*.{png,svg,wav,mp3}"
+        ] : [], // empty patterns in development
         globDirectory: buildDir,
       },
       includeAssets: publicAssets,
