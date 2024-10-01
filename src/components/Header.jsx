@@ -60,7 +60,8 @@ const Header = ({ theme, toggleTheme }) => {
         {
           label: t("Sign out"),
           icon: <ExitToAppIcon />,
-          href: "/signout",
+          href: false,
+          onClick: () => handleSignOut(),
           shortcutKey: "", //"Ctrl-Q"
         },
       ] : [
@@ -118,7 +119,7 @@ const Header = ({ theme, toggleTheme }) => {
     navigate("/", { replace: true });
   };
 
-  const [isDarkMode, setIsDarkMode] = useState(false); // TODO: from user's prop...
+  // const [isDarkMode, setIsDarkMode] = useState(false); // TODO: from user's prop...
 
   return (
     <AppBar
@@ -230,7 +231,7 @@ const Header = ({ theme, toggleTheme }) => {
             {/* {getUserMenuItems()} */}
             {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
               // <MenuItem key={label} component={RouterLink} to={href} dense>
-              <MenuItem key={label} onClick={handleSignOut} dense>
+              <MenuItem key={label} component={RouterLink} to={href} dense>
                 <ListItemIcon>
                   {icon}
                 </ListItemIcon>

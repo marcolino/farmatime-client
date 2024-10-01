@@ -10,20 +10,8 @@ import {
   Typography,
 } from "@mui/material";
 
-// const useStyles = makeStyles((theme) => ({
-//   title: {
-//     padding: 8,
-//     paddingRight: 24,
-//     borderRadius: 4,
-//     textAlign: "right",
-//     color: theme.palette.title.color,
-//     backgroundColor: theme.palette.title.backgroundColor,
-//   },
-// }));
-
 
 const AdminPanel = () => {
-  const classes = {}; //useStyles();
   const navigate = useNavigate();
   const { t } = useTranslation();
 

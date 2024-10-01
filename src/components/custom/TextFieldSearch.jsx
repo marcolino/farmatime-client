@@ -27,7 +27,7 @@ const CustomTextFieldSearch = ({
   return (
     <TextField
       onChange={handleSearchChange}
-      fullWidth={props.fullWidth} // TODO: from props
+      fullWidth={props.fullWidth}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

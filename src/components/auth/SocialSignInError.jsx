@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { useSnackbar }  from "../../providers/SnackbarManager";
-import config from "../../config";
+//import config from "../../config";
 
 
 function SocialSignInError() {
@@ -15,10 +15,9 @@ function SocialSignInError() {
   const error = JSON.parse(stringifiedData);
 
   // now error object contains all the data, with correct types
-  console.log("+++++ SocialSignInError error:", error);
+  console.error("SocialSignInError error:", error);
   
   useEffect(() => {
-    //toast.error(error.message); // TODO: check me!
     showSnackbar(error.message, "error");
     setAuth({ user: false }); // reset auth
     navigate("/", { replace: true }); // redirect to home route

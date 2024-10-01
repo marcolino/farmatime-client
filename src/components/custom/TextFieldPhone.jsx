@@ -19,12 +19,6 @@ const CustomTextFieldPhone = ({
   props.margin = props.margin ?? margin;
   props.onChange = props.onChange ?? (() => { }); // without an onChange prop this component is unuseful
 
-  // const [value, setValue] = useState("");
-
-  // const handleChange = (newValue) => {
-  //   setValue(newValue);
-  // }
-
   return <MuiTelInput
     value={props.value}
     onChange={props.onChange}
@@ -39,13 +33,6 @@ const CustomTextFieldPhone = ({
     langOfCountryName={i18n.language}
     {...props}
   />
-  return (
-    <TextField
-      onChange={handleSearchChange}
-      fullWidth={props.fullWidth} // TODO: from props
-      {...props}
-    />
-  );
 };
 
 export default CustomTextFieldPhone;

@@ -53,7 +53,7 @@ const StyledSelect = ({
               {endIcon}
             </InputAdornment>
           )}
-        /> : /* TODO: support all variants */ null
+        /> : /* TODO: support all component variants */ null
       }
       {...props}
     >

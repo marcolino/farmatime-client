@@ -117,4 +117,4 @@
 - rivededre tutti i componenti Image / Icon, e se possibile unificarli
 - salvare il tema con l'utente
 - chiedere ad IA di completare le labels aria per tutti i componenti MUI
-- rivedere libs/Firebase, o capire se c'è un metodo migliore (con vite/react16+) per gestire le notifiche in app
+- rivedere libs/Firebase, o capire se c'è un metodo migliore (con vite/react16+) per gestire le notifiche in app (vedere /src/PUSH-NOTIFICATIONS/*)

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { Box, Container, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import SnackbarProviderWrapper from "./providers/SnackbarManager";
@@ -8,22 +9,21 @@ import { OnlineStatusProvider } from "./providers/OnlineStatusProvider";
 import { LoaderProvider} from "./providers/LoaderProvider";
 import SessionManager from "./providers/SessionManager";
 import Routing from "./components/Routing";
-import Loader from "./components/Loader";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CookieBanner from "./components/CookieBanner";
-import Banner from "./components/Banner";
-import BackgroundVideo from "./components/BackgroundVideo";
+//import Banner from "./components/Banner";
+//import BackgroundVideo from "./components/BackgroundVideo";
 import ClientInfoDisplay from "./components/ClientInfoDisplay";
+import Loader from "./components/Loader";
 //import { MomentProvider } from "./providers/MomentProvider"; 
 import { useAxiosLoader } from "./hooks/useAxiosLoader";
-//import useInactivityTimer from "./hooks/useInactivityTimer";
 import { themeLight, themeDark } from "./themes/default";
-//import { i18n }  from "./i18n";
 import config from "./config";
 
+
 const App = () => {
-  //console.log("App");
+  //const navigate = useNavigate();
   const [loading] = useAxiosLoader();
   const [theme, setTheme] = useState(config.ui.themeMode === "light" ? themeLight : themeDark);
   const toggleTheme = () => {
@@ -31,24 +31,20 @@ const App = () => {
   };
 
   const handleLogout = () => {
-    console.log("USER LOGGED OUT DUE TO INACTIVITY");
-    window.location.href = "/"; // TODO...
-    // setShowPrompt(true);
+    console.log("user logged out due to inactivity");
+    window.location.href = "/";
+    //navigate("/");
   };
-  // const [showPrompt, setShowPrompt] = useState(false);
-  
-  // const handleTimeout = () => {
-  //   setShowPrompt(true);
-  // };
 
-  // useInactivityTimer(10000 /*10 * 60 * 1000*/, handleTimeout); // 10 minutes (TODO: to config)
-  // const handleExtendSession = () => {
-  //   setShowPrompt(false);
-  // };
+  // return (
+  //   <div>
+  //     {/* Temporarily remove other components */}
+  //     <Loader loading={loading} />
+  //     aaa
+  //   </div>
+  // );
 
-  // initialize Moment.js locale based on the detected language
-  //setMomentLocale(i18n.language || i18n.options.fallbackLng[0]);
-
+  console.log("App - loading:", loading);
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
@@ -56,10 +52,10 @@ const App = () => {
           {/* <MomentProvider> */}
             <CssBaseline />
             <LoaderProvider>
-              {/* <Loader loading={loading} /> */}
-            <SnackbarProviderWrapper>
-              {/* <BackgroundVideo /> */}
-              <Router>
+              <Loader loading={loading} />
+              <SnackbarProviderWrapper>
+                {/* <BackgroundVideo /> */}
+                <Router>
                   <SessionManager onLogout={handleLogout} />
                   {/* {config.mode.development && <Banner theme={theme} text="development" />} */}
                   {false && config.mode.development && <ClientInfoDisplay theme={theme} />}

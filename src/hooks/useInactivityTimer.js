@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import config from "../config";
 
 const useInactivityTimer = (isLoggedIn, timeout, onTimeout) => {
   const [lastActivity, setLastActivity] = useState(null);
@@ -22,7 +23,7 @@ const useInactivityTimer = (isLoggedIn, timeout, onTimeout) => {
       if (lastActivity && Date.now() - lastActivity > timeout) {
         onTimeout();
       }
-    }, 60 * 1000); // TODO: to config (lastActivityCheckTimeoutSeconds)
+    }, config.auth.clientLastActivityCheckTimeoutSeconds * 1000);
 
     return () => {
       events.forEach(event => window.removeEventListener(event, handleActivity));

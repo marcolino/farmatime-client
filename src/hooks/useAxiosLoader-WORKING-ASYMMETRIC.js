@@ -7,6 +7,7 @@ export const useAxiosLoader = (delayThreshold = config.spinner.delay, setDisable
   const [loading, setLoading] = useState(false);
   const timerRef = useRef(null);
 
+  console.log("useAxiosLoader - delayThreshold:", delayThreshold);
   const clearTimer = useCallback(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -14,53 +15,45 @@ export const useAxiosLoader = (delayThreshold = config.spinner.delay, setDisable
     }
   }, []);
 
-  const updateLoadingState = useCallback((newCounter) => {
-    // Set loading state based on the counter
-    if (newCounter > 0) {
-      // Set loading only if counter goes from 0 to 1
-      if (counter === 0) {
-        setLoading(true);
-      }
-    } else {
-      // Set loading to false when counter is 0
-      setLoading(false);
-    }
-  }, [counter]);
-
   const inc = useCallback(() => {
+    console.log("useAxiosLoader - inc");
     setCounter(prevCounter => {
       const newCounter = prevCounter + 1;
-      clearTimer();
-
-      timerRef.current = setTimeout(() => {
-        // This timeout is just to introduce a delay if needed
-      }, delayThreshold);
-
-      updateLoadingState(newCounter); // Update loading state based on the new counter
+      console.log("useAxiosLoader - inc - newCounter:", newCounter);
+      setLoading(true);
       return newCounter;
     });
-  }, [clearTimer, delayThreshold, updateLoadingState]);
+
+    clearTimer();
+
+    timerRef.current = setTimeout(() => {
+      setLoading(true);
+    }, delayThreshold);
+  }, [delayThreshold, clearTimer]);
 
   const dec = useCallback(() => {
+    console.log("useAxiosLoader - dec");
     setCounter(prevCounter => {
-      const newCounter = Math.max(0, prevCounter - 1); // Ensure it doesn't go below 0
-      updateLoadingState(newCounter); // Update loading state based on the new counter
+      const newCounter = prevCounter - 1;
+      console.log("useAxiosLoader - dec - newCounter:", newCounter);
+
+      if (newCounter === 0) {
+        clearTimer();
+        setLoading(false);
+      }
+
       return newCounter;
     });
-  }, [updateLoadingState]);
+  }, [clearTimer]);
 
   const interceptors = useMemo(() => ({
-    request: config => {
-      inc();
-      return config;
-    },
-    response: response => {
-      dec();
-      return response;
-    },
+    request: config => (inc(), config),
+    response: response => (dec(), response),
     error: error => {
       dec();
+      // check if it's a redirection scenario
       if (error.response?.status === 401) {
+        // disable the loader before starting the redirect timeout
         setDisableLoader(true);
       }
       return Promise.reject(error);
@@ -76,6 +69,6 @@ export const useAxiosLoader = (delayThreshold = config.spinner.delay, setDisable
       clearTimer();
     };
   }, [interceptors, clearTimer]);
-
+  console.log("useAxiosLoader - loading:", loading);
   return [loading];
 };

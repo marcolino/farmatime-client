@@ -70,7 +70,6 @@ const clearLocalTokens = () => {
 // create axios instance
 const createInstance = () => {
   return axios.create({
-    //baseURL: "/api", // used when running on the server, in client/build folder... (TODO: use value in config)
     baseURL: "http://localhost:5000/api", // used when running on the client, while developing (TODO: use value in config)
     timeout: 30 * 1000, // (TODO: use value in config)
     headers: {
