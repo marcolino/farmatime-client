@@ -34,16 +34,16 @@ const customBaseThemeProps = {
 const customColorsThemeProps = {
   // palette: {
   //   ochre: {
-  //     main: '#E3D026',
-  //     light: '#f4eca3',
-  //     dark: '#A29415',
-  //     contrastText: '#242105',
+  //     main: "#E3D026",
+  //     light: "#f4eca3",
+  //     dark: "#A29415",
+  //     contrastText: "#242105",
   //   },
   //   violet: {
   //     main: alpha(violet, 0.7),
   //     light: alpha(violet, 0.5),
   //     dark: alpha(violet, 0.9),
-  //     contrastText: getContrastRatio(alpha(violet, 0.7), '#fff') > 4.5 ? '#fff' : '#111',
+  //     contrastText: getContrastRatio(alpha(violet, 0.7), "#fff") > 4.5 ? "#fff" : "#111",
   //   },
   // }
 };
@@ -69,29 +69,29 @@ const customThemeLightProps = {
       primary: "rgba(0, 0, 0, 0.87)",
       secondary: "rgba(0, 0, 0, 0.77)",
     },
-    gun: {  
-      main: '#939393',
-      light: '#e9e9e9',
-      dark: '#3f3f3f',
-      contrastText: '#fefdf1',
+    nature: {  
+      main: "#7fb188",
+      light: "#a5e7b1",
+      dark: "#4e8558",
+      contrastText: "#fefdf1",
     },
     marine: {
-      main: '#262a9a',
-      light: '#1f227d',
-      dark: '#111342',
-      contrastText: '#fefce6',
+      main: "#262a9a",
+      light: "#1f227d",
+      dark: "#111342",
+      contrastText: "#fefce6",
     },
     ochre: {
-      main: '#fbf4b4', //#e3d026',
-      light: '#fff9c5',
-      dark: '#e3d026',
-      contrastText: '#242105',
+      main: "#fbf4b4", //#e3d026",
+      light: "#fff9c5",
+      dark: "#e3d026",
+      contrastText: "#242105",
     },
     violet: {
       main: alpha(violet, 0.7),
       light: alpha(violet, 0.5),
       dark: alpha(violet, 0.9),
-      contrastText: getContrastRatio(alpha(violet, 0.7), '#fff') > 4.5 ? '#fff' : '#111',
+      contrastText: getContrastRatio(alpha(violet, 0.7), "#fff") > 4.5 ? "#fff" : "#111",
     },
   },
   components: {
@@ -158,16 +158,16 @@ const customThemeDarkProps = {
       secondary: "rgb(230, 230, 230)",
     },
     ochre: {
-      main: '#6e6512',
-      light: '#8f8317',
-      dark: '#5c540e',
-      contrastText: '#ededed',
+      main: "#6e6512",
+      light: "#8f8317",
+      dark: "#5c540e",
+      contrastText: "#ededed",
     },
     violet: {
       main: alpha(violet, 0.7),
       light: alpha(violet, 0.5),
       dark: alpha(violet, 0.9),
-      contrastText: getContrastRatio(alpha(violet, 0.7), '#fff') > 4.5 ? '#fff' : '#111',
+      contrastText: getContrastRatio(alpha(violet, 0.7), "#fff") > 4.5 ? "#fff" : "#111",
     },
   },
   components: {

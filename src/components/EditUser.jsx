@@ -41,8 +41,9 @@ function EditUser() {
   const { t } = useTranslation();
   // const apiKey = process.env.VITE_GEOAPIFY_API_KEY;
 
-  const { userId } = useParams();
+  const { userId, origin } = useParams();
   console.log("userId:", userId);
+  console.log("origin:", origin);
   if (!userId) {
     showSnackbar(t("No user id specified", "error"));
     navigate(-1);
@@ -297,26 +298,16 @@ function EditUser() {
   }
  
   // TODO: do something better, to check for data is present... :-/
-  if (!user) {
+  if (!user || !allRoles || !allPlans) {
     return (
-      <p> loading user... </p>
-    );
-  }
-  if (!allRoles) {
-    return (
-      <p> loading all roles... </p>
-    );
-  }
-  if (!allPlans) {
-    return (
-      <p> loading all plans... </p>
+      <p> loading... </p>
     );
   }
   
   return (
     <>
       <SectionHeader text={t("Users handling")}>
-        {t("Edit user")}
+        {origin === "editUser" ? t("Edit user") :  t("Edit profile")}
       </SectionHeader>
 
       <Container maxWidth="xs">

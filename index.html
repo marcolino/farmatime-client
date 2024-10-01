@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="%VITE_THEME_COLOR%"><!-- theme color for android tool-bar and android chrome address-bar - use base theme color, but in contrast with app header background color -->
     <meta name="description" content="%VITE_DESCRIPTION%">
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" /><!-- TODO: ok? -->
-    <!-- <meta http-equiv="content-security-policy" content="done server side" /> -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=%VITE_FONT_DISPLAY_MODE%">
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -15,36 +13,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- TODO: move video stuff to a separate component/file... -->
-    <style>
-      .videoContainer {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        padding: 0;
-        margin: 0;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        overflow: hidden;
-        opacity: 0; /* disable video... */
-      }
-      .videoPlayer {
-        min-height: 100vw;
-        min-width: 100vw;
-        position: fixed;
-        top: -360px;
-        left: -200px;
-        -o-filter: blur(3px);
-        filter: blur(3px);
-      }
-    </style>
-    <div class="videoContainer">
-      <video class="videoPlayer" autoPlay loop muted>
-        <source src="./src/assets/videos/steam.mp4" type="video/mp4" />
-        <!-- Sorry, your browser does not support HTML5 video -->
-      </video>
-    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -65,7 +65,7 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
   }
 
   const onEdit = (userId) => {
-    navigate(`/edit-user/${userId}`);
+    navigate(`/edit-user/${userId}/editUser`);
   };
   
   const onRemove = async(userId) => {

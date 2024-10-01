@@ -1,5 +1,9 @@
 import React from "react";
 
+// export const capitalize = (string) => {
+//   return string ? string.charAt(0).toUpperCase() + string.slice(1) : "";
+// };
+
 export const isEmptyObject = (obj) => {
   return (
     obj ? // null and undefined check
@@ -23,6 +27,24 @@ export const isObject = (v) => {
   return (typeof v === "object" && !Array.isArray(v));
 }
 
+// // merge objects with precedence to the source one
+// // uses the fields from the source only if not present in the target one
+// export const mergeObjects = (target, source) => {
+//   // iterate over the keys of source
+//   Object.keys(source).forEach(key => {
+//     // check if the current key exists in target
+//     if (!target.hasOwnProperty(key)) {
+//       // if not, add it to target along with its value
+//       target[key] = source[key];
+//     } else if (typeof target[key] === 'object' && typeof source[key] === 'object') {
+//       // if the key exists and both values are objects, recursively merge them
+//       mergeObjects(target[key], source[key]);
+//     }
+//     // if the key exists and the values are not objects, do nothing (precedence to target)
+//   });
+//   return target;
+// }
+
 // deeply merge objects with precedence to the source one
 export const deepMergeObjects = (target, source) => {
   for (let key in source) {
@@ -40,6 +62,29 @@ export const deepMergeObjects = (target, source) => {
   // combine target and updated source
   return Object.assign(target || {}, source);
 }
+
+// export const findValueInObjectsArrayByProp = (array, keyProp, valProp, value) => {
+//   const result = array.find(a => {
+//     return a[keyProp] === value;
+//   });
+//   return ((typeof result === "object") && (result !== null)) ? result[valProp] : undefined;
+// }
+
+// export const isLocalhost = Boolean(
+//   window.location.hostname === "localhost" ||
+//   // [::1] is the IPv6 localhost address.
+//   window.location.hostname === "[::1]" ||
+//   // 127.0.0.1/8 is considered localhost for IPv4.
+//   window.location.hostname.match(
+//     /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+//   )
+// );
+
+// export function currentFunctionName() {
+//   const stack = new Error().stack,
+//         caller = stack.split('\n')[2].trim().replace(/at\s*/, "").replace(/Object\./, "");
+//   return caller;
+// };
 
 export const encodeEmail = (email) => {
   let encodedEmail = "";
@@ -127,3 +172,30 @@ export const encodeEmail = (email) => {
   }
   return React.createElement("span", { dangerouslySetInnerHTML: { __html: encodedEmail } });
 }
+
+// export const getMetaValue = (name) => {
+//   const metaTag = document.querySelector(`meta[name="${name}"]`);
+//   try {
+//     if (metaTag) {
+//       return JSON.parse(metaTag.getAttribute("content"));
+//     } else {
+//       return {};
+//     }
+//   } catch (err) {
+//     console.error(`Bad json while reading content of meta tag with name ${name}`);
+//     return {}
+//   }
+// }
+
+// export const consoleFilter = () => {
+//   console.error = (...args) => {
+//     const originalWarn = console.error;
+//     if (
+//       typeof args[0] === "string" &&
+//       args[0].includes("findDOMNode is deprecated") // TODO: material-ui v4 gives these warnings, we should upgrade to MUI v5...
+//     ) {
+//       return; // skip this specific warning
+//     }
+//     originalWarn(...args); // continue showing other warnings
+//   };
+// }

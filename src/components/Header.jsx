@@ -12,39 +12,17 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import IconGravatar from "./IconGravatar";
 import ImageCustom from "./ImageCustom";
+import { useSnackbar } from "../providers/SnackbarManager";
 import { AuthContext } from "../providers/AuthProvider";
 import { isAdmin } from "../libs/Validation";
 import logoMain from "../assets/icons/LogoMain.png";
 //import config from "../config";
 
 
-
-// import React, { useState, useContext } from "react";
-// import { AppBar, Toolbar, Box, Typography, Button, IconButton, Link, Drawer, List, ListItem, ListItemText, Grid } from "@mui/material";
-// import { useTranslation } from "react-i18next";
-// import Menu from "@mui/material/Menu";
-// import MenuItem from "@mui/material/MenuItem";
-// import ListItemIcon from "@mui/material/ListItemIcon";
-// import MenuIcon from "@mui/icons-material/Menu"; // ?? remove-me, use ListItemIcon ?
-// import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-// import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-// import IconGravatar from "./IconGravatar";
-// import ImageCustom from "./ImageCustom";
-// import { Link as RouterLink, useNavigate } from "react-router-dom";
-// import useMediaQuery from "@mui/material/useMediaQuery";
-// import { AuthContext } from "../providers/AuthProvider";
-// import { isAdmin } from "../libs/Validation";
-// import Brightness4Icon from "@mui/icons-material/Brightness4";
-// import Brightness7Icon from "@mui/icons-material/Brightness7";
-// import logoMain from "../assets/icons/LogoMain.png";
-// import config from "../config";
-
-
 const Header = ({ theme, toggleTheme }) => {
-  const { auth } = useContext(AuthContext);
+  const { auth, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
   
   const isLoggedIn = (auth.user !== false);
@@ -77,7 +55,7 @@ const Header = ({ theme, toggleTheme }) => {
         {
           label: `${t("Profile")} (${auth.user?.roles[0]?.name})`,
           icon: <AccountCircleIcon />,
-          href: `/edit-user/${auth.user?.id}`,
+          href: `/edit-user/${auth.user?.id}/editProfile`,
         },
         {
           label: t("Sign out"),
@@ -132,6 +110,12 @@ const Header = ({ theme, toggleTheme }) => {
   
   const handleUserJoin = (event) => {
     navigate("/signin", { replace: true });
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    showSnackbar(t("sign out successful"), "success");
+    navigate("/", { replace: true });
   };
 
   const [isDarkMode, setIsDarkMode] = useState(false); // TODO: from user's prop...
@@ -245,7 +229,8 @@ const Header = ({ theme, toggleTheme }) => {
           >
             {/* {getUserMenuItems()} */}
             {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
-              <MenuItem key={label} component={RouterLink} to={href} dense>
+              // <MenuItem key={label} component={RouterLink} to={href} dense>
+              <MenuItem key={label} onClick={handleSignOut} dense>
                 <ListItemIcon>
                   {icon}
                 </ListItemIcon>

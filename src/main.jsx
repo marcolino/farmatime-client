@@ -10,10 +10,10 @@ console.log(
   config.mode.production ? "production" :
   config.mode.development ? "development" :
   config.mode.test ? "test" :
-    "unforeseen",
+  "unforeseen",
   "mode"
 );
-  
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <App />

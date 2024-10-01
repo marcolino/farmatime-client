@@ -3,7 +3,7 @@ import { Paper, Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 const HeaderBar = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.gun.light,
+  backgroundColor: theme.palette.nature.light,
   width: "100%",
   position: "relative",
   marginTop: theme.spacing(4),
@@ -17,7 +17,7 @@ const HeaderBar = styled(Box)(({ theme }) => ({
 const HeaderText = styled(Typography)(({ theme }) => ({
   textAlign: "right",
   backgroundColor: "transparent",
-  color: theme.palette.gun.main,
+  color: theme.palette.text,
   textTransform: "uppercase",
   fontWeight: "bold",
   fontSize: "3rem !important",
@@ -50,7 +50,7 @@ export default SectionHeader;
 // import { styled } from "@mui/system";
 
 // const HeaderBar = styled(Box)(({ theme }) => ({
-//   backgroundColor: theme.palette.gun.light,
+//   backgroundColor: theme.palette.nature.light,
 //   width: "100%",
 //   position: "relative",
 //   marginTop: theme.spacing(4),
@@ -61,7 +61,7 @@ export default SectionHeader;
 // const HeaderText = styled(Typography)(({ theme }) => ({
 //   textAlign: "right",
 //   backgroundColor: "transparent",
-//   color: theme.palette.gun.main,
+//   color: theme.palette.nature.main,
 //   paddingTop: theme.spacing(0),
 //   paddingBottom: theme.spacing(1),
 //   paddingRight: theme.spacing(1),

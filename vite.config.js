@@ -32,11 +32,6 @@ export default defineConfig({
         // disable workbox during development
         clientsClaim: config.mode.production,
         skipWaiting: config.mode.production,
-        // globPatterns: [
-        //   "../index.html",
-        //   "**/*.{js,jsx,css,html}",
-        //   "**/assets/**/*.{png,svg,wav,mp3}"
-        // ],
         globPatterns: config.mode.production ? [
           "../index.html",
           "**/*.{js,jsx,css,html}",
@@ -80,7 +75,6 @@ export default defineConfig({
         "/social-signin-success",
         "/social-signin-error",
         "/profile",
-        "/signout",
         "/forgot-password",
         "/products",
         "/notifications",

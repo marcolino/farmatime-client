@@ -71,8 +71,11 @@
 - provare a trovare una api key di yandex (o un altro modo) per provare a far funzionare `scripts/translate-auto` (vedi scripts/translate) - OK
 - verificare OnlineStatusProvider quando si parte offline - OK
 - tentativo di upgrade del ruolo di un utente non admin: Devi avere ruolo 'amministratore' per aggiornare un altro utente => Devi avere ruolo 'amministratore' per aumentare il ruolo di un utente - OK
+- debug tentativo di upgrade del ruolo di un utente non admin: nessun messaggio di errore all'utente (ma correttamente non viene aggiornato) - OK
+- cambiare i Button dei Dialog, devono essere più visibili - OK
 
-- verificare che non succedano cose brutte chiamando il server (es.: in SignIn.jsx), senza controllare l' onlineCheck
+- setup %VITE_THEME_COLOR%: è usata in index.html (theme color for android tool-bar and android chrome address-bar - use base theme color, but in contrast with app header background color) e manifest.json (quando pwa usata come app)
+- verificare che non succedano cose brutte chiamando il server (es.: in SignIn.jsx), senza controllare l'onlineCheck
 - migliorare l'aspetto estetico del cookie consent popup
 - gestire l'auditing: tracciare la registrazione (e altro) dell'utente con react-tracking e google tag manager (forse, no, fatto lato server)
 - rimuovere completamente la gestione dei suoni ("sound")
@@ -115,5 +118,3 @@
 - salvare il tema con l'utente
 - chiedere ad IA di completare le labels aria per tutti i componenti MUI
 - rivedere libs/Firebase, o capire se c'è un metodo migliore (con vite/react16+) per gestire le notifiche in app
-- cambiare i Button dei Dialog, devono essere più visibili...
-- debug tentativo di upgrade del ruolo di un utente non admin: nessun messaggio di errore all'utente (ma correttamente non viene aggiornato).

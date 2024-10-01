@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
+import { Box, Typography } from "@mui/material";
 import {
-  Typography,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-} from "@mui/material/DialogTitle";
+} from "@mui/material";
 import TextField from "../custom/TextField";
 import TextFieldPassword from "../custom/TextFieldPassword";
 import Button from "../custom/Button";

@@ -13,6 +13,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CookieBanner from "./components/CookieBanner";
 import Banner from "./components/Banner";
+import BackgroundVideo from "./components/BackgroundVideo";
 import ClientInfoDisplay from "./components/ClientInfoDisplay";
 //import { MomentProvider } from "./providers/MomentProvider"; 
 import { useAxiosLoader } from "./hooks/useAxiosLoader";
@@ -55,12 +56,13 @@ const App = () => {
           {/* <MomentProvider> */}
             <CssBaseline />
             <LoaderProvider>
-              <Loader loading={loading} />
-              <SnackbarProviderWrapper>
-                <Router>
+              {/* <Loader loading={loading} /> */}
+            <SnackbarProviderWrapper>
+              {/* <BackgroundVideo /> */}
+              <Router>
                   <SessionManager onLogout={handleLogout} />
                   {/* {config.mode.development && <Banner theme={theme} text="development" />} */}
-                  {config.mode.development && <ClientInfoDisplay theme={theme} />}
+                  {false && config.mode.development && <ClientInfoDisplay theme={theme} />}
                   {/* TODO: put this block in a separate component, say "Contents" */}
                   {/* flex container with column direction and full-height view */}
                   <Box

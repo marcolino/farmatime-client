@@ -8,7 +8,7 @@ function Products() {
   const { t } = useTranslation();
 
   return (
-    <Paper>
+    <Paper sx={{px: 1}}>
       <Typography>
         {`${t("Products")} ${t("for")} ${auth.user ? t("authenticated user") : t("guest user")} ${auth.user ? auth.user.email : ""}`}
       </Typography>

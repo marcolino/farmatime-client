@@ -56,8 +56,8 @@
     "display": "standalone"
   },
   "auth": {
-    "clientSessionExpirationSeconds": 7200,
-    "warnBeforeSessionExpirationSeconds": 120
+    "clientSessionExpirationSeconds": 30,
+    "clientSessionExpirationResponseMaximumSeconds": 900
   },
   "spinner": {
     "delay": 500,
@@ -92,7 +92,8 @@
     "snacks": {
       "maxInStack": 3,
       "autoHideDurationSeconds": 5
-    }
+    },
+    "backgroundVideo": "steam"
   },
   "oauth": {
     "domain": "auth.sistemisolari.com",

@@ -1,26 +1,36 @@
-import React, { createContext } from "react";
+import React, { createContext, useCallback } from "react";
 import { usePersistedState } from "../hooks/usePersistedState";
+import { apiCall } from "../libs/Network";
 
 const initialState = { user: false };
 
 const AuthContext = createContext(initialState);
-//console.log("COOKIE - RESET AUTHCONTEXT TO INITIALSTATE");
 
 const AuthProvider = (props) => {
-  //console.log("calling usePersistedState with initialstate =", initialState);
   const [auth, setAuth] = usePersistedState("auth", initialState);
 
-  // const handleSetAuth = (state, persistentAmongSessions) => {
-  //   setAuth({ user: state.user, persistentAmongSessions });
-  // };
-  // const handleSetAuth = (state, persistentAmongSessions) => {
-  //   setAuth({ ...auth, ...state, persistentAmongSessions });
-  // };
+  // centralized sign out function
+  const signOut = useCallback(async () => {
+    if (auth.user) {
+      try {
+        const result = await apiCall("post", "/auth/signout", { email: auth.user.email });
+        if (result.err) {
+          console.error("SignOut error:", result);
+        } else {
+          setAuth({ user: false });
+          console.log("Sign out successful");
+        }
+      } catch (error) {
+        console.error("SignOut error:", error);
+      }
+    }
+  }, [auth.user, setAuth]);
+
   return (
-    <AuthContext.Provider value={{ auth, setAuth/*: handleSetAuth*/ }}>
+    <AuthContext.Provider value={{ auth, setAuth, signOut }}>
       {props.children}
     </AuthContext.Provider>
-  )
+  );
 };
 
 export { AuthProvider, AuthContext };

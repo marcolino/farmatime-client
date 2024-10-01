@@ -1,24 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
+//import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { AuthContext } from "../providers/AuthProvider";
 import useInactivityTimer from "../hooks/useInactivityTimer";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import DialogConfirm from "../components/DialogConfirm";
+import config from "../config";
+
 
 const SessionManager = ({ onLogout }) => {
-  const { auth } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const { auth, signOut } = useContext(AuthContext);
+  //const navigate = useNavigate();
   const { t } = useTranslation();
   
   const [showDialog, setShowDialog] = useState(false);
   const isLoggedIn = (auth.user !== false);
 
-  const handleConfirmClose = () => {
+  // const handleConfirmClose = () => {
+  //   setShowDialog(false);
+  // };
+  const handleLogout = async() => {
     setShowDialog(false);
-  };
-  const handleLogout = () => {
-    setShowDialog(false);
-    navigate("/signout");
+    await signOut();
+    // navigate("/signout");
   };
   const handleContinue = () => {
     setShowDialog(false);
@@ -27,14 +30,13 @@ const SessionManager = ({ onLogout }) => {
     setShowDialog(true);
   };
 
-  useInactivityTimer(isLoggedIn, 30 * 60 * 1000, handleTimeout); // start timer only when logged in - TODO: to config (inactivityTimeoutSeconds)
+  useInactivityTimer(isLoggedIn, config.auth.clientSessionExpirationSeconds * 1000, handleTimeout); // start timer only when logged in
 
   useEffect(() => {
     if (showDialog) {
       const timer = setTimeout(() => {
         onLogout();
-      }, 15 * 60 * 1000); // TODO: to config (inactivityResponseMaximumTimeSeconds)
-
+      }, config.auth.clientSessionExpirationResponseMaximumSeconds * 1000);
       return () => clearTimeout(timer);
     }
   }, [showDialog, onLogout]);
