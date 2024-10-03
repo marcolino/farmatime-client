@@ -13,7 +13,6 @@ const PageNotFound = () => {
   return (
     <Box 
       sx={{ 
-        height: "calc(100vh - 250px)",
         display: "flex",
         alignItems: "center",
         p: 2,

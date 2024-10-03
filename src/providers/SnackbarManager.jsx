@@ -125,7 +125,7 @@ function SnackbarProviderWrapper({ children }) {
 
 const useSnackbarContext = () => useContext(SnackbarContext);
 
-// Global function to show snackbar
+// global function to show snackbar
 export const showGlobalSnackbar = (message, variant = "default") => {
   if (globalShowSnackbar) {
     globalShowSnackbar(message, variant);

@@ -45,7 +45,7 @@ function Routing() {
           <Route path="/signup" element={<SignUp />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/signin" element={<SignIn />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/social-signin-success" element={<SocialSignInSuccess />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/social-signin-error" element={<SocialSignInError />} />c
+          <Route path="/social-signin-error" element={<SocialSignInError />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/forgot-password" element={<ForgotPassword />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/products" element={<Products />} /> {/* sitemapFrequency={"daily"} sitemapPriority={1.0} */}
           <Route path="/notifications" element={<Notifications />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}

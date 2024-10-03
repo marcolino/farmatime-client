@@ -30,14 +30,11 @@ import config from "../config";
 
 function EditUser() {
   const navigate = useNavigate();
-  //const userId = props?.match?.params?.userId;
   const [user, setUser] = useState(false);
   const [error, setError] = useState({});
   const { auth, setAuth } = useContext(AuthContext);
-  //const { promiseInProgress } = usePromiseTracker({ delay: config.spinner.delay });
   const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
-  // const apiKey = process.env.VITE_GEOAPIFY_API_KEY;
 
   const { userId, origin } = useParams();
   console.log("userId:", userId);

@@ -1,12 +1,8 @@
 import axios from "axios";
 import Cookie from "../libs/Cookie";
-//import { useRedirect } from "../providers/RedirectProvider";
 import { setDisableLoaderGlobal } from "../providers/LoaderState";
-
 import { showGlobalSnackbar } from "../providers/SnackbarManager";
 import cfg from "../config";
-
-//const { setIsRedirecting } = useRedirect();
 
 // track whether the token is being refreshed
 let isRefreshing = false;
@@ -43,7 +39,6 @@ const setLocalAccessToken = (token) => {
     // set the updated auth cookie
     try {
       Cookie.set("auth", JSON.stringify(updatedAuth));
-      //Cookie.set("auth", updatedAuth);
       console.log("token successfully updated");
       return true;
     } catch (error) {
@@ -85,7 +80,6 @@ const instanceForRefresh = createInstance(true);
 instance.interceptors.request.use(
   config => {
     config.headers["Authorization"] = getLocalAccessToken();
-    //console.log("instance.interceptors.request.use config:", config);
     return config;
   },
   error => {
@@ -143,7 +137,24 @@ const refreshAccessToken = async () => {
   }
 };
 
-// response interceptor
+// response interceptor to handle maintenance mode
+instance.interceptors.response.use(
+  response => {
+    console.log("RESPONSE HEADERS:", response.headers);
+    if (response.headers["x-maintenance-status"] === "true") {
+      localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
+      window.location.href = "/work-in-progress";
+    } else {
+      localStorage.removeItem("x-maintenance-status");
+    }
+    return response;
+  },
+  error => {
+    return Promise.reject(new Error(`Unforeseen error while checking maintenance status: ${error.message}`));
+  }
+);
+
+// response interceptor to resfresh tokens
 instance.interceptors.response.use(
   response => {
     return response;
@@ -173,7 +184,7 @@ instance.interceptors.response.use(
           setDisableLoaderGlobal(true); // to disable the loader before redirection
           setTimeout(() => { // redirect to signin page with some delay, to allow snackbar to be read
             setDisableLoaderGlobal(false); // to reenable the loader after redirection
-            /////////////////////////////////////window.location.href = "/signin";
+            //window.location.href = "/signin";
           }, cfg.ui.snacks.autoHideDurationSeconds * 1000);
           refreshError.response.data.message = null; // avoid double error showing snackbar on component (TODO: check what happens removing this line...)
           return Promise.reject(refreshError);
@@ -182,7 +193,6 @@ instance.interceptors.response.use(
         // token refresh already in progress
         return new Promise((resolve, reject) => {
           subscribeTokenRefresh(token => {
-            //config.headers["Authorization"] = token;
             config.headers["Authorization"] = `Bearer ${token}`;
             resolve(instance(config));
           });

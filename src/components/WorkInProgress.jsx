@@ -13,7 +13,6 @@ const WorkInProgress = () => {
   return (
     <Box 
       sx={{ 
-        height: "calc(100vh - 250px)",
         display: "flex",
         alignItems: "center",
         p: 2,
@@ -60,7 +59,7 @@ const WorkInProgress = () => {
                 mb: 2,
               }}
             >
-              {t("We are working night and day to complete this page. Please come back soon")}!
+              {t("We are working hard to restore the functionality of this web app. Please come back soon")}!
             </Typography>
             <Link 
               href="/"
