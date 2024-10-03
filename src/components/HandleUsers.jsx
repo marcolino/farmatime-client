@@ -25,8 +25,7 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import TextFieldSearch from "./custom/TextFieldSearch";
-import SectionHeader from "./custom/SectionHeader";
+import { TextFieldSearch, SectionHeader } from "./custom";
 import { Search, Edit, Delete } from "@mui/icons-material";
 
 const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {

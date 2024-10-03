@@ -30,12 +30,12 @@ const CustomTextFieldSearch = ({
       fullWidth={props.fullWidth}
       InputProps={{
         startAdornment: (
-          <InputAdornment position="start">
+          <InputAdornment position="start" sx={{pt: 0.7}}>
             {startIcon}
           </InputAdornment>
         ),
         endAdornment: (
-          <IconButton onClick={handleReset} size="small" >
+          <IconButton onClick={handleReset} size="small">
             <CloseIcon sx={{fontSize: "1.2rem"}} />
           </IconButton>
         )

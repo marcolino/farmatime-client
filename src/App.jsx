@@ -48,7 +48,7 @@ const App = () => {
                     <Router>
                       <SessionManager onLogout={handleLogout} />
                       {/* {config.mode.development && <Banner theme={theme} text="development" />} */}
-                      {/* {config.mode.development && <ClientInfoDisplay theme={theme} />} */}
+                      {config.mode.development && <ClientInfoDisplay theme={theme} />}
                       {/* TODO: put this block in a separate component, say "Contents" */}
                       {/* flex container with column direction and full-height view */}
                       <Box
