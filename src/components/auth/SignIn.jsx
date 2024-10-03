@@ -25,7 +25,7 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
   const { setAuth } = useContext(AuthContext);
-  const { showSnackbar } = useSnackbar();
+  const showSnackbar = useSnackbar();
   const { t } = useTranslation();
 
   const handleSocialLogin = (event, provider) => {

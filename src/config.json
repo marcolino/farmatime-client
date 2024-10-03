@@ -92,7 +92,18 @@
     "toastAutoCloseSeconds": 7,
     "snacks": {
       "maxInStack": 3,
-      "autoHideDurationSeconds": 5
+      "autoHideDurationSeconds": 5,
+      "anchorOrigin": {
+        "vertical": "bottom",
+        "horizontal": "right"
+      },
+      "style": {
+        "fontSize": "1.1rem",
+        "whiteSpace": "pre-line"
+      },
+      "closeIcon": {
+        "fontSize": "1.1rem"
+      }
     },
     "backgroundVideo": "steam"
   },

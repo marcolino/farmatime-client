@@ -1,20 +1,36 @@
 import React, { useState, useEffect, createContext } from "react";
+//import { useSnackbar } from "../providers/SnackbarManager";
+import { useSnackbarContext } from "./SnackbarManager";
 
 const OnlineStatusContext = createContext(true);
 
 const OnlineStatusProvider = (props) => {
   const [onlineStatus, setOnlineStatus] = useState(navigator.onLine);
+  //const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext();
+  
+  // event handler functions defined outside useEffect to prevent double listeners
+  const handleOffline = () => {
+    console.log("You are offline");
+    showSnackbar("You are offline", "warning"); // pass variant as a separate argument
+    setOnlineStatus(false);
+  };
+
+  const handleOnline = () => {
+    console.log("You are online");
+    showSnackbar("You are online", "success"); // pass variant as a separate argument
+    setOnlineStatus(true);
+  };
 
   useEffect(() => {
-    window.addEventListener("offline", () => {
-      console.log("GOING OFFLINE"); setOnlineStatus(false)
-    });
-    window.addEventListener("online", () => {
-      console.log("GOING ONLINE"); setOnlineStatus(true)
-    });
+    // attach event listeners
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+
+    // clean up event listeners on unmount
     return () => {
-      window.removeEventListener("offline", () => setOnlineStatus(false));
-      window.removeEventListener("online", () => setOnlineStatus(true));
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", handleOnline);
     };
   }, []);
 
@@ -26,12 +42,3 @@ const OnlineStatusProvider = (props) => {
 };
 
 export { OnlineStatusProvider, OnlineStatusContext };
-
-// export const useOnlineStatus = () => {
-//   useContext(OnlineStatusContext);
-  
-//   //return useContext(OnlineStatusContext);
-
-//   //const store = useContext(OnlineStatusContext);
-//   //return store;
-// };

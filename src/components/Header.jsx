@@ -22,7 +22,7 @@ import logoMain from "../assets/icons/LogoMain.png";
 const Header = ({ theme, toggleTheme }) => {
   const { auth, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { showSnackbar } = useSnackbar();
+  const showSnackbar = useSnackbar();
   const { t } = useTranslation();
   
   const isLoggedIn = (auth.user !== false);
