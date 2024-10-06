@@ -16,7 +16,8 @@ import TextField from "../custom/TextField";
 import TextFieldPassword from "../custom/TextFieldPassword";
 import Button from "../custom/Button";
 import { apiCall }  from "../../libs/Network";
-import { useSnackbar }  from "../../providers/SnackbarManager";
+//import { useSnackbar } from "../../providers/SnackbarManager";
+import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { validateEmail, validatePassword } from "../../libs/Validation";
 import config from "../../config";
 
@@ -34,7 +35,7 @@ function ForgotPassword() {
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogContent, setDialogContent] = useState(null);
   const [dialogCallback, setDialogCallback] = useState(null);
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
 
   const handleOpenDialog = (title, content, callbackOnClose) => {
@@ -67,7 +68,6 @@ function ForgotPassword() {
           default:
             err = response;
         }
-        //toast.warning(err);
         showSnackbar(err, "warning");
         setError({ email: true });
         return false;
@@ -94,7 +94,6 @@ function ForgotPassword() {
           default:
             err = validation;
         }
-        //toast.warning(err);
         showSnackbar(err, "warning");
         setError({ password: true });
         return false;
@@ -123,7 +122,6 @@ function ForgotPassword() {
         () => { },
       );
     } else {
-      //toast.error(result.message);
       showSnackbar(err, "error");
       setError({});
     }
@@ -152,7 +150,6 @@ function ForgotPassword() {
         () => { navigate("/signin", { replace: true }) }
       );
     } else {
-      //toast.error(result.message);
       showSnackbar(result.message, "error");
       switch (result.data.code) {
         case "NotFoundCode":
@@ -198,7 +195,6 @@ function ForgotPassword() {
           default:
             setError({ password: true }); // blame password field for error
         }
-      //toast.error(result.message);
       showSnackbar(result.message, "error");
     }
   };

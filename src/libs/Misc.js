@@ -10,8 +10,16 @@ export const isEmptyObject = (obj) => {
   );
 };
 
+export const isBoolean = (v) => {
+  return typeof v === "boolean";
+};
+
 export const isString = (v) => {
   return (typeof v === "string");
+};
+
+export const isNumber = (v) => {
+  return typeof v === "number" && isFinite(v);
 };
 
 export const isArray = (v) => {

@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useTheme } from "@mui/material/styles";
-import { Paper, Typography, TextField, Box, Grid, FormControl, FormLabel, FormControlLabel, RadioGroup, Radio } from "@mui/material";
+import { Paper, Typography, Box, Grid, FormControlLabel, RadioGroup, Radio } from "@mui/material";
 import { AuthContext } from "../providers/AuthProvider";
 import { useTranslation } from "react-i18next";
 import { TextFieldSearch, Button } from "./custom";
-import { Search, Edit, Delete } from "@mui/icons-material";
+import { Search } from "@mui/icons-material";
 import config from "../config";
 
 function Products() {
@@ -140,96 +140,6 @@ function Products() {
           </Box>
         </Grid>
 
-      </Grid>
-    );
-
-    return (
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <h2>{t("Products")}</h2>
-        </Grid>
-        <Grid item xs={12}>
-          <TextFieldSearch
-             label={t("MDA code")}
-             value={filterMda}
-             onChange={handleFilterMdaChange}
-             startIcon={<Search />}
-             fullWidth={false}
-             sx={{
-               color: theme.palette.text.primary
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextFieldSearch
-             label={t("OEM code")}
-             value={filterOem}
-             onChange={handleFilterOemChange}
-             startIcon={<Search />}
-             fullWidth={false}
-             sx={{
-               color: theme.palette.text.primary
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextFieldSearch
-            label={t("mother house")}
-            value={filterMotherHouse}
-            onChange={handleFilterMotherHouseChange}
-            startIcon={<Search />}
-            fullWidth={false}
-            sx={{
-              color: theme.palette.text.primary
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextFieldSearch
-            label={t("model")}
-            value={filterModel}
-            onChange={handleFilterModelChange}
-            startIcon={<Search />}
-            fullWidth={false}
-            sx={{
-              color: theme.palette.text.primary
-            }}
-          />
-        </Grid>
-  
-        {/* Right side RadioGroup */}
-        <Grid item xs={12} sm={6}>
-          <RadioGroup aria-label="options" name="options"
-            value={filterType}
-            onChange={handleFilterTypeChange}
-             sx={{
-              "& .MuiFormControlLabel-root": {
-                marginBottom: -1.5, // reduce space between FormControlLabel elements
-              },
-            }}
-          >
-            <FormControlLabel value="*" control={<Radio size={"small"} />}
-              label={<Typography variant="body2" color="textSecondary">{t("All")}</Typography>}
-            />
-            <FormControlLabel value="self-starter" control={<Radio size={"small"} />}
-              label={<Typography variant="body2" color="textSecondary">{t("self-starter")}</Typography>}
-            />
-            <FormControlLabel value="alternator" control={<Radio size={"small"} />}
-              label={<Typography variant="body2" color="textSecondary">{t("alternator")}</Typography>}
-            />
-          </RadioGroup>
-        </Grid>
-  
-        {/* Bottom buttons */}
-        <Grid item xs={12} sx={{mt:3}}>
-          <Button color="primary" fullWidth={false} size={"large"} sx={{ mr: 2 }}>
-            &emsp;{t("Search")}&emsp;
-          </Button>
-          <Button color="secondary" fullWidth={false} size={"small"} sx={{ mr: 2 }}
-            onClick={clearAllFilters}>
-            {t("Clear all")}
-          </Button>
-        </Grid>
       </Grid>
     );
   }

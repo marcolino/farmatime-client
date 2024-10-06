@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookie from "../libs/Cookie";
 import { setDisableLoaderGlobal } from "../providers/LoaderState";
-import { showGlobalSnackbar } from "../providers/SnackbarManager";
+//import { showGlobalSnackbar } from "../providers/SnackbarManager";
 import cfg from "../config";
 
 // track whether the token is being refreshed
@@ -137,26 +137,35 @@ const refreshAccessToken = async () => {
   }
 };
 
+// TODO: this interceptor breaks refresh tokens interceptor!
 // response interceptor to handle maintenance mode
+// instance.interceptors.response.use(
+//   response => {
+//     console.log("RESPONSE HEADERS:", response.headers);
+//     if (response.headers["x-maintenance-status"] === "true") {
+//       localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
+//       window.location.href = "/work-in-progress";
+//     } else {
+//       localStorage.removeItem("x-maintenance-status");
+//     }
+//     return response;
+//   },
+//   error => {
+//     return Promise.reject(new Error(error.message));
+//   }
+// );
+
+// response interceptor to refresh tokens
 instance.interceptors.response.use(
   response => {
-    console.log("RESPONSE HEADERS:", response.headers);
+    /* MAINTENANCE */
     if (response.headers["x-maintenance-status"] === "true") {
       localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
       window.location.href = "/work-in-progress";
     } else {
       localStorage.removeItem("x-maintenance-status");
     }
-    return response;
-  },
-  error => {
-    return Promise.reject(new Error(`Unforeseen error while checking maintenance status: ${error.message}`));
-  }
-);
-
-// response interceptor to resfresh tokens
-instance.interceptors.response.use(
-  response => {
+    /* MAINTENANCE */
     return response;
   },
   async (error) => {
@@ -180,7 +189,7 @@ instance.interceptors.response.use(
           console.log("refreshError caught:", refreshError);
           isRefreshing = false;
           clearLocalTokens();
-          showGlobalSnackbar(refreshError.response.data.message, "warning");
+          //showGlobalSnackbar(refreshError.response.data.message, "warning"); // TODO...
           setDisableLoaderGlobal(true); // to disable the loader before redirection
           setTimeout(() => { // redirect to signin page with some delay, to allow snackbar to be read
             setDisableLoaderGlobal(false); // to reenable the loader after redirection

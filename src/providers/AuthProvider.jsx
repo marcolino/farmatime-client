@@ -11,18 +11,22 @@ const AuthProvider = (props) => {
 
   // centralized sign out function
   const signOut = useCallback(async () => {
+    let ok = false;
     if (auth.user) {
       try {
         const result = await apiCall("post", "/auth/signout", { email: auth.user.email });
         if (result.err) {
           console.error("SignOut error:", result);
         } else {
-          setAuth({ user: false });
-          console.log("Sign out successful");
+          ok = true
+          console.log("Sign out successful", result);
         }
       } catch (error) {
         console.error("SignOut error:", error);
       }
+      setAuth({ user: false });
+      console.error("SignOut - RESET AUTH ON COOKIES", ok);
+      return ok;
     }
   }, [auth.user, setAuth]);
 

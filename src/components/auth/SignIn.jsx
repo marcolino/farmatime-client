@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useSnackbar } from "notistack";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
@@ -11,7 +12,8 @@ import Icon from "@mui/material/Icon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Person from "@mui/icons-material/Person";
 import Lock from "@mui/icons-material/Lock";
-import { useSnackbar } from "../../providers/SnackbarManager";
+//import { useSnackbar } from "../../providers/SnackbarManager";
+import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { TextField, TextFieldPassword, Button } from "../custom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { validateEmail } from "../../libs/Validation";
@@ -25,7 +27,7 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
   const { setAuth } = useContext(AuthContext);
-  const showSnackbar = useSnackbar();
+  const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
 
   const handleSocialLogin = (event, provider) => {

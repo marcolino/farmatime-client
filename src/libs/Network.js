@@ -5,8 +5,15 @@ import { i18n } from "../i18n";
 
 const apiCall = async (method, url, data = null) => {
   try {
-    const response = await instance[method](url, data);
-    console.info(`${url} success:`, response.data);
+    // check if the data is a FormData object and set headers accordingly
+    const config = {};
+    if (data instanceof FormData) {
+      config.headers = {
+        "Content-Type": "multipart/form-data",
+      };
+    }
+    const response = await instance[method](url, data, config);
+    console.info(`⇒ ${url} success:`, response.data);
     return { ...response.data };
   } catch (err) {
     if (axios.isAxiosError(err)) {
@@ -28,19 +35,19 @@ const apiCall = async (method, url, data = null) => {
         }
       } else if (err.request) {
         // the request was made but no response was received
-        console.error(`${url} no response received, reques was:`, err.request);
+        console.error(`⇒ ${url} no response received, reques was:`, err.request);
         if (err.code === "ECONNABORTED") {
           return { err: true, message: i18n.t("Request timed out; please try again") };
         }
         return { err: true, message: i18n.t("No response from server; please check your connection") };
       } else {
         // something happened in setting up the request that triggered an Error
-        console.error(`${url} request error:`, err.message);
+        console.error(`⇒ ${url} request error:`, err.message);
         return { err: true, message: i18n.t("Failed to send request") };
       }
     } else { // non-Axios error
-      console.error(`${url} unexpected error:`, err);
-      return { err: true, message: i18n.t("An unexpected error occurred") };
+      console.error(`⇒ ${url} unexpected error:`, err.message);
+      return { err: true, message: i18n.t("An unexpected error occurred: {{err}}", { err: err.message }) };
     }
   }
 };

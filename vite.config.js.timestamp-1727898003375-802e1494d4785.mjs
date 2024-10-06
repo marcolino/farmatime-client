@@ -206,6 +206,7 @@ var vite_config_default = defineConfig({
         "/admin-panel",
         "/handle-users",
         "/handle-products",
+        "/work-in-progress",
         "/page-not-found"
       ]
       //exclude: ["/admin", "/private"], // TODO...

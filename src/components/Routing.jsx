@@ -2,8 +2,9 @@ import React, { useEffect, Suspense, lazy } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
+import { useSnackbar }  from "notistack";
 import { getCurrentLanguage } from "../libs/I18n";
-import { useSnackbar }  from "../providers/SnackbarManager";
+//import { useSnackbar }  from "../providers/SnackbarManager";
 import PageTransition from "./PageTransition";
 import Loader from "./Loader";
 
@@ -17,6 +18,7 @@ const ForgotPassword = lazy(() => import("./auth/ForgotPassword"));
 const Products = lazy(() => import("./Products"));
 const Notifications = lazy(() => import("./Notifications"));
 const EditUser = lazy(() => import("./EditUser"));
+const EditProduct = lazy(() => import("./EditProduct"));
 const Legal = lazy(() => import("./legal/legal"));
 const Contacts = lazy(() => import("./Contacts"));
 const HandleUsers = lazy(() => import("./HandleUsers"));
@@ -26,7 +28,7 @@ const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
 function Routing() {
   const location = useLocation();
-  const { showSnackbar } = useSnackbar();
+  const showSnackbar = useSnackbar();
   const { i18n } = useTranslation();
 
   // check for error parameters in location url
@@ -50,6 +52,7 @@ function Routing() {
           <Route path="/products" element={<Products />} /> {/* sitemapFrequency={"daily"} sitemapPriority={1.0} */}
           <Route path="/notifications" element={<Notifications />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
           <Route path="/edit-user/:userId/:origin" element={<EditUser />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
+          <Route path="/edit-product/:productId" element={<EditProduct />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
           <Route path="/terms-of-use" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"termsOfUse"} /> } />
           <Route path="/privacy-policy" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"privacyPolicy"} />} />
           <Route path="/contacts" element={<Contacts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
@@ -61,7 +64,7 @@ function Routing() {
         </Routes>
       </Suspense>
     </PageTransition>
-);
+  );
 }
 
 export default React.memo(Routing);

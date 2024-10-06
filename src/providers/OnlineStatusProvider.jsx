@@ -1,12 +1,10 @@
 import React, { useState, useEffect, createContext } from "react";
-//import { useSnackbar } from "../providers/SnackbarManager";
-import { useSnackbarContext } from "./SnackbarManager";
+import { useSnackbarContext } from "./SnackbarProvider";
 
 const OnlineStatusContext = createContext(true);
 
 const OnlineStatusProvider = (props) => {
   const [onlineStatus, setOnlineStatus] = useState(navigator.onLine);
-  //const { showSnackbar } = useSnackbar();
   const { showSnackbar } = useSnackbarContext();
   
   // event handler functions defined outside useEffect to prevent double listeners

@@ -6,9 +6,9 @@ const HeaderBar = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.nature.light,
   width: "100%",
   position: "relative",
-  marginTop: theme.spacing(4),
-  marginBottom: theme.spacing(4),
-  borderRadius: 4,
+  marginTop: theme.spacing(3),
+  marginBottom: theme.spacing(3),
+  borderRadius: 6,
   paddingTop: theme.spacing(0), // Add padding for better spacing
   paddingBottom: theme.spacing(0),
   overflow: "visible", // Ensure the text can escape the bar
@@ -17,13 +17,13 @@ const HeaderBar = styled(Box)(({ theme }) => ({
 const HeaderText = styled(Typography)(({ theme }) => ({
   textAlign: "right",
   backgroundColor: "transparent",
-  color: theme.palette.text,
+  color: theme.palette.gun.main,
   textTransform: "uppercase",
   fontWeight: "bold",
-  fontSize: "3rem !important",
-  lineHeight: 1.2,
+  fontSize: "2.4rem !important",
+  lineHeight: 1.1,
   position: "relative",
-  top: "-23px", // negative top value to overlap
+  top: "-16px", // negative top value to overlap
   paddingRight: theme.spacing(2),
   zIndex: 2, // ensure text is above the bar
   overflow: "visible", // ensure the text can escape the header

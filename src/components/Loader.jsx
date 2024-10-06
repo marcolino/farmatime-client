@@ -4,7 +4,7 @@ import { useLoader } from "../providers/LoaderProvider";
 import config from "../config";
 
 
-function Loader({ loading = false, lazyloading = false, disabled = false }) {
+function Loader({ loading = false, lazyloading = false }) {
   const { disableLoader } = useLoader();
   
   return (
@@ -19,7 +19,7 @@ function Loader({ loading = false, lazyloading = false, disabled = false }) {
         width: "100vw", // ensure full viewport width
         height: "100vh", // ensure full viewport height
         zIndex: 999, // higher z-index to ensure it's above everything
-        backgroundColor: "rgba(0, 0, 0, 0.33)", // darken the background for contrast
+        backgroundColor: "rgba(0, 0, 0, 0.1)", // darken the background for contrast
       }}>
         <CircularProgress
           variant="indeterminate"

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSnackbarContext } from "./SnackbarManager";
+import { useSnackbarContext } from "./SnackbarProvider";
 
 const ServiceWorkerProvider = ({ children }) => {
   const { showSnackbar } = useSnackbarContext();
@@ -9,7 +9,7 @@ const ServiceWorkerProvider = ({ children }) => {
       if (navigator.serviceWorker) {
         navigator.serviceWorker.addEventListener("message", event => {
           console.log("ServiceWorkerProvider - message event received with data:", event.data);
-          showSnackbar("...", "info");
+          showSnackbar("... event.data ..." + event.data.toString(), "info");
         });
       }
     };

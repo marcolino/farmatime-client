@@ -6,8 +6,9 @@ import { DateTime } from "luxon";
 import DialogConfirm from "./DialogConfirm";
 import DialogEmailCreation from "./DialogEmailCreation";
 import { apiCall } from "../libs/Network";
-import { isString, isArray, isObject } from "../libs/Misc";
-import { useSnackbar } from "../providers/SnackbarManager";
+import { isBoolean, isString, isNumber, isArray, isObject } from "../libs/Misc";
+//import { useSnackbar } from "../providers/SnackbarManager";
+import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { i18n } from "../i18n";
 
 import {
@@ -28,10 +29,10 @@ import {
 import { TextFieldSearch, SectionHeader } from "./custom";
 import { Search, Edit, Delete } from "@mui/icons-material";
 
-const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
+const UserTable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("");
@@ -108,14 +109,12 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
       }
       setUsers(previousUsers => previousUsers.filter(user => !userIds.includes(user._id)));
       setSelected([]);
-      showSnackbar(t("Deleted {{count}} users", { count: userIds.length }), "success");
+      showSnackbar(t("Removed {{count}} users", { count: userIds.length }), "success");
     }).catch(error => {
-      console.error(`Error bulk deleting ${userIds.length} users with ids ${userIds}: ${error.message}`);
-      showSnackbar(t("Error bulk deleting {{count}} users with ids: {{error}}", {count: userIds.length, error: error.message}), "error");
+      console.error(`Error bulk removing ${userIds.length} users with ids ${userIds}: ${error.message}`);
+      showSnackbar(t("Error bulk removing {{count}} users with ids: {{error}}", {count: userIds.length, error: error.message}), "error");
     });
   };
-
-//  moment.locale("it"); // TODO: use current language...
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -216,9 +215,21 @@ const UserTable = (/*{ users, onEdit, onRemove, onBulkAction }*/) => {
   
     if (sortColumn !== null) {
       sortedUsers.sort((a, b) => {
+        if (isBoolean(a[sortColumn])) {
+          let one = a[sortColumn];
+          let two = b[sortColumn];
+          if (one < two) return sortDirection === "asc" ? -1 : 1;
+          if (one > two) return sortDirection === "asc" ? 1 : -1;
+        }
         if (isString(a[sortColumn])) {
           let one = a[sortColumn]?.toLowerCase();
           let two = b[sortColumn]?.toLowerCase();
+          if (one < two) return sortDirection === "asc" ? -1 : 1;
+          if (one > two) return sortDirection === "asc" ? 1 : -1;
+        }
+        if (isNumber(a[sortColumn])) {
+          let one = a[sortColumn];
+          let two = b[sortColumn];
           if (one < two) return sortDirection === "asc" ? -1 : 1;
           if (one > two) return sortDirection === "asc" ? 1 : -1;
         }

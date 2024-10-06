@@ -69,6 +69,11 @@ const customThemeLightProps = {
       primary: "rgba(0, 0, 0, 0.87)",
       secondary: "rgba(0, 0, 0, 0.77)",
     },
+    gun: {
+      main: "#676767",
+      light: "#969696",
+      dark: "#262626",
+    },
     nature: {  
       main: "#7fb188",
       light: "#a5e7b1",

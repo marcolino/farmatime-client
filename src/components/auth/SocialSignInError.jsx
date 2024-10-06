@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar }  from "notistack";
 import { AuthContext } from "../../providers/AuthProvider";
-import { useSnackbar }  from "../../providers/SnackbarManager";
+//import { useSnackbar }  from "../../providers/SnackbarManager";
 //import config from "../../config";
 
 

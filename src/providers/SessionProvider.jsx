@@ -7,7 +7,7 @@ import DialogConfirm from "../components/DialogConfirm";
 import config from "../config";
 
 
-const SessionManager = ({ onLogout }) => {
+const SessionProvider = ({ onLogout }) => {
   const { auth, signOut } = useContext(AuthContext);
   //const navigate = useNavigate();
   const { t } = useTranslation();
@@ -57,4 +57,4 @@ const SessionManager = ({ onLogout }) => {
   );
 };
 
-export default SessionManager;
+export default SessionProvider;

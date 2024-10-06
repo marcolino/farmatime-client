@@ -12,7 +12,8 @@ import TextFieldPhone from "./custom/TextFieldPhone";
 import Select from "./custom/Select";
 import { apiCall } from "../libs/Network";
 import { AuthContext } from "../providers/AuthProvider";
-import { useSnackbar } from "../providers/SnackbarManager";
+//import { useSnackbar } from "../providers/SnackbarManager";
+import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import {
   Person, Email, SupervisedUserCircle, PlaylistAddCheck,
   Payment, Business, LocationOn as LocationOnIcon
@@ -33,7 +34,7 @@ function EditUser() {
   const [user, setUser] = useState(false);
   const [error, setError] = useState({});
   const { auth, setAuth } = useContext(AuthContext);
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
 
   const { userId, origin } = useParams();
@@ -152,7 +153,6 @@ function EditUser() {
           err = response;
       }
       setError({ email: err });
-      //toast.warning(err);
       showSnackbar(err, "warning");
       return false;
     }

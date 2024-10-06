@@ -11,11 +11,13 @@ import {
 } from "@mui/material";
 import TextField from "./custom/TextField";
 import { Subject } from "@mui/icons-material";
-import { useSnackbar } from "../providers/SnackbarManager";
+//import { useSnackbar } from "../providers/SnackbarManager";
+import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 
 
 function DialogEmailCreation({ open, onClose, onConfirm }) {
-  const { showSnackbar } = useSnackbar();
+  //const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");

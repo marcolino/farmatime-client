@@ -19,8 +19,9 @@ import {
   Email,
   Lock
 } from "@mui/icons-material";
-import { useSnackbar }  from "../../providers/SnackbarManager";
-import { apiCall }  from "../../libs/Network";
+//import { useSnackbar } from "../../providers/SnackbarManager";
+import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import { apiCall } from "../../libs/Network";
 import { validateFirstName, validateLastName, validateEmail, validatePassword } from "../../libs/Validation";
 
 
@@ -39,7 +40,7 @@ function SignUp() {
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogContent, setDialogContent] = useState(null);
   const [dialogCallback, setDialogCallback] = useState(null);
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
 
   const handleOpenDialog = (title, content, callbackOnClose) => {

@@ -12,7 +12,7 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import IconGravatar from "./IconGravatar";
 import ImageCustom from "./ImageCustom";
-import { useSnackbar } from "../providers/SnackbarManager";
+//import useSnackbar from "../providers/SnackbarManager";
 import { AuthContext } from "../providers/AuthProvider";
 import { isAdmin } from "../libs/Validation";
 import logoMain from "../assets/icons/LogoMain.png";
@@ -22,7 +22,7 @@ import logoMain from "../assets/icons/LogoMain.png";
 const Header = ({ theme, toggleTheme }) => {
   const { auth, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
-  const showSnackbar = useSnackbar();
+  //const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
   
   const isLoggedIn = (auth.user !== false);
@@ -114,8 +114,10 @@ const Header = ({ theme, toggleTheme }) => {
   };
 
   const handleSignOut = async () => {
-    await signOut();
-    showSnackbar(t("sign out successful"), "success");
+    console.log("handleSignOut");
+    const ok = await signOut();
+    console.log("SIGNOUT ok:", ok);
+    showSnackbar(ok ? t("sign out successful") : t("signout completed"), "success");
     navigate("/", { replace: true });
   };
 
