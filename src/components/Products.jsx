@@ -56,7 +56,7 @@ function Products() {
           flexGrow: { sm: 1 },
           flexBasis: { sm: "auto" }
         }}>
-          <Box sx={{ height: "100%", _backgroundColor: "#eeeeee", padding: 2 }}>
+          <Box sx={{ height: "100%", padding: 2 }}>
             <h2>{t("Products")}</h2>
             <TextFieldSearch
               label={t("MDA code")}

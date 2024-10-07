@@ -8,7 +8,6 @@ import Footer from "./Footer";
 import { getCurrentLanguage } from "../libs/I18n";
 //import useSnackbar from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
-import PageTransition from "./PageTransition";
 import Loader from "./Loader";
 import { themeLight, themeDark } from "../themes/default";
 

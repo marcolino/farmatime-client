@@ -20,7 +20,7 @@ import {
   Lock
 } from "@mui/icons-material";
 //import { useSnackbar } from "../../providers/SnackbarManager";
-import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { apiCall } from "../../libs/Network";
 import { validateFirstName, validateLastName, validateEmail, validatePassword } from "../../libs/Validation";
 

@@ -39,29 +39,21 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
-        <MaintenanceCheck />
         <SnackbarProviderWrapper>
-          <ServiceWorkerProvider>
-            <OnlineStatusProvider>
-              <CssBaseline />
-              <CookieBanner />
-              <LoaderProvider>
-                <Loader loading={loading} />
+          <LoaderProvider>
+            <Loader loading={loading} />
                 <Router>
-                  <SessionProvider onLogout={handleLogout} />
-                  {/* {config.mode.development && <Banner theme={theme} text="development" />} */}
-                  {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                  {/* <SessionProvider onLogout={handleLogout} /> */}
                   <Contents theme={theme} toggleTheme={toggleTheme}>
                     <Routing />
                   </Contents>
-                </Router>
-              </LoaderProvider>
-            </OnlineStatusProvider>
-          </ServiceWorkerProvider>
+            </Router>
+          </LoaderProvider>
         </SnackbarProviderWrapper>
       </AuthProvider>
     </ThemeProvider>
   );
-};
+
+}
 
 export default App;

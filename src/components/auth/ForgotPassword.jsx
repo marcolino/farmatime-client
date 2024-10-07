@@ -17,7 +17,7 @@ import TextFieldPassword from "../custom/TextFieldPassword";
 import Button from "../custom/Button";
 import { apiCall }  from "../../libs/Network";
 //import { useSnackbar } from "../../providers/SnackbarManager";
-import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { validateEmail, validatePassword } from "../../libs/Validation";
 import config from "../../config";
 

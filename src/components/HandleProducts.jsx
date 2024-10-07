@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
@@ -6,7 +6,6 @@ import { DateTime } from "luxon";
 import DialogConfirm from "./DialogConfirm";
 import { apiCall } from "../libs/Network";
 import { isBoolean, isString, isNumber, isArray, isObject } from "../libs/Misc";
-//import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { i18n } from "../i18n";
 
@@ -28,21 +27,21 @@ import {
 import { TextFieldSearch, SectionHeader } from "./custom";
 import { Search, Edit, Delete } from "@mui/icons-material";
 
-const ProductTable = (/*{ products, onEdit, onRemove, onBulkAction }*/) => {
+const ProductTable = () => {
+  //console.log("*** ProductTable rendered");
   const theme = useTheme();
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("");
-  
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
 
   // to use localized dates
   const localizedDate = DateTime.fromJSDate(new Date())
     .setLocale(i18n.language)
     .toLocaleString(DateTime.DATETIME_FULL)
-  ;
+    ;
   
   useEffect(() => { // get all products on mount
     (async () => {
@@ -50,11 +49,38 @@ const ProductTable = (/*{ products, onEdit, onRemove, onBulkAction }*/) => {
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
-        showSnackbar("ok", "info");
+        //showSnackbar("ok", "info");
         setProducts(result.products);
       }
     })();
-  }, [showSnackbar]); // empty dependency array: this effect runs once when the component mounts
+
+    return () => {
+      //console.log("*** ProductTable  unmounted");
+    };
+  }, []);
+
+
+  // useEffect(() => {
+  //   console.log("*** ProductTable mounted");
+  //   let isMounted = true;
+  //   const fetchProducts = async () => {
+  //     const result = await apiCall("get", "/product/getAllProducts");
+  //     if (result.err) {
+  //       showSnackbar(result.message, result.status === 401 ? "warning" : "error");
+  //     } else {
+  //       //showSnackbar("ok", "info");
+  //       if (isMounted) {
+  //         setProducts(result.products);
+  //       }
+  //     }
+  //   };
+  
+  //   fetchProducts();
+  //   return () => {
+  //     console.log("*** ProductTable  unmounted");
+  //     isMounted = false;
+  //   };
+  // }, []);
 
   const removeProduct = (params) => {
     return apiCall("post", "/product/removeProduct", params);
@@ -179,7 +205,7 @@ const ProductTable = (/*{ products, onEdit, onRemove, onBulkAction }*/) => {
     handleConfirmClose();
   };
 
-  const sortedProducts = React.useMemo(() => {
+  const sortedProducts = useMemo(() => {
     let sortedProducts = [...products];
   
     if (sortColumn !== null) {
@@ -226,6 +252,8 @@ const ProductTable = (/*{ products, onEdit, onRemove, onBulkAction }*/) => {
     );
   };
 
+  //console.log("*** ProductsTable state:", state);
+  //console.log("*** ProductsTable props:", props);
   return (
     <>
       <SectionHeader>
@@ -320,7 +348,7 @@ const ProductTable = (/*{ products, onEdit, onRemove, onBulkAction }*/) => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((product) => {
                   const isItemSelected = isSelected(product.id);
-                  console.log("KEY:", product.id);
+                  //console.log("KEY:", product.id);
                   return (
                     <TableRow
                       hover

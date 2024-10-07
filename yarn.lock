@@ -3210,7 +3210,7 @@ __metadata:
     eslint-plugin-react: ^7.35.0
     eslint-plugin-react-hooks: ^5.1.0-rc.0
     eslint-plugin-react-refresh: ^0.4.9
-    framer-motion: ^11.9.0
+    framer-motion: ^11.11.1
     globals: ^15.9.0
     i18next: ^23.15.1
     i18next-browser-languagedetector: ^8.0.0
@@ -5452,9 +5452,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^11.9.0":
-  version: 11.9.0
-  resolution: "framer-motion@npm:11.9.0"
+"framer-motion@npm:^11.11.1":
+  version: 11.11.1
+  resolution: "framer-motion@npm:11.11.1"
   dependencies:
     tslib: ^2.4.0
   peerDependencies:
@@ -5468,7 +5468,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 9aabbd9eeddbc79cb59068336d7700a62f4ab28c116a7f9285c9fe1145c82618331013fa7a80359109a0feba4b85375379c50e40edbcea251d72a06100c6d79f
+  checksum: 0d140e5904c11813ac9534847aad4f96ff77275dd9620738bfe84e576b544ddce3157ae0576ef17452ded4c866242618fb9254125daac5720481baa0b9b37309
   languageName: node
   linkType: hard
 

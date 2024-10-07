@@ -48,6 +48,9 @@
     "redirect": "follow",
     "timeoutSeconds": 10
   },
+  "images": {
+    "publicPath": "/assets/products/images"
+  },
   "legal": {
     "termsValidityStartDate": "01-01-2025",
     "cookieConsentExpirationDays": 365

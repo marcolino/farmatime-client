@@ -3,7 +3,7 @@ import instance from "../middlewares/Interceptors";
 import { i18n } from "../i18n";
 
 
-const apiCall = async (method, url, data = null) => {
+const apiCall = async(method, url, data = null) => {
   try {
     // check if the data is a FormData object and set headers accordingly
     const config = {};

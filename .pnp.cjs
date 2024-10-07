@@ -49,7 +49,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-react", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:7.36.0"],\
             ["eslint-plugin-react-hooks", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:5.1.0-rc-fb9a90fa48-20240614"],\
             ["eslint-plugin-react-refresh", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:0.4.11"],\
-            ["framer-motion", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:11.9.0"],\
+            ["framer-motion", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:11.11.1"],\
             ["globals", "npm:15.9.0"],\
             ["i18next", "npm:23.15.1"],\
             ["i18next-browser-languagedetector", "npm:8.0.0"],\
@@ -5063,7 +5063,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-react", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:7.36.0"],\
             ["eslint-plugin-react-hooks", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:5.1.0-rc-fb9a90fa48-20240614"],\
             ["eslint-plugin-react-refresh", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:0.4.11"],\
-            ["framer-motion", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:11.9.0"],\
+            ["framer-motion", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:11.11.1"],\
             ["globals", "npm:15.9.0"],\
             ["i18next", "npm:23.15.1"],\
             ["i18next-browser-languagedetector", "npm:8.0.0"],\
@@ -7591,17 +7591,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["framer-motion", [\
-        ["npm:11.9.0", {\
-          "packageLocation": "./.yarn/cache/framer-motion-npm-11.9.0-bee30d5eb2-9aabbd9eed.zip/node_modules/framer-motion/",\
+        ["npm:11.11.1", {\
+          "packageLocation": "./.yarn/cache/framer-motion-npm-11.11.1-ca2449fe14-0d140e5904.zip/node_modules/framer-motion/",\
           "packageDependencies": [\
-            ["framer-motion", "npm:11.9.0"]\
+            ["framer-motion", "npm:11.11.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:11.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/framer-motion-virtual-2017fde79b/0/cache/framer-motion-npm-11.9.0-bee30d5eb2-9aabbd9eed.zip/node_modules/framer-motion/",\
+        ["virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:11.11.1", {\
+          "packageLocation": "./.yarn/__virtual__/framer-motion-virtual-bff53090c8/0/cache/framer-motion-npm-11.11.1-ca2449fe14-0d140e5904.zip/node_modules/framer-motion/",\
           "packageDependencies": [\
-            ["framer-motion", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:11.9.0"],\
+            ["framer-motion", "virtual:9f3ae79dea8d01e4b0eeff10d8c12d00806827d72263a401c5fc8b905da896eb575107e3253354675123d2d156eff145d72e519ad9c7083f8ce431438b069acb#npm:11.11.1"],\
             ["@emotion/is-prop-valid", null],\
             ["@types/emotion__is-prop-valid", null],\
             ["@types/react", "npm:18.3.5"],\

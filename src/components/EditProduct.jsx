@@ -3,22 +3,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   Container,
+  Grid,
   Box,
   Button,
 } from "@mui/material";
 import SectionHeader from "./custom/SectionHeader";
 import TextField from "./custom/TextField";
-import TextFieldPhone from "./custom/TextFieldPhone";
-import Select from "./custom/Select";
 import { apiCall } from "../libs/Network";
 import Loader from "./Loader";
-import { AuthContext } from "../providers/AuthProvider";
-//import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import {
   Api, DriveEta, Commute, EditNote, Apps, Power, Sync, Exposure, PhotoCamera,
-  //PlaylistAddCheck, Payment, Business, LocationOn as LocationOnIcon
 } from "@mui/icons-material";
+import PowerIconWithText from "./custom/PowerWithTextIcon";
 import {
   isAdmin,
   validateFirstName,
@@ -26,7 +23,7 @@ import {
   validateEmail,
   validatePhone,
 } from "../libs/Validation";
-import { i18n }  from "../i18n";
+//import { i18n }  from "../i18n";
 import config from "../config";
 
 
@@ -37,89 +34,32 @@ function EditProduct() {
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
   const { productId } = useParams();
-  console.log("productId:", productId);
   if (!productId) {
     showSnackbar(t("No product id specified", "error"));
     navigate(-1);
     return;
   }
-  
-  // const [allRoles, setAllRoles] = useState(false);
-  // const [allPlans, setAllPlans] = useState(false);
     
   const [updateReady, setUpdateReady] = useState(false); // to handle form values changes refresh
-  //const [sameProductProfile, setSameProductProfile] = useState(false); // to know if profile is the logged product's
-  
-
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (e) => {
     setSelectedImage(e.target.files[0]);
-    setImageUrl(e.target.files[0].name);
-  };
-
-  const handleImageUpload = async () => {
-    showSnackbar("uploading...", "info");
-    if (!selectedImage) {
-      alert("Please select an image to upload");
-      return;
-    }
-
-    // prepare form data to send the file
-    const formData = new FormData();
-    formData.append("file", selectedImage);
-
-    try {
-      const response = await axios.post("http://localhost:5000/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response.data); // success message or file info
-    } catch (error) {
-      console.error('Error uploading file', error);
-    }
+    setImageName(e.target.files[0].name);
   };
 
   useEffect(() => { // get all products on mount
     (async() => {
-      const result = await apiCall("post", "/product/getProduct", { productId }); // TODO: why get doesn't work ?
+      const result = await apiCall("post", "/product/getProduct", { productId });
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
-        //showSnackbar("ok", "info");
         setProduct(result.product);
         console.log("PRODUCT:", result.product);
-        // if (result.product._id === productId) {
-        //   setSameProductProfile(true);
-        // }
       }
     })();
   }, [productId]);
-  // empty dependency array: this effect runs once when the component mounts
   
-  // useEffect(() => {
-  //   (async() => {
-  //     const result = await apiCall("get", "/product/getAllRoles");
-  //     if (result.err) {
-  //       showSnackbar(result.message, "error");
-  //     } else {
-  //       setAllRoles(result.roles);
-  //     }
-  //   })();
-  // }, [t]);
-  
-  // useEffect(() => {
-  //   (async() => {
-  //     const result = await apiCall("get", "/product/getAllPlans");
-  //     if (result.err) {
-  //       showSnackbar(result.message, "error");
-  //     } else {
-  //       setAllPlans(result.plans);
-  //     }
-  //   })();
-  // }, [t]);
-
   useEffect(() => {
     if (updateReady) {
       setUpdateReady(false);
@@ -131,7 +71,7 @@ function EditProduct() {
     let response;
 
     // validate fields formally
-    showSnackbar("validation...", "info");
+    showSnackbar("validation TO BE DONE...", "info");
 
     return true;
   };
@@ -180,8 +120,8 @@ function EditProduct() {
     setProduct({ ...product, notes: value });
   };
 
-  const setImageUrl = (value) => {
-    setProduct({ ...product, imageUrl: value });
+  const setImageName = (value) => {
+    setProduct({ ...product, imageName: value });
   };
 
   // const setModels = (value) => {
@@ -239,7 +179,7 @@ function EditProduct() {
       if (selectedImage) {
         const formData = new FormData();
         formData.append("productId", productId);
-        formData.append("file", selectedImage);
+        formData.append("image", selectedImage);
   
         const imageUploadResult = await apiCall("post", "/product/uploadProductImage", formData /*, {
           headers: {
@@ -283,168 +223,195 @@ function EditProduct() {
     return <Loader loading={true} />;
   }
   
+  console.log("siteUrl:", config.siteUrl);
+  //console.log("path:", "/assets/products/images/");
+  console.log("path in config:", config.images.publicPath);
+  console.log("product.imageName:", product.imageName);
+  console.log("product.imageNameHashed:", product.imageNameHashed);
+
   return (
     <>
       <SectionHeader text={t("Products handling")}>
         {t("Edit product")}
       </SectionHeader>
 
-      <Container maxWidth="xs">
-        <form noValidate autoComplete="off">
-          <TextField
-            autoFocus
-            id={"mdaCode"}
-            value={product.mdaCode}
-            onChange={(e) => setMdaCode(e.target.value)}
-            placeholder={t("MDA code")}
-            startIcon={<Api />}
-            error={error.mdaCode}
-          />
+      {/* <Container maxWidth="xs"> */}
+      <Grid container spacing={2}>
+        {/* for xs breakpoint, full width */}
+        <Grid item xs={12} sm={4} md={3} lg={2}
+         sx={{ 
+          minWidth: { sm: "280px" },
+          flexGrow: { sm: 1 },
+          flexBasis: { sm: "auto" }
+        }}>
+          
+          <form noValidate autoComplete="off">
+            <TextField
+              autoFocus
+              id={"mdaCode"}
+              label={t("MDA code")}
+              value={product.mdaCode}
+              onChange={(e) => setMdaCode(e.target.value)}
+              placeholder={t("MDA code")}
+              startIcon={<Api />}
+              error={error.mdaCode}
+            />
 
-          <TextField
-            id={"oemCode"}
-            value={product.oemCode}
-            onChange={(e) => setOemCode(e.target.value)}
-            placeholder={t("OEM code")}
-            startIcon={<Api />}
-            error={error.oemCode}
-          />
+            <TextField
+              id={"oemCode"}
+              value={product.oemCode}
+              onChange={(e) => setOemCode(e.target.value)}
+              placeholder={t("OEM code")}
+              startIcon={<Api />}
+              error={error.oemCode}
+            />
 
-          <TextField
-            id={"make"}
-            value={product.make}
-            onChange={(e) => setMake(e.target.value)}
-            placeholder={t("Make")}
-            startIcon={<DriveEta />}
-            error={error.make}
-          />
+            <TextField
+              id={"make"}
+              value={product.make}
+              onChange={(e) => setMake(e.target.value)}
+              placeholder={t("Make")}
+              startIcon={<DriveEta />}
+              error={error.make}
+            />
 
-          <TextField
-            id={"models"}
-            value={product.models.join(", ")}
-            onChange={(e) => setModels(e.target.value)}
-            placeholder={t("Models")}
-            startIcon={<Commute />}
-            error={error.models}
-          />
+            <TextField
+              id={"models"}
+              value={product.models.join(", ")}
+              onChange={(e) => setModels(e.target.value)}
+              placeholder={t("Models")}
+              startIcon={<Commute />}
+              error={error.models}
+            />
 
-          <TextField
-            id={"application"}
-            value={product.application}
-            onChange={(e) => setApplication(e.target.value)}
-            placeholder={t("Application")}
-            startIcon={<Apps />}
-            error={error.application}
-          />
+            <TextField
+              id={"application"}
+              value={product.application}
+              onChange={(e) => setApplication(e.target.value)}
+              placeholder={t("Application")}
+              startIcon={<Apps />}
+              error={error.application}
+            />
 
-          <TextField
-            id={"kw"}
-            value={product.kw}
-            onChange={(e) => setKw(e.target.value)}
-            placeholder={t("kW")}
-            startIcon={<Power />}
-            error={error.kw}
-          />
+            <TextField
+              id={"kw"}
+              value={product.kw}
+              onChange={(e) => setKw(e.target.value)}
+              placeholder={t("kW")}
+              startIcon={<PowerIconWithText text="kW" />}
+              error={error.kw}
+            />
 
-          <TextField
-            id={"volt"}
-            value={product.volt}
-            onChange={(e) => setVolt(e.target.value)}
-            placeholder={t("Volt")}
-            startIcon={<Power />}
-            error={error.volt}
-          />
+            <TextField
+              id={"volt"}
+              value={product.volt}
+              onChange={(e) => setVolt(e.target.value)}
+              placeholder={t("Volt")}
+              startIcon={<PowerIconWithText text="V" />}
+              error={error.volt}
+            />
 
-          <TextField
-            id={"ampere"}
-            value={product.ampere}
-            onChange={(e) => setAmpere(e.target.value)}
-            placeholder={t("Ampere")}
-            startIcon={<Power />}
-            error={error.ampere}
-          />
+            <TextField
+              id={"ampere"}
+              value={product.ampere}
+              onChange={(e) => setAmpere(e.target.value)}
+              placeholder={t("Ampere")}
+              startIcon={<PowerIconWithText text="A" />}
+              error={error.ampere}
+            />
 
-          <TextField
-            id={"rotation"}
-            value={product.rotation}
-            onChange={(e) => setRotation(e.target.value)}
-            placeholder={t("Rotation")}
-            startIcon={<Sync />}
-            error={error.rotation}
-          />
+            <TextField
+              id={"rotation"}
+              value={product.rotation}
+              onChange={(e) => setRotation(e.target.value)}
+              placeholder={t("Rotation")}
+              startIcon={<Sync />}
+              error={error.rotation}
+            />
 
-          <TextField
-            id={"regulator"}
-            value={product.regulator}
-            onChange={(e) => setRegulator(e.target.value)}
-            placeholder={t("Regulator")}
-            startIcon={<Exposure />}
-            error={error.regulator}
-          />
+            <TextField
+              id={"regulator"}
+              value={product.regulator}
+              onChange={(e) => setRegulator(e.target.value)}
+              placeholder={t("Regulator")}
+              startIcon={<Exposure />}
+              error={error.regulator}
+            />
 
-          <TextField
-            id={"notes"}
-            value={product.notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder={t("Notes")}
-            startIcon={<EditNote />}
-            multiline
-            rows={2} 
-            error={error.notes}
-          />
+            <TextField
+              id={"notes"}
+              value={product.notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder={t("Notes")}
+              startIcon={<EditNote />}
+              multiline
+              rows={2} 
+              error={error.notes}
+            />
 
-          <TextField
-            id={"image"}
-            value={product.imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            placeholder={t("Image")}
-            startIcon={<PhotoCamera />}
-            error={error.image}
-            disabled={true}
-            endIcon={
+            <TextField
+              id={"image"}
+              value={product.imageName}
+              onChange={(e) => setImageName(e.target.value)}
+              placeholder={t("Image")}
+              startIcon={<PhotoCamera />}
+              error={error.image}
+              disabled={true}
+              endIcon={
+                <Button
+                  id={"imageUpload"}
+                  variant="contained"
+                  component="label"
+                  size="small"
+                  sx={{ mr: -1.4 }}
+                >
+                  {t("Choose")}
+                  <input
+                    type="file"
+                    hidden
+                    onChange={handleImageChange}
+                  />
+                </Button>
+              }
+            />
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: 2, // Adds spacing between the buttons
+                mt: 2, // Optional: Add margin-top for spacing
+              }}
+            >
               <Button
-                id={"imageUpload"}
+                onClick={formCancel}
+                fullWidth={false}
                 variant="contained"
-                component="label"
-                size="small"
-                sx={{ mr: -1.4 }}
+                color="secondary"
               >
-                {t("Upload")}
-                <input
-                  type="file"
-                  hidden
-                  onChange={handleImageChange}
-                />
+                {t("Cancel")}
               </Button>
-            }
-          />
+              <Button
+                onClick={formSubmitBeforeUpdate}
+                variant="contained"
+                color="success"
+              >
+                {t("Confirm")}
+              </Button>
+            </Box>
+          </form>
+          
+        </Grid>
 
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              gap: 2, // Adds spacing between the buttons
-              mt: 2, // Optional: Add margin-top for spacing
-            }}
-          >
-            <Button
-              onClick={formCancel}
-              fullWidth={false}
-              variant="contained"
-              color="secondary"
-            >
-              {t("Cancel")}
-            </Button>
-            <Button
-              onClick={formSubmitBeforeUpdate}
-              variant="contained"
-              color="success"
-            >
-              {t("Confirm")}
-            </Button>
+        {/* for sm and up breakpoints, takes remaining space */}
+        <Grid item xs={12} sm sx={{ flexGrow: 999 }}>
+          <Box style={{ height: "100%", padding: 2 }}>
+            <img width="400" src={`${config.siteUrl}${config.images.publicPath}/${product.imageNameHashed}`} alt="product image" />
           </Box>
-        </form>
-      </Container>
+        </Grid>
+
+      </Grid>
+      {/* </Container> */}
     </>
   );
 }

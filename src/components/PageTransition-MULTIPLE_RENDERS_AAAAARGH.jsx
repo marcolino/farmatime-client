@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigationType } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme, useMediaQuery } from "@mui/material";
+import { useTransition } from "react-spring";
 
 const pageVariants = {
   enter: (direction) => ({
@@ -44,28 +45,36 @@ const PageTransition = ({ children }) => {
     return <>{children}</>; // No animation for mobile
   }
 
+  const transitions = useTransition(location.pathname, (key) => key, {
+    from: { opacity: 0, transform: `translate3d(${direction > 0 ? "100%" : "-100%"}, 0, 0)` },
+    enter: { opacity: 1, transform: "translate3d(0, 0, 0)" },
+    leave: { opacity: 0, transform: `translate3d(${direction < 0 ? "100%" : "-100%"}, 0, 0)` },
+    config: {
+      mass: 1,
+      tension: 280,
+      friction: 12,
+    },
+  });
+
   return (
     <div style={{ position: "relative", overflow: "hidden" }}>
-      <AnimatePresence
-        initial={false} // this disables the "exit before enter" mode to make the animation start sooner
-        custom={direction}
-      >
-        <motion.div
-          key={location.pathname}
-          custom={direction}
-          variants={pageVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={pageTransition}
-          style={{
-            width: "100%",
-            height: "100%",
-            position: "relative",
-          }}
-        >
-          {children}
-        </motion.div>
+      <AnimatePresence>
+        {transitions.map((props) => (
+          <motion.div
+            key={props.key}
+            style={props}
+            custom={direction}
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{
+              width: "100%",
+              height: "100%",
+              position: "relative",
+            }}
+          >
+            {children}
+          </motion.div>
+        ))}
       </AnimatePresence>
     </div>
   );
