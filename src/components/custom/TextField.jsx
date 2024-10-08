@@ -22,12 +22,12 @@ const StyledTextField = ({
     <TextField
       InputProps={{
         startAdornment: (
-          <InputAdornment position="start">
+          <InputAdornment position="start" sx={{pt: props.label ? 0.6 : 0.1}}>
             {startIcon}
           </InputAdornment>
         ),
         endAdornment: endIcon && (
-          <InputAdornment position="end">
+          <InputAdornment position="end" sx={{pt: props.label ? 0.6 : 0.1}}>
             {endIcon}
           </InputAdornment>
         ),
