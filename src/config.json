@@ -49,7 +49,8 @@
     "timeoutSeconds": 10
   },
   "images": {
-    "publicPath": "/assets/products/images"
+    "publicPath": "/assets/products/images",
+    "publicPathWaterMark": "/assets/products/imagesWaterMark"
   },
   "legal": {
     "termsValidityStartDate": "01-01-2025",

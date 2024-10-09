@@ -52,7 +52,7 @@ function EditProduct() {
     if (imageFirstFile) {
       setSelectedImageObjectUrl(URL.createObjectURL(imageFirstFile));
     }
-    setImageName(imageFirstFile.name);
+    setImageNameOriginal(imageFirstFile.name);
   };
 
   useEffect(() => { // get all products on mount
@@ -149,9 +149,9 @@ function EditProduct() {
     setIsChanged({...isChanged, notes: value != productOriginal.notes })
   };
 
-  const setImageName = (value) => {
-    setProduct({ ...product, imageName: value });
-    setIsChanged({...isChanged, imageName: value != productOriginal.imageName })
+  const setImageNameOriginal = (value) => {
+    setProduct({ ...product, imageNameOriginal: value });
+    setIsChanged({...isChanged, imageNameOriginal: value != productOriginal.imageNameOriginal })
   };
 
   const formSubmitBeforeUpdate = (e) => {
@@ -235,8 +235,8 @@ function EditProduct() {
   console.log("siteUrl:", config.siteUrl);
   //console.log("path:", "/assets/products/images/");
   console.log("path in config:", config.images.publicPath);
+  console.log("product.imageNameOriginal:", product.imageNameOriginal);
   console.log("product.imageName:", product.imageName);
-  console.log("product.imageNameHashed:", product.imageNameHashed);
 
   return (
     <>
@@ -404,20 +404,20 @@ function EditProduct() {
             <TextField
               id={"image"}
               label={t("Image")}
-              value={product.imageName}
-              onChange={(e) => setImageName(e.target.value)}
+              value={product.imageNameOriginal}
+              onChange={(e) => setImageNameOriginal(e.target.value)}
               placeholder={t("Image")}
               startIcon={<PhotoCamera />}
               error={error.image}
               disabled={true}
-              sx={styleForChangedFields("imageName")}
+              sx={styleForChangedFields("imageNameOriginal")}
               endIcon={
                 <Button
                   id={"imageUpload"}
                   variant="contained"
                   component="label"
                   size="small"
-                  sx={{ mr: -1.4 }}
+                  sx={{ mr: -1.2, mt: -0.8 }}
                 >
                   {t("Choose")}
                   <input
@@ -463,8 +463,9 @@ function EditProduct() {
             <img
               width="600"
               height="300"
-              src={`${config.siteUrl}${config.images.publicPath}/${product.imageNameHashed}`}
+              src={`${config.siteUrl}${config.images.publicPathWaterMark}/${product.imageName}`}
               alt="product image"
+              style={{pointerEvents: "none"}}
             />
           </Box>
           {selectedImageObjectUrl && (
@@ -474,6 +475,7 @@ function EditProduct() {
                 height="300"
                 src={selectedImageObjectUrl}
                 alt="new product image"
+                style={{pointerEvents: "none"}}
               />
             </Box>
           )}

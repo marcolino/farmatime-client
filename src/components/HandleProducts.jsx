@@ -5,7 +5,7 @@ import { useTheme } from "@mui/material/styles";
 import { DateTime } from "luxon";
 import DialogConfirm from "./DialogConfirm";
 import { apiCall } from "../libs/Network";
-import { isBoolean, isString, isNumber, isArray, isObject } from "../libs/Misc";
+import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { i18n } from "../i18n";
 
@@ -28,20 +28,26 @@ import { TextFieldSearch, SectionHeader } from "./custom";
 import { Search, Edit, Delete } from "@mui/icons-material";
 
 const ProductTable = () => {
-  //console.log("*** ProductTable rendered");
   const theme = useTheme();
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("");
+  const [action, setAction] = useState("");
+
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
 
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+
+  const [sortColumn, setSortColumn] = useState("mdaCode");
+  const [sortDirection, setSortDirection] = useState("asc");
+  
   // to use localized dates
   const localizedDate = DateTime.fromJSDate(new Date())
     .setLocale(i18n.language)
     .toLocaleString(DateTime.DATETIME_FULL)
-    ;
+  ;
   
   useEffect(() => { // get all products on mount
     (async () => {
@@ -53,9 +59,8 @@ const ProductTable = () => {
         setProducts(result.products);
       }
     })();
-
     return () => {
-      //console.log("*** ProductTable  unmounted");
+      //console.log("ProductTable  unmounted");
     };
   }, []);
 
@@ -179,23 +184,14 @@ const ProductTable = () => {
     }
   }
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
-
-  const [sortColumn, setSortColumn] = useState("mdaCode");
-  const [sortDirection, setSortDirection] = useState("asc");
-  
   const handleSort = (columnId) => () => {
     let newDirection = "asc";
-  
     if (sortColumn === columnId && sortDirection === "asc") {
       newDirection = "desc";
     }
-  
     setSortColumn(columnId);
     setSortDirection(newDirection);
   };
-
-  const [action, setAction] = useState("");
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const handleConfirmOpen = (action) => { setAction(action); setConfirmOpen(true); }
@@ -205,28 +201,85 @@ const ProductTable = () => {
     handleConfirmClose();
   };
 
-  const sortedProducts = useMemo(() => {
+  // sort products
+  /*
+  const sortedProductsNew = React.useMemo(() => {
+    let sortedProducts = [...products];
+  
+    if (sortColumn !== null) {
+      // split the array into two groups: one with defined values and one with undefined or null values
+      const definedValues = products.filter(product => product[sortColumn] !== undefined);
+      const undefinedValues = products.filter(product => product[sortColumn] === undefined);
+    
+      // sort the group with defined values
+      definedValues.sort((a, b) => {
+        if (isString(a[sortColumn])) {
+          const valueA = a[sortColumn].toLowerCase();
+          const valueB = b[sortColumn].toLowerCase();
+          if (valueA < valueB) return sortDirection === "asc" ? -1 : 1;
+          if (valueA > valueB) return sortDirection === "asc" ? 1 : -1;
+          return 0;
+        }
+        if (isNumber(a[sortColumn]) || isBoolean(a[sortColumn])) {
+          const valueA = a[sortColumn];
+          const valueB = b[sortColumn];
+          if (valueA < valueB) return sortDirection === "asc" ? -1 : 1;
+          if (valueA > valueB) return sortDirection === "asc" ? 1 : -1;
+          return 0;
+        }
+        if (isArray(a[sortColumn])) { // TODO: only valid for roles...
+          let one = a[sortColumn][0].priority;
+          let two = b[sortColumn][0].priority;
+          if (one < two) return sortDirection === "asc" ? -1 : 1;
+          if (one > two) return sortDirection === "asc" ? 1 : -1;
+          return 0;
+        }
+        if (isNull(a[sortColumn])) {
+          console.log("NULL a")
+          return sortDirection === "asc" ? -1 : 1;
+        }
+        if (isNull(b[sortColumn])) {
+          console.log("NULL b")
+          return sortDirection === "asc" ? 1 : -1;
+        }
+        if (isObject(a[sortColumn])) {
+          // to be implemented if we will have object fields
+          console.warn(`sort of \"object\" field type for column ${sortColumn} is not implemented yet!`);
+          return 0;
+        }
+        if (!(a[sortColumn] || !b[sortColumn])) { // could happen when some field is not defined for a row
+          return 0;
+        }
+        console.error(`sort of unknown field type for column ${sortColumn} is not implemented yet!`, a[sortColumn], b[sortColumn], typeof(a[sortColumn]), typeof(b[sortColumn]));
+        return 0;
+      });
+    
+      // merge the groups back together, placing undefined values according to the sort direction
+      return sortDirection === "asc" ? [...definedValues, ...undefinedValues] : [...undefinedValues, ...definedValues];
+    }
+    return sortedProducts;
+  }, [products, sortColumn, sortDirection]);
+*/
+  
+  // sort products
+  const sortedProducts = React.useMemo(() => {
     let sortedProducts = [...products];
   
     if (sortColumn !== null) {
       sortedProducts.sort((a, b) => {
-        if (isBoolean(a[sortColumn])) {
-          let one = a[sortColumn];
-          let two = b[sortColumn];
-          if (one < two) return sortDirection === "asc" ? -1 : 1;
-          if (one > two) return sortDirection === "asc" ? 1 : -1;
-        }
         if (isString(a[sortColumn])) {
           let one = a[sortColumn]?.toLowerCase();
           let two = b[sortColumn]?.toLowerCase();
           if (one < two) return sortDirection === "asc" ? -1 : 1;
           if (one > two) return sortDirection === "asc" ? 1 : -1;
+          return 0;
         }
-        if (isNumber(a[sortColumn])) {
-          let one = a[sortColumn];
-          let two = b[sortColumn];
-          if (one < two) return sortDirection === "asc" ? -1 : 1;
-          if (one > two) return sortDirection === "asc" ? 1 : -1;
+        if (isNumber(a[sortColumn]) || isBoolean(a[sortColumn])) {
+          const valueA = a[sortColumn];
+          const valueB = b[sortColumn];
+          if (valueA < valueB) return sortDirection === "asc" ? -1 : 1;
+          if (valueA > valueB) return sortDirection === "asc" ? 1 : -1;
+          return 0;
         }
         if (isArray(a[sortColumn])) {
           let one = a[sortColumn][0].priority;
@@ -234,16 +287,51 @@ const ProductTable = () => {
           if (one < two) return sortDirection === "asc" ? -1 : 1;
           if (one > two) return sortDirection === "asc" ? 1 : -1;
         }
+        if (isNull(a[sortColumn])) {
+          return sortDirection === "asc" ? -1 : 1;
+        }
         if (isObject(a[sortColumn])) {
           // to be implemented if we will have object fields
-          console.warn("unforeseen sort of \"object\" field type");
+          console.warn(`sort of \"object\" field type for column ${sortColumn} is not implemented yet!`);
+          return 0;
         }
+        console.error(`sort of unknown field type for column ${sortColumn} is not implemented yet!`);
         return 0;
       });
     }
     return sortedProducts;
   }, [products, sortColumn, sortDirection]);
 
+  // sort, filter and paginate products
+  const getSortedFilteredPaginatedProducts = () => {
+    if (!products || !products.length) {
+      return [];
+    }
+    const filterLower = filter?.toLowerCase();
+    const matches = (obj, fieldName) => {
+      if (!obj) {
+        return false;
+      }
+      if (!obj[fieldName]) {
+        return false;
+      }
+      return obj[fieldName].toString().toLowerCase().includes(filterLower);
+    };
+    return sortedProducts.filter(product =>
+      matches(product, "mdaCode") ||
+      matches(product, "oemCode") ||
+      matches(product, "make") ||
+      matches(product, "application") ||
+      matches(product, "kw") ||
+      matches(product, "volt") ||
+      matches(product, "ampere") ||
+      matches(product, "teeth") ||
+      matches(product, "type") ||
+      matches(product, "notes")
+    )
+    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  };
+    
   const sortButton = (props) => {
     return (
       <Typography component="span">
@@ -343,10 +431,11 @@ const ProductTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedProducts
-                .filter((product) => product?.mdaCode?.toLowerCase().includes(filter.toLowerCase()))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((product) => {
+              {getSortedFilteredPaginatedProducts(products, sortColumn, sortDirection).map(product => {
+              // {sortedProducts
+              //   .filter((product) => product?.mdaCode?.toLowerCase().includes(filter.toLowerCase()))
+              //   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              //   .map((product) => {
                   const isItemSelected = isSelected(product.id);
                   //console.log("KEY:", product.id);
                   return (

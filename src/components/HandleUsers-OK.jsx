@@ -6,7 +6,7 @@ import { DateTime } from "luxon";
 import DialogConfirm from "./DialogConfirm";
 import DialogEmailCreation from "./DialogEmailCreation";
 import { apiCall } from "../libs/Network";
-import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
+import { isBoolean, isString, isNumber, isArray, isObject } from "../libs/Misc";
 //import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { i18n } from "../i18n";
@@ -36,15 +36,8 @@ const UserTable = () => {
   const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("");
-  const [action, setAction] = useState("");
-
-  const rowsPerPageOptions = [5, 10, 25, 50, 100];
-
-  const isSelected = (id) => selected.indexOf(id) !== -1;
-
-  const [sortColumn, setSortColumn] = useState("lastName");
-  const [sortDirection, setSortDirection] = useState("asc");
   
+  const rowsPerPageOptions = [5, 10, 25, 50, 100];
 
   // to use localized dates
   const localizedDate = DateTime.fromJSDate(new Date())
@@ -61,9 +54,6 @@ const UserTable = () => {
         setUsers(result.users);
       }
     })();
-    return () => {
-      //console.log("UserTable  unmounted");
-    };
   }, []); // empty dependency array: this effect runs once when the component mounts
 
   const removeUser = (params) => {
@@ -186,14 +176,23 @@ const UserTable = () => {
     }
   }
 
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+
+  const [sortColumn, setSortColumn] = useState("lastName");
+  const [sortDirection, setSortDirection] = useState("asc");
+  
   const handleSort = (columnId) => () => {
     let newDirection = "asc";
+  
     if (sortColumn === columnId && sortDirection === "asc") {
       newDirection = "desc";
     }
+  
     setSortColumn(columnId);
     setSortDirection(newDirection);
   };
+
+  const [action, setAction] = useState("");
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const handleConfirmOpen = (action) => { setAction(action); setConfirmOpen(true); }
@@ -211,95 +210,45 @@ const UserTable = () => {
     handleEmailCreationClose();
   };
 
-  // sort users
   const sortedUsers = React.useMemo(() => {
     let sortedUsers = [...users];
   
     if (sortColumn !== null) {
-      // split the array into two groups: one with defined values and one with undefined or null values
-      const definedValues = users.filter(user => user[sortColumn] !== undefined);
-      const undefinedValues = users.filter(user => user[sortColumn] === undefined);
-    
-      // sort the group with defined values
-      definedValues.sort((a, b) => {
+      sortedUsers.sort((a, b) => {
+        if (isBoolean(a[sortColumn])) {
+          let one = a[sortColumn];
+          let two = b[sortColumn];
+          if (one < two) return sortDirection === "asc" ? -1 : 1;
+          if (one > two) return sortDirection === "asc" ? 1 : -1;
+        }
         if (isString(a[sortColumn])) {
-          const valueA = a[sortColumn].toLowerCase();
-          const valueB = b[sortColumn].toLowerCase();
-          if (valueA < valueB) return sortDirection === "asc" ? -1 : 1;
-          if (valueA > valueB) return sortDirection === "asc" ? 1 : -1;
-          return 0;
+          let one = a[sortColumn]?.toLowerCase();
+          let two = b[sortColumn]?.toLowerCase();
+          if (one < two) return sortDirection === "asc" ? -1 : 1;
+          if (one > two) return sortDirection === "asc" ? 1 : -1;
         }
-        if (isNumber(a[sortColumn]) || isBoolean(a[sortColumn])) {
-          const valueA = a[sortColumn];
-          const valueB = b[sortColumn];
-          if (valueA < valueB) return sortDirection === "asc" ? -1 : 1;
-          if (valueA > valueB) return sortDirection === "asc" ? 1 : -1;
-          return 0;
+        if (isNumber(a[sortColumn])) {
+          let one = a[sortColumn];
+          let two = b[sortColumn];
+          if (one < two) return sortDirection === "asc" ? -1 : 1;
+          if (one > two) return sortDirection === "asc" ? 1 : -1;
         }
-        if (isArray(a[sortColumn])) { // TODO: only valid for roles...
+        if (isArray(a[sortColumn])) {
           let one = a[sortColumn][0].priority;
           let two = b[sortColumn][0].priority;
           if (one < two) return sortDirection === "asc" ? -1 : 1;
           if (one > two) return sortDirection === "asc" ? 1 : -1;
-          return 0;
-        }
-        if (isNull(a[sortColumn])) {
-          return sortDirection === "asc" ? -1 : 1;
         }
         if (isObject(a[sortColumn])) {
           // to be implemented if we will have object fields
-          console.warn(`sort of \"object\" field type for column ${sortColumn} is not implemented yet!`);
-          return 0;
+          console.warn("unforeseen sort of \"object\" field type");
         }
-        console.error(`sort of unknown field type for column ${sortColumn} is not implemented yet!`);
         return 0;
       });
-    
-      // merge the groups back together, placing undefined values according to the sort direction
-      return sortDirection === "asc" ? [...definedValues, ...undefinedValues] : [...undefinedValues, ...definedValues];
     }
     return sortedUsers;
   }, [users, sortColumn, sortDirection]);
 
-  useEffect(() => { // DEBUG ONLY
-    console.log("users:", users);
-    console.log("sortedUsers:", sortedUsers);
-  }, [users, sortedUsers]);
-
-  // sort, filter and paginate users
-  const getSortedFilteredPaginatedUsers = () => {
-    if (!users || !users.length) {
-      return [];
-    }
-    const filterLower = filter?.toLowerCase();
-    const matches = (obj, fieldName) => {
-      let fieldValue = obj[fieldName];
-      // if (fieldName === "roles") {
-      //   let a = 1;
-      // }
-      if (!obj) {
-        return false;
-      }
-      if (!obj[fieldName]) {
-        return false;
-      }
-      if (fieldName === "roles") {
-        fieldValue = fieldValue.sort((a, b) => a["priority"] < b["priority"]).map(role => role["name"].toLowerCase()).join(", ")
-      }
-      return fieldValue.toString().toLowerCase().includes(filterLower);
-    };
-    return sortedUsers.filter(user =>
-      matches(user, "firstName") ||
-      matches(user, "lastName") ||
-      matches(user, "email") ||
-      matches(user, "phone") ||
-      matches(user, "roles") ||
-      matches(user, "fiscalCode") ||
-      matches(user, "businessName")
-    )
-    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-  };
-  
   const sortButton = (props) => {
     return (
       <Typography component="span">
@@ -385,11 +334,10 @@ const UserTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {getSortedFilteredPaginatedUsers(users, sortColumn, sortDirection).map(user => {
-              // {sortedUsers
-              //   .filter((user) => user?.firstName?.toLowerCase().includes(filter.toLowerCase()))
-              //   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              //   .map((user) => {
+              {sortedUsers
+                .filter((user) => user?.firstName?.toLowerCase().includes(filter.toLowerCase()))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((user) => {
                   const isItemSelected = isSelected(user._id);
                   return (
                     <TableRow

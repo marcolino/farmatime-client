@@ -10,6 +10,10 @@ export const isEmptyObject = (obj) => {
   );
 };
 
+export const isNull = (v) => {
+  return (v == null);
+}
+
 export const isBoolean = (v) => {
   return typeof v === "boolean";
 };
