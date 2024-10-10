@@ -15,14 +15,14 @@ export const useAxiosLoader = (delayThreshold = config.spinner.delay, setDisable
   }, []);
 
   const updateLoadingState = useCallback((newCounter) => {
-    // Set loading state based on the counter
+    // set loading state based on the counter
     if (newCounter > 0) {
-      // Set loading only if counter goes from 0 to 1
+      // set loading only if counter goes from 0 to 1
       if (counter === 0) {
         setLoading(true);
       }
     } else {
-      // Set loading to false when counter is 0
+      // set loading to false when counter is 0
       setLoading(false);
     }
   }, [counter]);
@@ -33,7 +33,7 @@ export const useAxiosLoader = (delayThreshold = config.spinner.delay, setDisable
       clearTimer();
 
       timerRef.current = setTimeout(() => {
-        // This timeout is just to introduce a delay if needed
+        // this timeout is just to introduce a delay if needed
       }, delayThreshold);
 
       updateLoadingState(newCounter); // Update loading state based on the new counter
@@ -43,8 +43,8 @@ export const useAxiosLoader = (delayThreshold = config.spinner.delay, setDisable
 
   const dec = useCallback(() => {
     setCounter(prevCounter => {
-      const newCounter = Math.max(0, prevCounter - 1); // Ensure it doesn't go below 0
-      updateLoadingState(newCounter); // Update loading state based on the new counter
+      const newCounter = Math.max(0, prevCounter - 1); // ensure it doesn't go below 0
+      updateLoadingState(newCounter); // update loading state based on the new counter
       return newCounter;
     });
   }, [updateLoadingState]);

@@ -229,7 +229,7 @@ function EditProduct() {
 
   // TODO: do something better, to check for data is present... <Loader /> does not show anything... :-/
   if (!product) {
-    return <Loader loading={true} />;
+    return null; // TODO...
   }
   
   console.log("siteUrl:", config.siteUrl);
