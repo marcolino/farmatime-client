@@ -2,33 +2,20 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 // import { makeStyles } from "@material-ui/styles";
 import Avatar from "@mui/material/Avatar";
-import ShareIcon from '@mui/icons-material/Share';
-import IconButton from '@mui/material/IconButton';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ShareIcon from "@mui/icons-material/Share";
+import IconButton from "@mui/material/IconButton";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
-import red from '@mui/material/colors/red';
+import red from "@mui/material/colors/red";
 import { StatusContext } from "../providers/StatusProvider";
 
-// const useStyles = makeStyles(theme => ({
-//   root: {
-//     "& > *": {
-//       margin: theme.spacing(1)
-//     }
-//   },
-// 	notifications: {
-//     maxWidth: 300,
-//     fontSize: "1.5em",
-// 	},
-//   media: {
-//     maxHeight: 300,
-//   },
-// }));
 
+// TODO: do we use notifications stuff?
 export default function Notifications(props) {
   const { status, setStatus } = useContext(StatusContext);
   const navigate = useNavigate();
@@ -57,14 +44,14 @@ return (
 console.log("Notifications state:", state);
         const timestamp = state.data["google.c.a.ts"];
         const when = new Intl.DateTimeFormat(
-          'it-IT'/* TODO */,
+          "it-IT"/* TODO */,
           {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            //second: '2-digit',
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            //second: "2-digit",
           }
         ).format(timestamp * 1000); // milliseconds required
         return (

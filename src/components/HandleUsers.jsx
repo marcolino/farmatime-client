@@ -127,7 +127,10 @@ const UserTable = () => {
   };
 
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  //const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(() => {
+    return parseInt(localStorage.getItem("UsersRowsPerPage")) || 10; // persist to localstorage
+  });
   const [selected, setSelected] = useState([]);
 
   const handleFilterChange = (event) => {
@@ -139,9 +142,15 @@ const UserTable = () => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    const newRowsPerPage = parseInt(event.target.value);
+    setRowsPerPage(newRowsPerPage);
+    localStorage.setItem("UsersRowsPerPage", newRowsPerPage);
   };
+
+  // const handleChangeRowsPerPageOLD = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {

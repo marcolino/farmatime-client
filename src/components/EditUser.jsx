@@ -6,10 +6,7 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import SectionHeader from "./custom/SectionHeader";
-import TextField from "./custom/TextField";
-import TextFieldPhone from "./custom/TextFieldPhone";
-import Select from "./custom/Select";
+import { SectionHeader, TextField, TextFieldPhone, Select } from "./custom";
 import { apiCall } from "../libs/Network";
 import { AuthContext } from "../providers/AuthProvider";
 //import { useSnackbar } from "../providers/SnackbarManager";
@@ -298,140 +295,169 @@ function EditUser() {
   }
   
   return (
+    <Select
+      id={"roles"}
+      //value={user ? user?.roles?.map(role => role.name) : []}
+      value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => t(role.name))}
+      label={t("Roles")}
+      options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => role.name)}
+      optionsDisabled={allRoles.map(role => role.priority > auth.user.roles[0].priority)}
+      multiple={true}
+      onChange={(e) => setRoles(e.target.value)}
+      placeholder={t("Roles")}
+      startIcon={<SupervisedUserCircle />}
+      error={error.roles}
+    />
+  );
+
+  return (
     <>
       <SectionHeader text={t("Users handling")}>
         {origin === "editUser" ? t("Edit user") :  t("Edit profile")}
       </SectionHeader>
-
+      
       <Container maxWidth="xs">
-        <form noValidate autoComplete="off">
-          <TextField
-            autoFocus
-            id={"firstName"}
-            value={user.firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder={t("First Name")}
-            startIcon={<Person />}
-            error={error.firstName}
-          />
-
-          <TextField
-            id={"lastName"}
-            value={user.lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder={t("Last Name")}
-            startIcon={<Person />}
-            error={error.lastName}
-          />
-
-          <TextField
-            id={"email"}
-            value={user.email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={t("Email")}
-            startIcon={<Email />}
-            error={error.email}
-          />
-
-          <TextFieldPhone
-            id={"phone"}
-            value={user.phone}
-            onChange={(value) => setPhone(value)}
-            placeholder={t("Phone")}
-            error={error.phone}
-          />
-
-          <Select
-            id={"roles"}
-            //value={user ? user?.roles?.map(role => role.name) : []}
-            value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => t(role.name))}
-            options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => role.name)}
-            optionsDisabled={allRoles.map(role => role.priority > auth.user.roles[0].priority)}
-            multiple={true}
-            onChange={(e) => setRoles(e.target.value)}
-            placeholder={t("Roles")}
-            startIcon={<SupervisedUserCircle />}
-            error={error.roles}
-          />
-        
-          {config.ui.usePlans && (
-            <Select
-              id={"plan"}
-              //value={user ? user?.roles?.map(role => role.name) : []}
-              value={t(user.plan.name)}
-              options={allPlans.map(plan => plan.name)}
-              optionsDisabled={allPlans.map(role => !isAdmin(auth.user))}
-              multiple={false}
-              onChange={(e) => setPlan(e.target.value)}
-              placeholder={t("Plan")}
-              startIcon={<PlaylistAddCheck />}
-              error={error.plan}
+        <Box display="flex" flexDirection="column" gap={2}>
+          <form noValidate autoComplete="off">
+            
+            <TextField
+              autoFocus
+              id={"firstName"}
+              value={user.firstName}
+              label={t("First name")}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder={t("First Name")}
+              startIcon={<Person />}
+              error={error.firstName}
             />
-          )}
+
+            <TextField
+              id={"lastName"}
+              value={user.lastName}
+              label={t("Last name")}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder={t("Last Name")}
+              startIcon={<Person />}
+              error={error.lastName}
+            />
+
+            <TextField
+              id={"email"}
+              value={user.email}
+              label={t("Email")}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t("Email")}
+              startIcon={<Email />}
+              error={error.email}
+            />
+
+            <TextFieldPhone
+              id={"phone"}
+              value={user.phone}
+              label={t("Phone")}
+              onChange={(value) => setPhone(value)}
+              placeholder={t("Phone")}
+              error={error.phone}
+            />
+
+            <Select
+              id={"roles"}
+              //value={user ? user?.roles?.map(role => role.name) : []}
+              value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => t(role.name))}
+              label={t("Roles")}
+              options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => role.name)}
+              optionsDisabled={allRoles.map(role => role.priority > auth.user.roles[0].priority)}
+              multiple={true}
+              onChange={(e) => setRoles(e.target.value)}
+              placeholder={t("Roles")}
+              startIcon={<SupervisedUserCircle />}
+              error={error.roles}
+            />
           
-          <TextField
-            id={"address"}
-            value={user.address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder={t("Address")}
-            startIcon={<LocationOnIcon />}
-            error={error.address}
-          />
-          {/* <PlacesAutocomplete /> */}
-          
-          <TextField
-            id={"fiscalCode"}
-            value={user.fiscalCode}
-            onChange={(e) => setFiscalCode(e.target.value)}
-            placeholder={t("Tax Code or VAT Number")}
-            startIcon={<Payment />}
-            error={error.address}
-            inputProps={{ style: { textTransform: "uppercase" } }}
-          />
+            {config.ui.usePlans && (
+              <Select
+                id={"plan"}
+                //value={user ? user?.roles?.map(role => role.name) : []}
+                value={user.plan.name}
+                label={t("Plan")}
+                options={allPlans.map(plan => plan.name)}
+                optionsDisabled={allPlans.map(role => !isAdmin(auth.user))}
+                multiple={false}
+                onChange={(e) => setPlan(e.target.value)}
+                placeholder={t("Plan")}
+                startIcon={<PlaylistAddCheck />}
+                error={error.plan}
+              />
+            )}
+            
+            <TextField
+              id={"address"}
+              value={user.address}
+              label={t("Address")}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder={t("Address")}
+              startIcon={<LocationOnIcon />}
+              error={error.address}
+            />
+            {/* <PlacesAutocomplete /> */}
+            
+            <TextField
+              id={"fiscalCode"}
+              value={user.fiscalCode}
+              label={t("Fiscal code")}
+              onChange={(e) => setFiscalCode(e.target.value)}
+              placeholder={t("Tax Code or VAT Number")}
+              startIcon={<Payment />}
+              error={error.address}
+              inputProps={{ style: { textTransform: "uppercase" } }}
+            />
 
-          <TextField
-            id={"businessName"}
-            value={user.businessName}
-            onChange={(e) => setBusinessName(e.target.value)}
-            placeholder={t("Business name")}
-            startIcon={<Business />}
-            error={error.businessName}
-          />
+            <TextField
+              id={"businessName"}
+              value={user.businessName}
+              label={t("Business name")}
+              onChange={(e) => setBusinessName(e.target.value)}
+              placeholder={t("Business name")}
+              startIcon={<Business />}
+              error={error.businessName}
+            />
 
-          {/* <TextField
-            id={"profileImage"}
-            value={user.profileImage}
-            onChange={(e) => setProfileImage(e.target.value)}
-            placeholder={t("Profile image")}
-            startIcon={<PermIdentity />}
-            error={error.profileImage}
-          /> */}
+            {/* <TextField
+              id={"profileImage"}
+              value={user.profileImage}
+              label={t("Profile image")}
+              onChange={(e) => setProfileImage(e.target.value)}
+              placeholder={t("Profile image")}
+              startIcon={<PermIdentity />}
+              error={error.profileImage}
+            /> */}
 
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end', // Aligns the buttons to the right
-              gap: 2, // Adds spacing between the buttons
-              mt: 2, // Optional: Add margin-top for spacing
-            }}
-          >
-            <Button
-              onClick={formCancel}
-              fullWidth={false}
-              variant="contained"
-              color="secondary"
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end', // Aligns the buttons to the right
+                gap: 2, // Adds spacing between the buttons
+                mt: 2, // Optional: Add margin-top for spacing
+              }}
             >
-              {t("Cancel")}
-            </Button>
-            <Button
-              onClick={formSubmitBeforeUpdate}
-              variant="contained"
-              color="success"
-            >
-              {t("Confirm")}
-            </Button>
-          </Box>
-        </form>
+              <Button
+                onClick={formCancel}
+                fullWidth={false}
+                variant="contained"
+                color="secondary"
+              >
+                {t("Cancel")}
+              </Button>
+              <Button
+                onClick={formSubmitBeforeUpdate}
+                variant="contained"
+                color="success"
+              >
+                {t("Confirm")}
+              </Button>
+            </Box>
+          </form>
+        </Box>
       </Container>
     </>
   );

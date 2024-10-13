@@ -8,10 +8,9 @@ import { apiCall } from "../libs/Network";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { i18n } from "../i18n";
-
 import {
   Box,
-  Button,
+  //Button,
   Checkbox,
   IconButton,
   Paper,
@@ -24,8 +23,8 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import { TextFieldSearch, SectionHeader } from "./custom";
-import { Search, Edit, Delete } from "@mui/icons-material";
+import { TextFieldSearch, SectionHeader, Button } from "./custom";
+import { Search, Edit, Delete, AddCircleOutline } from "@mui/icons-material";
 
 const ProductTable = () => {
   const theme = useTheme();
@@ -64,28 +63,9 @@ const ProductTable = () => {
     };
   }, []);
 
-
-  // useEffect(() => {
-  //   console.log("*** ProductTable mounted");
-  //   let isMounted = true;
-  //   const fetchProducts = async () => {
-  //     const result = await apiCall("get", "/product/getAllProducts");
-  //     if (result.err) {
-  //       showSnackbar(result.message, result.status === 401 ? "warning" : "error");
-  //     } else {
-  //       //showSnackbar("ok", "info");
-  //       if (isMounted) {
-  //         setProducts(result.products);
-  //       }
-  //     }
-  //   };
-  
-  //   fetchProducts();
-  //   return () => {
-  //     console.log("*** ProductTable  unmounted");
-  //     isMounted = false;
-  //   };
-  // }, []);
+  const newProduct = () => {
+    navigate(`/edit-product/<new>`);
+  };
 
   const removeProduct = (params) => {
     return apiCall("post", "/product/removeProduct", params);
@@ -128,7 +108,10 @@ const ProductTable = () => {
   };
 
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  //const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(() => {
+    return parseInt(localStorage.getItem("ProductsRowsPerPage")) || 10; // persist to localstorage
+  });
   const [selected, setSelected] = useState([]);
 
   const handleFilterChange = (event) => {
@@ -140,9 +123,15 @@ const ProductTable = () => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    const newRowsPerPage = parseInt(event.target.value);
+    setRowsPerPage(newRowsPerPage);
+    localStorage.setItem("ProductsRowsPerPage", newRowsPerPage);
   };
+
+  // const handleChangeRowsPerPageOLD = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -308,6 +297,25 @@ const ProductTable = () => {
       return [];
     }
     const filterLower = filter?.toLowerCase();
+
+    const filterProduct = (product) => {
+      if (!filter) {
+        return true;
+      }
+      return false ||
+        matches(product, "mdaCode") ||
+        matches(product, "oemCode") ||
+        matches(product, "make") ||
+        matches(product, "application") ||
+        matches(product, "kw") ||
+        matches(product, "volt") ||
+        matches(product, "ampere") ||
+        matches(product, "teeth") ||
+        matches(product, "type") ||
+        matches(product, "notes")
+      ;
+    };
+
     const matches = (obj, fieldName) => {
       if (!obj) {
         return false;
@@ -317,19 +325,10 @@ const ProductTable = () => {
       }
       return obj[fieldName].toString().toLowerCase().includes(filterLower);
     };
-    return sortedProducts.filter(product =>
-      matches(product, "mdaCode") ||
-      matches(product, "oemCode") ||
-      matches(product, "make") ||
-      matches(product, "application") ||
-      matches(product, "kw") ||
-      matches(product, "volt") ||
-      matches(product, "ampere") ||
-      matches(product, "teeth") ||
-      matches(product, "type") ||
-      matches(product, "notes")
-    )
-    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    
+    return sortedProducts.
+      filter(product => filterProduct(product))
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   };
     
   const sortButton = (props) => {
@@ -361,9 +360,24 @@ const ProductTable = () => {
           startIcon={<Search />}
           fullWidth={false}
           sx={{
-            color: theme.palette.text.primary
+            color: theme.palette.text.primary, mr: theme.spacing(2),
           }}
         />
+        <Button
+          onClick={newProduct}
+          fullWidth={false}
+          variant="contained"
+          color="primary"
+          size="small"
+          startIcon={<AddCircleOutline sx={{ fontSize: "1.2em !important" }} />}
+          hideChildrenUpToBreakpoint="sm" // for mobile, hide text children
+          sx={{
+            mt: theme.spacing(1),
+            height: "40px", // match the height of the TextField with size="small" and margin="dense"
+          }}
+        >
+          {t("New product")}
+        </Button>
       </Box>
 
       <Paper sx={{
@@ -496,6 +510,7 @@ const ProductTable = () => {
           <Button
             variant="contained"
             color="primary"
+            fullWidth={false}
             onClick={() => handleConfirmOpen("removeBulk")}
             disabled={selected.length === 0}
             sx={{mr: theme.spacing(2)}}

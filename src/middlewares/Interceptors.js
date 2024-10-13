@@ -137,35 +137,17 @@ const refreshAccessToken = async () => {
   }
 };
 
-// TODO: this interceptor breaks refresh tokens interceptor!
-// response interceptor to handle maintenance mode
-// instance.interceptors.response.use(
-//   response => {
-//     console.log("RESPONSE HEADERS:", response.headers);
-//     if (response.headers["x-maintenance-status"] === "true") {
-//       localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
-//       window.location.href = "/work-in-progress";
-//     } else {
-//       localStorage.removeItem("x-maintenance-status");
-//     }
-//     return response;
-//   },
-//   error => {
-//     return Promise.reject(new Error(error.message));
-//   }
-// );
-
 // response interceptor to refresh tokens
 instance.interceptors.response.use(
   response => {
-    /* MAINTENANCE */
     if (response.headers["x-maintenance-status"] === "true") {
       localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
-      window.location.href = "/work-in-progress";
+      if (window.location.pathname !== "/work-in-progress") {
+        window.location.href = "/work-in-progress";
+      }
     } else {
       localStorage.removeItem("x-maintenance-status");
     }
-    /* MAINTENANCE */
     return response;
   },
   async (error) => {
@@ -174,7 +156,11 @@ instance.interceptors.response.use(
       return Promise.reject(new Error("No response from server!"));
     }
     if (response.status === 404) {
-      window.location.href = "/page-not-found";
+      if (config.url !== "/page-not-found") {
+        if (window.location.pathname !== "/page-not-found") {
+          window.location.href = "/page-not-found";
+        }
+      }
     }
     if (response.status === 401 && config.url !== "/auth/signin") {
       if (!isRefreshing) {

@@ -1,5 +1,5 @@
 import React, { useEffect, Suspense, lazy } from "react";
-import { Routes, Route, useLocation, Outlet } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "notistack";
@@ -29,18 +29,30 @@ const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
 const Routing = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const showSnackbar = useSnackbar();
   const { i18n } = useTranslation();
 
-  // check for error parameters in location url
+  // check for error parameters in location url set by social login (TODO: should this hook stay here?)
   useEffect(() => {
     const search = queryString.parse(location.search);
     if (search.error) {
+      console.warn(`SHOWING location.pathname... we got a search.error parameter (${search.error}), if location.search ${location.search} is social-signin-error we can move this useEffect there...`);
       showSnackbar(i18n.t("Social login did not work, sorry.\n{{error}}: {{errorDescription}}", { error: search.error, errorDescription: search.error_description }));
     }
   }, [location]);
 
-  // <PageTransition>
+  // force navigation to /work-in-progress if needed
+  useEffect(() => {
+    (() => {
+      //const maintenance = (localStorage.getItem("x-maintenance-status") === "true");
+      const maintenance = (localStorage.getItem("x-maintenance-status"));
+      if (maintenance && (window.location.pathname !== "/work-in-progress")) {
+        navigate("/work-in-progress", { replace: true });
+      }
+    })();
+  }, [location, navigate]);
+
   return (
     <Suspense fallback={<Loader lazyloading={true} />}>
       <Routes>
@@ -67,7 +79,6 @@ const Routing = () => {
       </Routes>
     </Suspense>
   );
-  // </PageTransition>
 }
 
 export default React.memo(Routing);

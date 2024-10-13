@@ -13,6 +13,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import IconGravatar from "./IconGravatar";
 import ImageCustom from "./ImageCustom";
 //import useSnackbar from "../providers/SnackbarManager";
+import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { AuthContext } from "../providers/AuthProvider";
 import { isAdmin } from "../libs/Validation";
 import logoMain from "../assets/icons/LogoMain.png";
@@ -21,8 +22,8 @@ import logoMain from "../assets/icons/LogoMain.png";
 
 const Header = ({ theme, toggleTheme }) => {
   const { auth, signOut } = useContext(AuthContext);
+  const { showSnackbar } = useSnackbarContext();
   const navigate = useNavigate();
-  //const { showSnackbar } = useSnackbar();
   const { t } = useTranslation();
   
   const isLoggedIn = (auth.user !== false);

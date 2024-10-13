@@ -254,7 +254,11 @@ function ForgotPassword() {
                 error={error.email}
               />
               <Box m={1} />
-              <Button type="submit" onClick={formForgotPassword}>
+              <Button
+                type="submit"
+                onClick={formForgotPassword}
+                sx={{ mt: 1, textAlign: "center" }}
+              >
                 {t("Request password reset")}
               </Button>
             </>

@@ -342,7 +342,11 @@ function SignUp() {
                 error={error.passwordConfirmed}
               />
               <Box m={1} />
-              <Button type="submit" onClick={formSignUp}>
+              <Button
+                type="submit"
+                onClick={formSignUp}
+                sx={{ mt: 1, textAlign: "center" }}
+              >
                 {t("Sign Up")}
               </Button>
             </>

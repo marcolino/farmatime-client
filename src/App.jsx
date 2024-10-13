@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-//import SnackbarProviderWrapper from "./providers/SnackbarManager";
-//import SnackbarProvider from "./providers/SnackbarProvider";
 import { SnackbarProviderWrapper } from "./providers/SnackbarProvider"; 
 import ServiceWorkerProvider from "./providers/ServiceWorkerProvider";
 import { AuthProvider } from "./providers/AuthProvider";

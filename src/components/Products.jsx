@@ -11,6 +11,7 @@ function Products() {
   const { auth } = useContext(AuthContext);
   const { t } = useTranslation();
   const theme = useTheme();
+  //console.log("CUSTOM:", config.customization);
 
   if (config.customization === "mda") {
     const [filterMda, setFilterMda] = useState("");

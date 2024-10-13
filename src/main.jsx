@@ -8,6 +8,7 @@ setupCustomConsole();
 
 console.log(
   config.mode.production ? "production" :
+  config.mode.staging ? "staging" :
   config.mode.development ? "development" :
   config.mode.test ? "test" :
   "unforeseen",
