@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { SectionHeader, TextField, TextFieldPhone, Select } from "./custom";
 import { apiCall } from "../libs/Network";
+import { objectsAreEqual } from "../libs/Misc";
 import { AuthContext } from "../providers/AuthProvider";
 //import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
@@ -29,6 +30,7 @@ import config from "../config";
 function EditUser() {
   const navigate = useNavigate();
   const [user, setUser] = useState(false);
+  const [userOriginal, setUserOriginal] = useState(false);
   const [error, setError] = useState({});
   const { auth, setAuth } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext(); 
@@ -45,7 +47,8 @@ function EditUser() {
   
   const [allRoles, setAllRoles] = useState(false);
   const [allPlans, setAllPlans] = useState(false);
-    
+  const [isChanged, setIsChanged] = useState({});
+
   const [updateReady, setUpdateReady] = useState(false); // to handle form values changes refresh
   //const [sameUserProfile, setSameUserProfile] = useState(false); // to know if profile is the logged user's
   
@@ -57,6 +60,7 @@ function EditUser() {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
         setUser(result.user);
+        setUserOriginal(result.user);
         // if (result.user._id === userId) {
         //   setSameUserProfile(true);
         // }
@@ -190,44 +194,54 @@ function EditUser() {
 
   const setFirstName = (value) => {
     setUser({ ...user, firstName: value });
+    setIsChanged({ ...isChanged, firstName: value != userOriginal.firstName });
   };
 
   const setLastName = (value) => {
     setUser({ ...user, lastName: value });
+    setIsChanged({ ...isChanged, lastName: value != userOriginal.lastName });
   };
   
   const setEmail = (value) => {
     setUser({ ...user, email: value });
+    setIsChanged({ ...isChanged, email: value != userOriginal.email });
   };
 
   const setPhone = (value) => {
     setUser({ ...user, phone: value });
+    setIsChanged({ ...isChanged, phone: value != userOriginal.phone });
   };
 
   const setRoles = (values) => {
     const roles = allRoles.filter(role => values.includes(role.name));
     setUser({ ...user, roles });
+    setIsChanged({ ...isChanged, roles: !objectsAreEqual(values, userOriginal.roles.map(r => r.name)) });
   };
 
-  const setPlan = (value) => {
-    const plan = allPlans.find(plan => value === plan.name);
+  const setPlan = (values) => {
+    const plan = allPlans.find(plan => values === plan.name);
     setUser({ ...user, plan });
+    setIsChanged({ ...isChanged, plan: !objectsAreEqual(values, userOriginal.plan.name) });
   };
 
   const setAddress = (value) => {
     setUser({ ...user, address: value });
+    setIsChanged({ ...isChanged, address: value != userOriginal.address });
   };
 
   const setFiscalCode = (value) => {
     setUser({ ...user, fiscalCode: value });
+    setIsChanged({ ...isChanged, fiscalCode: value != userOriginal.fiscalCode });
   };
   
   const setBusinessName = (value) => {
     setUser({ ...user, businessName: value });
+    setIsChanged({ ...isChanged, businessName: value != userOriginal.businessName });
   };
 
   // const setProfileImage = (value) => {
   //   setUser({ ...user, profileImage: value });
+  //   setIsChanged({ ...isChanged, profileImage: value != userOriginal.profileImage });
   // };
 
   const formSubmitBeforeUpdate = (e) => {
@@ -270,8 +284,8 @@ function EditUser() {
  * TODO: check why these fields are in auth, and if they are really needed:
  *  - phone
  *  - ok
- * and check plan (which is {supportTypes: Array(1), _id: '66b385bbb1f43bf477a6d6a1', name: 'free', priceCurrency: 'EUR', pricePerYear: 0})
- * and roles (which is ['admin'])
+ * and check plan (which is {supportTypes: Array(1), _id: "66b385bbb1f43bf477a6d6a1", name: "free", priceCurrency: "EUR", pricePerYear: 0})
+ * and roles (which is ["admin"])
  */
       
     // }).catch(err => {
@@ -287,6 +301,14 @@ function EditUser() {
     navigate(-1);
   }
  
+  const styleForChangedFields = (fieldName) => {
+    const sx = { fontWeight: isChanged[fieldName] ? "bold" : "normal", };
+    return {
+      ...sx, // for standard fields
+      input: sx, // for multiline fields
+    };
+  }
+
   // TODO: do something better, to check for data is present... :-/
   if (!user || !allRoles || !allPlans) {
     return (
@@ -294,22 +316,6 @@ function EditUser() {
     );
   }
   
-  return (
-    <Select
-      id={"roles"}
-      //value={user ? user?.roles?.map(role => role.name) : []}
-      value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => t(role.name))}
-      label={t("Roles")}
-      options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => role.name)}
-      optionsDisabled={allRoles.map(role => role.priority > auth.user.roles[0].priority)}
-      multiple={true}
-      onChange={(e) => setRoles(e.target.value)}
-      placeholder={t("Roles")}
-      startIcon={<SupervisedUserCircle />}
-      error={error.roles}
-    />
-  );
-
   return (
     <>
       <SectionHeader text={t("Users handling")}>
@@ -323,62 +329,66 @@ function EditUser() {
             <TextField
               autoFocus
               id={"firstName"}
-              value={user.firstName}
+              value={user.firstName ?? ""}
               label={t("First name")}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder={t("First Name")}
               startIcon={<Person />}
               error={error.firstName}
+              sx={styleForChangedFields("firstName")}
             />
 
             <TextField
               id={"lastName"}
-              value={user.lastName}
+              value={user.lastName ?? ""}
               label={t("Last name")}
               onChange={(e) => setLastName(e.target.value)}
               placeholder={t("Last Name")}
               startIcon={<Person />}
               error={error.lastName}
+              sx={styleForChangedFields("lastName")}
             />
 
             <TextField
               id={"email"}
-              value={user.email}
+              value={user.email ?? ""}
               label={t("Email")}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("Email")}
               startIcon={<Email />}
               error={error.email}
+              sx={styleForChangedFields("email")}
             />
 
             <TextFieldPhone
               id={"phone"}
-              value={user.phone}
+              value={user.phone ?? ""}
               label={t("Phone")}
               onChange={(value) => setPhone(value)}
               placeholder={t("Phone")}
               error={error.phone}
+              sx={styleForChangedFields("phone")}
             />
 
             <Select
               id={"roles"}
-              //value={user ? user?.roles?.map(role => role.name) : []}
-              value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => t(role.name))}
+              value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
               label={t("Roles")}
-              options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => role.name)}
+              options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
               optionsDisabled={allRoles.map(role => role.priority > auth.user.roles[0].priority)}
               multiple={true}
               onChange={(e) => setRoles(e.target.value)}
               placeholder={t("Roles")}
               startIcon={<SupervisedUserCircle />}
               error={error.roles}
+              sx={styleForChangedFields("roles")}
             />
           
             {config.ui.usePlans && (
               <Select
                 id={"plan"}
                 //value={user ? user?.roles?.map(role => role.name) : []}
-                value={user.plan.name}
+                value={user.plan.name ?? ""}
                 label={t("Plan")}
                 options={allPlans.map(plan => plan.name)}
                 optionsDisabled={allPlans.map(role => !isAdmin(auth.user))}
@@ -387,12 +397,13 @@ function EditUser() {
                 placeholder={t("Plan")}
                 startIcon={<PlaylistAddCheck />}
                 error={error.plan}
+                sx={styleForChangedFields("plan")}
               />
             )}
             
             <TextField
               id={"address"}
-              value={user.address}
+              value={user.address ?? ""}
               label={t("Address")}
               onChange={(e) => setAddress(e.target.value)}
               placeholder={t("Address")}
@@ -403,7 +414,7 @@ function EditUser() {
             
             <TextField
               id={"fiscalCode"}
-              value={user.fiscalCode}
+              value={user.fiscalCode ?? ""}
               label={t("Fiscal code")}
               onChange={(e) => setFiscalCode(e.target.value)}
               placeholder={t("Tax Code or VAT Number")}
@@ -414,7 +425,7 @@ function EditUser() {
 
             <TextField
               id={"businessName"}
-              value={user.businessName}
+              value={user.businessName ?? ""}
               label={t("Business name")}
               onChange={(e) => setBusinessName(e.target.value)}
               placeholder={t("Business name")}
@@ -424,7 +435,7 @@ function EditUser() {
 
             {/* <TextField
               id={"profileImage"}
-              value={user.profileImage}
+              value={user.profileImage ?? ""}
               label={t("Profile image")}
               onChange={(e) => setProfileImage(e.target.value)}
               placeholder={t("Profile image")}
@@ -434,8 +445,8 @@ function EditUser() {
 
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'flex-end', // Aligns the buttons to the right
+                display: "flex",
+                justifyContent: "flex-end", // Aligns the buttons to the right
                 gap: 2, // Adds spacing between the buttons
                 mt: 2, // Optional: Add margin-top for spacing
               }}

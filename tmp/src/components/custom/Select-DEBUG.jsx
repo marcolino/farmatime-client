@@ -20,6 +20,8 @@ const StyledSelect = ({
   props.size = props.size ?? size;
   props.margin = props.margin ?? margin;
   
+  if (props.id === "roles") console.log("PROPS:", { ...props });
+
   let optionsDisabled = [];
   if (props.optionsDisabled) { // an array (parallel to options) of booleans, to disable relative option
     optionsDisabled = props.optionsDisabled;
@@ -29,13 +31,9 @@ const StyledSelect = ({
   const theme = useTheme();
 
   return (
-    <FormControl fullWidth={props.fullWidth} sx={{ mt: 1, mb: 0.7 }}>
-      <InputLabel sx={{ mt: 0, px: 0.5, color: (props.id === document.activeElement.id) ? "primary.main" : "text.primary", backgroundColor: "background.default" }}>
-        {props.label}
-      </InputLabel>
       <Select
         sx={{ ...props.sx, my: props.margin === "normal" ? "8px" : props.margin === "dense" ? "5px" : 0}}
-        multiple={props.multiple}
+        //multiple={props.multiple}
         renderValue={(selected) => (
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {props.multiple ? selected.map((value, index) => (
@@ -45,24 +43,12 @@ const StyledSelect = ({
             )}
           </div>
         )}
-        input={variant === "outlined" ?
-          <OutlinedInput
-            startAdornment={
-              <InputAdornment position="start">
-                {startIcon}
-              </InputAdornment>
-            }
-            endAdornment={endIcon && (
-              <InputAdornment position="end">
-                {endIcon}
-              </InputAdornment>
-            )}
-          /> : /* TODO: support all component variants */ null
-        }
         {...props}
       >
         {props.options.sort((a, b) => a.priority - b.priority).map((option, index) => {
           const isSelected = props.multiple ? props.value.includes(option) : props.value === option;
+          if (props.id === "roles") console.log("PROPS.VALUE(s):", props.value);
+          if (props.id === "roles") console.log("OPTION:", option, isSelected);
           return (
             <MenuItem
               key={option}
@@ -70,7 +56,7 @@ const StyledSelect = ({
               sx={{
                 my: 0.5,
                 backgroundColor: isSelected ? alpha(theme.palette.violet.main, 0.4) : "inherit",
-                //color: isSelected ? "white" : "inherit", // custom color for selected items
+                //color: isSelected ? "white" : "inherit", // cust  om color for selected items
                 "&.Mui-selected": {
                   backgroundColor: alpha(theme.palette.violet.main, 0.6),
                   //color: "white", // selected item color
@@ -91,7 +77,6 @@ const StyledSelect = ({
           )
         })}
       </Select>
-    </FormControl>
   );
 };
 

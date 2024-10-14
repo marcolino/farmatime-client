@@ -35,6 +35,16 @@ export const isObject = (v) => {
   return (typeof v === "object" && !Array.isArray(v));
 }
 
+export const objectsAreEqual = (o1, o2) => {
+  // return Object.keys(o1).length === Object.keys(o2).length
+  //   && Object.keys(o1).every(p => o1[p] === o2[p])
+  // ;
+  const retval = Object.keys(o1).length === Object.keys(o2).length
+    && Object.keys(o1).every(p => o1[p] === o2[p])
+    ;
+  return retval;
+} 
+
 // deeply merge objects with precedence to the source one
 export const deepMergeObjects = (target, source) => {
   for (let key in source) {

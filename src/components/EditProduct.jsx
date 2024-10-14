@@ -240,15 +240,10 @@ function EditProduct() {
   }
 
   const styleForChangedFields = (fieldName) => {
+    const sx = { fontWeight: isChanged[fieldName] ? "bold" : "normal", };
     return {
-      input: {
-        fontWeight: isChanged[fieldName] ? "bold" : "normal",
-      },
-    };
-  }
-  const styleForChangedMultilineFields = (fieldName) => {
-    return {
-      fontWeight: isChanged[fieldName] ? "bold" : "normal",
+      ...sx, // for standard fields
+      input: sx, // for multiline fields
     };
   }
 
@@ -285,7 +280,7 @@ function EditProduct() {
                   autoFocus
                   id={"mdaCode"}
                   label={t("MDA code")}
-                  value={product.mdaCode}
+                  value={product.mdaCode ?? ""}
                   onChange={(e) => setMdaCode(e.target.value)}
                   placeholder={t("MDA code")}
                   startIcon={<Api />}
@@ -296,7 +291,7 @@ function EditProduct() {
                 <TextField
                   id={"oemCode"}
                   label={t("OEM code")}
-                  value={product.oemCode}
+                  value={product.oemCode ?? ""}
                   onChange={(e) => setOemCode(e.target.value)}
                   placeholder={t("OEM code")}
                   startIcon={<Api />}
@@ -306,7 +301,7 @@ function EditProduct() {
 
                 <Select
                   id={"types"}
-                  value={t(product.type)}
+                  value={t(product.type ?? "")}
                   label={t("Type")}
                   options={productAllTypes}
                   multiple={false}
@@ -320,7 +315,7 @@ function EditProduct() {
                 <TextField
                   id={"make"}
                   label={t("Make")}
-                  value={product.make}
+                  value={product.make ?? ""}
                   onChange={(e) => setMake(e.target.value)}
                   placeholder={t("Make")}
                   startIcon={<DriveEta />}
@@ -342,7 +337,7 @@ function EditProduct() {
                 <TextField
                   id={"application"}
                   label={t("Application")}
-                  value={product.application}
+                  value={product.application ?? ""}
                   onChange={(e) => setApplication(e.target.value)}
                   placeholder={t("Application")}
                   startIcon={<Apps />}
@@ -353,7 +348,7 @@ function EditProduct() {
                 <TextField
                   id={"kw"}
                   label={t("kW")}
-                  value={product.kw}
+                  value={product.kw ?? ""}
                   onChange={(e) => setKw(e.target.value)}
                   placeholder={t("kW")}
                   startIcon={<PowerIconWithText text="kW" />}
@@ -364,7 +359,7 @@ function EditProduct() {
                 <TextField
                   id={"volt"}
                   label={t("Volt")}
-                  value={product.volt}
+                  value={product.volt ?? ""}
                   onChange={(e) => setVolt(e.target.value)}
                   placeholder={t("Volt")}
                   startIcon={<PowerIconWithText text="V" />}
@@ -375,7 +370,7 @@ function EditProduct() {
                 <TextField
                   id={"ampere"}
                   label={t("Ampere")}
-                  value={product.ampere}
+                  value={product.ampere ?? ""}
                   onChange={(e) => setAmpere(e.target.value)}
                   placeholder={t("Ampere")}
                   startIcon={<PowerIconWithText text="A" />}
@@ -386,7 +381,7 @@ function EditProduct() {
                 <TextField
                   id={"rotation"}
                   label={t("Rotation")}
-                  value={product.rotation}
+                  value={product.rotation ?? ""}
                   onChange={(e) => setRotation(e.target.value)}
                   placeholder={t("Rotation")}
                   startIcon={<Sync />}
@@ -397,7 +392,7 @@ function EditProduct() {
                 <TextField
                   id={"teeth"}
                   label={t("Teeth")}
-                  value={product.teeth}
+                  value={product.teeth ?? ""}
                   onChange={(e) => setTeeth(e.target.value)}
                   placeholder={t("Teeth")}
                   startIcon={<SettingsSuggest />}
@@ -408,7 +403,7 @@ function EditProduct() {
                 <TextField
                   id={"regulator"}
                   label={t("Regulator")}
-                  value={product.regulator}
+                  value={product.regulator ?? ""}
                   onChange={(e) => setRegulator(e.target.value)}
                   placeholder={t("Regulator")}
                   startIcon={<Exposure />}
@@ -419,21 +414,21 @@ function EditProduct() {
                 <TextField
                   id={"notes"}
                   label={t("Notes")}
-                  value={product.notes}
+                  value={product.notes ?? ""}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder={t("Notes")}
                   startIcon={<EditNote />}
                   multiline
                   rows={2}
                   error={error.notes}
-                  InputProps={{ sx: styleForChangedMultilineFields("notes") }}
+                  InputProps={{ sx: styleForChangedFields("notes") }}
                   spellCheck={false}
                 />
 
                 <TextField
                   id={"image"}
                   label={t("Image")}
-                  value={product.imageNameOriginal}
+                  value={product.imageNameOriginal ?? ""}
                   onChange={(e) => setImageNameOriginal(e.target.value)}
                   placeholder={t("Image")}
                   startIcon={<PhotoCamera />}
