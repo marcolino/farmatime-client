@@ -409,7 +409,8 @@ function EditUser() {
               placeholder={t("Address")}
               startIcon={<LocationOnIcon />}
               error={error.address}
-            />
+              sx={styleForChangedFields("address")}
+              />
             {/* <PlacesAutocomplete /> */}
             
             <TextField
@@ -421,6 +422,7 @@ function EditUser() {
               startIcon={<Payment />}
               error={error.address}
               inputProps={{ style: { textTransform: "uppercase" } }}
+              sx={styleForChangedFields("fiscalCode")}
             />
 
             <TextField
@@ -431,6 +433,7 @@ function EditUser() {
               placeholder={t("Business name")}
               startIcon={<Business />}
               error={error.businessName}
+              sx={styleForChangedFields("businessName")}
             />
 
             {/* <TextField
@@ -441,6 +444,7 @@ function EditUser() {
               placeholder={t("Profile image")}
               startIcon={<PermIdentity />}
               error={error.profileImage}
+              sx={styleForChangedFields("profileImage")}
             /> */}
 
             <Box

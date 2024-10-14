@@ -300,16 +300,16 @@ function EditProduct() {
                 />
 
                 <Select
-                  id={"types"}
+                  id={"type"}
                   value={t(product.type ?? "")}
                   label={t("Type")}
                   options={productAllTypes}
-                  multiple={false}
-                  onChange={(e) => setTypes(e.target.value)}
-                  placeholder={t("Types")}
+                  //multiple={false}
+                  onChange={(e) => setType(e.target.value)}
+                  placeholder={t("Type")}
                   startIcon={<AdsClick />}
                   error={error.types}
-                  // sx={ styleForChangedFields("type") }
+                  sx={ styleForChangedFields("type") }
                 />
 
                 <TextField
@@ -421,7 +421,7 @@ function EditProduct() {
                   multiline
                   rows={2}
                   error={error.notes}
-                  InputProps={{ sx: styleForChangedFields("notes") }}
+                  sx={styleForChangedFields("notes")}
                   spellCheck={false}
                 />
 
