@@ -2,6 +2,8 @@ import React from "react";
 import { Grid, Box, Typography, Link, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
+import WorkInProgressImage from "../assets/icons/WorkInProgress.png";
+
 
 const WorkInProgress = () => {
   const { t } = useTranslation();
@@ -33,7 +35,8 @@ const WorkInProgress = () => {
               objectFit: "contain",
             }}
             alt="Work in progress"
-            src="/src/assets/icons/WorkInProgress.png"
+            // src="/src/assets/icons/WorkInProgress.png"
+            src={WorkInProgressImage}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -49,7 +52,7 @@ const WorkInProgress = () => {
                 fontWeight: "bold",
               }}
             >
-              {`${t("Work in progress")}! ${t("Sorry")}!`}
+              {`${t("Work in progress")}! ${t("Sorry")}.`}
             </Typography>
             <Typography 
               variant="body1"

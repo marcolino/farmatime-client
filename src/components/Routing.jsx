@@ -7,13 +7,12 @@ import { useSnackbar }  from "../providers/SnackbarManager";
 import PageTransition from "./PageTransition";
 import Loader from "./Loader";
 
+
 const Home = lazy(() => import("./Home"));
 const SignUp = lazy(() => import("./auth/SignUp")); 
 const SignIn = lazy(() => import("./auth/SignIn"));
 const SocialSignInSuccess = lazy(() => import("./auth/SocialSignInSuccess"));
 const SocialSignInError = lazy(() => import("./auth/SocialSignInError"));
-// const SignOut = lazy(() => import("./auth/SignOut"));
-const Profile = lazy(() => import("./auth/Profile"));
 const ForgotPassword = lazy(() => import("./auth/ForgotPassword"));
 const Products = lazy(() => import("./Products"));
 const Notifications = lazy(() => import("./Notifications"));
@@ -24,8 +23,6 @@ const HandleUsers = lazy(() => import("./HandleUsers"));
 const HandleProducts = lazy(() => import("./HandleProducts"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
-
-
 
 function Routing() {
   const location = useLocation();
@@ -49,8 +46,6 @@ function Routing() {
           <Route path="/signin" element={<SignIn />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/social-signin-success" element={<SocialSignInSuccess />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/social-signin-error" element={<SocialSignInError />} />c
-          <Route path="/profile" element={<Profile />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          {/* <Route path="/signout" element={<SignOut />} /> sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/forgot-password" element={<ForgotPassword />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/products" element={<Products />} /> {/* sitemapFrequency={"daily"} sitemapPriority={1.0} */}
           <Route path="/notifications" element={<Notifications />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
@@ -59,8 +54,9 @@ function Routing() {
           <Route path="/privacy-policy" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"privacyPolicy"} />} />
           <Route path="/contacts" element={<Contacts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="/handle-users" element={<HandleUsers />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
-          <Route path="/handle-products" element={<WorkInProgress />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
+          <Route path="/handle-products" element={<HandleProducts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="/page-not-found" element={<PageNotFound />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
+          <Route path="/work-in-progress" element={<WorkInProgress />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>

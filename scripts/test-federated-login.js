@@ -8,7 +8,7 @@
 
 import http from "https";
 import dotenv from "dotenv";
-//import config from "../src/config.js"; // ensure .js extension for ES module imports
+//import config from "../src/config"; // ensure .js extension for ES module imports
 const config = {}; config.oauth = {}; // TODO...
 
 dotenv.config({ path: "../.env" });

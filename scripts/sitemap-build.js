@@ -1,14 +1,14 @@
-#!/usr/bin/env yarn node
+#!/usr/bin/env node
 /**
  * Build sitemap.xml for a react web app, starting from the routes file, using only node.js
  */
 
 import fs from "fs";
-import config from "../src/config.js"; // ensure .js extension for ES module imports
+import config from "../src/config.json" assert { type: "json" };
 
 const sitemapFileName = "./public/sitemap.xml";
 const hostName = config.siteUrl; // the url of the website: the protocol and the domain name
-const routesPath = "./src/components/Routes.js";
+const routesPath = "./src/components/Routing.jsx";
 const defaultFrequency = "monthly";
 const defaultPriority = 0.5;
 
@@ -33,7 +33,7 @@ fs.readFile(routesPath, "utf8", (err, data) => {
     }
   });
 
-  sitemapXml = generate_xml_sitemap(routes);
+  const sitemapXml = generate_xml_sitemap(routes);
 
   fs.writeFile(sitemapFileName, sitemapXml, (err) => {
     if (err) {

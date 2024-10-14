@@ -19,12 +19,12 @@ function Home() {
   return (
     <Paper sx={{px: 1}}>
       {!auth.user &&
-        <Typography>{t("pagina iniziale utente ospite")}</Typography>
+        <Typography>{t("home page for guest user")}</Typography>
       }
       {auth.user &&
-        <Typography>{t("pagina iniziale utente autenticato")}</Typography>
+        <Typography>{t("home page for logged user")}</Typography>
       }
-      {(auth.user && auth?.user.roles.includes("user") && auth.user.justRegistered) && (
+      {(auth.user && auth?.user.roles.includes("user") && auth.user.justRegistered) && ( // TODO: handle justRegistered, if needed...
         <Typography>{t("Administrators are verifying your role...")}</Typography>
       )}
     </Paper>

@@ -18,7 +18,8 @@ const CustomButton = ({ variant, fullWidth = true, ...props }) => {
     <StyledButton
       variant={variant ?? "contained"}
       fullWidth={fullWidth}
-      sx={{mt: 2}}
+      sx={{ mt: 2 }}
+      exact="true"
       {...props}
     >
       {props.children}

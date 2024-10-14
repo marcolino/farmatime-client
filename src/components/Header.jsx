@@ -165,8 +165,8 @@ const Header = ({ theme, toggleTheme }) => {
         )}
         {!isMobile && (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Button color="inherit" component={RouterLink} to="/products">Products</Button>
-            <Button color="inherit" component={RouterLink} to="/contacts">Contacts</Button>
+            <Button color="inherit" component={RouterLink} to="/products">{t("Products")}</Button>
+            <Button color="inherit" component={RouterLink} to="/contacts">{t("Contacts")}</Button>
             {/* {isLoggedIn ? (
               <>A<AvatarMenu />V</>
             ) : (
@@ -256,14 +256,13 @@ const Header = ({ theme, toggleTheme }) => {
         >
           <List>
             <ListItem button component={Link} to="/products">
-              <ListItemText primary="Products" />
+              <ListItemText primary={t("Products")} />
             </ListItem>
             <ListItem button component={Link} to="/contacts">
-              <ListItemText primary="Contacts" />
+              <ListItemText primary={t("Contacts")} />
             </ListItem>
             {auth.user ? (
               <>
-                ------------------
                 <ListItem button component={Link} to="/admin-panel">
                   <ListItemText primary="Admin" />
                 </ListItem>

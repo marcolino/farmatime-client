@@ -1,4 +1,4 @@
-#!/usr/bin/env yarn node
+#!/usr/bin/env node
 
 // import modules using ES module syntax
 import dotenv from "dotenv";
@@ -6,9 +6,10 @@ import fs from "fs/promises";
 import { access } from "fs/promises"; // access as a promise-based version
 
 // TODO: how to load dynamically set ../src/config.js ???
-//import config from "../src/config.js"; // ensure .js extension for ES module imports
+//import config from "../src/config"; // ensure .js extension for ES module imports
+import config from "../src/config.json" assert { type: "json" };
 
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: "./.env" });
 
 
 const manifestFileName = "./public/manifest.json";
@@ -53,15 +54,15 @@ if (!error) {
         "sizes": "512x512"
       },
     ],
-    // "start_url": config.manifest.startUrl,
-    // "display": config.manifest.display,
-    "theme_color": process.env.REACT_APP_THEME_COLOR,
-    "background_color": process.env.REACT_APP_BACKGROUND_COLOR,
+    "start_url": config.manifest.startUrl,
+    "display": config.manifest.display,
+    "theme_color": process.env.VITE_THEME_COLOR,
+    "background_color": process.env.VITE_BACKGROUND_COLOR,
   };
 
   try {
     await fs.writeFile(manifestFileName, JSON.stringify(manifestJson, null, 2) + "\n");
-    console.log(`Manifest file ${manifestFileName} created successfully.`);
+    //console.log(`Manifest file ${manifestFileName} created successfully.`);
   } catch (err) {
     console.log(err);
   }

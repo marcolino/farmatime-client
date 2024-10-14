@@ -70,8 +70,13 @@ const clearLocalTokens = () => {
 // create axios instance
 const createInstance = () => {
   return axios.create({
+<<<<<<< HEAD
     baseURL: "http://localhost:5000/api", // used when running on the client, while developing (TODO: use value in config)
     timeout: 30 * 1000, // (TODO: use value in config)
+=======
+    baseURL: `${cfg.siteUrl}/api`,
+    timeout: cfg.api.timeoutSeconds * 1000,
+>>>>>>> d067f50 (Testing production)
     headers: {
       "Content-Type": "application/json",
     }

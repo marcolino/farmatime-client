@@ -30,7 +30,7 @@ function SignIn() {
 
   const handleSocialLogin = (event, provider) => {
     event.preventDefault(); // redirect fails without preventing default behaviour!
-    window.open(`http://localhost:5000/api/auth/${provider.toLowerCase()}`, "_self");
+    window.open(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`, "_self");
   };
 
   const validateForm = () => {
@@ -166,7 +166,7 @@ function SignIn() {
                 underline="hover"
                 onClick={() => navigate("/forgot-password", { replace: true })}
               >
-                Forgot Password?
+                {t("Forgot password?")}
               </Link>
             </Typography>
           </Box>

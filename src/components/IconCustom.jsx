@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import IconLogoMain from "../assets/icons/LogoMain.png";
 import IconNetworkOn from "../assets/icons/Network.on.svg";
 import IconNetworkOff from "../assets/icons/Network.off.svg";
-import IconNotFound from "../assets/icons/NotFound.png";
+import IconNotFound from "../assets/icons/PageNotFound.png";
 import IconWorkInprogress from "../assets/icons/WorkInProgress.png";
 
 

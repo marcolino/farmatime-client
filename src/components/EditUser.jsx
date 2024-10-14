@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, useParams /*, useLocation*/ } from "react-router-dom";
-//import { usePromiseTracker } from "react-promise-tracker";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-//import { FormInput, FormPhoneInput, FormSelect } from "./FormElements";
 import {
   Container,
   Box,
@@ -49,8 +47,6 @@ function EditUser() {
     navigate(-1);
     return;
   }
-  // const location = useLocation();
-  // console.log("Additional state:", location.state);
   
   const [allRoles, setAllRoles] = useState(false);
   const [allPlans, setAllPlans] = useState(false);
@@ -60,7 +56,7 @@ function EditUser() {
   
   useEffect(() => { // get all users on mount
     (async() => {
-      const result = await apiCall("get", "/user/getUser", { userId: userId });
+      const result = await apiCall("post", "/user/getUser", { userId });
       if (result.err) {
         if (result.status === 401) alert("401 !!!"); // TODO: check if really we have to care about 401 here...
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
@@ -351,7 +347,7 @@ function EditUser() {
           <Select
             id={"roles"}
             //value={user ? user?.roles?.map(role => role.name) : []}
-            value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => role.name)}
+            value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => t(role.name))}
             options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => role.name)}
             optionsDisabled={allRoles.map(role => role.priority > auth.user.roles[0].priority)}
             multiple={true}
@@ -365,7 +361,7 @@ function EditUser() {
             <Select
               id={"plan"}
               //value={user ? user?.roles?.map(role => role.name) : []}
-              value={user.plan.name}
+              value={t(user.plan.name)}
               options={allPlans.map(plan => plan.name)}
               optionsDisabled={allPlans.map(role => !isAdmin(auth.user))}
               multiple={false}
