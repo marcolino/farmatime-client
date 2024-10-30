@@ -10,7 +10,7 @@ const Cookie = {
         return null;
       }
     } catch (error) {
-      console.error(`cookie key "${key}" value is not valid json:`, JSON.stringify(value));
+      console.error(`cookie key "${key}" value is not valid json:`, value);
       return null;
     }
   },

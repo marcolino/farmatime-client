@@ -140,14 +140,14 @@ const refreshAccessToken = async () => {
 // response interceptor to refresh tokens
 instance.interceptors.response.use(
   response => {
-    if (response.headers["x-maintenance-status"] === "true") {
-      localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
-      if (window.location.pathname !== "/work-in-progress") {
-        window.location.href = "/work-in-progress";
-      }
-    } else {
-      localStorage.removeItem("x-maintenance-status");
-    }
+    // if (response.headers["x-maintenance-status"] === "true") {
+    //   localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
+    //   if (window.location.pathname !== "/work-in-progress") {
+    //     window.location.href = "/work-in-progress";
+    //   }
+    // } else {
+    //   localStorage.removeItem("x-maintenance-status");
+    // }
     return response;
   },
   async (error) => {
@@ -161,6 +161,9 @@ instance.interceptors.response.use(
           window.location.href = "/page-not-found";
         }
       }
+    }
+    if (response.status === 403) { // unauthorized
+     // TODO...
     }
     if (response.status === 401 && config.url !== "/auth/signin") {
       if (!isRefreshing) {

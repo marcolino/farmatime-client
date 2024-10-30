@@ -13,8 +13,10 @@ const InnerSnackbarProvider = ({ children }) => {
   const { enqueueSnackbar } = useSnackbar();
 
   // function to show a snackbar with a given variant
-  const showSnackbar = (message = "This is a custom snackbar", variant = "default") => {
-    enqueueSnackbar(message, { variant });
+  const showSnackbar = (message = null, variant = "default") => {
+    if (message) { // ignore empty message snackbars
+      enqueueSnackbar(message, { variant });
+    }
   };
 
   // memoize the context value to prevent unnecessary renders

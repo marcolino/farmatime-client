@@ -20,15 +20,22 @@ const apiCall = async(method, url, data = null) => {
       if (err.response) {
         // the request was made and the server responded with a status code out of the range of 2xx
         console.error(`${url} error response`, err.response);
-        if (err.response.data?.message) { // if some data.message, show it to the user
+        const message = err.response.data?.message ?? err.message
+        if (message) { // if some data.message, show it to the user
+          const code = err.response.data?.code;
           if (
-            (err.response.data.code !== "NO_TOKEN") &&
-            (err.response.data.code !== "EXPIRED_TOKEN")
-          ) { // ignore token errors, the important warning is shown in refreshToken middleware
+            (code !== "NO_TOKEN") &&
+            (code !== "EXPIRED_TOKEN")
+          ) { // ignore token error messages, the important warning is shown in refreshToken middleware
             return {
               err: true,
               status: err.response.status,
-              message: err.response.data?.message,
+            };
+          } else {
+            return {
+              err: true,
+              status: err.response.status,
+              message: message,
               data: err.response.data
             };
           }
