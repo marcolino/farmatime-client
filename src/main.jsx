@@ -16,8 +16,8 @@ console.log(
 );
 
 createRoot(document.getElementById("root")).render(
-  // TODO: StrictMode renders everything TWICE !!!
-  // <StrictMode>
+  // StrictMode renders everything TWICE, disabling it also for development (in production it should be a noop...)
+  //<StrictMode>
     <App />
-  // </StrictMode>
+  //</StrictMode>
 );

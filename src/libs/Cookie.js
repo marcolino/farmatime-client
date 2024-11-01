@@ -10,18 +10,23 @@ const Cookie = {
         return null;
       }
     } catch (error) {
-      console.error(`cookie key "${key}" value is not valid json:`, value);
+      console.error(`Can't get cookie key "${key}" because value is not valid json:`, value);
       return null;
     }
   },
 
   set: (key, value, options = {}) => {
-    return Cookies.set(key, value, options);
-    /*
-      expires: days,
-      path: "",
-      domain: "",
-    */
+    try {
+      return Cookies.set(key,  JSON.stringify(value), options);
+      /*
+        expires: days,
+        path: "",
+        domain: "",
+      */
+    } catch (error) {
+      console.error(`Can't set cookie key "${key}" with value ${value}`);
+      return null;
+    }
   },
 
   remove: (key) => {

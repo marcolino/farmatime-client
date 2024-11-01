@@ -9,7 +9,7 @@
 import http from "https";
 import dotenv from "dotenv";
 //import config from "../src/config"; // ensure .js extension for ES module imports
-const config = {}; config.oauth = {}; // TODO...
+const config = {}; config.oauth = {}; // TODO: import config from "../src/config" is not working... :-/
 
 dotenv.config({ path: "../.env" });
 const redirect_uri = encodeURIComponent(config.oauth.redirectSignIn);

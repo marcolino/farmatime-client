@@ -29,10 +29,10 @@ const App = () => {
     setTheme((prevTheme) => (prevTheme.palette.mode === "light" ? themeDark : themeLight));
   };
 
-  const handleLogout = () => {
-    console.log("user logged out due to inactivity");
-    window.location.href = "/";
-  };
+  // const handleLogout = () => {
+  //   console.log("user logged out due to inactivity");
+  //   window.location.href = "/";
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,7 +46,7 @@ const App = () => {
               <LoaderProvider>
                 <Loader loading={loading} />
                 <Router>
-                  <SessionProvider onLogout={handleLogout} />
+                  <SessionProvider /*onLogout={handleLogout}*/ />
                   {/* {config.mode.development && <Banner theme={theme} text="development" />} */}
                   {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
                   <Contents theme={theme} toggleTheme={toggleTheme}>

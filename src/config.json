@@ -62,9 +62,9 @@
     "display": "standalone"
   },
   "auth": {
-    "clientSessionExpirationSeconds": 30,
+    "clientSessionExpirationSeconds": 129600,
     "clientSessionExpirationResponseMaximumSeconds": 900,
-    "clientLastActivityCheckTimeoutSeconds": 86400
+    "clientLastActivityCheckTimeoutSeconds": 3600
   },
   "spinner": {
     "delay": 500,

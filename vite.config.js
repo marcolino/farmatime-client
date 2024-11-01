@@ -62,7 +62,7 @@ export default defineConfig({
         ],
       },
       devOptions: {
-        enabled: false // enables the service worker in development mode
+        enabled: true, // enables the service worker in development mode
       }
     }),
     sitemap({

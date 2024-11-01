@@ -45,8 +45,7 @@ const Routing = () => {
   // force navigation to /work-in-progress if needed
   useEffect(() => {
     (() => {
-      //const maintenance = (localStorage.getItem("x-maintenance-status") === "true");
-      const maintenance = (localStorage.getItem("x-maintenance-status"));
+      const maintenance = localStorage.getItem("x-maintenance-status");
       if (maintenance && (window.location.pathname !== "/work-in-progress")) {
         navigate("/work-in-progress", { replace: true });
       }

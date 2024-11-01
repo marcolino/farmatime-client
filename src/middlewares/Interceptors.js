@@ -38,7 +38,7 @@ const setLocalAccessToken = (token) => {
 
     // set the updated auth cookie
     try {
-      Cookie.set("auth", JSON.stringify(updatedAuth));
+      Cookie.set("auth", updatedAuth);
       console.log("token successfully updated");
       return true;
     } catch (error) {
@@ -59,7 +59,7 @@ const getLocalRefreshToken = () => {
 
 const clearLocalTokens = () => {
   const currentAuth = Cookie.get("auth");
-  Cookie.set("auth", { ...currentAuth, "user": false });
+  Cookie.set("auth", {"user": false});
 };
 
 // create axios instance
@@ -140,14 +140,15 @@ const refreshAccessToken = async () => {
 // response interceptor to refresh tokens
 instance.interceptors.response.use(
   response => {
-    // if (response.headers["x-maintenance-status"] === "true") {
-    //   localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
-    //   if (window.location.pathname !== "/work-in-progress") {
-    //     window.location.href = "/work-in-progress";
-    //   }
-    // } else {
-    //   localStorage.removeItem("x-maintenance-status");
-    // }
+    if (response.headers["x-maintenance-status"] === "true") {
+      if (window.location.pathname !== "/work-in-progress") {
+        localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
+        localStorage.setItem("x-maintenance-path", window.location.pathname); // for client-side routing maintenance
+        window.location.href = "/work-in-progress";
+      }
+    } else {
+      localStorage.removeItem("x-maintenance-status");
+    }
     return response;
   },
   async (error) => {
@@ -162,9 +163,6 @@ instance.interceptors.response.use(
         }
       }
     }
-    if (response.status === 403) { // unauthorized
-     // TODO...
-    }
     if (response.status === 401 && config.url !== "/auth/signin") {
       if (!isRefreshing) {
         isRefreshing = true;
@@ -174,7 +172,7 @@ instance.interceptors.response.use(
           onRefreshed(newAccessToken);
           refreshSubscribers = [];
           return instance(config);
-        } catch (refreshError) {
+        } catch (refreshError) { // refresh token expired
           console.log("refreshError caught:", refreshError);
           isRefreshing = false;
           clearLocalTokens();
@@ -182,7 +180,7 @@ instance.interceptors.response.use(
           setDisableLoaderGlobal(true); // to disable the loader before redirection
           setTimeout(() => { // redirect to signin page with some delay, to allow snackbar to be read
             setDisableLoaderGlobal(false); // to reenable the loader after redirection
-            //window.location.href = "/signin";
+            window.location.href = "/signin";
           }, cfg.ui.snacks.autoHideDurationSeconds * 1000);
           refreshError.response.data.message = null; // avoid double error showing snackbar on component (TODO: check what happens removing this line...)
           return Promise.reject(refreshError);

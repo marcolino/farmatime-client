@@ -28,6 +28,19 @@ const customBaseThemeProps = {
       xl: 1920,
     },
   },
+  components: {
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          padding: 3,
+          maxWidth: 200,
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        },
+      },
+    },
+  },
 };
 
 // custom colors theme props

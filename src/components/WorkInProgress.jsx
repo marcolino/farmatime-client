@@ -1,14 +1,22 @@
 import React from "react";
-import { Grid, Box, Typography, Link, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { Grid, Box, Typography, /*Link,*/ useMediaQuery } from "@mui/material";
+import { Button } from "./custom";
 import WorkInProgressImage from "../assets/icons/WorkInProgress.png";
 
 
 const WorkInProgress = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const theme = useTheme();
   const isLandscape = useMediaQuery(theme.breakpoints.up("sm"));
+  const retry = () => {
+    const maintenancePath = (localStorage.getItem("x-maintenance-path"));
+    localStorage.removeItem("x-maintenance-path");
+    navigate(maintenancePath ?? "/");
+  };
 
   return (
     <Box 
@@ -51,7 +59,7 @@ const WorkInProgress = () => {
                 fontWeight: "bold",
               }}
             >
-              {`${t("Work in progress")}! ${t("Sorry")}.`}
+              {`${t("Work in progress")}!`}
             </Typography>
             <Typography 
               variant="body1"
@@ -61,15 +69,21 @@ const WorkInProgress = () => {
             >
               {t("We are working hard to restore the functionality of this web app. Please come back soon")}!
             </Typography>
-            <Link 
-              href="/"
+            {/* <Link 
+              href="/" //{retry}
               color="warning"
               sx={{ 
                 display: "inline-block",
               }}
             >
-              {t("Go back to home page")}
-            </Link>
+              {t("Retry")}
+            </Link> */}
+            <Button
+              color="primary" fullWidth={false} size={"large"}
+              onClick={retry}
+            >
+              {t("Retry")}
+            </Button>
           </Box>
         </Grid>
       </Grid>

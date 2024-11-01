@@ -7,21 +7,16 @@ import DialogConfirm from "../components/DialogConfirm";
 import config from "../config";
 
 
-const SessionProvider = ({ onLogout }) => {
+const SessionProvider = (/*{ onLogout }*/) => {
   const { auth, signOut } = useContext(AuthContext);
-  //const navigate = useNavigate();
   const { t } = useTranslation();
   
   const [showDialog, setShowDialog] = useState(false);
   const isLoggedIn = (auth.user !== false);
 
-  // const handleConfirmClose = () => {
-  //   setShowDialog(false);
-  // };
   const handleLogout = async() => {
     setShowDialog(false);
     await signOut();
-    // navigate("/signout");
   };
   const handleContinue = () => {
     setShowDialog(false);
@@ -30,16 +25,25 @@ const SessionProvider = ({ onLogout }) => {
     setShowDialog(true);
   };
 
-  useInactivityTimer(isLoggedIn, config.auth.clientSessionExpirationSeconds * 1000, handleTimeout); // start timer only when logged in
+  // start timer only when logged in
+  useInactivityTimer(isLoggedIn, config.auth.clientSessionExpirationSeconds * 1000, handleTimeout);
 
   useEffect(() => {
     if (showDialog) {
+      //console.log(`SessionProvider, setting up timer after ${config.auth.clientSessionExpirationResponseMaximumSeconds} seconds to auto-close dialog and call onLogout...`);
       const timer = setTimeout(() => {
-        onLogout();
+        //console.log(`SessionProvider, clientSessionExpirationResponseMaximumSeconds ${config.auth.clientSessionExpirationResponseMaximumSeconds} seconds timeout expired, calling onLogout`);
+        setShowDialog(false);
+        signOut();
       }, config.auth.clientSessionExpirationResponseMaximumSeconds * 1000);
-      return () => clearTimeout(timer);
+      //console.log(`SessionProvider, set timer: ${timer}`);
+
+      return () => {
+        clearTimeout(timer);
+        //console.log(`SessionProvider, cleared timer: ${timer}`);
+      };
     }
-  }, [showDialog, onLogout]);
+  }, [showDialog, signOut]);
 
   return (
     showDialog && (

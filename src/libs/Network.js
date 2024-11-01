@@ -24,6 +24,7 @@ const apiCall = async(method, url, data = null) => {
         if (message) { // if some data.message, show it to the user
           const code = err.response.data?.code;
           if (
+            code &&
             (code !== "NO_TOKEN") &&
             (code !== "EXPIRED_TOKEN")
           ) { // ignore token error messages, the important warning is shown in refreshToken middleware

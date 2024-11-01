@@ -56,14 +56,10 @@ function EditUser() {
     (async() => {
       const result = await apiCall("post", "/user/getUser", { userId });
       if (result.err) {
-        if (result.status === 401) alert("401 !!!"); // TODO: check if really we have to care about 401 here...
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
         setUser(result.user);
         setUserOriginal(result.user);
-        // if (result.user._id === userId) {
-        //   setSameUserProfile(true);
-        // }
       }
     })();
   }, [userId]);
@@ -253,19 +249,21 @@ function EditUser() {
 
   const formSubmit = (e) => {
     (async () => {
+      console.log("*** user for update:", user);
       const result = await apiCall("post", "/user/updateUser", { userId, ...user });
       if (result.err) {
         showSnackbar(result.message, "error");
       } else {
-        setAllPlans(result.plans);
-        // TODO: put the following code in a function, used also in signIn, for sure...
+        console.log("*** updateUser result:", result);
+        //setAllPlans(result.plans);
         if (auth.user.id === result.user._id) { // the user is the logged one
           // update user fields in auth
           const updatedUser = auth.user;
           updatedUser.email = result.user.email;
           updatedUser.firstName = result.user.firstName;
           updatedUser.lastName = result.user.lastName;
-          console.log(" *** updated user ***:", result.user);
+          updatedUser.roles = result.user.roles;
+          updatedUser.plan = result.user.plan;
           setAuth({ user: updatedUser });
         }
         navigate(-1);
@@ -308,174 +306,171 @@ function EditUser() {
       input: sx, // for multiline fields
     };
   }
-
-  // TODO: do something better, to check for data is present... :-/
-  if (!user || !allRoles || !allPlans) {
+  
+  if (user && allRoles && allPlans) {
+    console.log("### allRoles ###", allRoles);
+    console.log("### auth.user.roles ###", auth.user.roles);
     return (
-      <p> loading... </p>
+      <>
+        <SectionHeader text={t("Users handling")}>
+          {origin === "editUser" ? t("Edit user") : t("Edit profile")}
+        </SectionHeader>
+        
+        <Container maxWidth="xs">
+          <Box display="flex" flexDirection="column" gap={2}>
+            <form noValidate autoComplete="off">
+              
+              <TextField
+                autoFocus
+                id={"firstName"}
+                value={user.firstName ?? ""}
+                label={t("First name")}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder={t("First Name")}
+                startIcon={<Person />}
+                error={error.firstName}
+                sx={styleForChangedFields("firstName")}
+              />
+
+              <TextField
+                id={"lastName"}
+                value={user.lastName ?? ""}
+                label={t("Last name")}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder={t("Last Name")}
+                startIcon={<Person />}
+                error={error.lastName}
+                sx={styleForChangedFields("lastName")}
+              />
+
+              <TextField
+                id={"email"}
+                value={user.email ?? ""}
+                label={t("Email")}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t("Email")}
+                startIcon={<Email />}
+                error={error.email}
+                sx={styleForChangedFields("email")}
+              />
+
+              <TextFieldPhone
+                id={"phone"}
+                value={user.phone ?? ""}
+                label={t("Phone")}
+                onChange={(value) => setPhone(value)}
+                placeholder={t("Phone")}
+                error={error.phone}
+                sx={styleForChangedFields("phone")}
+              />
+
+              <Select
+                id={"roles"}
+                value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
+                label={t("Roles")}
+                options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
+                optionsDisabled={allRoles.map(role => role.priority > Math.max(...auth.user.roles.map(r => r.priority)))}
+                multiple={true}
+                onChange={(e) => setRoles(e.target.value)}
+                placeholder={t("Roles")}
+                startIcon={<SupervisedUserCircle />}
+                error={error.roles}
+                sx={styleForChangedFields("roles")}
+              />
+            
+              {config.ui.usePlans && (
+                <Select
+                  id={"plan"}
+                  //value={user ? user?.roles?.map(role => role.name) : []}
+                  value={user.plan.name ?? ""}
+                  label={t("Plan")}
+                  options={allPlans.map(plan => plan.name)}
+                  optionsDisabled={allPlans.map(role => !isAdmin(auth.user))}
+                  multiple={false}
+                  onChange={(e) => setPlan(e.target.value)}
+                  placeholder={t("Plan")}
+                  startIcon={<PlaylistAddCheck />}
+                  error={error.plan}
+                  sx={styleForChangedFields("plan")}
+                />
+              )}
+              
+              <TextField
+                id={"address"}
+                value={user.address ?? ""}
+                label={t("Address")}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder={t("Address")}
+                startIcon={<LocationOnIcon />}
+                error={error.address}
+                sx={styleForChangedFields("address")}
+              />
+              {/* <PlacesAutocomplete /> */}
+              
+              <TextField
+                id={"fiscalCode"}
+                value={user.fiscalCode ?? ""}
+                label={t("Fiscal code")}
+                onChange={(e) => setFiscalCode(e.target.value)}
+                placeholder={t("Tax Code or VAT Number")}
+                startIcon={<Payment />}
+                error={error.address}
+                inputProps={{ style: { textTransform: "uppercase" } }}
+                sx={styleForChangedFields("fiscalCode")}
+              />
+
+              <TextField
+                id={"businessName"}
+                value={user.businessName ?? ""}
+                label={t("Business name")}
+                onChange={(e) => setBusinessName(e.target.value)}
+                placeholder={t("Business name")}
+                startIcon={<Business />}
+                error={error.businessName}
+                sx={styleForChangedFields("businessName")}
+              />
+
+              {/* <TextField
+                id={"profileImage"}
+                value={user.profileImage ?? ""}
+                label={t("Profile image")}
+                onChange={(e) => setProfileImage(e.target.value)}
+                placeholder={t("Profile image")}
+                startIcon={<PermIdentity />}
+                error={error.profileImage}
+                sx={styleForChangedFields("profileImage")}
+              /> */}
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end", // Aligns the buttons to the right
+                  gap: 2, // Adds spacing between the buttons
+                  mt: 2, // Optional: Add margin-top for spacing
+                }}
+              >
+                <Button
+                  onClick={formCancel}
+                  fullWidth={false}
+                  variant="contained"
+                  color="secondary"
+                >
+                  {t("Cancel")}
+                </Button>
+                <Button
+                  onClick={formSubmitBeforeUpdate}
+                  variant="contained"
+                  color="success"
+                >
+                  {t("Confirm")}
+                </Button>
+              </Box>
+            </form>
+          </Box>
+        </Container>
+      </>
     );
   }
-  
-  return (
-    <>
-      <SectionHeader text={t("Users handling")}>
-        {origin === "editUser" ? t("Edit user") :  t("Edit profile")}
-      </SectionHeader>
-      
-      <Container maxWidth="xs">
-        <Box display="flex" flexDirection="column" gap={2}>
-          <form noValidate autoComplete="off">
-            
-            <TextField
-              autoFocus
-              id={"firstName"}
-              value={user.firstName ?? ""}
-              label={t("First name")}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder={t("First Name")}
-              startIcon={<Person />}
-              error={error.firstName}
-              sx={styleForChangedFields("firstName")}
-            />
-
-            <TextField
-              id={"lastName"}
-              value={user.lastName ?? ""}
-              label={t("Last name")}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder={t("Last Name")}
-              startIcon={<Person />}
-              error={error.lastName}
-              sx={styleForChangedFields("lastName")}
-            />
-
-            <TextField
-              id={"email"}
-              value={user.email ?? ""}
-              label={t("Email")}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("Email")}
-              startIcon={<Email />}
-              error={error.email}
-              sx={styleForChangedFields("email")}
-            />
-
-            <TextFieldPhone
-              id={"phone"}
-              value={user.phone ?? ""}
-              label={t("Phone")}
-              onChange={(value) => setPhone(value)}
-              placeholder={t("Phone")}
-              error={error.phone}
-              sx={styleForChangedFields("phone")}
-            />
-
-            <Select
-              id={"roles"}
-              value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
-              label={t("Roles")}
-              options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
-              optionsDisabled={allRoles.map(role => role.priority > auth.user.roles[0].priority)}
-              multiple={true}
-              onChange={(e) => setRoles(e.target.value)}
-              placeholder={t("Roles")}
-              startIcon={<SupervisedUserCircle />}
-              error={error.roles}
-              sx={styleForChangedFields("roles")}
-            />
-          
-            {config.ui.usePlans && (
-              <Select
-                id={"plan"}
-                //value={user ? user?.roles?.map(role => role.name) : []}
-                value={user.plan.name ?? ""}
-                label={t("Plan")}
-                options={allPlans.map(plan => plan.name)}
-                optionsDisabled={allPlans.map(role => !isAdmin(auth.user))}
-                multiple={false}
-                onChange={(e) => setPlan(e.target.value)}
-                placeholder={t("Plan")}
-                startIcon={<PlaylistAddCheck />}
-                error={error.plan}
-                sx={styleForChangedFields("plan")}
-              />
-            )}
-            
-            <TextField
-              id={"address"}
-              value={user.address ?? ""}
-              label={t("Address")}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder={t("Address")}
-              startIcon={<LocationOnIcon />}
-              error={error.address}
-              sx={styleForChangedFields("address")}
-              />
-            {/* <PlacesAutocomplete /> */}
-            
-            <TextField
-              id={"fiscalCode"}
-              value={user.fiscalCode ?? ""}
-              label={t("Fiscal code")}
-              onChange={(e) => setFiscalCode(e.target.value)}
-              placeholder={t("Tax Code or VAT Number")}
-              startIcon={<Payment />}
-              error={error.address}
-              inputProps={{ style: { textTransform: "uppercase" } }}
-              sx={styleForChangedFields("fiscalCode")}
-            />
-
-            <TextField
-              id={"businessName"}
-              value={user.businessName ?? ""}
-              label={t("Business name")}
-              onChange={(e) => setBusinessName(e.target.value)}
-              placeholder={t("Business name")}
-              startIcon={<Business />}
-              error={error.businessName}
-              sx={styleForChangedFields("businessName")}
-            />
-
-            {/* <TextField
-              id={"profileImage"}
-              value={user.profileImage ?? ""}
-              label={t("Profile image")}
-              onChange={(e) => setProfileImage(e.target.value)}
-              placeholder={t("Profile image")}
-              startIcon={<PermIdentity />}
-              error={error.profileImage}
-              sx={styleForChangedFields("profileImage")}
-            /> */}
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end", // Aligns the buttons to the right
-                gap: 2, // Adds spacing between the buttons
-                mt: 2, // Optional: Add margin-top for spacing
-              }}
-            >
-              <Button
-                onClick={formCancel}
-                fullWidth={false}
-                variant="contained"
-                color="secondary"
-              >
-                {t("Cancel")}
-              </Button>
-              <Button
-                onClick={formSubmitBeforeUpdate}
-                variant="contained"
-                color="success"
-              >
-                {t("Confirm")}
-              </Button>
-            </Box>
-          </form>
-        </Box>
-      </Container>
-    </>
-  );
 }
 
 export default React.memo(EditUser);

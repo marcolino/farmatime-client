@@ -383,7 +383,7 @@ const UserTable = () => {
                   {t("Roles")} {sortButton({ column: "roles" })}
                 </TableCell>
                 <TableCell>
-                  {t("Fiscal Code")}
+                  {t("Fiscal code")}
                 </TableCell>
                 <TableCell onClick={handleSort("businessName")}>
                   {t("Business name")} {sortButton({ column: "businessName" })}

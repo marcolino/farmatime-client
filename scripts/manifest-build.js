@@ -5,8 +5,6 @@ import dotenv from "dotenv";
 import fs from "fs/promises";
 import { access } from "fs/promises"; // access as a promise-based version
 
-// TODO: how to load dynamically set ../src/config.js ???
-//import config from "../src/config"; // ensure .js extension for ES module imports
 import config from "../src/config.json" assert { type: "json" };
 
 dotenv.config({ path: "./.env" });

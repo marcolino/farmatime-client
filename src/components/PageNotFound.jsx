@@ -59,7 +59,7 @@ const PageNotFound = () => {
                 mb: 2,
               }}
             >
-              {t("Perhaps you did request a wrong page, because I couldn't find it")}.
+              {t("Perhaps you did request a wrong page? I couldn't find it...")}.
             </Typography>
             <Link 
               href="/"

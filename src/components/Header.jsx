@@ -272,7 +272,7 @@ const Header = ({ theme, toggleTheme }) => {
                 <ListItem button component={Link} to="/profile">
                   <ListItemText primary="Profile" />
                 </ListItem>
-                <ListItem button onClick={() => alert("Logged out")}>
+                <ListItem button onClick={() => alert("Logged out")}> {/* TODO... */}
                   <ListItemText primary="Logout" />
                 </ListItem>
               </>

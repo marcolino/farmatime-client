@@ -36,7 +36,7 @@ function Home() {
           <Typography>{t("Administrators are verifying your role...")}</Typography>
         )}
       </Paper>
-      <Button onClick={ () => showSnackbar("This is a custom snackbar", "info") } fullWidth={false}>Show Snackbar</Button>
+      {/* <Button onClick={ () => showSnackbar("This is a custom snackbar", "info") } fullWidth={false}>Show Snackbar</Button> */}
     </>
   );
 }
