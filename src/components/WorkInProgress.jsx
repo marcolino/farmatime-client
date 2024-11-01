@@ -14,8 +14,8 @@ const WorkInProgress = () => {
   const isLandscape = useMediaQuery(theme.breakpoints.up("sm"));
   const retry = () => {
     const maintenancePath = (localStorage.getItem("x-maintenance-path"));
-    localStorage.removeItem("x-maintenance-path");
     navigate(maintenancePath ?? "/");
+    localStorage.removeItem("x-maintenance-path");
   };
 
   return (
@@ -42,7 +42,6 @@ const WorkInProgress = () => {
               objectFit: "contain",
             }}
             alt="Work in progress"
-            // src="/src/assets/icons/WorkInProgress.png"
             src={WorkInProgressImage}
           />
         </Grid>

@@ -11,7 +11,7 @@ import SessionProvider from "./providers/SessionProvider";
 import Contents from "./components/Contents";
 import Routing from "./components/Routing";
 import CookieBanner from "./components/CookieBanner";
-import MaintenanceCheck from "./components/MaintenanceCheck";
+//import MaintenanceCheck from "./components/MaintenanceCheck";
 import Banner from "./components/Banner";
 import BackgroundVideo from "./components/BackgroundVideo";
 import ClientInfoDisplay from "./components/ClientInfoDisplay";
@@ -37,7 +37,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
-        <MaintenanceCheck />
+        {/* <MaintenanceCheck /> */}
         <SnackbarProviderWrapper>
           <ServiceWorkerProvider>
             <OnlineStatusProvider>

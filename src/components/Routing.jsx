@@ -1,5 +1,5 @@
 import React, { useEffect, Suspense, lazy } from "react";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation/*, useNavigate*/ } from "react-router-dom";
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "notistack";
@@ -29,7 +29,7 @@ const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
 const Routing = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const showSnackbar = useSnackbar();
   const { i18n } = useTranslation();
 
@@ -42,15 +42,16 @@ const Routing = () => {
     }
   }, [location]);
 
-  // force navigation to /work-in-progress if needed
-  useEffect(() => {
-    (() => {
-      const maintenance = localStorage.getItem("x-maintenance-status");
-      if (maintenance && (window.location.pathname !== "/work-in-progress")) {
-        navigate("/work-in-progress", { replace: true });
-      }
-    })();
-  }, [location, navigate]);
+  // we force redirection to "/work-in-progress" only in interceptors, if we receive 503 from server...
+  // // force navigation to /work-in-progress if needed
+  // useEffect(() => {
+  //   (() => {
+  //     const maintenance = localStorage.getItem("x-maintenance-status");
+  //     if (maintenance && (window.location.pathname !== "/work-in-progress")) {
+  //       navigate("/work-in-progress", { replace: true });
+  //     }
+  //   })();
+  // }, [location, navigate]);
 
   return (
     <Suspense fallback={<Loader lazyloading={true} />}>
@@ -66,8 +67,8 @@ const Routing = () => {
           <Route path="/notifications" element={<Notifications />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
           <Route path="/edit-user/:userId/:origin" element={<EditUser />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
           <Route path="/edit-product/:productId" element={<EditProduct />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
-          <Route path="/terms-of-use" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"termsOfUse"} /> } />
-          <Route path="/privacy-policy" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"privacyPolicy"} />} />
+          <Route path="/terms-of-use" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"termsOfUse"} /> } /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
+          <Route path="/privacy-policy" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"privacyPolicy"} />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="/contacts" element={<Contacts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="/handle-users" element={<HandleUsers />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
           <Route path="/handle-products" element={<HandleProducts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}

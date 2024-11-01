@@ -156,14 +156,23 @@ instance.interceptors.response.use(
     if (!response) {
       return Promise.reject(new Error("No response from server!"));
     }
-    if (response.status === 404) {
+    if (response.status === 503) { // on maintenance
+      if (window.location.pathname !== "/work-in-progress") {
+        //localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
+        localStorage.setItem("x-maintenance-path", window.location.pathname); // for client-side routing maintenance
+        window.location.href = "/work-in-progress";
+      }
+    //} else {
+    //  localStorage.removeItem("x-maintenance-status");
+    }
+    if (response.status === 404) { // page not found
       if (config.url !== "/page-not-found") {
         if (window.location.pathname !== "/page-not-found") {
           window.location.href = "/page-not-found";
         }
       }
     }
-    if (response.status === 401 && config.url !== "/auth/signin") {
+    if (response.status === 401 && config.url !== "/auth/signin") { // unauthorized
       if (!isRefreshing) {
         isRefreshing = true;
         try {
