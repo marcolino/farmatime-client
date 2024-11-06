@@ -12,6 +12,10 @@ const apiCall = async(method, url, data = null) => {
         "Content-Type": "multipart/form-data",
       };
     }
+    // if it's a GET, put data inside params
+    if (method.localeCompare("GET", undefined, { sensitivity: "accent" }) === 0) {
+      data = { params: data };
+    }
     const response = await instance[method](url, data, config);
     console.info(`⇒ ${url} success:`, response.data);
     return { ...response.data };

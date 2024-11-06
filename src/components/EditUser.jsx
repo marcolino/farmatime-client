@@ -277,14 +277,6 @@ function EditUser() {
     //     return;
     //   }
     //   console.log("updateUser success:", data.user);
-
-/**
- * TODO: check why these fields are in auth, and if they are really needed:
- *  - phone
- *  - ok
- * and check plan (which is {supportTypes: Array(1), _id: "66b385bbb1f43bf477a6d6a1", name: "free", priceCurrency: "EUR", pricePerYear: 0})
- * and roles (which is ["admin"])
- */
       
     // }).catch(err => {
     //   console.error("updateUser error catched:", err);

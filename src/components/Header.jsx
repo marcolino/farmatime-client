@@ -1,23 +1,42 @@
 import React, { useState, useContext } from "react";
-import { AppBar, Toolbar, Box, Typography, Button, IconButton, Link, Drawer, List, ListItem, ListItemText, useMediaQuery } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Link,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Tooltip,
+  useMediaQuery
+} from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Menu, MenuItem, ListItemIcon, Tooltip} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
+//import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import {
+  AccountCircle,
+  ExitToApp,
+  ManageAccounts,
+  ShoppingCart,
+  ContactPhone,
+  Brightness4,
+  Brightness7,
+} from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import ImageCustom from "./ImageCustom";
-//import useSnackbar from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { AuthContext } from "../providers/AuthProvider";
 import { isAdmin } from "../libs/Validation";
 import logoMain from "../assets/icons/LogoMain.png";
-//import config from "../config";
+import config from "../config";
 
 
 const Header = ({ theme, toggleTheme }) => {
@@ -32,12 +51,12 @@ const Header = ({ theme, toggleTheme }) => {
     ...(isLoggedIn && isAdmin(auth.user) ?
       [{
         label: t("Handle users"),
-        icon: <ManageAccountsIcon />,
+        icon: <ManageAccounts />,
         href: "/handle-users",
       },
       {
         label: t("Handle products"),
-        icon: <ShoppingCartIcon />,
+        icon: <ShoppingCart />,
         href: "/handle-products",
       }]
     : []),
@@ -45,7 +64,7 @@ const Header = ({ theme, toggleTheme }) => {
       label: t("Change theme"),
       icon: (
         <IconButton onClick={toggleTheme} sx={{ padding: 0 }}>
-          {theme.palette.mode === "light" ? <Brightness7Icon /> : <Brightness4Icon />}
+          {theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
       ),
       href: null,
@@ -55,43 +74,22 @@ const Header = ({ theme, toggleTheme }) => {
       [
         {
           label: `${t("Profile")} (${auth.user?.roles[0]?.name})`,
-          icon: <AccountCircleIcon />,
+          icon: <AccountCircle />,
           href: `/edit-user/${auth.user?.id}/editProfile`,
         },
         {
           label: t("Sign out"),
-          icon: <ExitToAppIcon />,
+          icon: <ExitToApp />,
           href: false,
           onClick: () => handleSignOut(),
           shortcutKey: "", //"Ctrl-Q"
         },
-      ] : [
-        // {
-        //   label: t("Sign in"),
-        //   icon: <VpnKeyIcon />,
-        //   href: "/signin",
-        //   shortcutKey: ""
-        // },
-        // {
-        //   label: t("Sign up"),
-        //   icon: <AssignmentTurnedInIcon />,
-        //   href: "/signup",
-        // },
-      ]
+      ] : [ ]
     ),
   ];
+
   
-  // if (isLoggedIn && isAdmin(auth.user)) {
-  //   userItems.unshift(
-  //     {
-  //       label: t("Admin panel"),
-  //       icon: <SecurityIcon />,
-  //       href: "/admin-panel",
-  //     }
-  //   );
-  // };
-  
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // TODO: why "sm"? Decide it in config?
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -122,8 +120,6 @@ const Header = ({ theme, toggleTheme }) => {
     navigate("/", { replace: true });
   };
 
-  // const [isDarkMode, setIsDarkMode] = useState(false); // TODO: from user's prop...
-
   return (
     <AppBar
       position="sticky"
@@ -141,7 +137,7 @@ const Header = ({ theme, toggleTheme }) => {
             component="img"
             src={logoMain}
             alt="Main logo"
-            sx={{ height: 64, marginRight: 2 }}
+            sx={{ height: config.ui.headerHeight, marginRight: 2 }}
           />
           {/* <Typography variant="h6" component="span" sx={{ color: theme.palette.text.secondary, flexGrow: 1, }}>
             {config.title}
@@ -198,7 +194,7 @@ const Header = ({ theme, toggleTheme }) => {
                     size={30}
                   />
                 :
-                  <AccountCircleIcon />
+                  <AccountCircle />
                 }
               </IconButton>
             </Tooltip>
@@ -218,22 +214,11 @@ const Header = ({ theme, toggleTheme }) => {
           <Menu
             id="menu-appbar"
             anchorEl={anchorUserMenuEl}
-            // anchorOrigin={{
-            //   vertical: "top",
-            //   horizontal: "right",
-            // }}
             open={userMenuIsOpen}
             onClose={handleUserMenuClose}
             onClick={handleUserMenuClose} // to close on click everywhere
-            //keepMounted
-            // transformOrigin={{
-            //   vertical: "top",
-            //   horizontal: "right",
-            // }}
           >
-            {/* {getUserMenuItems()} */}
             {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
-              // <MenuItem key={label} component={RouterLink} to={href} dense>
               <MenuItem key={label} component={RouterLink} to={href} dense>
                 <ListItemIcon>
                   {icon}
@@ -249,44 +234,45 @@ const Header = ({ theme, toggleTheme }) => {
         
       </Toolbar>
 
-      {/* TODO: review this Drawer... */}
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        sx={{
+          top: config.ui.headerHeight + "px",
+          '& .MuiDrawer-paper': {
+            top: config.ui.headerHeight + "px", // make sure the Drawer content also respects this offset
+          },
+        }}
+      >
         <Box
-          sx={{ width: 250 }}
+          sx={{ width: 200 }}
           role="presentation"
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
         >
-          <List>
-            <ListItem button component={Link} to="/products">
-              <ListItemText primary={t("Products")} />
+          <List dense>
+            <ListItem
+              key="products"
+              component={RouterLink}
+              to="/products"
+            >
+              <Box sx={{ display: "flex", alignItems: "center", color: "text.primary" }}>
+                <ShoppingCart /> &emsp; <ListItemText primary={t("Products")} />
+              </Box>
             </ListItem>
-            <ListItem button component={Link} to="/contacts">
-              <ListItemText primary={t("Contacts")} />
+            <ListItem
+              key="contacts"
+              component={RouterLink}
+              to="/contacts"
+            >
+              <Box sx={{ display: "flex", alignItems: "center", color: "text.primary" }}>
+                <ContactPhone /> &emsp; <ListItemText primary={t("Contacts")} />
+              </Box>
             </ListItem>
-            {auth.user ? (
-              <>
-                <ListItem button component={Link} to="/admin-panel">
-                  <ListItemText primary="Admin" />
-                </ListItem>
-                <ListItem button component={Link} to="/profile">
-                  <ListItemText primary="Profile" />
-                </ListItem>
-                <ListItem button onClick={() => alert("Logged out")}> {/* TODO... */}
-                  <ListItemText primary="Logout" />
-                </ListItem>
-              </>
-            ) : null
-            //(
-              // <ListItem button>
-              //   <ListItemText primary="Enter!" /> {/* TODO: never used???*/}
-              // </ListItem>
-              //)
-            }
           </List>
         </Box>
       </Drawer>
-
     </AppBar>
   );
 

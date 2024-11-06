@@ -466,19 +466,18 @@ function EditProduct() {
                   {/* current image */}
                   <ImageContainer
                     src={`${config.siteUrl}${config.images.publicPathWaterMark}/${product.imageName}`}
-                    alt="Sample image"
+                    alt={t("Current image")}
                     borderColor="primary.main"
-                    backgroundColor="#f0f0f0"
+                    backgroundColor="background.default"
                     label={productOriginal.imageNameOriginal}
                   />
 
                   {/* selected image */}
-                  {/* {selectedImageObjectUrl} */}
                   {selectedImageObjectUrl && <ImageContainer
                     src={selectedImageObjectUrl}
-                    alt="Sample image"
+                    alt={t("Image being uploaded")}
                     borderColor="primary.main"
-                    backgroundColor="#f0f0f0"
+                    backgroundColor="background.default"
                     label={selectedImage.name}
                   />}
 

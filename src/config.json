@@ -62,7 +62,7 @@
     "display": "standalone"
   },
   "auth": {
-    "clientSessionExpirationSeconds": 129600,
+    "clientSessionExpirationSeconds": 259200,
     "clientSessionExpirationResponseMaximumSeconds": 900,
     "clientLastActivityCheckTimeoutSeconds": 3600
   },
@@ -94,6 +94,7 @@
     "footerHeight": "1.5rem",
     "extraSmallWatershed": 600,
     "mobileDesktopWatershed": 900,
+    "headerHeight": 64,
     "usePlans": true,
     "toastAutoCloseSeconds": 7,
     "snacks": {

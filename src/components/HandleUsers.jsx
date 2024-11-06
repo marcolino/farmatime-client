@@ -62,7 +62,7 @@ const UserTable = () => {
       }
     })();
     return () => {
-      //console.log("UserTable  unmounted");
+      //console.log("UserTable unmounted");
     };
   }, []); // empty dependency array: this effect runs once when the component mounts
 
@@ -189,9 +189,8 @@ const UserTable = () => {
       case "emailBulk":
         onBulkEmail(selectedIds, params);
         break;
-      default:
-        alert("unforeseen bulk action " + selectedIds.join(", ") + " " + action); // TODO...
-        throw (new Error("unforeseen bulk action " + selectedIds.join(", ") + " " + action)); // TODO: what happens throwing here?
+      default: // should not happen...
+        showSnackbar(t("unforeseen bulk action {{action}}", { action }), "error");
     }
   }
 
@@ -245,7 +244,7 @@ const UserTable = () => {
           if (valueA > valueB) return sortDirection === "asc" ? 1 : -1;
           return 0;
         }
-        if (isArray(a[sortColumn])) { // TODO: only valid for roles...
+        if (isArray(a[sortColumn])) { // only valid for roles...
           let one = a[sortColumn][0].priority;
           let two = b[sortColumn][0].priority;
           if (one < two) return sortDirection === "asc" ? -1 : 1;
@@ -475,7 +474,7 @@ const UserTable = () => {
       <DialogConfirm
         open={confirmOpen}
         onClose={handleConfirmClose}
-        onCancel={handleConfirmClose} // TODO... ok?
+        onCancel={handleConfirmClose}
         onConfirm={handleConfirm}
         title={t("Confirm Delete")}
         message={t("Are you sure you want to delete all {{count}} selected users?", { count: selected.length })}

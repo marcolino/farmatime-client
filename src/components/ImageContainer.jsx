@@ -4,8 +4,8 @@ import { Box, FormControl, FormLabel } from "@mui/material";
 import fallbackImage from "../assets/images/image-not-found.jpg";
 
 
-const ImageContainer = ({ src, alt, borderColor = "black", backgroundColor = "lightgray", label }) => {
-  const [imgSrc, setImgSrc] = useState(src);
+const ImageContainer = ({ _src, alt, borderColor = "black", backgroundColor = "lightgray", label, ...props }) => {
+  const [imgSrc, setImgSrc] = useState(props.src);
 
   const handleError = () => {
     if (!imgSrc.endsWith("/")) { // if imgSrc is a folder name, with no image, do not warn, it is the normal case for new images
@@ -58,10 +58,11 @@ const ImageContainer = ({ src, alt, borderColor = "black", backgroundColor = "li
           component="img"
           src={imgSrc}
           alt={alt}
+          maxHeight
           onError={handleError}
           sx={{
-            maxWidth: "100%",
-            maxHeight: "100%",
+            maxWidth: props.maxWidth ?? "100%",
+            maxHeight: props.maxHeight ?? "100%",
             objectFit: "contain", // ensures the image maintains its aspect ratio without being cropped
             pointerEvents: "none", // avoids user interaction with the image
           }}

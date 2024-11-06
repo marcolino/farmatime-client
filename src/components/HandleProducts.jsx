@@ -59,7 +59,7 @@ const ProductTable = () => {
       }
     })();
     return () => {
-      //console.log("ProductTable  unmounted");
+      //console.log("ProductTable unmounted");
     };
   }, []);
 
@@ -167,9 +167,8 @@ const ProductTable = () => {
       case "removeBulk":
         onBulkRemove(selectedIds);
         break;
-      default:
-        alert("unforeseen bulk action " + selectedIds.join(", ") + " " + action); // TODO...
-        throw (new Error("unforeseen bulk action " + selectedIds.join(", ") + " " + action)); // TODO: what happens throwing here?
+      default: // should not happen...
+        showSnackbar(t("unforeseen bulk action {{action}}", { action }), "error");
     }
   }
 
@@ -189,66 +188,6 @@ const ProductTable = () => {
     onAction(selected, action);
     handleConfirmClose();
   };
-
-  // sort products
-  /*
-  const sortedProductsNew = React.useMemo(() => {
-    let sortedProducts = [...products];
-  
-    if (sortColumn !== null) {
-      // split the array into two groups: one with defined values and one with undefined or null values
-      const definedValues = products.filter(product => product[sortColumn] !== undefined);
-      const undefinedValues = products.filter(product => product[sortColumn] === undefined);
-    
-      // sort the group with defined values
-      definedValues.sort((a, b) => {
-        if (isString(a[sortColumn])) {
-          const valueA = a[sortColumn].toLowerCase();
-          const valueB = b[sortColumn].toLowerCase();
-          if (valueA < valueB) return sortDirection === "asc" ? -1 : 1;
-          if (valueA > valueB) return sortDirection === "asc" ? 1 : -1;
-          return 0;
-        }
-        if (isNumber(a[sortColumn]) || isBoolean(a[sortColumn])) {
-          const valueA = a[sortColumn];
-          const valueB = b[sortColumn];
-          if (valueA < valueB) return sortDirection === "asc" ? -1 : 1;
-          if (valueA > valueB) return sortDirection === "asc" ? 1 : -1;
-          return 0;
-        }
-        if (isArray(a[sortColumn])) { // TODO: only valid for roles...
-          let one = a[sortColumn][0].priority;
-          let two = b[sortColumn][0].priority;
-          if (one < two) return sortDirection === "asc" ? -1 : 1;
-          if (one > two) return sortDirection === "asc" ? 1 : -1;
-          return 0;
-        }
-        if (isNull(a[sortColumn])) {
-          console.log("NULL a")
-          return sortDirection === "asc" ? -1 : 1;
-        }
-        if (isNull(b[sortColumn])) {
-          console.log("NULL b")
-          return sortDirection === "asc" ? 1 : -1;
-        }
-        if (isObject(a[sortColumn])) {
-          // to be implemented if we will have object fields
-          console.warn(`sort of \"object\" field type for column ${sortColumn} is not implemented yet!`);
-          return 0;
-        }
-        if (!(a[sortColumn] || !b[sortColumn])) { // could happen when some field is not defined for a row
-          return 0;
-        }
-        console.error(`sort of unknown field type for column ${sortColumn} is not implemented yet!`, a[sortColumn], b[sortColumn], typeof(a[sortColumn]), typeof(b[sortColumn]));
-        return 0;
-      });
-    
-      // merge the groups back together, placing undefined values according to the sort direction
-      return sortDirection === "asc" ? [...definedValues, ...undefinedValues] : [...undefinedValues, ...definedValues];
-    }
-    return sortedProducts;
-  }, [products, sortColumn, sortDirection]);
-*/
   
   // sort products
   const sortedProducts = React.useMemo(() => {
@@ -523,7 +462,7 @@ const ProductTable = () => {
       <DialogConfirm
         open={confirmOpen}
         onClose={handleConfirmClose}
-        onCancel={handleConfirmClose} // TODO... ok?
+        onCancel={handleConfirmClose}
         onConfirm={handleConfirm}
         title={t("Confirm Delete")}
         message={t("Are you sure you want to delete all {{count}} selected products?", { count: selected.length })}

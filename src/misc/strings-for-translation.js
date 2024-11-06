@@ -12,3 +12,17 @@ t("admin");
 t("unlimited");
 t("standard");
 t("free");
+
+// products
+t("MDA code");
+t("OEM code");
+t("Type");
+t("Make");
+t("Application");
+t("kW");
+t("Volt");
+t("Ampere");
+t("Teeth");
+t("Rotation");
+t("Regulator");
+t("Notes");

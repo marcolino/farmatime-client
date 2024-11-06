@@ -8,7 +8,7 @@ const CustomTextFieldSearch = ({
   startIcon = null,
   ...props
 }) => {
-  props.onChange = props.onChange ?? (() => { }); // without an onChange prop this component is unuseful
+  props.onChange = props.onChange ?? (() => { });
   props.fullWidth = props.fullWidth ?? true;
 
   const [searchValue, setSearchValue] = useState("");
@@ -18,11 +18,28 @@ const CustomTextFieldSearch = ({
     props.onChange(event);
   };
 
-  const handleReset = (event) => {
+  const handleReset_ORIG = (event) => {
     setSearchValue("");
     event.target.value = "";
     props.onChange(event);
   };
+
+  const handleReset = (event) => {
+    setSearchValue("");
+    if (event.target.name) { // standard case, where name and value are present (regular variable as value)
+      event.target.value = "";
+      props.onChange(event);
+    } else { // manually create a synthetic event with the desired name and value
+      const syntheticEvent = { // special case, where name is not present (object variable with prop as value)
+        target: {
+          name: props.name, // use the correct name from props
+          value: "", // reset value
+        },
+      };
+      props.onChange(syntheticEvent);
+    }
+  };
+  
 
   return (
     <TextField
