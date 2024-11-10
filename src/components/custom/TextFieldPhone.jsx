@@ -29,7 +29,7 @@ const CustomTextFieldPhone = ({
     //onlyCountries={["IT", "FR", "CH", "DE", "GB", "US"]}
     //preferredCountries={["IT", "FR", "CH", "DE", "GB", "US"]}
     preferredCountries={["IT"]}
-    //disableFormatting // TODO: use this?
+    //disableFormatting
     langOfCountryName={i18n.language}
     {...props}
   />

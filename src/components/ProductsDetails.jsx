@@ -56,7 +56,7 @@ const Product = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const info = [ // TODO...
+  const info = [
     { key: t("MDA code"), value: props.product.mdaCode },
     { key: t("OEM code"), value: props.product.oemCode },
     { key: t("Type"), value: props.product.type },
@@ -79,8 +79,8 @@ const Product = (props) => {
   return (
     <Paper
       sx={{
-        padding: 2,
         minHeight: 640, // TODO: be responsive here
+        padding: 2,
       }}
     >
       <Grid

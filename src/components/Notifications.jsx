@@ -13,9 +13,9 @@ import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import red from "@mui/material/colors/red";
 import { StatusContext } from "../providers/StatusProvider";
+import { i18n }  from "../i18n";
 
 
-// TODO: do we use notifications stuff?
 export default function Notifications(props) {
   const { status, setStatus } = useContext(StatusContext);
   const navigate = useNavigate();
@@ -23,11 +23,9 @@ export default function Notifications(props) {
   //const { t } = useTranslation();
 
   const deleteForeverMessage = (index) => {
-    //setStatus({pushNotifications: []}); // TODO: delete only THIS message!
     setStatus({pushNotifications: status.pushNotifications.filter((notification, i) =>
       i !== index
     )});
-console.log("Notifications - (!status.pushNotifications.length):", (!status.pushNotifications.length));
     if (status.pushNotifications.length <= 1) { // setStatus is asynchronous...
       navigate(-1);
     }
@@ -44,7 +42,7 @@ return (
 console.log("Notifications state:", state);
         const timestamp = state.data["google.c.a.ts"];
         const when = new Intl.DateTimeFormat(
-          "it-IT"/* TODO */,
+          i18n.language, // i18n.language is ISO 639-1
           {
             year: "numeric",
             month: "2-digit",
