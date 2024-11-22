@@ -4,14 +4,20 @@ import { useTranslation } from "react-i18next";
 import {
   Container,
   Box,
-  Button,
+  Typography,
+  //Button,
 } from "@mui/material";
-import { SectionHeader, TextField, TextFieldPhone, Select } from "./custom";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { SectionHeader, TextField, TextFieldPhone, Select, Button } from "./custom";
 import { apiCall } from "../libs/Network";
 import { objectsAreEqual } from "../libs/Misc";
 import { AuthContext } from "../providers/AuthProvider";
 //import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import CookieConsent from "./CookieConsent";
 import {
   Person, Email, SupervisedUserCircle, PlaylistAddCheck,
   Payment, Business, LocationOn as LocationOnIcon
@@ -33,7 +39,11 @@ function EditUser() {
   const [userOriginal, setUserOriginal] = useState(false);
   const [error, setError] = useState({});
   const { auth, setAuth } = useContext(AuthContext);
-  const { showSnackbar } = useSnackbarContext(); 
+  const { showSnackbar } = useSnackbarContext();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState(null);
+  const [dialogContent, setDialogContent] = useState(null);
+  const [dialogCallback, setDialogCallback] = useState(null);
   const { t } = useTranslation();
 
   const { userId, origin } = useParams();
@@ -240,6 +250,30 @@ function EditUser() {
   //   setIsChanged({ ...isChanged, profileImage: value != userOriginal.profileImage });
   // };
 
+  const handleOpenDialog = (title, content, callbackOnClose) => {
+    setDialogTitle(title);
+    setDialogContent(content);
+    setDialogCallback(() => callbackOnClose);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    if (dialogCallback) {
+      setDialogCallback(null);
+      dialogCallback();
+    }
+  };
+  
+  const openCookiesConsent = () => {
+    //<CookieConsent onClose={handleCloseDialog} />
+    handleOpenDialog(
+      t("Cookies consent"),
+      <CookieConsent customizeOnly={true} onClose={handleCloseDialog} />,
+      null,
+    );
+  };
+
   const formSubmitBeforeUpdate = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -433,6 +467,18 @@ function EditUser() {
                 sx={styleForChangedFields("profileImage")}
               /> */}
 
+              <Button
+                onClick={openCookiesConsent}
+                fullWidth={true}
+                variant="contained"
+                color="default"
+                sx={{
+                  mt: 1,
+                }}
+              >
+                {t("Cookies consent")}
+              </Button>
+              
               <Box
                 sx={{
                   display: "flex",
@@ -460,6 +506,34 @@ function EditUser() {
             </form>
           </Box>
         </Container>
+
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {dialogTitle}
+          </DialogTitle>
+          <DialogContent id="alert-dialog-description">
+            <Typography component={"span"} variant="body1" sx={{whiteSpace: "pre-line"}}>
+              {dialogContent}
+            </Typography>
+          </DialogContent>
+          {!React.isValidElement(dialogContent) && ( // show buttons only if dialogContent is not a component
+            <DialogActions>
+              <Button
+                onClick={handleCloseDialog}
+                fullWidth={false}
+                autoFocus
+              >
+                {t("Ok")}
+              </Button>
+            </DialogActions>
+          )}
+        </Dialog>
+        
       </>
     );
   }

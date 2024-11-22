@@ -54,7 +54,7 @@ const UserTable = () => {
   
   useEffect(() => { // get all users on mount
     (async() => {
-      const result = await apiCall("get", "/user/getAllUsersWithFullInfo");
+      const result = await apiCall("get", "/user/getAllUsersWithTokens");
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {

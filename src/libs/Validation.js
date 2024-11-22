@@ -53,7 +53,6 @@ export const validatePhone = (phone) => {
   const internationalPrefixRegex = /^(\+\d{1,3}\s?)|(^00\s?)/;
   const internationalPrefixZeroRegex = /(^00\s?)/;
 
-  phone = String(phone);
   if (!phone) {
     return "ERROR_PLEASE_SUPPLY_A_PHONE";
   }

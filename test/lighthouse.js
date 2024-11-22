@@ -1,5 +1,14 @@
-// we need to run yarn start, yarn lighthouse to build a fresh lighthouseOutput.json...
-const lighthouseOutput = require("../__tests__/lighthouseOutput.json");
+/**
+ * we need to run yarn start-dev, yarn lighthouse to build a fresh lighthouseOutput.json...
+ */
+
+//import { afterEach } from "vitest"
+//import { cleanup } from "@testing-library/react"
+//import { render, screen } from "@testing-library/react"
+//import "@testing-library/jest-dom/vitest"
+
+import { describe, test, expect } from "vitest";
+import lighthouseOutput from "./lighthouseOutput.json" assert { type: "json" };
 
 describe("Accessibility", () => {
   test("Accessibility score is within acceptable threshold", () => {

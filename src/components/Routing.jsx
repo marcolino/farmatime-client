@@ -1,8 +1,6 @@
-import React, { useEffect, Suspense, lazy } from "react";
-import { Routes, Route, useLocation/*, useNavigate*/ } from "react-router-dom";
-import queryString from "query-string";
+import React, { Suspense, lazy } from "react";
+import { Routes, Route } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useSnackbar } from "notistack";
 import AnimationLayout from "./AnimationLayout";
 import { getCurrentLanguage } from "../libs/I18n";
 import Loader from "./Loader";
@@ -19,39 +17,16 @@ const Notifications = lazy(() => import("./Notifications"));
 const EditUser = lazy(() => import("./EditUser"));
 const EditProduct = lazy(() => import("./EditProduct"));
 const Legal = lazy(() => import("./legal/legal"));
+//const CookieConsent = lazy(() => import("./CookieConsent"));
+import CookieConsent from "./CookieConsent"; // avoid bot dynamic and static import
 const Contacts = lazy(() => import("./Contacts"));
 const HandleUsers = lazy(() => import("./HandleUsers"));
 const HandleProducts = lazy(() => import("./HandleProducts"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
-
-
 const Routing = () => {
-  const location = useLocation();
-  //const navigate = useNavigate();
-  const showSnackbar = useSnackbar();
   const { i18n } = useTranslation();
-
-  // check for error parameters in location url set by social login (TODO: should this hook stay here?)
-  useEffect(() => {
-    const search = queryString.parse(location.search);
-    if (search.error) {
-      console.warn(`SHOWING location.pathname... we got a search.error parameter (${search.error}), if location.search ${location.search} is social-signin-error we can move this useEffect there...`);
-      showSnackbar(i18n.t("Social login did not work, sorry.\n{{error}}: {{errorDescription}}", { error: search.error, errorDescription: search.error_description }));
-    }
-  }, [location]);
-
-  // we force redirection to "/work-in-progress" only in interceptors, if we receive 503 from server...
-  // // force navigation to /work-in-progress if needed
-  // useEffect(() => {
-  //   (() => {
-  //     const maintenance = localStorage.getItem("x-maintenance-status");
-  //     if (maintenance && (window.location.pathname !== "/work-in-progress")) {
-  //       navigate("/work-in-progress", { replace: true });
-  //     }
-  //   })();
-  // }, [location, navigate]);
 
   return (
     <Suspense fallback={<Loader lazyloading={true} />}>
@@ -67,8 +42,9 @@ const Routing = () => {
           <Route path="/notifications" element={<Notifications />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
           <Route path="/edit-user/:userId/:origin" element={<EditUser />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
           <Route path="/edit-product/:productId" element={<EditProduct />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
-          <Route path="/terms-of-use" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"termsOfUse"} /> } /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/privacy-policy" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"privacyPolicy"} />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
+          <Route path="/terms-of-use" element={<Legal language={getCurrentLanguage(i18n)} doc="termsOfUse" />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
+          <Route path="/privacy-policy" element={<Legal language={getCurrentLanguage(i18n)} doc="privacyPolicy" />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
+          <Route path="/cookie-consent" element={<CookieConsent />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/contacts" element={<Contacts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="/handle-users" element={<HandleUsers />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
           <Route path="/handle-products" element={<HandleProducts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
@@ -82,3 +58,5 @@ const Routing = () => {
 }
 
 export default React.memo(Routing);
+{/* <Route path="/terms-of-use" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"termsOfUse"} /> } /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
+{/* <Route path="/privacy-policy" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"privacyPolicy"} />} /> sitemapFrequency={"weekly"} sitemapPriority={0.7} */}

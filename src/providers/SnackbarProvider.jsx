@@ -10,17 +10,20 @@ const SnackbarContext = createContext(null);
 
 // internal component to use useSnackbar inside the NotistackSnackbarProvider
 const InnerSnackbarProvider = ({ children }) => {
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   // function to show a snackbar with a given variant
-  const showSnackbar = (message = null, variant = "default") => {
+  const showSnackbar = (message = null, variant = "default", action = null) => {
     if (message) { // ignore empty message snackbars
-      enqueueSnackbar(message, { variant });
+      enqueueSnackbar(message, {
+        variant,
+        action: action ? (key) => action(key) : null, // pass snackbarId if action is provided
+      });
     }
   };
 
   // memoize the context value to prevent unnecessary renders
-  const contextValue = useMemo(() => ({ showSnackbar }), [showSnackbar]);
+  const contextValue = useMemo(() => ({ showSnackbar, closeSnackbar }), [showSnackbar]);
 
   return (
     <SnackbarContext.Provider value={contextValue}>

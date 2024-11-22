@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, FormControl, FormLabel } from "@mui/material";
 
-import fallbackImage from "../assets/images/image-not-found.jpg";
+import fallbackImage from "../assets/images/ImageNotFound.jpg";
 
 
 const ImageContainer = ({ _src, alt, borderColor = "black", backgroundColor = "lightgray", label, ...props }) => {

@@ -76,37 +76,42 @@
 - collegare la voce di menu "Profilo" con "EditUser", e rendere EditUser parametrico sul modo: editprofile/edituser - OK
 - verificare se, usando il modulo react-promise-tracker, serve sempre l'hook UseAxiosLoader - OK (no, use UseAxiosLoader)
 - cambiare errore "Cannot read properties of undefined (data) to some more significant error ("Sorry, a network issue or a server error occurred; please retry later...") - OK
+- rimuovere completamente la gestione dei suoni ("sound") - OK
+- gestire (bene) il logging - OK
+- gestire timeout sessione lato server: 2 minuti prima della scadenza (timeout da impostare ad ogni login e ad ogni richiesta), dire all'utente che la sessione sta per scadere, e chiedere se vuole prolungarla; se non risponde, dopo un minuto chiamare signOut, e mandare in home; se risponde di prolungare, non fare nulla - OK
+- normalizzare la formattazione del numero di telefono (+xx xxx xxxxxxx)
+- capire se serve il meccanismo di pre-push che fa gpg di .env, o si può evitare, come su server - OK
+- migliorare l'aspetto estetico del cookie consent popup - OK
+- gestire il Drawer (per il mobile) - OK
+- gestire la sezione "legal" - OK
 
+- fare uno script per chiedere ad una AI di tradurre un file messages.json
+- chiedere ad AI di completare le labels aria per tutti i componenti MUI
 - setup %VITE_THEME_COLOR%: è usata in index.html (theme color for android tool-bar and android chrome address-bar - use base theme color, but in contrast with app header background color) e manifest.json (quando pwa usata come app)
 - verificare che non succedano cose brutte chiamando il server (es.: in SignIn.jsx), senza controllare l'onlineCheck
 - gestire l'auditing: tracciare la registrazione (e altro) dell'utente con react-tracking e google tag manager (forse, no, fatto lato server)
-- rimuovere completamente la gestione dei suoni ("sound")
 - risolvere i TODO's nel codice
 - gestire la navigazione da tastiera
 - completare (e testare) gli attributi aria
+- tests: rendere più semplice la rigenerazione degli snapshots (o decidere di non usarli)
 - aggiungere tests
 - aggiungere coverage
 - seguire i suggerimenti di chrome lighthouse per il profiling
 - gestire tags opengraph / twitter in index.html
 - completare il README.md, copiando lo stile di uno elegante
-- gestire (bene) il logging
 - rimuovere tutti i `console.*` non necessari
-- creare le email privacy@sistemisolari.com, info@sistemisolari.com su AWS SES (o email forwards, vedi NOTES#Email)
+- creare le email privacy@sistemisolari.com, info@sistemisolari.com
 - gestire URL di callback per la rimozione dell'autorizzazione (Facebook e Google)
 - gestire URL di callback per la richiesta di eliminazione dei dati (Facebook e Google)
 - ripulire Google e Facebook console dalle impostazioni inutili per i login federati nel cloud
 - in caso di errore "User already exists" durante la registrazione, valutare se proporre di redirigere in /signin
 - integrare `yarn i18n` / `yarn i18n-auto` nel flusso di deploy (confrontare i files 'locales/translation.json' con gli 'old', e se ci sono differenze interrompere il deploy chiedendo se si vuole tradurre)
-- tests: rendere più semplice la rigenerazione degli snapshots (o decidere di non usarli)
-- gestire timeout sessione lato server: 2 minuti prima della scadenza (timeout da impostare ad ogni login e ad ogni richiesta), dire all'utente che la sessione sta per scadere, e chiedere se vuole prolungarla; se non risponde, dopo un minuto chiamare signOut, e mandare in home; se risponde di prolungare, non fare nulla
 - controllare che in caso di offline le chiamate al server non partano neanche (mettere un controllo in un middleware)?
 - sostituire tutti i componenti con exports finali con exports singoli
-- normalizzare la formattazione del numero di telefono (+xx xxx xxxxxxx)
 - se possibile utilizzare un modulo per l'inserimento del numero di telefono (con select del prefisso internazionale)
 - in gestione utenti, chiedere conferma anche per la cancellazione di un utente con il pulsante sulla riga singola
 - gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi
 - capire se servono service-worker.js e serviceWorkerRegistration.js
-- capire se serve il meccanismo di pre-push che fa gpg di .env, o si può evitare, come su server
 - usare errorBoundary.js (?)
 - modificare il flusso di signin/signup:
    - se l'utente risulta già avere un account (da localstorage/cookies),
@@ -114,10 +119,6 @@
    - se invece risulta essere nuovo, il pulsante "Entra!" dovrebbe portare alla pagina di signup (con "hai già un accout? Accedi").
 - rivededre tutti i componenti Image / Icon, e se possibile unificarli
 - salvare il tema con l'utente (o localstorage/cookies)
-- chiedere ad IA di completare le labels aria per tutti i componenti MUI
 - decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore (con vite/react16+) per gestire le notifiche in app (vedere /docs/PUSH-NOTIFICATIONS/*)
-- sistituire localstorage con cookie
-- migliorare l'aspetto estetico del cookie consent popup
-- gestire il Drawer (per il mobile)
-- gestire la sezione "legal"
+- sistituire cookies con localstorage
 - async( => async (

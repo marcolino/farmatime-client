@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Avatar from "@mui/material/Avatar";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography, Link } from "@mui/material";
 import {
   Dialog,
   DialogActions,
@@ -173,21 +173,7 @@ function SignUp() {
       firstName,
       lastName,
     });
-    if (!result.err) {
-      console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
-      setWaitingForCode(true);
-      setFirstName("");
-      setLastName("");
-      //setEmail("");
-      setPassword("");
-      const medium = result.codeDeliveryMedium;
-      setCodeDeliveryMedium(medium);
-      handleOpenDialog(
-        t("Confirmation code sent by {{medium}}", { medium }),
-        result.message,
-        () => { },
-      );
-    } else {
+    if (result.err) {
       switch (result.err.code) {
         case "EmailExistsAlready":
         case "AccountWaitingForVerification":
@@ -201,6 +187,20 @@ function SignUp() {
           //toast.error(t(result.message));
           showSnackbar(result.message, "error");
       }
+    } else {
+      console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
+      setWaitingForCode(true);
+      setFirstName("");
+      setLastName("");
+      //setEmail("");
+      setPassword("");
+      const medium = result.codeDeliveryMedium;
+      setCodeDeliveryMedium(medium);
+      handleOpenDialog(
+        t("Confirmation code sent by {{medium}}", { medium }),
+        result.message,
+        () => {},
+      );
     }
   };
     
@@ -213,7 +213,10 @@ function SignUp() {
       email,
       code,
     });
-    if (!result.err) {
+    if (result.err) {
+      showSnackbar(result.message, "error");
+      setError({ code: true });
+    } else {
       setEmail("");
       setCode("");
       handleOpenDialog(
@@ -221,10 +224,6 @@ function SignUp() {
         result.message,
         () => { navigate("/signin", { replace: true }) }
       );
-    } else {
-      //toast.error(t(result.message));
-      showSnackbar(result.message, "error");
-      setError({ code: true });
     }
   };
   
@@ -236,7 +235,10 @@ function SignUp() {
     const result = await apiCall("post", "/auth/resendSignupVerificationCode", {
       email,
     });
-    if (!result.err) {
+    if (result.err) {
+      showSnackbar(result.message, "error");
+      setError({ code: true });
+    } else {
       console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
       const medium = result.codeDeliveryMedium;
       setCodeDeliveryMedium(medium);
@@ -245,10 +247,6 @@ function SignUp() {
         result.message,
         () => { },
       );
-    } else {
-      //toast.error(t(result.message));
-      showSnackbar(result.message, "error");
-      setError({ code: true });
     }
   };
 
@@ -349,6 +347,14 @@ function SignUp() {
               >
                 {t("Sign Up")}
               </Button>
+
+              <Grid container justifyContent="flex-start" sx={{ mt: 4 }}>
+                <Typography component="h6" variant="caption" color="textSecondary" align="center">
+                  {t("By signing up you agree to our")} <Link href="/terms-of-use" color="textPrimary">{t("terms of use")}</Link> {" "}
+                  {t("and you confirm you have read our")} <Link href="/privacy-policy" color="textPrimary">{t("privacy policy")}</Link>
+                  {", "} {t("including cookie use")} {"."}
+                </Typography>
+              </Grid>
             </>
           )}
           {waitingForCode && (

@@ -16,6 +16,7 @@ const AuthProvider = (props) => {
       try {
         const result = await apiCall("post", "/auth/signout", { email: auth.user.email });
         if (result.err) {
+          // do not even show error to user, signout is also completed only client side
           console.error("SignOut error:", result);
         } else {
           ok = true
@@ -25,7 +26,6 @@ const AuthProvider = (props) => {
         console.error("SignOut error:", error);
       }
       setAuth({ user: false });
-      console.error("SignOut - RESET AUTH ON COOKIES", ok);
       return ok;
     }
   }, [auth.user, setAuth]);

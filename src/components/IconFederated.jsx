@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@mui/system";
-import { ReactComponent as FacebookSvg } from "../assets/icons/FederatedFacebook.svg";
-import { ReactComponent as GoogleSvg } from "../assets/icons/FederatedGoogle.svg";
+import { ReactComponent as FacebookSvg } from "../assets/images/FederatedFacebook.svg";
+import { ReactComponent as GoogleSvg } from "../assets/images/FederatedGoogle.svg";
 
 // Base style using MUI's styled system
 const BaseIconContainer = styled("div")(({ theme }) => ({

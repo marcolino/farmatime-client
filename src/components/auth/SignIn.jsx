@@ -74,7 +74,10 @@ function SignIn() {
       email,
       password,
     });
-    if (!result.err) {
+    if (result.err) {
+      showSnackbar(result.message, "error");
+      setError({});
+    } else {
       showSnackbar(t("sign in successful"), "success");
       setAuth({ user: result });
       // if (!rememberMe) { // to handle remember-me flag
@@ -83,11 +86,7 @@ function SignIn() {
       setEmail("");
       setPassword("");
       navigate("/", { replace: true });
-    } else {
-      console.error("signIn error:", result);
-      showSnackbar(result.message, "error");
-      setError({});
-    }
+    }  
   };
   
   return (

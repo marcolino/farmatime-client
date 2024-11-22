@@ -103,13 +103,12 @@ export default function PrivacyPolicy() {
       </ul>
       <p>Please note that the data controller for all legal purposes is:</p>
       <ul>
-        <li>Company of: <b><span id="company">{config.company.owner.name}</span></b></li>
-        <li id="piva" style={{display: "none"}}>P. VAT <span id="iva"></span></li>
-        <li id="CodiceFiscale" s_tyle = {{display: "block"}}>Codice Fiscale: <span id="Codice_Fiscale">{config.company.owner.nameFiscalCode}</span></li>
-        <li>Address: <span id="address">{config.company.owner.nameStreetAddress}</span></li>
-        <li>City: <span id="zip code">{config.company.owner.nameZipCode}</span>- <span id="city">{config.company.owner.nameCity}</span>(<span id="province">{ config.company.owner.nameProvince}</span>)</li>
-        <li>Tel / Fax: <span id="telephone">{config.company.owner.namePhone}</span></li>
-        <li>E-mail: <span id="email">{encodeEmail(config.company.owner.nameEmail)}</span></li>
+        <li>Company of: <span id="company">{config.company.owner.name}</span></li>
+        <li>Fiscal Code / V.A.T.: <span id="fiscalCode">{config.company.owner.fiscalCode}</span></li>
+        <li>Address: <span id="address">{config.company.owner.streetAddress}</span></li>
+        <li>City: <span id="zip">{config.company.owner.zipCode}</span> - <span id="city">{config.company.owner.city}</span> (<span id="province">{ config.company.owner.province }</span>) - <span id="country">{config.company.owner.country}</span></li>
+        <li>Tel / Fax: <span id="telephone">{config.company.owner.phone}</span></li>
+        <li>E-mail: <span id="email">{encodeEmail(config.company.owner.email)}</span></li>
       </ul>
       <p>To exercise the rights provided for in art. 7 of the Privacy Code or for the cancellation of your data from the archive, simply contact us through one of the channels made available.</p>
       <p>All data is protected through the use of antivirus, firewall and password protection.</p>

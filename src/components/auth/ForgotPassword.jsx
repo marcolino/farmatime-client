@@ -110,7 +110,10 @@ function ForgotPassword() {
     const result = await apiCall("post", "/auth/resetPassword", {
       email,
     });
-    if (!result.err) {
+    if (result.err) {
+      showSnackbar(err, "error");
+      setError({});
+    } else {
       console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
       setWaitingForCode(true);
       setPassword("");
@@ -119,11 +122,8 @@ function ForgotPassword() {
       handleOpenDialog(
         t("Confirmation code sent"),
         result.message,
-        () => { },
+        () => {},
       );
-    } else {
-      showSnackbar(err, "error");
-      setError({});
     }
   };
   
@@ -138,18 +138,7 @@ function ForgotPassword() {
       password,
       passwordConfirmed,
     });
-    if (!result.err) {
-      setWaitingForCode(false);
-      setEmail("");
-      setPassword("");
-      setPasswordConfirmed("");
-      setCode("");
-      handleOpenDialog(
-        t(`Password reset success`),
-        t(`You can sign in with your new password`),
-        () => { navigate("/signin", { replace: true }) }
-      );
-    } else {
+    if (result.err) {
       showSnackbar(result.message, "error");
       switch (result.data.code) {
         case "NotFoundCode":
@@ -161,7 +150,17 @@ function ForgotPassword() {
         default:
           setError({ password: true }); // blame password field for error
       }
-      
+    } else {
+      setWaitingForCode(false);
+      setEmail("");
+      setPassword("");
+      setPasswordConfirmed("");
+      setCode("");
+      handleOpenDialog(
+        t(`Password reset success`),
+        t(`You can sign in with your new password`),
+        () => { navigate("/signin", { replace: true }) }
+      );
     }
   };
 
@@ -172,7 +171,19 @@ function ForgotPassword() {
     const result = await apiCall("post", "/auth/resendResetPasswordCode", {
       email,
     });
-    if (!result.err) {
+    if (result.err) {
+      switch (result.code) {
+        case "NotFoundCode":
+          setError({ confirmationCode: true }); // blame confirmationCode field for error
+          break;
+        case "InvalidOrExpiredCode":
+          setError({ confirmationCode: true }); // blame confirmationCode field for error
+          break;
+        default:
+          setError({ password: true }); // blame password field for error
+      }
+    } else {
+      showSnackbar(result.message, "error");
       console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
       setWaitingForCode(true);
       //setEmail("");
@@ -184,18 +195,6 @@ function ForgotPassword() {
         result.message,
         () => { }
       );
-    } else {
-        switch (result.code) {
-          case "NotFoundCode":
-            setError({ confirmationCode: true }); // blame confirmationCode field for error
-            break;
-          case "InvalidOrExpiredCode":
-            setError({ confirmationCode: true }); // blame confirmationCode field for error
-            break;
-          default:
-            setError({ password: true }); // blame password field for error
-        }
-      showSnackbar(result.message, "error");
     }
   };
 

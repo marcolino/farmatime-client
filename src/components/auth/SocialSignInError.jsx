@@ -1,28 +1,28 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSnackbar }  from "notistack";
+import React, { useEffect, useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { AuthContext } from "../../providers/AuthProvider";
-//import { useSnackbar }  from "../../providers/SnackbarManager";
-//import config from "../../config";
 
 
 function SocialSignInError() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { setAuth } = useContext(AuthContext);
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext();
 
-  const params = new URLSearchParams(location.search);
-  const stringifiedData = params.get("data");
-  const error = JSON.parse(stringifiedData);
-
-  // now error object contains all the data, with correct types
-  console.error("SocialSignInError error:", error);
-  
   useEffect(() => {
-    showSnackbar(error.message, "error");
-    setAuth({ user: false }); // reset auth
-    navigate("/", { replace: true }); // redirect to home route
-  }, [error, navigate]);
+    const params = new URLSearchParams(location.search);
+    const error = params.get("error");
+    const errorDescription = params.get("error_description");
+
+    if (error) {
+      showSnackbar(`Social login did not work, sorry.\n${errorDescription}\nError: ${error}`, "error");
+      setAuth({ user: false }); // Reset auth if needed
+      navigate("/", { replace: true }); // Redirect to home
+    }
+  }, [location, showSnackbar, setAuth, navigate]);
+  
+  return null;
 }
 
 export default React.memo(SocialSignInError);

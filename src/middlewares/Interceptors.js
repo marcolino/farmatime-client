@@ -1,7 +1,6 @@
 import axios from "axios";
 import Cookie from "../libs/Cookie";
 import { setDisableLoaderGlobal } from "../providers/LoaderState";
-//import { showGlobalSnackbar } from "../providers/SnackbarManager";
 import cfg from "../config";
 
 // track whether the token is being refreshed
@@ -65,13 +64,15 @@ const clearLocalTokens = () => {
 // create axios instance
 const createInstance = () => {
   return axios.create({
-    baseURL: `${cfg.siteUrl}/api`,
+    baseURL: `${cfg.siteUrl}/api`, // *** axios api url ***
     timeout: cfg.api.timeoutSeconds * 1000,
     headers: {
       "Content-Type": "application/json",
     }
   });
 };
+
+console.log(`baseUrl: ${cfg.siteUrl}/api`);
 
 const instance = createInstance();
 const instanceForRefresh = createInstance(true);
@@ -175,23 +176,22 @@ instance.interceptors.response.use(
     if (response.status === 401 && config.url !== "/auth/signin") { // unauthorized
       if (!isRefreshing) {
         isRefreshing = true;
-        try {
+        try { // refresh expired access token
           const newAccessToken = await refreshAccessToken();
           isRefreshing = false;
           onRefreshed(newAccessToken);
           refreshSubscribers = [];
           return instance(config);
-        } catch (refreshError) { // refresh token expired
+        } catch (refreshError) { // could not refresh access token: user is logged out, redirect to signin page
           console.log("refreshError caught:", refreshError);
           isRefreshing = false;
           clearLocalTokens();
-          //showGlobalSnackbar(refreshError.response.data.message, "warning"); // TODO...
           setDisableLoaderGlobal(true); // to disable the loader before redirection
           setTimeout(() => { // redirect to signin page with some delay, to allow snackbar to be read
             setDisableLoaderGlobal(false); // to reenable the loader after redirection
             window.location.href = "/signin";
           }, cfg.ui.snacks.autoHideDurationSeconds * 1000);
-          refreshError.response.data.message = null; // avoid double error showing snackbar on component (TODO: check what happens removing this line...)
+          //refreshError.response.data.message = null; // avoid double error showing snackbar on component
           return Promise.reject(refreshError);
         }
       } else {

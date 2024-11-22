@@ -12,7 +12,7 @@ import {
 import TextField from "./custom/TextField";
 import { Subject } from "@mui/icons-material";
 //import { useSnackbar } from "../providers/SnackbarManager";
-import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../providers/SnackbarProvider";
 
 
 function DialogEmailCreation({ open, onClose, onConfirm }) {

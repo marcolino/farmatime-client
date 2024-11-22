@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MuiTelInput } from "mui-tel-input";
-//import unknownFlag from "../../assets/icons/NotFound.png";
+//import unknownFlag from "../../assets/images/NotFound.png";
 import { i18n } from "../../i18n";
 import config from "../../config";
 

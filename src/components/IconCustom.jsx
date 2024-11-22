@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import IconLogoMain from "../assets/icons/LogoMain.png";
-import IconNetworkOn from "../assets/icons/Network.on.svg";
-import IconNetworkOff from "../assets/icons/Network.off.svg";
-import IconNotFound from "../assets/icons/PageNotFound.png";
-import IconWorkInprogress from "../assets/icons/WorkInProgress.png";
+import IconLogoMain from "../assets/images/LogoMain.png";
+import IconNetworkOn from "../assets/images/Network.on.svg";
+import IconNetworkOff from "../assets/images/Network.off.svg";
+import IconNotFound from "../assets/images/PageNotFound.png";
+import IconWorkInprogress from "../assets/images/WorkInProgress.png";
 
 
 //function IconCustom(props) {

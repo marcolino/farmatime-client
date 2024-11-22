@@ -35,7 +35,7 @@ import ImageCustom from "./ImageCustom";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { AuthContext } from "../providers/AuthProvider";
 import { isAdmin } from "../libs/Validation";
-import logoMain from "../assets/icons/LogoMain.png";
+import logoMain from "../assets/images/LogoMain.png";
 import config from "../config";
 
 
@@ -88,7 +88,6 @@ const Header = ({ theme, toggleTheme }) => {
     ),
   ];
 
-  
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -219,7 +218,7 @@ const Header = ({ theme, toggleTheme }) => {
             onClick={handleUserMenuClose} // to close on click everywhere
           >
             {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
-              <MenuItem key={label} component={RouterLink} to={href} dense>
+              <MenuItem key={label} component={RouterLink} to={href} /*dense*/>
                 <ListItemIcon>
                   {icon}
                 </ListItemIcon>
@@ -251,11 +250,12 @@ const Header = ({ theme, toggleTheme }) => {
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
         >
-          <List dense>
+          <List /*dense*/>
             <ListItem
               key="products"
               component={RouterLink}
               to="/products"
+              sx={{ borderBottom: 1, borderColor: "grey.100" }}
             >
               <Box sx={{ display: "flex", alignItems: "center", color: "text.primary" }}>
                 <ShoppingCart /> &emsp; <ListItemText primary={t("Products")} />
@@ -265,6 +265,7 @@ const Header = ({ theme, toggleTheme }) => {
               key="contacts"
               component={RouterLink}
               to="/contacts"
+              sx={{ borderBottom: 1, borderColor: "grey.100" }}
             >
               <Box sx={{ display: "flex", alignItems: "center", color: "text.primary" }}>
                 <ContactPhone /> &emsp; <ListItemText primary={t("Contacts")} />

@@ -1,32 +1,21 @@
-import React, { useState } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-import queryString from "query-string";
+import React from "react";
+//import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Box, Container, CssBaseline } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import Header from "./Header";
 import Footer from "./Footer";
-import { getCurrentLanguage } from "../libs/I18n";
-//import useSnackbar from "../providers/SnackbarManager";
-import { useSnackbarContext } from "../providers/SnackbarProvider"; 
-import Loader from "./Loader";
-import { themeLight, themeDark } from "../themes/default";
+//import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 
 
 function Contents({ theme, toggleTheme, children }) {
-  const location = useLocation();
-  //const { showSnackbar } = useSnackbar();
-  const { showSnackbar } = useSnackbarContext(); 
+  //const location = useLocation();
+  //const { showSnackbar } = useSnackbarContext(); 
   const { i18n } = useTranslation();
-  // const [theme, setTheme] = useState(config.ui.themeMode === "light" ? themeLight : themeDark);
 
-  // const toggleTheme = () => {
-  //   setTheme((prevTheme) => (prevTheme.palette.mode === "light" ? themeDark : themeLight));
-  // };
-
-  /* flex container with column direction and full-height view */
+  
   return (
     <Box
-      sx={{
+      sx={{ // flex container with column direction and full-height view
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh", // full viewport height, ensures the footer is at the bottom when content is short

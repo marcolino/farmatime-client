@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Gravatar from "react-gravatar";
+import imageDefault from "../assets/images/Avatar.png";
 
 function IconGravatar({
   email,
@@ -8,7 +9,6 @@ function IconGravatar({
   ...props
 }) {
   const [imageError, setImageError] = useState(false);
-  const defaultImage = "./avatar.png"; // should be in "public" folder
 
   return (
     <>
@@ -17,13 +17,13 @@ function IconGravatar({
           email={email}
           size={size}
           rating={rating}
-          default={defaultImage}
+          default={imageDefault}
           onError={() => setImageError(true)} // set error flag if Gravatar fails
           {...props}
         />
       ) : (
         <img
-          src={defaultImage}
+          src={imageDefault}
           alt="default avatar"
           width={size}
           height={size}

@@ -1,4 +1,6 @@
 import React from "react";
+import config from "../config";
+
 
 export const isEmptyObject = (obj) => {
   return (
@@ -62,6 +64,46 @@ export const deepMergeObjects = (target, source) => {
   // combine target and updated source
   return Object.assign(target || {}, source);
 }
+
+// check if consent is expired
+const cookiesIsConsentExpired = (timestamp) => {
+  const expirationTimeMilliseconds = config.cookies.expirationDays * 24 * 60 * 60 * 1000; // approximately one year
+  return new Date().getTime() > (timestamp + expirationTimeMilliseconds);
+};
+
+// load consent from localStorage
+export const cookiesLoadConsent = () => {
+  const storedData = localStorage.getItem(config.cookies.key);
+  if (storedData) {
+    const parsedData = JSON.parse(storedData);
+    if (!cookiesIsConsentExpired(parsedData.timestamp)) {
+      // setIsConsentGiven(parsedData.consent);
+      // setProfilingConsent(parsedData.consent.profiling);
+      // setStatisticsConsent(parsedData.consent.statistics);
+      // return;
+      return {
+        technical: true,
+        profiling: parsedData.consent.profiling,
+        statistics: parsedData.consent.statistics,
+      };
+    }
+    // consent expired, remove it
+    localStorage.removeItem(config.cookies.key);
+  }
+  //setIsConsentGiven(null); // trigger consent modal display
+  return null;
+};
+
+// save consent to localStorage with current timestamp
+export const cookiesSaveConsent = (newConsent) => {
+  const consentData = {
+    consent: newConsent,
+    timestamp: new Date().getTime(),
+  };
+  localStorage.setItem(config.cookies.key, JSON.stringify(consentData));
+  //setIsConsentGiven(newConsent);
+  return newConsent;
+};
 
 export const encodeEmail = (email) => {
   let encodedEmail = "";

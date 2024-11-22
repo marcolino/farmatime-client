@@ -1,5 +1,5 @@
 import React from "react";
-import { Select, MenuItem, OutlinedInput, FormControl, InputLabel } from "@mui/material";
+import { Select, MenuItem, OutlinedInput, FilledInput, Input, FormControl, InputLabel } from "@mui/material";
 import { alpha } from "@mui/system";
 import { useTheme } from "@mui/material/styles"
 import InputAdornment from "@mui/material/InputAdornment";
@@ -27,14 +27,18 @@ const StyledSelect = ({
   }
   
   const theme = useTheme();
-
+  const InputComponent = (
+    (variant === "outlined") ? OutlinedInput :
+    (variant === "filled") ? FilledInput :
+    Input
+  );
   return (
     <FormControl fullWidth={props.fullWidth} sx={{ mt: 1, mb: 0.7 }}>
       <InputLabel sx={{ mt: 0, px: 0.5, color: (props.id === document.activeElement.id) ? "primary.main" : "text.primary", backgroundColor: "background.default" }}>
         {props.label}
       </InputLabel>
       <Select
-        sx={{ ...props.sx, my: props.margin === "normal" ? "8px" : props.margin === "dense" ? "5px" : 0}}
+        sx={{ ...props.sx, my: props.margin === "normal" ? "8px" : props.margin === "dense" ? "5px" : 0 }}
         multiple={props.multiple}
         renderValue={(selected) => (
           <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -45,8 +49,8 @@ const StyledSelect = ({
             )}
           </div>
         )}
-        input={variant === "outlined" ?
-          <OutlinedInput
+        input={
+          <InputComponent
             startAdornment={
               <InputAdornment position="start">
                 {startIcon}
@@ -57,7 +61,7 @@ const StyledSelect = ({
                 {endIcon}
               </InputAdornment>
             )}
-          /> : /* TODO: support all component variants (filled|outlined|standard) */ null
+          />
         }
         {...props}
       >

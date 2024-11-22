@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-// import { makeStyles } from "@material-ui/styles";
 import Avatar from "@mui/material/Avatar";
 import ShareIcon from "@mui/icons-material/Share";
 import IconButton from "@mui/material/IconButton";
@@ -16,11 +15,10 @@ import { StatusContext } from "../providers/StatusProvider";
 import { i18n }  from "../i18n";
 
 
-export default function Notifications(props) {
+const /*function*/ Notifications = (props) => {
   const { status, setStatus } = useContext(StatusContext);
   const navigate = useNavigate();
-  const classes = {}; //useStyles();
-  //const { t } = useTranslation();
+  const classes = {};
 
   const deleteForeverMessage = (index) => {
     setStatus({pushNotifications: status.pushNotifications.filter((notification, i) =>
@@ -31,15 +29,13 @@ export default function Notifications(props) {
     }
   };
   
-console.log("Notifications - status.pushNotifications:", status.pushNotifications);
-console.log("Notifications - props.location.state:", props.location.state);
+  console.log("Notifications - status.pushNotifications:", status.pushNotifications);
+  console.log("Notifications - props.location.state:", props.location.state);
 
-//{props.location.state && props.location.state.map((state, index) => {
-
-return (
+  return (
     <div className={classes.root}>
       {status.pushNotifications.map((state, index) => {
-console.log("Notifications state:", state);
+        console.log("Notifications state:", state);
         const timestamp = state.data["google.c.a.ts"];
         const when = new Intl.DateTimeFormat(
           i18n.language, // i18n.language is ISO 639-1
@@ -93,3 +89,5 @@ console.log("Notifications state:", state);
     </div>
   );
 }
+
+export default React.memo(Notifications);

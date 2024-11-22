@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Grid, Box, Typography, /*Link,*/ useMediaQuery } from "@mui/material";
 import { Button } from "./custom";
-import WorkInProgressImage from "../assets/icons/WorkInProgress.png";
+import WorkInProgressImage from "../assets/images/WorkInProgress.png";
 
 
 const WorkInProgress = () => {

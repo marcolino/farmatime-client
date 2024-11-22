@@ -68,9 +68,6 @@ CORS
 Cache
  - Serverless - Invalidating the Cache:
    https://serverless-stack.com/chapters/deploy-updates.html
-   
-Email
- - Create Email Addresses for your Route53 Custom Domain: https://medium.com/responsetap-engineering/easily-create-email-addresses-for-your-route53-custom-domain-589d099dd0f2
  
 Google Search Console
  - https://search.google.com/search-console?resource_id=sc-domain%3Asistemisolari.com
@@ -79,7 +76,7 @@ Create Google Places API key for a project
  - https://console.cloud.google.com/apis/credentials?project=acme-431519
 
 Google Developer console for oAuth
- - [TODO...](https://console.cloud.google.com/apis/dashboard?project=acme-431519)
+ - (https://console.cloud.google.com/apis/dashboard?project=acme-431519)
 
 Facebook Developer console for oAuth
  - https://developers.facebook.com/apps/

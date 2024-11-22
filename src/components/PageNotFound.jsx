@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Box, Typography, Link, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
-import PageNotFoundImage from "../assets/icons/PageNotFound.png";
+import PageNotFoundImage from "../assets/images/PageNotFound.png";
 
 
 const PageNotFound = () => {
@@ -34,7 +34,7 @@ const PageNotFound = () => {
               objectFit: "contain",
             }}
             alt="Not found image"
-            // src={"/src/assets/icons/NotFound.png"}
+            // src={"/src/assets/images/NotFound.png"}
             src={PageNotFoundImage}
           />
         </Grid>

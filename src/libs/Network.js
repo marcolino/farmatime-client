@@ -30,7 +30,9 @@ const apiCall = async(method, url, data = null) => {
           if (
             code &&
             (code !== "NO_TOKEN") &&
-            (code !== "EXPIRED_TOKEN")
+            (code !== "EXPIRED_TOKEN") &&
+            (code !== "BAD_TOKEN") &&
+            (code !== "WROND_TOKEN")
           ) { // ignore token error messages, the important warning is shown in refreshToken middleware
             return {
               err: true,

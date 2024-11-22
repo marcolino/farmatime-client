@@ -8,11 +8,11 @@ import { AuthProvider } from "./providers/AuthProvider";
 import { OnlineStatusProvider } from "./providers/OnlineStatusProvider";
 import { LoaderProvider} from "./providers/LoaderProvider";
 import SessionProvider from "./providers/SessionProvider";
+import ServiceWorkerMessages from "./components/ServiceWorkerMessages";
 import Contents from "./components/Contents";
 import Routing from "./components/Routing";
-import CookieBanner from "./components/CookieBanner";
+import CookieConsent  from "./components/CookieConsent";
 //import MaintenanceCheck from "./components/MaintenanceCheck";
-import Banner from "./components/Banner";
 import BackgroundVideo from "./components/BackgroundVideo";
 import ClientInfoDisplay from "./components/ClientInfoDisplay";
 import Loader from "./components/Loader";
@@ -29,25 +29,24 @@ const App = () => {
     setTheme((prevTheme) => (prevTheme.palette.mode === "light" ? themeDark : themeLight));
   };
 
-  // const handleLogout = () => {
-  //   console.log("user logged out due to inactivity");
-  //   window.location.href = "/";
-  // };
-
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
         {/* <MaintenanceCheck /> */}
         <SnackbarProviderWrapper>
-          <ServiceWorkerProvider>
+          <ServiceWorkerMessages />
+          {/* <ServiceWorkerProvider> */}
             <OnlineStatusProvider>
               <CssBaseline />
-              <CookieBanner />
+              <CookieConsent />
               <LoaderProvider>
                 <Loader loading={loading} />
-                <Router>
-                  <SessionProvider /*onLogout={handleLogout}*/ />
-                  {/* {config.mode.development && <Banner theme={theme} text="development" />} */}
+                <Router future={{ /* avoid v7 start transition warnings */ 
+                  v7_startTransition: true,
+                  v7_relativeSplatPath: true,
+                }}>
+                  <BackgroundVideo />
+                  <SessionProvider />
                   {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
                   <Contents theme={theme} toggleTheme={toggleTheme}>
                     <Routing />
@@ -55,7 +54,7 @@ const App = () => {
                 </Router>
               </LoaderProvider>
             </OnlineStatusProvider>
-          </ServiceWorkerProvider>
+          {/* </ServiceWorkerProvider> */}
         </SnackbarProviderWrapper>
       </AuthProvider>
     </ThemeProvider>

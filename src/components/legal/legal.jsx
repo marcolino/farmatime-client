@@ -1,20 +1,30 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
+import { Button } from "@mui/material";
+import Forward from "@mui/icons-material/Forward";
 import privacyPolicy_en from "./en/PrivacyPolicy";
 import privacyPolicy_it from "./it/PrivacyPolicy";
 import termsOfUse_en from "./en/TermsOfUse";
 import termsOfUse_it from "./it/TermsOfUse";
 import config from "../../config";
 
+
 function Legal(props) {
- 	const contents = (
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  if (!props.language) {
+    props.language = config.i18n.languages.fallback;
+  }
+
+  const contents = (
     props.doc === "privacyPolicy" ? (
       (props.language === "en") ?
         privacyPolicy_en() :
       (props.language === "it") ?
         privacyPolicy_it() :
-      "unsupported language property"
+      t("unsupported language property")
     ) :
     props.doc === "termsOfUse" ? (
       (props.language === "en") ?
@@ -26,29 +36,22 @@ function Legal(props) {
     "unsupported doc property"
   );
 
-  //const navigate = useNavigate();
-  const backButtonStyle = {alignSelf: "flex-start", border: "1px solid #aaa", borderRadius: 7, padding: "8px 16px", backgroundColor: "#eee", color: "#000", cursor: "pointer"};
-  const backButtonArrow = "◄";
-  // TODO: why navigate(-2) and not navigate(-1) (-1) ? It has to be understood...
-  const backButton = <input type="button" onClick={() => navigate(-2)} value={backButtonArrow} style={backButtonStyle} />;
-  
   return (
     <>
-      {backButton}
+      <Button
+        variant="contained"
+        color="default"
+        onClick={() => navigate(-1)}
+        sx={{
+          alignSelf: "center"
+        }}
+      >
+        <Forward sx={{ transform: "rotate(180deg)" }} />
+      </Button>
       {contents}
     </>
   );
 
 }
-
-Legal.propTypes = {
-  language: PropTypes.string,
-  doc: PropTypes.oneOf([ "privacyPolicy", "termsOfUse" ]),
-};
-
-Legal.defaultProps = {
-  language: config.i18n.languages.fallback,
-  doc: "",
-};
 
 export default React.memo(Legal);

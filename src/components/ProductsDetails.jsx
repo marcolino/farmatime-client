@@ -1,56 +1,140 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
 import { Paper, Grid, Box, Button, Typography } from "@mui/material";
 import ImageContainer from "./ImageContainer";
+import IconArrowNext from "../assets/images/ArrowNext.png";
+import IconArrowPrev from "../assets/images/ArrowPrev.png";
 import config from "../config";
 
 
 const ProductsDetails = (props) => {
   const theme = useTheme();
+  const [firstRender, setFirstRender] = useState(true);
+  const [startPosition, setStartPosition] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setFirstRender(false), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
-  if (props.productsTotalCount > props.products.length) { // products were limited due lack ot auth
+  if ((props.products.length > 0) && (props.productsTotalCount > props.products.length)) {
     props.products.push({
       stop: true
     });
   }
 
+  const handleDragStart = (e) => {
+    const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+    setStartPosition({ x: clientX, y: clientY });
+    setIsDragging(true);
+  };
+
+  const handleDragMove = (e) => {
+    if (!startPosition) return;
+
+    const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+
+    const deltaX = clientX - startPosition.x;
+    const deltaY = Math.abs(clientY - startPosition.y);
+
+    if (deltaY > Math.abs(deltaX)) {
+      setStartPosition(null);
+      setIsDragging(false);
+      return;
+    }
+
+    e.preventDefault();
+  };
+
+  const handleDragEnd = (e) => {
+    if (!startPosition) return;
+
+    const clientX = e.type === "touchend" ? e.changedTouches[0].clientX : e.clientX;
+    const clientY = e.type === "touchend" ? e.changedTouches[0].clientY : e.clientY;
+
+    const deltaX = clientX - startPosition.x;
+    const deltaY = Math.abs(clientY - startPosition.y);
+
+    if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > deltaY) {
+      if (deltaX > 0 && currentIndex > 0) {
+        setCurrentIndex(currentIndex - 1);
+      } else if (deltaX < 0 && currentIndex < props.products.length - 1) {
+        setCurrentIndex(currentIndex + 1);
+      }
+    }
+
+    setStartPosition(null);
+    setIsDragging(false);
+  };
+
   return (
-    <Carousel
-      autoPlay={false}
-      animation={"slide"}
-      swipe={true}
-      indicators={false}
-      navButtonsAlwaysVisible={true}
-      cycleNavigation={false}
-      navButtonsProps={{
-        style: {
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          borderRadius: 12,
-          opacity: 0.3,
-          margin: "0"
-        },
+    <div
+      style={{ 
+        cursor: isDragging ? "grabbing" : "grab",
+        userSelect: "none",
+        WebkitUserSelect: "none",
+        MozUserSelect: "none",
+        msUserSelect: "none",
+        touchAction: "pan-y",
       }}
-      navButtonsWrapperProps={{
-        sx: {
-          display: "flex",
-          justifyContent: "space-between", // align buttons on opposite sides
-          alignItems: "center", // center buttons vertically in their container
-          padding: theme.spacing(2), // add spacing
-          flexDirection: "row", // arrange in a row
-        },
+      onMouseDown={(e) => {
+        e.preventDefault();
+        handleDragStart(e);
       }}
-      NextIcon={<img src="/arrow-next.png" width="32" alt="next product" />}
-      PrevIcon={<img src="/arrow-prev.png" width="32" alt="previous product" />}
+      onMouseMove={(e) => {
+        if (isDragging) {
+          handleDragMove(e);
+        }
+      }}
+      onMouseUp={handleDragEnd}
+      onMouseLeave={handleDragEnd}
+      onTouchStart={handleDragStart}
+      onTouchMove={handleDragMove}
+      onTouchEnd={handleDragEnd}
     >
-      {props.products.map((product, index) => (
-        <Product key={index} product={product} />
-      ))}
-    </Carousel>
-  )
-}
+      <Carousel
+        index={currentIndex}
+        onChange={(index) => setCurrentIndex(index)}
+        autoPlay={false}
+        animation={firstRender ? "none" : "slide"}
+        swipe={false}
+        indicators={false}
+        navButtonsAlwaysVisible={true}
+        cycleNavigation={false}
+        navButtonsProps={{
+          style: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            borderRadius: 12,
+            opacity: 0.3,
+            margin: "0"
+          },
+        }}
+        navButtonsWrapperProps={{
+          sx: {
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: theme.spacing(2),
+            flexDirection: "row",
+          },
+        }}
+        PrevIcon={<img src={IconArrowPrev} width="32" alt="previous product" />}
+        NextIcon={<img src={IconArrowNext} width="32" alt="next product" />}
+      >
+        {props.products.map((product, index) => (
+          <Product key={index} product={product} />
+        ))}
+      </Carousel>
+    </div>
+  );
+};
 
 const Product = (props) => {
   const { t } = useTranslation();
@@ -79,7 +163,7 @@ const Product = (props) => {
   return (
     <Paper
       sx={{
-        minHeight: 640, // TODO: be responsive here
+        minHeight: config.ui.products.cards.minHeight, // minimum paper height for images of max height
         padding: 2,
       }}
     >
@@ -108,11 +192,11 @@ const Product = (props) => {
               <ImageContainer
                 src={`${config.siteUrl}${config.images.publicPathWaterMark}/${props.product.imageName}`}
                 alt={t("Product image")}
-                maxHeight="300px"
+                maxHeight={`${config.ui.products.images.minHeight}px`}
                 borderColor="transparent"
                 backgroundColor="background.default"
               />
-              <Box sx={{ padding: 2, display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ padding: 2, display: "flex", justifyContent: "center" }}>
                 <Grid
                   container
                   rowSpacing={0} // Vertical spacing between items

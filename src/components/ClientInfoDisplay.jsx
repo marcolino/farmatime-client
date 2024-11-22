@@ -54,7 +54,7 @@ const ClientInfoDisplay = ({ theme }) => {
     <Box
       sx={{
         position: "fixed",
-        bottom: 24,
+        bottom: 56,
         right: 24,
         padding: 0,
         margin: 0,

@@ -1,8 +1,10 @@
-import React from "react";
-import { Container, Typography, Card, CardContent, Grid, List, ListItem, ListItemText } from "@mui/material";
+import React, { useContext } from "react";
+import { Container, Box, Typography, Card, CardContent, List, ListItem, ListItemText } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useTranslation } from "react-i18next";
+//import { OnlineStatusContext } from "../providers/OnlineStatusProvider";
+//import MapForOfflineModeImage from "../assets/images/MapForOfflineMode.png";
 import config from "../config";
 
 // we try to avoid using this fix, hoping issue is solved on library...
@@ -16,6 +18,7 @@ L.Icon.Default.mergeOptions({
 });
 
 const Contacts = () => {
+  //const isOnline = useContext(OnlineStatusContext);
   const { t } = useTranslation();
 
   return (
@@ -38,25 +41,30 @@ const Contacts = () => {
           <Typography variant="h4" gutterBottom>
             {t("Our Location")}
           </Typography>
-          <MapContainer center={config.company.contacts.map.center} zoom={config.company.contacts.map.zoom} style={{ height: "400px", width: "100%" }}>
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
-            />
-            {/* <Marker position={[51.505, -0.09]}>
-              <Popup>
-                Our Company is located here.
-              </Popup>
-            </Marker> */}
-            <Marker
-              position={config.company.contacts.map.center}
-              // icon={ IconMarker }
-            >
-              <Popup>
-                {t("Our Company is located here")}.
-              </Popup>
-            </Marker>
-          </MapContainer>
+          {/* {isOnline ? ( // no need to show a static image when offline, maps are cached too */}
+            <MapContainer center={config.company.contacts.map.center} zoom={config.company.contacts.map.zoom} style={{ height: "400px", width: "100%" }}>
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
+              />
+              <Marker
+                position={config.company.contacts.map.center}
+              >
+                <Popup>
+                  {t("Our Company is located here")}.
+                </Popup>
+              </Marker>
+            </MapContainer>
+          {/* ) : (
+            <>
+              <Box
+                component="img"
+                sx={{ objectFit: "contain" }}
+                alt="Map static image (offline)"
+                src={MapForOfflineModeImage}
+              />
+            </>
+          )} */}
         </CardContent>
       </Card>
 

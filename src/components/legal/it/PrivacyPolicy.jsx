@@ -104,13 +104,12 @@ function PrivacyPolicy() {
       </ul>
       <p>Vi segnaliamo che il titolare del trattamento ad ogni effetto di legge è:</p>
       <ul>
-        <li>Azienda di: <b><span id="azienda">{config.company.owner.name}</span></b></li>
-        <li id="piva" style={{display: "none"}}>P. IVA <span id="iva"></span></li>
-        <li id="codiceFiscale" s_tyle={{display: "block"}}>Codice Fiscale: <span id="codice_Fiscale">{config.company.owner.nameFiscalCode}</span></li>
-        <li>Indirizzo: <span id="indirizzo">{config.company.owner.nameStreetAddress}</span></li>
-        <li>Città: <span id="cap">{config.company.owner.nameZipCode}</span> - <span id="citta">{config.company.owner.nameCity}</span> (<span id="provincia">{config.company.owner.nameProvince}</span>)</li>
-        <li>Tel/Fax: <span id="telefono">{config.company.owner.namePhone}</span></li>
-        <li>E-mail: <span id="email">{encodeEmail(config.company.owner.nameEmail)}</span></li>
+        <li>Azienda di: <span id="company">{config.company.owner.name}</span></li>
+        <li>Codice Fiscale / P.IVA: <span id="fiscalCode">{config.company.owner.fiscalCode}</span></li>
+        <li>Indirizzo: <span id="address">{config.company.owner.streetAddress}</span></li>
+        <li>Città: <span id="zip">{config.company.owner.zipCode}</span> - <span id="city">{config.company.owner.city}</span> (<span id="provincia">{config.company.owner.province}</span>) - <span id="country">{config.company.owner.country}</span></li>
+        <li>Tel / Fax: <span id="phone">{config.company.owner.phone}</span></li>
+        <li>E-mail: <span id="email">{encodeEmail(config.company.owner.email)}</span></li>
       </ul>
       <p>Per esercitare i diritti previsti all'art. 7 del Codice della Privacy ovvero per la cancellazione dei vostri dati dall'archivio, è sufficiente contattarci attraverso uno dei canali messi a disposizione.</p>
       <p>Tutti i dati sono protetti attraverso l'uso di antivirus, firewall e protezione attraverso password.</p>
