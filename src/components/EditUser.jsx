@@ -29,7 +29,7 @@ import {
   validateEmail,
   validatePhone,
 } from "../libs/Validation";
-import { i18n }  from "../i18n";
+//import { i18n }  from "../i18n";
 import config from "../config";
 
 
@@ -63,7 +63,7 @@ function EditUser() {
   //const [sameUserProfile, setSameUserProfile] = useState(false); // to know if profile is the logged user's
   
   useEffect(() => { // get all users on mount
-    (async() => {
+    (async () => {
       const result = await apiCall("post", "/user/getUser", { userId });
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
@@ -76,7 +76,7 @@ function EditUser() {
   // empty dependency array: this effect runs once when the component mounts
   
   useEffect(() => {
-    (async() => {
+    (async () => {
       const result = await apiCall("get", "/user/getAllRoles");
       if (result.err) {
         showSnackbar(result.message, "error");
@@ -87,7 +87,7 @@ function EditUser() {
   }, [t]);
   
   useEffect(() => {
-    (async() => {
+    (async () => {
       const result = await apiCall("get", "/user/getAllPlans");
       if (result.err) {
         showSnackbar(result.message, "error");

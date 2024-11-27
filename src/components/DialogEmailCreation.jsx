@@ -4,26 +4,55 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
+  Modal,
+  Typography,
   Box,
   Button,
+  InputAdornment,
 } from "@mui/material";
 import TextField from "./custom/TextField";
 import { Subject } from "@mui/icons-material";
-//import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 
 
 function DialogEmailCreation({ open, onClose, onConfirm }) {
-  //const { showSnackbar } = useSnackbar();
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
   const [error, setError] = useState({});
+  const [openHelp, setOpenHelp] = React.useState(false);
+  const onOpenHelp = () => setOpenHelp(true);
+  const onCloseHelp = () => setOpenHelp(false);
+  const helpTitle = t("Email composition");
+  const helpContents = 
+  t("In the email subject and in the email body you can use these \"strings\", which will be replaced with the values for each user, before sending the email:\n\
+     $NAME$ => The name of the user\n\
+     $SURNAME$ => The surname of the user\n\
+     $EMAIL$ => The email of the user\n\
+     $PHONE$ => The phone of the user\n\
+     $ADDRESS$ => The address of the user\n\
+     $FISCALCODE$ => The fiscal code/VAT of the user\n\
+     $ROLES$ => The role or roles of the user\n\
+     $PLAN$ => The plan of the user\n\
+     $COMPANY$ => The company of the user\n\
+  ");
+  const helpStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "50%", //600,
+    bgcolor: "background.paper",
+    border: "1px solid #333",
+    boxShadow: 24,
+    p: 4,
+  };
+  
+  
 
-  const validateForm = () => {
+  const validateForm = () => {
     if (!subject) {
       let err = t("Please supply an email subject");
       setError({ subject: err });
@@ -39,17 +68,17 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
     return true;
   };
 
-  const cleanForm = () => {
+  const cleanForm = () => {
     setSubject("");
     setBody("");
   }
 
-  const onCloseWithValidation = (e) => {
+  const onCloseWithValidation = (e) => {
     onClose();
     cleanForm();
   }
 
-  const onConfirmWithValidation = (e) => {
+  const onConfirmWithValidation = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     setError({});
@@ -66,32 +95,41 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
     >
       <DialogTitle>{t("Create and send email")}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
+        <Box display="flex" flexDirection="column" gap={2}>
           <TextField
             autoFocus
             id={"subject"}
             value={subject}
-            onChange={e => setSubject(e.target.value)}
+            onChange={e => setSubject(e.target.value)}
             placeholder={t("Subject")}
-            startAdornmentIcon={<Subject />}
+            //startAdornmentIcon={<Subject />}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Subject />
+                </InputAdornment>
+              ),
+            }}
+            title={t("Subject")}
             error={error.subject}
           />
           <Box m={0} />
           <TextField
             id={"body"}
             value={body}
-            onChange={e => setBody(e.target.value)}
+            onChange={e => setBody(e.target.value)}
             placeholder={t("Body")}
-            //startAdornmentIcon={<Drafts />}
             error={error.body}
             multiline
             rows={4}
-            maxRows={Infinity}
           />
           <Box m={0} />
-        </DialogContentText>
+        </Box>
       </DialogContent>
       <DialogActions>
+        <Button onClick={onOpenHelp} color="secondary" variant="contained">
+          ?
+        </Button>
         <Button onClick={onCloseWithValidation} color="secondary" variant="contained">
           {t("Cancel")}
         </Button>
@@ -99,6 +137,21 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
           {t("Send email")}
         </Button>
       </DialogActions>
+      <Modal
+        open={openHelp}
+        onClose={onCloseHelp}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <Box sx={helpStyle}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {helpTitle}
+          </Typography>
+          <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2, whiteSpace: "pre-line"}}>
+            {helpContents}
+          </Typography>
+        </Box>
+      </Modal>
     </Dialog>
   );
 }

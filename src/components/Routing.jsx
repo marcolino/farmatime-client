@@ -18,10 +18,11 @@ const EditUser = lazy(() => import("./EditUser"));
 const EditProduct = lazy(() => import("./EditProduct"));
 const Legal = lazy(() => import("./legal/legal"));
 //const CookieConsent = lazy(() => import("./CookieConsent"));
-import CookieConsent from "./CookieConsent"; // avoid bot dynamic and static import
+import CookieConsent from "./CookieConsent"; // avoid both dynamic and static import
 const Contacts = lazy(() => import("./Contacts"));
 const HandleUsers = lazy(() => import("./HandleUsers"));
 const HandleProducts = lazy(() => import("./HandleProducts"));
+const EmailPreferencesManagement = lazy(() => import("./EmailPreferencesManagement"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
@@ -46,10 +47,12 @@ const Routing = () => {
           <Route path="/privacy-policy" element={<Legal language={getCurrentLanguage(i18n)} doc="privacyPolicy" />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
           <Route path="/cookie-consent" element={<CookieConsent />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
           <Route path="/contacts" element={<Contacts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/handle-users" element={<HandleUsers />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
+          <Route path="/handle-users" element={<HandleUsers />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0.1} */}
           <Route path="/handle-products" element={<HandleProducts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/page-not-found" element={<PageNotFound />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
-          <Route path="/work-in-progress" element={<WorkInProgress />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0} */}
+          <Route path="/email-unsubscribe" element={<EmailPreferencesManagement action="unsubscribe" />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0.1} */}
+          <Route path="/email-preferences" element={<EmailPreferencesManagement action="preferences" />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0.1} */}
+          <Route path="/page-not-found" element={<PageNotFound />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0.1} */}
+          <Route path="/work-in-progress" element={<WorkInProgress />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0.1} */}
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>

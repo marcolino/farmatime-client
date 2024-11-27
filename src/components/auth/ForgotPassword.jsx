@@ -102,7 +102,7 @@ function ForgotPassword() {
     return true;
   }
 
-  const formForgotPassword = async(e) => {
+  const formForgotPassword = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     setError({});
@@ -141,10 +141,10 @@ function ForgotPassword() {
     if (result.err) {
       showSnackbar(result.message, "error");
       switch (result.data.code) {
-        case "NotFoundCode":
+        case "CODE_NOT_FOUND":
           setError({ confirmationCode: true }); // blame confirmationCode field for error
           break;
-        case "InvalidOrExpiredCode":
+        case "CODE_INVALID_OR_EXPIRED":
           setError({ confirmationCode: true }); // blame confirmationCode field for error
           break;
         default:
@@ -164,7 +164,7 @@ function ForgotPassword() {
     }
   };
 
-  const formResendResetPasswordCode = async(e) => {
+  const formResendResetPasswordCode = async (e) => {
     e.preventDefault();
     setError({});
 
@@ -173,10 +173,10 @@ function ForgotPassword() {
     });
     if (result.err) {
       switch (result.code) {
-        case "NotFoundCode":
+        case "CODE_NOT_FOUND":
           setError({ confirmationCode: true }); // blame confirmationCode field for error
           break;
-        case "InvalidOrExpiredCode":
+        case "CODE_INVALID_OR_EXPIRED":
           setError({ confirmationCode: true }); // blame confirmationCode field for error
           break;
         default:

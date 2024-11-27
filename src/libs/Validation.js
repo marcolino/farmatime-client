@@ -3,11 +3,11 @@ import { i18n } from "../i18n";
 
 export const isAdmin = (user) => {
   if (!user) {
-    console.error("isAdmin: user is not set!");
+    console.error("isAdmin: user is not set");
     return false;
   }
   if (!user.roles) {
-    console.error("isAdmin: user.roles is not set!");
+    console.error("isAdmin: user.roles is not set");
     return false;
   }
   //return user?.roles?.includes("admin");

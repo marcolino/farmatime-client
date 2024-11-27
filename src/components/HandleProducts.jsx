@@ -75,7 +75,7 @@ const ProductTable = () => {
     navigate(`/edit-product/${productId}`);
   };
   
-  const onRemove = async(productId) => {
+  const onRemove = async (productId) => {
     removeProduct({ filter: [productId] }).then((data) => {
       if (data.err) {
         console.warn("removeProduct error:", data);
@@ -91,7 +91,7 @@ const ProductTable = () => {
     });
   };
 
-  const onBulkRemove = async(productIds, params) => {
+  const onBulkRemove = async (productIds, params) => {
     removeProduct({ filter: productIds, ...params }).then((data) => {
       if (data.err) {
         console.warn("bulkRemove product error:", data);

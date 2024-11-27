@@ -34,7 +34,7 @@ const CustomButton = ({ variant, fullWidth = true, hideChildrenUpToBreakpoint = 
         fullWidth={fullWidth}
         exact="true"
         sx={{
-          mt: 2,
+          mt: 1,
           justifyContent: "center",
           alignItems: "center",
           minWidth: hideChildren ? "40px" : "auto", // make the button width only as wide as the icon on xs screens

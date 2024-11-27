@@ -21,7 +21,7 @@ fs.readFile(routesPath, "utf8", (err, data) => {
     const matchRoute = /^\s*<Route (.*)/.exec(line);
     if (matchRoute !== null) {
       const matchPath = /path=[\"\'](.*?)[\"\']/.exec(matchRoute);
-      const matchFilename = /path=[\"\'](.*?)[\"\']/.exec(matchRoute); // TODO: get route controller's file name
+      const matchFilename = /path=[\"\'](.*?)[\"\']/.exec(matchRoute); // TODO: get route's controller's file name
       const matchFrequency = /sitemapFrequency=\{[\"\']?(.*?)[\"\']?\}/.exec(matchRoute);
       const matchPriority = /sitemapPriority=\{[\"\']?(.*?)[\"\']?\}/.exec(matchRoute);
       const lastmod = "2024-11-13"; // TODO: lastModificationDate(matchFilename);

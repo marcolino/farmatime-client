@@ -162,7 +162,7 @@ function SignUp() {
     return true;
   }
 
-  const formSignUp = async(e) => {
+  const formSignUp = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     setError({});
@@ -175,8 +175,8 @@ function SignUp() {
     });
     if (result.err) {
       switch (result.err.code) {
-        case "EmailExistsAlready":
-        case "AccountWaitingForVerification":
+        case "EMAIL_EXISTS_ALREADY":
+        case "ACCOUNT_WAITING_FOR_VERIFICATION":
         case "DeletedUser":
           setError({ email: true });
           //toast.warning(t(result.message));
@@ -204,7 +204,7 @@ function SignUp() {
     }
   };
     
-  const formSignupVerification = async(e) => {
+  const formSignupVerification = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     setError({});
@@ -227,7 +227,7 @@ function SignUp() {
     }
   };
   
-  const formResendSignupVerificationCode = async(e) => {
+  const formResendSignupVerificationCode = async (e) => {
     e.preventDefault();
     if (!validateForm({ waitingForCodeResend: true })) return;
     setError({});
@@ -348,6 +348,26 @@ function SignUp() {
                 {t("Sign Up")}
               </Button>
 
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  mt: 2,
+                }}
+              >
+                <Typography variant="body2" color="textSecondary">
+                  {t("Already have an account?")}
+                  {" "}
+                  <Link
+                    style={{ cursor: "pointer" }}
+                    underline="hover"
+                    onClick={() => navigate("/signin")}
+                  >
+                    {t("Sign in!")}
+                  </Link>
+                </Typography>
+              </Box>
+              
               <Grid container justifyContent="flex-start" sx={{ mt: 4 }}>
                 <Typography component="h6" variant="caption" color="textSecondary" align="center">
                   {t("By signing up you agree to our")} <Link href="/terms-of-use" color="textPrimary">{t("terms of use")}</Link> {" "}

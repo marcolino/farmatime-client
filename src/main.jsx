@@ -7,12 +7,12 @@ import config from "./config";
 setupCustomConsole();
 
 console.log(
+  "mode:",
   config.mode.production ? "production" :
   config.mode.staging ? "staging" :
   config.mode.development ? "development" :
   config.mode.test ? "test" :
-  "unforeseen",
-  "mode"
+  "unforeseen"
 );
 
 createRoot(document.getElementById("root")).render(

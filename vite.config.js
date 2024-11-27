@@ -60,18 +60,22 @@ export default defineConfig({
         //skipWaiting: true, // ensure the new service worker takes control immediately
         cleanupOutdatedCaches: true,
         globPatterns: [
-          "**/*.{js,css,html,ico,png,jpg,svg,wav,mp3,webmanifest}", // match all relevant static assets in build folder
+          "**/*.{js,css,html,ico,png,jpg,svg,webp,wav,mp3,webmanifest}", // match all relevant static assets in build folder
         ],
         // Note: to disable workbox during development, set globPatterns to []
         runtimeCaching: [
           {
             urlPattern: ({ request }) => request.destination === "document",
-            handler: "NetworkFirst", // Network first for HTML files
+            handler: "NetworkFirst", // network first for HTML files
           },
           {
             urlPattern: ({ request }) =>
               ["style", "script", "image", "font"].includes(request.destination),
             handler: "CacheFirst", // cache JS, CSS, images, and fonts
+          },
+          {
+            urlPattern: /^https:\/\/flagcdn\.com\/.*$/,
+            handler: "NetworkOnly", // fetch from the network without caching
           },
           // cache Google Fonts stylesheets
           {

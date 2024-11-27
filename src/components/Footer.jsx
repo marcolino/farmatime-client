@@ -1,28 +1,33 @@
 import React, { useState, useEffect, useContext } from "react";
-import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
-//import { useTheme } from "@mui/material/styles";
+import { Box, Link, Typography } from "@mui/material";
+import Button from "./custom/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+
+import SignalWifi3BarOutlinedIcon from "@mui/icons-material/SignalWifi3BarOutlined";
+// import SignalWifi3BarOutlinedIcon from '@mui/icons-material/SignalWifi3BarOutlined';
+
+import SignalWifiBadOutlinedIcon from "@mui/icons-material/SignalWifiBadOutlined";
+//import SignalWifiConnectedNoInternet4OutlinedIcon from "@mui/icons-material/SignalWifiConnectedNoInternet4Outlined";
+
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useTranslation } from "react-i18next";
 import { OnlineStatusContext } from "../providers/OnlineStatusProvider";
-import IconCustom from "./IconCustom";
 import { i18n }  from "../i18n";
 import packageJson from "../../package.json";
 import config from "../config";
 
-const changeLanguage = () => {
-  const language = i18n.language === "it" ? "en" : "it";
-  i18n.changeLanguage(language);
-  document.documentElement.setAttribute("lang", language);
-}
-
 const Footer = () => {
-  //const theme = useTheme();
   const { t } = useTranslation();
   const [buildInfo, setBuildInfo] = useState(null);
-  const on = t("on"), off = t("off");
   const languageFlag = config.i18n.languages.supported[i18n.language.slice(0, 2).toLowerCase()].icon;
   const isOnline = useContext(OnlineStatusContext);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState(null);
+  const [dialogContent, setDialogContent] = useState(null);
+  const [dialogCallback, setDialogCallback] = useState(null);
 
   useEffect(() => { // read build info from file on disk
     if (!buildInfo) {
@@ -46,7 +51,29 @@ const Footer = () => {
     }
   }, []);
 
-  const build = config.mode.development ? "" : `build n. ${buildInfo ? buildInfo.buildNumber : "?"} on ${buildInfo ? buildInfo.buildDateTime : "?"} ~ `;
+  const build = `${packageJson.name} v${packageJson.version} © ${new Date().getFullYear()}
+    ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}`;
+
+  const changeLanguage = () => {
+    const language = i18n.language === "it" ? "en" : "it";
+    i18n.changeLanguage(language);
+    document.documentElement.setAttribute("lang", language);
+  }
+  
+  const handleOpenDialog = (title, content, callbackOnClose) => {
+    setDialogTitle(title);
+    setDialogContent(content);
+    setDialogCallback(() => callbackOnClose);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    if (dialogCallback) {
+      setDialogCallback(null);
+      dialogCallback();
+    }
+  };
 
   return (
     <Box
@@ -73,41 +100,92 @@ const Footer = () => {
           flexWrap: "wrap",
         }}
       >
-        <Box sx={{ lineHeight: 1 }}>
+        {/* app name, version and copyright */}
+        <Box
+          sx={{ lineHeight: 1, mr: 2 }}
+        >
           {`
-            ${packageJson.name} v${packageJson.version} ~
-            ${build}
-            © ${new Date().getFullYear()},
+            ${packageJson.name} v${packageJson.version}
+            © ${new Date().getFullYear()}
           `}
         </Box>
+
+        {/* company name */}
         <Link
           href="/"
           color="textSecondary"
           underline="hover"
-          sx={{
-            cursor: "pointer",
-            verticalAlign: "baseline"
-          }}
+          sx={{ cursor: "pointer", mr: 3 }}
         >
           &nbsp; {config.company.name}
         </Link>
+
+        {/* app and build full info */}
+        <Box
+          onClick={() => handleOpenDialog(
+              t("App name and version"),
+              <>{ build }</>,
+              null,
+            )
+          }
+          sx={{ mr: 1.5, cursor: "pointer" }}
+        >
+          <InfoOutlinedIcon sx={{ fontSize: 22, verticalAlign: "bottom", marginBottom: 0.3  }}/>
+        </Box>
+        
+        {/* network connection indicator */}
+        <Box
+          onClick={() => handleOpenDialog(
+            t("Network status"),
+            <>{isOnline ? t("On") : t("Off")}</>,
+            null,
+          )
+        }
+          sx={{ mr: 1.5, cursor: "pointer" }}
+        >
+          {isOnline ?
+            <SignalWifi3BarOutlinedIcon sx={{ fontSize: 22, verticalAlign: "bottom", marginBottom: 0.4 }} /> :
+            <SignalWifiBadOutlinedIcon sx={{ fontSize: 22, verticalAlign: "bottom", marginBottom: 0.4 }} />
+          }
+        </Box>
+
+        {/* language / change language flag */}
         <Box
           onClick={changeLanguage}
-          sx={{ cursor: "pointer" }}
+          sx={{ mr: 1.5, fontSize: 20, verticalAlign: "bottom", cursor: "pointer" }}
         >
-          &nbsp;{languageFlag}&nbsp;
+          {languageFlag}
         </Box>
-        <Box
-          sx={{ cursor: "pointer" }}
-        >
-          &nbsp;<IconCustom
-            name={`Network.${isOnline ? "on" : "off"}`}
-            size={15}
-            alt={t("Network connection indicator")}
-            title={t("Network connection is {{how}}", { how: isOnline ? on : off })}
-          />&nbsp;
-        </Box>
+
       </Typography>
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {dialogTitle}
+        </DialogTitle>
+        <DialogContent id="alert-dialog-description">
+          <Typography component={"span"} variant="body1" sx={{whiteSpace: "pre-line"}}>
+            {dialogContent}
+          </Typography>
+        </DialogContent>
+        {/* {!React.isValidElement(dialogContent) && ( // show buttons only if dialogContent is not a component */}
+          <DialogActions>
+            <Button
+              onClick={handleCloseDialog}
+              fullWidth={false}
+              autoFocus
+            >
+              {t("Ok")}
+            </Button>
+          </DialogActions>
+        {/* )} */}
+      </Dialog>
+      
     </Box>
   );
 }

@@ -12,7 +12,8 @@ const CustomTextFieldPhone = ({
   placeholder = "Search...",
   ...props
 }) => {
-  props.value = props.value ?? ""
+  const flagsBaseUrl = "/flags";
+  props.value = props.value ?? "";
   props.variant = props.variant ?? variant;
   props.fullWidth = props.fullWidth ?? fullWidth;
   props.size = props.size ?? size;
@@ -31,6 +32,11 @@ const CustomTextFieldPhone = ({
     preferredCountries={["IT"]}
     //disableFormatting
     langOfCountryName={i18n.language}
+    getFlagElement={(isoCode, { imgProps, countryName, isSelected }) => {
+      console.log("FLAGS", isoCode.toLowerCase(), countryName);
+      const src = `${flagsBaseUrl}/${isoCode.toLowerCase()}.webp`;
+      return <img src={src} width="32" />; // use flags locally (see scripts/download-language-flags.js) to avoid service-worker caching issues
+    }}
     {...props}
   />
 };

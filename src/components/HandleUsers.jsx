@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
 import { DateTime } from "luxon";
 import DialogConfirm from "./DialogConfirm";
 import DialogEmailCreation from "./DialogEmailCreation";
+import { AuthContext } from "../providers/AuthProvider";
 import { apiCall } from "../libs/Network";
+import { isAdmin } from "../libs/Validation";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 //import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
@@ -32,6 +34,7 @@ import { Search, Edit, Delete } from "@mui/icons-material";
 const UserTable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { auth } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
   const [users, setUsers] = useState([]);
@@ -53,7 +56,10 @@ const UserTable = () => {
   ;
   
   useEffect(() => { // get all users on mount
-    (async() => {
+    if (!auth.user || !isAdmin(auth.user)) { // possibly user did revoke his own admin role...
+      navigate("/"); // force redirect to a page for sure accessible to non-admin users
+    }
+    (async () => {
       const result = await apiCall("get", "/user/getAllUsersWithTokens");
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
@@ -64,7 +70,7 @@ const UserTable = () => {
     return () => {
       //console.log("UserTable unmounted");
     };
-  }, []); // empty dependency array: this effect runs once when the component mounts
+  }, [auth.user]); // empty dependency array: this effect runs once when the component mounts
 
   const removeUser = (params) => {
     return apiCall("post", "/user/removeUser", params);
@@ -78,7 +84,7 @@ const UserTable = () => {
     navigate(`/edit-user/${userId}/editUser`);
   };
   
-  const onRemove = async(userId) => {
+  const onRemove = async (userId) => {
     removeUser({ filter: [userId] }).then((data) => {
       if (data.err) {
         console.warn("removeUser error:", data);
@@ -94,7 +100,7 @@ const UserTable = () => {
     });
   };
 
-  const onBulkEmail = async(userIds, params) => {
+  const onBulkEmail = async (userIds, params) => {
     sendEmailToUsers({ filter: userIds, ...params }).then((data) => {
       if (data.err) {
         console.warn("sendEmailToUsers error:", data);
@@ -110,7 +116,7 @@ const UserTable = () => {
     });
   };
 
-  const onBulkRemove = async(userIds, params) => {
+  const onBulkRemove = async (userIds, params) => {
     removeUser({ filter: userIds, ...params }).then((data) => {
       if (data.err) {
         console.warn("bulkRemove user error:", data);
@@ -455,18 +461,18 @@ const UserTable = () => {
             color="primary"
             onClick={() => handleEmailCreationOpen("emailBulk")}
             disabled={selected.length === 0}
-            sx={{mr: theme.spacing(2)}}
+            sx={{ mr: theme.spacing(2), my: 0.3 }}
           >
-            {t("Email selected users")}
+            {t("Email users")}
           </Button>
           <Button
             variant="contained"
             color="primary"
             onClick={() => handleConfirmOpen("removeBulk")}
             disabled={selected.length === 0}
-            sx={{mr: theme.spacing(2)}}
+            sx={{ mr: theme.spacing(2), my: 0.3 }}
           >
-            {t("Remove selected users")}
+            {t("Remove users")}
           </Button>
         </Box>
       </Paper>

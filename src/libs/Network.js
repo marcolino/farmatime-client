@@ -3,7 +3,7 @@ import instance from "../middlewares/Interceptors";
 import { i18n } from "../i18n";
 
 
-const apiCall = async(method, url, data = null) => {
+const apiCall = async (method, url, data = null) => {
   try {
     // check if the data is a FormData object and set headers accordingly
     const config = {};
@@ -28,11 +28,16 @@ const apiCall = async(method, url, data = null) => {
         if (message) { // if some data.message, show it to the user
           const code = err.response.data?.code;
           if (
-            code &&
-            (code !== "NO_TOKEN") &&
-            (code !== "EXPIRED_TOKEN") &&
-            (code !== "BAD_TOKEN") &&
-            (code !== "WROND_TOKEN")
+            code && (
+              (code === "NO_TOKEN") ||
+              (code === "EXPIRED_TOKEN") ||
+              (code === "BAD_TOKEN") ||
+              (code === "WRONG_TOKEN")
+            )
+            // (code !== "NO_TOKEN") &&
+            // (code !== "EXPIRED_TOKEN") &&
+            // (code !== "BAD_TOKEN") &&
+            // (code !== "WRONG_TOKEN")
           ) { // ignore token error messages, the important warning is shown in refreshToken middleware
             return {
               err: true,
@@ -45,6 +50,13 @@ const apiCall = async(method, url, data = null) => {
               message: message,
               data: err.response.data
             };
+          }
+        } else {
+          return {
+            err: true,
+            status: err.response.status,
+            message: err.response.toString(),
+            data: err.response.data
           }
         }
       } else if (err.request) {

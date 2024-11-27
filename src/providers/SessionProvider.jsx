@@ -13,9 +13,10 @@ const SessionProvider = () => {
   const [showDialog, setShowDialog] = useState(false);
   const isLoggedIn = (auth.user !== false);
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     setShowDialog(false);
     await signOut();
+    setAuth({ user: false }); // user is not set, but not null, it means she has an account
   };
   const handleContinue = () => {
     setShowDialog(false);
@@ -31,10 +32,11 @@ const SessionProvider = () => {
 
   useEffect(() => {
     if (showDialog) {
-      const timer = setTimeout(() => {
+      const timer = setTimeout(async () => {
         //console.log(`SessionProvider, clientSessionExpirationResponseMaximumSeconds ${config.auth.clientSessionExpirationResponseMaximumSeconds} seconds timeout expired`);
         setShowDialog(false);
-        signOut();
+        await signOut();
+        setAuth({ user: false }); // user is not set, but not null, it means she has an account
       }, config.auth.clientSessionExpirationResponseMaximumSeconds * 1000);
       //console.log(`SessionProvider, set timer: ${timer}`);
 

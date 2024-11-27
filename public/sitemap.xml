@@ -88,7 +88,7 @@
       <lastmod>2024-11-13</lastmod>
       <loc>https://acme-server-lingering-brook-4120.fly.dev/handle-users</loc>
       <changefreq>yearly</changefreq>
-      <priority>0</priority>
+      <priority>0.1</priority>
     </url>
     <url>
       <lastmod>2024-11-13</lastmod>
@@ -98,14 +98,26 @@
     </url>
     <url>
       <lastmod>2024-11-13</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/email-unsubscribe</loc>
+      <changefreq>yearly</changefreq>
+      <priority>0.1</priority>
+    </url>
+    <url>
+      <lastmod>2024-11-13</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/email-preferences</loc>
+      <changefreq>yearly</changefreq>
+      <priority>0.1</priority>
+    </url>
+    <url>
+      <lastmod>2024-11-13</lastmod>
       <loc>https://acme-server-lingering-brook-4120.fly.dev/page-not-found</loc>
       <changefreq>yearly</changefreq>
-      <priority>0</priority>
+      <priority>0.1</priority>
     </url>
     <url>
       <lastmod>2024-11-13</lastmod>
       <loc>https://acme-server-lingering-brook-4120.fly.dev/work-in-progress</loc>
       <changefreq>yearly</changefreq>
-      <priority>0</priority>
+      <priority>0.1</priority>
     </url>
   </urlset>

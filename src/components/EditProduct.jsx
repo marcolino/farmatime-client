@@ -59,12 +59,20 @@ function EditProduct() {
   }, []);
 
   const handleImageChange = (e) => {
-    const imageFirstFile = e.target.files[0];
-    setSelectedImage(imageFirstFile);
-    if (imageFirstFile) {
-      setSelectedImageObjectUrl(URL.createObjectURL(imageFirstFile));
+    if (e.target.files.length > 1) { // this shouldn't happen, because <input type="file" /> has no "multiple" attribute
+      showSnackbar(t("Più di una immagine selezionata, si utilizza la prima"), "info");
     }
-    setImageNameOriginal(imageFirstFile.name);
+
+    const imageFirstFile = e.target.files[0];
+    if (imageFirstFile) {
+      // if (selectedImageObjectUrl) { // revoke the previous object URL if one exists
+      //   URL.revokeObjectURL(selectedImageObjectUrl);
+      // }
+      // set the new image and its object URL
+      setSelectedImage(imageFirstFile);
+      setSelectedImageObjectUrl(URL.createObjectURL(imageFirstFile));
+      setImageNameOriginal(imageFirstFile.name);
+    }
   };
 
   useEffect(() => { // get product on mount
@@ -111,8 +119,7 @@ function EditProduct() {
   const validateForm = () => {
     let response;
 
-    // validate fields formally
-    showSnackbar("validation TO BE DONE...", "info");
+    // validate fields formally // TODO...
 
     return true;
   };
@@ -474,13 +481,13 @@ function EditProduct() {
 
                   {/* selected image */}
                   {selectedImageObjectUrl && <ImageContainer
+                    key={selectedImageObjectUrl} // force re-render when object URL changes
                     src={selectedImageObjectUrl}
                     alt={t("Image being uploaded")}
                     borderColor="primary.main"
                     backgroundColor="background.default"
                     label={selectedImage.name}
                   />}
-
                 </Box>
 
                 {/* buttons box */}

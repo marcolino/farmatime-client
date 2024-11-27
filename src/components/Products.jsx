@@ -18,6 +18,7 @@ function Products() {
   const theme = useTheme();
   const bottomRef = useRef(null);
   const debounceSearchMilliseconds = 400;
+  const searchMode = "ANYWHERE"; // EXACT ("borghi" does not find "Lamborghini") / ANYWHERE ("borghi" finds "Lamborghini")
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -26,7 +27,7 @@ function Products() {
       mdaCode: "",
       oemCode: "",
       make: "",
-      model: "",
+      models: "",
       type: "",
     });
     const [products, setProducts] = useState([]);
@@ -34,14 +35,29 @@ function Products() {
     const [isSearching, setIsSearching] = useState(false);
     const [isDebouncing, setIsDebouncing] = useState(false);
 
+    const type = key => (key === "models" ? "Array" : "String");
+
     // fetch products from the API
     const fetchProducts = async (filters) => {
       try {
         setIsSearching(true);
+
         // filter all props not empty props in filters
         const filter = Object.fromEntries(Object.entries(filters).filter(([_, v]) => v));
-        // trim all filters values
-        Object.keys(filter).forEach(k => filter[k] = filter[k].trim());
+
+        // prepare filter for server search
+        Object.keys(filter).forEach(k => {
+          let v = filter[k].trim(); // trim value to make search ignoring leading and trailing spaces
+          let regex = searchMode === "EXACT" ? `^${v}$` : v; // a regexp to make case-insensitive exact/anywhere searches
+          let value;
+          if (type(k) !== "Array") {
+            value = { "$regex": regex, $options: "i" }; // a regexp to make case-insensitive anywhere searches in string fields
+          } else {
+            value = { $elemMatch: { $regex: regex, $options: "i" } };// a regexp to make case-insensitive anywhere searches in array fields
+          }
+          filter[k] = value;
+        });
+
         // get all products for these filters
         const result = await apiCall("get", "/product/getProducts", { filter });
         if (result.err) {
@@ -82,6 +98,7 @@ function Products() {
     // handle input filters changes
     const handleFiltersChange = (e) => {
       const { name, value } = e.target;
+
       setFilters((prevFilters) => ({
         ...prevFilters,
         [name]: value,
@@ -99,7 +116,7 @@ function Products() {
         mdaCode: "",
         oemCode: "",
         make: "",
-        model: "",
+        models: "",
         type: "",
       });
       setProducts([]);
@@ -170,9 +187,9 @@ function Products() {
               }}
             />
             <TextFieldSearch
-              name="model"
-              label={t("Model")}
-              value={filters.model}
+              name="models"
+              label={t("Models")}
+              value={filters.models}
               onChange={handleFiltersChange}
               startIcon={<Search />}
               fullWidth={false}

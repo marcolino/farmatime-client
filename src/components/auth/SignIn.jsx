@@ -65,7 +65,7 @@ function SignIn() {
     return true;
   };
 
-  const formSignIn = async(e) => {
+  const formSignIn = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     setError({});
@@ -156,7 +156,7 @@ function SignIn() {
             onClick={formSignIn}
             sx={{ mt: 1, textAlign: "center" }}
           >
-            {t("Sign In")}
+            {t("Sign in")}
           </Button>
           <Box
             sx={{

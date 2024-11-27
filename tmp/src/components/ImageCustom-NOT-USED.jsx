@@ -8,17 +8,4 @@ function ImageCustom({ src, size = 32, style = { }, alt = "icon" }, ...props) {
   );    
 };
 
-ImageCustom.propTypes = {
-  src: PropTypes.string.isRequired,
-  size: PropTypes.number,
-  style: PropTypes.object,
-  alt: PropTypes.string,
-};
-
-// ImageCustom.defaultProps = {
-//   size: 32,
-//   style: {},
-//   alt: "icon",
-// };
-
 export default React.memo(ImageCustom);

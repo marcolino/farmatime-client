@@ -1,25 +1,25 @@
-import React, { useContext } from "react";
-import { Container, Box, Typography, Card, CardContent, List, ListItem, ListItemText } from "@mui/material";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+import React from "react";
+import { Container, Typography, Card, CardContent, List, ListItem, ListItemText } from "@mui/material";
 import { useTranslation } from "react-i18next";
-//import { OnlineStatusContext } from "../providers/OnlineStatusProvider";
-//import MapForOfflineModeImage from "../assets/images/MapForOfflineMode.png";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet"; // fix Leaflet marker icon issue 
+import "leaflet/dist/leaflet.css";
+import MapMarkerIcon from "../assets/images/MapMarkerIcon.png";
+import MapMarkerShadow from "../assets/images/MapMarkerShadow.png";
 import config from "../config";
 
-// we try to avoid using this fix, hoping issue is solved on library...
-import L from "leaflet";
-// fix Leaflet marker icon issue
+// fix Leaflet marker icon issue 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png",
-  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
+  iconRetinaUrl: MapMarkerIcon,
+  iconUrl: MapMarkerIcon,
+  shadowUrl: MapMarkerShadow,
 });
 
 const Contacts = () => {
-  //const isOnline = useContext(OnlineStatusContext);
   const { t } = useTranslation();
+  const tileLayerUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  const tileLayerContributors = "&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a>";
 
   return (
     <Container>
@@ -44,8 +44,8 @@ const Contacts = () => {
           {/* {isOnline ? ( // no need to show a static image when offline, maps are cached too */}
             <MapContainer center={config.company.contacts.map.center} zoom={config.company.contacts.map.zoom} style={{ height: "400px", width: "100%" }}>
               <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution="&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors"
+                url={tileLayerUrl}
+                attribution={tileLayerContributors}
               />
               <Marker
                 position={config.company.contacts.map.center}
@@ -55,16 +55,6 @@ const Contacts = () => {
                 </Popup>
               </Marker>
             </MapContainer>
-          {/* ) : (
-            <>
-              <Box
-                component="img"
-                sx={{ objectFit: "contain" }}
-                alt="Map static image (offline)"
-                src={MapForOfflineModeImage}
-              />
-            </>
-          )} */}
         </CardContent>
       </Card>
 

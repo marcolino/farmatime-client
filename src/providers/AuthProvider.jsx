@@ -2,12 +2,13 @@ import React, { createContext, useCallback } from "react";
 import { usePersistedState } from "../hooks/usePersistedState";
 import { apiCall } from "../libs/Network";
 
-const initialState = { user: false };
+const initialState = { user: null }; // initial state, when app if first loaded
 
 const AuthContext = createContext(initialState);
 
 const AuthProvider = (props) => {
   const [auth, setAuth] = usePersistedState("auth", initialState);
+  const didSignInBefore = (auth.user !== null);
 
   // centralized sign out function
   const signOut = useCallback(async () => {
@@ -25,13 +26,17 @@ const AuthProvider = (props) => {
       } catch (error) {
         console.error("SignOut error:", error);
       }
-      setAuth({ user: false });
+      /**
+       * Updating state here gives:
+       * Warning: Cannot update a component (`Header`) while rendering a different component (`AuthProvider`).
+      setAuth({ user: false }); // user is not set, but not null, it means she has an account
+      */
       return ok;
     }
   }, [auth.user, setAuth]);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, signOut }}>
+    <AuthContext.Provider value={{ auth, setAuth, didSignInBefore, signOut }}>
       {props.children}
     </AuthContext.Provider>
   );

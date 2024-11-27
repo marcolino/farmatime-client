@@ -20,7 +20,6 @@ import {
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import MenuIcon from "@mui/icons-material/Menu";
-//import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import {
   AccountCircle,
   ExitToApp,
@@ -31,7 +30,6 @@ import {
   Brightness7,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
-import ImageCustom from "./ImageCustom";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { AuthContext } from "../providers/AuthProvider";
 import { isAdmin } from "../libs/Validation";
@@ -40,12 +38,17 @@ import config from "../config";
 
 
 const Header = ({ theme, toggleTheme }) => {
-  const { auth, signOut } = useContext(AuthContext);
+  const { auth, setAuth, signOut, didSignInBefore } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
   const navigate = useNavigate();
   const { t } = useTranslation();
   
-  const isLoggedIn = (auth.user !== false);
+  const isLoggedIn = auth.user;
+
+  // the highest priority role name
+  const roleNameHighestPriority = isLoggedIn ? auth.user.roles.reduce(
+    (previous, current) => previous.priority > current.priority ? previous : current
+  ).name : "guest";
 
   const userItems = [
     ...(isLoggedIn && isAdmin(auth.user) ?
@@ -73,9 +76,11 @@ const Header = ({ theme, toggleTheme }) => {
     ...(isLoggedIn ?
       [
         {
-          label: `${t("Profile")} (${auth.user?.roles[0]?.name})`,
+          //label: `${t("Profile")} (${auth.user.roles[0].name}`,
+          label: `${t("Profile")} (${roleNameHighestPriority})`,
+          // ${auth?.user ?? auth?.user?.roles[0]?.name})`,
           icon: <AccountCircle />,
-          href: `/edit-user/${auth.user?.id}/editProfile`,
+          href: `/edit-user/${auth?.user?.id}/editProfile`,
         },
         {
           label: t("Sign out"),
@@ -108,13 +113,22 @@ const Header = ({ theme, toggleTheme }) => {
   };
   
   const handleUserJoin = (event) => {
-    navigate("/signin", { replace: true });
+    navigate(
+      didSignInBefore ? "/signin" : "/signup",
+      { replace: true }
+    );
   };
 
   const handleSignOut = async () => {
     console.log("handleSignOut");
-    const ok = await signOut();
-    console.log("SIGNOUT ok:", ok);
+    let ok;
+    try {
+      ok = await signOut();
+      console.log("signout success:", ok);
+      setAuth({ user: false }); // user is not set, but not null, it means she has an account
+    } catch (err) {
+      console.error("signout error:", err);
+    }
     showSnackbar(ok ? t("sign out successful") : t("signout completed"), "success");
     navigate("/", { replace: true });
   };
@@ -176,7 +190,7 @@ const Header = ({ theme, toggleTheme }) => {
         {/* user menu */}
         <>
           {isLoggedIn ?
-            <Tooltip title={`${auth?.user?.email} (${auth?.user?.roles[0]?.name})`}>
+            <Tooltip title={`${auth.user.email} (${auth.user.roles[0].name})`}>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -185,11 +199,11 @@ const Header = ({ theme, toggleTheme }) => {
                 color="inherit"
               >
                 {isLoggedIn ?
-                  auth.user.profileImage ?
-                    <ImageCustom src={auth.user.profileImage} alt="user's icon" width={30} style={{ borderRadius: "50%" }} />
+                  auth?.user?.profileImage ?
+                    <img src={auth?.user?.profileImage} alt="user's icon" width={30} style={{ borderRadius: "50%" }} />
                   :
                   <IconGravatar
-                    email={auth.user.email}
+                    email={auth?.user?.email}
                     size={30}
                   />
                 :
@@ -198,7 +212,7 @@ const Header = ({ theme, toggleTheme }) => {
               </IconButton>
             </Tooltip>
           :
-            (auth.user === false) && // if auth.user is false, we show the "Join" button;
+            (!auth.user) && //(auth.user === undefined || auth?.user === false) && // if auth?.user is false, we show the "Join" button;
                                       // otherwise (it's null), we don't know yet, so do not show anything...
               <Button
                 variant="contained"

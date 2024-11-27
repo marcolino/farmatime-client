@@ -84,12 +84,51 @@
 - migliorare l'aspetto estetico del cookie consent popup - OK
 - gestire il Drawer (per il mobile) - OK
 - gestire la sezione "legal" - OK
+- verificare che non succedano cose brutte chiamando il server (es.: in SignIn.jsx), senza controllare l'onlineCheck - OK
+- gestire l'auditing: tracciare la registrazione (e altro) dell'utente con react-tracking e google tag manager (no, fatto lato server) - OK
+- controllare che in caso di offline le chiamate al server non partano neanche (no, workbox service workers caches server data too)
+- utilizzare un modulo per l'inserimento del numero di telefono (con select del prefisso internazionale) - OK
+- capire se servono service-worker.js e serviceWorkerRegistration.js (no, si usano workbox service workers) - OK
+- cambiare async( => async ( - OK
+- modificare il flusso di signin/signup:
+   - se l'utente risulta già avere un account (da localStorage)
+     il pulsante "Entra!" dovrebbe portare alla pagina di signin (con "non hai un accout? Registrati")
+   - se invece risulta essere nuovo, il pulsante "Entra!" dovrebbe portare alla pagina di signup (con "hai già un accout? Accedi") - OK
+- in caso di errore "User already exists" durante la registrazione, valutare se proporre di redirigere in /signin (no, confonde l'utente) - OK
+- aggiungere icona 🛈 o ⓘ nel footer, che mostri una Dialog con la versione e la build - OK
+- distanziare di più e ingrandire un po' le icone cliccabili nel footer - OK
+- icona lingua nel footer: adesso inizialmente va cliccata due volte... - OK
+- rivedere tutti i componenti Image / Icon, e se possibile unificarli - OK
+- nel menu nell'header, a destra della voce "Profilo", visualizzare tra parentesi il ruolo con priorità maggiore - OK
+- scaricare l'immagine del marker di OpenStreetMap e la sua ombra, e caricarle da locale in Contacts - OK
+- aggiornare le immagini in pre-upload nel caso che si cambi l'immagine uploadata, in Products - OK
+- le icone info e network nel footer non dovrebbero essere così nere - OK
+- mettere l'icona language nel footer all'utlimo posto - OK
+- se un utente admin rimuove il suo ruolo admin, al ritorno nell'elenco utenti ottiene (correttamente) dal server
+  l'errore "must be admin to do this action"; non dovrebbe ricevere l'errore (rediretto in home in quel caso) - OK
+- aggiungere spazio verticale fra i bottoni custom - OK
+- capire perché non arrivano le email da invia mail (dryrun, e in gmail bisogna fare "All MAil"...) - OK
+- aggiungere pulsante "?" per spiegare le variabili speciali nell'invio mail, e implementare la sostituzione
+  delle variabili (%NAME%...) - OK
+- accorciare il testo sul pulsante "invio mail a tutti gli utenti selezionati"... - OK
 
+- aggiungere azione "promuovi a dealer" in Products.jsx
+- usare sempre localStorage, anziché i cookies (con il componente "Cookies")
+- ruotare tutte le lingue supportate
+- salvare la lingua scelta in localStorage
+- salvare il tema con l'utente in localStorage
+- gestire "per visualizzare più prodotti, devi collegarti" (se guest), oppure "per visualizzare più prodotti, devi chiedere il ruolo \"dealer\" qui: {{rolesAdminContact}}"
+- decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore (con vite/react16+) per gestire le notifiche in app (vedere /docs/PUSH-NOTIFICATIONS/*)
+- in ProductDetails migliorare la visualizzazione dei campi array ("models")
+- migliorare il tema scuro
+- uniformare i colori in sitemap.xml al tema
+
+
+
+NEWFEATURE:
 - fare uno script per chiedere ad una AI di tradurre un file messages.json
 - chiedere ad AI di completare le labels aria per tutti i componenti MUI
 - setup %VITE_THEME_COLOR%: è usata in index.html (theme color for android tool-bar and android chrome address-bar - use base theme color, but in contrast with app header background color) e manifest.json (quando pwa usata come app)
-- verificare che non succedano cose brutte chiamando il server (es.: in SignIn.jsx), senza controllare l'onlineCheck
-- gestire l'auditing: tracciare la registrazione (e altro) dell'utente con react-tracking e google tag manager (forse, no, fatto lato server)
 - risolvere i TODO's nel codice
 - gestire la navigazione da tastiera
 - completare (e testare) gli attributi aria
@@ -100,25 +139,13 @@
 - gestire tags opengraph / twitter in index.html
 - completare il README.md, copiando lo stile di uno elegante
 - rimuovere tutti i `console.*` non necessari
+- definire un dominio (sistemisolari.com ???)
 - creare le email privacy@sistemisolari.com, info@sistemisolari.com
 - gestire URL di callback per la rimozione dell'autorizzazione (Facebook e Google)
 - gestire URL di callback per la richiesta di eliminazione dei dati (Facebook e Google)
 - ripulire Google e Facebook console dalle impostazioni inutili per i login federati nel cloud
-- in caso di errore "User already exists" durante la registrazione, valutare se proporre di redirigere in /signin
 - integrare `yarn i18n` / `yarn i18n-auto` nel flusso di deploy (confrontare i files 'locales/translation.json' con gli 'old', e se ci sono differenze interrompere il deploy chiedendo se si vuole tradurre)
-- controllare che in caso di offline le chiamate al server non partano neanche (mettere un controllo in un middleware)?
-- sostituire tutti i componenti con exports finali con exports singoli
-- se possibile utilizzare un modulo per l'inserimento del numero di telefono (con select del prefisso internazionale)
+- sostituire tutti i componenti con exports finali con exports singoli (?)
 - in gestione utenti, chiedere conferma anche per la cancellazione di un utente con il pulsante sulla riga singola
 - gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi
-- capire se servono service-worker.js e serviceWorkerRegistration.js
 - usare errorBoundary.js (?)
-- modificare il flusso di signin/signup:
-   - se l'utente risulta già avere un account (da localstorage/cookies),
-     il pulsante "Entra!" dovrebbe portare alla pagina di signin (con "non hai un accout? Registrati");
-   - se invece risulta essere nuovo, il pulsante "Entra!" dovrebbe portare alla pagina di signup (con "hai già un accout? Accedi").
-- rivededre tutti i componenti Image / Icon, e se possibile unificarli
-- salvare il tema con l'utente (o localstorage/cookies)
-- decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore (con vite/react16+) per gestire le notifiche in app (vedere /docs/PUSH-NOTIFICATIONS/*)
-- sistituire cookies con localstorage
-- async( => async (

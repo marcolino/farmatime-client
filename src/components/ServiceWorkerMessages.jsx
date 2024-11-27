@@ -23,7 +23,7 @@ const ServiceWorkerMessages = () => {
         "info",
         (snackbarId) => (
           <>
-            <Button onClick={() => { updateServiceWorker(); closeSnackbar(snackbarId); }} variant="contained">
+            <Button onClick={() => { updateServiceWorker(); closeSnackbar(snackbarId); }} variant="contained" sx={{mr: 1}}>
               {t("Refresh")}
             </Button>
             <Button onClick={() => { closeSnackbar(snackbarId) }} variant="contained">
