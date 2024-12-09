@@ -2,9 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import AnimationLayout from "./AnimationLayout";
-import { getCurrentLanguage } from "../libs/I18n";
 import Loader from "./Loader";
-
 
 const Home = lazy(() => import("./Home"));
 const SignUp = lazy(() => import("./auth/SignUp")); 
@@ -17,7 +15,6 @@ const Notifications = lazy(() => import("./Notifications"));
 const EditUser = lazy(() => import("./EditUser"));
 const EditProduct = lazy(() => import("./EditProduct"));
 const Legal = lazy(() => import("./legal/legal"));
-//const CookieConsent = lazy(() => import("./CookieConsent"));
 import CookieConsent from "./CookieConsent"; // avoid both dynamic and static import
 const Contacts = lazy(() => import("./Contacts"));
 const HandleUsers = lazy(() => import("./HandleUsers"));
@@ -33,26 +30,26 @@ const Routing = () => {
     <Suspense fallback={<Loader lazyloading={true} />}>
       <Routes>
         <Route element={<AnimationLayout />}>
-          <Route path="/" exact element={<Home />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/signup" element={<SignUp />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/signin" element={<SignIn />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/social-signin-success" element={<SocialSignInSuccess />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/social-signin-error" element={<SocialSignInError />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/forgot-password" element={<ForgotPassword />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/products" element={<Products />} /> {/* sitemapFrequency={"daily"} sitemapPriority={1.0} */}
-          <Route path="/notifications" element={<Notifications />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
-          <Route path="/edit-user/:userId/:origin" element={<EditUser />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
-          <Route path="/edit-product/:productId" element={<EditProduct />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.2} */}
-          <Route path="/terms-of-use" element={<Legal language={getCurrentLanguage(i18n)} doc="termsOfUse" />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/privacy-policy" element={<Legal language={getCurrentLanguage(i18n)} doc="privacyPolicy" />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/cookie-consent" element={<CookieConsent />} /> {/* sitemapFrequency={"monthly"} sitemapPriority={0.3} */}
-          <Route path="/contacts" element={<Contacts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/handle-users" element={<HandleUsers />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0.1} */}
-          <Route path="/handle-products" element={<HandleProducts />} /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-          <Route path="/email-unsubscribe" element={<EmailPreferencesManagement action="unsubscribe" />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0.1} */}
-          <Route path="/email-preferences" element={<EmailPreferencesManagement action="preferences" />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0.1} */}
-          <Route path="/page-not-found" element={<PageNotFound />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0.1} */}
-          <Route path="/work-in-progress" element={<WorkInProgress />} /> {/* sitemapFrequency={"yearly"} sitemapPriority={0.1} */}
+          <Route path="/" exact element={<Home />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/social-signin-success" element={<SocialSignInSuccess />} />
+          <Route path="/social-signin-error" element={<SocialSignInError />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/edit-user/:userId/:origin" element={<EditUser />} />
+          <Route path="/edit-product/:productId" element={<EditProduct />} />
+          <Route path="/terms-of-use" element={<Legal doc="termsOfUse" />} />
+          <Route path="/privacy-policy" element={<Legal doc="privacyPolicy" />} />
+          <Route path="/cookie-consent" element={<CookieConsent />} />
+          <Route path="/contacts" element={<Contacts />} />
+          <Route path="/handle-users" element={<HandleUsers />} />
+          <Route path="/handle-products" element={<HandleProducts />} />
+          <Route path="/email-unsubscribe" element={<EmailPreferencesManagement action="unsubscribe" />} />
+          <Route path="/email-preferences" element={<EmailPreferencesManagement action="preferences" />} />
+          <Route path="/page-not-found" element={<PageNotFound />} />
+          <Route path="/work-in-progress" element={<WorkInProgress />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
@@ -61,5 +58,3 @@ const Routing = () => {
 }
 
 export default React.memo(Routing);
-{/* <Route path="/terms-of-use" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"termsOfUse"} /> } /> {/* sitemapFrequency={"weekly"} sitemapPriority={0.7} */}
-{/* <Route path="/privacy-policy" render={(props) => <Legal language={getCurrentLanguage(i18n)} doc={"privacyPolicy"} />} /> sitemapFrequency={"weekly"} sitemapPriority={0.7} */}

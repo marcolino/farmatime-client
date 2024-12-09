@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { MuiTelInput } from "mui-tel-input";
-//import unknownFlag from "../../assets/images/NotFound.png";
-import { i18n } from "../../i18n";
-import config from "../../config";
+import { i18n, getProbableCountryFromLanguage } from "../../i18n";
+//import config from "../../config";
 
 const CustomTextFieldPhone = ({
   variant = "outlined",
@@ -23,15 +22,15 @@ const CustomTextFieldPhone = ({
   return <MuiTelInput
     value={props.value}
     onChange={props.onChange}
-    defaultCountry={config.i18n.country}
+    defaultCountry={getProbableCountryFromLanguage(i18n.language)/*config.i18n.country*/}
+    langOfCountryName={i18n.language}
     placeholder={"phone number"}
     forceCallingCode={true}
     focusOnSelectCountry={true}
     //onlyCountries={["IT", "FR", "CH", "DE", "GB", "US"]}
     //preferredCountries={["IT", "FR", "CH", "DE", "GB", "US"]}
-    preferredCountries={["IT"]}
-    //disableFormatting
-    langOfCountryName={i18n.language}
+    preferredCountries={["it"]}
+    disableFormatting // can't enable formatting since there is a bug which moves the cursor at the end when editing a number...
     getFlagElement={(isoCode, { imgProps, countryName, isSelected }) => {
       console.log("FLAGS", isoCode.toLowerCase(), countryName);
       const src = `${flagsBaseUrl}/${isoCode.toLowerCase()}.webp`;

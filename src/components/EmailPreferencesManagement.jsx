@@ -46,7 +46,7 @@ const EmailPreferencesManagement = (props) => {
         unsubscribe();
         break;
       default: // should not happen...
-        showSnackbar(t("unforeseen action {{action}}", { action }), "error");
+        showSnackbar(t("Unforeseen action {{action}}", { action }), "error");
     }
   }
 

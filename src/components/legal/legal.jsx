@@ -7,33 +7,31 @@ import privacyPolicy_en from "./en/PrivacyPolicy";
 import privacyPolicy_it from "./it/PrivacyPolicy";
 import termsOfUse_en from "./en/TermsOfUse";
 import termsOfUse_it from "./it/TermsOfUse";
-import config from "../../config";
+import { i18n } from "../../i18n";
 
 
 function Legal(props) {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  if (!props.language) {
-    props.language = config.i18n.languages.fallback;
-  }
+  language = i18n.getCurrentBrowserLanguage();
 
   const contents = (
     props.doc === "privacyPolicy" ? (
-      (props.language === "en") ?
+      (language === "en") ?
         privacyPolicy_en() :
-      (props.language === "it") ?
+      (language === "it") ?
         privacyPolicy_it() :
-      t("unsupported language property")
+      privacyPolicy_en()
     ) :
     props.doc === "termsOfUse" ? (
-      (props.language === "en") ?
+      (language === "en") ?
         termsOfUse_en() :
-      (props.language === "it") ?
+      (language === "it") ?
         termsOfUse_it() :
-      "unsupported language property"
+      termsOfUse_en()
     ) :
-    "unsupported doc property"
+    t("Unforeseen document {{doc}}", { doc: props.doc })
   );
 
   return (

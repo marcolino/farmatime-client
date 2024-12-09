@@ -5,18 +5,19 @@ import { AuthContext } from "../../providers/AuthProvider";
 
 function SocialSignInSuccess() {
   const navigate = useNavigate();
-  const { setAuth } = useContext(AuthContext);
+  const { /*setAuth*/ signIn} = useContext(AuthContext);
   const params = new URLSearchParams(location.search);
   const stringifiedData = params.get("data");
   const user = JSON.parse(stringifiedData);
 
   // now user object contains all the data, with correct types
-  console.log("+++++ user:", user);
+  //console.log("+++++ user:", user);
   
   useEffect(() => {
     if (user.accessToken && user.refreshToken) {
-      console.log("*** SETAUTH {user}:", user);
-      setAuth({ user }); // set auth user
+      //console.log("*** SETAUTH {user}:", user);
+      //setAuth({ user }); // set auth user
+      signIn({ user });
       navigate("/", { replaace: true }); // redirect to home route
     }
   }, [user, navigate]);

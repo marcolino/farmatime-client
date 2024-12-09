@@ -7,7 +7,7 @@ import Footer from "./Footer";
 //import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 
 
-function Contents({ theme, toggleTheme, children }) {
+function Contents({ theme, changeLocale, toggleTheme, children }) {
   //const location = useLocation();
   //const { showSnackbar } = useSnackbarContext(); 
   const { i18n } = useTranslation();
@@ -42,7 +42,7 @@ function Contents({ theme, toggleTheme, children }) {
 
         </Container>
       </Box>
-      <Footer />
+      <Footer changeLocale={changeLocale} />
     </Box>
   );
 }

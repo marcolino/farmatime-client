@@ -3,15 +3,26 @@ import { i18n } from "../i18n";
 
 export const isAdmin = (user) => {
   if (!user) {
-    console.error("isAdmin: user is not set");
+    console.info("isAdmin: user is not set");
     return false;
   }
   if (!user.roles) {
-    console.error("isAdmin: user.roles is not set");
+    console.info("isAdmin: user.roles is not set");
     return false;
   }
-  //return user?.roles?.includes("admin");
-  return user?.roles?.some(role => role.priority >= 100);
+  return user.roles.some(role => role.priority >= 100);
+};
+
+export const isDealer = (user) => {
+  if (!user) {
+    console.info("isDealer: user is not set");
+    return false;
+  }
+  if (!user.roles) {
+    console.info("isDealer: user.roles is not set");
+    return false;
+  }
+  return user.roles.some(role => role.priority >= 10);
 };
 
 export const validateFirstName = (firstName) => {
@@ -48,17 +59,12 @@ export const validateEmail = (email) => {
 };
 
 export const validatePhone = (phone) => {
-  //const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  //const phoneRegex = /^(\+?\d{1,3}\s?)|(^00\s?)?(?:\(\d{3}\)|\d{3})[\s.-]?\d{3}[\s.-]?\d{4}$/;
   const internationalPrefixRegex = /^(\+\d{1,3}\s?)|(^00\s?)/;
   const internationalPrefixZeroRegex = /(^00\s?)/;
 
   if (!phone) {
-    return "ERROR_PLEASE_SUPPLY_A_PHONE";
+    return "ERROR_PLEASE_SUPPLY_A_PHONE_NUMBER";
   }
-  // if (!phoneRegex.test(phone)) {
-  //   return "ERROR_PLEASE_SUPPLY_A_VALID_PHONE";
-  // }
   const phoneNumber = parsePhoneNumber(phone);
   if (phoneNumber && phoneNumber.isPossible() !== true) {
     return "ERROR_PLEASE_SUPPLY_A_VALID_PHONE";

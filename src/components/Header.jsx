@@ -1,35 +1,17 @@
 import React, { useState, useContext } from "react";
 import {
-  AppBar,
-  Toolbar,
-  Box,
-  Typography,
-  Button,
-  IconButton,
-  Link,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Tooltip,
-  useMediaQuery
+  AppBar, Toolbar, Box, Typography, Button, IconButton, Link,
+  ListItemText, ListItemIcon, Menu, MenuItem, Tooltip, useMediaQuery
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
-  AccountCircle,
-  ExitToApp,
-  ManageAccounts,
-  ShoppingCart,
-  ContactPhone,
-  Brightness4,
-  Brightness7,
+  AccountCircle, ExitToApp, ManageAccounts,
+  ShoppingCart, Brightness4, Brightness7, ContactPhone,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
+import Drawer from "./custom/Drawer";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { AuthContext } from "../providers/AuthProvider";
 import { isAdmin } from "../libs/Validation";
@@ -38,12 +20,25 @@ import config from "../config";
 
 
 const Header = ({ theme, toggleTheme }) => {
-  const { auth, setAuth, signOut, didSignInBefore } = useContext(AuthContext);
+  const { auth, isLoggedIn, signOut, didSignInBefore } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
   const navigate = useNavigate();
   const { t } = useTranslation();
   
-  const isLoggedIn = auth.user;
+  const sections = [
+    {
+      key: "products",
+      to: "/products",
+      icon: <ShoppingCart />,
+      text: t("Products"),
+    },
+    {
+      key: "contacts",
+      to: "/contacts",
+      icon: <ContactPhone />,
+      text: t("Contacts"),
+    },
+  ];
 
   // the highest priority role name
   const roleNameHighestPriority = isLoggedIn ? auth.user.roles.reduce(
@@ -76,9 +71,7 @@ const Header = ({ theme, toggleTheme }) => {
     ...(isLoggedIn ?
       [
         {
-          //label: `${t("Profile")} (${auth.user.roles[0].name}`,
           label: `${t("Profile")} (${roleNameHighestPriority})`,
-          // ${auth?.user ?? auth?.user?.roles[0]?.name})`,
           icon: <AccountCircle />,
           href: `/edit-user/${auth?.user?.id}/editProfile`,
         },
@@ -125,11 +118,10 @@ const Header = ({ theme, toggleTheme }) => {
     try {
       ok = await signOut();
       console.log("signout success:", ok);
-      setAuth({ user: false }); // user is not set, but not null, it means she has an account
     } catch (err) {
       console.error("signout error:", err);
     }
-    showSnackbar(ok ? t("sign out successful") : t("signout completed"), "success");
+    showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
     navigate("/", { replace: true });
   };
 
@@ -164,7 +156,7 @@ const Header = ({ theme, toggleTheme }) => {
         }}>
         </Box>
 
-        {isMobile && (
+        {isMobile ?
           <IconButton
             edge="start"
             color="inherit"
@@ -174,23 +166,19 @@ const Header = ({ theme, toggleTheme }) => {
           >
             <MenuIcon />
           </IconButton>
-        )}
-        {!isMobile && (
+          :
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Button color="inherit" component={RouterLink} to="/products">{t("Products")}</Button>
-            <Button color="inherit" component={RouterLink} to="/contacts">{t("Contacts")}</Button>
-            {/* {isLoggedIn ? (
-              <>A<AvatarMenu />V</>
-            ) : (
-              <Button color="inherit">Enter!</Button>
-            )} */}
+            {sections.map(section => (
+              <Button key={section.key} color="inherit" component={RouterLink} to={section.to}>{section.text}</Button>
+            ))}
+            {/* <Button color="inherit" component={RouterLink} to="/products">{t("Products")}</Button>
+                <Button color="inherit" component={RouterLink} to="/contacts">{t("Contacts")}</Button> */}
           </Box>
-        )}
+        }
         
-        {/* user menu */}
-        <>
+        <> {/* user menu */}
           {isLoggedIn ?
-            <Tooltip title={`${auth.user.email} (${auth.user.roles[0].name})`}>
+            <Tooltip title={`${auth.user.email} (${roleNameHighestPriority})`}>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -199,11 +187,11 @@ const Header = ({ theme, toggleTheme }) => {
                 color="inherit"
               >
                 {isLoggedIn ?
-                  auth?.user?.profileImage ?
-                    <img src={auth?.user?.profileImage} alt="user's icon" width={30} style={{ borderRadius: "50%" }} />
+                  auth.user.profileImage ?
+                    <img src={auth.user.profileImage} alt="user's icon" width={30} style={{ borderRadius: "50%" }} />
                   :
                   <IconGravatar
-                    email={auth?.user?.email}
+                    email={auth.user.email}
                     size={30}
                   />
                 :
@@ -212,8 +200,6 @@ const Header = ({ theme, toggleTheme }) => {
               </IconButton>
             </Tooltip>
           :
-            (!auth.user) && //(auth.user === undefined || auth?.user === false) && // if auth?.user is false, we show the "Join" button;
-                                      // otherwise (it's null), we don't know yet, so do not show anything...
               <Button
                 variant="contained"
                 size="small"
@@ -248,46 +234,12 @@ const Header = ({ theme, toggleTheme }) => {
       </Toolbar>
 
       <Drawer
-        anchor="left"
-        open={drawerOpen}
-        onClose={toggleDrawer(false)}
-        sx={{
-          top: config.ui.headerHeight + "px",
-          '& .MuiDrawer-paper': {
-            top: config.ui.headerHeight + "px", // make sure the Drawer content also respects this offset
-          },
-        }}
-      >
-        <Box
-          sx={{ width: 200 }}
-          role="presentation"
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
-        >
-          <List /*dense*/>
-            <ListItem
-              key="products"
-              component={RouterLink}
-              to="/products"
-              sx={{ borderBottom: 1, borderColor: "grey.100" }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center", color: "text.primary" }}>
-                <ShoppingCart /> &emsp; <ListItemText primary={t("Products")} />
-              </Box>
-            </ListItem>
-            <ListItem
-              key="contacts"
-              component={RouterLink}
-              to="/contacts"
-              sx={{ borderBottom: 1, borderColor: "grey.100" }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center", color: "text.primary" }}>
-                <ContactPhone /> &emsp; <ListItemText primary={t("Contacts")} />
-              </Box>
-            </ListItem>
-          </List>
-        </Box>
-      </Drawer>
+        theme={theme}
+        sections={sections}
+        drawerOpen={drawerOpen}
+        toggleDrawer={toggleDrawer}
+      />
+      
     </AppBar>
   );
 

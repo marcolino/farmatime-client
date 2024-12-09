@@ -9,12 +9,16 @@ function DialogConfirm({ open, onClose, onCancel, onConfirm, title, message, con
         <DialogContentText>{message}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCancel} color="secondary" variant="contained">
-          {cancelText}
-        </Button>
-        <Button onClick={onConfirm} color="success" variant="contained">
-          {confirmText}
-        </Button>
+        {cancelText &&
+          <Button onClick={onCancel} color="secondary" variant="contained">
+            {cancelText}
+          </Button>
+        }
+        {confirmText &&
+          <Button onClick={onConfirm} color="success" variant="contained">
+            {confirmText}
+          </Button>
+        }
       </DialogActions>
     </Dialog>
   );

@@ -1,6 +1,8 @@
 import axios from "axios";
-import Cookie from "../libs/Cookie";
+//import Cookie from "../libs/Cookie";
+import LocalStorage from "../libs/LocalStorage";
 import { setDisableLoaderGlobal } from "../providers/LoaderState";
+import { i18n } from "../i18n";
 import cfg from "../config";
 
 // track whether the token is being refreshed
@@ -9,16 +11,16 @@ let refreshSubscribers = [];
 
 // storage functions
 const getLocalAccessToken = () => {
-  return Cookie.get("auth")?.user?.accessToken;
+  return LocalStorage.get("auth")?.user?.accessToken;
 }
 
 const setLocalAccessToken = (token) => {
   let auth;
   try {
-    // get the current auth cookie
-    auth = Cookie.get("auth");
+    // get the current auth info
+    auth = LocalStorage.get("auth");
     if (!auth) {
-      const message = "Auth cookie not found!";
+      const message = "Auth info not found!";
       console.error(message);
       throw new Error(message);
     }
@@ -30,18 +32,18 @@ const setLocalAccessToken = (token) => {
     if (updatedAuth.user && typeof updatedAuth.user === "object") {
       updatedAuth.user.accessToken = token;
     } else {
-      const message = `Invalid auth cookie structure: ${updatedAuth}`;
+      const message = `Invalid auth info structure: ${updatedAuth}`;
       console.error(message);
       throw new Error(message);
     }
 
-    // set the updated auth cookie
+    // set the updated auth info
     try {
-      Cookie.set("auth", updatedAuth);
+      LocalStorage.set("auth", updatedAuth);
       console.log("token successfully updated");
       return true;
     } catch (error) {
-      const message = `Failed to set auth cookie: ${error.toString()}`;
+      const message = `Failed to set auth info: ${error.toString()}`;
       console.error(message);
       throw new Error(message);
     }
@@ -53,12 +55,12 @@ const setLocalAccessToken = (token) => {
 }
 
 const getLocalRefreshToken = () => {
-  return Cookie.get("auth")?.user?.refreshToken;
+  return LocalStorage.get("auth")?.user?.refreshToken;
 }
 
 const clearLocalTokens = () => {
-  const currentAuth = Cookie.get("auth");
-  Cookie.set("auth", {"user": false});
+  //const currentAuth = LocalStorage.get("auth");
+  LocalStorage.set("auth", {"user": false});
 };
 
 // create axios instance
@@ -109,6 +111,17 @@ instance.interceptors.request.use(
         config.headers["Accept-Version"] = versionNumber;
       }
     }
+    return config;
+  }, (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// add a request interceptor to append the current language to all requests
+instance.interceptors.request.use(
+  config => {
+    const currentLanguage = i18n.language || i18n.options.fallbackLng[0]; // get the current language from i18n
+    config.headers["Accept-Language"] = currentLanguage;
     return config;
   }, (error) => {
     return Promise.reject(error);

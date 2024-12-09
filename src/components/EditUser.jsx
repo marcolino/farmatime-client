@@ -38,7 +38,7 @@ function EditUser() {
   const [user, setUser] = useState(false);
   const [userOriginal, setUserOriginal] = useState(false);
   const [error, setError] = useState({});
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, updateSignIn/*, setAuth*/ } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
@@ -121,7 +121,7 @@ function EditUser() {
         default:
           err = response;
       }
-      setError({ firstName: err });
+      setError({ firstName: true });
       showSnackbar(err, "warning");
       return false;
     }
@@ -140,7 +140,7 @@ function EditUser() {
         default:
           err = response;
       }
-      setError({ lastName: err });
+      setError({ lastName: true });
       showSnackbar(err, "warning");
       return false;
     }
@@ -159,7 +159,7 @@ function EditUser() {
         default:
           err = response;
       }
-      setError({ email: err });
+      setError({ email: true });
       showSnackbar(err, "warning");
       return false;
     }
@@ -177,7 +177,7 @@ function EditUser() {
           break;
         case "WARNING_NO_INTERNATIONAL_PREFIX":
           oldPhone = user.phone;
-          newPhone = `${config.i18n.phonePrefix} ${oldPhone}`;
+          newPhone = `${config.locales[config.serverLocale].phonePrefix} ${oldPhone}`;
           setUser({ ...user, phone: newPhone });
           return true;
         case "WARNING_ZERO_INTERNATIONAL_PREFIX":
@@ -190,7 +190,7 @@ function EditUser() {
         default:
           err = response;
       }
-      setError({ email: err });
+      setError({ email: true });
       showSnackbar(err, "warning");
       return false;
     }
@@ -236,8 +236,10 @@ function EditUser() {
   };
 
   const setFiscalCode = (value) => {
-    setUser({ ...user, fiscalCode: value });
-    setIsChanged({ ...isChanged, fiscalCode: value != userOriginal.fiscalCode });
+    // allow only alphanumeric characters and convert to uppercase
+    const filteredValue = value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+    setUser({ ...user, fiscalCode: filteredValue });
+    setIsChanged({ ...isChanged, fiscalCode: filteredValue != userOriginal.fiscalCode });
   };
   
   const setBusinessName = (value) => {
@@ -290,7 +292,7 @@ function EditUser() {
       } else {
         console.log("*** updateUser result:", result);
         //setAllPlans(result.plans);
-        if (auth.user.id === result.user._id) { // the user is the logged one
+        if (auth.user?.id === result.user._id) { // the user is the logged one
           // update user fields in auth
           const updatedUser = auth.user;
           updatedUser.email = result.user.email;
@@ -298,7 +300,8 @@ function EditUser() {
           updatedUser.lastName = result.user.lastName;
           updatedUser.roles = result.user.roles;
           updatedUser.plan = result.user.plan;
-          setAuth({ user: updatedUser });
+          //setAuth({ user: updatedUser });
+          updateSignIn(updatedUser);
         }
         navigate(-1);
       }
@@ -335,7 +338,7 @@ function EditUser() {
   
   if (user && allRoles && allPlans) {
     console.log("### allRoles ###", allRoles);
-    console.log("### auth.user.roles ###", auth.user.roles);
+    console.log("### auth.user.roles ###", auth.user?.roles);
     return (
       <>
         <SectionHeader text={t("Users handling")}>
@@ -395,7 +398,7 @@ function EditUser() {
                 value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
                 label={t("Roles")}
                 options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
-                optionsDisabled={allRoles.map(role => role.priority > Math.max(...auth.user.roles.map(r => r.priority)))}
+                optionsDisabled={allRoles.map(role => role.priority > Math.max(...auth.user?.roles?.map(r => r.priority)))}
                 multiple={true}
                 onChange={(e) => setRoles(e.target.value)}
                 placeholder={t("Roles")}

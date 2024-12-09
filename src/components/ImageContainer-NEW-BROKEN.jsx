@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Box, FormLabel } from "@mui/material";
+import { Box, FormControl, FormLabel } from "@mui/material";
 
 import fallbackImage from "../assets/images/ImageNotFound.jpg";
 
 
-const ImageContainer = ({ _src, alt, borderColor = "transparent", backgroundColor = "transparent", label, ...props }) => {
+const ImageContainer = ({ _src, alt, borderColor = "black", backgroundColor = "lightgray", label, ...props }) => {
   const [imgSrc, setImgSrc] = useState(props.src);
 
   const handleError = () => {
@@ -15,14 +15,22 @@ const ImageContainer = ({ _src, alt, borderColor = "transparent", backgroundColo
   };
 
   return (
-    <Box>
+    <FormControl
+      variant="outlined"
+      sx={{
+        position: "relative",
+        display: "inline-block",
+        width: "100%",
+        maxWidth: 800,
+      }}
+    >
       {label && ( // draw a label similar to MUI TextField
         <FormLabel
           sx={{
             position: "absolute",
             top: -8, // adjust label position above the border
             left: 12, // adjust label position horizontally
-            backgroundColor: "background.default",
+            //backgroundColor: "background.default",
             px: 1,
             fontSize: "0.875rem !important",
             color: "text.secondary",
@@ -39,28 +47,29 @@ const ImageContainer = ({ _src, alt, borderColor = "transparent", backgroundColo
           justifyContent: "center",
           alignItems: "center",
           height: "auto",
-          overflow: "hidden",
-          border: "1px solid", // thin border
+          //border: "1px solid", // thin border
+          borderColor: borderColor,
           borderRadius: 2, // slightly rounded corners
-          borderColor,
+          //backgroundColor, // background color for bars when needed
+          overflow: "hidden",
         }}
       >
         <Box
           component="img"
           src={imgSrc}
           alt={alt}
-          //maxHeight
+          maxHeight={props.maxHeight ?? "100%"}
           onError={handleError}
           sx={{
             maxWidth: props.maxWidth ?? "100%",
             maxHeight: props.maxHeight ?? "100%",
             objectFit: "contain", // ensures the image maintains its aspect ratio without being cropped
             pointerEvents: "none", // avoids user interaction with the image
-            //borderRadius: 2, // ensures the image itself has rounded corners
+            backgroundColor: "transparent",
           }}
         />
       </Box>
-    </Box>
+    </FormControl>
   );
 };
 

@@ -1,24 +1,26 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
-import { Paper, Grid, Box, Button, Typography } from "@mui/material";
+import { Grid, Box, IconButton, Typography, useMediaQuery } from "@mui/material";
+import { ArrowLeft, ArrowRight } from "@mui/icons-material";
+import { useWindowDimensions }  from "../hooks/useWindowDimensions";
 import ImageContainer from "./ImageContainer";
-import IconArrowNext from "../assets/images/ArrowNext.png";
-import IconArrowPrev from "../assets/images/ArrowPrev.png";
 import config from "../config";
 
 
 const ProductsDetails = (props) => {
   const theme = useTheme();
+  const { t } = useTranslation();
+  const { height, width } = useWindowDimensions();
   const [firstRender, setFirstRender] = useState(true);
   const [startPosition, setStartPosition] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  
+  const maxImageHeight = height / 2.8; // maximum image height, and details card height
+
   useEffect(() => {
-    const timer = setTimeout(() => setFirstRender(false), 100);
+    const timer = setTimeout(() => setFirstRender(false), 200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -74,9 +76,17 @@ const ProductsDetails = (props) => {
     setIsDragging(false);
   };
 
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? props.products.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+      setCurrentIndex((prev) => (prev === props.products.length - 1 ? 0 : prev + 1));
+  };
+
   return (
-    <div
-      style={{ 
+    <Box
+      sx={{ 
         cursor: isDragging ? "grabbing" : "grab",
         userSelect: "none",
         WebkitUserSelect: "none",
@@ -106,125 +116,158 @@ const ProductsDetails = (props) => {
         animation={firstRender ? "none" : "slide"}
         swipe={false}
         indicators={false}
-        navButtonsAlwaysVisible={true}
+        navButtonsAlwaysInvisible={true}
         cycleNavigation={false}
-        navButtonsProps={{
-          style: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            borderRadius: 12,
-            opacity: 0.3,
-            margin: "0"
+        sx={{
+          "& .MuiPaper-root": {
+            //maxHeight: imageHeight * 2,
+            overflow: "hidden"
           },
+          "& img": {
+            width: "100%",
+            height: "auto",
+            objectFit: "contain"
+          }
         }}
-        navButtonsWrapperProps={{
-          sx: {
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: theme.spacing(2),
-            flexDirection: "row",
-          },
-        }}
-        PrevIcon={<img src={IconArrowPrev} width="32" alt="previous product" />}
-        NextIcon={<img src={IconArrowNext} width="32" alt="next product" />}
       >
         {props.products.map((product, index) => (
-          <Product key={index} product={product} />
+          <ProductDetailsCard key={index} product={product} imageHeight={maxImageHeight} />
         ))}
       </Carousel>
-    </div>
+
+       {/* navigation bar */}
+      <Box sx={{
+        display: "flex",
+        justifyContent: "center", 
+        marginTop: 0,
+        alignItems: "center", // vertical align
+        gap: 1, // adds some spacing between the elements
+      }}>
+        <IconButton aria-label={t("previous page")} size="small"
+          onClick={handlePrev}>
+          <ArrowLeft fontSize="large" />
+        </IconButton>
+        <Typography>
+          {t("Page")} {1 + currentIndex} {t("of")} {props.productsTotalCount}
+        </Typography>
+        <IconButton aria-label={t("next page")} //size="small"
+          onClick={handleNext}>
+          <ArrowRight fontSize="large" />
+        </IconButton>
+      </Box>
+
+    </Box>
   );
 };
 
-const Product = (props) => {
+
+const ProductDetailsCard = ({ product, imageHeight }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const theme = useTheme();
+  const { height, width } = useWindowDimensions();
+  const imageUrl = `${config.siteUrl}${config.images.publicPathWaterMark}/${product.imageName}`;
+  const dynamicFont = (x) => (0.0002896 * x) + 0.6214; //  transform 1652 to 1.1, and 375 to 0.73
 
   const info = [
-    { key: t("MDA code"), value: props.product.mdaCode },
-    { key: t("OEM code"), value: props.product.oemCode },
-    { key: t("Type"), value: props.product.type },
-    { key: t("Make"), value: props.product.make },
-    { key: t("Models"), value: props.product.models },
-    { key: t("Application"), value: props.product.application },
-    { key: t("kW"), value: props.product.kw },
-    { key: t("Volt"), value: props.product.volt },
-    { key: t("Ampere"), value: props.product.ampere },
-    { key: t("Teeth"), value: props.product.teeth },
-    { key: t("Rotation"), value: props.product.rotation },
-    { key: t("Regulator"), value: props.product.regulator },
-    { key: t("Notes"), value: props.product.notes },
+    { key: t("MDA code"), value: product.mdaCode },
+    { key: t("OEM code"), value: product.oemCode },
+    { key: t("Type"), value: product.type },
+    { key: t("Make"), value: product.make },
+    { key: t("Models"), value: product.models },
+    { key: t("Application"), value: product.application },
+    { key: t("kW"), value: product.kw },
+    { key: t("Volt"), value: product.volt },
+    { key: t("Ampere"), value: product.ampere },
+    { key: t("Teeth"), value: product.teeth },
+    { key: t("Rotation"), value: product.rotation },
+    { key: t("Regulator"), value: product.regulator },
+    { key: t("Notes"), value: product.notes },
+    { key: t(""), value: "" }, // if count was odd
   ];
 
-  const handleUserJoin = (event) => {
-    navigate("/signin", { replace: true });
+  const renderKey = (key) => {
+    return (
+      <Typography variant="body1" align="left" fontWeight="bold"
+        sx={{
+          backgroundColor: "background.paper",
+          borderRadius: 1.5,
+          px: 1,
+          mr: 1,
+          fontSize: `${dynamicFont(width)}rem !important`,
+          wordBreak: "break-all"
+        }}>
+        {key}
+      </Typography>
+    );
+  };
+  
+  const renderValue = (value) => {
+    const val = (value, index = 0) => (
+      <Typography key={index} variant="body2" align="left" sx={{
+        fontSize: `${dynamicFont(width)}rem !important`,
+        wordWrap: "break-all",
+      }}>
+        {value}
+      </Typography>
+    );
+    if (Array.isArray(value)) {
+      return value.map((item, index) => val(item, index));
+    }
+    return val(value);
+
   };
 
   return (
-    <Paper
-      sx={{
-        minHeight: config.ui.products.cards.minHeight, // minimum paper height for images of max height
-        padding: 2,
-      }}
-    >
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
+    <Box sx={{
+      display: "flex",
+      flexDirection: "column",
+     }}>
+      {/* top section: product image */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+          justifyContent: "center",
+          minHeight: imageHeight,
+        }}
       >
-        <Grid item xs={12} sx={{ padding: 1 }}>
-          {props.product.stop && (
-            <Typography>
-              {t("To access all products, please")}{" "}
-              <Button
-                size="small"
-                color="secondary"
-                onClick={handleUserJoin}
-                variant="contained"
-              >
-                {t("Join !")}
-              </Button>
-            </Typography>
-          )}
-          {!props.product.stop && (
-            <>
-              <ImageContainer
-                src={`${config.siteUrl}${config.images.publicPathWaterMark}/${props.product.imageName}`}
-                alt={t("Product image")}
-                maxHeight={`${config.ui.products.images.minHeight}px`}
-                borderColor="transparent"
-                backgroundColor="background.default"
-              />
-              <Box sx={{ padding: 2, display: "flex", justifyContent: "center" }}>
-                <Grid
-                  container
-                  rowSpacing={0} // Vertical spacing between items
-                  maxWidth={800} // Optional: set a max width to control content width
-                >
-                  {info.map(({ key, value }, index) => (
-                    <Grid
-                      item
-                      key={index}
-                      xs={12} // full width on extra-small screens (one column)
-                      sm={6} // half width on small and larger screens (two columns)
-                    >
-                      <Box display="flex" alignItems="center">
-                        <Typography variant="body1" color="textSecondary" sx={{ marginRight: 0.5 }}>
-                          {key}:
-                        </Typography>
-                        <Typography variant="body1">{value}</Typography>
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
-            </>
-          )}
+        <ImageContainer
+          src={imageUrl}
+          alt={t("Product image")}
+          maxHeight={imageHeight}
+        />
+      </Box>
+
+      {/* bottom section: product details */}
+      <Box
+        sx={{
+          maxHeight: imageHeight,
+          justifyContent: "center",
+          alignItems: "center",
+          overflowY: "auto",
+          padding: 1,
+          mt: 2,
+        }}
+      >
+        <Grid container px={{ xs: 0, sm: 2 }} columnSpacing={{ xs: 0, sm: 2 }}
+          sx={{justifyContent: "center", alignItems: "center"}}>
+          {info.map(({ key, value }, index) => (
+            <Grid container key={index} item xs={12} sm={12} md={6}
+              sx={{ justifyContent: "center", alignItems: "center", py: 0.2 }}
+            >
+              <Grid item xs={4}>
+                {renderKey(key)}
+              </Grid>
+              <Grid item xs={8} sx={{ flexWrap: "wrap" }}>
+                {renderValue(value)}
+              </Grid>
+            </Grid>
+          ))}
         </Grid>
-      </Grid>
-    </Paper>
+      </Box>
+    </Box>
   );
-}
+};
 
 export default React.memo(ProductsDetails);

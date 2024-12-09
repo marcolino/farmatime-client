@@ -1,12 +1,5 @@
 // (note: use yarn node --no-warnings)
 
-/**
- * TODO: change (if present)
-<!--this file is a template, build process will inject variables and produce index.html -->
-to
-<!--this file is a built by the build process, do not edit this, but index-template.html -->
-*/
-
 import fs from "fs";
 import get from "lodash.get";
 import config from "../src/config.json" assert { type: "json" };
@@ -53,6 +46,11 @@ const replaceConfigTags = (template, config, options = {}) => {
   });
 }
 
+const insertWarningComment = (template) => {
+  const warningComment = "<!-- this file is built by the build process, do not edit this, but index-template.html -->\n";
+  return template = warningComment + template;
+};
+
 let template;
 try {
   template = fs.readFileSync(indexFileNameInput).toString();
@@ -61,6 +59,7 @@ try {
   process.exit(-1);
 }
 
+template = await insertWarningComment(template);
 const contents = await replaceConfigTags(template, config);
 
 try {

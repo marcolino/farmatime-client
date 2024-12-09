@@ -1,4 +1,4 @@
-import { React/*, StrictMode*/ } from "react";
+import { React } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import { setupCustomConsole } from "./utils";
@@ -16,8 +16,5 @@ console.log(
 );
 
 createRoot(document.getElementById("root")).render(
-  // StrictMode renders everything TWICE, disabling it also for development (in production it should be a noop...)
-  //<StrictMode>
-    <App />
-  //</StrictMode>
+  <App />
 );

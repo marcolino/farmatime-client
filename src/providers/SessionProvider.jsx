@@ -7,16 +7,18 @@ import config from "../config";
 
 
 const SessionProvider = () => {
-  const { auth, signOut } = useContext(AuthContext);
+  const { auth, isLoggedIn, signOut } = useContext(AuthContext);
   const { t } = useTranslation();
   
   const [showDialog, setShowDialog] = useState(false);
-  const isLoggedIn = (auth.user !== false);
+  //const isLoggedIn = (auth.user !== false && auth.user !== null);
+  //console.log("++++SessionProvider, isLoggedIn:", isLoggedIn);
+  //console.log("++++SessionProvider, auth.user:", auth.user);
 
   const handleLogout = async () => {
     setShowDialog(false);
     await signOut();
-    setAuth({ user: false }); // user is not set, but not null, it means she has an account
+    //setAuth({ user: false }); // user is not set, but not null, it means she has an account
   };
   const handleContinue = () => {
     setShowDialog(false);
@@ -36,7 +38,7 @@ const SessionProvider = () => {
         //console.log(`SessionProvider, clientSessionExpirationResponseMaximumSeconds ${config.auth.clientSessionExpirationResponseMaximumSeconds} seconds timeout expired`);
         setShowDialog(false);
         await signOut();
-        setAuth({ user: false }); // user is not set, but not null, it means she has an account
+        //setAuth({ user: false }); // user is not set, but not null, it means she has an account
       }, config.auth.clientSessionExpirationResponseMaximumSeconds * 1000);
       //console.log(`SessionProvider, set timer: ${timer}`);
 

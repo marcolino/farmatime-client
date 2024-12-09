@@ -140,7 +140,7 @@ export default defineConfig({
       },
       includeAssets: publicAssets,
       devOptions: {
-        enabled: true, // enables the service worker in development mode
+        enabled: false, // disable the service worker in development mode
         type: "module", // ensure compatibility with Vite's dev environment
       },
       manifest: false,

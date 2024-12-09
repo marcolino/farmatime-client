@@ -168,7 +168,7 @@ const ProductTable = () => {
         onBulkRemove(selectedIds);
         break;
       default: // should not happen...
-        showSnackbar(t("unforeseen bulk action {{action}}", { action }), "error");
+        showSnackbar(t("Unforeseen bulk action {{action}}", { action }), "error");
     }
   }
 

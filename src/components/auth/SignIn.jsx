@@ -26,7 +26,7 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
-  const { setAuth } = useContext(AuthContext);
+  const { /*setAuth, */signIn } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
 
@@ -78,8 +78,9 @@ function SignIn() {
       showSnackbar(result.message, "error");
       setError({});
     } else {
-      showSnackbar(t("sign in successful"), "success");
-      setAuth({ user: result });
+      showSnackbar(t("Sign in successful"), "success");
+      signIn(result);
+//      setAuth({ user: result });
       // if (!rememberMe) { // to handle remember-me flag
       //   localStorage.clear();
       // }

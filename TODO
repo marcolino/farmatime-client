@@ -29,7 +29,9 @@
 - usare react-gravatar solo per il logged user e solo nell'header, non nel menu - OK
 - gestire meta name="theme-color" in index.html - OK
 - parametrizzare short_name e name in manifest.json - OK
-- verificare che le traduzioni del backend AWS Ampilify (I18n) siano state implementate da Amplify - OPENED ISSUE ON https://github.com/aws-amplify/amplify-js/issues/8599 - See https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/AmplifyI18n.tsx
+- verificare che le traduzioni del backend AWS Ampilify (I18n) siano state implementate da
+  Amplify - OPENED ISSUE ON https://github.com/aws-amplify/amplify-js/issues/8599 -
+  See https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/AmplifyI18n.tsx
 - handle cookie consent popup - OK
 - usare sempre " anzichè ' - OK
 - far funzionare il login federato con Google - OK
@@ -45,7 +47,8 @@
 - tradurre i Temini d'uso e la Privacy Policy almeno in inglese - OK
 - rimuovere la cartella locale amplify - OK
 - rivedere gli assets.external/* - OK
-- dopo aver aggiunto qualche contenuto, pensare a qualche animazione (con react-router v5 sono difficili, brutte e inutili) - OK
+- dopo aver aggiunto qualche contenuto, pensare a qualche animazione
+  (con react-router v5 sono difficili, brutte e inutili) - OK
 - finire di tradurre auth/* - OK
 - debuggare il service worker - OK
 - tradurre i testi nel serviceworker - OK
@@ -57,7 +60,9 @@
 - far funzionare il login federato con Facebook - OK
 - documentare come aggiungere una lingua - OK
 - aggiungere la possibilità di tornare indietro (navigate.back) da /privacy-policy e /terms-of-use - OK
-- dopo aver gestito I18n, se si vuole gestire il cambio lingua da parte dell'utente, ricordarsi di cambiare "html lang" quando si cambia lingua con `i18next.on('languageChanged', (lng) => {document.documentElement.setAttribute('lang', lng);});` - OK
+- dopo aver gestito I18n, se si vuole gestire il cambio lingua da parte dell'utente, ricordarsi di cambiare "html lang"
+  quando si cambia lingua con `i18next.on('languageChanged',
+  (lng) => {document.documentElement.setAttribute('lang', lng);});` - OK
 - accettare invio come default submit in tutti i forms (NO) - OK
 - in signup/confirm, o dove ci sono più submit, attivare il corretto default submit (?) - OK
 - decidere se "please specifiy a more complex password" va bene o è meglio precisare (va bene) - OK
@@ -68,33 +73,46 @@
 - capire se serve reportWebVitals.js (NO) - OK
 - come decidere se production o development mode? (server side, config.json) - OK
 - provare a usare entrambi useLocation e useNavigate da "react-router-dom" (e non "react-router") - OK
-- provare a trovare una api key di yandex (o un altro modo) per provare a far funzionare `scripts/translate-auto` (vedi scripts/translate) - OK
+- provare a trovare una api key di yandex (o un altro modo) per provare a far funzionare `scripts/translate-auto`
+  (vedi scripts/translate) - OK
 - verificare OnlineStatusProvider quando si parte offline - OK
-- tentativo di upgrade del ruolo di un utente non admin: Devi avere ruolo 'amministratore' per aggiornare un altro utente => Devi avere ruolo 'amministratore' per aumentare il ruolo di un utente - OK
-- debug tentativo di upgrade del ruolo di un utente non admin: nessun messaggio di errore all'utente (ma correttamente non viene aggiornato) - OK
+- tentativo di upgrade del ruolo di un utente non admin: Devi avere ruolo 'amministratore' per aggiornare
+   un altro utente => Devi avere ruolo 'amministratore' per aumentare il ruolo di un utente - OK
+- debug tentativo di upgrade del ruolo di un utente non admin: nessun messaggio di errore all'utente
+  (ma correttamente non viene aggiornato) - OK
 - cambiare i Button dei Dialog, devono essere più visibili - OK
 - collegare la voce di menu "Profilo" con "EditUser", e rendere EditUser parametrico sul modo: editprofile/edituser - OK
-- verificare se, usando il modulo react-promise-tracker, serve sempre l'hook UseAxiosLoader - OK (no, use UseAxiosLoader)
-- cambiare errore "Cannot read properties of undefined (data) to some more significant error ("Sorry, a network issue or a server error occurred; please retry later...") - OK
+- verificare se, usando il modulo react-promise-tracker, serve sempre l'hook UseAxiosLoader
+  (no, use UseAxiosLoader) - OK
+- cambiare errore "Cannot read properties of undefined (data) to some more significant error
+  ("Sorry, a network issue or a server error occurred; please retry later...") - OK
 - rimuovere completamente la gestione dei suoni ("sound") - OK
 - gestire (bene) il logging - OK
-- gestire timeout sessione lato server: 2 minuti prima della scadenza (timeout da impostare ad ogni login e ad ogni richiesta), dire all'utente che la sessione sta per scadere, e chiedere se vuole prolungarla; se non risponde, dopo un minuto chiamare signOut, e mandare in home; se risponde di prolungare, non fare nulla - OK
+- gestire timeout sessione lato server: 2 minuti prima della scadenza
+  (timeout da impostare ad ogni login e ad ogni richiesta), dire all'utente che la sessione sta per scadere,
+  e chiedere se vuole prolungarla; se non risponde, dopo un minuto chiamare signOut, e mandare in home;
+  se risponde di prolungare, non fare nulla - OK
 - normalizzare la formattazione del numero di telefono (+xx xxx xxxxxxx)
 - capire se serve il meccanismo di pre-push che fa gpg di .env, o si può evitare, come su server - OK
 - migliorare l'aspetto estetico del cookie consent popup - OK
 - gestire il Drawer (per il mobile) - OK
 - gestire la sezione "legal" - OK
-- verificare che non succedano cose brutte chiamando il server (es.: in SignIn.jsx), senza controllare l'onlineCheck - OK
-- gestire l'auditing: tracciare la registrazione (e altro) dell'utente con react-tracking e google tag manager (no, fatto lato server) - OK
-- controllare che in caso di offline le chiamate al server non partano neanche (no, workbox service workers caches server data too)
+- verificare che non succedano cose brutte chiamando il server
+  (es.: in SignIn.jsx), senza controllare l'onlineCheck - OK
+- gestire l'auditing: tracciare la registrazione (e altro) dell'utente con react-tracking e google tag manager
+  (no, fatto lato server) - OK
+- controllare che in caso di offline le chiamate al server non partano neanche
+  (no, workbox service workers caches server data too)
 - utilizzare un modulo per l'inserimento del numero di telefono (con select del prefisso internazionale) - OK
 - capire se servono service-worker.js e serviceWorkerRegistration.js (no, si usano workbox service workers) - OK
 - cambiare async( => async ( - OK
 - modificare il flusso di signin/signup:
    - se l'utente risulta già avere un account (da localStorage)
      il pulsante "Entra!" dovrebbe portare alla pagina di signin (con "non hai un accout? Registrati")
-   - se invece risulta essere nuovo, il pulsante "Entra!" dovrebbe portare alla pagina di signup (con "hai già un accout? Accedi") - OK
-- in caso di errore "User already exists" durante la registrazione, valutare se proporre di redirigere in /signin (no, confonde l'utente) - OK
+   - se invece risulta essere nuovo, il pulsante "Entra!" dovrebbe portare alla pagina di signup
+  (con "hai già un accout? Accedi") - OK
+- in caso di errore "User already exists" durante la registrazione, valutare se proporre di redirigere in /signin
+  (no, confonde l'utente) - OK
 - aggiungere icona 🛈 o ⓘ nel footer, che mostri una Dialog con la versione e la build - OK
 - distanziare di più e ingrandire un po' le icone cliccabili nel footer - OK
 - icona lingua nel footer: adesso inizialmente va cliccata due volte... - OK
@@ -111,24 +129,43 @@
 - aggiungere pulsante "?" per spiegare le variabili speciali nell'invio mail, e implementare la sostituzione
   delle variabili (%NAME%...) - OK
 - accorciare il testo sul pulsante "invio mail a tutti gli utenti selezionati"... - OK
+- usare sempre localStorage, anziché i cookies (con il componente "Cookies") - OK
+- controllare se il meccanismo di signin/signup in base ad auth.user in localStorage funziona bene - OK
+- aggiungere azione "promuovi a dealer" in Products.jsx - OK
+- gestire "per visualizzare più prodotti, devi collegarti" (se guest), oppure "per visualizzare più prodotti,
+  devi chiedere il ruolo \"dealer\" qui: {{rolesAdminContact}}" - OK  
+- controllare perché "To access all products, please" e "To access all products, please ask for ..." - OK
+- capitalizzare tutti i messaggi (ove possibile) - OK
+- t("On") -> t("Online"), t("Off") -> t("Offline") - OK
+- salvare il tema con l'utente in localStorage - OK
+- salvare la lingua scelta in localStorage - OK
+- ruotare *tutte* le lingue supportate - OK
+- legal in Francese - OK
+- risolvere l'errore JSON in EditProduct - OK (apiCall default per data deve essere {}, e non null)
+- maiuscolizzare il codice fiscale in input in EditUser e accettare solo numeri e lettere - OK
+- dopo "Promuovi a dealer", visualizzare uno snackbar come feedback - OK
+- il tema non è salvato con l'utente, o non viene ri-applicato al login - OK
+- nello script i18n, fare `mkdir -p locales/$language` - OK
+- rendere più evidenti le separazioni fra elementi del drawer - OK
+- rifattorizzare il codice del drawer in un componente a sè stante - OK
+- capire perchè l'immagine del carburatore su android non si carica... (dipendeva da una immagine forse troppo pesante? non so... ora non succede più...) - OK
+- aggiungere l'immagine per il prodotto 979 in produzione (cambiata, forse era troppo grande...) - OK
+- usare un unica lista per gli item (prodotti e contatti), da mostrare (uguali) nell'Header e nel Drawer - OK
+- capire perché in ambito mobile le frecce "prev" e "next" causano uno scroll-up (refactorized) - OK
+- non mostrare "La sessione non ha token..." dopo il logout (o rivedere la successione delle azioni al logout...) - OK
+- in ProductDetails migliorare la visualizzazione dei campi array ("models") (e rimpicciolire un pochino il font di tutti i campi) - OK
+- migliorare i dialoghi del network status e del numero di version/build (Modal, non Dialog...) - OK
 
-- aggiungere azione "promuovi a dealer" in Products.jsx
-- usare sempre localStorage, anziché i cookies (con il componente "Cookies")
-- ruotare tutte le lingue supportate
-- salvare la lingua scelta in localStorage
-- salvare il tema con l'utente in localStorage
-- gestire "per visualizzare più prodotti, devi collegarti" (se guest), oppure "per visualizzare più prodotti, devi chiedere il ruolo \"dealer\" qui: {{rolesAdminContact}}"
-- decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore (con vite/react16+) per gestire le notifiche in app (vedere /docs/PUSH-NOTIFICATIONS/*)
-- in ProductDetails migliorare la visualizzazione dei campi array ("models")
 - migliorare il tema scuro
-- uniformare i colori in sitemap.xml al tema
-
-
+- uniformare i colori in sitemap.xml al tema di default
 
 NEWFEATURE:
+- decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore
+  (con vite/react16+) per gestire le notifiche in app (vedere /docs/PUSH-NOTIFICATIONS/*)
 - fare uno script per chiedere ad una AI di tradurre un file messages.json
 - chiedere ad AI di completare le labels aria per tutti i componenti MUI
-- setup %VITE_THEME_COLOR%: è usata in index.html (theme color for android tool-bar and android chrome address-bar - use base theme color, but in contrast with app header background color) e manifest.json (quando pwa usata come app)
+- setup %VITE_THEME_COLOR%: è usata in index.html (theme color for android tool-bar and android chrome address-bar
+- use base theme color, but in contrast with app header background color) e manifest.json (quando pwa usata come app)
 - risolvere i TODO's nel codice
 - gestire la navigazione da tastiera
 - completare (e testare) gli attributi aria
@@ -144,7 +181,8 @@ NEWFEATURE:
 - gestire URL di callback per la rimozione dell'autorizzazione (Facebook e Google)
 - gestire URL di callback per la richiesta di eliminazione dei dati (Facebook e Google)
 - ripulire Google e Facebook console dalle impostazioni inutili per i login federati nel cloud
-- integrare `yarn i18n` / `yarn i18n-auto` nel flusso di deploy (confrontare i files 'locales/translation.json' con gli 'old', e se ci sono differenze interrompere il deploy chiedendo se si vuole tradurre)
+- integrare `yarn i18n` / `yarn i18n-auto` nel flusso di deploy (confrontare i files 'locales/translation.json'
+  con gli 'old', e se ci sono differenze interrompere il deploy chiedendo se si vuole tradurre)
 - sostituire tutti i componenti con exports finali con exports singoli (?)
 - in gestione utenti, chiedere conferma anche per la cancellazione di un utente con il pulsante sulla riga singola
 - gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi

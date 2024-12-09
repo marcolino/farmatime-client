@@ -48,7 +48,7 @@ function EditProduct() {
   
   useEffect(() => { // get product all constraints on mount
     (async () => {
-      const result = await apiCall("post", "/product/getProductAllConstraintsById", { productId });
+      const result = await apiCall("post", "/product/getProductAllTypes");
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
@@ -60,7 +60,7 @@ function EditProduct() {
 
   const handleImageChange = (e) => {
     if (e.target.files.length > 1) { // this shouldn't happen, because <input type="file" /> has no "multiple" attribute
-      showSnackbar(t("Più di una immagine selezionata, si utilizza la prima"), "info");
+      showSnackbar(t("More than one image selected, using the first one"), "info");
     }
 
     const imageFirstFile = e.target.files[0];

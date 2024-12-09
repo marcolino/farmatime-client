@@ -36,8 +36,8 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
      $FISCALCODE$ => The fiscal code/VAT of the user\n\
      $ROLES$ => The role or roles of the user\n\
      $PLAN$ => The plan of the user\n\
-     $COMPANY$ => The company of the user\n\
-  ");
+     $COMPANY$ => The company of the user\n"
+  );
   const helpStyle = {
     position: "absolute",
     top: "50%",

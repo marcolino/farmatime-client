@@ -1,33 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Box, Link, Typography } from "@mui/material";
-import Button from "./custom/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-
+import DialogConfirm from "./DialogConfirm";
 import SignalWifi3BarOutlinedIcon from "@mui/icons-material/SignalWifi3BarOutlined";
-// import SignalWifi3BarOutlinedIcon from '@mui/icons-material/SignalWifi3BarOutlined';
-
 import SignalWifiBadOutlinedIcon from "@mui/icons-material/SignalWifiBadOutlined";
-//import SignalWifiConnectedNoInternet4OutlinedIcon from "@mui/icons-material/SignalWifiConnectedNoInternet4Outlined";
-
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useTranslation } from "react-i18next";
 import { OnlineStatusContext } from "../providers/OnlineStatusProvider";
-import { i18n }  from "../i18n";
+import { i18n, getNextSupportedLanguage }  from "../i18n";
 import packageJson from "../../package.json";
 import config from "../config";
 
-const Footer = () => {
+const Footer = ({ changeLocale }) => {
   const { t } = useTranslation();
   const [buildInfo, setBuildInfo] = useState(null);
-  const languageFlag = config.i18n.languages.supported[i18n.language.slice(0, 2).toLowerCase()].icon;
-  const isOnline = useContext(OnlineStatusContext);
+  const [languageFlag, setLanguageFlag] = useState(config.locales[i18n.language].flag);
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogContent, setDialogContent] = useState(null);
   const [dialogCallback, setDialogCallback] = useState(null);
+  const isOnline = useContext(OnlineStatusContext);
 
   useEffect(() => { // read build info from file on disk
     if (!buildInfo) {
@@ -51,13 +42,22 @@ const Footer = () => {
     }
   }, []);
 
-  const build = `${packageJson.name} v${packageJson.version} © ${new Date().getFullYear()}
-    ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}`;
+  const infoTitle = packageJson.name; 
+  const infoContents = `\
+    v${packageJson.version} © ${new Date().getFullYear()}, \
+    ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\
+  `;
 
   const changeLanguage = () => {
-    const language = i18n.language === "it" ? "en" : "it";
-    i18n.changeLanguage(language);
-    document.documentElement.setAttribute("lang", language);
+    const newLanguage = getNextSupportedLanguage();
+    i18n.changeLanguage(newLanguage);
+    setLanguageFlag(config.locales[newLanguage].flag);
+    changeLocale(i18n.language);
+
+    // update index document language related attributes
+    document.documentElement.setAttribute("lang", newLanguage);
+    document.documentElement.setAttribute("dir", config.locales[newLanguage].dir);
+    document.querySelector("meta[charset]").setAttribute("charset", config.locales[newLanguage].charset); 
   }
   
   const handleOpenDialog = (title, content, callbackOnClose) => {
@@ -123,8 +123,8 @@ const Footer = () => {
         {/* app and build full info */}
         <Box
           onClick={() => handleOpenDialog(
-              t("App name and version"),
-              <>{ build }</>,
+              infoTitle,
+              infoContents,
               null,
             )
           }
@@ -137,7 +137,7 @@ const Footer = () => {
         <Box
           onClick={() => handleOpenDialog(
             t("Network status"),
-            <>{isOnline ? t("On") : t("Off")}</>,
+            <>{t("Network is")} {isOnline ? t("online") : t("offline")}</>,
             null,
           )
         }
@@ -159,7 +159,32 @@ const Footer = () => {
 
       </Typography>
 
-      <Dialog
+      {/* <Modal
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby={dialogLabel}
+        aria-describedby={dialogDescription}
+      >
+        <Box sx={modalStyle}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {dialogTitle}
+          </Typography>
+          <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2, whiteSpace: "pre-line"}}>
+            {dialogContent}
+          </Typography>
+        </Box>
+      </Modal> */}
+
+      <DialogConfirm
+        open={openDialog}
+        onClose={handleCloseDialog}
+        onCancel={handleCloseDialog}
+        title={dialogTitle}
+        message={dialogContent}
+        cancelText={t("Close")}
+      />
+
+      {/* <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
         aria-labelledby="alert-dialog-title"
@@ -173,7 +198,7 @@ const Footer = () => {
             {dialogContent}
           </Typography>
         </DialogContent>
-        {/* {!React.isValidElement(dialogContent) && ( // show buttons only if dialogContent is not a component */}
+        {/* {!React.isValidElement(dialogContent) && ( // show buttons only if dialogContent is not a component * /}
           <DialogActions>
             <Button
               onClick={handleCloseDialog}
@@ -183,11 +208,11 @@ const Footer = () => {
               {t("Ok")}
             </Button>
           </DialogActions>
-        {/* )} */}
-      </Dialog>
+        {/* )} * /}
+      </Dialog> */}
       
     </Box>
   );
 }
 
-export default Footer;
+export default React.memo(Footer);

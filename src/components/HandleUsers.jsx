@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { DateTime } from "luxon";
 import DialogConfirm from "./DialogConfirm";
@@ -29,7 +30,7 @@ import {
   Typography,
 } from "@mui/material";
 import { TextFieldSearch, SectionHeader } from "./custom";
-import { Search, Edit, Delete } from "@mui/icons-material";
+import { Search, Edit, BuildCircle, Delete } from "@mui/icons-material";
 
 const UserTable = () => {
   const theme = useTheme();
@@ -40,6 +41,7 @@ const UserTable = () => {
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("");
   const [action, setAction] = useState("");
+  const [refresh, setRefresh] = useState(false); // to force a refresh, for example when doing promoteToDealer
 
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
 
@@ -65,20 +67,41 @@ const UserTable = () => {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
         setUsers(result.users);
+        setRefresh(false);
       }
     })();
     return () => {
       //console.log("UserTable unmounted");
     };
-  }, [auth.user]); // empty dependency array: this effect runs once when the component mounts
+  }, [auth.user, refresh]); // empty dependency array: this effect runs once when the component mounts
 
-  const removeUser = (params) => {
-    return apiCall("post", "/user/removeUser", params);
+  const removeUser = async (params) => {
+    const result = await apiCall("post", "/user/removeUser", params);
+    if (result.err) {
+      showSnackbar(result.message, "error");
+    }
   }
 
-  const sendEmailToUsers = (params) => {
-    return apiCall("post", "/user/sendEmailToUsers", params);
+  const sendEmailToUsers = async (params) => {
+    const result = await apiCall("post", "/user/sendEmailToUsers", params);
+    if (result.err) {
+      showSnackbar(result.message, "error");
+    }
   }
+
+  const onPromoteToDealer = async (userId) => {
+    const result = await apiCall("post", "/user/promoteToDealer", { userId });
+    if (result.err) {
+      showSnackbar(result.message, "error");
+    } else {
+      if (result.count > 0) {
+        showSnackbar(t("User has been promoted to {{role}}", { role: t("dealer") }), "info");
+      } else {
+        showSnackbar(t("User was a {{role}} already", {role: t("dealer") }), "info");
+      }
+      setRefresh(true);
+    }
+  };
 
   const onEdit = (userId) => {
     navigate(`/edit-user/${userId}/editUser`);
@@ -196,7 +219,7 @@ const UserTable = () => {
         onBulkEmail(selectedIds, params);
         break;
       default: // should not happen...
-        showSnackbar(t("unforeseen bulk action {{action}}", { action }), "error");
+        showSnackbar(t("Unforeseen bulk action {{action}}", { action }), "error");
     }
   }
 
@@ -433,12 +456,21 @@ const UserTable = () => {
                       <TableCell>{user.fiscalCode}</TableCell>
                       <TableCell>{user.businessName}</TableCell>
                       <TableCell>
-                        <IconButton size="small" onClick={() => onEdit(user._id)}>
-                          <Edit fontSize="small" />
-                        </IconButton>
-                        <IconButton size="small" onClick={() => onRemove(user._id)}>
-                          <Delete fontSize="small" />
-                        </IconButton>
+                        <Tooltip title={t("Edit user")}>
+                          <IconButton size="small" onClick={() => onEdit(user._id)}>
+                            <Edit fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title={t("Promote to {{role}}", {role: "dealer"})}>
+                          <IconButton size="small" onClick={() => onPromoteToDealer(user._id)}>
+                            <BuildCircle fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title={t("Remove user")}>
+                          <IconButton size="small" onClick={() => onRemove(user._id)}>
+                            <Delete fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   );

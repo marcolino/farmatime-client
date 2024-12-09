@@ -1,3 +1,22 @@
+/*
+import React, { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
+
+const Home = () => {
+  const { toggleTheme } = useContext(AuthContext);
+
+  const handleThemeToggle = () => {
+    toggleTheme(); // This should work if `toggleTheme` is defined in AuthProvider
+  };
+
+  return (
+    <button onClick={handleThemeToggle}>Toggle Theme</button>
+  );
+};
+
+export default React.memo(Home);
+*/
+
 import React from "react";
 import { useContext } from "react";
 import { Paper, Typography } from "@mui/material";
@@ -29,10 +48,6 @@ function Home() {
         {auth?.user &&
           <Typography>{t("Home page for logged user")}</Typography>
         }
-        {/* <br />
-        {(auth?.user && auth?.user?.roles.some(role => role.name === "user")) && (
-          <Typography>{t("Please contact {{company}} at {{phone}} if are a \"dealer\", so you'll be able to view all products", { company: config.company.title, phone: config.company.phone })}.</Typography>
-        )} */}
       </Paper>
       {/* <Button onClick={ () => showSnackbar("This is a custom snackbar", "info") } fullWidth={false}>Show Snackbar</Button> */}
     </>
