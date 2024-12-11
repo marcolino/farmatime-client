@@ -29,7 +29,8 @@ function Contents({ theme, changeLocale, toggleTheme, children }) {
           display: "flex",
           flexDirection: "column",
           overflow: "auto", // ensures the main content scrolls, not the footer
-          py: 3, // to account for header elevation, and to space a bit
+          pt: 3, // to account for header elevation, and to space a bit
+          pb: 1,
         }}
       >
         <Container sx={{

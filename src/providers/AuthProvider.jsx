@@ -46,7 +46,7 @@ const AuthProvider = (props) => {
     let ok = false;
     if (auth.user) {
       try {
-        const result = await apiCall("post", "/user/updateUser", { email: auth.user.email, newPreferences });
+        const result = await apiCall("post", "/user/updateUser", { email: auth.user.email, preferences: newPreferences });
         if (result.err) {
           // do not even show error to user, signout is also completed only client side
           console.error("update user error:", result.err);

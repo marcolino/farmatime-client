@@ -122,19 +122,12 @@ function Products() {
       setProducts([]);
     };
 
-    // scroll to bottom when products are loaded
-    // useEffect(() => {
-    //   if (products.length) {
-    //     console.log("scrolling to bottom smoothly");
-    //     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    //     //window.scrollTo({ bottom: -300, behavior: "smooth" });
-    //   }
-    // }, [products]);
     useEffect(() => {
       if (isMobile) { // on mobile scroll down to put product into view
         if (products.length > 0) {
           // delay scrolling to allow animations to complete
           const timeoutId = setTimeout(() => {
+            bottomRef.current?.focus();
             bottomRef.current?.scrollIntoView({ behavior: "smooth" });
           }, 100); // adjust this duration based on animation/render timing    
           return () => clearTimeout(timeoutId);
@@ -143,7 +136,7 @@ function Products() {
     }, [products]);
 
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={0}>
         {/* for xs breakpoint, full width */}
         <Grid item xs={12} sm={4} md={3} lg={2}
          sx={{ 
@@ -253,16 +246,17 @@ function Products() {
 
         {/* for sm and up breakpoints, takes remaining space */}
         <Grid item xs={12} sm
-          s_x={{ flexGrow: 999 }}
           sx={{
             display: "flex",
             flexDirection: "column",
+            py: 0,
+            my: 0,
           }}
         >
-          <Box sx={{ height: "100%", padding: 2 }}>
+          <Box sx={{ height: "100%", py: 0, my: 0 }}>
            {
               isSearching ? (
-                <p>{t("Loading...")}</p>
+                <p>{/*{t("Loading...")}*/}</p>
               ) :
               !hasFilters ? (
                 <p></p>
@@ -273,8 +267,8 @@ function Products() {
               <ProductsDetails products={products} productsTotalCount={productsTotalCount}  />
             }
           </Box>
+          <span ref={bottomRef} _sx={{ display: "none" }} />
         </Grid>
-        <Box ref={bottomRef} />
       </Grid>
     );
   }

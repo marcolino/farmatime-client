@@ -17,12 +17,14 @@ const state = Math.random().toString(36);
 const code_challenge = Math.random().toString(36);
 const code_challenge_method = "S256";
 
+const USER_POOL_WEB_CLIENT_ID = "..."; // TODO: to env...
+
 // TODO: config.oauth.domain must be set to the real address
 const url = `\
 https://${config.oauth.domain}/oauth2/authorize?\
 redirect_uri=${redirect_uri}&\
 response_type=${response_type}&\
-client_id=${process.env.VITE_USER_POOL_WEB_CLIENT_ID}&\
+client_id=${USER_POOL_WEB_CLIENT_ID}&\
 identity_provider=${identity_provider}&\
 scope=${scope}&\
 state=${state}&\

@@ -5,13 +5,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Modal,
-  Typography,
   Box,
   Button,
   InputAdornment,
 } from "@mui/material";
 import TextField from "./custom/TextField";
+import DialogConfirm from "./DialogConfirm";
 import { Subject } from "@mui/icons-material";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 
@@ -27,7 +26,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
   const onCloseHelp = () => setOpenHelp(false);
   const helpTitle = t("Email composition");
   const helpContents = 
-  t("In the email subject and in the email body you can use these \"strings\", which will be replaced with the values for each user, before sending the email:\n\
+  t("In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending the email:\n\
      $NAME$ => The name of the user\n\
      $SURNAME$ => The surname of the user\n\
      $EMAIL$ => The email of the user\n\
@@ -137,21 +136,14 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
           {t("Send email")}
         </Button>
       </DialogActions>
-      <Modal
+      <DialogConfirm
         open={openHelp}
         onClose={onCloseHelp}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <Box sx={helpStyle}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {helpTitle}
-          </Typography>
-          <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2, whiteSpace: "pre-line"}}>
-            {helpContents}
-          </Typography>
-        </Box>
-      </Modal>
+        onCancel={onCloseHelp}
+        title={helpTitle}
+        message={helpContents}
+        cancelText={t("Close")}
+      />
     </Dialog>
   );
 }

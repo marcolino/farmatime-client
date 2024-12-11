@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 // (note: use yarn node)
 
-import dotenv from "dotenv";
+//import dotenv from "dotenv";
 import fs from "fs/promises";
 import { access } from "fs/promises"; // access as a promise-based version
 import config from "../src/config.json" assert { type: "json" };
 
-dotenv.config({ path: "./.env" });
+//dotenv.config({ path: "./.env" });
 
 const manifestJson = {
-  "short_name": process.env.VITE_TITLE,
-  "name": `${config.title} by ${config.company.homeSite.name}`,
-  "description": process.env.VITE_DESCRIPTION,
-  "theme_color": process.env.VITE_THEME_COLOR,
-  "background_color": process.env.VITE_BACKGROUND_COLOR,
-  "start_url": process.env.VITE_START_URL,
-  "display": process.env.VITE_DISPLAY,
+  "short_name": config.title,
+  "name": `${config.name} by ${config.company.homeSite.name}`,
+  "description": config.description,
+  "theme_color": config.ui.defaultThemeColor,
+  "background_color": config.ui.defaultThemeBackgroundColor,
+  "start_url": config.siteUrl,
+  "display": config.manifest.display,
   "icons": [
     {
       "src": "favicon.ico",
@@ -44,25 +44,25 @@ const manifestJson = {
     },
   ],
   "screenshots": [    
-   {
-     "src": "screenshot-narrow.png",
-     "sizes": "360x636",
-     "type": "image/png",
-     "form_factor": "narrow",
-     "label": "Mobile application"
-    },
     {
-      "src": "screenshot-wide.png",
-      "sizes": "1024x1574",
+      "src": "screenshot-narrow.png",
+      "sizes": "360x636",
       "type": "image/png",
-      "form_factor": "wide",
-      "label": "Desktop application"
-     }
-   ],
-   "start_url": config.manifest.startUrl,
-  "display": config.manifest.display,
-  "theme_color": process.env.VITE_THEME_COLOR,
-  "background_color": process.env.VITE_BACKGROUND_COLOR,
+      "form_factor": "narrow",
+      "label": "Mobile application"
+      },
+      {
+        "src": "screenshot-wide.png",
+        "sizes": "1024x1574",
+        "type": "image/png",
+        "form_factor": "wide",
+        "label": "Desktop application"
+      }
+    ],
+    "start_url": config.manifest.startUrl,
+    "display": config.manifest.display,
+    "theme_color": config.ui.defaultThemeColor,
+    "background_color": config.ui.defaultThemeBackgroundColor,
 };
 
 const manifestFileName = "public/manifest.webmanifest";

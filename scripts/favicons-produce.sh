@@ -6,13 +6,14 @@
 
 sourceImage="${1:-Logo.png}"
 minSize=512
-favicon="public/favicon.ico"
-favicon16x16="public/favicon-16x16.png"
-favicon32x32="public/favicon-32x32.png"
-favicon64x64="public/favicon-64x64.png"
-appleTouchIcon="public/apple-touch-icon.png"
-logoMain="src/assets/images/LogoMain.png"
-msTileImage="public/ms-tile.png"
+publicFavicon="public/favicon.ico"
+publicFavicon16x16="public/favicon-16x16.png"
+publicFavicon32x32="public/favicon-32x32.png"
+publicFavicon64x64="public/favicon-64x64.png"
+publicAppleTouchIcon="public/apple-touch-icon.png"
+publicMsTileImage="public/ms-tile.png"
+publicLogoMailHeader="public/logo-main-header.png"
+srcLogoMain="src/assets/images/logoMain.png"
 
 if [ ! -f "$sourceImage" ]; then
   echo "Source image \"$sourceImage\" not found"
@@ -37,12 +38,13 @@ if [ $height -lt $minSize ]; then
   exit 5;
 fi
 
-convert "$sourceImage" -resize 16x16 "$favicon16x16"
-convert "$sourceImage" -resize 32x32 "$favicon32x32"
-convert "$sourceImage" -resize 64x64 "$favicon64x64"
-convert "$sourceImage" -resize 512x512 "$appleTouchIcon"
-convert "$favicon64x64" -define icon:auto-resize=64,48,32,16 "$favicon"
-convert "$sourceImage" -resize 144x144 "$msTileImage"
-cp "$sourceImage" "$logoMain"
+convert "$sourceImage" -resize 16x16 "$publicFavicon16x16"
+convert "$sourceImage" -resize 32x32 "$publicFavicon32x32"
+convert "$sourceImage" -resize 64x64 "$publicFavicon64x64"
+convert "$sourceImage" -resize 512x512 "$publicAppleTouchIcon"
+convert "$publicFavicon64x64" -define icon:auto-resize=64,48,32,16 "$publicFavicon"
+convert "$sourceImage" -resize 144x144 "$publicMsTileImage"
+cp "$sourceImage" "$publicLogoMailHeader"
+cp "$sourceImage" "$srcLogoMain"
 
 exit 0

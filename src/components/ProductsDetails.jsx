@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 import Carousel from "react-material-ui-carousel";
 import { Grid, Box, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { ArrowLeft, ArrowRight } from "@mui/icons-material";
-import { useWindowDimensions }  from "../hooks/useWindowDimensions";
+import { AuthContext } from "../providers/AuthProvider";
+import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import ImageContainer from "./ImageContainer";
 import config from "../config";
 
@@ -18,6 +19,7 @@ const ProductsDetails = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const maxImageHeight = height / 2.8; // maximum image height, and details card height
+  const cycle = false;
 
   useEffect(() => {
     const timer = setTimeout(() => setFirstRender(false), 200);
@@ -51,8 +53,7 @@ const ProductsDetails = (props) => {
       setIsDragging(false);
       return;
     }
-
-    e.preventDefault();
+    //e.preventDefault();
   };
 
   const handleDragEnd = (e) => {
@@ -77,11 +78,11 @@ const ProductsDetails = (props) => {
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? props.products.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? (cycle ? props.products.length - 1 : prev) : prev - 1));
   };
 
   const handleNext = () => {
-      setCurrentIndex((prev) => (prev === props.products.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === props.products.length - 1 ? (cycle ? 0 : prev) : prev + 1));
   };
 
   return (
@@ -92,10 +93,10 @@ const ProductsDetails = (props) => {
         WebkitUserSelect: "none",
         MozUserSelect: "none",
         msUserSelect: "none",
-        touchAction: "pan-y",
+        touchAction: "none", // was: "pan-y",
       }}
       onMouseDown={(e) => {
-        e.preventDefault();
+        //e.preventDefault(); // WARNING: with this code, the first touch on next product icon, search input is focused, forcing a scroll up, which is not wanted...
         handleDragStart(e);
       }}
       onMouseMove={(e) => {
@@ -120,7 +121,6 @@ const ProductsDetails = (props) => {
         cycleNavigation={false}
         sx={{
           "& .MuiPaper-root": {
-            //maxHeight: imageHeight * 2,
             overflow: "hidden"
           },
           "& img": {
@@ -139,20 +139,19 @@ const ProductsDetails = (props) => {
       <Box sx={{
         display: "flex",
         justifyContent: "center", 
-        marginTop: 0,
         alignItems: "center", // vertical align
         gap: 1, // adds some spacing between the elements
       }}>
-        <IconButton aria-label={t("previous page")} size="small"
+        <IconButton aria-label={t("previous page")} disabled={ (currentIndex === 0 && !cycle) } /*size="small"*/
           onClick={handlePrev}>
-          <ArrowLeft fontSize="large" />
+          <ArrowLeft fontSize="medium" />
         </IconButton>
-        <Typography>
+        <Typography sx={{ py: 0, my: 0}}>
           {t("Page")} {1 + currentIndex} {t("of")} {props.productsTotalCount}
         </Typography>
-        <IconButton aria-label={t("next page")} //size="small"
+        <IconButton aria-label={t("next page")} disabled={ (currentIndex === props.products.length - 1 && !cycle) } /*size="small"*/
           onClick={handleNext}>
-          <ArrowRight fontSize="large" />
+          <ArrowRight fontSize="medium" />
         </IconButton>
       </Box>
 
@@ -165,6 +164,7 @@ const ProductDetailsCard = ({ product, imageHeight }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { height, width } = useWindowDimensions();
+  const { auth, isLoggedIn } = useContext(AuthContext);
   const imageUrl = `${config.siteUrl}${config.images.publicPathWaterMark}/${product.imageName}`;
   const dynamicFont = (x) => (0.0002896 * x) + 0.6214; //  transform 1652 to 1.1, and 375 to 0.73
 
@@ -221,51 +221,76 @@ const ProductDetailsCard = ({ product, imageHeight }) => {
     <Box sx={{
       display: "flex",
       flexDirection: "column",
-     }}>
+      border: "1px solid #ddd",
+      borderRadius: 2,
+    }}>
+      {product.stop && !isLoggedIn && (
+        <Typography>
+          {t("To access all products, please")}{" "}
+          <Button
+            size="small"
+            color="secondary"
+            onClick={handleUserJoin}
+            variant="contained"
+          >
+            {t("Join !")}
+          </Button>
+        </Typography>
+      )}
+      {product.stop && isLoggedIn && !isDealer(auth.user) && (
+        <Typography>
+          {t("To access all products, please ask for \"dealer\" role here: {{dealerRoleRequest}}", { dealerRoleRequest: config.company.contacts.dealerRoleRequest })}{" "}
+        </Typography>
+      )}
       {/* top section: product image */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          overflow: "hidden",
-          justifyContent: "center",
-          minHeight: imageHeight,
-        }}
-      >
-        <ImageContainer
-          src={imageUrl}
-          alt={t("Product image")}
-          maxHeight={imageHeight}
-        />
-      </Box>
+      {!product.stop && (
+        <>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              overflow: "hidden",
+              justifyContent: "center",
+              minHeight: imageHeight,
+              py: 1,
+            }}
+          >
+            <ImageContainer
+              src={imageUrl}
+              alt={t("Product image")}
+              maxHeight={imageHeight}
+            />
+          </Box>
 
-      {/* bottom section: product details */}
-      <Box
-        sx={{
-          maxHeight: imageHeight,
-          justifyContent: "center",
-          alignItems: "center",
-          overflowY: "auto",
-          padding: 1,
-          mt: 2,
-        }}
-      >
-        <Grid container px={{ xs: 0, sm: 2 }} columnSpacing={{ xs: 0, sm: 2 }}
-          sx={{justifyContent: "center", alignItems: "center"}}>
-          {info.map(({ key, value }, index) => (
-            <Grid container key={index} item xs={12} sm={12} md={6}
-              sx={{ justifyContent: "center", alignItems: "center", py: 0.2 }}
-            >
-              <Grid item xs={4}>
-                {renderKey(key)}
-              </Grid>
-              <Grid item xs={8} sx={{ flexWrap: "wrap" }}>
-                {renderValue(value)}
-              </Grid>
+          {/* bottom section: product details */}
+          <Box
+            sx={{
+              maxHeight: imageHeight,
+              justifyContent: "center",
+              alignItems: "center",
+              overflowY: "auto",
+              padding: 1,
+              my: 1,
+            }}
+          >
+            <Grid container px={{ xs: 0, sm: 2 }} columnSpacing={{ xs: 0, sm: 2 }}
+              sx={{justifyContent: "center", alignItems: "center"}}>
+              {info.map(({ key, value }, index) => (
+                <Grid container key={index} item xs={12} sm={12} md={6}
+                  sx={{ justifyContent: "center", alignItems: "center", py: 0.2 }}
+                >
+                  <Grid item xs={4}>
+                    {renderKey(key)}
+                  </Grid>
+                  <Grid item xs={8} sx={{ flexWrap: "wrap" }}>
+                    {renderValue(value)}
+                  </Grid>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </Box>
+          </Box>
+        </>
+      )} 
     </Box>
   );
 };

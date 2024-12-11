@@ -155,18 +155,18 @@
 - non mostrare "La sessione non ha token..." dopo il logout (o rivedere la successione delle azioni al logout...) - OK
 - in ProductDetails migliorare la visualizzazione dei campi array ("models") (e rimpicciolire un pochino il font di tutti i campi) - OK
 - migliorare i dialoghi del network status e del numero di version/build (Modal, non Dialog...) - OK
+- al cambio tema, non viene aggiornato il tema sul database - OK
+- uniformare i colori in sitemap.xml al tema di default - OK
 
+- risolvere i TODO's nel codice
 - migliorare il tema scuro
-- uniformare i colori in sitemap.xml al tema di default
+
 
 NEWFEATURE:
 - decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore
   (con vite/react16+) per gestire le notifiche in app (vedere /docs/PUSH-NOTIFICATIONS/*)
 - fare uno script per chiedere ad una AI di tradurre un file messages.json
 - chiedere ad AI di completare le labels aria per tutti i componenti MUI
-- setup %VITE_THEME_COLOR%: è usata in index.html (theme color for android tool-bar and android chrome address-bar
-- use base theme color, but in contrast with app header background color) e manifest.json (quando pwa usata come app)
-- risolvere i TODO's nel codice
 - gestire la navigazione da tastiera
 - completare (e testare) gli attributi aria
 - tests: rendere più semplice la rigenerazione degli snapshots (o decidere di non usarli)

@@ -111,14 +111,14 @@ const Footer = ({ changeLocale }) => {
         </Box>
 
         {/* company name */}
-        <Link
+        {/* <Link
           href="/"
           color="textSecondary"
           underline="hover"
           sx={{ cursor: "pointer", mr: 3 }}
         >
           &nbsp; {config.company.name}
-        </Link>
+        </Link> */}
 
         {/* app and build full info */}
         <Box
@@ -158,22 +158,6 @@ const Footer = ({ changeLocale }) => {
         </Box>
 
       </Typography>
-
-      {/* <Modal
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby={dialogLabel}
-        aria-describedby={dialogDescription}
-      >
-        <Box sx={modalStyle}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {dialogTitle}
-          </Typography>
-          <Typography id="modal-modal-description" variant="body1" sx={{ mt: 2, whiteSpace: "pre-line"}}>
-            {dialogContent}
-          </Typography>
-        </Box>
-      </Modal> */}
 
       <DialogConfirm
         open={openDialog}

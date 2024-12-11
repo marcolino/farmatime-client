@@ -106,7 +106,7 @@ cfg.mode.development && instance.interceptors.request.use(
 instance.interceptors.request.use(
   config => {
     if (typeof config.headers["Accept-Version"] === "undefined") { // if set already, keep it as-is, otherwise use default
-      const versionNumber = import.meta.env.VITE_API_VERSION;
+      const versionNumber = cfg.api.version;
       if (typeof versionNumber !== "undefined") {
         config.headers["Accept-Version"] = versionNumber;
       }

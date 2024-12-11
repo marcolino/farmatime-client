@@ -1,6 +1,7 @@
 #!/usr/bin/env node 
 /**
- * Build sitemap.xml for a react web app, starting from the routes file, using only node.js
+ * Build sitemap.xml for a react web app, starting from the routes file,
+ * based on each component last modification date
  */
 
 import fs from "fs";
@@ -10,8 +11,6 @@ const sitemapFileName = "public/sitemap.xml";
 const componentsPath = "src/components/";
 const hostName = config.siteUrl; // the url of the website: the protocol and the domain name
 const routesPath = "src/components/Routing.jsx";
-// const defaultFrequency = "monthly";
-// const defaultPriority = 0.5;
 
 const routes = [];
 fs.readFile(routesPath, "utf8", (err, data) => {
@@ -51,8 +50,6 @@ fs.readFile(routesPath, "utf8", (err, data) => {
         return;
       }
       const filename = matchFilename1 ? matchFilename1[1] : matchFilename2[1];
-      //const filename = matchFilename[1];
-      //console.log("filename:", filename);
       const filenameFull = componentsPath + filename + ".jsx";
       if (!fs.existsSync(filenameFull)) {
         console.warn("No filename found for route file name", filenameFull);
