@@ -12,14 +12,15 @@ const StyledSelect = ({
   fullWidth = true,
   size = "small",
   margin = "dense",
-  placeholder = "Search...",
+  placeholder = "",
   ...props
 }) => {
+console.log("OPTIONS:", props.options);
   props.variant = props.variant ?? variant;
   props.fullWidth = props.fullWidth ?? fullWidth;
   props.size = props.size ?? size;
   props.margin = props.margin ?? margin;
-  
+  props.placeholder = props.placeholder ?? placeholder;
   let optionsDisabled = [];
   if (props.optionsDisabled) { // an array (parallel to options) of booleans, to disable relative option
     optionsDisabled = props.optionsDisabled;

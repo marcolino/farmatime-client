@@ -123,7 +123,7 @@ function SignIn() {
               <LockOutlinedIcon />
             </Avatar>
           </Box>
-          <Typography variant="body2" color="textSecondary"
+          <Typography variant="body1" color="textSecondary"
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -137,7 +137,7 @@ function SignIn() {
             id={"email"}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder={t("Email")}
+            placeholder={"Email"}
             startIcon={<Person />}
             autoComplete="email"
             error={error.email}
@@ -191,7 +191,7 @@ function SignIn() {
                 underline="hover"
                 onClick={() => navigate("/signup")}
               >
-                {t("Register Now!")}
+                {t("Register now!")}
               </Link>
             </Typography>
           </Box>

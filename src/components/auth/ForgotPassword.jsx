@@ -19,7 +19,7 @@ import { apiCall }  from "../../libs/Network";
 //import { useSnackbar } from "../../providers/SnackbarManager";
 import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { validateEmail, validatePassword } from "../../libs/Validation";
-import config from "../../config";
+//import config from "../../config";
 
 
 function ForgotPassword() {
@@ -182,11 +182,11 @@ function ForgotPassword() {
         default:
           setError({ password: true }); // blame password field for error
       }
+      showSnackbar(result.message, "warning");
     } else {
-      showSnackbar(result.message, "error");
+      //showSnackbar(result.message, "info");
       console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
       setWaitingForCode(true);
-      //setEmail("");
       setPassword("");
       setPasswordConfirmed("");
       setCode("");
@@ -234,7 +234,7 @@ function ForgotPassword() {
           </Box>
           {!waitingForCode && (
             <>
-              <Typography variant="body2" color="textSecondary"
+              <Typography variant="body1" color="textSecondary"
                 sx={{
                   display: "flex",
                   justifyContent: "center",
@@ -264,7 +264,7 @@ function ForgotPassword() {
           )}
           {waitingForCode && (
             <>
-              <Typography variant="body2" color="textSecondary"
+              <Typography variant="body1" color="textSecondary"
                 sx={{
                   display: "flex",
                   justifyContent: "center",
@@ -273,6 +273,17 @@ function ForgotPassword() {
               >
                 {t("New password")}
               </Typography>
+              <TextField
+                id={"confirmationCode"}
+                type="tel" /* tel type does not show arrows */
+                value={code}
+                autoComplete="off"
+                onChange={(e) => setCode(e.target.value)}
+                placeholder={t("Numeric code received by {{codeDeliveryMedium}}", {codeDeliveryMedium})}
+                startIcon={<ConfirmationNumber />}
+                error={error.confirmationCode}
+              />
+              <Box m={1} />
               <TextFieldPassword
                 autoFocus
                 id={"password"}
@@ -295,20 +306,9 @@ function ForgotPassword() {
                 startIcon={<Lock />}
                 error={error.passwordConfirmed}
               />
-              <Box m={1} />
-              <TextField
-                id={"confirmationCode"}
-                type="tel" /* tel type does not show arrows */
-                value={code}
-                autoComplete="off"
-                onChange={(e) => setCode(e.target.value)}
-                placeholder={t("Numeric code received by {{codeDeliveryMedium}}", {codeDeliveryMedium})}
-                startIcon={<ConfirmationNumber />}
-                error={error.confirmationCode}
-              />
               <Button
                 type="submit" onClick={formForgotPasswordConfirm}>
-                {t("Request password reset")}
+                {t("Set new password")}
               </Button>
               <Button
                 type="submit" onClick={formResendResetPasswordCode}

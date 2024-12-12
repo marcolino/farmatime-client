@@ -11,7 +11,7 @@ import { apiCall } from "../libs/Network";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import {
   Api, DriveEta, Commute, EditNote, Apps,
-  Sync, Exposure, PhotoCamera, SettingsSuggest, AdsClick
+  Sync, Exposure, PhotoCamera, SettingsSuggest, TurnedIn
 } from "@mui/icons-material";
 import PowerIconWithText from "./custom/PowerWithTextIcon";
 import {
@@ -307,7 +307,7 @@ function EditProduct() {
                     //multiple={false}
                     onChange={(e) => setType(e.target.value)}
                     placeholder={t("Type")}
-                    startIcon={<AdsClick />}
+                    startIcon={<TurnedIn />}
                     error={error.types}
                     sx={styleForChangedFields("type")}
                   />

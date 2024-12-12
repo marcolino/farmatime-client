@@ -285,7 +285,7 @@ function SignUp() {
           </Box>
           {!waitingForCode && (
             <>
-              <Typography variant="body2" color="textSecondary"
+              <Typography variant="body1" color="textSecondary"
                 sx={{
                   display: "flex",
                   justifyContent: "center",
@@ -379,7 +379,7 @@ function SignUp() {
           )}
           {waitingForCode && (
             <>
-              <Typography variant="body2" color="textSecondary"
+              <Typography variant="body1" color="textSecondary"
                 sx={{
                   display: "flex",
                   justifyContent: "center",

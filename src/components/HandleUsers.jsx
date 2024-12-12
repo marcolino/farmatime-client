@@ -124,11 +124,11 @@ const UserTable = () => {
   };
 
   const onBulkEmail = async (userIds, params) => {
-    sendEmailToUsers({ filter: userIds, ...params }).then((data) => {
-      if (data.err) {
-        console.warn("sendEmailToUsers error:", data);
-        if (data.message) {
-          showSnackbar(data.message ?? "Error sending email to users", "error");
+    sendEmailToUsers({ filter: userIds, ...params }).then(err => {
+      if (err) {
+        console.warn("sendEmailToUsers error:", err);
+        if (err.message) {
+          showSnackbar(err.message ?? "Error sending email to users", "error");
         }
         return;
       }

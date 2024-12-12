@@ -9,7 +9,7 @@ const StyledTextField = ({
   fullWidth = true,
   size = "small",
   margin = "dense",
-  placeholder = "Search...",
+  placeholder = "",
   type = "text",
   ...props
 }) => {
@@ -17,6 +17,7 @@ const StyledTextField = ({
   props.fullWidth = props.fullWidth ?? fullWidth;
   props.size = props.size ?? size;
   props.margin = props.margin ?? margin;
+  props.placeholder = props.placeholder ?? placeholder;
   props.type = props.type ?? type;
   return (
     <TextField

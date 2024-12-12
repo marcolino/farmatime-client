@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import Carousel from "react-material-ui-carousel";
-import { Grid, Box, IconButton, Typography, useMediaQuery } from "@mui/material";
+import { Grid, Box, Button, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { ArrowLeft, ArrowRight } from "@mui/icons-material";
 import { AuthContext } from "../providers/AuthProvider";
+import { isDealer } from "../libs/Validation";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import ImageContainer from "./ImageContainer";
 import config from "../config";
@@ -28,7 +30,7 @@ const ProductsDetails = (props) => {
 
   if ((props.products.length > 0) && (props.productsTotalCount > props.products.length)) {
     props.products.push({
-      stop: true
+      limit: true
     });
   }
 
@@ -163,6 +165,7 @@ const ProductsDetails = (props) => {
 const ProductDetailsCard = ({ product, imageHeight }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const navigate = useNavigate();
   const { height, width } = useWindowDimensions();
   const { auth, isLoggedIn } = useContext(AuthContext);
   const imageUrl = `${config.siteUrl}${config.images.publicPathWaterMark}/${product.imageName}`;
@@ -184,6 +187,10 @@ const ProductDetailsCard = ({ product, imageHeight }) => {
     { key: t("Notes"), value: product.notes },
     { key: t(""), value: "" }, // if count was odd
   ];
+
+  const handleUserJoin = (event) => {
+    navigate("/signin", { replace: true });
+  };
 
   const renderKey = (key) => {
     return (
@@ -224,8 +231,8 @@ const ProductDetailsCard = ({ product, imageHeight }) => {
       border: "1px solid #ddd",
       borderRadius: 2,
     }}>
-      {product.stop && !isLoggedIn && (
-        <Typography>
+      {product.limit && !isLoggedIn && (
+        <Typography sx={{padding: 10, margin: 1}}>
           {t("To access all products, please")}{" "}
           <Button
             size="small"
@@ -237,13 +244,13 @@ const ProductDetailsCard = ({ product, imageHeight }) => {
           </Button>
         </Typography>
       )}
-      {product.stop && isLoggedIn && !isDealer(auth.user) && (
-        <Typography>
+      {product.limit && isLoggedIn && !isDealer(auth.user) && (
+        <Typography sx={{padding: 10, margin: 1}}>
           {t("To access all products, please ask for \"dealer\" role here: {{dealerRoleRequest}}", { dealerRoleRequest: config.company.contacts.dealerRoleRequest })}{" "}
         </Typography>
       )}
       {/* top section: product image */}
-      {!product.stop && (
+      {!product.limit && (
         <>
           <Box
             sx={{

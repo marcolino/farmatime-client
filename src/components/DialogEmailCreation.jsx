@@ -26,7 +26,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
   const onCloseHelp = () => setOpenHelp(false);
   const helpTitle = t("Email composition");
   const helpContents = 
-  t("In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending the email:\n\
+  t("In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email:\n\
      $NAME$ => The name of the user\n\
      $SURNAME$ => The surname of the user\n\
      $EMAIL$ => The email of the user\n\
@@ -100,7 +100,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
             id={"subject"}
             value={subject}
             onChange={e => setSubject(e.target.value)}
-            placeholder={t("Subject")}
+            placeholder={t("Email subject")}
             //startAdornmentIcon={<Subject />}
             InputProps={{
               startAdornment: (
@@ -117,7 +117,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
             id={"body"}
             value={body}
             onChange={e => setBody(e.target.value)}
-            placeholder={t("Body")}
+            placeholder={t("Email body")}
             error={error.body}
             multiline
             rows={4}

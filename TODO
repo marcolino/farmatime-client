@@ -157,6 +157,13 @@
 - migliorare i dialoghi del network status e del numero di version/build (Modal, non Dialog...) - OK
 - al cambio tema, non viene aggiornato il tema sul database - OK
 - uniformare i colori in sitemap.xml al tema di default - OK
+- add placeholders in Login, Register, ... inputs - OK
+- in confirm password reset, put code input on top, and change button text to confirm, not request  - OK
+- error snackbar when asking to resend password change code, we want info snackbar - OK
+- blank page when requesting products page as a guest user - OK
+- blank page when requesting products page as a not dealer user - OK
+- better graphics when requesting products page as a guest user - OK
+- better graphics when requesting products page as a not dealer user (and make phone clickable) - OK
 
 - risolvere i TODO's nel codice
 - migliorare il tema scuro

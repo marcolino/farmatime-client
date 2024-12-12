@@ -1,14 +1,19 @@
 import axios from "axios";
 import instance from "../middlewares/Interceptors";
+import LocalStorage from "./LocalStorage";
 import { i18n } from "../i18n";
 
+
+const isUserLogged = () => {
+  return !!LocalStorage.get("auth")?.user;
+}
 
 const apiCall = async(method, url, data = {}) => {
   try {
     // check if the data is a FormData object and set headers accordingly
-    const config = {};
+    const cfg = {};
     if (data instanceof FormData) {
-      config.headers = {
+      cfg.headers = {
         "Content-Type": "multipart/form-data",
       };
     }
@@ -16,7 +21,7 @@ const apiCall = async(method, url, data = {}) => {
     if (method.localeCompare("GET", undefined, { sensitivity: "accent" }) === 0) {
       data = { params: data };
     }
-    const response = await instance[method](url, data, config);
+    const response = await instance[method](url, data, cfg);
     console.info(`⇒ ${url} success:`, response.data);
     return { ...response.data };
   } catch (err) {
@@ -28,17 +33,15 @@ const apiCall = async(method, url, data = {}) => {
         if (message) { // if some data.message, show it to the user
           const code = err.response.data?.code;
           if (
-            code && (
+            code && isUserLogged() && (
               (code === "NO_TOKEN") ||
               (code === "EXPIRED_TOKEN") ||
               (code === "BAD_TOKEN") ||
               (code === "WRONG_TOKEN")
             )
-            // (code !== "NO_TOKEN") &&
-            // (code !== "EXPIRED_TOKEN") &&
-            // (code !== "BAD_TOKEN") &&
-            // (code !== "WRONG_TOKEN")
           ) { // ignore token error messages, the important warning is shown in refreshToken middleware
+            console.log("$$$$ getLocalAccessToken:", getLocalAccessToken());
+            console.log("$$$$ ignore token error messages? , Object.keys(err.config):", Object.keys(err.config), JSON.stringify(err)); alert("x");
             return {
               err: true,
               status: err.response.status,

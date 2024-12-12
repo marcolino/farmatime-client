@@ -5,6 +5,7 @@ import {
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AccountCircle, ExitToApp, ManageAccounts,
@@ -23,8 +24,10 @@ const Header = ({ theme, toggleTheme }) => {
   const { auth, isLoggedIn, signOut, didSignInBefore } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
-  
+  const [authRoute, setIsAuthRoute] = useState(location.pathname === "/signin");
+
   const sections = [
     {
       key: "products",
@@ -44,6 +47,10 @@ const Header = ({ theme, toggleTheme }) => {
   const roleNameHighestPriority = isLoggedIn ? auth.user.roles.reduce(
     (previous, current) => previous.priority > current.priority ? previous : current
   ).name : "guest";
+
+  // alert(location.pathname);
+  // const isAuthRoute = () => (false);  //location.pathname === "/signin");
+  const isAuthRoute = () => (location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/forgot-password" || location.pathname === "/social-signin-success" || location.pathname === "/social-signin-error");
 
   const userItems = [
     ...(isLoggedIn && isAdmin(auth.user) ?
@@ -200,14 +207,15 @@ const Header = ({ theme, toggleTheme }) => {
               </IconButton>
             </Tooltip>
           :
-              <Button
-                variant="contained"
-                size="small"
-                color="secondary"
-                onClick={handleUserJoin}
-              >
-                {t("Join !")}
-              </Button>
+            <Button
+              variant="contained"
+              size="small"
+              color="secondary"
+              onClick={handleUserJoin}
+              disabled={isAuthRoute()} 
+            >
+              {t("Join !")}
+            </Button>
           }
 
           <Menu
