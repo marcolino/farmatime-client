@@ -121,6 +121,7 @@
   "This web app is being locally served cache-first by a service worker. To learn more, visit https://cra.link/PWA": "Questa app viene servita localmente cache-first da un service worker. Per saperne di più, visita https://cra.link/PWA",
   "This web app is being served cache-first by a service worker": "Questa app è servita cache-first da un service worker",
   "This web app is being served cache-first by a service worker. To learn more, visit https://cra.link/PWA": "Questa web app è servita \"cache-first\" da un service worker. Per saperne di più, visita https://cra.link/PWA",
+  "To access all products, please ask for \"dealer\" role here: {{dealerRoleRequest}}": "Per aver accesso a tutti i prodotti, chiedi il ruolo di \"dealer\" qui: {{dealerRoleRequest}}",
   "true": "true",
   "unforeseen action {{action}}": "azione {{action}} non prevista",
   "unforeseen bulk action {{action}}": "Azione di gruppo {{action}} non prevista",

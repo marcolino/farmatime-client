@@ -204,7 +204,7 @@
   "The confirmed password does not match the password": "La password confermata non coincide con la password",
   "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character,\n  - and a total of at least eight characters.\n": "La password deve contenere almeno:\n  - un carattere alfabetico minuscolo,\n  - un carattere alfabetico maiuscolo,\n  - un carattere numerico,\n  - un carattere speciale,\n  - e un totale di almeno otto caratteri.\n",
   "To access all products, please": "Per aver accesso a tutti i prodotti, ",
-  "To access all products, please ask for \"dealer\" role here: {{dealerRoleRequest}}": "Per aver accesso a tutti i prodotti, chiedi il ruolo di \"dealer\" qui: {{dealerRoleRequest}}",
+  "To access all products, please ask for \"dealer\" role here:": "__STRING_NOT_TRANSLATED__",
   "Type": "Tipo",
   "Unforeseen action {{action}}": "Azione {{action}} non prevista",
   "Unforeseen bulk action {{action}}": "Azione {{action}} non prevista",

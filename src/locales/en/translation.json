@@ -193,7 +193,7 @@
   "The confirmed password does not match the password": "The confirmed password does not match the password",
   "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character,\n  - and a total of at least eight characters.\n": "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character,\n  - and a total of at least eight characters.\n",
   "To access all products, please": "To access all products, please",
-  "To access all products, please ask for \"dealer\" role here: {{dealerRoleRequest}}": "To access all products, please ask for \"dealer\" role here: {{dealerRoleRequest}}",
+  "To access all products, please ask for \"dealer\" role here:": "To access all products, please ask for \"dealer\" role here:",
   "Type": "Type",
   "Unforeseen action {{action}}": "Unforeseen action {{action}}",
   "Unforeseen bulk action {{action}}": "Unforeseen bulk action {{action}}",
