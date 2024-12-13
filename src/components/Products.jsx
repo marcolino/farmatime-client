@@ -6,6 +6,7 @@ import { Search } from "@mui/icons-material";
 import debounce from "lodash.debounce";
 import { AuthContext } from "../providers/AuthProvider";
 import { apiCall } from "../libs/Network";
+import { isValidRegex, escapeRegex, diacriticMatchRegex }  from "../libs/Misc";
 import { TextFieldSearch, Button } from "./custom";
 import ProductsDetails from "./ProductsDetails";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
@@ -18,7 +19,6 @@ function Products() {
   const theme = useTheme();
   const bottomRef = useRef(null);
   const debounceSearchMilliseconds = 400;
-  const searchMode = "ANYWHERE"; // EXACT ("borghi" does not find "Lamborghini") / ANYWHERE ("borghi" finds "Lamborghini")
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -48,16 +48,26 @@ function Products() {
         // prepare filter for server search
         Object.keys(filter).forEach(k => {
           let v = filter[k].trim(); // trim value to make search ignoring leading and trailing spaces
-          let regex = searchMode === "EXACT" ? `^${v}$` : v; // a regexp to make case-insensitive exact/anywhere searches
+          if (!isValidRegex(v)) { // if some regexp chars are used wrongly, we escape them...
+            v = escapeRegex(v);
+            console.info("search value had a wrong regexp, converted to :", v);
+            // showSnackbar(error, "warning");
+            // console.warn("Wrong regex fetchProducts filter:", error);
+            // return;
+          }
+          //const regex = db.products.search.mode === "EXACT" ? `^${v}$` : v; // a regexp to make case-insensitive exact/anywhere searches
+          const regex = diacriticMatchRegex(v, config.db.products.search.mode === "EXACT");
+          const caseInsensitive = config.db.products.search.caseInsensitive ? "i" : "";
+          const re = { "$regex": regex, $options: caseInsensitive };
           let value;
           if (type(k) !== "Array") {
-            value = { "$regex": regex, $options: "i" }; // a regexp to make case-insensitive anywhere searches in string fields
+            value = re; // single value for String fields
           } else {
-            value = { $elemMatch: { $regex: regex, $options: "i" } };// a regexp to make case-insensitive anywhere searches in array fields
+            value = { $elemMatch: re }; // $elemMatch value for Array fields
           }
           filter[k] = value;
         });
-
+        
         // get all products for these filters
         const result = await apiCall("get", "/product/getProducts", { filter });
         if (result.err) {

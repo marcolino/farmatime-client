@@ -9,6 +9,7 @@ import { AuthContext } from "../providers/AuthProvider";
 import { isDealer } from "../libs/Validation";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import ImageContainer from "./ImageContainer";
+import PhoneNumber from "./PhoneNumber";
 import config from "../config";
 
 
@@ -246,7 +247,8 @@ const ProductDetailsCard = ({ product, imageHeight }) => {
       )}
       {product.limit && isLoggedIn && !isDealer(auth.user) && (
         <Typography sx={{padding: 10, margin: 1}}>
-          {t("To access all products, please ask for \"dealer\" role here: {{dealerRoleRequest}}", { dealerRoleRequest: config.company.contacts.dealerRoleRequest })}{" "}
+          {t("To access all products, please ask for \"dealer\" role here:")}{" "}
+          <PhoneNumber phoneNumber={config.company.contacts.dealerRoleRequestPhoneNumber} />
         </Typography>
       )}
       {/* top section: product image */}

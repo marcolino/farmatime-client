@@ -164,7 +164,9 @@
 - blank page when requesting products page as a not dealer user - OK
 - better graphics when requesting products page as a guest user - OK
 - better graphics when requesting products page as a not dealer user (and make phone clickable) - OK
+- phonenumber component - OK
 
+- review signout sequence: before remote signout, then remove localstorage auth...
 - risolvere i TODO's nel codice
 - migliorare il tema scuro
 

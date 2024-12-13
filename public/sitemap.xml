@@ -5,11 +5,11 @@
       <loc>https://acme-server-lingering-brook-4120.fly.dev/</loc>
     </url>
     <url>
-      <lastmod>Sun Nov 24 2024 10:08:55 GMT+0100 (Central European Standard Time)</lastmod>
+      <lastmod>Thu Dec 12 2024 12:51:10 GMT+0100 (Central European Standard Time)</lastmod>
       <loc>https://acme-server-lingering-brook-4120.fly.dev/signup</loc>
     </url>
     <url>
-      <lastmod>Sun Dec 01 2024 15:57:58 GMT+0100 (Central European Standard Time)</lastmod>
+      <lastmod>Thu Dec 12 2024 20:09:32 GMT+0100 (Central European Standard Time)</lastmod>
       <loc>https://acme-server-lingering-brook-4120.fly.dev/signin</loc>
     </url>
     <url>
@@ -21,7 +21,7 @@
       <loc>https://acme-server-lingering-brook-4120.fly.dev/social-signin-error</loc>
     </url>
     <url>
-      <lastmod>Sun Nov 24 2024 10:03:47 GMT+0100 (Central European Standard Time)</lastmod>
+      <lastmod>Thu Dec 12 2024 12:49:55 GMT+0100 (Central European Standard Time)</lastmod>
       <loc>https://acme-server-lingering-brook-4120.fly.dev/forgot-password</loc>
     </url>
     <url>
@@ -37,7 +37,7 @@
       <loc>https://acme-server-lingering-brook-4120.fly.dev/edit-user/:userId/:origin</loc>
     </url>
     <url>
-      <lastmod>Tue Dec 03 2024 10:01:28 GMT+0100 (Central European Standard Time)</lastmod>
+      <lastmod>Thu Dec 12 2024 12:22:42 GMT+0100 (Central European Standard Time)</lastmod>
       <loc>https://acme-server-lingering-brook-4120.fly.dev/edit-product/:productId</loc>
     </url>
     <url>
@@ -57,7 +57,7 @@
       <loc>https://acme-server-lingering-brook-4120.fly.dev/contacts</loc>
     </url>
     <url>
-      <lastmod>Tue Dec 03 2024 10:26:02 GMT+0100 (Central European Standard Time)</lastmod>
+      <lastmod>Thu Dec 12 2024 21:51:28 GMT+0100 (Central European Standard Time)</lastmod>
       <loc>https://acme-server-lingering-brook-4120.fly.dev/handle-users</loc>
     </url>
     <url>

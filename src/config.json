@@ -33,7 +33,7 @@
       "email": "marcosolari@gmail.com"
     },
     "contacts": {
-      "dealerRoleRequest": "+39 333 6480983",
+      "dealerRoleRequestPhoneNumber": "+39 333 6480983",
       "map": {
         "center": [
           45.0708062,
@@ -50,6 +50,14 @@
     },
     "redirect": "follow",
     "timeoutSeconds": 30
+  },
+  "db": {
+    "products": {
+      "search": {
+        "mode": "ANYWHERE",
+        "caseInsensitive": true
+      }
+    }
   },
   "images": {
     "publicPath": "/assets/products/images",
