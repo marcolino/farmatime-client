@@ -13,15 +13,20 @@ const AuthProvider = (props) => {
   const [preferences, setPreferences] = usePersistedState("preferences", initialStatePreferences);
   const didSignInBefore = (auth.user !== null);
 
-  // centralized sign out function
+  // centralized sign in function
   const signIn = useCallback(async (user) => {
+    console.log("AuthProvider signIn, user:", user);
     setAuth({ user });
-    setPreferences({ locale: user.preferences.locale, theme: user.preferences.theme });
+    if (user.preferences) { // when doing social login we get no preferences in user
+      setPreferences({ locale: user.preferences.locale, theme: user.preferences.theme });
+    }
   });
 
   const updateSignIn = useCallback(async (user) => {
     setAuth({ user });
-    setPreferences({ locale: user.preferences.locale, theme: user.preferences.theme });
+    if (user.preferences) { // when doing social login we get no preferences in user
+      setPreferences({ locale: user?.preferences?.locale, theme: user?.preferences?.theme });
+    }
   });
 
   const changeLocale = useCallback((locale) => {
@@ -88,16 +93,16 @@ const AuthProvider = (props) => {
     }
   }, [auth.user, setAuth]);
 
-  console.log("AuthContext.Provider value:", {
-    auth,
-    preferences,
-    isLoggedIn,
-    didSignInBefore,
-    signIn,
-    updateSignIn,
-    signOut,
-    toggleTheme,
-  });
+  // console.log("AuthContext.Provider value:", {
+  //   auth,
+  //   preferences,
+  //   isLoggedIn,
+  //   didSignInBefore,
+  //   signIn,
+  //   updateSignIn,
+  //   signOut,
+  //   toggleTheme,
+  // });
 
   return (
     <AuthContext.Provider value={{ auth, preferences, isLoggedIn, didSignInBefore, signIn, updateSignIn, signOut, changeLocale, toggleTheme }}>

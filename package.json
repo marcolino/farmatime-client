@@ -26,7 +26,7 @@
     "manifest-produce": "echo 'Producing manifest...' && node --no-warnings=ExperimentalWarning scripts/manifest-produce",
     "i18n-prepare": "bash -c 'for dir in $(cat ./src/config.json | jq -r \".locales | keys[]\"); do mkdir -p \"src/locales/$dir/\"; done'",
     "i18n": "yarn i18n-prepare; i18next 'src/**/*.{js,jsx}' --config 'i18next-parser.config.cjs' --silent",
-    "i18n-check": "yarn i18n && missing=$((grep --only-matching __STRING_NOT_TRANSLATED__ src/locales/*/translation.json | wc -l)); test $missing -gt 0 && ( echo \"$missing strings have to be translated!\"; false ) || true",
+    "i18n-check": "sh -c 'yarn i18n && missing=$(grep --only-matching __STRING_NOT_TRANSLATED__ src/locales/*/translation.json | wc -l); if [ $missing -gt 0 ]; then echo \"$missing strings have to be translated!\"; exit 1; fi'",
     "lighthouse": "lighthouse http://localhost:5005/ --output json --output-path test/lighthouseOutput.json",
     "browserlist-update": "npx browserslist@latest --update-db",
     "deps-check": "npx unimported",

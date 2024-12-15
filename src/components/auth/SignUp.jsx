@@ -363,7 +363,7 @@ function SignUp() {
                     underline="hover"
                     onClick={() => navigate("/signin")}
                   >
-                    {t("Sign in!")}
+                    {t("Sign in")}!
                   </Link>
                 </Typography>
               </Box>

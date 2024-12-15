@@ -233,7 +233,7 @@ const ProductDetailsCard = ({ product, imageHeight }) => {
       borderRadius: 2,
     }}>
       {product.limit && !isLoggedIn && (
-        <Typography sx={{padding: 10, margin: 1}}>
+        <Typography sx={{py: 10, px: 2, margin: 1}}>
           {t("To access all products, please")}{" "}
           <Button
             size="small"
@@ -246,7 +246,7 @@ const ProductDetailsCard = ({ product, imageHeight }) => {
         </Typography>
       )}
       {product.limit && isLoggedIn && !isDealer(auth.user) && (
-        <Typography sx={{padding: 10, margin: 1}}>
+        <Typography sx={{py: 10, px: 2, margin: 1}}>
           {t("To access all products, please ask for \"dealer\" role here:")}{" "}
           <PhoneNumber phoneNumber={config.company.contacts.dealerRoleRequestPhoneNumber} />
         </Typography>

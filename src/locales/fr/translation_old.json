@@ -86,6 +86,7 @@
   "pagina iniziale utente autenticato": "__STRING_NOT_TRANSLATED__",
   "pagina iniziale utente ospite": "__STRING_NOT_TRANSLATED__",
   "Perhaps you did request a wrong page, because I couldn't find it": "__STRING_NOT_TRANSLATED__",
+  "Perhaps you did request a wrong page? I couldn't find it...": "Vous avez peut-être demandé une mauvaise page ? Je ne l'ai pas trouvée...",
   "Perhaps you did request the wrong page, because I could'nt find what you looked for": "Peut-être avez-vous demandé la mauvaise page, car je n'ai pas pu trouver ce que vous cherchiez",
   "Più di una immagine selezionata, si utilizza la prima": "__STRING_NOT_TRANSLATED__",
   "Please contact {{company}} at {{phone}} if are a \"dealer\", so you'll be able to view all products": "__STRING_NOT_TRANSLATED__",

@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+//import { useTranslation } from "react-i18next";
 import AnimationLayout from "./AnimationLayout";
 import Loader from "./Loader";
 
@@ -24,8 +24,7 @@ const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
 const Routing = () => {
-  const { i18n } = useTranslation();
-
+  //const { i18n } = useTranslation();
   return (
     <Suspense fallback={<Loader lazyloading={true} />}>
       <Routes>
@@ -50,6 +49,7 @@ const Routing = () => {
           <Route path="/email-preferences" element={<EmailPreferencesManagement action="preferences" />} />
           <Route path="/page-not-found" element={<PageNotFound />} />
           <Route path="/work-in-progress" element={<WorkInProgress />} />
+          {/* <Route path="/api/*" element={null} /> */}
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>

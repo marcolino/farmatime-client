@@ -32,7 +32,8 @@ function SignIn() {
 
   const handleSocialLogin = (event, provider) => {
     event.preventDefault(); // redirect fails without preventing default behaviour!
-    window.open(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`, "_self");
+    //window.open(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`, "_self"); // use "_self" to open social login page in this same window
+    window.location.replace(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`);
   };
 
   const validateForm = () => {
@@ -79,6 +80,7 @@ function SignIn() {
       setError({});
     } else {
       showSnackbar(t("Sign in successful"), "success");
+      console.log("Email signin result:", result); alert(1);
       signIn(result);
 //      setAuth({ user: result });
       // if (!rememberMe) { // to handle remember-me flag

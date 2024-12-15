@@ -11,6 +11,7 @@ const ServiceWorkerMessages = () => {
 
   useEffect(() => {
     if (offlineReady) {
+      console.log("ServiceWorkerMessages:", offlineReady, needRefresh);
       showSnackbar({
         message: t("App is ready to work offline"),
         variant: "info",

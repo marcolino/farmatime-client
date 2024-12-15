@@ -52,15 +52,23 @@ export default defineConfig({
     //   },
     // }),
     VitePWA({
-      //registerType: "autoUpdate", // ensures the service worker update is autonomous
-      registerType: "prompt", // ensures the service worker update requires user interaction
+      registerType: "disabled", // Completely disable service worker in dev
+      devOptions: {
+        enabled: false,
+      },
+      workbox: {
+        globPatterns: [], // Empty pattern means no caching
+      },
+/*
+      registerType: "autoUpdate", // ensures the service worker update is autonomous // better for development
+      //registerType: "prompt", // ensures the service worker update requires user interaction
       workbox: {
         clientsClaim: true, // ensure that all uncontrolled clients (i.e. pages) that are within scope will be controlled by new service worker immediately after that service worker activates
         skipWaiting: false, // ensure the old service worker to remain valid until the user consents
         //skipWaiting: true, // ensure the new service worker takes control immediately
         cleanupOutdatedCaches: true,
         globPatterns: [
-          "**/*.{js,css,html,ico,png,jpg,svg,webp,wav,mp3,webmanifest}", // match all relevant static assets in build folder
+          "**        /*.{js,css,html,ico,png,jpg,svg,webp,wav,mp3,webmanifest}", // match all relevant static assets in build folder
         ],
         // Note: to disable workbox during development, set globPatterns to []
         runtimeCaching: [
@@ -71,7 +79,7 @@ export default defineConfig({
           {
             urlPattern: ({ request }) =>
               ["style", "script", "image", "font"].includes(request.destination),
-            handler: "CacheFirst", // cache JS, CSS, images, and fonts
+            handler: "NetworkFirst", // network first JS, CSS, images, and fonts // TODO: THIS CHANGED BY CLAUDE
           },
           {
             urlPattern: /^https:\/\/flagcdn\.com\/.*$/,
@@ -79,7 +87,7 @@ export default defineConfig({
           },
           // cache Google Fonts stylesheets
           {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/,
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*           /,
             handler: "StaleWhileRevalidate",
             options: {
               cacheName: "google-fonts-stylesheets-cache",
@@ -90,7 +98,7 @@ export default defineConfig({
           },
           // cache Google Fonts web font files
           {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/,
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*             /,
             handler: "CacheFirst",
             options: {
               cacheName: "google-fonts-webfonts-cache",
@@ -140,14 +148,22 @@ export default defineConfig({
       },
       includeAssets: publicAssets,
       devOptions: {
-        enabled: false, // disable the service worker in development mode
+        enabled: true, // enable the service worker in development mode
         type: "module", // ensure compatibility with Vite's dev environment
       },
       manifest: false,
+    */
     }),
   ],
   server: {
     port: 5005,
+    // proxy: {
+    //   "/api": {
+    //     target: "http://localhost:5000",
+    //     changeOrigin: true,
+    //     secure: false,
+    //   },
+    // },
   },
   base: "/", // base application path
   build: {

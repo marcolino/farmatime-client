@@ -19,7 +19,7 @@ L.Icon.Default.mergeOptions({
 const Contacts = () => {
   const { t } = useTranslation();
   const tileLayerUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-  const tileLayerContributors = "&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a>";
+  //const tileLayerContributors = "&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a>";
 
   return (
     <Container>
@@ -42,19 +42,22 @@ const Contacts = () => {
             {t("Our Location")}
           </Typography>
           {/* {isOnline ? ( // no need to show a static image when offline, maps are cached too */}
-            <MapContainer center={config.company.contacts.map.center} zoom={config.company.contacts.map.zoom} style={{ height: "400px", width: "100%" }}>
-              <TileLayer
-                url={tileLayerUrl}
-                attribution={tileLayerContributors}
-              />
-              <Marker
-                position={config.company.contacts.map.center}
-              >
-                <Popup>
-                  {t("Our Company is located here")}.
-                </Popup>
-              </Marker>
-            </MapContainer>
+          <MapContainer
+            center={config.company.contacts.map.center}
+            zoom={config.company.contacts.map.zoom}
+            style={{ height: "400px", width: "100%" }}
+          >
+            <TileLayer
+              url={tileLayerUrl}
+            />
+            <Marker
+              position={config.company.contacts.map.center}
+            >
+              <Popup>
+                {t("Our Company is located here")}.
+              </Popup>
+            </Marker>
+          </MapContainer>
         </CardContent>
       </Card>
 
