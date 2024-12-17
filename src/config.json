@@ -117,10 +117,13 @@
       "dark"
     ],
     "defaultTheme": "light",
-    "footerHeight": "1.5rem",
+    "defaultThemeColor": "#a5dc6f",
+    "headerHeight": 64,
+    "footerHeight": 64,
+    "headerPadding": 10,
+    "footerPadding": 10,
     "extraSmallWatershed": 600,
     "mobileDesktopWatershed": 900,
-    "headerHeight": 64,
     "usePlans": true,
     "snacks": {
       "maxInStack": 3,

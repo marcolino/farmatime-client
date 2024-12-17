@@ -27,8 +27,7 @@ const publicAssets = [
   "screenshot-wide.png",
 ];
 
-//export default defineConfig({
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   define: {
     __BUILD_NUMBER__: JSON.stringify(process.env.BUILD_NUMBER || "?"),
     __BUILD_TIMESTAMP__: JSON.stringify(process.env.BUILD_TIMESTAMP || "?"),
@@ -53,19 +52,16 @@ export default defineConfig(({ mode }) => ({
     //   },
     // }),
     VitePWA({
-      registerType: mode === "production" ? "prompt" /*autoUpdate"*/ : "disabled",
       //registerType: "disabled", // completely disable service worker in dev
-      //registerType: "autoUpdate", // ensures the service worker update is autonomous // better for development
-      //registerType: "prompt", // ensures the service worker update requires user interaction
       devOptions: {
         enabled: false,
       },
-      // devOptions: {
-      //   enabled: true, // enable the service worker in development mode
-      //   type: "module", // ensure compatibility with Vite's dev environment
+      // workbox: {
+      //   globPatterns: [], // Empty pattern means no caching
       // },
-      includeAssets: publicAssets,
-      manifest: false,
+      //registerType: "autoUpdate", // ensures the service worker update is autonomous // better for development
+      registerType: "prompt", // ensures the service worker update requires user interaction
+      /**/
       workbox: {
         clientsClaim: true, // ensure that all uncontrolled clients (i.e. pages) that are within scope will be controlled by new service worker immediately after that service worker activates
         skipWaiting: false, // ensure the old service worker to remain valid until the user consents
@@ -74,6 +70,7 @@ export default defineConfig(({ mode }) => ({
         globPatterns: [
           "**/*.{js,css,html,ico,png,jpg,svg,webp,wav,mp3,webmanifest}", // match all relevant static assets in build folder
         ],
+        // Note: to disable workbox during development, set globPatterns to []
         runtimeCaching: [
           {
             urlPattern: ({ request }) => request.destination === "document",
@@ -90,7 +87,7 @@ export default defineConfig(({ mode }) => ({
           },
           // cache Google Fonts stylesheets
           {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*           /,
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/,
             handler: "StaleWhileRevalidate",
             options: {
               cacheName: "google-fonts-stylesheets-cache",
@@ -101,7 +98,7 @@ export default defineConfig(({ mode }) => ({
           },
           // cache Google Fonts web font files
           {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*             /,
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/,
             handler: "CacheFirst",
             options: {
               cacheName: "google-fonts-webfonts-cache",
@@ -146,14 +143,27 @@ export default defineConfig(({ mode }) => ({
           },
         ],
         navigateFallback: "/index.html", // required for SPA
-        navigateFallbackDenylist: [/^\/api\//,  /^\/auth\//, /^\/static\//], // to let social login work correctly
         globDirectory: buildDir,
         maximumFileSizeToCacheInBytes: 10 * 1024 ** 2, // 10 MB
       },
+      includeAssets: publicAssets,
+      // devOptions: {
+      //   enabled: true, // enable the service worker in development mode
+      //   type: "module", // ensure compatibility with Vite's dev environment
+      // },
+      manifest: false,
+    /**/
     }),
   ],
   server: {
     port: 5005,
+    // proxy: {
+    //   "/api": {
+    //     target: "http://localhost:5000",
+    //     changeOrigin: true,
+    //     secure: false,
+    //   },
+    // },
   },
   base: "/", // base application path
   build: {
@@ -178,4 +188,4 @@ export default defineConfig(({ mode }) => ({
     globals: true,
     setupFiles: "./test/setup.js", // assuming the test folder is in the root of our project
   },
-}));
+});

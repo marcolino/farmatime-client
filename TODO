@@ -175,6 +175,8 @@
 - Disconnessione avvenuta con successo => Disconnessione completata - OK
 - Social login 404 ! - OK
 
+- Pagina 404: troppo top margin
+- Email signin body: "User: " => "Signin of user "
 - put social login buttons even on signup form!
 - send email: on error (?)
 - reduce padding/margin in snackbars to avoid X to go to new line

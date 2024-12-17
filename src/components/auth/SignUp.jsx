@@ -17,13 +17,15 @@ import {
   ConfirmationNumber,
   Person,
   Email,
-  Lock
+  Lock,
+  Facebook,
+  Google,
 } from "@mui/icons-material";
 //import { useSnackbar } from "../../providers/SnackbarManager";
 import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { apiCall } from "../../libs/Network";
 import { validateFirstName, validateLastName, validateEmail, validatePassword } from "../../libs/Validation";
-
+import config from "../../config";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -43,6 +45,12 @@ function SignUp() {
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
 
+  const handleSocialLogin = (event, provider) => {
+    event.preventDefault(); // redirect fails without preventing default behaviour!
+    //window.open(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`, "_self"); // use "_self" to open social login page in this same window
+    window.location.replace(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`);
+  };
+  
   const handleOpenDialog = (title, content, callbackOnClose) => {
     setDialogTitle(title);
     setDialogContent(content);
@@ -367,6 +375,54 @@ function SignUp() {
                   </Link>
                 </Typography>
               </Box>
+              {config.oauth.federatedSigninProviders.length && (
+                <Box>
+                  <Typography variant="body2" color="textSecondary"
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      my: 3,
+                    }}
+                  >
+                    {t("or")}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary"
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      my: 1,
+                    }}
+                  >
+                    {t("Sign in with a social account")}
+                  </Typography>
+                  <Box display="flex" flexDirection="row">
+                  {
+                    config.oauth.federatedSigninProviders.map((provider, index) => (  
+                      <Button
+                        key={provider}
+                        startIcon={(
+                          provider === "Google" ? <Google sx={{ color: "red" }} /> :
+                          provider === "Facebook" ? <Facebook sx={{ color: "blue" }} /> :
+                          <Icon sx={{ backgroundColor: "white", color: "red" }}>G</Icon>
+                          // <></>
+                        )}
+                        sx={{
+                          mr: index < (config.oauth.federatedSigninProviders.length - 1) ? 1 : 0,
+                        }}
+                        type={
+                          provider === "Google" ? "socialAuthButtonGoogle" :
+                          provider === "Facebook" ? "socialAuthButtonFacebook" :
+                          ""
+                        }
+                        onClick={(e) => handleSocialLogin(e, provider)}
+                      >
+                        {provider}
+                      </Button>
+                    ))
+                  }
+                  </Box>
+                </Box>
+              )}
               
               <Grid container justifyContent="flex-start" sx={{ mt: 4 }}>
                 <Typography component="h6" variant="caption" color="textSecondary" align="center">

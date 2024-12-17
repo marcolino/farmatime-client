@@ -80,9 +80,8 @@ function SignIn() {
       setError({});
     } else {
       showSnackbar(t("Sign in successful"), "success");
-      console.log("Email signin result:", result); alert(1);
+      console.log("Email signin result:", result);
       signIn(result);
-//      setAuth({ user: result });
       // if (!rememberMe) { // to handle remember-me flag
       //   localStorage.clear();
       // }

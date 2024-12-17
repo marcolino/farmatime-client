@@ -1,30 +1,25 @@
 import React from "react";
+import { Grid, Box, Typography, Link, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { Grid, Box, Typography, /*Link,*/ useMediaQuery } from "@mui/material";
-import { Button } from "./custom";
-import WorkInProgressImage from "../assets/images/WorkInProgress.png";
+import PageNotFoundImage from "../assets/images/PageNotFound.png";
 
-// TODO: use NoScrollComponent from PageNotFound ...
 
-const WorkInProgress = () => {
+const PageNotFound = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const theme = useTheme();
   const isLandscape = useMediaQuery(theme.breakpoints.up("sm"));
-  const retry = () => {
-    const maintenancePath = (localStorage.getItem("x-maintenance-path"));
-    navigate(maintenancePath ?? "/");
-    localStorage.removeItem("x-maintenance-path");
-  };
 
   return (
     <Box 
+      maxWidth={true}
+      maxHeight={true}
       sx={{ 
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
         p: 2,
+        backgroundColor: "blue",
       }}
     >
       <Grid 
@@ -32,18 +27,22 @@ const WorkInProgress = () => {
         spacing={2} 
         direction={isLandscape ? "row" : "column"}
         alignItems="center"
+        sx={{backgroundColor:"red"}}
       >
         <Grid item xs={12} sm={6} sx={{ textAlign: "center" }}>
           <Box
             component="img"
             sx={{
+              display: "flex",
+              justifyContent: "center",
               maxWidth: "100%",
               maxHeight: { xs: "16rem", sm: "40rem", md: "48rem", lg: "56rem", xl: "64rem" },
-              mt: { xs: "7rem", sm: "7.5rem", md: "8rem", lg: "8.5rem", xl: "9rem" },
+              //mt: { xs: "7rem", sm: "7.5rem", md: "8rem", lg: "8.5rem", xl: "9rem" },
               objectFit: "contain",
             }}
-            alt="Work in progress"
-            src={WorkInProgressImage}
+            alt="Not found image"
+            // src={"/src/assets/images/NotFound.png"}
+            src={PageNotFoundImage}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -59,7 +58,7 @@ const WorkInProgress = () => {
                 fontWeight: "bold",
               }}
             >
-              {`${t("Work in progress")}!`}
+              {t("Oooops!")}
             </Typography>
             <Typography 
               variant="body1"
@@ -67,23 +66,17 @@ const WorkInProgress = () => {
                 mb: 2,
               }}
             >
-              {t("We are working hard to restore the functionality of this web app. Please come back soon")}!
+              {t("I've lost the page you did request! Sorry…")}
             </Typography>
-            {/* <Link 
-              href="/" //{retry}
+            <Link 
+              href="/"
               color="warning"
               sx={{ 
                 display: "inline-block",
               }}
             >
-              {t("Retry")}
-            </Link> */}
-            <Button
-              color="primary" fullWidth={false} size={"large"}
-              onClick={retry}
-            >
-              {t("Retry")}
-            </Button>
+              {t("Go back to home page")}
+            </Link>
           </Box>
         </Grid>
       </Grid>
@@ -91,4 +84,4 @@ const WorkInProgress = () => {
   );
 };
 
-export default React.memo(WorkInProgress);
+export default React.memo(PageNotFound);

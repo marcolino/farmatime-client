@@ -6,7 +6,6 @@ import { Grid, Box, Typography, /*Link,*/ useMediaQuery } from "@mui/material";
 import { Button } from "./custom";
 import WorkInProgressImage from "../assets/images/WorkInProgress.png";
 
-// TODO: use NoScrollComponent from PageNotFound ...
 
 const WorkInProgress = () => {
   const { t } = useTranslation();
