@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 
-const IconStackedArrows = (props) => (
+const StackedArrowsGlyph = (props) => (
   <Box
     sx={{
       display: "inline-block",
@@ -33,4 +33,4 @@ const IconStackedArrows = (props) => (
   />
 );
 
-export default React.memo(IconStackedArrows);
+export default React.memo(StackedArrowsGlyph);

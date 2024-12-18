@@ -13,7 +13,7 @@ import {
   Api, DriveEta, Commute, EditNote, Apps,
   Sync, Exposure, PhotoCamera, SettingsSuggest, TurnedIn
 } from "@mui/icons-material";
-import PowerIconWithText from "./custom/PowerWithTextIcon";
+import PowerWithTextGlyph from "./glyphs/PowerWithText";
 import {
   isAdmin,
   validateFirstName,
@@ -351,7 +351,7 @@ function EditProduct() {
                     value={product.kw ?? ""}
                     onChange={(e) => setKw(e.target.value)}
                     placeholder={t("kW")}
-                    startIcon={<PowerIconWithText text="kW" />}
+                    startIcon={<PowerWithTextGlyph text="kW" />}
                     error={error.kw}
                     sx={styleForChangedFields("kw")}
                   />
@@ -362,7 +362,7 @@ function EditProduct() {
                     value={product.volt ?? ""}
                     onChange={(e) => setVolt(e.target.value)}
                     placeholder={t("Volt")}
-                    startIcon={<PowerIconWithText text="V" />}
+                    startIcon={<PowerWithTextGlyph text="V" />}
                     error={error.volt}
                     sx={styleForChangedFields("volt")}
                   />
@@ -373,7 +373,7 @@ function EditProduct() {
                     value={product.ampere ?? ""}
                     onChange={(e) => setAmpere(e.target.value)}
                     placeholder={t("Ampere")}
-                    startIcon={<PowerIconWithText text="A" />}
+                    startIcon={<PowerWithTextGlyph text="A" />}
                     error={error.ampere}
                     sx={styleForChangedFields("ampere")}
                   />

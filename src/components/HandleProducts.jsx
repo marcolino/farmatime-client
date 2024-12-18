@@ -8,7 +8,7 @@ import { apiCall } from "../libs/Network";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { i18n } from "../i18n";
-import IconStackedArrows from "./IconStackedArrows";
+import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import {
   Box,
   //Button,
@@ -274,7 +274,7 @@ const ProductTable = () => {
   const sortButton = (props) => {
     return (
       <Typography component="span">
-        {(sortColumn === props.column) ? (sortDirection === "asc" ? "▼" : "▲") : <IconStackedArrows opacity={0.4 } />}
+        {(sortColumn === props.column) ? (sortDirection === "asc" ? "▼" : "▲") : <StackedArrowsGlyph opacity={0.4 } />}
       </Typography>
     );
   };

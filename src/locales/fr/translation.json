@@ -80,7 +80,6 @@
   "for": "pour",
   "Forgot password?": "Mot de passe oublié ?",
   "free": "gratuit",
-  "Go back to home page": "Retourner à la page d'accueil",
   "guest user": "utilisateur invité",
   "Handle products": "Gérer les produits",
   "Handle users": "Gérer les utilisateurs",
@@ -127,6 +126,7 @@
   "Our Company is located here": "Notre entreprise est située ici",
   "Our Location": "Notre emplacement",
   "Page": "Page",
+  "Page not found image": "Page non trouvée image",
   "Password": "Mot de passe",
   "Password confirmation": "Confirmation du mot de passe",
   "Password reset success": "Réinitialisation du mot de passe réussie",
@@ -219,9 +219,11 @@
   "Volt": "Volt",
   "Wait": "Attendez",
   "We are working hard to restore the functionality of this web app. Please come back soon": "Nous travaillons dur pour restaurer les fonctionnalités de cette application web. Veuillez revenir bientôt.",
+  "We are working hard to restore the functionality of this web app. Please come back soon…": "Nous travaillons dur pour restaurer les fonctionnalités de cette application web. Veuillez revenir bientôt…",
   "We provide the best services in the industry, focusing on quality and customer satisfaction": "Nous fournissons les meilleurs services de l'industrie, en nous concentrant sur la qualité et la satisfaction du client",
   "We use Cookies": "Nous utilisons des cookies",
   "We uses cookies to ensure you get the best experience": "Nous utilisons des cookies pour vous garantir la meilleure expérience",
   "Work in progress": "Travail en cours",
+  "Work in progress image": "Travail en cours image",
   "You can sign in with your new password": "Vous pouvez vous connecter avec votre nouveau mot de passe"
 }

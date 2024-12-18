@@ -56,6 +56,7 @@
   "firstName": "",
   "Fiscal Code": "Code fiscal",
   "Forgot Password?": "Mot de passe oublié ?",
+  "Go back to home page": "Retourner à la page d'accueil",
   "Home": "Accueil",
   "I agree": "J'accepte",
   "In the email subject and in the email body you can use these \"strings\", which will be replaced with the values for each user, before sending the email:\n    \u2003$NAME$ => The name of the user\n    \u2003$SURNAME$ => The surname of the user\n    \u2003$EMAIL$ => The email of the user\n    \u2003$PHONE$ => The phone of the user\n    \u2003$ADDRESS$ => The address of the user\n    \u2003$FISCALCODE$ => The fiscal code/VAT of the user\n    \u2003$ROLES$ => The role or roles of the user\n    \u2003$PLAN$ => The plan of the user\n    \u2003$COMPANY$ => The company of the user\n  ": "__STRING_NOT_TRANSLATED__",

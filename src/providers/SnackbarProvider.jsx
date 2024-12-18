@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { SnackbarProvider as NotistackSnackbarProvider, useSnackbar, closeSnackbar } from "notistack";
-//import IconButton from "@mui/material/IconButton";
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import config from "../config";
 
@@ -12,7 +11,7 @@ const SnackbarContext = createContext(null);
 const InnerSnackbarProvider = ({ children }) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  // function to show a snackbar with a given variant
+  // show a snackbar with a given variant
   const showSnackbar = (message = null, variant = "default", action = null) => {
     if (message) { // ignore empty message snackbars
       enqueueSnackbar(message, {
@@ -51,11 +50,30 @@ export const SnackbarProviderWrapper = ({ children }) => {
         whiteSpace: config.ui.snacks.style.whiteSpace,
       }}
       action={(key) => (
-        <Button onClick={() => handleDismiss(key)} color="inherit">
+        <IconButton
+          onClick={() => handleDismiss(key)}
+          color="inherit"
+          sx={{
+            position: "absolute", // Position it at the top-right
+            top: 6,
+            right: 6,
+            padding: 0,
+          }}
+        >
           <CloseIcon sx={{ fontSize: config.ui.snacks.closeIcon.fontSize }} />
-        </Button>
+        </IconButton>
       )}
-      preventDuplicate={config.mode.production} // prevent duplicates only in production, better being aware of duplicates, while developing...
+      ContentProps={{
+        sx: {
+          position: "relative",
+          padding: "1rem 1.5rem 1rem 1rem", // Reserve space for the close icon
+          "& .MuiSnackbarContent-message": {
+            overflowWrap: "break-word",
+            marginRight: "2rem", // Space for the close icon
+          },
+        },
+      }}
+      preventDuplicate={config.mode.production}
     >
       <InnerSnackbarProvider>{children}</InnerSnackbarProvider>
     </NotistackSnackbarProvider>
@@ -64,7 +82,3 @@ export const SnackbarProviderWrapper = ({ children }) => {
 
 // custom hook to access the snackbar context
 export const useSnackbarContext = () => useContext(SnackbarContext);
-// export {
-//   SnackbarProviderWrapper,
-//   useSnackbarContext,
-// };

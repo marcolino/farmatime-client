@@ -72,7 +72,6 @@
   "for": "for",
   "Forgot password?": "Forgot password?",
   "free": "free",
-  "Go back to home page": "Go back to home page",
   "guest user": "guest user",
   "Handle products": "Handle products",
   "Handle users": "Handle users",
@@ -119,6 +118,7 @@
   "Our Company is located here": "Our Company is located here",
   "Our Location": "Our Location",
   "Page": "Page",
+  "Page not found image": "Page not found image",
   "Password": "Password",
   "Password confirmation": "Password confirmation",
   "Password reset success": "Password reset success",
@@ -208,9 +208,11 @@
   "Volt": "Volt",
   "Wait": "Wait",
   "We are working hard to restore the functionality of this web app. Please come back soon": "We are working hard to restore the functionality of this web app. Please come back soon",
+  "We are working hard to restore the functionality of this web app. Please come back soon…": "We are working hard to restore the functionality of this web app. Please come back soon…",
   "We provide the best services in the industry, focusing on quality and customer satisfaction": "We provide the best services in the industry, focusing on quality and customer satisfaction",
   "We use Cookies": "We use Cookies",
   "We uses cookies to ensure you get the best experience": "We uses cookies to ensure you get the best experience",
   "Work in progress": "Work in progress",
+  "Work in progress image": "Work in progress image",
   "You can sign in with your new password": "You can sign in with your new password"
 }

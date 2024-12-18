@@ -9,7 +9,7 @@ const Root = styled("div")(({ theme }) => ({
   alignItems: "center",
 }));
 
-function PowerIconWithText({ 
+function PowerWithTextGlyph({ 
   iconSize = 1.6,
   textSize = 0.6,
   text = "",
@@ -45,4 +45,4 @@ function PowerIconWithText({
   );
 }
 
-export default PowerIconWithText;
+export default PowerWithTextGlyph;

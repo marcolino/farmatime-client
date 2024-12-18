@@ -174,15 +174,16 @@
 - Accesso avvenuto con successo => Accesso completato - OK
 - Disconnessione avvenuta con successo => Disconnessione completata - OK
 - Social login 404 ! - OK
+- Pagina 404: troppo top margin - OK
+- Email signin body: "User: " => "Signin of user " - OK
+- put social login buttons even on signup form - OK
+- components/glyphs - OK
+- reduce padding/margin in snackbars to avoid X to go to new line - OK
+- change square char for column sort... Use two stacked triangles... - OK
 
-- Pagina 404: troppo top margin
-- Email signin body: "User: " => "Signin of user "
-- put social login buttons even on signup form!
 - send email: on error (?)
-- reduce padding/margin in snackbars to avoid X to go to new line
 - nell'oggetto della email e nel corpo della email puoi utilizzare queste "stringhe" => reduce font, and add bullets
-- ask confirmation also for single user remotion
-- change square char for column sort... Use two stacked triangles...
+- ask confirmation also for single user removal
 - in editProduct, reduce vertical space between "Scegli immagine" and the current image box
 - in editProduct, the "Type" icon should be outlined, this way it is too dark...
 - improve SectionHeader component graphics

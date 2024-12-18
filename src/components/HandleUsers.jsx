@@ -12,6 +12,7 @@ import { isAdmin } from "../libs/Validation";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 //import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import { i18n } from "../i18n";
 
 import {
@@ -340,7 +341,7 @@ const UserTable = () => {
   const sortButton = (props) => {
     return (
       <Typography component="span">
-        { (sortColumn === props.column) ? (sortDirection === "asc" ? "▼" : "▲") : "▢" }
+        {(sortColumn === props.column) ? (sortDirection === "asc" ? "▼" : "▲") : <StackedArrowsGlyph opacity={0.4 } />}
       </Typography>
     );
   };
