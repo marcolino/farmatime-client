@@ -11,7 +11,7 @@ import { apiCall } from "../libs/Network";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import {
   Api, DriveEta, Commute, EditNote, Apps,
-  Sync, Exposure, PhotoCamera, SettingsSuggest, TurnedIn
+  Sync, Exposure, PhotoCamera, SettingsSuggest, TurnedInNotOutlined,
 } from "@mui/icons-material";
 import PowerWithTextGlyph from "./glyphs/PowerWithText";
 import {
@@ -307,7 +307,7 @@ function EditProduct() {
                     //multiple={false}
                     onChange={(e) => setType(e.target.value)}
                     placeholder={t("Type")}
-                    startIcon={<TurnedIn />}
+                    startIcon={<TurnedInNotOutlined />}
                     error={error.types}
                     sx={styleForChangedFields("type")}
                   />
