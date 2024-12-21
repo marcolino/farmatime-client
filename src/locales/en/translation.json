@@ -1,4 +1,5 @@
 {
+  "    \u2003• $NAME$ => The name of the user\n    \u2003• $SURNAME$ => The surname of the user\n    \u2003• $EMAIL$ => The email of the user\n    \u2003• $PHONE$ => The phone of the user\n    \u2003• $ADDRESS$ => The address of the user\n    \u2003• $FISCALCODE$ => The fiscal code/VAT of the user\n    \u2003• $ROLES$ => The role or roles of the user\n    \u2003• $PLAN$ => The plan of the user\n    \u2003• $COMPANY$ => The company of the user\n": "    \u2003• $NAME$ => The name of the user\n    \u2003• $SURNAME$ => The surname of the user\n    \u2003• $EMAIL$ => The email of the user\n    \u2003• $PHONE$ => The phone of the user\n    \u2003• $ADDRESS$ => The address of the user\n    \u2003• $FISCALCODE$ => The fiscal code/VAT of the user\n    \u2003• $ROLES$ => The role or roles of the user\n    \u2003• $PLAN$ => The plan of the user\n    \u2003• $COMPANY$ => The company of the user\n",
   "{{count}} products found_one": "{{count}} products found",
   "{{count}} products found_other": "{{count}} products found",
   "A new version is available": "A new version is available",
@@ -81,7 +82,7 @@
   "Image": "Image",
   "Image being uploaded": "Image being uploaded",
   "Image format unsupported": "Image format unsupported",
-  "In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email:\n    \u2003$NAME$ => The name of the user\n    \u2003$SURNAME$ => The surname of the user\n    \u2003$EMAIL$ => The email of the user\n    \u2003$PHONE$ => The phone of the user\n    \u2003$ADDRESS$ => The address of the user\n    \u2003$FISCALCODE$ => The fiscal code/VAT of the user\n    \u2003$ROLES$ => The role or roles of the user\n    \u2003$PLAN$ => The plan of the user\n    \u2003$COMPANY$ => The company of the user\n": "In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email:\n    \u2003$NAME$ => The name of the user\n    \u2003$SURNAME$ => The surname of the user\n    \u2003$EMAIL$ => The email of the user\n    \u2003$PHONE$ => The phone of the user\n    \u2003$ADDRESS$ => The address of the user\n    \u2003$FISCALCODE$ => The fiscal code/VAT of the user\n    \u2003$ROLES$ => The role or roles of the user\n    \u2003$PLAN$ => The plan of the user\n    \u2003$COMPANY$ => The company of the user\n",
+  "In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email": "In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email",
   "including cookie use": "including cookie use",
   "Join !": "Join !",
   "kW": "kW",

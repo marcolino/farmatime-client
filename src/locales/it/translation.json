@@ -1,4 +1,5 @@
 {
+  "    \u2003• $NAME$ => The name of the user\n    \u2003• $SURNAME$ => The surname of the user\n    \u2003• $EMAIL$ => The email of the user\n    \u2003• $PHONE$ => The phone of the user\n    \u2003• $ADDRESS$ => The address of the user\n    \u2003• $FISCALCODE$ => The fiscal code/VAT of the user\n    \u2003• $ROLES$ => The role or roles of the user\n    \u2003• $PLAN$ => The plan of the user\n    \u2003• $COMPANY$ => The company of the user\n": "Nell'oggetto della mail e nel corpo della mail puoi utilizzare queste \"stringhe\", racchiuse tra caratteri \"$\", che saranno sostituite con il valore per ogni utente, prima di inviare ogni mail:\n    \u2003$NAME$ => Il nome dell'utente\n    \u2003$SURNAME$ => Il cognome dell'utente\n    \u2003$EMAIL$ => La mail dell'utente\n    \u2003$PHONE$ => Il telefono dell'utente\n    \u2003$ADDRESS$ => L'indirizzo dell'utente\n    \u2003$FISCALCODE$ => Il codice fiscale/P.IVA dell'utente\n    \u2003$ROLES$ => I ruoli dell'utente\n    \u2003$PLAN$ => I piani dell'utente\n    \u2003$COMPANY$ => L'azienda dell'utente\n",
   "{{count}} products found_one": "{{count}} prodotto trovato",
   "{{count}} products found_many": "{{count}} prodotti trovati",
   "{{count}} products found_other": "{{count}} prodotti trovati",
@@ -89,7 +90,7 @@
   "Image": "Immagine",
   "Image being uploaded": "Si carica l'immagine",
   "Image format unsupported": "Il formato dell'immagine non è supportato",
-  "In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email:\n    \u2003$NAME$ => The name of the user\n    \u2003$SURNAME$ => The surname of the user\n    \u2003$EMAIL$ => The email of the user\n    \u2003$PHONE$ => The phone of the user\n    \u2003$ADDRESS$ => The address of the user\n    \u2003$FISCALCODE$ => The fiscal code/VAT of the user\n    \u2003$ROLES$ => The role or roles of the user\n    \u2003$PLAN$ => The plan of the user\n    \u2003$COMPANY$ => The company of the user\n": "Nell'oggetto della mail e nel corpo della mail puoi utilizzare queste \"stringhe\", racchiuse tra caratteri \"$\", che saranno sostituite con il valore per ogni utente, prima di inviare ogni mail:\n    \u2003$NAME$ => Il nome dell'utente\n    \u2003$SURNAME$ => Il cognome dell'utente\n    \u2003$EMAIL$ => La mail dell'utente\n    \u2003$PHONE$ => Il telefono dell'utente\n    \u2003$ADDRESS$ => L'indirizzo dell'utente\n    \u2003$FISCALCODE$ => Il codice fiscale/P.IVA dell'utente\n    \u2003$ROLES$ => I ruoli dell'utente\n    \u2003$PLAN$ => I piani dell'utente\n    \u2003$COMPANY$ => L'azienda dell'utente\n",
+  "In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email": "Nell'oggetto e nel corpo dell'email puoi usare queste \"stringhe\", racchiuse tra i simboli \"$\", che verranno sostituite con i valori per ogni utente, prima di inviare ogni email",
   "including cookie use": "incluso l'utilizzo dei cookie",
   "Join !": "Entra !",
   "kW": "kW",
@@ -185,7 +186,7 @@
   "Send email to {{count}} selected users_other": "Invia mail ai {{count}} utenti selezionati",
   "Set new password": "Imposta la nuova password",
   "Sign in": "Accedi",
-  "Sign in successful": "Accesso completato 123 456 789 012 345.",
+  "Sign in successful": "Accesso completato",
   "Sign in with a social account": "Accedi con un tuo account social",
   "Sign in with email and password": "Accedi con mail e password",
   "Sign out": "Disconnettiti",

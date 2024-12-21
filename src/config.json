@@ -51,14 +51,6 @@
     "redirect": "follow",
     "timeoutSeconds": 30
   },
-  "db": {
-    "products": {
-      "search": {
-        "mode": "ANYWHERE",
-        "caseInsensitive": true
-      }
-    }
-  },
   "images": {
     "publicPath": "/assets/products/images",
     "publicPathWaterMark": "/assets/products/imagesWaterMark"

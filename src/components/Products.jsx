@@ -6,7 +6,7 @@ import { Search } from "@mui/icons-material";
 import debounce from "lodash.debounce";
 import { AuthContext } from "../providers/AuthProvider";
 import { apiCall } from "../libs/Network";
-import { isValidRegex, escapeRegex, diacriticMatchRegex }  from "../libs/Misc";
+import { isValidRegex, escapeRegex/*, diacriticMatchRegex*/ }  from "../libs/Misc";
 import { TextFieldSearch, Button } from "./custom";
 import ProductsDetails from "./ProductsDetails";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
@@ -18,7 +18,7 @@ function Products() {
   const { showSnackbar } = useSnackbarContext(); 
   const theme = useTheme();
   const bottomRef = useRef(null);
-  const debounceSearchMilliseconds = 400;
+  const debounceSearchMilliseconds = 2 * 1000;
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -35,7 +35,7 @@ function Products() {
     const [isSearching, setIsSearching] = useState(false);
     const [isDebouncing, setIsDebouncing] = useState(false);
 
-    const type = key => (key === "models" ? "Array" : "String");
+    //const type = key => (key === "models" ? "Array" : "String");
 
     // fetch products from the API
     const fetchProducts = async (filters) => {
@@ -46,27 +46,27 @@ function Products() {
         const filter = Object.fromEntries(Object.entries(filters).filter(([_, v]) => v));
 
         // prepare filter for server search
-        Object.keys(filter).forEach(k => {
-          let v = filter[k].trim(); // trim value to make search ignoring leading and trailing spaces
-          if (!isValidRegex(v)) { // if some regexp chars are used wrongly, we escape them...
-            v = escapeRegex(v);
-            console.info("search value had a wrong regexp, converted to :", v);
-            // showSnackbar(error, "warning");
-            // console.warn("Wrong regex fetchProducts filter:", error);
-            // return;
-          }
-          //const regex = db.products.search.mode === "EXACT" ? `^${v}$` : v; // a regexp to make case-insensitive exact/anywhere searches
-          const regex = diacriticMatchRegex(v, config.db.products.search.mode === "EXACT");
-          const caseInsensitive = config.db.products.search.caseInsensitive ? "i" : "";
-          const re = { "$regex": regex, $options: caseInsensitive };
-          let value;
-          if (type(k) !== "Array") {
-            value = re; // single value for String fields
-          } else {
-            value = { $elemMatch: re }; // $elemMatch value for Array fields
-          }
-          filter[k] = value;
-        });
+        // Object.keys(filter).forEach(k => {
+        //   let v = filter[k].trim(); // trim value to make search ignoring leading and trailing spaces
+        //   if (!isValidRegex(v)) { // if some regexp chars are used wrongly, we escape them...
+        //     v = escapeRegex(v);
+        //     console.info("search value had a wrong regexp, converted to :", v);
+        //     // showSnackbar(error, "warning");
+        //     // console.warn("Wrong regex fetchProducts filter:", error);
+        //     // return;
+        //   }
+          //const regex = config.db.products.search.mode === "EXACT" ? `^${v}$` : v; // a regexp to make case-insensitive exact/anywhere searches
+          //const regex = diacriticMatchRegex(v, config.db.products.search.mode === "EXACT"); // diacritics handling on server!
+          //const re = { "$regex": regex, $options: config.db.products.search.caseInsensitive ? "i"};
+          // let value;
+          // if (type(k) !== "Array") {
+          //   value = v; // single value for String fields
+          // } else {
+          //   value = { $elemMatch: re }; // $elemMatch value for Array fields
+          // }
+          //filter[k] = value;
+        //  filter[k] = v;
+        //});
         
         // get all products for these filters
         const result = await apiCall("get", "/product/getProducts", { filter });
@@ -139,7 +139,7 @@ function Products() {
           const timeoutId = setTimeout(() => {
             bottomRef.current?.focus();
             bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-          }, 100); // adjust this duration based on animation/render timing    
+          }, 300); // adjust this duration based on animation/render timing    
           return () => clearTimeout(timeoutId);
         }
       }

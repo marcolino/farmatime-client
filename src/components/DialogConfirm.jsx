@@ -2,13 +2,13 @@ import React from "react";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@mui/material";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
 
-function DialogConfirm({ open, onClose, onCancel, onConfirm, title, message, confirmText, cancelText }) {
+function DialogConfirm({ open, onClose, onCancel, onConfirm, title, message, confirmText, cancelText, messageFontSize = "1em" }) {
   const { height, width } = useWindowDimensions();
   return (
     <Dialog open={open} onClose={onClose} sx={{maxHeight: height * 4 / 5, overflowY: "auto" }}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText sx={{ mt: 2, whiteSpace: "pre-line"}}>{message}</DialogContentText>
+        <DialogContentText sx={{ mt: 2, whiteSpace: "pre-line", fontSize: messageFontSize }}>{message}</DialogContentText>
       </DialogContent>
       <DialogActions>
         {cancelText &&

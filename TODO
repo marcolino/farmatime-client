@@ -170,28 +170,34 @@
 - i18n-check return -1 to stop build if some string untranslated found - OK
 - PhoneNumber: do not wrap (and reduce container x-padding) - OK
 - hai già un account? Entra => Accedi - OK
-- Forse hai richiesto una pagina sbagliata? Non la trovo.... => Mi sono perso la pagina che hai chiesto! Mi dispiace... - OK
-- Accesso avvenuto con successo => Accesso completato - OK
-- Disconnessione avvenuta con successo => Disconnessione completata - OK
-- Social login 404 ! - OK
-- Pagina 404: troppo top margin - OK
-- Email signin body: "User: " => "Signin of user " - OK
+- forse hai richiesto una pagina sbagliata? Non la trovo.... => Mi sono perso la pagina che hai chiesto! Mi dispiace... - OK
+- accesso avvenuto con successo => Accesso completato - OK
+- disconnessione avvenuta con successo => Disconnessione completata - OK
+- social login 404 ! - OK
+- pagina 404: troppo top margin - OK
+- e\mail signin body: "User: " => "Signin of user " - OK
 - put social login buttons even on signup form - OK
 - components/glyphs - OK
 - reduce padding/margin in snackbars to avoid X to go to new line - OK
 - change square char for column sort... Use two stacked triangles... - OK
+- in editProduct, the "Type" icon should be outlined, this way it is too dark - OK
+- audit on error - OK
 
-- send email: on error (?)
+- explode searches with diacritics only for text fields, not fields with values to be selected from a limited list (or remove diacritics logic from client entirely)
+- reduce ProductDetails height on mobile to avoid scroll
+- add "Edit" button in ProductDetails for at least operator users
+- add "Buy" button in ProductDetails for all users
+- in production product images are not retained - see https://chatgpt.com/share/67639261-a938-8003-a70b-b90dc683aaef,
+  use fly.io persistent volumes, and add a check to avoid exceeding maximum allowed space in the free tier
 - nell'oggetto della email e nel corpo della email puoi utilizzare queste "stringhe" => reduce font, and add bullets
-- ask confirmation also for single user removal
+- ask confirmation also for single user removal too
 - in editProduct, reduce vertical space between "Scegli immagine" and the current image box
-- in editProduct, the "Type" icon should be outlined, this way it is too dark...
 - improve SectionHeader component graphics
-- reinstall from scratch (possibly on a fresh system), an compile README file
-- make tests
+- migliorare il tema scuro
 
 - risolvere i TODO's nel codice
-- migliorare il tema scuro
+- make tests (as AI for this...)
+- reinstall from scratch (possibly on a fresh system), and compile README file
 
 
 NEWFEATURE:

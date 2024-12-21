@@ -72,17 +72,59 @@ export default defineConfig(({ mode }) => ({
         //skipWaiting: true, // ensure the new service worker takes control immediately
         cleanupOutdatedCaches: true,
         globPatterns: [
-          "**/*.{js,css,html,ico,png,jpg,svg,webp,wav,mp3,webmanifest}", // match all relevant static assets in build folder
+          "**/*.{js,css,html,ico,png,jpg,svg,webp,wav,mp3,mp4,webmanifest}", // match all relevant static assets in build folder
         ],
         runtimeCaching: [
           {
             urlPattern: ({ request }) => request.destination === "document",
             handler: "NetworkFirst", // network first for HTML files
+            options: {
+              cacheName: "document-assets-cache",
+              cacheableResponse: {
+                statuses: [0, 200], // cache opaque and successful responses
+              },
+            },
           },
           {
             urlPattern: ({ request }) =>
-              ["style", "script", "image", "font"].includes(request.destination),
-            handler: "NetworkFirst", // network first JS, CSS, images, and fonts // TODO: THIS CHANGED BY CLAUDE
+              ["style", "script", "image"].includes(request.destination),
+            handler: "NetworkFirst", // network first JS, CSS, images
+            options: {
+              cacheName: "style-script-image-assets-cache",
+              cacheableResponse: {
+                statuses: [0, 200], // cache opaque and successful responses
+              },
+            },
+          },
+          {
+            urlPattern: ({ request }) =>
+              ["font"].includes(request.destination),
+            handler: "CacheFirst", // cache first fonts
+            options: {
+              cacheName: "font-assets-cache",
+              expiration: {
+                maxEntries: 3,
+                maxAgeSeconds: 60 * 60 * 24 * 180, // cache for 180 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200], // cache opaque and successful responses
+              },
+            },
+          },
+          {
+            urlPattern: ({ request }) =>
+              ["audio", "video"].includes(request.destination), // match audio and video assets
+            handler: "CacheFirst", // cache first audio and video files
+            options: {
+              cacheName: "audio-video-assets-cache",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 180, // cache for 180 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200], // cache opaque and successful responses
+              },
+            },
           },
           {
             urlPattern: /^https:\/\/flagcdn\.com\/.*$/,
@@ -148,7 +190,7 @@ export default defineConfig(({ mode }) => ({
         navigateFallback: "/index.html", // required for SPA
         navigateFallbackDenylist: [/^\/api\//,  /^\/auth\//, /^\/static\//], // to let social login work correctly
         globDirectory: buildDir,
-        maximumFileSizeToCacheInBytes: 10 * 1024 ** 2, // 10 MB
+        maximumFileSizeToCacheInBytes: 30 * (1024 ** 2), // 30 MB
       },
     }),
   ],

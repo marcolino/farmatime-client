@@ -51,7 +51,7 @@ const ProductTable = () => {
   
   useEffect(() => { // get all products on mount
     (async () => {
-      const result = await apiCall("get", "/product/getAllProducts");
+      const result = await apiCall("get", "/product/getProducts"); // TODO: was getAllProducts, deprecated
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
@@ -84,7 +84,7 @@ const ProductTable = () => {
         return;
       }
       // update the state to filter the removed product from the list
-      setProducts(previousProducts => previousProducts.filter(product => product.id !== productId));
+      setProducts(previousProducts => previousProducts.filter(product => product._id !== productId));
       setSelected([]);
     }).catch(error => {
       console.error(`Error removing product with id ${productId}: ${error.message}`);
@@ -99,7 +99,7 @@ const ProductTable = () => {
         showSnackbar(data.message ?? "Error bulk removing product", "error");
         return;
       }
-      setProducts(previousProducts => previousProducts.filter(product => !productIds.includes(product.id)));
+      setProducts(previousProducts => previousProducts.filter(product => !productIds.includes(product._id)));
       setSelected([]);
       showSnackbar(t("Removed {{ count }} products", { count: productIds.length }), "success");
     }).catch(error => {
@@ -136,7 +136,7 @@ const ProductTable = () => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = products.map((product) => product.id);
+      const newSelected = products.map((product) => product._id);
       setSelected(newSelected);
       return;
     }
@@ -390,16 +390,16 @@ const ProductTable = () => {
               //   .filter((product) => product?.mdaCode?.toLowerCase().includes(filter.toLowerCase()))
               //   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               //   .map((product) => {
-                  const isItemSelected = isSelected(product.id);
-                  //console.log("KEY:", product.id);
+                  const isItemSelected = isSelected(product._id);
+                  //console.log("KEY:", product._id);
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, product.id)}
+                      onClick={(event) => handleClick(event, product._id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={product.id}
+                      key={product._id}
                       selected={isItemSelected}
                       sx={(theme) => ({
                         "& td": {
@@ -424,10 +424,10 @@ const ProductTable = () => {
                       <TableCell>{product.type}</TableCell>
                       <TableCell>{product.notes}</TableCell>
                       <TableCell>
-                        <IconButton size="small" onClick={() => onEdit(product.id)}>
+                        <IconButton size="small" onClick={() => onEdit(product._id)}>
                           <Edit fontSize="small" />
                         </IconButton>
-                        <IconButton size="small" onClick={() => onRemove(product.id)}>
+                        <IconButton size="small" onClick={() => onRemove(product._id)}>
                           <Delete fontSize="small" />
                         </IconButton>
                       </TableCell>

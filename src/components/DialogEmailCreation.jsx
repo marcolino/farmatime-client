@@ -25,31 +25,20 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
   const onOpenHelp = () => setOpenHelp(true);
   const onCloseHelp = () => setOpenHelp(false);
   const helpTitle = t("Email composition");
-  const helpContents = 
-  t("In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email:\n\
-     $NAME$ => The name of the user\n\
-     $SURNAME$ => The surname of the user\n\
-     $EMAIL$ => The email of the user\n\
-     $PHONE$ => The phone of the user\n\
-     $ADDRESS$ => The address of the user\n\
-     $FISCALCODE$ => The fiscal code/VAT of the user\n\
-     $ROLES$ => The role or roles of the user\n\
-     $PLAN$ => The plan of the user\n\
-     $COMPANY$ => The company of the user\n"
-  );
-  const helpStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "50%", //600,
-    bgcolor: "background.paper",
-    border: "1px solid #333",
-    boxShadow: 24,
-    p: 4,
-  };
-  
-  
+  const helpContents =
+    t("In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email") +
+    ": \n" +
+    t("\
+     • $NAME$ => The name of the user\n\
+     • $SURNAME$ => The surname of the user\n\
+     • $EMAIL$ => The email of the user\n\
+     • $PHONE$ => The phone of the user\n\
+     • $ADDRESS$ => The address of the user\n\
+     • $FISCALCODE$ => The fiscal code/VAT of the user\n\
+     • $ROLES$ => The role or roles of the user\n\
+     • $PLAN$ => The plan of the user\n\
+     • $COMPANY$ => The company of the user\n"
+    );
 
   const validateForm = () => {
     if (!subject) {
@@ -143,6 +132,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
         title={helpTitle}
         message={helpContents}
         cancelText={t("Close")}
+        messageFontSize="0.98rem !important"
       />
     </Dialog>
   );

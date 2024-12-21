@@ -35,7 +35,7 @@ function EditProduct() {
   const { t } = useTranslation();
   const { productId } = useParams();
   if (!productId) {
-    showSnackbar(t("No product id specified", "error"));
+    showSnackbar(t("No product id specified"), "error");
     navigate(-1);
     return;
   }
@@ -301,7 +301,7 @@ function EditProduct() {
 
                   <Select
                     id={"type"}
-                    value={t(product.type ?? "")}
+                    value={product.type ?? ""}
                     label={t("Type")}
                     options={productAllTypes}
                     //multiple={false}
