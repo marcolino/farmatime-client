@@ -99,14 +99,16 @@ function Products() {
       setIsDebouncing(false);
     }, debounceSearchMilliseconds);
 
-    // effect to call the debounced fetch function when filters change
+    // effect to call the debounced fetch function when filters change, on desktop only
     useEffect(() => {
-      setIsDebouncing(true);
-      debouncedFetchProducts(filters);
-      return () => { // cleanup function to cancel debounce on unmount
-        debouncedFetchProducts.cancel();
-      };
-    }, [filters]);
+      if (!isMobile) {
+        setIsDebouncing(true);
+        debouncedFetchProducts(filters);
+        return () => { // cleanup function to cancel debounce on unmount
+          debouncedFetchProducts.cancel();
+        };
+      }
+    }, [filters, isMobile]);
 
     // handle input filters changes
     const handleFiltersChange = (e) => {

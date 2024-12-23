@@ -191,13 +191,13 @@
 - trim searches... (do it on server...) - OK
 - check snackbar errors (now with full error object) are correctly formatted... - OK
 - when a filter is set in Products, "Page 1 of 0" is immediately shown... - OK
+- check long content in snackbars, should be shown entirely - OK
+- on mobile, in Products, do not force a search after a delay... User MUST press search button - OK
+- in editProduct, on mobile, reduce vertical space between "Scegli immagine" and the current image box - OK
 
-- check long content in snackbars, should be shown entirely...
 - reduce ProductDetails height on mobile to avoid scroll
-- on mobile, in Products, do not force a search after a delay... User MUST press search button
 - add "Edit" button in ProductDetails for at least operator users
 - add "Buy" button in ProductDetails for all users
-- in editProduct, reduce vertical space between "Scegli immagine" and the current image box
 - improve SectionHeader component graphics
 - migliorare il tema scuro
 - risolvere i TODO's nel codice

@@ -468,7 +468,7 @@ function EditProduct() {
               >
 
                 
-                <Box display="flex" flexDirection="column" gap={2} mt={1} alignItems="center" flexGrow={1}>
+                <Box display="flex" flexDirection="column" gap={0} mt={{ xs: -1, sm: 1 }} alignItems="center" flexGrow={1}>
 
                   {/* current image */}
                   <ImageContainer

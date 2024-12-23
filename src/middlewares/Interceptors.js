@@ -186,7 +186,7 @@ instance.interceptors.response.use(
         }
       }
     }
-    if (response.status === 401 && config.url !== "/auth/signin") { // unauthorized
+    if (response.status === 401 && config.url !== "/auth/signin" && config.url !== "/auth/signout") { // unauthorized
       if (!isRefreshing) {
         isRefreshing = true;
         try { // refresh expired access token
