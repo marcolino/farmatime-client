@@ -51,7 +51,7 @@ const ProductTable = () => {
   
   useEffect(() => { // get all products on mount
     (async () => {
-      const result = await apiCall("get", "/product/getProducts"); // TODO: was getAllProducts, deprecated
+      const result = await apiCall("get", "/product/getProducts");
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
@@ -85,7 +85,7 @@ const ProductTable = () => {
       }
       // update the state to filter the removed product from the list
       setProducts(previousProducts => previousProducts.filter(product => product._id !== productId));
-      setSelected([]);
+      setToBeRemoved(null);
     }).catch(error => {
       console.error(`Error removing product with id ${productId}: ${error.message}`);
       showSnackbar(t("Error removing product with id {{id}}: {{error}", {id: productId, error: error.message}), "error");
@@ -114,7 +114,8 @@ const ProductTable = () => {
     return parseInt(localStorage.getItem("ProductsRowsPerPage")) || 10; // persist to localstorage
   });
   const [selected, setSelected] = useState([]);
-
+  const [toBeRemoved, setToBeRemoved] = useState(null);
+  
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
@@ -163,10 +164,13 @@ const ProductTable = () => {
     setSelected(newSelected);
   };
 
-  const onAction = (selectedIds, action, params) => {
+  const onAction = (/*selectedIds, */action, params) => {
     switch (action) {
+      case "remove":
+        onRemove(toBeRemoved);
+        break;
       case "removeBulk":
-        onBulkRemove(selectedIds);
+        onBulkRemove(selected);
         break;
       default: // should not happen...
         showSnackbar(t("Unforeseen bulk action {{action}}", { action }), "error");
@@ -183,10 +187,10 @@ const ProductTable = () => {
   };
 
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const handleConfirmOpen = (action) => { setAction(action); setConfirmOpen(true); }
+  const handleConfirmOpen = (action, productId) => { setAction(action); setToBeRemoved(productId); setConfirmOpen(true); }
   const handleConfirmClose = () => { setConfirmOpen(false); setAction(""); /*setSelected([]);*/ }
   const handleConfirm = () => { // perform the action on confirmation
-    onAction(selected, action);
+    onAction(/*selected, */action);
     handleConfirmClose();
   };
   
@@ -427,7 +431,8 @@ const ProductTable = () => {
                         <IconButton size="small" onClick={() => onEdit(product._id)}>
                           <Edit fontSize="small" />
                         </IconButton>
-                        <IconButton size="small" onClick={() => onRemove(product._id)}>
+                        {/* <IconButton size="small" onClick={() => onRemove(product._id)}> */}
+                        <IconButton size="small" onClick={() => { handleConfirmOpen("remove", product._id) }}>
                           <Delete fontSize="small" />
                         </IconButton>
                       </TableCell>
@@ -466,7 +471,7 @@ const ProductTable = () => {
         onCancel={handleConfirmClose}
         onConfirm={handleConfirm}
         title={t("Confirm Delete")}
-        message={t("Are you sure you want to delete all {{count}} selected products?", { count: selected.length })}
+        message={t("Are you sure you want to delete selected product(s)?")}
         confirmText={t("Confirm")}
         cancelText={t("Cancel")}
       />

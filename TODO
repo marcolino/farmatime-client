@@ -182,19 +182,24 @@
 - change square char for column sort... Use two stacked triangles... - OK
 - in editProduct, the "Type" icon should be outlined, this way it is too dark - OK
 - audit on error - OK
+- explode searches with diacritics only for text fields, not fields with values to be selected from a limited list (or remove diacritics logic from client entirely) (no, done on server) - OK
+- nell'oggetto della email e nel corpo della email puoi utilizzare queste "stringhe" => reduce font, and add bullets (font not reduced, keep a standard format...) - OK
+- integrare `yarn i18n` / `yarn i18n-auto` nel flusso di deploy (confrontare i files 'locales/translation.json'
+  con gli 'old', e se ci sono differenze interrompere il deploy chiedendo se si vuole tradurre) - OK
+- sostituire tutti i componenti con exports finali con exports singoli (no) - OK
+- ask confirmation also for single user and product removal too - OK
+- trim searches... (do it on server...) - OK
+- check snackbar errors (now with full error object) are correctly formatted... - OK
+- when a filter is set in Products, "Page 1 of 0" is immediately shown... - OK
 
-- explode searches with diacritics only for text fields, not fields with values to be selected from a limited list (or remove diacritics logic from client entirely)
+- check long content in snackbars, should be shown entirely...
 - reduce ProductDetails height on mobile to avoid scroll
+- on mobile, in Products, do not force a search after a delay... User MUST press search button
 - add "Edit" button in ProductDetails for at least operator users
 - add "Buy" button in ProductDetails for all users
-- in production product images are not retained - see https://chatgpt.com/share/67639261-a938-8003-a70b-b90dc683aaef,
-  use fly.io persistent volumes, and add a check to avoid exceeding maximum allowed space in the free tier
-- nell'oggetto della email e nel corpo della email puoi utilizzare queste "stringhe" => reduce font, and add bullets
-- ask confirmation also for single user removal too
 - in editProduct, reduce vertical space between "Scegli immagine" and the current image box
 - improve SectionHeader component graphics
 - migliorare il tema scuro
-
 - risolvere i TODO's nel codice
 - make tests (as AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
@@ -217,12 +222,11 @@ NEWFEATURE:
 - rimuovere tutti i `console.*` non necessari
 - definire un dominio (sistemisolari.com ???)
 - creare le email privacy@sistemisolari.com, info@sistemisolari.com
-- gestire URL di callback per la rimozione dell'autorizzazione (Facebook e Google)
-- gestire URL di callback per la richiesta di eliminazione dei dati (Facebook e Google)
+- gestire URL di callback per la rimozione dell'autorizzazione (Google e Facebook)
+- gestire URL di callback per la richiesta di eliminazione dei dati (Google e Facebook)
 - ripulire Google e Facebook console dalle impostazioni inutili per i login federati nel cloud
-- integrare `yarn i18n` / `yarn i18n-auto` nel flusso di deploy (confrontare i files 'locales/translation.json'
-  con gli 'old', e se ci sono differenze interrompere il deploy chiedendo se si vuole tradurre)
-- sostituire tutti i componenti con exports finali con exports singoli (?)
-- in gestione utenti, chiedere conferma anche per la cancellazione di un utente con il pulsante sulla riga singola
-- gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi
-- usare errorBoundary.js (?)
+- gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi (quando saranno usati)
+- usare error boundaries (see docs/ERROR-BOUNDARIES/*),
+  per uniformare la gestione degli errori lato client,
+  visualizzare all'utente una pagina d'errore anziché rimanere in una condizione d'errore,
+  e magari usare un servizio tipo logRocket per loaggere anche gli errori sui client

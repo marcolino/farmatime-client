@@ -132,7 +132,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
         title={helpTitle}
         message={helpContents}
         cancelText={t("Close")}
-        messageFontSize="0.98rem !important"
+        //messageFontSize="0.95rem !important"
       />
     </Dialog>
   );

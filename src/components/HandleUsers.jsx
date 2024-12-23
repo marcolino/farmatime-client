@@ -10,7 +10,6 @@ import { AuthContext } from "../providers/AuthProvider";
 import { apiCall } from "../libs/Network";
 import { isAdmin } from "../libs/Validation";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
-//import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import { i18n } from "../i18n";
@@ -117,7 +116,7 @@ const UserTable = () => {
       }
       // update the state to filter the removed user from the list
       setUsers(previousUsers => previousUsers.filter(user => user._id !== userId));
-      setSelected([]);
+      setToBeRemoved(null);
     }).catch(error => {
       console.error(`Error deleting user with id ${userId}: ${error.message}`);
       showSnackbar(t("Error deleting user with id {{id}}: {{error}", {id: userId, error: error.message}), "error");
@@ -162,6 +161,7 @@ const UserTable = () => {
     return parseInt(localStorage.getItem("UsersRowsPerPage")) || 10; // persist to localstorage
   });
   const [selected, setSelected] = useState([]);
+  const [toBeRemoved, setToBeRemoved] = useState(null);
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -211,13 +211,16 @@ const UserTable = () => {
     setSelected(newSelected);
   };
 
-  const onAction = (selectedIds, action, params) => {
+  const onAction = (/*selectedIds, */action, params) => {
     switch (action) {
+      case "remove":
+        onRemove(toBeRemoved);
+        break;
       case "removeBulk":
-        onBulkRemove(selectedIds);
+        onBulkRemove(selected/*selectedIds*/);
         break;
       case "emailBulk":
-        onBulkEmail(selectedIds, params);
+        onBulkEmail(selected/*selectedIds*/, params);
         break;
       default: // should not happen...
         showSnackbar(t("Unforeseen bulk action {{action}}", { action }), "error");
@@ -234,7 +237,8 @@ const UserTable = () => {
   };
 
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const handleConfirmOpen = (action) => { setAction(action); setConfirmOpen(true); }
+  //const handleConfirmOpen = (action) => { setAction(action); setConfirmOpen(true); }
+  const handleConfirmOpen = (action, productId) => { setAction(action); setToBeRemoved(productId); setConfirmOpen(true); }
   const handleConfirmClose = () => { setConfirmOpen(false); setAction(""); /*setSelected([]);*/ }
   const handleConfirm = () => { // perform the action on confirmation
     onAction(selected, action);
@@ -468,7 +472,8 @@ const UserTable = () => {
                           </IconButton>
                         </Tooltip>
                         <Tooltip title={t("Remove user")}>
-                          <IconButton size="small" onClick={() => onRemove(user._id)}>
+                          {/* <IconButton size="small" onClick={() => onRemove(user._id)}> */}
+                          <IconButton size="small" onClick={() => { handleConfirmOpen("remove", user._id) }}>
                             <Delete fontSize="small" />
                           </IconButton>
                         </Tooltip>
@@ -516,7 +521,7 @@ const UserTable = () => {
         onCancel={handleConfirmClose}
         onConfirm={handleConfirm}
         title={t("Confirm Delete")}
-        message={t("Are you sure you want to delete all {{count}} selected users?", { count: selected.length })}
+        message={t("Are you sure you want to delete selected user(s)?")}
         confirmText={t("Confirm")}
         cancelText={t("Cancel")}
       />
@@ -525,7 +530,7 @@ const UserTable = () => {
         onClose={handleEmailCreationClose}
         onConfirm={handleEmailCreation}
         //title={t("Create and send email")}
-        message={t("Are you sure you want to send this email to all the {{count}} selected users?", { count: selected.length })}
+        message={t("Are you sure you want to send this email to selected user(s)?")}
         //subjectLabel={t("Subject")}
         //bodyLabel={t("Body")}
         confirmText={t("Send email to {{count}} selected users", { count: selected.length })}

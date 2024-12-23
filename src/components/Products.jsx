@@ -45,6 +45,9 @@ function Products() {
         // filter all props not empty props in filters
         const filter = Object.fromEntries(Object.entries(filters).filter(([_, v]) => v));
 
+        // // trim all filter values
+        // const filter = Object.keys(filtersWithValues).forEach(k => filtersWithValues[k] = filtersWithValues[k].trim());
+
         // prepare filter for server search
         // Object.keys(filter).forEach(k => {
         //   let v = filter[k].trim(); // trim value to make search ignoring leading and trailing spaces

@@ -138,25 +138,27 @@ const ProductsDetails = (props) => {
         ))}
       </Carousel>
 
-       {/* navigation bar */}
-      <Box sx={{
-        display: "flex",
-        justifyContent: "center", 
-        alignItems: "center", // vertical align
-        gap: 1, // adds some spacing between the elements
-      }}>
-        <IconButton aria-label={t("previous page")} disabled={ (currentIndex === 0 && !cycle) } /*size="small"*/
-          onClick={handlePrev}>
-          <ArrowLeft fontSize="medium" />
-        </IconButton>
-        <Typography sx={{ py: 0, my: 0}}>
-          {t("Page")} {1 + currentIndex} {t("of")} {props.productsTotalCount}
-        </Typography>
-        <IconButton aria-label={t("next page")} disabled={ (currentIndex === props.products.length - 1 && !cycle) } /*size="small"*/
-          onClick={handleNext}>
-          <ArrowRight fontSize="medium" />
-        </IconButton>
-      </Box>
+      {/* navigation bar */}
+      {props.products.length > 0 &&
+        <Box sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center", // vertical align
+          gap: 1, // adds some spacing between the elements
+        }}>
+          <IconButton aria-label={t("previous page")} disabled={(currentIndex === 0 && !cycle)} /*size="small"*/
+            onClick={handlePrev}>
+            <ArrowLeft fontSize="medium" />
+          </IconButton>
+          <Typography sx={{ py: 0, my: 0 }}>
+            {t("Page")} {1 + currentIndex} {t("of")} {props.productsTotalCount}
+          </Typography>
+          <IconButton aria-label={t("next page")} disabled={(currentIndex === props.products.length - 1 && !cycle)} /*size="small"*/
+            onClick={handleNext}>
+            <ArrowRight fontSize="medium" />
+          </IconButton>
+        </Box>
+      }
 
     </Box>
   );
