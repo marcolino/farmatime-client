@@ -18,6 +18,7 @@ import { AuthContext } from "../providers/AuthProvider";
 //import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import CookieConsent from "./CookieConsent";
+import NotificationPreferences from "./NotificationPreferences";
 import {
   Person, Email, SupervisedUserCircle, PlaylistAddCheck,
   Payment, Business, LocationOn as LocationOnIcon
@@ -53,6 +54,12 @@ function EditUser() {
     showSnackbar(t("No user id specified", "error"));
     navigate(-1);
     return;
+  }
+  
+  let profile = false;
+  console.log("userId, auth.user?.id:", userId, auth.user?.id);
+  if (userId === auth.user?.id) { // requested user id is the same as logged user id, so we are editing our own profile
+    profile = true;
   }
   
   const [allRoles, setAllRoles] = useState(false);
@@ -276,6 +283,14 @@ function EditUser() {
     );
   };
 
+  const openNotificationPreferences = () => {
+    handleOpenDialog(
+      "",
+      <NotificationPreferences routing="internal" section="all" onClose={handleCloseDialog} />,
+      null,
+    );
+  };
+
   const formSubmitBeforeUpdate = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -470,17 +485,33 @@ function EditUser() {
                 sx={styleForChangedFields("profileImage")}
               /> */}
 
-              <Button
-                onClick={openCookiesConsent}
-                fullWidth={true}
-                variant="contained"
-                color="default"
-                sx={{
-                  mt: 1,
-                }}
-              >
-                {t("Cookies consent")}
-              </Button>
+              {profile &&
+                <Button
+                  onClick={openCookiesConsent}
+                  fullWidth={true}
+                  variant="contained"
+                  color="default"
+                  sx={{
+                    mt: 1,
+                  }}
+                >
+                  {t("Cookies consent")}
+                </Button>
+              }
+
+              {profile &&
+                <Button
+                  onClick={openNotificationPreferences}
+                  fullWidth={true}
+                  variant="contained"
+                  color="default"
+                  sx={{
+                    mt: 1,
+                  }}
+                >
+                  {t("Notification preferences")}
+                </Button>
+              }
               
               <Box
                 sx={{
@@ -516,9 +547,11 @@ function EditUser() {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">
-            {dialogTitle}
-          </DialogTitle>
+          {dialogTitle &&
+            <DialogTitle id="alert-dialog-title">
+              {dialogTitle}
+            </DialogTitle>
+          }
           <DialogContent id="alert-dialog-description">
             <Typography component={"span"} variant="body1" sx={{whiteSpace: "pre-line"}}>
               {dialogContent}

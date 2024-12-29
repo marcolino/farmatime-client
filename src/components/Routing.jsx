@@ -19,7 +19,7 @@ import CookieConsent from "./CookieConsent"; // avoid both dynamic and static im
 const Contacts = lazy(() => import("./Contacts"));
 const HandleUsers = lazy(() => import("./HandleUsers"));
 const HandleProducts = lazy(() => import("./HandleProducts"));
-const EmailPreferencesManagement = lazy(() => import("./EmailPreferencesManagement"));
+const NotificationPreferences = lazy(() => import("./NotificationPreferences"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
@@ -30,7 +30,7 @@ const Routing = () => {
       <Routes>
         <Route element={<AnimationLayout />}>
           <Route path="/" exact element={<Home />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signup/:waitingForCode?/:codeDeliveryMedium?" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/social-signin-success" element={<SocialSignInSuccess />} />
           <Route path="/social-signin-error" element={<SocialSignInError />} />
@@ -45,10 +45,16 @@ const Routing = () => {
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/handle-users" element={<HandleUsers />} />
           <Route path="/handle-products" element={<HandleProducts />} />
-          <Route path="/email-unsubscribe" element={<EmailPreferencesManagement action="unsubscribe" />} />
-          <Route path="/email-preferences" element={<EmailPreferencesManagement action="preferences" />} />
+          <Route path="/notification-preferences" element={<NotificationPreferences section="all" />} />
+          <Route path="/email-preferences" element={<NotificationPreferences section="email" action="preferences" />} />
+          <Route path="/email-unsubscribe" element={<NotificationPreferences section="email" action="unsubscribe" />} />
+          <Route path="/push-preferences" element={<NotificationPreferences section="push" action="preferences" />} />
+          <Route path="/push-unsubscribe" element={<NotificationPreferences section="push" action="unsubscribe" />} />
+          <Route path="/sms-preferences" element={<NotificationPreferences section="sms" action="preferences" />} />
+          <Route path="/sms-unsubscribe" element={<NotificationPreferences section="sms" action="unsubscribe" />} />
           <Route path="/page-not-found" element={<PageNotFound />} />
           <Route path="/work-in-progress" element={<WorkInProgress />} />
+          <Route path="/email-preferences" element={<NotificationPreferences section="email" action="preferences" />} />
           {/* <Route path="/api/*" element={null} /> */}
           <Route path="*" element={<PageNotFound />} />
         </Route>

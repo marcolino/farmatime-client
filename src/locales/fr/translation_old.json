@@ -1,1 +1,22 @@
-{}
+{
+  "Are you sure you want to delete all {{count}} selected products?_one": "Êtes-vous sûr de vouloir supprimer le produit sélectionné ?",
+  "Are you sure you want to delete all {{count}} selected products?_many": "Êtes-vous sûr de vouloir supprimer les {{count}} produits sélectionnés ?",
+  "Are you sure you want to delete all {{count}} selected products?_other": "Êtes-vous sûr de vouloir supprimer les {{count}} produits sélectionnés ?",
+  "Are you sure you want to delete all {{count}} selected users?_one": "Êtes-vous sûr de vouloir supprimer l'utilisateur sélectionné ?",
+  "Are you sure you want to delete all {{count}} selected users?_many": "Êtes-vous sûr de vouloir supprimer les {{count}} utilisateurs sélectionnés ?",
+  "Are you sure you want to delete all {{count}} selected users?_other": "Êtes-vous sûr de vouloir supprimer les {{count}} utilisateurs sélectionnés ?",
+  "Are you sure you want to send this email to all the {{count}} selected users?_one": "Êtes-vous sûr de vouloir envoyer cet e-mail à l'utilisateur sélectionné ?",
+  "Are you sure you want to send this email to all the {{count}} selected users?_many": "Êtes-vous sûr de vouloir envoyer cet e-mail aux {{count}} utilisateurs sélectionnés ?",
+  "Are you sure you want to send this email to all the {{count}} selected users?_other": "Êtes-vous sûr de vouloir envoyer cet e-mail aux {{count}} utilisateurs sélectionnés ?",
+  "Are you sure you want to unsubscribe to all emails from {{site}}?": "Êtes-vous sûr de vouloir vous désinscrire de tous les e-mails de {{site}} ?",
+  "comments": "commentaires",
+  "Confirm Unsubscription": "Confirmer la désinscription",
+  "marketingMessages": "messagesMarketing",
+  "newsUpdates": "nouvellesMisesÀJour",
+  "Please \"Enter\" and then go to \"Profile\", and use \"Notifications preferences\" to change your notification preferences": "__STRING_NOT_TRANSLATED__",
+  "reminders": "rappels",
+  "tipsTutorials": "conseilsTutoriels",
+  "transactionAlerts": "alertesTransactions",
+  "Unforeseen action {{action}}": "action imprévue {{action}}",
+  "Unsubscribe from all emails from {{site}}": "Se désinscrire de tous les e-mails de {{site}}"
+}

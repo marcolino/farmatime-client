@@ -111,7 +111,7 @@ function ForgotPassword() {
       email,
     });
     if (result.err) {
-      showSnackbar(err, "error");
+      showSnackbar(result.err, "error");
       setError({});
     } else {
       console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
@@ -140,7 +140,7 @@ function ForgotPassword() {
     });
     if (result.err) {
       showSnackbar(result.message, "error");
-      switch (result.data.code) {
+      switch (result.data?.code) {
         case "CODE_NOT_FOUND":
           setError({ confirmationCode: true }); // blame confirmationCode field for error
           break;

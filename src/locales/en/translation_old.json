@@ -1,1 +1,19 @@
-{}
+{
+  "Are you sure you want to delete all {{count}} selected products?_one": "Are you sure you want to delete all {{count}} selected products?",
+  "Are you sure you want to delete all {{count}} selected products?_other": "Are you sure you want to delete all {{count}} selected products?",
+  "Are you sure you want to delete all {{count}} selected users?_one": "Are you sure you want to delete all {{count}} selected users?",
+  "Are you sure you want to delete all {{count}} selected users?_other": "Are you sure you want to delete all {{count}} selected users?",
+  "Are you sure you want to send this email to all the {{count}} selected users?_one": "Are you sure you want to send this email to all the {{count}} selected users?",
+  "Are you sure you want to send this email to all the {{count}} selected users?_other": "Are you sure you want to send this email to all the {{count}} selected users?",
+  "Are you sure you want to unsubscribe to all emails from {{site}}?": "Are you sure you want to unsubscribe to all emails from {{site}}?",
+  "comments": "comments",
+  "Confirm Unsubscription": "Confirm Unsubscription",
+  "marketingMessages": "marketingMessages",
+  "newsUpdates": "newsUpdates",
+  "Please \"Enter\" and then go to \"Profile\", and use \"Notifications preferences\" to change your notification preferences": "Please \"Enter\" and then go to \"Profile\", and use \"Notifications preferences\" to change your notification preferences",
+  "reminders": "reminders",
+  "tipsTutorials": "tipsTutorials",
+  "transactionAlerts": "transactionAlerts",
+  "Unforeseen action {{action}}": "Unforeseen action {{action}}",
+  "Unsubscribe from all emails from {{site}}": "Unsubscribe from all emails from {{site}}"
+}

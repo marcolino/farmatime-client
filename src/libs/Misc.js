@@ -38,12 +38,9 @@ export const isObject = (v) => {
 }
 
 export const objectsAreEqual = (o1, o2) => {
-  // return Object.keys(o1).length === Object.keys(o2).length
-  //   && Object.keys(o1).every(p => o1[p] === o2[p])
-  // ;
   const retval = Object.keys(o1).length === Object.keys(o2).length
     && Object.keys(o1).every(p => o1[p] === o2[p])
-    ;
+  ;
   return retval;
 } 
 
@@ -72,7 +69,7 @@ const cookiesIsConsentExpired = (timestamp) => {
 };
 
 // load consent from localStorage
-export const cookiesLoadConsent = () => {
+export const cookiesConsentLoad = () => {
   const storedData = localStorage.getItem(config.cookies.key);
   if (storedData) {
     const parsedData = JSON.parse(storedData);
@@ -95,7 +92,7 @@ export const cookiesLoadConsent = () => {
 };
 
 // save consent to localStorage with current timestamp
-export const cookiesSaveConsent = (newConsent) => {
+export const cookiesConsentSave = (newConsent) => {
   const consentData = {
     consent: newConsent,
     timestamp: new Date().getTime(),

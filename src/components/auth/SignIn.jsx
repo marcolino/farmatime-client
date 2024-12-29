@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-//import { useSnackbar } from "notistack";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
@@ -12,7 +11,7 @@ import Icon from "@mui/material/Icon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Person from "@mui/icons-material/Person";
 import Lock from "@mui/icons-material/Lock";
-//import { useSnackbar } from "../../providers/SnackbarManager";
+import DialogConfirm from "../DialogConfirm";
 import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { TextField, TextFieldPassword, Button } from "../custom";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -29,6 +28,10 @@ function SignIn() {
   const { /*setAuth, */signIn } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState(null);
+  const [dialogContent, setDialogContent] = useState(null);
+  const [dialogCallback, setDialogCallback] = useState(null);
 
   const handleSocialLogin = (event, provider) => {
     event.preventDefault(); // redirect fails without preventing default behaviour!
@@ -36,6 +39,14 @@ function SignIn() {
     window.location.replace(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`);
   };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    if (dialogCallback) {
+      setDialogCallback(null);
+      dialogCallback();
+    }
+  };
+  
   const validateForm = () => {
     // validate email formally
     const response = validateEmail(email);
@@ -76,8 +87,26 @@ function SignIn() {
       password,
     });
     if (result.err) {
-      showSnackbar(result.message, "error");
-      setError({});
+      switch (result.data?.code) {
+        case "ACCOUNT_WAITING_FOR_VERIFICATION":
+          const codeDeliveryMedium = result.data?.codeDeliveryMedium;
+          setError({ email: true });
+          //showSnackbar(result.message, "warning");
+          setDialogTitle(t("Account is waiting for verification"));
+          setDialogContent(result.data.message);
+          setDialogCallback(() => () => {
+            navigate(`/signup/true/${codeDeliveryMedium}`, { replace: true }); // navigate to signup screen in "waitingForCode" mode
+          });
+          setOpenDialog(true);
+          break;
+        case "ACCOUNT_DELETED":
+          setError({ email: true });
+          showSnackbar(result.message, "warning");
+          break;
+        default:
+          setError({}); // we don't know whom to blame
+          showSnackbar(result.message, "error");
+      }
     } else {
       showSnackbar(t("Sign in successful"), "success");
       console.log("Email signin result:", result);
@@ -246,6 +275,14 @@ function SignIn() {
           )}
         </Box>
       </Box>
+      <DialogConfirm
+        open={openDialog}
+        onClose={handleCloseDialog}
+        onCancel={handleCloseDialog}
+        title={dialogTitle}
+        message={dialogContent}
+        cancelText={t("Close")}
+      />
     </form>
   );
 }

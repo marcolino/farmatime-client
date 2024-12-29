@@ -41,10 +41,10 @@ const apiCall = async(method, url, data = {}) => {
             )
           ) { // ignore token error messages, the important warning is shown in refreshToken middleware
             // TODO...
-            console.log("$$$$ getLocalAccessToken:", getLocalAccessToken());
             console.log("$$$$ ignore token error messages? , Object.keys(err.config):", Object.keys(err.config), JSON.stringify(err));
             return {
               err: true,
+              message: message, // added to show notification error messages
               status: err.response.status,
             };
           } else {

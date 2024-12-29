@@ -26,15 +26,30 @@ import { TextFieldSearch, SectionHeader, Button } from "./custom";
 import { Search, Edit, Delete, AddCircleOutline } from "@mui/icons-material";
 import config from "../config";
 
-const EmailPreferencesManagement = (props) => {
+const NotificationPreferencesManagement = (props) => {
+  console.log("NotificationPreferencesManagement props:", props)
   const theme = useTheme();
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
   const [action, setAction] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const handleConfirmOpen = (action) => { setAction(action); setConfirmOpen(true); }
-  const handleConfirmClose = () => { setConfirmOpen(false); setAction(""); }
+  const [dialogTitle, setDialogTitle] = useState(null);
+  const [dialogMessage, setDialogMessage] = useState(null);
+  
+  //const handleOpenDialog = (action) => { setAction(action); setConfirmOpen(true); }
+
+  const handleOpenDialog = (title, content, action /*callbackOnClose*/) => {
+    setDialogTitle(title);
+    setDialogContent(content);
+    setAction(action);
+    //setDialogCallback(() => callbackOnClose);
+    setConfirmOpen(true);
+  };
+  const handleConfirmClose = () => {
+    setConfirmOpen(false);
+    setAction("");
+  }
   const handleConfirm = () => { // perform the action on confirmation
     onAction(action);
     handleConfirmClose();
@@ -51,7 +66,7 @@ const EmailPreferencesManagement = (props) => {
   }
 
   const unsubscribe = () => {
-    alert("doing unsubscribe..."); // TODO
+    alert("doing unsubscribe..."); // TODO: add prop to user model on server to store email preferences, and add api to set it
     //apiCall(...);
     navigate("/"); // at the end, navigate to home page...
   }
@@ -59,7 +74,11 @@ const EmailPreferencesManagement = (props) => {
   return(
     <>
       <SectionHeader>
-        {t("Email preferences")}
+        {props.section === "all" && t("Notification preferences")}
+        {props.section === "email" && props.action === "preferences" && t("Email preferences")}
+        {props.section === "email" && props.action === "unsubscribe" && t("Email unsubscribe")}
+        {props.section === "push-notifications" && props.action === "preferences" && t("Push notifications preferences")}
+        {props.section === "push-notifications" && props.action === "unsubscribe" && t("Push notifications unsubscribe")}
       </SectionHeader>
 
       <Box sx={{
@@ -70,7 +89,7 @@ const EmailPreferencesManagement = (props) => {
         //minHeight: "100vh",
       }}>
         <Button
-          onClick={() => handleConfirmOpen("unsubscribe")}
+          onClick={() => handleOpenDialog(t("Confirm Unsubscription"), t("Are you sure you want to unsubscribe to all emails from {{site}}?", { site: config.title }), "unsubscribe")}
           fullWidth={false}
           variant="contained"
           color="primary"
@@ -89,8 +108,10 @@ const EmailPreferencesManagement = (props) => {
         onClose={handleConfirmClose}
         onCancel={handleConfirmClose}
         onConfirm={handleConfirm}
-        title={t("Confirm Unsubscription")}
-        message={t("Are you sure you want to unsubscribe to all emails from {{site}}?", { site: config.title })}
+        title={dialogTitle}
+        message={dialogMessage}
+        // title={t("Confirm Unsubscription")}
+        // message={t("Are you sure you want to unsubscribe to all emails from {{site}}?", { site: config.title })}
         confirmText={t("Confirm")}
         cancelText={t("Cancel")}
       />
@@ -98,4 +119,4 @@ const EmailPreferencesManagement = (props) => {
   );
 };
 
-export default React.memo(EmailPreferencesManagement);
+export default React.memo(NotificationPreferencesManagement);

@@ -194,11 +194,14 @@
 - check long content in snackbars, should be shown entirely - OK
 - on mobile, in Products, do not force a search after a delay... User MUST press search button - OK
 - in editProduct, on mobile, reduce vertical space between "Scegli immagine" and the current image box - OK
+- improve SectionHeader component graphics (done, but you can do better... :-)) - OK
+- in editUser, show "Cookie Consent" button only if own profile - OK
+- add "Notification Preferences" in EditUser.jsx (only if own profile) - OK
 
+- change "Consenso Cookies" in "Cookies Preferences" in EditUser.jsx
 - reduce ProductDetails height on mobile to avoid scroll
 - add "Edit" button in ProductDetails for at least operator users
 - add "Buy" button in ProductDetails for all users
-- improve SectionHeader component graphics
 - migliorare il tema scuro
 - risolvere i TODO's nel codice
 - make tests (as AI for this...)
@@ -225,8 +228,8 @@ NEWFEATURE:
 - gestire URL di callback per la rimozione dell'autorizzazione (Google e Facebook)
 - gestire URL di callback per la richiesta di eliminazione dei dati (Google e Facebook)
 - ripulire Google e Facebook console dalle impostazioni inutili per i login federati nel cloud
-- gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi (quando saranno usati)
 - usare error boundaries (see docs/ERROR-BOUNDARIES/*),
   per uniformare la gestione degli errori lato client,
   visualizzare all'utente una pagina d'errore anziché rimanere in una condizione d'errore,
   e magari usare un servizio tipo logRocket per loaggere anche gli errori sui client
+- gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi (quando saranno usati)

@@ -1,1 +1,22 @@
-{}
+{
+  "Are you sure you want to delete all {{count}} selected products?_one": "Sei sicuro di voler cancellare il prodotto selezionato?",
+  "Are you sure you want to delete all {{count}} selected products?_many": "Sei sicuro di voler cancellare i {{count}} prodotti selezionati?",
+  "Are you sure you want to delete all {{count}} selected products?_other": "Sei sicuro di voler cancellare i {{count}} prodotti selezionati?",
+  "Are you sure you want to delete all {{count}} selected users?_one": "Sei sicuro di voler eliminare l'utente selezionato?",
+  "Are you sure you want to delete all {{count}} selected users?_many": "Sei sicuro di voler eliminare tutti i {{count}} utenti selezionati?",
+  "Are you sure you want to delete all {{count}} selected users?_other": "Sei sicuro di voler eliminare tutti i {{count}} utenti selezionati?",
+  "Are you sure you want to send this email to all the {{count}} selected users?_one": "Sei sicuro di voler inviare questa mail all'utente selezionato?",
+  "Are you sure you want to send this email to all the {{count}} selected users?_many": "Sei sicuro di voler inviare questa mail a tutti i {{count}} utenti selezionati?",
+  "Are you sure you want to send this email to all the {{count}} selected users?_other": "Sei sicuro di voler inviare questa mail a tutti i {{count}} utenti selezionati?",
+  "Are you sure you want to unsubscribe to all emails from {{site}}?": "Sei sicuro di voler annullare la sottoscrizione a tutte le mail da {{site}}?",
+  "comments": "commenti",
+  "Confirm Unsubscription": "Conferma l'annullamento dell sottoscrizione",
+  "marketingMessages": "messaggiDiMarketing",
+  "newsUpdates": "notizieAggiornamenti",
+  "Please \"Enter\" and then go to \"Profile\", and use \"Notifications preferences\" to change your notification preferences": "__STRING_NOT_TRANSLATED__",
+  "reminders": "promemoria",
+  "tipsTutorials": "suggerimentiTutorial",
+  "transactionAlerts": "avvisiDiTransazione",
+  "Unforeseen action {{action}}": "Azione {{action}} non prevista",
+  "Unsubscribe from all emails from {{site}}": "Disiscriviti da tutte le mail da {{site}}"
+}

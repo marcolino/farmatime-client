@@ -27,15 +27,20 @@
     "i18n-prepare": "bash -c 'for dir in $(cat ./src/config.json | jq -r \".locales | keys[]\"); do mkdir -p \"src/locales/$dir/\"; done'",
     "i18n": "yarn i18n-prepare; i18next 'src/**/*.{js,jsx}' --config 'i18next-parser.config.cjs' --silent",
     "i18n-check": "sh -c 'yarn i18n && missing=$(grep --only-matching __STRING_NOT_TRANSLATED__ src/locales/*/translation.json | wc -l); if [ $missing -gt 0 ]; then echo \"$missing strings have to be translated!\"; exit 1; fi'",
+    "i18n-list": "grep __STRING_NOT_TRANSLATED__ src/locales/$L/translation.json | sed -r 's/: \"__STRING_NOT_TRANSLATED__\",?$//g'",
+    "i18n-list-it": "L='it' yarn i18n-list",
+    "i18n-list-fr": "L='fr' yarn i18n-list",
+    "i18n-ai-prompt-it": "echo 'Please translate the following strings to Italian, answering with a JSON in this format: { \"string\": \"translation\", ... }' && yarn i18n-list-it",
+    "i18n-ai-prompt-fr": "echo 'Please translate the following strings to French, answering with a JSON in this format: { \"string\": \"translation\", ... }' && yarn i18n-list-fr",
     "lighthouse": "lighthouse http://localhost:5005/ --output json --output-path test/lighthouseOutput.json",
     "browserlist-update": "npx browserslist@latest --update-db",
     "deps-check": "npx unimported",
     "deadfiles-check": "deadfile ./src/main.jsx --dir src",
     "check": "i18n-check; deps-check; deadfiles-check",
+    "sound-ok": "spd-say -p 100 'successo!' 2> /dev/null",
+    "sound-ko": "spd-say -p 45 'errore!' 2> /dev/null",
     "env-decrypt-CHECK-IF-REALLY-NEEDED": "echo $(tput setaf 3)Password is the name of your little b0at\\!$(tput sgr0); gpg -d .env.gpg",
-    "explore-source-map-CHECK-IF-REALLY-NEEDED": "source-map-explorer 'build/static/js/*.js'",
-    "sound-ok-CHECK-IF-REALLY-NEEDED": "play -q -n synth 0.2 sin 1800 2> /dev/null",
-    "sound-ko-CHECK-IF-REALLY-NEEDED": "play -q -n synth 0.2 sin 300 2> /dev/null"
+    "explore-source-map-CHECK-IF-REALLY-NEEDED": "source-map-explorer 'build/static/js/*.js'"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",

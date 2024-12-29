@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Avatar from "@mui/material/Avatar";
 import { Box, Grid, Typography, Link } from "@mui/material";
@@ -34,8 +34,10 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmed, setPasswordConfirmed] = useState("");
-  const [codeDeliveryMedium, setCodeDeliveryMedium] = useState("");
-  const [waitingForCode, setWaitingForCode] = useState(false);
+  const { waitingForCode: waitingForCodeFromParams } = useParams();
+  const [waitingForCode, setWaitingForCode] = useState(waitingForCodeFromParams || false);
+  const { codeDeliveryMedium: codeDeliveryMediumFromParams } = useParams();
+  const [codeDeliveryMedium, setCodeDeliveryMedium] = useState(codeDeliveryMediumFromParams || "");
   const [code, setCode] = useState("");
   const [error, setError] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
@@ -44,6 +46,14 @@ function SignUp() {
   const [dialogCallback, setDialogCallback] = useState(null);
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
+
+  console.log("waitingForCodeFromParams, waitingForCode:", waitingForCodeFromParams, waitingForCode);
+  console.log("codeDeliveryMediumFromParams, codeDeliveryMedium:", codeDeliveryMediumFromParams, codeDeliveryMedium);
+  // this should not happen...
+  // // update state if the route parameter changes
+  // useEffect(() => {
+  //   setWaitingForCode(waitingForCodeFromParams || false);
+  // }, [waitingForCodeFromParams]);
 
   const handleSocialLogin = (event, provider) => {
     event.preventDefault(); // redirect fails without preventing default behaviour!
@@ -175,24 +185,32 @@ function SignUp() {
     if (!validateForm()) return;
     setError({});
 
-    const result = await apiCall("post", "/auth/signUp", {
+    const result = await apiCall("post", "/auth/signup", {
       email,
       password,
       firstName,
       lastName,
     });
     if (result.err) {
-      switch (result.err.code) {
-        case "EMAIL_EXISTS_ALREADY":
+      switch (result.data?.code) {
         case "ACCOUNT_WAITING_FOR_VERIFICATION":
-        case "DeletedUser":
           setError({ email: true });
-          //toast.warning(t(result.message));
+          //showSnackbar(result.message, "warning");
+          setDialogTitle(t("Account is waiting for verification"));
+          setDialogContent(result.data.message);
+          setDialogCallback(() => { // navigate to signup, asking for mode "waitingForCode"
+            setWaitingForCode(true);
+            //navigate("/signup/true", { replace: true }); // TODO: change routing for signup ("/signup/:waitingForCode?")
+          });
+          setOpenDialog(true);
+          break;
+        case "EMAIL_EXISTS_ALREADY":
+        case "ACCOUNT_DELETED":
+          setError({ email: true });
           showSnackbar(result.message, "warning");
           break;
         default:
           setError({}); // we don't know whom to blame
-          //toast.error(t(result.message));
           showSnackbar(result.message, "error");
       }
     } else {
@@ -450,7 +468,7 @@ function SignUp() {
                 type="tel" /* tel type does not show arrows */
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                placeholder={t("Numeric code just received by {{codeDeliveryMedium}}", {codeDeliveryMedium})}
+                placeholder={t("Numeric code received by {{codeDeliveryMedium}}", {codeDeliveryMedium})}
                 startIcon={<ConfirmationNumber />}
                 error={error.code}
               />

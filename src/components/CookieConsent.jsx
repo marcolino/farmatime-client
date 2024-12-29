@@ -9,7 +9,7 @@ import {
   Paper,
   useTheme,
 } from "@mui/material";
-import { cookiesLoadConsent, cookiesSaveConsent } from "../libs/Misc";
+import { cookiesConsentLoad, cookiesConsentSave } from "../libs/Misc";
 
 
 const CookieConsent = (props) => {
@@ -31,7 +31,7 @@ const CookieConsent = (props) => {
     };
     setProfilingConsent(true);
     setStatisticsConsent(true);
-    cookiesSaveConsent(consent);
+    cookiesConsentSave(consent);
     setIsConsentGiven(consent);
     if (props.onClose) {
       props.onClose();
@@ -49,7 +49,7 @@ const CookieConsent = (props) => {
       profiling: profilingConsent,
       statistics: statisticsConsent,
     };
-    cookiesSaveConsent(consent);
+    cookiesConsentSave(consent);
     setIsConsentGiven(consent);
     if (props.onClose) {
       props.onClose();
@@ -57,7 +57,7 @@ const CookieConsent = (props) => {
   };
 
   useEffect(() => {
-    const consent = cookiesLoadConsent();
+    const consent = cookiesConsentLoad();
     setIsConsentGiven(consent);
     if (consent) {
       setProfilingConsent(consent.profiling);
@@ -138,6 +138,7 @@ const CookieConsent = (props) => {
       <Box mt={3} sx={{ textAlign: "right", "& button": { mr: 1 } }}>
         <Button
           variant="contained"
+          size="small"
           color="success"
           onClick={handleAcceptAll}
           sx={{
@@ -150,7 +151,7 @@ const CookieConsent = (props) => {
         {(!showCustomization && !props.customizeOnly) && (
           <Button
             variant="contained"
-            //size="small"
+            size="small"
             color="default"
             onClick={handleCustomization}
             sx={{
@@ -164,6 +165,7 @@ const CookieConsent = (props) => {
         {(showCustomization || props.customizeOnly) && (
           <Button
             variant="contained"
+            size="small"
             color="primary"
             onClick={handleSavePreferences}
             sx={{
@@ -174,7 +176,7 @@ const CookieConsent = (props) => {
           </Button>
         )}
       </Box>
-      </ContainerComponent>
+    </ContainerComponent>
   );
 };
 

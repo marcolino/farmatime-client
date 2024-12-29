@@ -15,7 +15,7 @@ function SocialSignInError() {
     const error = params.get("error");
     const errorDescription = params.get("error_description");
 
-    if (error) {
+    if (error) { // TODO: use DialogConfirm here, instead of showSnackbar...
       showSnackbar(`Social login did not work, sorry.\n${errorDescription}\nError: ${error}`, "error");
       signIn(null); // reset auth
       //setAuth({ user: null }); // reset auth if needed

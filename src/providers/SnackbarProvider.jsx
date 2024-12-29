@@ -55,9 +55,8 @@ export const SnackbarProviderWrapper = ({ children }) => {
           color="inherit"
           sx={{
             position: "absolute", // Position it at the top-right
-            top: 6,
-            right: 6,
-            padding: 0,
+            top: -4,
+            right: -4,
           }}
         >
           <CloseIcon sx={{ fontSize: config.ui.snacks.closeIcon.fontSize }} />
@@ -66,10 +65,8 @@ export const SnackbarProviderWrapper = ({ children }) => {
       ContentProps={{
         sx: {
           position: "relative",
-          padding: "1rem 1.5rem 1rem 1rem", // Reserve space for the close icon
           "& .MuiSnackbarContent-message": {
             overflowWrap: "break-word",
-            marginRight: "2rem", // Space for the close icon
           },
         },
       }}
