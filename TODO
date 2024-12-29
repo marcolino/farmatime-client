@@ -198,6 +198,7 @@
 - in editUser, show "Cookie Consent" button only if own profile - OK
 - add "Notification Preferences" in EditUser.jsx (only if own profile) - OK
 
+- handle unsubscribe links
 - change "Consenso Cookies" in "Cookies Preferences" in EditUser.jsx
 - reduce ProductDetails height on mobile to avoid scroll
 - add "Edit" button in ProductDetails for at least operator users
