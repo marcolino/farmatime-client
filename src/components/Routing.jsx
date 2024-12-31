@@ -45,13 +45,13 @@ const Routing = () => {
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/handle-users" element={<HandleUsers />} />
           <Route path="/handle-products" element={<HandleProducts />} />
-          <Route path="/notification-preferences" element={<NotificationPreferences section="all" />} />
-          <Route path="/email-preferences" element={<NotificationPreferences section="email" action="preferences" />} />
-          <Route path="/email-unsubscribe" element={<NotificationPreferences section="email" action="unsubscribe" />} />
-          <Route path="/push-preferences" element={<NotificationPreferences section="push" action="preferences" />} />
-          <Route path="/push-unsubscribe" element={<NotificationPreferences section="push" action="unsubscribe" />} />
-          <Route path="/sms-preferences" element={<NotificationPreferences section="sms" action="preferences" />} />
-          <Route path="/sms-unsubscribe" element={<NotificationPreferences section="sms" action="unsubscribe" />} />
+          <Route path="/notification-preferences/:token?/:language?" element={<NotificationPreferences section="all" />} />
+          <Route path="/email-preferences/:token?/:language?" element={<NotificationPreferences section="email" action="preferences" />} />
+          <Route path="/email-unsubscribe/:token?/:language?" element={<NotificationPreferences section="email" action="unsubscribe" />} />
+          <Route path="/push-preferences/:token?/:language?" element={<NotificationPreferences section="push" action="preferences" />} />
+          <Route path="/push-unsubscribe/:token?/:language?" element={<NotificationPreferences section="push" action="unsubscribe" />} />
+          <Route path="/sms-preferences/:token?/:language?" element={<NotificationPreferences section="sms" action="preferences" />} />
+          <Route path="/sms-unsubscribe/:token?/:language?" element={<NotificationPreferences section="sms" action="unsubscribe" />} />
           <Route path="/page-not-found" element={<PageNotFound />} />
           <Route path="/work-in-progress" element={<WorkInProgress />} />
           <Route path="/email-preferences" element={<NotificationPreferences section="email" action="preferences" />} />

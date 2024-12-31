@@ -32,29 +32,27 @@ const apiCall = async(method, url, data = {}) => {
         const message = err.response.data?.message ?? err.message
         if (message) { // if some data.message, show it to the user
           const code = err.response.data?.code;
-          if (
-            code && isUserLogged() && (
-              (code === "NO_TOKEN") ||
-              (code === "EXPIRED_TOKEN") ||
-              (code === "BAD_TOKEN") ||
-              (code === "WRONG_TOKEN")
-            )
-          ) { // ignore token error messages, the important warning is shown in refreshToken middleware
-            // TODO...
-            console.log("$$$$ ignore token error messages? , Object.keys(err.config):", Object.keys(err.config), JSON.stringify(err));
-            return {
-              err: true,
-              message: message, // added to show notification error messages
-              status: err.response.status,
-            };
-          } else {
+          // if (
+          //   code && isUserLogged() && (
+          //     (code === "NO_TOKEN") ||
+          //     (code === "EXPIRED_TOKEN") ||
+          //     (code === "BAD_TOKEN") ||
+          //     (code === "WRONG_TOKEN")
+          //   )
+          // ) {
+          //   return {
+          //     err: true,
+          //     message,
+          //     status: err.response.status,
+          //   };
+          // } else {
             return {
               err: true,
               status: err.response.status,
-              message: message,
+              message,
               data: err.response.data
             };
-          }
+          //}
         } else {
           return {
             err: true,

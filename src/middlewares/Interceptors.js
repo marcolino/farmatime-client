@@ -191,7 +191,8 @@ instance.interceptors.response.use(
       config.url !== "/auth/signin" &&
       config.url !== "/auth/signup" &&
       config.url !== "/auth/signout" &&
-      config.url !== "/auth/notificationVerification"
+      config.url !== "/auth/notificationVerification" &&
+      config.url !== "/auth/notificationPreferencesSave"
     ) { // unauthorized
       if (!isRefreshing) {
         isRefreshing = true;

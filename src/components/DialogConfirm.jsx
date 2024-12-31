@@ -12,12 +12,12 @@ function DialogConfirm({ open, onClose, onCancel, onConfirm, title, message, con
       </DialogContent>
       <DialogActions>
         {cancelText &&
-          <Button onClick={onCancel} color="secondary" variant="contained">
+          <Button onClick={onCancel} color="secondary" variant="contained" sx={{margin: 2}}>
             {cancelText}
           </Button>
         }
         {confirmText &&
-          <Button onClick={onConfirm} color="success" variant="contained">
+          <Button onClick={onConfirm} color="success" variant="contained" sx={{margin: 2}}>
             {confirmText}
           </Button>
         }

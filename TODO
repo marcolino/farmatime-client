@@ -197,9 +197,9 @@
 - improve SectionHeader component graphics (done, but you can do better... :-)) - OK
 - in editUser, show "Cookie Consent" button only if own profile - OK
 - add "Notification Preferences" in EditUser.jsx (only if own profile) - OK
+- change "Consenso Cookies" in "Cookies Preferences" in EditUser.jsx - OK
 
-- handle unsubscribe links
-- change "Consenso Cookies" in "Cookies Preferences" in EditUser.jsx
+- refactor cookies consent like notification preferences
 - reduce ProductDetails height on mobile to avoid scroll
 - add "Edit" button in ProductDetails for at least operator users
 - add "Buy" button in ProductDetails for all users

@@ -277,7 +277,7 @@ function EditUser() {
   const openCookiesConsent = () => {
     //<CookieConsent onClose={handleCloseDialog} />
     handleOpenDialog(
-      t("Cookies consent"),
+      t("Cookies preferences"),
       <CookieConsent customizeOnly={true} onClose={handleCloseDialog} />,
       null,
     );
@@ -286,7 +286,7 @@ function EditUser() {
   const openNotificationPreferences = () => {
     handleOpenDialog(
       "",
-      <NotificationPreferences routing="internal" section="all" onClose={handleCloseDialog} />,
+      <NotificationPreferences internalRouting="true" section="all" onClose={handleCloseDialog} />,
       null,
     );
   };
@@ -495,7 +495,7 @@ function EditUser() {
                     mt: 1,
                   }}
                 >
-                  {t("Cookies consent")}
+                  {t("Cookies preferences")}
                 </Button>
               }
 

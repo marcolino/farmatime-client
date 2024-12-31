@@ -4,6 +4,7 @@ import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { SnackbarProviderWrapper } from "./providers/SnackbarProvider"; 
 import ServiceWorkerProvider from "./providers/ServiceWorkerProvider";
+import { DialogProvider } from "./providers/DialogProvider";
 import { AuthProvider, AuthContext } from "./providers/AuthProvider";
 import { OnlineStatusProvider } from "./providers/OnlineStatusProvider";
 import { LoaderProvider} from "./providers/LoaderProvider";
@@ -49,29 +50,31 @@ const AppStructure = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <SnackbarProviderWrapper>
+      <DialogProvider>
+        <SnackbarProviderWrapper>
         <ServiceWorkerMessages />
-        <ServiceWorkerProvider>
-          <OnlineStatusProvider>
-            <CssBaseline />
-            <CookieConsent />
-            <LoaderProvider>
-              <Loader loading={loading} />
-              <Router future={{ /* avoid v7 start transition warnings */ 
-                v7_startTransition: true,
-                v7_relativeSplatPath: true,
-              }}>
-                <BackgroundVideo />
-                <SessionProvider />
-                {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
-                <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
-                  <Routing />
-                </Contents>
-              </Router>
-            </LoaderProvider>
-          </OnlineStatusProvider>
-        </ServiceWorkerProvider>
-      </SnackbarProviderWrapper>
+          <ServiceWorkerProvider>
+            <OnlineStatusProvider>
+              <CssBaseline />
+              <CookieConsent />
+              <LoaderProvider>
+                <Loader loading={loading} />
+                <Router future={{ /* avoid v7 start transition warnings */ 
+                  v7_startTransition: true,
+                  v7_relativeSplatPath: true,
+                }}>
+                  <BackgroundVideo />
+                  <SessionProvider />
+                  {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                  <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
+                    <Routing />
+                  </Contents>
+                </Router>
+              </LoaderProvider>
+            </OnlineStatusProvider>
+          </ServiceWorkerProvider>
+        </SnackbarProviderWrapper>
+      </DialogProvider>
     </ThemeProvider>
   );
 };

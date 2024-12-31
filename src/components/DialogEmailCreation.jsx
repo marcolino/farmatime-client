@@ -10,7 +10,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import TextField from "./custom/TextField";
-import DialogConfirm from "./DialogConfirm";
+import { useDialog } from "../providers/DialogProvider";
 import { Subject } from "@mui/icons-material";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 
@@ -21,13 +21,14 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
   const [error, setError] = useState({});
+  const { showDialog } = useDialog();
   const [openHelp, setOpenHelp] = React.useState(false);
   const onOpenHelp = () => setOpenHelp(true);
   const onCloseHelp = () => setOpenHelp(false);
   const helpTitle = t("Email composition");
   const helpContents =
     t("In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email") +
-    ": \n" +
+    ": \n\n" +
     t("\
      • $NAME$ => The name of the user\n\
      • $SURNAME$ => The surname of the user\n\
@@ -115,7 +116,16 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onOpenHelp} color="secondary" variant="contained">
+        <Button onClick={() =>
+          showDialog({
+            title: helpTitle,
+            message: helpContents,
+            confirmText: t("Ok"),
+            onConfirm: () => {
+              close();
+            },
+          })
+        } color="secondary" variant="contained">
           ?
         </Button>
         <Button onClick={onCloseWithValidation} color="secondary" variant="contained">
@@ -125,7 +135,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
           {t("Send email")}
         </Button>
       </DialogActions>
-      <DialogConfirm
+      {/* <DialogConfirm
         open={openHelp}
         onClose={onCloseHelp}
         onCancel={onCloseHelp}
@@ -133,7 +143,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
         message={helpContents}
         cancelText={t("Close")}
         //messageFontSize="0.95rem !important"
-      />
+      /> */}
     </Dialog>
   );
 }
