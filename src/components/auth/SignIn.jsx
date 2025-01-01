@@ -11,7 +11,8 @@ import Icon from "@mui/material/Icon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Person from "@mui/icons-material/Person";
 import Lock from "@mui/icons-material/Lock";
-import DialogConfirm from "../DialogConfirm";
+//import DialogConfirm from "../DialogConfirm";
+import { useDialog } from "../../providers/DialogProvider";
 import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { TextField, TextFieldPassword, Button } from "../custom";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -25,12 +26,13 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
-  const { /*setAuth, */signIn } = useContext(AuthContext);
-  const { showSnackbar } = useSnackbarContext(); 
+  const { signIn } = useContext(AuthContext);
+  const { showDialog } = useDialog();
+  const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
-  const [openDialog, setOpenDialog] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState(null);
-  const [dialogContent, setDialogContent] = useState(null);
+  // const [openDialog, setOpenDialog] = useState(false);
+  // const [dialogTitle, setDialogTitle] = useState(null);
+  // const [dialogContent, setDialogContent] = useState(null);
   const [dialogCallback, setDialogCallback] = useState(null);
 
   const handleSocialLogin = (event, provider) => {
@@ -92,12 +94,20 @@ function SignIn() {
           const codeDeliveryMedium = result.data?.codeDeliveryMedium;
           setError({ email: true });
           //showSnackbar(result.message, "warning");
-          setDialogTitle(t("Account is waiting for verification"));
-          setDialogContent(result.data.message);
-          setDialogCallback(() => () => {
-            navigate(`/signup/true/${codeDeliveryMedium}`, { replace: true }); // navigate to signup screen in "waitingForCode" mode
+          showDialog({
+            title: t("Account is waiting for verification"),
+            message: result.data.message,
+            confirmText: t("Ok"),
+            onConfirm: () => {
+              navigate(`/signup/true/${codeDeliveryMedium}`, { replace: true }); // navigate to signup screen in "waitingForCode" mode
+            },
           });
-          setOpenDialog(true);
+          // setDialogTitle();
+          // setDialogContent(result.data.message);
+          // setDialogCallback(() => () => {
+          //   navigate(`/signup/true/${codeDeliveryMedium}`, { replace: true }); // navigate to signup screen in "waitingForCode" mode
+          // });
+          // setOpenDialog(true);
           break;
         case "ACCOUNT_DELETED":
           setError({ email: true });
@@ -275,14 +285,14 @@ function SignIn() {
           )}
         </Box>
       </Box>
-      <DialogConfirm
+      {/* <DialogConfirm
         open={openDialog}
         onClose={handleCloseDialog}
         onCancel={handleCloseDialog}
         title={dialogTitle}
         message={dialogContent}
         cancelText={t("Close")}
-      />
+      /> */}
     </form>
   );
 }

@@ -4,12 +4,13 @@ import { useTranslation } from "react-i18next";
 import { Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { DateTime } from "luxon";
-import DialogConfirm from "./DialogConfirm";
+//import DialogConfirm from "./DialogConfirm";
 import DialogEmailCreation from "./DialogEmailCreation";
 import { AuthContext } from "../providers/AuthProvider";
 import { apiCall } from "../libs/Network";
 import { isAdmin } from "../libs/Validation";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
+import { useDialog } from "../providers/DialogProvider";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import { i18n } from "../i18n";
@@ -36,7 +37,8 @@ const UserTable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { auth } = useContext(AuthContext);
-  const { showSnackbar } = useSnackbarContext(); 
+  const { showSnackbar } = useSnackbarContext();
+  const { showDialog } = useDialog();
   const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("");
@@ -111,15 +113,15 @@ const UserTable = () => {
     removeUser({ filter: [userId] }).then((data) => {
       if (data.err) {
         console.warn("removeUser error:", data);
-        showSnackbar(data.message ?? "Error removing user", "error");
+        showSnackbar(t("Error removing user: {{err}}", { err: data.message }), "error");
         return;
       }
       // update the state to filter the removed user from the list
       setUsers(previousUsers => previousUsers.filter(user => user._id !== userId));
       setToBeRemoved(null);
-    }).catch(error => {
-      console.error(`Error deleting user with id ${userId}: ${error.message}`);
-      showSnackbar(t("Error deleting user with id {{id}}: {{error}", {id: userId, error: error.message}), "error");
+    }).catch(err => {
+      console.error(`Error removing user with id ${userId}: ${err.message}`);
+      showSnackbar(t("Error removing user with id {{id}}: {{error}", { id: userId, err: err.message }), "error");
     });
   };
 
@@ -128,14 +130,14 @@ const UserTable = () => {
       if (err) {
         console.warn("sendEmailToUsers error:", err);
         if (err.message) {
-          showSnackbar(err.message ?? "Error sending email to users", "error");
+          showSnackbar(t("Error sending email to users: {{err}}", {err: err.message}), "error");
         }
         return;
       }
       showSnackbar(t("Email sent to {{count}} selected users", { count: userIds.length }), "success");
-    }).catch(error => {
-      console.error(`Error bulk sending email to ${userIds.length} users with ids ${userIds}: ${error.message}`);
-      showSnackbar(t("Error bulk sending email to {{count}} users with ids: {{error}}", { count: userIds.length, error: error.message }), "error");
+    }).catch(err => {
+      console.error(`Error bulk sending email to ${userIds.length} users with ids ${userIds}: ${err.message}`);
+      showSnackbar(t("Error bulk sending email to {{count}} users with ids: {{err}}", { count: userIds.length, err: err.message }), "error");
     });
   };
 
@@ -143,15 +145,15 @@ const UserTable = () => {
     removeUser({ filter: userIds, ...params }).then((data) => {
       if (data.err) {
         console.warn("bulkRemove user error:", data);
-        showSnackbar(data.message ?? "Error bulk removing user", "error");
+        showSnackbar(t("Error bulk removing user: {{err}}", { err: data.error }), "error");
         return;
       }
       setUsers(previousUsers => previousUsers.filter(user => !userIds.includes(user._id)));
       setSelected([]);
       showSnackbar(t("Removed {{count}} users", { count: userIds.length }), "success");
-    }).catch(error => {
-      console.error(`Error bulk removing ${userIds.length} users with ids ${userIds}: ${error.message}`);
-      showSnackbar(t("Error bulk removing {{count}} users with ids: {{error}}", {count: userIds.length, error: error.message}), "error");
+    }).catch(err => {
+      console.error(`Error bulk removing ${userIds.length} users with ids ${userIds}: ${err.message}`);
+      showSnackbar(t("Error bulk removing {{count}} users with ids: {{err}}", {count: userIds.length, err: err.message}), "error");
     });
   };
 
@@ -236,14 +238,14 @@ const UserTable = () => {
     setSortDirection(newDirection);
   };
 
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  //const handleConfirmOpen = (action) => { setAction(action); setConfirmOpen(true); }
-  const handleConfirmOpen = (action, productId) => { setAction(action); setToBeRemoved(productId); setConfirmOpen(true); }
-  const handleConfirmClose = () => { setConfirmOpen(false); setAction(""); /*setSelected([]);*/ }
-  const handleConfirm = () => { // perform the action on confirmation
-    onAction(selected, action);
-    handleConfirmClose();
-  };
+  // const [confirmOpen, setConfirmOpen] = useState(false);
+  // //const handleConfirmOpen = (action) => { setAction(action); setConfirmOpen(true); }
+  // const handleConfirmOpen = (action, productId) => { setAction(action); setToBeRemoved(productId); setConfirmOpen(true); }
+  // const handleConfirmClose = () => { setConfirmOpen(false); setAction(""); /*setSelected([]);*/ }
+  // const handleConfirm = () => { // perform the action on confirmation
+  //   onAction(selected, action);
+  //   handleConfirmClose();
+  // };
 
   const [emailCreationOpen, setEmailCreationOpen] = useState(false);
   const handleEmailCreationOpen = (action) => { setAction(action); setEmailCreationOpen(true); }
@@ -473,7 +475,16 @@ const UserTable = () => {
                         </Tooltip>
                         <Tooltip title={t("Remove user")}>
                           {/* <IconButton size="small" onClick={() => onRemove(user._id)}> */}
-                          <IconButton size="small" onClick={() => { handleConfirmOpen("remove", user._id) }}>
+                          <IconButton size="small"
+                            //onClick={() => { handleConfirmOpen("remove", user._id) }}
+                            onClick={() => showDialog({
+                              onConfirm: () => onRemove(user._id),
+                              title: t("Confirm Delete"),
+                              message: t("Are you sure you want to delete selected {{count}} user?", { count: 1 }),
+                              confirmText: t("Confirm"),
+                              cancelText: t("Cancel"),
+                            })}
+                          >
                             <Delete fontSize="small" />
                           </IconButton>
                         </Tooltip>
@@ -498,6 +509,13 @@ const UserTable = () => {
             variant="contained"
             color="primary"
             onClick={() => handleEmailCreationOpen("emailBulk")}
+            // onClick={() => showDialog({
+            //   onConfirm: () => onRemove(user._id),
+            //   title: t("Confirm Delete"),
+            //   message: t("Are you sure you want to delete selected {{count}} user?", { count: 1 }),
+            //   confirmText: t("Confirm"),
+            //   cancelText: t("Cancel"),
+            // })}
             disabled={selected.length === 0}
             sx={{ mr: theme.spacing(2), my: 0.3 }}
           >
@@ -506,7 +524,14 @@ const UserTable = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => handleConfirmOpen("removeBulk")}
+            //onClick={() => handleConfirmOpen("removeBulk")}
+            onClick={() => showDialog({
+              onConfirm: () => onBulkRemove(selected),
+              title: t("Confirm Delete"),
+              message: t("Are you sure you want to delete selected {{count}} user?", { count: selected.length }),
+              confirmText: t("Confirm"),
+              cancelText: t("Cancel"),
+            })}
             disabled={selected.length === 0}
             sx={{ mr: theme.spacing(2), my: 0.3 }}
           >
@@ -515,7 +540,7 @@ const UserTable = () => {
         </Box>
       </Paper>
 
-      <DialogConfirm
+      {/* <DialogConfirm
         open={confirmOpen}
         onClose={handleConfirmClose}
         onCancel={handleConfirmClose}
@@ -524,13 +549,13 @@ const UserTable = () => {
         message={t("Are you sure you want to delete selected user(s)?")}
         confirmText={t("Confirm")}
         cancelText={t("Cancel")}
-      />
+      /> */}
       <DialogEmailCreation
         open={emailCreationOpen}
         onClose={handleEmailCreationClose}
         onConfirm={handleEmailCreation}
         //title={t("Create and send email")}
-        message={t("Are you sure you want to send this email to selected user(s)?")}
+        message={t("Are you sure you want to send this email to {{count}} selected user?", { count: selected.length })}
         //subjectLabel={t("Subject")}
         //bodyLabel={t("Body")}
         confirmText={t("Send email to {{count}} selected users", { count: selected.length })}

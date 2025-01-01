@@ -22,9 +22,9 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
   const [body, setBody] = useState("");
   const [error, setError] = useState({});
   const { showDialog } = useDialog();
-  const [openHelp, setOpenHelp] = React.useState(false);
-  const onOpenHelp = () => setOpenHelp(true);
-  const onCloseHelp = () => setOpenHelp(false);
+  // const [openHelp, setOpenHelp] = React.useState(false);
+  // const onOpenHelp = () => setOpenHelp(true);
+  // const onCloseHelp = () => setOpenHelp(false);
   const helpTitle = t("Email composition");
   const helpContents =
     t("In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email") +
@@ -121,9 +121,6 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
             title: helpTitle,
             message: helpContents,
             confirmText: t("Ok"),
-            onConfirm: () => {
-              close();
-            },
           })
         } color="secondary" variant="contained">
           ?
@@ -135,15 +132,6 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
           {t("Send email")}
         </Button>
       </DialogActions>
-      {/* <DialogConfirm
-        open={openHelp}
-        onClose={onCloseHelp}
-        onCancel={onCloseHelp}
-        title={helpTitle}
-        message={helpContents}
-        cancelText={t("Close")}
-        //messageFontSize="0.95rem !important"
-      /> */}
     </Dialog>
   );
 }

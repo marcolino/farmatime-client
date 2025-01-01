@@ -13,6 +13,7 @@ import {
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
+import { cancelAllRequests } from "../middlewares/Interceptors";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import { AuthContext } from "../providers/AuthProvider";
 import { isAdmin } from "../libs/Validation";
@@ -121,15 +122,16 @@ const Header = ({ theme, toggleTheme }) => {
 
   const handleSignOut = async () => {
     console.log("handleSignOut");
+    navigate("/", { replace: true });
     let ok;
     try {
+      cancelAllRequests(); // cancel all ongoing requests, to avoid "You must be authenticated for this action" warnings
       ok = await signOut();
       console.log("signout success:", ok);
     } catch (err) {
       console.error("signout error:", err);
     }
     showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
-    navigate("/", { replace: true });
   };
 
   return (

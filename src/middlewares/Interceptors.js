@@ -9,6 +9,9 @@ import cfg from "../config";
 let isRefreshing = false;
 let refreshSubscribers = [];
 
+let isSignedOut = false; // global flag to track sign-out status, to avoid retring requests after sign-out
+const abortControllers = new Map(); // define an abortControllers map
+
 // storage functions
 const getLocalAccessToken = () => {
   return LocalStorage.get("auth")?.user?.accessToken;
@@ -128,6 +131,33 @@ instance.interceptors.request.use(
   }
 );
 
+// add a request abort controller, to be able to abort requests, for example after signout
+instance.interceptors.request.use(
+  config => {
+    const controller = new AbortController();
+    config.signal = controller.signal;
+
+    // track the controller for this request
+    abortControllers.set(config.url, controller);
+    return config;
+  },
+  error => Promise.reject(error)
+);
+
+// clean up abort controller after the request completes
+instance.interceptors.response.use(
+  response => {
+    abortControllers.delete(response.config.url);
+    return response;
+  },
+  error => {
+    if (error.config) {
+      abortControllers.delete(error.config.url);
+    }
+    return Promise.reject(error);
+  }
+);
+
 // add a subscriber to the list
 function subscribeTokenRefresh(cb) {
   refreshSubscribers.push(cb);
@@ -167,6 +197,7 @@ instance.interceptors.response.use(
   },
   async (error) => {
     const { config, response } = error;
+    console.log("+++++++++++++++++++++++++++++  ERROR, STATUS IS:", response.status, ", URL IS:", config.url);
     if (!response) {
       return Promise.reject(new Error("No response from server!"));
     }
@@ -186,6 +217,19 @@ instance.interceptors.response.use(
         }
       }
     }
+
+    // if /auth/signin request arrives, we reset isSignedOut
+    if (config.url === "/auth/signin") {
+      isSignedOut = false;
+      console.log("isSignedOut reset to false because /auth/signin was called");
+    }
+
+    // if the user has signed out, do not retry requests
+    if (isSignedOut) {
+      console.log("Request aborted because user is signed out:", config.url);
+      return Promise.reject();
+    }
+
     if (
       response.status === 401 &&
       config.url !== "/auth/signin" &&
@@ -227,5 +271,11 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const cancelAllRequests = () => {
+  isSignedOut = true; // mark the user as signed out
+  abortControllers.forEach(controller => controller.abort());
+  abortControllers.clear();
+};
 
 export default instance;

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { Box, Typography } from "@mui/material";
-import DialogConfirm from "./DialogConfirm";
+//import DialogConfirm from "./DialogConfirm";
 import SignalWifi3BarOutlinedIcon from "@mui/icons-material/SignalWifi3BarOutlined";
 import SignalWifiBadOutlinedIcon from "@mui/icons-material/SignalWifiBadOutlined";
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { useTranslation } from "react-i18next";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { useDialog } from "../providers/DialogProvider";
 import { OnlineStatusContext } from "../providers/OnlineStatusProvider";
 import { i18n, getNextSupportedLanguage }  from "../i18n";
 import packageJson from "../../package.json";
@@ -14,10 +15,11 @@ const Footer = ({ changeLocale }) => {
   const { t } = useTranslation();
   const [buildInfo, setBuildInfo] = useState(null);
   const [languageFlag, setLanguageFlag] = useState(config.locales[i18n.language].flag);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState(null);
-  const [dialogContent, setDialogContent] = useState(null);
-  const [dialogCallback, setDialogCallback] = useState(null);
+  const { showDialog } = useDialog();
+  // const [openDialog, setOpenDialog] = useState(false);
+  // const [dialogTitle, setDialogTitle] = useState(null);
+  // const [dialogContent, setDialogContent] = useState(null);
+  // const [dialogCallback, setDialogCallback] = useState(null);
   const isOnline = useContext(OnlineStatusContext);
 
   useEffect(() => { // read build info from file on disk
@@ -60,20 +62,20 @@ const Footer = ({ changeLocale }) => {
     document.querySelector("meta[charset]").setAttribute("charset", config.locales[newLanguage].charset); 
   }
   
-  const handleOpenDialog = (title, content, callbackOnClose) => {
-    setDialogTitle(title);
-    setDialogContent(content);
-    setDialogCallback(() => callbackOnClose);
-    setOpenDialog(true);
-  };
+  // const handleOpenDialog = (title, content, callbackOnClose) => {
+  //   setDialogTitle(title);
+  //   setDialogContent(content);
+  //   setDialogCallback(() => callbackOnClose);
+  //   setOpenDialog(true);
+  // };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    if (dialogCallback) {
-      setDialogCallback(null);
-      dialogCallback();
-    }
-  };
+  // const handleCloseDialog = () => {
+  //   setOpenDialog(false);
+  //   if (dialogCallback) {
+  //     setDialogCallback(null);
+  //     dialogCallback();
+  //   }
+  // };
 
   return (
     <Box
@@ -122,12 +124,17 @@ const Footer = ({ changeLocale }) => {
 
         {/* app and build full info */}
         <Box
-          onClick={() => handleOpenDialog(
-              infoTitle,
-              infoContents,
-              null,
-            )
-          }
+          // OLDonClick={() => handleOpenDialog(
+          //     infoTitle,
+          //     infoContents,
+          //     null,
+          //   )
+          // }
+          onClick={() => showDialog({
+            title: infoTitle,
+            message: infoContents,
+            confirmText: t("Ok"),
+          })}
           sx={{ mr: 1.5, cursor: "pointer" }}
         >
           <InfoOutlinedIcon sx={{ fontSize: 22, verticalAlign: "bottom", marginBottom: 0.3  }}/>
@@ -135,11 +142,16 @@ const Footer = ({ changeLocale }) => {
         
         {/* network connection indicator */}
         <Box
-          onClick={() => handleOpenDialog(
-            t("Network status"),
-            <>{t("Network is")} {isOnline ? t("online") : t("offline")}</>,
-            null,
-          )
+          // onClick={() => handleOpenDialog(
+          //   t("Network status"),
+          //   <>{t("Network is")} {isOnline ? t("online") : t("offline")}</>,
+          //   null,
+          // )
+          onClick={() => showDialog({
+            title: t("Network status"),
+            message: infoContents,
+            confirmText: t("Ok"),
+          })
         }
           sx={{ mr: 1.5, cursor: "pointer" }}
         >
@@ -159,14 +171,14 @@ const Footer = ({ changeLocale }) => {
 
       </Typography>
 
-      <DialogConfirm
+      {/* <DialogConfirm
         open={openDialog}
         onClose={handleCloseDialog}
         onCancel={handleCloseDialog}
         title={dialogTitle}
         message={dialogContent}
         cancelText={t("Close")}
-      />
+      /> */}
 
       {/* <Dialog
         open={openDialog}

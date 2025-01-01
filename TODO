@@ -198,6 +198,7 @@
 - in editUser, show "Cookie Consent" button only if own profile - OK
 - add "Notification Preferences" in EditUser.jsx (only if own profile) - OK
 - change "Consenso Cookies" in "Cookies Preferences" in EditUser.jsx - OK
+- always use useDialog, and not directly DialogConfirm (when possible) - OK
 
 - refactor cookies consent like notification preferences
 - reduce ProductDetails height on mobile to avoid scroll

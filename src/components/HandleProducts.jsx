@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
 import { DateTime } from "luxon";
-import DialogConfirm from "./DialogConfirm";
+//import DialogConfirm from "./DialogConfirm";
 import { apiCall } from "../libs/Network";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
+import { useDialog } from "../providers/DialogProvider";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { i18n } from "../i18n";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
@@ -30,11 +31,12 @@ import { Search, Edit, Delete, AddCircleOutline } from "@mui/icons-material";
 const ProductTable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { showSnackbar } = useSnackbarContext(); 
+  const { showSnackbar } = useSnackbarContext();
+  const { showDialog } = useDialog();
   const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("");
-  const [action, setAction] = useState("");
+  //const [action, setAction] = useState("");
 
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
 
@@ -80,15 +82,15 @@ const ProductTable = () => {
     removeProduct({ filter: [productId] }).then((data) => {
       if (data.err) {
         console.warn("removeProduct error:", data);
-        showSnackbar(data.message ?? "Error removing product", "error");
+        showSnackbar(t("Error removing product: {{err}}", {err: data.message}), "error");
         return;
       }
       // update the state to filter the removed product from the list
       setProducts(previousProducts => previousProducts.filter(product => product._id !== productId));
-      setToBeRemoved(null);
-    }).catch(error => {
-      console.error(`Error removing product with id ${productId}: ${error.message}`);
-      showSnackbar(t("Error removing product with id {{id}}: {{error}", {id: productId, error: error.message}), "error");
+      //setToBeRemoved(null);
+    }).catch(err => {
+      console.error(`Error removing product with id ${productId}: ${err.message}`);
+      showSnackbar(t("Error removing product with id {{id}}: {{err}", {id: productId, err: err.message}), "error");
     });
   };
 
@@ -96,15 +98,15 @@ const ProductTable = () => {
     removeProduct({ filter: productIds, ...params }).then((data) => {
       if (data.err) {
         console.warn("bulkRemove product error:", data);
-        showSnackbar(data.message ?? "Error bulk removing product", "error");
+        showSnackbar(t("Error bulk removing product: {{err}}", { err: data.message }), "error");
         return;
       }
       setProducts(previousProducts => previousProducts.filter(product => !productIds.includes(product._id)));
       setSelected([]);
       showSnackbar(t("Removed {{ count }} products", { count: productIds.length }), "success");
-    }).catch(error => {
-      console.error(`Error bulk removing ${productIds.length} products with ids ${productIds}: ${error.message}`);
-      showSnackbar(t("Error bulk removing {{count}} products with ids: {{error}}", {count: productIds.length, error: error.message}), "error");
+    }).catch(err => {
+      console.error(`Error bulk removing ${productIds.length} products with ids ${productIds}: ${err.message}`);
+      showSnackbar(t("Error bulk removing {{count}} products with ids: {{err}}", {count: productIds.length, err: err.message}), "error");
     });
   };
 
@@ -114,7 +116,7 @@ const ProductTable = () => {
     return parseInt(localStorage.getItem("ProductsRowsPerPage")) || 10; // persist to localstorage
   });
   const [selected, setSelected] = useState([]);
-  const [toBeRemoved, setToBeRemoved] = useState(null);
+  //const [toBeRemoved, setToBeRemoved] = useState(null);
   
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -164,18 +166,18 @@ const ProductTable = () => {
     setSelected(newSelected);
   };
 
-  const onAction = (/*selectedIds, */action, params) => {
-    switch (action) {
-      case "remove":
-        onRemove(toBeRemoved);
-        break;
-      case "removeBulk":
-        onBulkRemove(selected);
-        break;
-      default: // should not happen...
-        showSnackbar(t("Unforeseen bulk action {{action}}", { action }), "error");
-    }
-  }
+  // const onAction = (/*selectedIds, */action, params) => {
+  //   switch (action) {
+  //     case "remove":
+  //       onRemove(toBeRemoved);
+  //       break;
+  //     case "removeBulk":
+  //       onBulkRemove(selected);
+  //       break;
+  //     default: // should not happen...
+  //       showSnackbar(t("Unforeseen bulk action {{action}}", { action }), "error");
+  //   }
+  // }
 
   const handleSort = (columnId) => () => {
     let newDirection = "asc";
@@ -186,13 +188,13 @@ const ProductTable = () => {
     setSortDirection(newDirection);
   };
 
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const handleConfirmOpen = (action, productId) => { setAction(action); setToBeRemoved(productId); setConfirmOpen(true); }
-  const handleConfirmClose = () => { setConfirmOpen(false); setAction(""); /*setSelected([]);*/ }
-  const handleConfirm = () => { // perform the action on confirmation
-    onAction(/*selected, */action);
-    handleConfirmClose();
-  };
+  // const [confirmOpen, setConfirmOpen] = useState(false);
+  // const handleConfirmOpen = (action, productId) => { setAction(action); setToBeRemoved(productId); setConfirmOpen(true); }
+  // const handleConfirmClose = () => { setConfirmOpen(false); setAction(""); /*setSelected([]);*/ }
+  // const handleConfirm = () => { // perform the action on confirmation
+  //   onAction(/*selected, */action);
+  //   handleConfirmClose();
+  // };
   
   // sort products
   const sortedProducts = React.useMemo(() => {
@@ -317,7 +319,7 @@ const ProductTable = () => {
           hideChildrenUpToBreakpoint="sm" // for mobile, hide text children
           sx={{
             mt: theme.spacing(1),
-            height: "40px", // match the height of the TextField with size="small" and margin="dense"
+            height: "40px", // TODO: match the height of the TextField with size="small" and margin="dense"
           }}
         >
           {t("New product")}
@@ -431,8 +433,13 @@ const ProductTable = () => {
                         <IconButton size="small" onClick={() => onEdit(product._id)}>
                           <Edit fontSize="small" />
                         </IconButton>
-                        {/* <IconButton size="small" onClick={() => onRemove(product._id)}> */}
-                        <IconButton size="small" onClick={() => { handleConfirmOpen("remove", product._id) }}>
+                        <IconButton size="small" onClick={() => showDialog({
+                          onConfirm: () => onRemove(product._id),
+                          title: t("Confirm Delete"),
+                          message: t("Are you sure you want to delete {{count}} selected product?", { count: 1 }),
+                          confirmText: t("Confirm"),
+                          cancelText: t("Cancel"),
+                        })}>
                           <Delete fontSize="small" />
                         </IconButton>
                       </TableCell>
@@ -456,7 +463,14 @@ const ProductTable = () => {
             variant="contained"
             color="primary"
             fullWidth={false}
-            onClick={() => handleConfirmOpen("removeBulk")}
+            //onClick={() => handleConfirmOpen("removeBulk")}
+            onClick={() => showDialog({
+              onConfirm: () => onBulkRemove(selected),
+              title: t("Confirm Delete"),
+              message: t("Are you sure you want to delete {{count}} selected product?", { count: selected.length }),
+              confirmText: t("Confirm"),
+              cancelText: t("Cancel"),
+            })}
             disabled={selected.length === 0}
             sx={{mr: theme.spacing(2)}}
           >
@@ -465,7 +479,7 @@ const ProductTable = () => {
         </Box>
       </Paper>
 
-      <DialogConfirm
+      {/* <DialogConfirm
         open={confirmOpen}
         onClose={handleConfirmClose}
         onCancel={handleConfirmClose}
@@ -474,7 +488,7 @@ const ProductTable = () => {
         message={t("Are you sure you want to delete selected product(s)?")}
         confirmText={t("Confirm")}
         cancelText={t("Cancel")}
-      />
+      /> */}
     </>
   );
 };

@@ -7,14 +7,11 @@ import config from "../config";
 
 
 const SessionProvider = () => {
-  const { auth, isLoggedIn, signOut } = useContext(AuthContext);
+  const { isLoggedIn, signOut } = useContext(AuthContext);
   const { t } = useTranslation();
   
   const [showDialog, setShowDialog] = useState(false);
-  //const isLoggedIn = (auth.user !== false && auth.user !== null);
-  //console.log("++++SessionProvider, isLoggedIn:", isLoggedIn);
-  //console.log("++++SessionProvider, auth.user:", auth.user);
-
+  
   const handleLogout = async () => {
     setShowDialog(false);
     await signOut();
@@ -49,6 +46,7 @@ const SessionProvider = () => {
     }
   }, [showDialog, signOut]);
 
+  // we use DialogConfirm here instead of useDialog context and showDialog, to be able to autoclose it
   return (
     showDialog && (
       <DialogConfirm
