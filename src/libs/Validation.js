@@ -25,6 +25,18 @@ export const isDealer = (user) => {
   return user.roles.some(role => role.priority >= 10);
 };
 
+export const isOperator = (user) => {
+  if (!user) {
+    console.info("isOperator: user is not set");
+    return false;
+  }
+  if (!user.roles) {
+    console.info("isOperator: user.roles is not set");
+    return false;
+  }
+  return user.roles.some(role => role.priority >= 20);
+};
+
 export const validateFirstName = (firstName) => {
   const re = /.{2,}/;
   if (!String(firstName)) {

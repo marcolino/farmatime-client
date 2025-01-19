@@ -17,7 +17,7 @@ import { objectsAreEqual } from "../libs/Misc";
 import { AuthContext } from "../providers/AuthProvider";
 //import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
-import CookieConsent from "./CookieConsent";
+import CookiePreferences from "./CookiePreferences";
 import NotificationPreferences from "./NotificationPreferences";
 import {
   Person, Email, SupervisedUserCircle, PlaylistAddCheck,
@@ -39,7 +39,7 @@ function EditUser() {
   const [user, setUser] = useState(false);
   const [userOriginal, setUserOriginal] = useState(false);
   const [error, setError] = useState({});
-  const { auth, updateSignIn/*, setAuth*/ } = useContext(AuthContext);
+  const { auth, updateSignedInUserLocally } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
@@ -275,10 +275,9 @@ function EditUser() {
   };
   
   const openCookiesConsent = () => {
-    //<CookieConsent onClose={handleCloseDialog} />
     handleOpenDialog(
-      t("Cookies preferences"),
-      <CookieConsent customizeOnly={true} onClose={handleCloseDialog} />,
+      "", //t("Cookies preferences"),
+      <CookiePreferences customizeOnly={true} onClose={handleCloseDialog} />,
       null,
     );
   };
@@ -306,35 +305,19 @@ function EditUser() {
         showSnackbar(result.message, "error");
       } else {
         console.log("*** updateUser result:", result);
-        //setAllPlans(result.plans);
         if (auth.user?.id === result.user._id) { // the user is the logged one
-          // update user fields in auth
+          // update user fields in local auth
           const updatedUser = auth.user;
           updatedUser.email = result.user.email;
           updatedUser.firstName = result.user.firstName;
           updatedUser.lastName = result.user.lastName;
           updatedUser.roles = result.user.roles;
           updatedUser.plan = result.user.plan;
-          //setAuth({ user: updatedUser });
-          updateSignIn(updatedUser);
+          updateSignedInUserLocally(updatedUser);
         }
         navigate(-1);
       }
     })();
-    // updateUser({ userId, ...user }).then(data => {
-    //   if (data.err) {
-    //     console.warn("updateUser error:", data);
-    //     showSnackbar(data.message, "warning");
-    //     setError({});
-    //     return;
-    //   }
-    //   console.log("updateUser success:", data.user);
-      
-    // }).catch(err => {
-    //   console.error("updateUser error catched:", err);
-    //   showSnackbar(err.message, "error");
-    //   setError({}); // we can't blame some user input, it's a server side error
-    // });
   };
 
   const formCancel = (e) => {
@@ -351,6 +334,10 @@ function EditUser() {
     };
   }
   
+  if (!auth.user) { // navigate to home page if user did log out - TODO: always do it for all authenticated controllers
+    navigate("/");
+  }
+
   if (user && allRoles && allPlans) {
     console.log("### allRoles ###", allRoles);
     console.log("### auth.user.roles ###", auth.user?.roles);

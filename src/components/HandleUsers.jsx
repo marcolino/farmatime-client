@@ -4,17 +4,6 @@ import { useTranslation } from "react-i18next";
 import { Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { DateTime } from "luxon";
-//import DialogConfirm from "./DialogConfirm";
-import DialogEmailCreation from "./DialogEmailCreation";
-import { AuthContext } from "../providers/AuthProvider";
-import { apiCall } from "../libs/Network";
-import { isAdmin } from "../libs/Validation";
-import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
-import { useDialog } from "../providers/DialogProvider";
-import { useSnackbarContext } from "../providers/SnackbarProvider"; 
-import StackedArrowsGlyph from "./glyphs/StackedArrows";
-import { i18n } from "../i18n";
-
 import {
   Box,
   Button,
@@ -32,6 +21,17 @@ import {
 } from "@mui/material";
 import { TextFieldSearch, SectionHeader } from "./custom";
 import { Search, Edit, BuildCircle, Delete } from "@mui/icons-material";
+import DialogEmailCreation from "./DialogEmailCreation";
+import { AuthContext } from "../providers/AuthProvider";
+import { apiCall } from "../libs/Network";
+import LocalStorage from "../libs/LocalStorage";
+import { isAdmin } from "../libs/Validation";
+import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
+import { useDialog } from "../providers/DialogProvider";
+import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import StackedArrowsGlyph from "./glyphs/StackedArrows";
+import { i18n } from "../i18n";
+
 
 const UserTable = () => {
   const theme = useTheme();
@@ -137,7 +137,7 @@ const UserTable = () => {
       showSnackbar(t("Email sent to {{count}} selected users", { count: userIds.length }), "success");
     }).catch(err => {
       console.error(`Error bulk sending email to ${userIds.length} users with ids ${userIds}: ${err.message}`);
-      showSnackbar(t("Error bulk sending email to {{count}} users with ids: {{err}}", { count: userIds.length, err: err.message }), "error");
+      showSnackbar(t("Error bulk sending email to {{count}} users: {{err}}", { count: userIds.length, err: err.message }), "error");
     });
   };
 
@@ -153,14 +153,14 @@ const UserTable = () => {
       showSnackbar(t("Removed {{count}} users", { count: userIds.length }), "success");
     }).catch(err => {
       console.error(`Error bulk removing ${userIds.length} users with ids ${userIds}: ${err.message}`);
-      showSnackbar(t("Error bulk removing {{count}} users with ids: {{err}}", {count: userIds.length, err: err.message}), "error");
+      showSnackbar(t("Error bulk removing {{count}} users: {{err}}", {count: userIds.length, err: err.message}), "error");
     });
   };
 
   const [page, setPage] = useState(0);
   //const [rowsPerPage, setRowsPerPage] = useState(5);
   const [rowsPerPage, setRowsPerPage] = useState(() => {
-    return parseInt(localStorage.getItem("UsersRowsPerPage")) || 10; // persist to localstorage
+    return parseInt(LocalStorage.get("usersRowsPerPage")) || 10; // persist to local storage
   });
   const [selected, setSelected] = useState([]);
   const [toBeRemoved, setToBeRemoved] = useState(null);
@@ -176,7 +176,7 @@ const UserTable = () => {
   const handleChangeRowsPerPage = (event) => {
     const newRowsPerPage = parseInt(event.target.value);
     setRowsPerPage(newRowsPerPage);
-    localStorage.setItem("UsersRowsPerPage", newRowsPerPage);
+    LocalStorage.set("usersRowsPerPage", newRowsPerPage);
   };
 
   // const handleChangeRowsPerPageOLD = (event) => {

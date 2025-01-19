@@ -68,9 +68,21 @@
     "clientSessionExpirationResponseMaximumSeconds": 900,
     "clientLastActivityCheckTimeoutSeconds": 3600
   },
+  "currency": "EUR",
+  "currencies": {
+    "EUR": "€",
+    "USD": "$",
+    "CHF": "fr.",
+    "GBP": "£"
+  },
   "cookies": {
     "key": "cookieConsent",
-    "expirationDays": 365
+    "expirationDays": 365,
+    "default": {
+      "technical": true,
+      "profiling": false,
+      "statistics": false
+    }
   },
   "spinner": {
     "delay": 500,
@@ -146,7 +158,6 @@
     "backgroundVideo": "wave"
   },
   "oauth": {
-    "domain": "auth.sistemisolari.com",
     "scope": {
       "google": [
         "profile",
@@ -163,6 +174,31 @@
       "Google",
       "Facebook"
     ]
+  },
+  "ecommerce": {
+    "enabled": true,
+    "checkoutProvider": "Stripe",
+    "gift": false,
+    "delivery": {
+      "enabled": true,
+      "methods": [
+        {
+          "code": "none",
+          "description": "No delivery",
+          "price": 0
+        },
+        {
+          "code": "express",
+          "description": "Express delivery, 3 days",
+          "price": 600
+        },
+        {
+          "code": "standard",
+          "description": "Standard delivery, 7 days",
+          "price": 900
+        }
+      ]
+    }
   },
   "index": {
     "language": "it",

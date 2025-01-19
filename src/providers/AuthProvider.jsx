@@ -1,5 +1,6 @@
 import React, { useState, createContext, useCallback } from "react";
 import { usePersistedState } from "../hooks/usePersistedState";
+import { useNavigate } from "react-router-dom";
 import { apiCall } from "../libs/Network";
 import config from "../config";
 
@@ -10,31 +11,52 @@ const AuthContext = createContext(initialStateUser);
 
 const AuthProvider = (props) => {
   const [auth, setAuth] = usePersistedState("auth", initialStateUser);
-  const [preferences, setPreferences] = usePersistedState("preferences", initialStatePreferences);
+  const [guest, setGuest] = usePersistedState("guest", initialStateUser);
+  const isLoggedIn = (!!auth.user);
   const didSignInBefore = (auth.user !== null);
+  const [preferences, setPreferences] = useState(isLoggedIn ? auth.user?.preferences : initialStatePreferences);
 
   // centralized sign in function
   const signIn = useCallback(async (user) => {
     console.log("AuthProvider signIn, user:", user);
     setAuth({ user });
-    if (user.preferences) { // when doing social login we get no preferences in user
-      setPreferences({ locale: user.preferences.locale, theme: user.preferences.theme });
+    if (user && user.preferences) { // user can be a user object or null, if login was unsuccessful
+      //_updateUserPreferences(user, user.preferences);
+      setPreferences(user.preferences);
     }
   });
 
-  const updateSignIn = useCallback(async (user) => {
+  const updateSignedInUserPreferences = useCallback(async (user) => {
+    console.log("AuthProvider updateSignedInUserPreferences, user:", user);
     setAuth({ user });
-    if (user.preferences) { // when doing social login we get no preferences in user
-      setPreferences({ locale: user?.preferences?.locale, theme: user?.preferences?.theme });
+    if (user && user.preferences) {
+      setPreferences(user.preferences);
+      _updateUserPreferences(user, user.preferences);
     }
   });
 
   const changeLocale = useCallback((locale) => {
-    setPreferences({
-      ...preferences, // spread the current preferences to keep existing keys
-      locale, // update the locale
-    });
-  }, [preferences, setPreferences]);
+    console.log("AuthProvider changeLocale, user:", auth.user, ", locale:", locale);
+    const newPreferences = {
+      ...preferences,
+      locale,
+    };
+
+    setPreferences(newPreferences);
+
+    if (isLoggedIn && auth.user) { // user is logged in, update auth.user.preferences.locale
+      setAuth({ user: {
+        ...auth.user,
+        preferences: newPreferences,
+      }});
+      _updateUserPreferences(auth.user, newPreferences);
+    } else { // user is not logged in, update guest.user.preferences.locale
+      setGuest({ user: {
+        preferences: newPreferences,
+      }});
+    }
+    //i18n.changeLanguage(locale);
+  }, [preferences, setPreferences, setAuth, setGuest, isLoggedIn, auth.user]);
 
   const toggleTheme = useCallback(async () => {
     const newPreferences = {
@@ -42,32 +64,31 @@ const AuthProvider = (props) => {
       theme: preferences.theme === "light" ? "dark" : "light", // update the theme
     };
 
-    // Set the state and serialize to the database
     setPreferences(newPreferences);
-    // setPreferences({
-    //   ...preferences, // spread the current preferences to keep existing keys
-    //   theme: preferences.theme === "light" ? "dark" : "light", // update the theme
-    // });
-    let ok = false;
-    if (auth.user) {
-      try {
-        const result = await apiCall("post", "/user/updateUser", { email: auth.user.email, preferences: newPreferences });
-        if (result.err) {
-          // do not even show error to user, signout is also completed only client side
-          console.error("update user error:", result.err);
-        } else {
-          ok = true
-          console.log("update user successful", result);
-        }
-      } catch (error) {
-        console.error("update user error:", error);
-      }
-    } else {
-      console.warning("can't update guest user preferences");
-    }
-  }, [preferences, setPreferences]);
 
-  const isLoggedIn = auth.user ? true : false;
+    if (isLoggedIn && auth.user) { // user is logged in, update auth.user.preferences.theme
+      setAuth({ user: {
+        ...auth.user,
+        preferences: newPreferences,
+      }});
+      _updateUserPreferences(auth.user, newPreferences);
+    } else { // user is not logged in, update guest.user.preferences.theme
+      setGuest({ user: {
+        preferences: newPreferences,
+      }});
+    }
+  }, [preferences, setPreferences, setAuth, setGuest, isLoggedIn, auth.user]);
+
+  // TODO: call this fnction os successful signup
+  const cloneGuestUserPreferencesToAuthUserOnSignup = async (user) => {
+    if (guest.user?.preferences) {
+      const guestPreferences = guest.user?.preferences;
+      const newUser = { ...user, preferences: guestPreferences };
+      setAuth({ user: newUser });
+      //setGuest({ user: null });
+      alert("cloned guest user preferences to auth user: " + JSON.stringify(newUser));
+    }
+  };
 
   // centralized sign out function
   const signOut = useCallback(async () => {
@@ -86,26 +107,28 @@ const AuthProvider = (props) => {
         console.error("sign out error:", error);
       }
       setAuth({ user: false }); // user is not set, but not null, it means she has an account
-      setPreferences(initialStatePreferences); // on sign out, reset initial state preferences
+      setPreferences(guest.preferences);
       return ok;
     } else {
-      console.warning("already signed out");
+      console.warn("already signed out");
     }
-  }, [auth.user, setAuth]);
+  }, [auth.user, setAuth, apiCall]);
 
-  // console.log("AuthContext.Provider value:", {
-  //   auth,
-  //   preferences,
-  //   isLoggedIn,
-  //   didSignInBefore,
-  //   signIn,
-  //   updateSignIn,
-  //   signOut,
-  //   toggleTheme,
-  // });
+  const _updateUserPreferences = useCallback(async (user, preferences) => {
+    try {
+      const result = await apiCall("post", "/user/updateUser", { _id: user.id, /*email: auth.user.email,*/ preferences });
+      if (result.err) {
+        console.error("update user error:", result.err);
+      } else {
+        console.log("update user successful", result);
+      }
+    } catch (error) {
+      console.error("update user error:", error);
+    }
+  }, [auth.user, apiCall]);
 
   return (
-    <AuthContext.Provider value={{ auth, preferences, isLoggedIn, didSignInBefore, signIn, updateSignIn, signOut, changeLocale, toggleTheme }}>
+    <AuthContext.Provider value={{ auth, guest, preferences, isLoggedIn, didSignInBefore, signIn, updateSignedInUserPreferences, cloneGuestUserPreferencesToAuthUserOnSignup, signOut, changeLocale, toggleTheme }}>
       {props.children}
     </AuthContext.Provider>
   );

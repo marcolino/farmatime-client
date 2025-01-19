@@ -60,7 +60,7 @@ export const useAxiosLoader = (delayThreshold = config.spinner.delay, setDisable
     },
     error: error => {
       dec();
-      if (error.response?.status === 401) {
+      if (error?.response?.status === 401) {
         setDisableLoader(true);
       }
       return Promise.reject(error);

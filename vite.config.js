@@ -3,8 +3,8 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { VitePWA } from "vite-plugin-pwa";
 import { createHtmlPlugin } from 'vite-plugin-html';
-import dotenv from "dotenv";
-import config from "./src/config";
+// import dotenv from "dotenv";
+// import config from "./src/config";
 
 // load environment variables from .env
 //dotenv.config();

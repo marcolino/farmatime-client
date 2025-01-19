@@ -5,6 +5,7 @@ import { Box, Typography } from "@mui/material";
 import SignalWifi3BarOutlinedIcon from "@mui/icons-material/SignalWifi3BarOutlined";
 import SignalWifiBadOutlinedIcon from "@mui/icons-material/SignalWifiBadOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { AuthContext } from "../providers/AuthProvider";
 import { useDialog } from "../providers/DialogProvider";
 import { OnlineStatusContext } from "../providers/OnlineStatusProvider";
 import { i18n, getNextSupportedLanguage }  from "../i18n";
@@ -21,6 +22,7 @@ const Footer = ({ changeLocale }) => {
   // const [dialogContent, setDialogContent] = useState(null);
   // const [dialogCallback, setDialogCallback] = useState(null);
   const isOnline = useContext(OnlineStatusContext);
+  const { auth, guest } = useContext(AuthContext);
 
   useEffect(() => { // read build info from file on disk
     if (!buildInfo) {
@@ -43,6 +45,17 @@ const Footer = ({ changeLocale }) => {
         ;
     }
   }, []);
+
+  useEffect(() => { // update language depending on user propertis change
+    // get the current user's language preference or fall back to the default
+    const userPreferences = auth.user?.preferences || guest.user?.preferences;
+    const currentLanguage = userPreferences?.locale || i18n.language;
+    
+    // update the language flag
+    setLanguageFlag(config.locales[currentLanguage]?.flag);
+
+    i18n.changeLanguage(currentLanguage);
+  }, [auth, guest]); // re-run when auth or guest state changes
 
   const infoTitle = packageJson.name; 
   const infoContents = `\

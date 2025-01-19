@@ -19,7 +19,6 @@ const CookieConsent = (props) => {
   const [isConsentGiven, setIsConsentGiven] = useState(true); // assume true to avoid blinking...
   const [profilingConsent, setProfilingConsent] = useState(false);
   const [statisticsConsent, setStatisticsConsent] = useState(false);
-
   const [showCustomization, setShowCustomization] = useState(false);
 
   // accept all cookies

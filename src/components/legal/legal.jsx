@@ -7,14 +7,13 @@ import privacyPolicy_en from "./en/PrivacyPolicy";
 import privacyPolicy_it from "./it/PrivacyPolicy";
 import termsOfUse_en from "./en/TermsOfUse";
 import termsOfUse_it from "./it/TermsOfUse";
-import { i18n } from "../../i18n";
+import { getCurrentBrowserLanguage } from "../../i18n";
 
 
 function Legal(props) {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  language = i18n.getCurrentBrowserLanguage();
+  const language = getCurrentBrowserLanguage();
 
   const contents = (
     props.doc === "privacyPolicy" ? (

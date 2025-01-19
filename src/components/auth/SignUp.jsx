@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Avatar from "@mui/material/Avatar";
@@ -22,6 +22,7 @@ import {
   Google,
 } from "@mui/icons-material";
 //import { useSnackbar } from "../../providers/SnackbarManager";
+import { AuthContext } from "../../providers/AuthProvider";
 import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { apiCall } from "../../libs/Network";
 import { validateFirstName, validateLastName, validateEmail, validatePassword } from "../../libs/Validation";
@@ -44,6 +45,7 @@ function SignUp() {
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogContent, setDialogContent] = useState(null);
   const [dialogCallback, setDialogCallback] = useState(null);
+  const { cloneGuestUserPreferencesToAuthUserOnSignup } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
 
@@ -245,6 +247,7 @@ function SignUp() {
     } else {
       setEmail("");
       setCode("");
+      cloneGuestUserPreferencesToAuthUserOnSignup();
       handleOpenDialog(
         t("Registered successfully"),
         result.message,
@@ -444,7 +447,7 @@ function SignUp() {
               
               <Grid container justifyContent="flex-start" sx={{ mt: 4 }}>
                 <Typography component="h6" variant="caption" color="textSecondary" align="center">
-                  {t("By signing up you agree to our")} <Link href="/terms-of-use" color="textPrimary">{t("terms of use")}</Link> {" "}
+                  {t("By signing up")} {t("you agree to our")} <Link href="/terms-of-use" color="textPrimary">{t("terms of use")}</Link> {" "}
                   {t("and you confirm you have read our")} <Link href="/privacy-policy" color="textPrimary">{t("privacy policy")}</Link>
                   {", "} {t("including cookie use")} {"."}
                 </Typography>

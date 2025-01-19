@@ -184,31 +184,40 @@ const refreshAccessToken = async () => {
 // response interceptor to refresh tokens
 instance.interceptors.response.use(
   response => {
-    if (response.headers["x-maintenance-status"] === "true") {
-      if (window.location.pathname !== "/work-in-progress") {
-        localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
-        localStorage.setItem("x-maintenance-path", window.location.pathname); // for client-side routing maintenance
-        window.location.href = "/work-in-progress";
-      }
-    } else {
-      localStorage.removeItem("x-maintenance-status");
-    }
+    // if (response.headers["maintenanceStatus"] === "true") {
+    //   if (window.location.pathname !== "/work-in-progress") {
+    //     LocalStorage.set("maintenanceStatus", "true"); // for client-side routing maintenance
+    //     LocalStorage.set("maintenancePath", window.location.pathname); // for client-side routing maintenance
+    //     window.location.href = "/work-in-progress";
+    //   }
+    // } else {
+    //   LocalStorage.remove("maintenanceStatus");
+    //   const maintenancePath = LocalStorage.get("maintenancePath");
+    //   if (maintenancePath) { // maintenance path is set, we did just restore a not work-in-progress status
+    //     window.location.href = maintenancePath;
+    //     LocalStorage.remove("maintenancePath");
+    //   }
+    // }
     return response;
   },
   async (error) => {
     const { config, response } = error;
-    console.log("+++++++++++++++++++++++++++++  ERROR, STATUS IS:", response.status, ", URL IS:", config.url);
     if (!response) {
-      return Promise.reject(new Error("No response from server!"));
+      return Promise.reject(new Error(i18n.t("No response from server!")));
     }
     if (response.status === 503) { // on maintenance
       if (window.location.pathname !== "/work-in-progress") {
-        //localStorage.setItem("x-maintenance-status", "true"); // for client-side routing maintenance
-        localStorage.setItem("x-maintenance-path", window.location.pathname); // for client-side routing maintenance
+        LocalStorage.set("maintenanceStatus", true); // for client-side routing maintenance
+        LocalStorage.set("maintenancePath", window.location.pathname); // for client-side routing maintenance
         window.location.href = "/work-in-progress";
       }
-    //} else {
-    //  localStorage.removeItem("x-maintenance-status");
+    } else {
+      LocalStorage.remove("maintenanceStatus");
+      const maintenancePath = LocalStorage.get("maintenancePath");
+      if (maintenancePath) { // maintenance path is set, we did just restore a not work-in-progress status
+        window.location.href = maintenancePath;
+        LocalStorage.remove("maintenancePath");
+      }
     }
     if (response.status === 404) { // page not found
       if (config.url !== "/page-not-found") {
@@ -225,9 +234,9 @@ instance.interceptors.response.use(
     }
 
     // if the user has signed out, do not retry requests
-    if (isSignedOut) {
-      console.log("Request aborted because user is signed out:", config.url);
-      return Promise.reject();
+    if (isSignedOut && config.url === "/auth/signout") {
+      console.log("Request aborted because user is already signed out:", config.url);
+      return Promise.reject(new Error("Signout request ingnored because user is already signed out"));
     }
 
     if (
@@ -236,7 +245,8 @@ instance.interceptors.response.use(
       config.url !== "/auth/signup" &&
       config.url !== "/auth/signout" &&
       config.url !== "/auth/notificationVerification" &&
-      config.url !== "/auth/notificationPreferencesSave"
+      config.url !== "/auth/notificationPreferencesSave" //&&
+      //config.url !== "/payment/createCheckoutSession" // ???
     ) { // unauthorized
       if (!isRefreshing) {
         isRefreshing = true;

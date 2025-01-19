@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
+//import { useLocation } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
-import { Paper, Typography, Box, Grid, FormControlLabel, RadioGroup, Radio, useMediaQuery } from "@mui/material";
-import { Search } from "@mui/icons-material";
-import debounce from "lodash.debounce";
+import {
+  Paper, Typography, Box, Grid, Card, CardContent,
+  FormControlLabel, RadioGroup, Radio, useMediaQuery
+} from "@mui/material";
+import { Category, Search } from "@mui/icons-material";
+//import debounce from "lodash.debounce";
 import { AuthContext } from "../providers/AuthProvider";
 import { apiCall } from "../libs/Network";
-import { isValidRegex, escapeRegex/*, diacriticMatchRegex*/ }  from "../libs/Misc";
 import { TextFieldSearch, Button } from "./custom";
 import ProductsDetails from "./ProductsDetails";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
@@ -15,61 +18,35 @@ import config from "../config";
 function Products() {
   const { auth } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { showSnackbar } = useSnackbarContext(); 
-  const theme = useTheme();
-  const bottomRef = useRef(null);
-  const debounceSearchMilliseconds = 2 * 1000;
-
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+  
   if (config.customization === "mda") {
-    const [filters, setFilters] = useState({
+    const { showSnackbar } = useSnackbarContext(); 
+    const theme = useTheme();
+    const bottomRef = useRef(null);
+    //const debounceSearchMilliseconds = 2 * 1000;
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    //const { productId } = useParams(); // extract productId from route params
+    const filtersDefault = {
       mdaCode: "",
       oemCode: "",
       make: "",
       models: "",
       type: "",
-    });
+    };
+    const [filters, setFilters] = useState(filtersDefault);
     const [products, setProducts] = useState([]);
-    const [productsTotalCount, setProductsTotalCount] = useState(0);
+    const [productsTotalCount, setProductsTotalCount] = useState(-1); // to test initial status by 0 products found status
     const [isSearching, setIsSearching] = useState(false);
-    const [isDebouncing, setIsDebouncing] = useState(false);
-
-    //const type = key => (key === "models" ? "Array" : "String");
+    //const [isDebouncing, setIsDebouncing] = useState(false);
 
     // fetch products from the API
     const fetchProducts = async (filters) => {
+      console.log("DBG> fetchProducts");
       try {
         setIsSearching(true);
 
         // filter all props not empty props in filters
         const filter = Object.fromEntries(Object.entries(filters).filter(([_, v]) => v));
-
-        // // trim all filter values
-        // const filter = Object.keys(filtersWithValues).forEach(k => filtersWithValues[k] = filtersWithValues[k].trim());
-
-        // prepare filter for server search
-        // Object.keys(filter).forEach(k => {
-        //   let v = filter[k].trim(); // trim value to make search ignoring leading and trailing spaces
-        //   if (!isValidRegex(v)) { // if some regexp chars are used wrongly, we escape them...
-        //     v = escapeRegex(v);
-        //     console.info("search value had a wrong regexp, converted to :", v);
-        //     // showSnackbar(error, "warning");
-        //     // console.warn("Wrong regex fetchProducts filter:", error);
-        //     // return;
-        //   }
-          //const regex = config.db.products.search.mode === "EXACT" ? `^${v}$` : v; // a regexp to make case-insensitive exact/anywhere searches
-          //const regex = diacriticMatchRegex(v, config.db.products.search.mode === "EXACT"); // diacritics handling on server!
-          //const re = { "$regex": regex, $options: config.db.products.search.caseInsensitive ? "i"};
-          // let value;
-          // if (type(k) !== "Array") {
-          //   value = v; // single value for String fields
-          // } else {
-          //   value = { $elemMatch: re }; // $elemMatch value for Array fields
-          // }
-          //filter[k] = value;
-        //  filter[k] = v;
-        //});
         
         // get all products for these filters
         const result = await apiCall("get", "/product/getProducts", { filter });
@@ -87,58 +64,56 @@ function Products() {
       }
     };
 
-    const hasFilters = Object.values(filters).some(value => value !== "");
+    // // debounced products fetch
+    // const debouncedFetchProducts = debounce(async filters => {
+    //   console.log("DBG> debouncedFetchProducts, isDebouncing:", isDebouncing);
+    //   if (hasFilters()) {
+    //     if (/*true||*/isDebouncing) {
+    //       await fetchProducts(filters);
+    //     } else {
+    //       console.log("DBG> not fetchProducts because not isDebouncing!!!");
+    //     }
+    //   } else {
+    //     setProducts([]); // reset products list when filters are empty
+    //   }
+    //   console.log("DBG> setIsDebouncing FALSE (debouncedFetchProducts)");
+    //   setIsDebouncing(false);
+    // }, debounceSearchMilliseconds);
 
-    // debounced products fetch
-    const debouncedFetchProducts = debounce((filters) => {
-      if (hasFilters) {
-        fetchProducts(filters);
-      } else {
-        setProducts([]); // reset products list when filters are empty
-      }
-      setIsDebouncing(false);
-    }, debounceSearchMilliseconds);
+    const hasFilters = () => Object.values(filters).some(value => value !== "");
 
-    // effect to call the debounced fetch function when filters change, on desktop only
-    useEffect(() => {
-      if (!isMobile) {
-        setIsDebouncing(true);
-        debouncedFetchProducts(filters);
-        return () => { // cleanup function to cancel debounce on unmount
-          debouncedFetchProducts.cancel();
-        };
-      }
-    }, [filters, isMobile]);
+    // // effect to be run only runs when productId changes
+    // useEffect(() => {
+    //   if (productId) {
+    //     console.log("DBG> productId detected:", productId);
+    //     const filter = { _id: productId };
+    //     fetchProducts(filter);
+    //   }
+    // }, [productId]);
 
-    // handle input filters changes
-    const handleFiltersChange = (e) => {
-      const { name, value } = e.target;
+    // // effect to set isDebouncing when filters change, on desktop only
+    // useEffect(() => {
+    //   console.log("DBG> useEffect debouncedFetchProducts");
+    //   if (!isMobile) {
+    //     if (hasFilters()) {
+    //       setIsDebouncing(true);
+    //     }
+    //   }
+    // }, [filters, isMobile]);
 
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [name]: value,
-      }));
-    };
-
-    // handle search
-    const handleSearch = () => {
-      fetchProducts(filters);
-    };
-
-    // handle reset filters and product list
-    const handleResetFilters = () => {
-      setFilters({
-        mdaCode: "",
-        oemCode: "",
-        make: "",
-        models: "",
-        type: "",
-      });
-      setProducts([]);
-    };
+    // // effect to call the debounced fetch function when isDebouncing is set
+    // useEffect(() => {
+    //   if (isDebouncing) {
+    //     console.log("DBG> useEffect debouncedFetchProducts");
+    //     debouncedFetchProducts(filters);
+    //     return () => { // cleanup function to cancel debounce on unmount
+    //       debouncedFetchProducts.cancel();
+    //     };
+    //   }
+    // }, [isDebouncing]);
 
     useEffect(() => {
-      if (isMobile) { // on mobile scroll down to put product into view
+      if (isMobile) { // on mobile scroll down to put product into view (on desktop product is on another column, so it is always in to view)
         if (products.length > 0) {
           // delay scrolling to allow animations to complete
           const timeoutId = setTimeout(() => {
@@ -150,112 +125,175 @@ function Products() {
       }
     }, [products]);
 
+    // effect to cancel debouncing when isDebouncing turns to false
+    // useEffect(() => {
+    //   if (!isDebouncing) {
+    //     debouncedFetchProducts.cancel();
+    //   }
+    // }, [isDebouncing]);
+    
+    // handle input filters changes
+    const handleFiltersChange = (e) => {
+      console.log("DBG> handleFiltersChange");
+      const { name, value } = e.target;
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: value,
+      }));
+    };
+
+    // handle search
+    const handleSearch = () => {
+      console.log("DBG> handleSearch");
+      //console.log("DBG> setIsDebouncing FALSE (handleSearch)");
+      //setIsDebouncing(false);
+      fetchProducts(filters);
+    };
+
+    // handle reset filters and product list
+    const handleResetFilters = () => {
+      console.log("DBG> handleResetFilters");
+      setFilters(filtersDefault);
+      // console.log("DBG> setIsDebouncing FALSE (handleResetFilters)");
+      // setIsDebouncing(false);
+      setProducts([]);
+    };
+
+    console.log("DBG> ---------------------------------");
+    console.log("DBG> products:", products);
+    console.log("DBG> !isSearching:", !isSearching);
+    //console.log("DBG> !isDebouncing:", !isDebouncing);
+    console.log("DBG> hasFilters():", hasFilters()); 
+    console.log("DBG> filters:", filters);
+    //console.log("DBG> show products?:", (!isSearching && hasFilters() && !isDebouncing));
+    console.log("DBG> ---------------------------------");
+
     return (
       <Grid container spacing={0}>
         {/* for xs breakpoint, full width */}
-        <Grid item xs={12} sm={4} md={3} lg={2}
+        <Grid item xs={12} sm={4} md={3}
          sx={{ 
           minWidth: { sm: "280px" },
           flexGrow: { sm: 1 },
           flexBasis: { sm: "auto" }
-        }}>
-          <Box sx={{ height: "100%", padding: 2 }}>
-            <h2>{t("Products")}</h2>
-            <TextFieldSearch
-              name="mdaCode"
-              label={t("MDA code")}
-              value={filters.mdaCode}
-              onChange={handleFiltersChange}
-              startIcon={<Search />}
-              fullWidth={false}
-              sx={{
-                color: theme.palette.text.primary
-              }}
-            />
-            <TextFieldSearch
-              name="oemCode"
-              label={t("OEM code")}
-              value={filters.oemCode}
-              onChange={handleFiltersChange}
-              startIcon={<Search />}
-              fullWidth={false}
-              sx={{
-                color: theme.palette.text.primary
-              }}
-            />
-            <TextFieldSearch
-              name="make"
-              label={t("Make")}
-              value={filters.make}
-              onChange={handleFiltersChange}
-              startIcon={<Search />}
-              fullWidth={false}
-              sx={{
-                color: theme.palette.text.primary
-              }}
-            />
-            <TextFieldSearch
-              name="models"
-              label={t("Models")}
-              value={filters.models}
-              onChange={handleFiltersChange}
-              startIcon={<Search />}
-              fullWidth={false}
-              sx={{
-                color: theme.palette.text.primary
-              }}
-            />
+          }}>
+          
+          <Card style={{ marginTop: 20, padding: 10 }}>
+            <CardContent>
+              <Typography variant="h5" gutterBottom
+                sx={{
+                textAlign: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontWeight: "bold",
+                gap: 1, // add spacing between icon and text
+              }}>
+                <Category />
+                {t("Products")}
+              </Typography>
+              <Box sx={{ height: "100%", padding: 2 }}>
+                <TextFieldSearch
+                  name="mdaCode"
+                  label={t("MDA code")}
+                  value={filters.mdaCode}
+                  onChange={handleFiltersChange}
+                  startIcon={<Search />}
+                  fullWidth={false}
+                  sx={{
+                    color: theme.palette.text.primary
+                  }}
+                />
+                <TextFieldSearch
+                  name="oemCode"
+                  label={t("OEM code")}
+                  value={filters.oemCode}
+                  onChange={handleFiltersChange}
+                  startIcon={<Search />}
+                  fullWidth={false}
+                  sx={{
+                    color: theme.palette.text.primary
+                  }}
+                />
+                <TextFieldSearch
+                  name="make"
+                  label={t("Make")}
+                  value={filters.make}
+                  onChange={handleFiltersChange}
+                  startIcon={<Search />}
+                  fullWidth={false}
+                  sx={{
+                    color: theme.palette.text.primary
+                  }}
+                />
+                <TextFieldSearch
+                  name="models"
+                  label={t("Models")}
+                  value={filters.models}
+                  onChange={handleFiltersChange}
+                  startIcon={<Search />}
+                  fullWidth={false}
+                  sx={{
+                    color: theme.palette.text.primary
+                  }}
+                />
 
-            <RadioGroup
-              name="type"
-              value={filters.type}
-              onChange={handleFiltersChange}
-              sx={{
-                "& .MuiFormControlLabel-root": {
-                  marginBottom: -1.5, // reduce space between FormControlLabel elements
-                },
-              }}
-              aria-label="options"
-            >
-              {/* TODO: get type values from `getProductTypes` server call */}
-              <FormControlLabel value="" control={<Radio size={"small"} />}
-                label={<Typography variant="body2" color="textSecondary" sx={{whiteSpace:"nowrap"}}>{t("All")}</Typography>}
-              />
-              <FormControlLabel value="motorino" control={<Radio size={"small"} />}
-                label={<Typography variant="body2" color="textSecondary" sx={{whiteSpace:"nowrap"}}>motorino</Typography>}
-              />
-              <FormControlLabel value="alternatore" control={<Radio size={"small"} />}
-                label={<Typography variant="body2" color="textSecondary" sx={{whiteSpace:"nowrap"}}>alternatore</Typography>}
-              />
-            </RadioGroup>
+                <RadioGroup
+                  name="type"
+                  value={filters.type}
+                  onChange={handleFiltersChange}
+                  sx={{
+                    "& .MuiFormControlLabel-root": {
+                      marginBottom: -1.5, // reduce space between FormControlLabel elements
+                    },
+                  }}
+                  aria-label="options"
+                >
+                  {/* TODO: get type values from `getProductTypes` server call */}
+                  <FormControlLabel value="" control={<Radio size={"small"} />}
+                    label={<Typography variant="body2" color="textSecondary" sx={{whiteSpace:"nowrap"}}>{t("All")}</Typography>}
+                  />
+                  <FormControlLabel value="motorino" control={<Radio size={"small"} />}
+                    label={<Typography variant="body2" color="textSecondary" sx={{whiteSpace:"nowrap"}}>motorino</Typography>}
+                  />
+                  <FormControlLabel value="alternatore" control={<Radio size={"small"} />}
+                    label={<Typography variant="body2" color="textSecondary" sx={{whiteSpace:"nowrap"}}>alternatore</Typography>}
+                  />
+                </RadioGroup>
 
-            <Grid item xs={12} sm sx={{ flexGrow: 999, mt: 3 }}>
-              <Button color="primary" fullWidth={false} size={"large"} sx={{ mr: 1 }}
-                onClick={handleSearch}>
-                {t("Search")}
-              </Button>
-              <Button color="secondary" fullWidth={false} size={"small"} sx={{ mr: 1 }}
-                onClick={handleResetFilters}>
-                {t("Clear all")}
-              </Button>
-            </Grid>
+                <Grid item xs={12} sm sx={{ flexGrow: 999, mt: 3 }}>
+                  <Button color="primary" fullWidth={false} size={"large"} sx={{ margin: 1 }}
+                    onClick={handleSearch}>
+                    {t("Search")}
+                  </Button>
+                  <Button color="secondary" fullWidth={false} size={"small"} sx={{ margin: 1 }}
+                    onClick={handleResetFilters}>
+                    {t("Clear all")}
+                  </Button>
+                </Grid>
 
-            {
-              (!isSearching && hasFilters && !isDebouncing) && (
-                <Typography sx={{
-                  mt: 3,
-                  fontSize: ["0.95rem", "!important"],
-                }}>
-                  {productsTotalCount ?
-                    t("{{count}} products found", { count: productsTotalCount })
-                  :
-                    t("No products found")
-                  }
-                </Typography>
-              )
-            }
+                {
+                  (!isSearching && hasFilters()/* && !isDebouncing*/) && (
+                    <Typography sx={{
+                      mt: 3,
+                      fontSize: ["0.95rem", "!important"],
+                    }}>
+                      {
+                        (productsTotalCount < 0) ?
+                          <></>
+                        :
+                        (productsTotalCount === 0) ?
+                          t("No products found")
+                        :
+                          t("{{count}} products found", { count: productsTotalCount })
+                      }
+                    </Typography>
+                  )
+                }
 
-          </Box>
+              </Box>
+            </CardContent>
+          </Card>
 
         </Grid>
 
@@ -271,15 +309,21 @@ function Products() {
           <Box sx={{ height: "100%", py: 0, my: 0 }}>
            {
               isSearching ? (
-                <p>{/*{t("Loading...")}*/}</p>
+                <></>
               ) :
-              !hasFilters ? (
-                <p></p>
+              !hasFilters() ? (
+                <></>
               ) :
-              !isDebouncing && products.length === 0 ? (
-                    <p>{/*t("No products found")*/}</p>
+              // isDebouncing ? (
+              //   <></>
+              // ) :
+              (productsTotalCount < 0) ? (
+                <></>
               ) :
-              <ProductsDetails products={products} productsTotalCount={productsTotalCount}  />
+              (productsTotalCount === 0) ? (
+                <></>
+              ) :
+                <ProductsDetails products={products} productsTotalCount={productsTotalCount}  />
             }
           </Box>
           <span ref={bottomRef} _sx={{ display: "none" }} />

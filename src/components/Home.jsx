@@ -18,17 +18,15 @@ function Home() {
   }
 
   return (
-    <>
-      <Paper sx={{ padding: 4 }}>
-        {!auth?.user &&
-          <Typography>{t("Home page for guest user")}</Typography>
-        }
-        {auth?.user &&
-          <Typography>{t("Home page for logged user")}</Typography>
-        }
-      </Paper>
+    <Paper sx={{ padding: 4 }}>
+      {!auth?.user &&
+        <Typography>{t("Home page for guest user")}</Typography>
+      }
+      {auth?.user &&
+        <Typography>{t("Home page for logged user")}</Typography>
+      }
       {/* <Button onClick={() => showSnackbar("This is a custom snackbar", "info")} fullWidth={false}>Show Snackbar</Button> */}
-    </>
+    </Paper>
   );
 }
 

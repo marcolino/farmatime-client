@@ -6,13 +6,15 @@ import { SnackbarProviderWrapper } from "./providers/SnackbarProvider";
 import ServiceWorkerProvider from "./providers/ServiceWorkerProvider";
 import { DialogProvider } from "./providers/DialogProvider";
 import { AuthProvider, AuthContext } from "./providers/AuthProvider";
+import { CartProvider } from "./providers/CartProvider";
 import { OnlineStatusProvider } from "./providers/OnlineStatusProvider";
 import { LoaderProvider} from "./providers/LoaderProvider";
 import SessionProvider from "./providers/SessionProvider";
+import { MediaQueryProvider } from "./providers/MediaQueryProvider";
 import ServiceWorkerMessages from "./components/ServiceWorkerMessages";
 import Contents from "./components/Contents";
 import Routing from "./components/Routing";
-import CookieConsent  from "./components/CookieConsent";
+import CookiePreferences  from "./components/CookiePreferences";
 import BackgroundVideo from "./components/BackgroundVideo";
 import ClientInfoDisplay from "./components/ClientInfoDisplay";
 import Loader from "./components/Loader";
@@ -21,7 +23,7 @@ import { themeLight, themeDark } from "./themes/default";
 import config from "./config";
 
 /**
- * We need to separateg the logic into App and AppContent, because otherwise we access
+ * We need to separate the logic into App and AppContent, because otherwise we access
  * AuthContext (preferences and toggleTheme) before AuthContext from AuthProvider was setup
  */
 const App = () => {
@@ -38,7 +40,7 @@ const AppStructure = () => {
   const [theme, setTheme] = useState(config.ui.defaultTheme === "light" ? themeLight : themeDark);
 
   useEffect(() => {
-    if (preferences) {
+    if (preferences && preferences.theme) {
       setTheme(preferences.theme === "light" ? themeLight : themeDark);
     }
   }, [preferences]);
@@ -50,31 +52,35 @@ const AppStructure = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <DialogProvider>
-        <SnackbarProviderWrapper>
-        <ServiceWorkerMessages />
-          <ServiceWorkerProvider>
-            <OnlineStatusProvider>
-              <CssBaseline />
-              <CookieConsent />
-              <LoaderProvider>
-                <Loader loading={loading} />
-                <Router future={{ /* avoid v7 start transition warnings */ 
-                  v7_startTransition: true,
-                  v7_relativeSplatPath: true,
-                }}>
-                  <BackgroundVideo />
-                  <SessionProvider />
-                  {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
-                  <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
-                    <Routing />
-                  </Contents>
-                </Router>
-              </LoaderProvider>
-            </OnlineStatusProvider>
-          </ServiceWorkerProvider>
-        </SnackbarProviderWrapper>
-      </DialogProvider>
+      <CartProvider>
+        <DialogProvider>
+          <SnackbarProviderWrapper>
+            <ServiceWorkerMessages />
+              <ServiceWorkerProvider>
+                <OnlineStatusProvider>
+                  <MediaQueryProvider>
+                    <CssBaseline />
+                    <LoaderProvider>
+                      <Loader loading={loading} />
+                      <Router future={{ /* avoid v7 start transition warnings */ 
+                        v7_startTransition: true,
+                        v7_relativeSplatPath: true,
+                      }}>
+                        <BackgroundVideo />
+                        <SessionProvider />
+                        <CookiePreferences />
+                        {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                        <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
+                          <Routing />
+                        </Contents>
+                      </Router>
+                  </LoaderProvider>
+                  </MediaQueryProvider>
+                </OnlineStatusProvider>
+              </ServiceWorkerProvider>
+            </SnackbarProviderWrapper>
+          </DialogProvider>
+        </CartProvider>
     </ThemeProvider>
   );
 };

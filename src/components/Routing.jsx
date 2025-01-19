@@ -15,10 +15,11 @@ const Notifications = lazy(() => import("./Notifications"));
 const EditUser = lazy(() => import("./EditUser"));
 const EditProduct = lazy(() => import("./EditProduct"));
 const Legal = lazy(() => import("./legal/legal"));
-import CookieConsent from "./CookieConsent"; // avoid both dynamic and static import
+import CookiePreferences from "./CookiePreferences"; // avoid both dynamic and static import
 const Contacts = lazy(() => import("./Contacts"));
 const HandleUsers = lazy(() => import("./HandleUsers"));
 const HandleProducts = lazy(() => import("./HandleProducts"));
+const Cart = lazy(() => import("./Cart"));
 const NotificationPreferences = lazy(() => import("./NotificationPreferences"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
@@ -31,20 +32,23 @@ const Routing = () => {
         <Route element={<AnimationLayout />}>
           <Route path="/" exact element={<Home />} />
           <Route path="/signup/:waitingForCode?/:codeDeliveryMedium?" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signin/:redirectTo?/:redirectToParams?" element={<SignIn />} />
           <Route path="/social-signin-success" element={<SocialSignInSuccess />} />
           <Route path="/social-signin-error" element={<SocialSignInError />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/products/:productId?" element={<Products />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/edit-user/:userId/:origin" element={<EditUser />} />
           <Route path="/edit-product/:productId" element={<EditProduct />} />
           <Route path="/terms-of-use" element={<Legal doc="termsOfUse" />} />
           <Route path="/privacy-policy" element={<Legal doc="privacyPolicy" />} />
-          <Route path="/cookie-consent" element={<CookieConsent />} />
+          <Route path="/cookie-preferences" element={<CookiePreferences />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/handle-users" element={<HandleUsers />} />
           <Route path="/handle-products" element={<HandleProducts />} />
+          <Route path="/cart/:productIdToAdd?" element={<Cart />} />
+          <Route path="/payment-success" element={<Cart payment="success" />} />
+          <Route path="/payment-cancel" element={<Cart payment="cancel" />} />
           <Route path="/notification-preferences/:token?/:language?" element={<NotificationPreferences section="all" />} />
           <Route path="/email-preferences/:token?/:language?" element={<NotificationPreferences section="email" action="preferences" />} />
           <Route path="/email-unsubscribe/:token?/:language?" element={<NotificationPreferences section="email" action="unsubscribe" />} />

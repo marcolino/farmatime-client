@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import Carousel from "react-material-ui-carousel";
-import { Grid, Box, Button, IconButton, Typography, useMediaQuery } from "@mui/material";
-import { ArrowLeft, ArrowRight } from "@mui/icons-material";
+import { Grid, Box, Button, IconButton, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import { ArrowLeft, ArrowRight, Edit, ShoppingCart } from "@mui/icons-material";
+//import CustomIconButton from "./custom/IconButton";
 import { AuthContext } from "../providers/AuthProvider";
-import { isDealer } from "../libs/Validation";
+import { useCart } from "../providers/CartProvider";
+import { useDialog } from "../providers/DialogProvider";
+import { isDealer, isOperator } from "../libs/Validation";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import ImageContainer from "./ImageContainer";
 import PhoneNumber from "./PhoneNumber";
@@ -15,24 +18,30 @@ import config from "../config";
 
 const ProductsDetails = (props) => {
   const theme = useTheme();
+  const { auth, isLoggedIn } = useContext(AuthContext);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { t } = useTranslation();
   const { height, width } = useWindowDimensions();
   const [firstRender, setFirstRender] = useState(true);
   const [startPosition, setStartPosition] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const maxImageHeight = height / 2.8; // maximum image height, and details card height
-  const cycle = false;
+  const { showDialog } = useDialog();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+  // const { productId: productIdFromParams } = useParams();
+  // const [productId] = useState(productIdFromParams || null);
+  const maxImageHeight = height / 2.8; // maximum image height, and details card height - TODO: put in config/app/products/carousel/viewportHeightRatio
+  const loop = false; // TODO: put in config/app/products/carousel/loop
 
-  useEffect(() => {
+    
+  useEffect(() => { // disable animation for first render
     const timer = setTimeout(() => setFirstRender(false), 200);
     return () => clearTimeout(timer);
   }, []);
 
-  if ((props.products.length > 0) && (props.productsTotalCount > props.products.length)) {
-    props.products.push({
-      limit: true
-    });
+  if (props.products.length > 0 && props.productsTotalCount > props.products.length) {
+    props.products.push({ limit: true });
   }
 
   const handleDragStart = (e) => {
@@ -44,27 +53,21 @@ const ProductsDetails = (props) => {
 
   const handleDragMove = (e) => {
     if (!startPosition) return;
-
     const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
     const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-
     const deltaX = clientX - startPosition.x;
+    //const deltaY = Math.abs(e.type === "touchmove" ? e.touches[0].clientY : e.clientY - startPosition.y);
     const deltaY = Math.abs(clientY - startPosition.y);
-
     if (deltaY > Math.abs(deltaX)) {
       setStartPosition(null);
       setIsDragging(false);
-      return;
     }
-    //e.preventDefault();
   };
 
   const handleDragEnd = (e) => {
     if (!startPosition) return;
-
     const clientX = e.type === "touchend" ? e.changedTouches[0].clientX : e.clientX;
     const clientY = e.type === "touchend" ? e.changedTouches[0].clientY : e.clientY;
-
     const deltaX = clientX - startPosition.x;
     const deltaY = Math.abs(clientY - startPosition.y);
 
@@ -81,32 +84,45 @@ const ProductsDetails = (props) => {
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? (cycle ? props.products.length - 1 : prev) : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? (loop ? props.products.length - 1 : prev) : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === props.products.length - 1 ? (cycle ? 0 : prev) : prev + 1));
+    setCurrentIndex((prev) => (prev === props.products.length - 1 ? (loop ? 0 : prev) : prev + 1));
   };
+
+  const editProduct = () => {
+
+  };
+
+  const buyProduct = () => {
+    if (!isLoggedIn) {
+      showDialog({
+        title: t("Access to buy"),
+        message: t("Please access before buying"),
+        confirmText: t("Access"),
+        cancelText: t("Cancel"),
+        onConfirm: () => navigate(`/signin/cart/${currentProduct._id}`),
+        onCancel: () => { },
+      });
+    } else {
+      addToCart(currentProduct);
+      navigate("/cart"/*`/cart/${currentProduct._id}`*/);
+    }
+  };
+
+  //const productId = currentIndex; // TODO...
+  const currentProduct = props.products[currentIndex];
 
   return (
     <Box
-      sx={{ 
+      sx={{
         cursor: isDragging ? "grabbing" : "grab",
         userSelect: "none",
-        WebkitUserSelect: "none",
-        MozUserSelect: "none",
-        msUserSelect: "none",
-        touchAction: "none", // was: "pan-y",
+        touchAction: "none",
       }}
-      onMouseDown={(e) => {
-        //e.preventDefault(); // WARNING: with this code, the first touch on next product icon, search input is focused, forcing a scroll up, which is not wanted...
-        handleDragStart(e);
-      }}
-      onMouseMove={(e) => {
-        if (isDragging) {
-          handleDragMove(e);
-        }
-      }}
+      onMouseDown={handleDragStart}
+      onMouseMove={isDragging ? handleDragMove : null}
       onMouseUp={handleDragEnd}
       onMouseLeave={handleDragEnd}
       onTouchStart={handleDragStart}
@@ -120,17 +136,17 @@ const ProductsDetails = (props) => {
         animation={firstRender ? "none" : "slide"}
         swipe={false}
         indicators={false}
-        navButtonsAlwaysInvisible={true}
-        cycleNavigation={false}
+        navButtonsAlwaysInvisible
+        loopNavigation={false}
         sx={{
           "& .MuiPaper-root": {
-            overflow: "hidden"
+            overflow: "hidden",
           },
           "& img": {
             width: "100%",
             height: "auto",
-            objectFit: "contain"
-          }
+            objectFit: "contain",
+          },
         }}
       >
         {props.products.map((product, index) => (
@@ -139,27 +155,88 @@ const ProductsDetails = (props) => {
       </Carousel>
 
       {/* navigation bar */}
-      {props.products.length > 0 &&
-        <Box sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center", // vertical align
-          gap: 1, // adds some spacing between the elements
-        }}>
-          <IconButton aria-label={t("previous page")} disabled={(currentIndex === 0 && !cycle)} /*size="small"*/
-            onClick={handlePrev}>
-            <ArrowLeft fontSize="medium" />
-          </IconButton>
-          <Typography sx={{ py: 0, my: 0 }}>
-            {t("Page")} {1 + currentIndex} {t("of")} {props.productsTotalCount}
-          </Typography>
-          <IconButton aria-label={t("next page")} disabled={(currentIndex === props.products.length - 1 && !cycle)} /*size="small"*/
-            onClick={handleNext}>
-            <ArrowRight fontSize="medium" />
-          </IconButton>
-        </Box>
-      }
+      {props.products.length > 0 && (
+        <Grid container sx={{ mt: 2, mx: {xs: 0, sm: 3}}}>
+          <Grid item xs={2}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            {!currentProduct.limit &&
+              <Tooltip title={t("Buy product")}>
+                <IconButton
+                  size="small"
+                  onClick={() => buyProduct()}
+                  sx={{
+                    borderRadius: 1,
+                    px: { xs: 1, sm: 2, },
+                    py: 1,
+                    margin: 1,
+                    backgroundColor: "primary.main",
+                    "&:hover": {
+                      backgroundColor: "primary.dark", // slightly darker on hover
+                    },
+                  }}
+                >
+                  <ShoppingCart fontSize="small" />
+                  {!isMobile && <Typography component={"span"} variant={"caption"} sx={{ pl: 1, fontSize: "1rem", fontWeight: "bold"}}> {t("Buy")} </Typography>}
+                </IconButton>
+              </Tooltip>
+            }
+          </Grid>
+          
+          <Grid item xs={2} sx={{ justifyContent: "center" }}>
+            {(!currentProduct.limit && isLoggedIn && isOperator(auth.user)) &&
+              <Tooltip title={t("Edit product")}>
+                <IconButton
+                  size="small"
+                  onClick={() => editProduct()}
+                  sx={{
+                    borderRadius: 1,
+                    px: { xs: 1, sm: 2, },
+                    py: 1,
+                    margin: 1,
+                    backgroundColor: "primary.main", // or a custom color
+                    "&:hover": {
+                      backgroundColor: "primary.dark", // slightly darker on hover
+                    },
+                  }}
+                >
+                  <Edit fontSize="small" />
+                  {!isMobile && <Typography component={"span"} variant={"caption"} sx={{ pl: 1, fontSize: "1rem", fontWeight: "bold"}}> {t("Edit")} </Typography>}
+                </IconButton>
+              </Tooltip>
+            }
+          </Grid>
+        
+          <Grid
+            item
+            xs={4}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <IconButton aria-label={t("previous page")} disabled={currentIndex === 0 && !loop} onClick={handlePrev}>
+              <ArrowLeft fontSize="medium" />
+            </IconButton>
+            <Typography>
+              {t("Page")} {currentIndex + 1} {t("of")} {props.productsTotalCount}
+            </Typography>
+            <IconButton
+              aria-label={t("next page")}
+              disabled={currentIndex === props.products.length - 1 && !loop}
+              onClick={handleNext}
+            >
+              <ArrowRight fontSize="medium" />
+            </IconButton>
+          </Grid>
 
+          <Grid item xs={2+2}></Grid>{/* to balance buttons on the left */}
+        </Grid>
+      )}
     </Box>
   );
 };

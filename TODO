@@ -199,9 +199,15 @@
 - add "Notification Preferences" in EditUser.jsx (only if own profile) - OK
 - change "Consenso Cookies" in "Cookies Preferences" in EditUser.jsx - OK
 - always use useDialog, and not directly DialogConfirm (when possible) - OK
+- refactor cookies consent like notification preferences - OK
+- use API_KEY from ../acme-server/.env in scripts/translate - OK
+- reduce ProductDetails height on mobile to avoid scroll (no...) - OK
+- use LocalStorage and not localStorage directly - OK
+- is maintenancePath localstorage really useful? yes - OK
+- do not use localstorage preferences, always use auth.user.preferences - OK
+- signout MUST redirect to /, otherwise current page can get 403 error... - OK
 
-- refactor cookies consent like notification preferences
-- reduce ProductDetails height on mobile to avoid scroll
+- use MediaQueryProvider instead of useMediaQuery
 - add "Edit" button in ProductDetails for at least operator users
 - add "Buy" button in ProductDetails for all users
 - migliorare il tema scuro

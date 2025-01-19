@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import {
-  AppBar, Toolbar, Box, Typography, Button, IconButton, Link,
+  AppBar, Toolbar, Box, Typography, Button, IconButton, Link, Badge,
   ListItemText, ListItemIcon, Menu, MenuItem, Tooltip, useMediaQuery
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -9,13 +9,14 @@ import { useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AccountCircle, ExitToApp, ManageAccounts,
-  ShoppingCart, Brightness4, Brightness7, ContactPhone,
+  ShoppingCart, Category, Brightness4, Brightness7, ContactPhone,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
 import { cancelAllRequests } from "../middlewares/Interceptors";
-import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { AuthContext } from "../providers/AuthProvider";
+import { useCart } from "../providers/CartProvider";
 import { isAdmin } from "../libs/Validation";
 import logoMain from "../assets/images/LogoMain.png";
 import config from "../config";
@@ -27,13 +28,30 @@ const Header = ({ theme, toggleTheme }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
-  const [authRoute, setIsAuthRoute] = useState(location.pathname === "/signin");
+  //const [authRoute, setIsAuthRoute] = useState(location.pathname === "/signin");
+  const { cart } = useCart();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const sections = [
     {
+      key: "cart",
+      to: "/cart",
+      icon:
+        cart.items.length ?
+          <Badge badgeContent={cart.items.length} color="primary"><ShoppingCart /></Badge>
+        :
+          <ShoppingCart />
+      ,
+      text:
+        cart.items.length && !isMobile ?
+          <Badge badgeContent={cart.items.length} color="primary">{t("Cart")}</Badge>
+        :
+          t("Cart")
+    },
+    {
       key: "products",
       to: "/products",
-      icon: <ShoppingCart />,
+      icon: <Category />,
       text: t("Products"),
     },
     {
@@ -62,7 +80,7 @@ const Header = ({ theme, toggleTheme }) => {
       },
       {
         label: t("Handle products"),
-        icon: <ShoppingCart />,
+        icon: <Category />,
         href: "/handle-products",
       }]
     : []),
@@ -93,8 +111,6 @@ const Header = ({ theme, toggleTheme }) => {
       ] : [ ]
     ),
   ];
-
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -127,7 +143,8 @@ const Header = ({ theme, toggleTheme }) => {
     try {
       cancelAllRequests(); // cancel all ongoing requests, to avoid "You must be authenticated for this action" warnings
       ok = await signOut();
-      console.log("signout success:", ok);
+      console.log("signout result:", ok);
+      navigate("/"); // navigate to home page, because guest user could not be entitled to stay on current page
     } catch (err) {
       console.error("signout error:", err);
     }
@@ -166,16 +183,31 @@ const Header = ({ theme, toggleTheme }) => {
         </Box>
 
         {isMobile ?
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleDrawer(true)}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          :
+          <>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={() => navigate("cart")}
+              sx={{ mr: 2 }}
+            >
+              {cart.items.length ?
+                <Badge badgeContent={cart.items.length} color="primary"><ShoppingCart /></Badge>
+                :
+                <ShoppingCart />
+              }
+            </IconButton>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer(true)}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </>
+        :
           <Box sx={{ display: "flex", alignItems: "center" }}>
             {sections.map(section => (
               <Button key={section.key} color="inherit" component={RouterLink} to={section.to}>{section.text}</Button>

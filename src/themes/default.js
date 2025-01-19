@@ -76,7 +76,7 @@ const customThemeLightProps = {
     },
     background: {
       default: "rgb(248, 252, 255)",
-      paper: "#e4e4e7",
+      paper: "#ebf2f6",
     },
     text: {
       primary: "rgba(0, 0, 0, 0.87)",

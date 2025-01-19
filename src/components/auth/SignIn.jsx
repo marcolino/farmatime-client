@@ -1,11 +1,9 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
+import { Avatar, Box, Link, Checkbox, FormControlLabel } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import FacebookIcon from "@mui/icons-material/Facebook";
+import FacebookIcon from "@mui/icons-material/Facebook"; // TODO: one import for all mui icons...
 import GoogleIcon from "@mui/icons-material/Google";
 import Icon from "@mui/material/Icon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -14,7 +12,7 @@ import Lock from "@mui/icons-material/Lock";
 //import DialogConfirm from "../DialogConfirm";
 import { useDialog } from "../../providers/DialogProvider";
 import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
-import { TextField, TextFieldPassword, Button } from "../custom";
+import { TextField, TextFieldPassword, Button} from "../custom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { validateEmail } from "../../libs/Validation";
 import { apiCall }  from "../../libs/Network";
@@ -33,7 +31,13 @@ function SignIn() {
   // const [openDialog, setOpenDialog] = useState(false);
   // const [dialogTitle, setDialogTitle] = useState(null);
   // const [dialogContent, setDialogContent] = useState(null);
-  const [dialogCallback, setDialogCallback] = useState(null);
+  //const [dialogCallback, setDialogCallback] = useState(null);
+  const { redirectTo: redirectToFromParams } = useParams();
+  const [redirectTo,] = useState(redirectToFromParams || null);
+  const { redirectToParams: redirectToParamsFromParams } = useParams();
+  const [redirectToParams,] = useState(redirectToParamsFromParams || null);
+  const [rememberMe, setRememberMe] = useState(false);
+  
 
   const handleSocialLogin = (event, provider) => {
     event.preventDefault(); // redirect fails without preventing default behaviour!
@@ -41,13 +45,17 @@ function SignIn() {
     window.location.replace(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`);
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    if (dialogCallback) {
-      setDialogCallback(null);
-      dialogCallback();
-    }
+  // const handleCloseDialog = () => {
+  //   setOpenDialog(false);
+  //   if (dialogCallback) {
+  //     setDialogCallback(null);
+  //     dialogCallback();
+  //   }
+  // };
+  const handleRememberMeChange = (event) => {
+    setRememberMe(event.target.checked);
   };
+
   
   const validateForm = () => {
     // validate email formally
@@ -87,6 +95,7 @@ function SignIn() {
     const result = await apiCall("post", "/auth/signin", {
       email,
       password,
+      rememberMe,
     });
     if (result.err) {
       switch (result.data?.code) {
@@ -121,12 +130,9 @@ function SignIn() {
       showSnackbar(t("Sign in successful"), "success");
       console.log("Email signin result:", result);
       signIn(result);
-      // if (!rememberMe) { // to handle remember-me flag
-      //   localStorage.clear();
-      // }
       setEmail("");
       setPassword("");
-      navigate("/", { replace: true });
+      navigate(redirectTo ? `/${redirectTo}` : "/", { replace: true, state: { params: redirectToParams } });
     }  
   };
   
@@ -200,10 +206,37 @@ function SignIn() {
             {t("Sign in")}
           </Button>
           <Box
+            display="flex"
+            justifyContent="flex-end"
+          >
+            <FormControlLabel
+              checked={rememberMe}
+              onChange={handleRememberMeChange}
+              labelPlacement="start" 
+              control={
+                <Checkbox 
+                  size="small"
+                  color="primary"
+                  sx={{
+                    mr: -1
+                  }}
+                />
+              }
+              label={t("Remember me")}
+              color='text.secondary'
+              sx={{
+                mr: 0,
+                '& .MuiFormControlLabel-label': {
+                  fontSize: '1rem',
+                },
+              }}
+            />
+          </Box>
+          <Box
             sx={{
               display: "flex",
               justifyContent: "flex-end",
-              mt: 1,
+              mt: 0,
             }}
           >
             <Typography variant="body2" color="textSecondary">

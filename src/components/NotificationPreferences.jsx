@@ -15,16 +15,16 @@ import { AuthContext } from "../providers/AuthProvider";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { useDialog } from "../providers/DialogProvider";
 import { apiCall } from "../libs/Network";
-import ErrorMessage from "../components/ErrorMessage";
+//import ErrorMessage from "../components/ErrorMessage";
 import { i18n }  from "../i18n";
 import { SectionHeader } from "./custom";
 import config from "../config";
 
 
 const NotificationPreferences = (props) => {
-  const { auth } = useContext(AuthContext);
+  const { auth, updateSignedInUserPreferences } = useContext(AuthContext);
   const [userId, setUserId] = useState(null);
-  const [error, setError] = useState(null);
+  //const [error, setError] = useState(null);
   const { token: tokenFromParams } = useParams();
   const [token,] = useState(tokenFromParams || null);
   const { language: languageFromParams } = useParams();
@@ -58,7 +58,6 @@ const NotificationPreferences = (props) => {
         setUserId(auth.user.id);
         //setNotificationsOriginal(auth.user.preferences.notifications);
         setNotifications(auth.user.preferences.notifications);
-        alert("Got notifications via internal routing: " + JSON.stringify(auth.user.preferences.notifications));
       } else { // routing is external, use token and /auth/notificationVerification call for authentication
         const result = await apiCall("post", "/auth/notificationVerification", { token });
         if (result.err) {
@@ -70,19 +69,27 @@ const NotificationPreferences = (props) => {
             setUserId(result.user._id);
             //setNotificationsOriginal(result.user.preferences.notifications);
             setNotifications(result.user.preferences.notifications);
-            alert("Got notifications via external routing: " + JSON.stringify(result.user.preferences.notifications));
           }
         }
       }
     } catch (error) {
       setUserId(false); // false means token error
       console.error(error.message);
-      setError(
-        error.message + ".\n\n" +
-        t("Please") + " " +
-        (auth?.user ? "" : t("authenticate (pressing the [Enter] button on top) and then")) +
-        t("go to \"Profile\" in user's menu, and use \"Notifications preferences\" to change your notification preferences") + "."
-      );
+      showDialog({
+        title: t("Authentication error"),
+        message:
+          error.message + ".\n\n" +
+          t("Please") + " " +
+          (auth?.user ? "" : t("authenticate (pressing the [Enter] button on top) and then")) +
+          t("go to \"Profile\" in user's menu, and use \"Notifications preferences\" to change your notification preferences") + ".",
+        confirmText: t("Ok")
+      });
+      // setError(
+      //   error.message + ".\n\n" +
+      //   t("Please") + " " +
+      //   (auth?.user ? "" : t("authenticate (pressing the [Enter] button on top) and then")) +
+      //   t("go to \"Profile\" in user's menu, and use \"Notifications preferences\" to change your notification preferences") + "."
+      // );
     }
   };
 
@@ -103,7 +110,6 @@ const NotificationPreferences = (props) => {
   };
   
   const handleConfirm = async () => {
-
     if (props.action === "unsubscribe") { // unsubcribe action requested, set all section items to false
       if ((props.section === "all") || (props.section === "email")) {
         Object.keys(notifications[props.section]).forEach(notification => {
@@ -152,7 +158,17 @@ const NotificationPreferences = (props) => {
     if (result.err) {
       showSnackbar(result.message, "error");
       throw new Error(result.message);
+    } else {
+      console.log(`*** notificationPreferencesSave${(props.internalRouting) ? "Internal" : "External"} result:`, result);
+      if (auth.user?.id === result.user._id) { // the user is the logged one
+        // update user preferences field in auth
+        const updatedUser = auth.user;
+        updatedUser.preferences = result.user.preferences;
+        updateSignedInUserPreferences(updatedUser);
+      }
+      navigate(-1);
     }
+    
     console.log("/auth/notificationPreferencesSave result:", result);
   };
 
@@ -167,16 +183,16 @@ const NotificationPreferences = (props) => {
           </Typography>
         </Grid>
 
-        {/* switches on right */}
+        {/* description and switches on right */}
         <Grid item xs={12} md={9}>
           {items.map(([title, description, key]) => (
-            <Box key={key} sx={{ mb: 1 }}>
+            <Box key={key} sx={{ mb: 0.2 }}>
               <Grid container alignItems="center">
                 <Grid item xs={8}>
-                  <Typography variant="body1" fontWeight="bold">
+                  <Typography variant="body1" fontWeight="bold" s_x={{lineHeight: 1.2}}>
                     {title}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body2" color="textSecondary" sx={{lineHeight: 1.1}}>
                     {description}
                   </Typography>
                 </Grid>
@@ -201,10 +217,20 @@ const NotificationPreferences = (props) => {
     );
   };
 
-  if (!userId) { // userId is null (initial condition) or false (error condition)
-    return (
-      <ErrorMessage message={error} />
-    );
+  // if (!userId) { // userId is null (initial condition) or false (error condition)
+  //   showDialog({
+  //     title: t("Authentication error"),
+  //     message: error,
+  //     confirmText: t("Ok"),
+  //   })
+  //   return;
+  //   // return (
+  //   //   <ErrorMessage message={error} />
+  //   // );
+  // }
+
+  if (!userId) {
+    return null;
   }
 
   return (
@@ -234,6 +260,7 @@ const NotificationPreferences = (props) => {
                   [t("News and updates"), t("Get updates about product and feature changes"), "newsUpdates"],
                   [t("Tips and tutorials"), t("Learn how to get the most out of our platform"), "tipsTutorials"],
                   [t("Reminders"), t("Notifications for tasks or updates you might have missed"), "reminders"],
+                  [t("Offers"), t("New special offers"), "offers"],
                 ]
               )}
               <Divider sx={{ my: 1 }} />
@@ -278,20 +305,20 @@ const NotificationPreferences = (props) => {
           {/* close button */}
           <Box sx={{ textAlign: "end", my: 4}}>
             <Button
-              color="secondary"
-              variant="contained"
-              onClick={close}
-              sx={{mx: 1}}
-            >
-              {t("Cancel")}
-            </Button>
-            <Button
               color="primary"
               variant="contained"
               onClick={handleConfirm}
               sx={{mx: 1}}
             >
               {t("Confirm")}
+            </Button>
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={close}
+              sx={{mx: 1}}
+            >
+              {t("Cancel")}
             </Button>
           </Box>
         </Box>

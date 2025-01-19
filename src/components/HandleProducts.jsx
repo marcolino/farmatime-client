@@ -3,13 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
 import { DateTime } from "luxon";
-//import DialogConfirm from "./DialogConfirm";
-import { apiCall } from "../libs/Network";
-import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
-import { useDialog } from "../providers/DialogProvider";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
-import { i18n } from "../i18n";
-import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import {
   Box,
   //Button,
@@ -27,6 +20,13 @@ import {
 } from "@mui/material";
 import { TextFieldSearch, SectionHeader, Button } from "./custom";
 import { Search, Edit, Delete, AddCircleOutline } from "@mui/icons-material";
+import StackedArrowsGlyph from "./glyphs/StackedArrows";
+import { apiCall } from "../libs/Network";
+import LocalStorage from "../libs/LocalStorage";
+import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
+import { useDialog } from "../providers/DialogProvider";
+import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { i18n } from "../i18n";
 
 const ProductTable = () => {
   const theme = useTheme();
@@ -106,14 +106,14 @@ const ProductTable = () => {
       showSnackbar(t("Removed {{ count }} products", { count: productIds.length }), "success");
     }).catch(err => {
       console.error(`Error bulk removing ${productIds.length} products with ids ${productIds}: ${err.message}`);
-      showSnackbar(t("Error bulk removing {{count}} products with ids: {{err}}", {count: productIds.length, err: err.message}), "error");
+      showSnackbar(t("Error bulk removing {{count}} products: {{err}}", {count: productIds.length, err: err.message}), "error");
     });
   };
 
   const [page, setPage] = useState(0);
   //const [rowsPerPage, setRowsPerPage] = useState(5);
   const [rowsPerPage, setRowsPerPage] = useState(() => {
-    return parseInt(localStorage.getItem("ProductsRowsPerPage")) || 10; // persist to localstorage
+    return parseInt(LocalStorage.get("productsRowsPerPage")) || 10; // persist to local storage
   });
   const [selected, setSelected] = useState([]);
   //const [toBeRemoved, setToBeRemoved] = useState(null);
@@ -129,7 +129,7 @@ const ProductTable = () => {
   const handleChangeRowsPerPage = (event) => {
     const newRowsPerPage = parseInt(event.target.value);
     setRowsPerPage(newRowsPerPage);
-    localStorage.setItem("ProductsRowsPerPage", newRowsPerPage);
+    LocalStorage.set("productsRowsPerPage", newRowsPerPage);
   };
 
   // const handleChangeRowsPerPageOLD = (event) => {
@@ -296,18 +296,19 @@ const ProductTable = () => {
       <Box sx={{
         my: theme.spacing(2),
         display: "flex",
+        alignItems: "center",
         justifyContent: "flex-end",
         width: "100%",
       }}>
         <TextFieldSearch
           label={t("Search")}
           value={filter}
+          size="small"
+          margin="dense" // matches compact Button appearance
           onChange={handleFilterChange}
           startIcon={<Search />}
           fullWidth={false}
-          sx={{
-            color: theme.palette.text.primary, mr: theme.spacing(2),
-          }}
+          sx={{ color: theme.palette.text.primary }}
         />
         <Button
           onClick={newProduct}
@@ -315,11 +316,13 @@ const ProductTable = () => {
           variant="contained"
           color="primary"
           size="small"
-          startIcon={<AddCircleOutline sx={{ fontSize: "1.2em !important" }} />}
+          startIcon={<AddCircleOutline />}
           hideChildrenUpToBreakpoint="sm" // for mobile, hide text children
           sx={{
-            mt: theme.spacing(1),
-            height: "40px", // TODO: match the height of the TextField with size="small" and margin="dense"
+            mt: theme.spacing(0.3),
+            py: theme.spacing(0.8),
+            ml: theme.spacing(2),
+            //height: 42, // TODO: this value is enforced to match the height of the TextField with size="small" and margin="dense"... can we do better?
           }}
         >
           {t("New product")}

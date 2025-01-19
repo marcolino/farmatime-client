@@ -1,107 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
     <url>
-      <lastmod>Mon Dec 23 2024 15:11:08 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/</loc>
+      <lastmod>Tue Jan 07 2025 15:35:06 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/</loc>
     </url>
     <url>
       <lastmod>Sun Dec 29 2024 21:10:06 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
     </url>
     <url>
-      <lastmod>Sun Dec 29 2024 21:06:16 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/signin</loc>
+      <lastmod>Tue Jan 07 2025 15:38:33 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/signin/:redirectTo?/:redirectToParams?</loc>
     </url>
     <url>
       <lastmod>Sun Dec 15 2024 15:18:44 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/social-signin-success</loc>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/social-signin-success</loc>
     </url>
     <url>
-      <lastmod>Sun Dec 29 2024 21:22:37 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/social-signin-error</loc>
+      <lastmod>Wed Jan 01 2025 18:50:34 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/social-signin-error</loc>
     </url>
     <url>
       <lastmod>Sat Dec 28 2024 21:05:06 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/forgot-password</loc>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/forgot-password</loc>
     </url>
     <url>
-      <lastmod>Sun Dec 29 2024 21:18:48 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/products</loc>
+      <lastmod>Fri Jan 10 2025 17:06:28 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/products/:productId?</loc>
     </url>
     <url>
       <lastmod>Sun Nov 10 2024 15:50:17 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/notifications</loc>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/notifications</loc>
     </url>
     <url>
-      <lastmod>Fri Dec 27 2024 19:10:13 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/edit-user/:userId/:origin</loc>
+      <lastmod>Fri Jan 03 2025 15:19:40 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/edit-user/:userId/:origin</loc>
     </url>
     <url>
       <lastmod>Sat Dec 28 2024 19:27:37 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/edit-product/:productId</loc>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/edit-product/:productId</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 02 2024 21:50:34 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/terms-of-use</loc>
+      <lastmod>Fri Jan 03 2025 18:24:29 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/terms-of-use</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 02 2024 21:50:34 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/privacy-policy</loc>
+      <lastmod>Fri Jan 03 2025 18:24:29 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/privacy-policy</loc>
     </url>
     <url>
-      <lastmod>Fri Dec 27 2024 20:53:16 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/cookie-consent</loc>
+      <lastmod>Fri Jan 03 2025 18:21:36 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/cookie-preferences</loc>
     </url>
     <url>
       <lastmod>Sat Dec 14 2024 17:40:31 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/contacts</loc>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/contacts</loc>
     </url>
     <url>
-      <lastmod>Sun Dec 22 2024 19:35:15 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/handle-users</loc>
+      <lastmod>Fri Jan 03 2025 17:35:59 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/handle-users</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 23 2024 12:31:22 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/handle-products</loc>
+      <lastmod>Fri Jan 03 2025 17:33:03 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/handle-products</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 30 2024 18:17:30 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/notification-preferences</loc>
+      <lastmod>Thu Jan 09 2025 17:06:43 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/cart/:productIdToAdd?</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 30 2024 18:17:30 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/email-preferences</loc>
+      <lastmod>Thu Jan 09 2025 17:06:43 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/payment-success</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 30 2024 18:17:30 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/email-unsubscribe</loc>
+      <lastmod>Thu Jan 09 2025 17:06:43 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/payment-cancel</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 30 2024 18:17:30 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/push-preferences</loc>
+      <lastmod>Fri Jan 03 2025 15:17:06 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/notification-preferences/:token?/:language?</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 30 2024 18:17:30 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/push-unsubscribe</loc>
+      <lastmod>Fri Jan 03 2025 15:17:06 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/email-preferences/:token?/:language?</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 30 2024 18:17:30 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/sms-preferences</loc>
+      <lastmod>Fri Jan 03 2025 15:17:06 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/email-unsubscribe/:token?/:language?</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 30 2024 18:17:30 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/sms-unsubscribe</loc>
+      <lastmod>Fri Jan 03 2025 15:17:06 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/push-preferences/:token?/:language?</loc>
+    </url>
+    <url>
+      <lastmod>Fri Jan 03 2025 15:17:06 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/push-unsubscribe/:token?/:language?</loc>
+    </url>
+    <url>
+      <lastmod>Fri Jan 03 2025 15:17:06 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/sms-preferences/:token?/:language?</loc>
+    </url>
+    <url>
+      <lastmod>Fri Jan 03 2025 15:17:06 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/sms-unsubscribe/:token?/:language?</loc>
     </url>
     <url>
       <lastmod>Wed Dec 18 2024 09:59:48 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/page-not-found</loc>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/page-not-found</loc>
     </url>
     <url>
       <lastmod>Wed Dec 18 2024 10:02:35 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/work-in-progress</loc>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/work-in-progress</loc>
     </url>
     <url>
-      <lastmod>Mon Dec 30 2024 18:17:30 GMT+0100 (Central European Standard Time)</lastmod>
-      <loc>http://localhost:5000/email-preferences</loc>
+      <lastmod>Fri Jan 03 2025 15:17:06 GMT+0100 (Central European Standard Time)</lastmod>
+      <loc>https://acme-server-lingering-brook-4120.fly.dev/email-preferences</loc>
     </url>
   </urlset>

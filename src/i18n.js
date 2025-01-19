@@ -35,6 +35,7 @@ i18n
     detection: {
       order: [ "navigator" ], // only detect from browser
       checkWhitelist: true, // only detect languages that are in the whitelist
+      caches: [], // avoid `i18nextLng` in local storage
     },
   //}).then(() => {
     //i18n.locale = (i18n.language || i18n.options.fallbackLng[0]).slice(0, 2).toLowerCase();

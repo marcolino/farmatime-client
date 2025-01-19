@@ -53,7 +53,7 @@ const CustomTextFieldSearch = ({
         ),
         endAdornment: (
           <IconButton onClick={handleReset} size="small">
-            <CloseIcon sx={{fontSize: "1.2rem"}} />
+            <CloseIcon sx={{fontSize: "1.3rem"}} />
           </IconButton>
         )
       }}
