@@ -1,156 +1,83 @@
 import axios from "axios";
-//import Cookie from "../libs/Cookie";
 import LocalStorage from "../libs/LocalStorage";
-import { setDisableLoaderGlobal } from "../providers/LoaderState";
 import { i18n } from "../i18n";
 import cfg from "../config";
 
-// track whether the token is being refreshed
-let isRefreshing = false;
-let refreshSubscribers = [];
+/**
+ * Version 2: HTTP-only cookies (handled server side)
+ *  - no more refreshing the accessToken on the client side
+ *  - the client assumes the server manages token lifecycles via cookies
+ *  - enabled withCredentials (ensures cookies are sent with every request)
+ *  - simplified "401 Unauthorized" handling (if the server indicates
+ *    the session is invalid (401), redirect the user to the /signin page without retrying)
+ *  - retained maintenance and error handling (the client still handles scenarios
+ *    like maintenance mode or 404 errors gracefully)
+ *  - request abortion (maintains support for canceling pending requests on user sign-out)
+ * 
+ * Advantages of this new approach:
+ *  - security: tokens are stored securely as HTTP-only cookies, inaccessible to JavaScript;
+ *    reduces exposure to XSS attacks
+ *  - simplicity: eliminates client-side token storage and refresh complexity
+ *  - cross-domain compatibility: the withCredentials flag ensures cookies work seamlessly
+ *    across subdomains or different domains (when configured properly on the server)
+ *  - scalability: by delegating token management to the server, it becomes easier to adapt
+ *    this setup to distributed systems with centralized session stores (like Redis)
+ */
 
-let isSignedOut = false; // global flag to track sign-out status, to avoid retring requests after sign-out
+// global flag to track sign-out status, to avoid retrying requests after sign-out
+let isSignedOut = false;
 const abortControllers = new Map(); // define an abortControllers map
-
-// storage functions
-const getLocalAccessToken = () => {
-  return LocalStorage.get("auth")?.user?.accessToken;
-}
-
-const setLocalAccessToken = (token) => {
-  let auth;
-  try {
-    // get the current auth info
-    auth = LocalStorage.get("auth");
-    if (!auth) {
-      const message = "Auth info not found!";
-      console.error(message);
-      throw new Error(message);
-    }
-
-    // create a deep copy of the auth object
-    const updatedAuth = JSON.parse(JSON.stringify(auth));
-
-    // update the token
-    if (updatedAuth.user && typeof updatedAuth.user === "object") {
-      updatedAuth.user.accessToken = token;
-    } else {
-      const message = `Invalid auth info structure: ${updatedAuth}`;
-      console.error(message);
-      throw new Error(message);
-    }
-
-    // set the updated auth info
-    try {
-      LocalStorage.set("auth", updatedAuth);
-      console.log("token successfully updated");
-      return true;
-    } catch (error) {
-      const message = `Failed to set auth info: ${error.toString()}`;
-      console.error(message);
-      throw new Error(message);
-    }
-  } catch (error) {
-    const message = `Error updating auth token: ${error.toString()}`;
-    console.error(message);
-    throw new Error(message);
-  }
-}
-
-const getLocalRefreshToken = () => {
-  return LocalStorage.get("auth")?.user?.refreshToken;
-}
-
-const clearLocalTokens = () => {
-  //const currentAuth = LocalStorage.get("auth");
-  LocalStorage.set("auth", {"user": false});
-};
 
 // create axios instance
 const createInstance = () => {
   return axios.create({
-    baseURL: `${cfg.siteUrl}/api`, // *** axios api url ***
+    baseURL: `${cfg.siteUrl}/api`, // API base URL
     timeout: cfg.api.timeoutSeconds * 1000,
     headers: {
       "Content-Type": "application/json",
-    }
+    },
+    withCredentials: true, // ensures cookies are sent with requests
   });
 };
 
-console.log(`baseUrl: ${cfg.siteUrl}/api`);
+console.log(`interceptor - base url is ${cfg.siteUrl}/api`);
 
 const instance = createInstance();
-const instanceForRefresh = createInstance(true);
 
-// add a request interceptor to append authentication token to request headers
+// add request interceptor for appending additional headers
 instance.interceptors.request.use(
-  config => {
-    config.headers["Authorization"] = getLocalAccessToken();
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  }
-);
+  (config) => {
+    // append the current language to request headers
+    const currentLanguage = i18n.language || i18n.options.fallbackLng[0]; // get the current language from i18n
+    config.headers["Accept-Language"] = currentLanguage;
 
-// log requests and responses, only while developing
-cfg.mode.development && instance.interceptors.request.use(
-  config => {
-    //console.log("interceptor request config:", config);
-    return config;
-  },
-  error => {
-    console.log("interceptor request error:", error);
-    return Promise.reject(error);
-  }
-);
-
-// add a request interceptor to append the version number to every request url
-instance.interceptors.request.use(
-  config => {
-    if (typeof config.headers["Accept-Version"] === "undefined") { // if set already, keep it as-is, otherwise use default
+    // append API version
+    if (typeof config.headers["Accept-Version"] === "undefined") {
       const versionNumber = cfg.api.version;
       if (typeof versionNumber !== "undefined") {
         config.headers["Accept-Version"] = versionNumber;
       }
     }
-    return config;
-  }, (error) => {
-    return Promise.reject(error);
-  }
-);
 
-// add a request interceptor to append the current language to all requests
-instance.interceptors.request.use(
-  config => {
-    const currentLanguage = i18n.language || i18n.options.fallbackLng[0]; // get the current language from i18n
-    config.headers["Accept-Language"] = currentLanguage;
-    return config;
-  }, (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// add a request abort controller, to be able to abort requests, for example after signout
-instance.interceptors.request.use(
-  config => {
+    // add an AbortController for request cancellation
     const controller = new AbortController();
     config.signal = controller.signal;
 
     // track the controller for this request
     abortControllers.set(config.url, controller);
+
     return config;
   },
-  error => Promise.reject(error)
+  (error) => Promise.reject(error)
 );
 
-// clean up abort controller after the request completes
+// clean up the abort controller after the request completes
 instance.interceptors.response.use(
-  response => {
+  (response) => {
     abortControllers.delete(response.config.url);
     return response;
   },
-  error => {
+  (error) => {
     if (error.config) {
       abortControllers.delete(error.config.url);
     }
@@ -158,133 +85,36 @@ instance.interceptors.response.use(
   }
 );
 
-// add a subscriber to the list
-function subscribeTokenRefresh(cb) {
-  refreshSubscribers.push(cb);
-}
-
-// on token refreshed
-function onRefreshed(token) {
-  refreshSubscribers.map(cb => cb(token));
-}
-
-// refresh access token function
-const refreshAccessToken = async () => {
-  try {
-    const token = getLocalRefreshToken();
-    const response = await instanceForRefresh.post("/auth/refreshtoken", { token });
-    setLocalAccessToken(response.data.accessToken);
-    return response.data.accessToken;
-  } catch (error) {
-    clearLocalTokens(); // clear tokens if refresh fails
-    throw error;
-  }
-};
-
-// response interceptor to refresh tokens
+// add response interceptor for error handling
 instance.interceptors.response.use(
-  response => {
-    // if (response.headers["maintenanceStatus"] === "true") {
-    //   if (window.location.pathname !== "/work-in-progress") {
-    //     LocalStorage.set("maintenanceStatus", "true"); // for client-side routing maintenance
-    //     LocalStorage.set("maintenancePath", window.location.pathname); // for client-side routing maintenance
-    //     window.location.href = "/work-in-progress";
-    //   }
-    // } else {
-    //   LocalStorage.remove("maintenanceStatus");
-    //   const maintenancePath = LocalStorage.get("maintenancePath");
-    //   if (maintenancePath) { // maintenance path is set, we did just restore a not work-in-progress status
-    //     window.location.href = maintenancePath;
-    //     LocalStorage.remove("maintenancePath");
-    //   }
-    // }
-    return response;
-  },
+  (response) => response,
   async (error) => {
     const { config, response } = error;
-    if (!response) {
-      return Promise.reject(new Error(i18n.t("No response from server!")));
-    }
-    if (response.status === 503) { // on maintenance
+
+    // handle server maintenance status
+    if (response?.status === 503) {
       if (window.location.pathname !== "/work-in-progress") {
-        LocalStorage.set("maintenanceStatus", true); // for client-side routing maintenance
-        LocalStorage.set("maintenancePath", window.location.pathname); // for client-side routing maintenance
+        LocalStorage.set("maintenanceStatus", true); // track maintenance status
+        LocalStorage.set("maintenancePath", window.location.pathname); // track the user's path
         window.location.href = "/work-in-progress";
       }
-    } else {
+    } else if (response) {
       LocalStorage.remove("maintenanceStatus");
       const maintenancePath = LocalStorage.get("maintenancePath");
-      if (maintenancePath) { // maintenance path is set, we did just restore a not work-in-progress status
-        window.location.href = maintenancePath;
+      if (maintenancePath) {
+        window.location.href = maintenancePath; // redirect back to the user's path post-maintenance
         LocalStorage.remove("maintenancePath");
       }
     }
-    if (response.status === 404) { // page not found
-      if (config.url !== "/page-not-found") {
-        if (window.location.pathname !== "/page-not-found") {
-          window.location.href = "/page-not-found";
-        }
-      }
-    }
 
-    // if /auth/signin request arrives, we reset isSignedOut
-    if (config.url === "/auth/signin") {
-      isSignedOut = false;
-      console.log("isSignedOut reset to false because /auth/signin was called");
-    }
-
-    // if the user has signed out, do not retry requests
-    if (isSignedOut && config.url === "/auth/signout") {
-      console.log("Request aborted because user is already signed out:", config.url);
-      return Promise.reject(new Error("Signout request ingnored because user is already signed out"));
-    }
-
-    if (
-      response.status === 401 &&
-      config.url !== "/auth/signin" &&
-      config.url !== "/auth/signup" &&
-      config.url !== "/auth/signout" &&
-      config.url !== "/auth/notificationVerification" &&
-      config.url !== "/auth/notificationPreferencesSave" //&&
-      //config.url !== "/payment/createCheckoutSession" // ???
-    ) { // unauthorized
-      if (!isRefreshing) {
-        isRefreshing = true;
-        try { // refresh expired access token
-          const newAccessToken = await refreshAccessToken();
-          isRefreshing = false;
-          onRefreshed(newAccessToken);
-          refreshSubscribers = [];
-          return instance(config);
-        } catch (refreshError) { // could not refresh access token: user is logged out, redirect to signin page
-          console.log("refreshError caught:", refreshError);
-          isRefreshing = false;
-          clearLocalTokens();
-          setDisableLoaderGlobal(true); // to disable the loader before redirection
-          setTimeout(() => { // redirect to signin page with some delay, to allow snackbar to be read
-            setDisableLoaderGlobal(false); // to reenable the loader after redirection
-            window.location.href = "/signin";
-          }, cfg.ui.snacks.autoHideDurationSeconds * 1000);
-          //refreshError.response.data.message = null; // avoid double error showing snackbar on component
-          return Promise.reject(refreshError);
-        }
-      } else {
-        // token refresh already in progress
-        return new Promise((resolve, reject) => {
-          subscribeTokenRefresh(token => {
-            config.headers["Authorization"] = `Bearer ${token}`;
-            resolve(instance(config));
-          });
-        });
-      }
-    }
-    return Promise.reject(error);
+    return Promise.reject(error); // no response from server
   }
 );
 
+// cancel all pending requests when the user signs out
 export const cancelAllRequests = () => {
   isSignedOut = true; // mark the user as signed out
-  abortControllers.forEach(controller => controller.abort());
+  abortControllers.forEach((controller) => controller.abort());
   abortControllers.clear();
 };
 

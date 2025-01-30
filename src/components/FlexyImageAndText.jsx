@@ -3,7 +3,7 @@ import { Box, Container, Typography } from "@mui/material";
 import config from "../config";
 
 
-const FlexyImageAndText = ({ image, imageAlt = null, textTitle = "Title", textContents = "Contents" }) => {
+const FlexyImageAndText = ({ image, imageAlt = null, title = "Title", content = "Content" }) => {
   const height = `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.headerPadding}px - ${config.ui.footerHeight}px - ${config.ui.footerPadding}px)`; // subtract header and footer and padding space heights
 
   if (!image) {
@@ -79,15 +79,16 @@ const FlexyImageAndText = ({ image, imageAlt = null, textTitle = "Title", textCo
             variant="h4"
             sx={{
               fontWeight: "bold",
+              margin: 2,
             }}
           >
-            {textTitle}
+            {title}
           </Typography>
-          <Typography
-            variant="body1"
-          >
-            {textContents}
+          
+          <Typography variant="body1" sx={{ margin: 2 }}>
+            {content}
           </Typography>
+
         </Box>
       </Box>
     </Container>

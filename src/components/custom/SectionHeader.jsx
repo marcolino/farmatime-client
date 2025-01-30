@@ -6,11 +6,10 @@ const HeaderBar = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.nature.light,
   width: "100%",
   position: "relative",
-  marginTop: theme.spacing(3),
-  marginBottom: theme.spacing(3),
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
   borderRadius: 6,
-  paddingTop: theme.spacing(0), // Add padding for better spacing
-  paddingBottom: theme.spacing(0),
+  padding: theme.spacing(4),
   overflow: "visible", // Ensure the text can escape the bar
 }));
 
@@ -26,7 +25,6 @@ const HeaderText = styled(Typography)(({ theme }) => ({
   lineHeight: 1.0,
   position: "relative",
   top: 0, 
-  paddingRight: theme.spacing(1),
   zIndex: 2, // ensure text is above the bar
   overflow: "visible", // ensure the text can escape the header
 }));

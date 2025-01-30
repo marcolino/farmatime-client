@@ -1,6 +1,5 @@
 import React, { useState, createContext, useCallback } from "react";
 import { usePersistedState } from "../hooks/usePersistedState";
-import { useNavigate } from "react-router-dom";
 import { apiCall } from "../libs/Network";
 import config from "../config";
 
@@ -8,6 +7,7 @@ const initialStateUser = { user: null }; // initial state for user, when app if 
 const initialStatePreferences = { locale: config.serverLocale, theme: config.ui.defaultTheme }; // initial state for locale and theme (used for guest users only), when app if first loaded
 
 const AuthContext = createContext(initialStateUser);
+
 
 const AuthProvider = (props) => {
   const [auth, setAuth] = usePersistedState("auth", initialStateUser);
@@ -20,8 +20,8 @@ const AuthProvider = (props) => {
   const signIn = useCallback(async (user) => {
     console.log("AuthProvider signIn, user:", user);
     setAuth({ user });
-    if (user && user.preferences) { // user can be a user object or null, if login was unsuccessful
-      //_updateUserPreferences(user, user.preferences);
+    if (user?.preferences) { // user can be a user object or null, if login was unsuccessful
+      //updateUserPreferences(user, user.preferences);
       setPreferences(user.preferences);
     }
   });
@@ -31,7 +31,7 @@ const AuthProvider = (props) => {
     setAuth({ user });
     if (user && user.preferences) {
       setPreferences(user.preferences);
-      _updateUserPreferences(user, user.preferences);
+      updateUserPreferences(user, user.preferences);
     }
   });
 
@@ -49,7 +49,7 @@ const AuthProvider = (props) => {
         ...auth.user,
         preferences: newPreferences,
       }});
-      _updateUserPreferences(auth.user, newPreferences);
+      updateUserPreferences(auth.user, newPreferences);
     } else { // user is not logged in, update guest.user.preferences.locale
       setGuest({ user: {
         preferences: newPreferences,
@@ -71,15 +71,17 @@ const AuthProvider = (props) => {
         ...auth.user,
         preferences: newPreferences,
       }});
-      _updateUserPreferences(auth.user, newPreferences);
+      updateUserPreferences(auth.user, newPreferences);
     } else { // user is not logged in, update guest.user.preferences.theme
-      setGuest({ user: {
+      setGuest({
+        user: {
+        ...guest.user,
         preferences: newPreferences,
       }});
     }
   }, [preferences, setPreferences, setAuth, setGuest, isLoggedIn, auth.user]);
 
-  // TODO: call this fnction os successful signup
+  // function to be called on successful signup, to avoid loosing guest user preferences
   const cloneGuestUserPreferencesToAuthUserOnSignup = async (user) => {
     if (guest.user?.preferences) {
       const guestPreferences = guest.user?.preferences;
@@ -114,7 +116,7 @@ const AuthProvider = (props) => {
     }
   }, [auth.user, setAuth, apiCall]);
 
-  const _updateUserPreferences = useCallback(async (user, preferences) => {
+  const updateUserPreferences = useCallback(async (user, preferences) => {
     try {
       const result = await apiCall("post", "/user/updateUser", { _id: user.id, /*email: auth.user.email,*/ preferences });
       if (result.err) {

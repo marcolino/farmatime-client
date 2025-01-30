@@ -16,6 +16,7 @@ const apiCall = async(method, url, data = {}) => {
         "Content-Type": "multipart/form-data",
       };
     }
+    
     // if it's a GET, put data inside params
     if (method.localeCompare("GET", undefined, { sensitivity: "accent" }) === 0) {
       data = { params: data };
@@ -66,7 +67,8 @@ const apiCall = async(method, url, data = {}) => {
     console.error(`⇒ ${url} request error:`, err.message);
     return {
       err: true,
-      message: i18n.t("Failed to send request")
+      //message: i18n.t("Failed to send request")
+      message: i18n.t(err.message) // TODO: translate these messages in misc/strings-for-translation
     };
 
     // AI /////////////////////////////////////////////////////////////////////////////////////

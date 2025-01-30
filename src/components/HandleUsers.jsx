@@ -60,9 +60,9 @@ const UserTable = () => {
   ;
   
   useEffect(() => { // get all users on mount
-    if (!auth.user || !isAdmin(auth.user)) { // possibly user did revoke his own admin role...
-      navigate("/"); // force redirect to a page for sure accessible to non-admin users
-    }
+    // if (!auth.user || !isAdmin(auth.user)) { // possibly user did revoke his own admin role...
+    //   navigate("/"); // force redirect to a page for sure accessible to non-admin users
+    // }
     (async () => {
       const result = await apiCall("get", "/user/getAllUsersWithTokens");
       if (result.err) {
@@ -81,20 +81,25 @@ const UserTable = () => {
     const result = await apiCall("post", "/user/removeUser", params);
     if (result.err) {
       showSnackbar(result.message, "error");
+      return false;
     }
+    return true;
   }
 
   const sendEmailToUsers = async (params) => {
     const result = await apiCall("post", "/user/sendEmailToUsers", params);
     if (result.err) {
       showSnackbar(result.message, "error");
+      return false;
     }
+    return true;
   }
 
   const onPromoteToDealer = async (userId) => {
     const result = await apiCall("post", "/user/promoteToDealer", { userId });
     if (result.err) {
       showSnackbar(result.message, "error");
+      return false;
     } else {
       if (result.count > 0) {
         showSnackbar(t("User has been promoted to {{role}}", { role: t("dealer") }), "info");
@@ -103,6 +108,7 @@ const UserTable = () => {
       }
       setRefresh(true);
     }
+    return true;
   };
 
   const onEdit = (userId) => {
@@ -110,51 +116,25 @@ const UserTable = () => {
   };
   
   const onRemove = async (userId) => {
-    removeUser({ filter: [userId] }).then((data) => {
-      if (data.err) {
-        console.warn("removeUser error:", data);
-        showSnackbar(t("Error removing user: {{err}}", { err: data.message }), "error");
-        return;
-      }
+    const result = await removeUser({ filter: [userId] });
+    if (result) {
       // update the state to filter the removed user from the list
       setUsers(previousUsers => previousUsers.filter(user => user._id !== userId));
       setToBeRemoved(null);
-    }).catch(err => {
-      console.error(`Error removing user with id ${userId}: ${err.message}`);
-      showSnackbar(t("Error removing user with id {{id}}: {{error}", { id: userId, err: err.message }), "error");
-    });
+    }
   };
 
   const onBulkEmail = async (userIds, params) => {
-    sendEmailToUsers({ filter: userIds, ...params }).then(err => {
-      if (err) {
-        console.warn("sendEmailToUsers error:", err);
-        if (err.message) {
-          showSnackbar(t("Error sending email to users: {{err}}", {err: err.message}), "error");
-        }
-        return;
-      }
-      showSnackbar(t("Email sent to {{count}} selected users", { count: userIds.length }), "success");
-    }).catch(err => {
-      console.error(`Error bulk sending email to ${userIds.length} users with ids ${userIds}: ${err.message}`);
-      showSnackbar(t("Error bulk sending email to {{count}} users: {{err}}", { count: userIds.length, err: err.message }), "error");
-    });
+    sendEmailToUsers({ filter: userIds, ...params });
   };
 
   const onBulkRemove = async (userIds, params) => {
-    removeUser({ filter: userIds, ...params }).then((data) => {
-      if (data.err) {
-        console.warn("bulkRemove user error:", data);
-        showSnackbar(t("Error bulk removing user: {{err}}", { err: data.error }), "error");
-        return;
-      }
+    const result = await removeUser({ filter: userIds, ...params });
+    if (result) {
       setUsers(previousUsers => previousUsers.filter(user => !userIds.includes(user._id)));
       setSelected([]);
       showSnackbar(t("Removed {{count}} users", { count: userIds.length }), "success");
-    }).catch(err => {
-      console.error(`Error bulk removing ${userIds.length} users with ids ${userIds}: ${err.message}`);
-      showSnackbar(t("Error bulk removing {{count}} users: {{err}}", {count: userIds.length, err: err.message}), "error");
-    });
+    }
   };
 
   const [page, setPage] = useState(0);

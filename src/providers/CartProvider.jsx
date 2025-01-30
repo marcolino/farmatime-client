@@ -1,24 +1,49 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { AuthContext } from "../providers/AuthProvider";
+import { usePersistedState } from "../hooks/usePersistedState";
 import LocalStorage from "../libs/LocalStorage";
-import config from "../config";
+//import config from "../config";
+
+const initialStateCart = {
+  acceptToReceiveOffersEmails: false,
+  deliveryCode: "-",
+  items: [],
+};
 
 const CartContext = createContext();
 
-export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState(() => {
-    const savedCart = LocalStorage.get("cart");
-    return savedCart ? savedCart : {
-      acceptToReceiveOffersEmails: false,
-      deliveryCode: "-",
-      items: [],
-    };
-  });
 
+export const CartProvider = ({ children }) => {
+  const { auth, isLoggedIn } = useContext(AuthContext);
+  const [cart, setCart] = usePersistedState(`cart-${isLoggedIn ? auth.user.id : "0"}`, initialStateCart);
+
+  // // set cart in memory
+  // const [cart, setCart] = useState(() => {
+  //   const key = isLoggedIn ? "auth" : "guest";
+  //   const storedCart = LocalStorage.get(key)?.user?.cart || initialCart;
+  //   //return storedCart || initialCart;
+  //   const ret = storedCart || initialCart;
+  //   console.log("SETCART:", ret);
+  //   return ret;
+  // });
+
+  // // save cart in localstorage
+  // const saveCart = (cart) => {
+  //   const key = isLoggedIn ? "auth" : "guest";
+  //   const val = LocalStorage.get(key);
+  //   const user = val.user;
+  //   if (user) {
+  //     user.cart = cart || initialCart;
+  //     LocalStorage.set(key, user);
+  //   }
+  // };
+
+/*
   // TODO: only to debug quickerly... :-)
   useEffect(() => {
     if (config.mode.development) {
       if (cart.items.length <= 0) {
-        addToCart({
+        addItemToCart({
           _id: "67850399c0f7d5f4de20f33e",
           ampere: 300,
           application: "application-booh-1",
@@ -43,8 +68,45 @@ export const CartProvider = ({ children }) => {
       }
     }
   }, []);
+*/
+  
+  // // watch for changes in `isLoggedIn` and reset the cart when it becomes `false`.
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     // copy guest cart to auth user cart
+  //     const guestCart = LocalStorage.get("guest")?.user?.cart;
+  //     setCart(guestCart);
+  //     //saveCart(guestCart);
+  //   } else {
+  //     resetCart();
+  //   }
+  // }, [isLoggedIn]);
 
-  const setProperty = (propertyName, propertyValue) => {
+
+  // // watch for changes in `isLoggedIn` and set userId accordingly
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     setCart(prevCart => ({
+  //       ...prevCart,
+  //       userId: auth.user.id, // set auth user id
+  //     }));
+  //   } else {
+  //     setCart(prevCart => ({
+  //       ...prevCart,
+  //       userId: 0, // set guest userId (0)
+  //     }));
+  //   }
+  // }, [isLoggedIn]);
+  
+  // useEffect(() => { // TODO: DEBUG ONLY
+  //   console.log("CART:", cart);
+  // }, [cart]);
+
+  const cartItemsQuantity = () => {
+    return cart?.items?.reduce((total, item) => total + item.quantity, 0) ?? 0;
+  };
+
+  const setCartProperty = (propertyName, propertyValue) => {
     if (!Object.hasOwn(cart, propertyName)) {
       console.warning(`cart object has no property "${propertyName}", refusing to set it`);
       return;
@@ -53,10 +115,12 @@ export const CartProvider = ({ children }) => {
       ...prevCart,
       [propertyName]: propertyValue,
     }));
+    //saveCart();
   };
 
-  const addToCart = (item) => {
-    setCart((prevCart) => {
+  const addItemToCart = (item) => {
+    let newCount;
+    setCart(prevCart => {
       // check if the item is already in the cart
       const existingItem = prevCart.items.find(cartItem => cartItem._id === item._id);
   
@@ -70,42 +134,66 @@ export const CartProvider = ({ children }) => {
         [...prevCart.items, { ...item, quantity: item.quantity ?? 1 }]
       ;
     
+      // calculate new count here where we have access to the updated items
+      newCount = updatedItems.reduce((total, item) => total + item.quantity, 0);
+      
       // update only items, keep the rest of the cart unchanged
-      return {
+      const updatedCart = {
         ...prevCart,
         items: updatedItems,
       };
+      setCart(updatedCart);
+      return updatedCart;
+    });
+    
+    return newCount;
+  };
+
+  const removeItemFromCart = (id) => {
+    setCart(prevCart => {
+      const updatedCart = {
+        ...prevCart,
+        items: prevCart.items.filter((item) => item._id !== id)
+      };
+      setCart(updatedCart);
+      return updatedCart;
     });
   };
 
-  const removeFromCart = (id) => {
-    setCart(prevCart => ({
-      ...prevCart,
-      items: prevCart.items.filter((item) => item._id !== id)
-    }));
-  };
-
-  const emptyCart = () => {
-    setCart(prevCart => ({
-      ...prevCart,
-      items: [],
-    }));
+  const emptyCartItems = () => {
+    setCart(prevCart => {
+      const updatedCart = {
+        ...prevCart,
+        items: [],
+      };
+      setCart(updatedCart);
+      return updatedCart;
+    });
   };
 
   const setItemQuantity = (id, quantity) => {
-    setCart(prevCart => ({
-      ...prevCart,
-      items: prevCart.items.map(item =>
-        item._id === id
-          ? { ...item, quantity }
-          : item
-      )
-    }));
+    setCart(prevCart => {
+      const updatedCart = {
+        ...prevCart,
+        items: prevCart.items.map(item =>
+          item._id === id
+            ? { ...item, quantity }
+            : item
+        )
+      };
+      //saveCart(updatedCart);
+      return updatedCart;
+    });
+  };
+
+  const resetCart = () => {
+    setCart(initialCart);
+    //saveCart(initialCart);
   };
 
   return (
     <CartContext.Provider value={{
-      cart, setProperty, addToCart, removeFromCart, emptyCart, setItemQuantity,
+      cart, setCartProperty, addItemToCart, removeItemFromCart, emptyCartItems, cartItemsQuantity, setItemQuantity, resetCart/*, saveCart,*/
     }}>
       {children}
     </CartContext.Provider>

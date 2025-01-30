@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-//import { useTranslation } from "react-i18next";
 import AnimationLayout from "./AnimationLayout";
 import Loader from "./Loader";
 
@@ -31,8 +30,14 @@ const Routing = () => {
       <Routes>
         <Route element={<AnimationLayout />}>
           <Route path="/" exact element={<Home />} />
+          {/* TODO: for signup: instead of this static routing, use
+                const location = useLocation();
+              and
+                const state = location.state;
+          */}
           <Route path="/signup/:waitingForCode?/:codeDeliveryMedium?" element={<SignUp />} />
-          <Route path="/signin/:redirectTo?/:redirectToParams?" element={<SignIn />} />
+          {/* <Route path="/signin/:redirectTo?/:redirectToParams?" element={<SignIn />} /> */}
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/social-signin-success" element={<SocialSignInSuccess />} />
           <Route path="/social-signin-error" element={<SocialSignInError />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -46,9 +51,15 @@ const Routing = () => {
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/handle-users" element={<HandleUsers />} />
           <Route path="/handle-products" element={<HandleProducts />} />
-          <Route path="/cart/:productIdToAdd?" element={<Cart />} />
+          {/* <Route path="/cart/:productIdToAdd?" element={<Cart />} /> */}
+          <Route path="/cart/" element={<Cart />} />
           <Route path="/payment-success" element={<Cart payment="success" />} />
           <Route path="/payment-cancel" element={<Cart payment="cancel" />} />
+          {/* TODO: for the folloging routes: instead of this static routing, use
+                const location = useLocation();
+              and
+                const state = location.state;
+            */}
           <Route path="/notification-preferences/:token?/:language?" element={<NotificationPreferences section="all" />} />
           <Route path="/email-preferences/:token?/:language?" element={<NotificationPreferences section="email" action="preferences" />} />
           <Route path="/email-unsubscribe/:token?/:language?" element={<NotificationPreferences section="email" action="unsubscribe" />} />

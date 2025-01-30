@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Avatar, Box, Link, Checkbox, FormControlLabel } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { Avatar, Box, Link, Checkbox, FormControlLabel, Typography, Tooltip } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook"; // TODO: one import for all mui icons...
 import GoogleIcon from "@mui/icons-material/Google";
 import Icon from "@mui/material/Icon";
@@ -15,7 +14,8 @@ import { useSnackbarContext } from "../../providers/SnackbarProvider";
 import { TextField, TextFieldPassword, Button} from "../custom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { validateEmail } from "../../libs/Validation";
-import { apiCall }  from "../../libs/Network";
+import { apiCall } from "../../libs/Network";
+import { secondsToHumanDuration } from "../../libs/Misc";
 import config from "../../config";
 
 
@@ -32,12 +32,16 @@ function SignIn() {
   // const [dialogTitle, setDialogTitle] = useState(null);
   // const [dialogContent, setDialogContent] = useState(null);
   //const [dialogCallback, setDialogCallback] = useState(null);
-  const { redirectTo: redirectToFromParams } = useParams();
-  const [redirectTo,] = useState(redirectToFromParams || null);
-  const { redirectToParams: redirectToParamsFromParams } = useParams();
-  const [redirectToParams,] = useState(redirectToParamsFromParams || null);
-  const [rememberMe, setRememberMe] = useState(false);
+  // const { redirectTo: redirectToFromParams } = useParams();
+  // const [redirectTo,] = useState(redirectToFromParams || null);
+  // const { redirectToParams: redirectToParamsFromParams } = useParams();
+  // const [redirectToParams,] = useState(redirectToParamsFromParams || null);
+  const [dontRememberMe, setDontRememberMe] = useState(false);
   
+  const location = useLocation();
+  // access the state passed during navigation
+  const state = location.state;
+  //console.log("££££££££££££££££ state is:", state);
 
   const handleSocialLogin = (event, provider) => {
     event.preventDefault(); // redirect fails without preventing default behaviour!
@@ -52,8 +56,8 @@ function SignIn() {
   //     dialogCallback();
   //   }
   // };
-  const handleRememberMeChange = (event) => {
-    setRememberMe(event.target.checked);
+  const handleDontRememberMeChange = (event) => {
+    setDontRememberMe(event.target.checked);
   };
 
   
@@ -95,7 +99,7 @@ function SignIn() {
     const result = await apiCall("post", "/auth/signin", {
       email,
       password,
-      rememberMe,
+      rememberMe: !dontRememberMe,
     });
     if (result.err) {
       switch (result.data?.code) {
@@ -132,7 +136,8 @@ function SignIn() {
       signIn(result);
       setEmail("");
       setPassword("");
-      navigate(redirectTo ? `/${redirectTo}` : "/", { replace: true, state: { params: redirectToParams } });
+      //navigate(redirectTo ? `/${redirectTo}` : "/", { replace: true, state: { params: redirectToParams } });
+      navigate(location.state?.returnUrl ?? "/", { replace: true });
     }  
   };
   
@@ -209,28 +214,34 @@ function SignIn() {
             display="flex"
             justifyContent="flex-end"
           >
-            <FormControlLabel
-              checked={rememberMe}
-              onChange={handleRememberMeChange}
-              labelPlacement="start" 
-              control={
-                <Checkbox 
-                  size="small"
-                  color="primary"
-                  sx={{
-                    mr: -1
-                  }}
-                />
-              }
-              label={t("Remember me")}
-              color='text.secondary'
-              sx={{
-                mr: 0,
-                '& .MuiFormControlLabel-label': {
-                  fontSize: '1rem',
-                },
-              }}
-            />
+            <Tooltip placement="bottom" title={
+              t(`It is recommended to check this flag if you are on a public computer, with low security`) + ".\n" +
+              t(`If checked your session will last only for ${secondsToHumanDuration(config.auth.refreshTokenExpirationDontRememberMeSeconds)}`) + ", " +
+              t(`otherwise it will last for ${secondsToHumanDuration(config.auth.refreshTokenExpirationSeconds)}`) + "."}
+            >
+              <FormControlLabel
+                checked={dontRememberMe}
+                onChange={handleDontRememberMeChange}
+                labelPlacement="start" 
+                control={
+                  <Checkbox 
+                    size="small"
+                    color="primary"
+                    sx={{
+                      mr: -1
+                    }}
+                  />
+                }
+                label={t("Do not remember me")}
+                color='text.secondary'
+                sx={{
+                  mr: 0,
+                  '& .MuiFormControlLabel-label': {
+                    fontSize: '1rem',
+                  },
+                }}
+              />
+              </Tooltip>
           </Box>
           <Box
             sx={{

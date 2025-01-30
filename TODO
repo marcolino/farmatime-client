@@ -206,32 +206,34 @@
 - is maintenancePath localstorage really useful? yes - OK
 - do not use localstorage preferences, always use auth.user.preferences - OK
 - signout MUST redirect to /, otherwise current page can get 403 error... - OK
+- use MediaQueryProvider instead of useMediaQuery - OK
 
-- use MediaQueryProvider instead of useMediaQuery
+- rinominare HandleUsers -> UsersHandle, ... (prima il soggetto, poi l'azione)
+- "devi essere autenticato per questa azione" su signout...
+- save cart in auth.user / guest.user ...
 - add "Edit" button in ProductDetails for at least operator users
-- add "Buy" button in ProductDetails for all users
+- add "Buy" ("AddToCart") button in ProductDetails for all users
 - migliorare il tema scuro
 - risolvere i TODO's nel codice
-- make tests (as AI for this...)
+- make tests (use AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
+- fare uno script per chiedere ad una AI di tradurre un file messages.json
 
 
 NEWFEATURE:
 - decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore
   (con vite/react16+) per gestire le notifiche in app (vedere /docs/PUSH-NOTIFICATIONS/*)
-- fare uno script per chiedere ad una AI di tradurre un file messages.json
 - chiedere ad AI di completare le labels aria per tutti i componenti MUI
 - gestire la navigazione da tastiera
-- completare (e testare) gli attributi aria
 - completare il componente EmailPreferencesManagement
 - tests: rendere più semplice la rigenerazione degli snapshots (o decidere di non usarli)
 - aggiungere tests
 - aggiungere coverage
 - seguire i suggerimenti di chrome lighthouse per il profiling
 - gestire tags opengraph / twitter in index.html
-- completare il README.md, copiando lo stile di uno elegante
+- completare il README.md, copiando lo stile di uno "nice"
 - rimuovere tutti i `console.*` non necessari
-- definire un dominio (sistemisolari.com ???)
+- definire un dominio (sistemisolari.com ?)
 - creare le email privacy@sistemisolari.com, info@sistemisolari.com
 - gestire URL di callback per la rimozione dell'autorizzazione (Google e Facebook)
 - gestire URL di callback per la richiesta di eliminazione dei dati (Google e Facebook)
@@ -239,5 +241,5 @@ NEWFEATURE:
 - usare error boundaries (see docs/ERROR-BOUNDARIES/*),
   per uniformare la gestione degli errori lato client,
   visualizzare all'utente una pagina d'errore anziché rimanere in una condizione d'errore,
-  e magari usare un servizio tipo logRocket per loaggere anche gli errori sui client
+  e forse usare un servizio tipo logRocket per loggare anche gli errori sui client
 - gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi (quando saranno usati)

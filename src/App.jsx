@@ -11,6 +11,7 @@ import { OnlineStatusProvider } from "./providers/OnlineStatusProvider";
 import { LoaderProvider} from "./providers/LoaderProvider";
 import SessionProvider from "./providers/SessionProvider";
 import { MediaQueryProvider } from "./providers/MediaQueryProvider";
+import SessionExpirationHandler from "./components/SessionExpirationHandler";
 import ServiceWorkerMessages from "./components/ServiceWorkerMessages";
 import Contents from "./components/Contents";
 import Routing from "./components/Routing";
@@ -23,7 +24,7 @@ import { themeLight, themeDark } from "./themes/default";
 import config from "./config";
 
 /**
- * We need to separate the logic into App and AppContent, because otherwise we access
+ * We need to separate the logic into App and AppStructure, because otherwise we access
  * AuthContext (preferences and toggleTheme) before AuthContext from AuthProvider was setup
  */
 const App = () => {
@@ -66,15 +67,17 @@ const AppStructure = () => {
                         v7_startTransition: true,
                         v7_relativeSplatPath: true,
                       }}>
-                        <BackgroundVideo />
-                        <SessionProvider />
-                        <CookiePreferences />
-                        {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
-                        <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
-                          <Routing />
-                        </Contents>
+                        <SessionExpirationHandler>
+                          <BackgroundVideo />
+                          <SessionProvider />
+                          <CookiePreferences />
+                          {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                          <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
+                            <Routing />
+                          </Contents>
+                        </SessionExpirationHandler>
                       </Router>
-                  </LoaderProvider>
+                    </LoaderProvider>
                   </MediaQueryProvider>
                 </OnlineStatusProvider>
               </ServiceWorkerProvider>

@@ -26,20 +26,20 @@ import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { useCart } from "../providers/CartProvider";
 import { useMediaQueryContext } from "../providers/MediaQueryProvider";
 import { useDialog } from "../providers/DialogProvider";
-import LocalStorage from "../libs/LocalStorage";
+//import LocalStorage from "../libs/LocalStorage";
 import { currencyFormat } from "../libs/Misc";
 import config from "../config";
 
 
 const Cart = (props) => {
-  const { auth, isLoggedIn, updateSignedInUserLocally } = useContext(AuthContext);
+  const { auth, isLoggedIn, updateSignedInUserPreferences } = useContext(AuthContext);
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
-  const { cart, setProperty, removeFromCart, emptyCart, setItemQuantity } = useCart();
+  const { cart, /*saveCart, */emptyCartItems, setCartProperty, removeItemFromCart, cartItemsQuantity, setItemQuantity } = useCart();
   const [errors, setErrors] = useState(false);
-  const [acceptToReceiveOffersEmails, setAcceptToReceiveOffersEmails] = useState(cart.acceptToReceiveOffersEmails);
-  const [delivery, setDelivery] = useState(config.ecommerce.delivery.methods.find(method => method.code === cart.deliveryCode) ?? { code: "-" });
+  const [acceptToReceiveOffersEmails, setAcceptToReceiveOffersEmails] = useState(cart?.acceptToReceiveOffersEmails ?? false);
+  const [delivery, setDelivery] = useState(config.ecommerce.delivery.methods.find(method => method.code === cart?.deliveryCode) ?? { code: "-" });
   const [pricePartialTotal, setPricePartialTotal] = useState(0);
   const { md } = useMediaQueryContext();
   const navigate = useNavigate();
@@ -51,29 +51,31 @@ const Cart = (props) => {
 
   const handleChangeDelivery = (event) => {
     setDelivery(config.ecommerce.delivery.methods.find(method => method.code === event.target.value));
-    setProperty("deliveryCode", event.target.value);
+    setCartProperty("deliveryCode", event.target.value);
     setErrors({ ...errors, delivery: false });
   };
 
   // handle `accept to receive offers emails` flag
   const handleAcceptToReceiveOffersEmails = (event) => {
     setAcceptToReceiveOffersEmails(event.target.checked);
-    setProperty("acceptToReceiveOffersEmails", event.target.checked);
+    setCartProperty("acceptToReceiveOffersEmails", event.target.checked);
   };
 
-  // calculate price partial total
+  // calculate price partial total and serialize cart
   useEffect(() => {
-    const total = cart.items.reduce((a, b) => {
+    const total = cart?.items?.reduce((a, b) => {
       return a + (b.price * (b.quantity || 1));
     }, 0);
     setPricePartialTotal(total);
-    LocalStorage.set("cart", JSON.stringify(cart));
+    //saveCart(cart);
+    //LocalStorage.set("cart", cart);
   }, [cart]); //, updatePricePartialTotal]);
 
-  // serialize cart to localstorage
-  useEffect(() => {
-    LocalStorage.set("cart", JSON.stringify(cart));
-  }, [cart]);
+  // // serialize cart to localstorage
+  // useEffect(() => {
+  //   LocalStorage.set("cart", cart);
+
+  // }, [cart]);
 
   // handle checkout
   const handleCheckout = async () => {
@@ -101,7 +103,7 @@ const Cart = (props) => {
         // update user preferences field in auth
         const updatedUser = auth.user;
         updatedUser.preferences = result.user.preferences;
-        updateSignedInUserLocally(updatedUser);
+        updateSignedInUserPreferences(updatedUser);
       }
       const { url } = result.session;
       window.location.href = url; // redirect to Stripe Checkout in the same window (use `window.open(url, "_blank")` to redirect to Stripe Checkout in a new window)
@@ -114,10 +116,10 @@ const Cart = (props) => {
       case "success": // coming from checkout session: purchase completed successfully
         showDialog({
           title: t("Purchase completed successfully"),
-          message: "🎉" + " " + t("Compliments, {{count}} products have been purchased", { count: cart.items.length }) + "!",
+          message: "🎉" + " " + t("Compliments, {{count}} products have been purchased", { count: cartItemsQuantity() }) + "!",
           confirmText: t("Go back to products"),
           onConfirm: () => {
-            emptyCart();
+            emptyCartItems();
             navigate("/products");
           },
         });
@@ -136,7 +138,7 @@ const Cart = (props) => {
 
   if (!config.ecommerce.enabled) return;
 
-  if (cart.items.length <= 0) {
+  if (cart.items?.length <= 0) {
     return (
       <Container>
         <Card sx={{ marginTop: 2, padding: { sx: 2, sm: 3, md: 4 } }}>
@@ -210,7 +212,7 @@ const Cart = (props) => {
                   padding: 1,
                 }}
               >
-                {cart.items.map((cartItem, index) => (
+                {cart?.items?.map((cartItem, index) => (
                   <div key={index}>
                     <CartItem
                       item={{ // cartItem info depends on the specific customization product; CartItem component is generic
@@ -225,16 +227,16 @@ const Cart = (props) => {
                       }}
                       quantity={cartItem.quantity ?? 1}
                       onQuantityChange={setItemQuantity}
-                      onRemove={removeFromCart}
+                      onRemove={removeItemFromCart}
                     />
-                    {index < (cart.items.length - 1) && <Divider />} {/* add a divider if the item is not the last one */}
+                    {index < (cart?.items?.length - 1) && <Divider />} {/* add a divider if the item is not the last one */}
                   </div>
                 ))}
               </Box>
 
               <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" sx={{ ml: 2 }}>
                 <Typography variant="body2">
-                  {t("Partial total") + " (" + t("{{count}} articles", { count: cart.items.length }) + ")"}
+                  {t("Partial total") + " (" + t("{{count}} articles", { count: cartItemsQuantity() }) + ")"}
                 </Typography>
                 <Typography variant="body1" sx={{mr: 5, fontWeight: "bold"}}>
                   {currencyFormat(pricePartialTotal, currency)}
@@ -256,7 +258,7 @@ const Cart = (props) => {
                   //renderValue={(value) => `⚠️  - ${value}`}
                   >
                     <MenuItem value={"-"} disabled>
-                      <em>{t("Choose a delivery method")}</em>
+                      {/* <em>{t("Choose a delivery method")}</em> */}
                     </MenuItem>
                     {config.ecommerce.delivery.methods.map((deliveryMethod, index) =>
                       <MenuItem key={index} value={deliveryMethod.code}>
@@ -316,7 +318,7 @@ const Cart = (props) => {
                   padding: 1,
                 }}
               >
-                {cart.items.map((item, index) => (  
+                {cart?.items?.map((item, index) => (  
                   <Box key={index} display="flex" justifyContent="space-between" alignItems="center" width="100%" sx={{ pl: 2 }}>
                     <Typography variant="body2">
                       {item.mdaCode}
@@ -358,7 +360,7 @@ const Cart = (props) => {
                   </>
                 }
 
-                <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" sx={{ mt: 3, pl: 2, py: 1.5, _color: "background.paper", backgroundColor: "secondary.main" }}>
+                <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" sx={{ mt: 3, pl: 2, py: 1.5, backgroundColor: "ochre.dark" }}>
                   <Typography variant="body1">
                     {t("ORDER TOTAL")}
                   </Typography>
@@ -373,7 +375,7 @@ const Cart = (props) => {
                 <Typography variant={md ? "subtitle1" : "body2"}>{t("Send me e-mail on new products, offers and surprises!")}</Typography>
               </Box>
               <Button variant="contained" color="primary" onClick={handleCheckout} sx={{ width: "fit-content", mx: "auto" }}>
-                {t("Checkout") + " " + t("with") + " " + config.ecommerce.checkoutProvider}
+                {t("Checkout")} {/*} + " " + t("with") + " " + config.ecommerce.checkoutProvider} */}
                 {/* <Box component="img" sx={{ height: 24, ml: 1 }} alt={t("Stripe Checkout logo")} src="src/assets/images/StripeFacts.png" /> */}
               </Button>
 

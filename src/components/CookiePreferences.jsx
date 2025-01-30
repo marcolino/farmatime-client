@@ -58,7 +58,7 @@ const CookiePreferences = (props) => {
   // sync state changes to local storage
   const savePreferences = () => {
     cookiesConsentSave(cookies);
-    showSnackbar(t("Cookie preferences saved successfully"), "info");
+    //showSnackbar(t("Cookie preferences saved successfully"), "info");
     close();
   };
 

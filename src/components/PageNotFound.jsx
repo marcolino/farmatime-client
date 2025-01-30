@@ -10,8 +10,8 @@ const PageNotFound = () => {
   return <FlexyImageAndText
     image={PageNotFoundImage}
     imageAlt={t("Page not found image")}
-    textTitle={t("Oooops!")}
-    textContents={t("I've lost the page you did request! Sorry…")}
+    title={t("Oooops!")}
+    content={t("I've lost the page you did request! Sorry…")}
   />;
 }
 

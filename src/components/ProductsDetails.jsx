@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import Carousel from "react-material-ui-carousel";
-import { Grid, Box, Button, IconButton, Tooltip, Typography, useMediaQuery } from "@mui/material";
-import { ArrowLeft, ArrowRight, Edit, ShoppingCart } from "@mui/icons-material";
+import { Grid, Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
+import { ArrowLeft, ArrowRight, Edit, AddShoppingCart } from "@mui/icons-material";
 //import CustomIconButton from "./custom/IconButton";
 import { AuthContext } from "../providers/AuthProvider";
+import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useMediaQueryContext } from "../providers/MediaQueryProvider";
 import { useCart } from "../providers/CartProvider";
 import { useDialog } from "../providers/DialogProvider";
 import { isDealer, isOperator } from "../libs/Validation";
@@ -19,8 +21,8 @@ import config from "../config";
 const ProductsDetails = (props) => {
   const theme = useTheme();
   const { auth, isLoggedIn } = useContext(AuthContext);
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { t } = useTranslation();
+  const { showSnackbar } = useSnackbarContext();
   const { height, width } = useWindowDimensions();
   const [firstRender, setFirstRender] = useState(true);
   const [startPosition, setStartPosition] = useState(null);
@@ -28,9 +30,10 @@ const ProductsDetails = (props) => {
   const [isDragging, setIsDragging] = useState(false);
   const { showDialog } = useDialog();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addItemToCart } = useCart();
   // const { productId: productIdFromParams } = useParams();
   // const [productId] = useState(productIdFromParams || null);
+  const { isMobile } = useMediaQueryContext();
   const maxImageHeight = height / 2.8; // maximum image height, and details card height - TODO: put in config/app/products/carousel/viewportHeightRatio
   const loop = false; // TODO: put in config/app/products/carousel/loop
 
@@ -95,20 +98,23 @@ const ProductsDetails = (props) => {
 
   };
 
-  const buyProduct = () => {
-    if (!isLoggedIn) {
-      showDialog({
-        title: t("Access to buy"),
-        message: t("Please access before buying"),
-        confirmText: t("Access"),
-        cancelText: t("Cancel"),
-        onConfirm: () => navigate(`/signin/cart/${currentProduct._id}`),
-        onCancel: () => { },
-      });
-    } else {
-      addToCart(currentProduct);
-      navigate("/cart"/*`/cart/${currentProduct._id}`*/);
-    }
+  const addProductToCart = () => {
+    // we let guest users to add products to cart...
+    // if (!isLoggedIn) {
+    //   showDialog({
+    //     title: t("Access to buy"),
+    //     message: t("Please access before buying"),
+    //     confirmText: t("Access"),
+    //     cancelText: t("Cancel"),
+    //     onConfirm: () => navigate(`/signin/cart/${currentProduct._id}`),
+    //     onCancel: () => { },
+    //   });
+    // } else {
+    //   addToCart(currentProduct);
+    //   navigate("/cart"/*`/cart/${currentProduct._id}`*/);
+    // }
+    const newCount = addItemToCart(currentProduct);
+    showSnackbar(t("Product added to cart ({{count}} products present)", { count: newCount }), "info");
   };
 
   //const productId = currentIndex; // TODO...
@@ -156,18 +162,20 @@ const ProductsDetails = (props) => {
 
       {/* navigation bar */}
       {props.products.length > 0 && (
-        <Grid container sx={{ mt: 2, mx: {xs: 0, sm: 3}}}>
-          <Grid item xs={2}
+        <Grid container
+          sx={{ mt: 2, mx: 0 }}
+        >
+          <Grid item xs={4}
             sx={{
               display: "flex",
               justifyContent: "center",
             }}
           >
             {!currentProduct.limit &&
-              <Tooltip title={t("Buy product")}>
+              <Tooltip title={t("Add to cart")}>
                 <IconButton
                   size="small"
-                  onClick={() => buyProduct()}
+                  onClick={() => addProductToCart()}
                   sx={{
                     borderRadius: 1,
                     px: { xs: 1, sm: 2, },
@@ -179,14 +187,42 @@ const ProductsDetails = (props) => {
                     },
                   }}
                 >
-                  <ShoppingCart fontSize="small" />
-                  {!isMobile && <Typography component={"span"} variant={"caption"} sx={{ pl: 1, fontSize: "1rem", fontWeight: "bold"}}> {t("Buy")} </Typography>}
+                  <AddShoppingCart fontSize="small" />
+                  {!isMobile && <Typography component={"span"} variant={"caption"} sx={{ pl: 1, fontSize: "1rem", fontWeight: "bold"}}> {t("Add to cart")} </Typography>}
                 </IconButton>
               </Tooltip>
             }
           </Grid>
           
-          <Grid item xs={2} sx={{ justifyContent: "center" }}>
+          <Grid item xs={4}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <IconButton aria-label={t("previous page")} disabled={currentIndex === 0 && !loop} onClick={handlePrev}>
+              <ArrowLeft fontSize="medium" />
+            </IconButton>
+            <Typography>
+              {t("Page")} {currentIndex + 1} {t("of")} {props.productsTotalCount}
+            </Typography>
+            <IconButton
+              aria-label={t("next page")}
+              disabled={currentIndex === props.products.length - 1 && !loop}
+              onClick={handleNext}
+            >
+              <ArrowRight fontSize="medium" />
+            </IconButton>
+          </Grid>
+
+          {/*<Grid item xs={2+2}></Grid>{/* to balance buttons on the left * /}*/}
+          
+          <Grid item xs={4}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+             }}>
             {(!currentProduct.limit && isLoggedIn && isOperator(auth.user)) &&
               <Tooltip title={t("Edit product")}>
                 <IconButton
@@ -209,32 +245,7 @@ const ProductsDetails = (props) => {
               </Tooltip>
             }
           </Grid>
-        
-          <Grid
-            item
-            xs={4}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <IconButton aria-label={t("previous page")} disabled={currentIndex === 0 && !loop} onClick={handlePrev}>
-              <ArrowLeft fontSize="medium" />
-            </IconButton>
-            <Typography>
-              {t("Page")} {currentIndex + 1} {t("of")} {props.productsTotalCount}
-            </Typography>
-            <IconButton
-              aria-label={t("next page")}
-              disabled={currentIndex === props.products.length - 1 && !loop}
-              onClick={handleNext}
-            >
-              <ArrowRight fontSize="medium" />
-            </IconButton>
-          </Grid>
 
-          <Grid item xs={2+2}></Grid>{/* to balance buttons on the left */}
         </Grid>
       )}
     </Box>

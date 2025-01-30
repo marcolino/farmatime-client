@@ -1,19 +1,24 @@
 import React, { useEffect } from "react";
-//import Cookie from "../libs/Cookie";
 import LocalStorage from "../libs/LocalStorage";
 
-//const path = "/"; // use always the same path, to have only one cookie per key
-
 export const usePersistedState = (key, defaultValue) => {
-  const [state, setState] = React.useState(
-    () => LocalStorage.get(key/*, { path }*/) || defaultValue
-  );
-  // const options = {};
-  // options.path = path;
-  // options.secure = true;
-  // options.expires = 400; // set maximum expiration days in future, 400 days
+  const [state, setState] = React.useState(() => {
+    return LocalStorage.get(key) || defaultValue;
+  });
+
+  const prevKeyRef = React.useRef(key);
+
   useEffect(() => {
-    LocalStorage.set(key, state/*, options*/);
-  }, [key, state]);
+    // check if the key has changed
+    if (prevKeyRef.current !== key) {
+      // reset state to the value of the new key
+      const newState = LocalStorage.get(key) || defaultValue;
+      prevKeyRef.current = key;
+      setState(newState);
+    } else { // persist state to the current key
+      LocalStorage.set(key, state);
+    }
+  }, [key, state, defaultValue]);
+
   return [state, setState];
 };

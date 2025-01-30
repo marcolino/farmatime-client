@@ -4,11 +4,12 @@ import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import {
   Paper, Typography, Box, Grid, Card, CardContent,
-  FormControlLabel, RadioGroup, Radio, useMediaQuery
+  FormControlLabel, RadioGroup, Radio
 } from "@mui/material";
 import { Category, Search } from "@mui/icons-material";
 //import debounce from "lodash.debounce";
 import { AuthContext } from "../providers/AuthProvider";
+import { useMediaQueryContext } from "../providers/MediaQueryProvider";
 import { apiCall } from "../libs/Network";
 import { TextFieldSearch, Button } from "./custom";
 import ProductsDetails from "./ProductsDetails";
@@ -24,7 +25,7 @@ function Products() {
     const theme = useTheme();
     const bottomRef = useRef(null);
     //const debounceSearchMilliseconds = 2 * 1000;
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const { isMobile } = useMediaQueryContext();
     //const { productId } = useParams(); // extract productId from route params
     const filtersDefault = {
       mdaCode: "",
@@ -41,7 +42,7 @@ function Products() {
 
     // fetch products from the API
     const fetchProducts = async (filters) => {
-      console.log("DBG> fetchProducts");
+      //console.log("DBG> fetchProducts");
       try {
         setIsSearching(true);
 
@@ -134,7 +135,7 @@ function Products() {
     
     // handle input filters changes
     const handleFiltersChange = (e) => {
-      console.log("DBG> handleFiltersChange");
+      // console.log("DBG> handleFiltersChange");
       const { name, value } = e.target;
       setFilters((prevFilters) => ({
         ...prevFilters,
@@ -144,7 +145,7 @@ function Products() {
 
     // handle search
     const handleSearch = () => {
-      console.log("DBG> handleSearch");
+      // console.log("DBG> handleSearch");
       //console.log("DBG> setIsDebouncing FALSE (handleSearch)");
       //setIsDebouncing(false);
       fetchProducts(filters);
@@ -152,21 +153,12 @@ function Products() {
 
     // handle reset filters and product list
     const handleResetFilters = () => {
-      console.log("DBG> handleResetFilters");
+      // console.log("DBG> handleResetFilters");
       setFilters(filtersDefault);
       // console.log("DBG> setIsDebouncing FALSE (handleResetFilters)");
       // setIsDebouncing(false);
       setProducts([]);
     };
-
-    console.log("DBG> ---------------------------------");
-    console.log("DBG> products:", products);
-    console.log("DBG> !isSearching:", !isSearching);
-    //console.log("DBG> !isDebouncing:", !isDebouncing);
-    console.log("DBG> hasFilters():", hasFilters()); 
-    console.log("DBG> filters:", filters);
-    //console.log("DBG> show products?:", (!isSearching && hasFilters() && !isDebouncing));
-    console.log("DBG> ---------------------------------");
 
     return (
       <Grid container spacing={0}>

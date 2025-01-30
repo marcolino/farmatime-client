@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import {
   AppBar, Toolbar, Box, Typography, Button, IconButton, Link, Badge,
-  ListItemText, ListItemIcon, Menu, MenuItem, Tooltip, useMediaQuery
+  ListItemText, ListItemIcon, Menu, MenuItem, Tooltip
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,7 @@ import {
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
 import { cancelAllRequests } from "../middlewares/Interceptors";
+import { useMediaQueryContext } from "../providers/MediaQueryProvider";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { AuthContext } from "../providers/AuthProvider";
 import { useCart } from "../providers/CartProvider";
@@ -29,22 +30,22 @@ const Header = ({ theme, toggleTheme }) => {
   const location = useLocation();
   const { t } = useTranslation();
   //const [authRoute, setIsAuthRoute] = useState(location.pathname === "/signin");
-  const { cart } = useCart();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { cartItemsQuantity } = useCart();
+  const { isMobile } = useMediaQueryContext();
 
-  const sections = [
+  const sections = React.useMemo(() => [
     {
       key: "cart",
       to: "/cart",
       icon:
-        cart.items.length ?
-          <Badge badgeContent={cart.items.length} color="primary"><ShoppingCart /></Badge>
+        cartItemsQuantity() ?
+          <Badge badgeContent={cartItemsQuantity()} color="primary"><ShoppingCart /></Badge>
         :
           <ShoppingCart />
       ,
       text:
-        cart.items.length && !isMobile ?
-          <Badge badgeContent={cart.items.length} color="primary">{t("Cart")}</Badge>
+        cartItemsQuantity() && !isMobile ?
+          <Badge badgeContent={cartItemsQuantity()} color="primary">{t("Cart")}</Badge>
         :
           t("Cart")
     },
@@ -60,7 +61,7 @@ const Header = ({ theme, toggleTheme }) => {
       icon: <ContactPhone />,
       text: t("Contacts"),
     },
-  ];
+  ], [cartItemsQuantity, isMobile, t]);
 
   // the highest priority role name
   const roleNameHighestPriority = isLoggedIn ? auth.user.roles.reduce(
@@ -191,8 +192,8 @@ const Header = ({ theme, toggleTheme }) => {
               onClick={() => navigate("cart")}
               sx={{ mr: 2 }}
             >
-              {cart.items.length ?
-                <Badge badgeContent={cart.items.length} color="primary"><ShoppingCart /></Badge>
+              {cartItemsQuantity() ?
+                <Badge badgeContent={cartItemsQuantity()} color="primary"><ShoppingCart /></Badge>
                 :
                 <ShoppingCart />
               }
