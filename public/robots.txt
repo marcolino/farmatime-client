@@ -1,4 +1,4 @@
 User-agent: *
  Disallow: /
 
-Sitemap: https://acme-server-lingering-brook-4120.fly.dev/sitemap.xml
+Sitemap: https://acme-prod.fly.dev/sitemap.xml
