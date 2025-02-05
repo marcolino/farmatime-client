@@ -322,7 +322,6 @@ const ProductTable = () => {
             mt: theme.spacing(0.3),
             py: theme.spacing(0.8),
             ml: theme.spacing(2),
-            //height: 42, // TODO: this value is enforced to match the height of the TextField with size="small" and margin="dense"... can we do better?
           }}
         >
           {t("New product")}

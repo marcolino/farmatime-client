@@ -112,7 +112,7 @@ const UserTable = () => {
   };
 
   const onEdit = (userId) => {
-    navigate(`/edit-user/${userId}/editUser`);
+    navigate(`/edit-user/${userId}/userEdit`);
   };
   
   const onRemove = async (userId) => {

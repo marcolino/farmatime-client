@@ -11,13 +11,13 @@ const SocialSignInError = lazy(() => import("./auth/SocialSignInError"));
 const ForgotPassword = lazy(() => import("./auth/ForgotPassword"));
 const Products = lazy(() => import("./Products"));
 const Notifications = lazy(() => import("./Notifications"));
-const EditUser = lazy(() => import("./EditUser"));
-const EditProduct = lazy(() => import("./EditProduct"));
+const UserEdit = lazy(() => import("./UserEdit"));
+const ProductEdit = lazy(() => import("./ProductEdit"));
 const Legal = lazy(() => import("./legal/legal"));
 import CookiePreferences from "./CookiePreferences"; // avoid both dynamic and static import
 const Contacts = lazy(() => import("./Contacts"));
-const HandleUsers = lazy(() => import("./HandleUsers"));
-const HandleProducts = lazy(() => import("./HandleProducts"));
+const UsersHandle = lazy(() => import("./UsersHandle"));
+const ProductsHandle = lazy(() => import("./ProductsHandle"));
 const Cart = lazy(() => import("./Cart"));
 const NotificationPreferences = lazy(() => import("./NotificationPreferences"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
@@ -43,14 +43,14 @@ const Routing = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/products/:productId?" element={<Products />} />
           <Route path="/notifications" element={<Notifications />} />
-          <Route path="/edit-user/:userId/:origin" element={<EditUser />} />
-          <Route path="/edit-product/:productId" element={<EditProduct />} />
+          <Route path="/edit-user/:userId/:origin" element={<UserEdit />} />
+          <Route path="/edit-product/:productId" element={<ProductEdit />} />
           <Route path="/terms-of-use" element={<Legal doc="termsOfUse" />} />
           <Route path="/privacy-policy" element={<Legal doc="privacyPolicy" />} />
           <Route path="/cookie-preferences" element={<CookiePreferences />} />
           <Route path="/contacts" element={<Contacts />} />
-          <Route path="/handle-users" element={<HandleUsers />} />
-          <Route path="/handle-products" element={<HandleProducts />} />
+          <Route path="/handle-users" element={<UsersHandle />} />
+          <Route path="/handle-products" element={<ProductsHandle />} />
           {/* <Route path="/cart/:productIdToAdd?" element={<Cart />} /> */}
           <Route path="/cart/" element={<Cart />} />
           <Route path="/payment-success" element={<Cart payment="success" />} />

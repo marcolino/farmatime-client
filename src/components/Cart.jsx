@@ -55,6 +55,12 @@ const Cart = (props) => {
     setErrors({ ...errors, delivery: false });
   };
 
+  // handle `is a gift` flag toggle
+  const toggleGift = (event) => {
+    //setIsGift(prev => !prev);
+    setCartProperty("isGift", event.target.value === "on");
+  };
+
   // handle `accept to receive offers emails` flag
   const handleAcceptToReceiveOffersEmails = (event) => {
     setAcceptToReceiveOffersEmails(event.target.checked);
@@ -86,24 +92,19 @@ const Cart = (props) => {
       return;
     }
 
-    // TODO: use acceptToReceiveOffersEmails (if set) to change user's email preferences
-    // if (acceptToReceiveOffersEmails) {
-    //   const result = await apiCall("post", "/user/preferences", { email: acceptToReceiveOffersEmails });
-    // }
-
-    //alert("acceptToReceiveOffersEmails: " + (acceptToReceiveOffersEmails ? "true" : "false"));
-    
     const result = await apiCall("post", "/payment/createCheckoutSession", { cart });
     console.log("*** createCheckoutSession result:", result);
     if (result.err) {
       showSnackbar(result.message, "error");
       console.error("createCheckoutSession error:", result);
     } else {
-      if (auth.user?.id === result.user?._id) { // the user is the logged one
-        // update user preferences field in auth
-        const updatedUser = auth.user;
-        updatedUser.preferences = result.user.preferences;
-        updateSignedInUserPreferences(updatedUser);
+      if (result.user) { // the user is an authenticatd one
+        if (auth.user?.id === result.user._id) { // the user is the logged one
+          // update user preferences field in auth
+          const updatedUser = auth.user;
+          updatedUser.preferences = result.user?.preferences;
+          updateSignedInUserPreferences(updatedUser);
+        }
       }
       const { url } = result.session;
       window.location.href = url; // redirect to Stripe Checkout in the same window (use `window.open(url, "_blank")` to redirect to Stripe Checkout in a new window)
@@ -170,7 +171,7 @@ const Cart = (props) => {
     );
   }
 
-  console.log("£££££££ delivery:", delivery);
+  console.log("delivery:", delivery);
 
   return (
     <Container>
@@ -273,7 +274,7 @@ const Cart = (props) => {
               {config.ecommerce.gift &&
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Checkbox onClick={() => alert("TODO")} />
+                    <Checkbox onClick={toggleGift} />
                     <Typography variant={md ? "subtitle1" : "body2"}>{t("Is it a gift?")}</Typography>
                   </Box>
                   <Box sx={{ mt: -1, ml: 6 }}>

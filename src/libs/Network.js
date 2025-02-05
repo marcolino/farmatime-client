@@ -1,12 +1,12 @@
-import axios from "axios";
+//import axios from "axios";
 import instance from "../middlewares/Interceptors";
-import LocalStorage from "./LocalStorage";
+//import LocalStorage from "./LocalStorage";
 import { i18n } from "../i18n";
 
 
-const isUserLogged = () => {
-  return !!LocalStorage.get("auth")?.user;
-}
+// const isUserLogged = () => {
+//   return !!LocalStorage.get("auth")?.user;
+// }
 
 const apiCall = async(method, url, data = {}) => {
   try {

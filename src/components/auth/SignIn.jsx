@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Avatar, Box, Link, Checkbox, FormControlLabel, Typography, Tooltip } from "@mui/material";
-import FacebookIcon from "@mui/icons-material/Facebook"; // TODO: one import for all mui icons...
+import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
 import Icon from "@mui/material/Icon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";

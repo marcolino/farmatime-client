@@ -24,7 +24,7 @@ import {
 import config from "../config";
 
 
-function EditProduct() {
+function ProductEdit() {
   const navigate = useNavigate();
   const theme = useTheme();
   const [product, setProduct] = useState(false);
@@ -119,7 +119,7 @@ function EditProduct() {
   const validateForm = () => {
     let response;
 
-    // validate fields formally // TODO...
+    // validate fields formally // TODO: validate fields according application needs
 
     return true;
   };
@@ -529,4 +529,4 @@ function EditProduct() {
   }
 }
 
-export default React.memo(EditProduct);
+export default React.memo(ProductEdit);

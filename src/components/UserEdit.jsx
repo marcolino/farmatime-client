@@ -34,7 +34,7 @@ import {
 import config from "../config";
 
 
-function EditUser() {
+function UserEdit() {
   const navigate = useNavigate();
   const [user, setUser] = useState(false);
   const [userOriginal, setUserOriginal] = useState(false);
@@ -334,9 +334,10 @@ function EditUser() {
     };
   }
   
-  if (!auth.user) { // navigate to home page if user did log out - TODO: always do it for all authenticated controllers
-    navigate("/");
-  }
+  // TODO: we don't need it, logout already navigates to home???
+  // if (!auth.user) { // navigate to home page if user did log out - TODO: always do it for all authenticated controllers
+  //   navigate("/");
+  // }
 
   if (user && allRoles && allPlans) {
     console.log("### allRoles ###", allRoles);
@@ -344,7 +345,7 @@ function EditUser() {
     return (
       <>
         <SectionHeader text={t("Users handling")}>
-          {origin === "editUser" ? t("Edit user") : t("Edit profile")}
+          {origin === "userEdit" ? t("Edit user") : t("Edit profile")}
         </SectionHeader>
         
         <Container maxWidth="xs">
@@ -562,4 +563,4 @@ function EditUser() {
   }
 }
 
-export default React.memo(EditUser);
+export default React.memo(UserEdit);

@@ -34,7 +34,7 @@ const Header = ({ theme, toggleTheme }) => {
   const { isMobile } = useMediaQueryContext();
 
   const sections = React.useMemo(() => [
-    {
+    ...(config.ecommerce.enabled ? [{ // add cart to sections only if ecommerce is enabled
       key: "cart",
       to: "/cart",
       icon:
@@ -48,7 +48,7 @@ const Header = ({ theme, toggleTheme }) => {
           <Badge badgeContent={cartItemsQuantity()} color="primary">{t("Cart")}</Badge>
         :
           t("Cart")
-    },
+    }] : []),
     {
       key: "products",
       to: "/products",
@@ -61,7 +61,7 @@ const Header = ({ theme, toggleTheme }) => {
       icon: <ContactPhone />,
       text: t("Contacts"),
     },
-  ], [cartItemsQuantity, isMobile, t]);
+  ], [cartItemsQuantity, isMobile, t, config.ecommerce.enabled]);
 
   // the highest priority role name
   const roleNameHighestPriority = isLoggedIn ? auth.user.roles.reduce(
@@ -151,6 +151,14 @@ const Header = ({ theme, toggleTheme }) => {
     }
     showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
   };
+
+  // const flag = false;
+  // const sections2 = React.useMemo(() => [
+  //   ...(flag ? [{ a: 1 }] : []),
+  //   { b: 2 }
+  // ], [flag]);
+  // console.log("sections2:", sections2);
+  console.log("sections:", sections);
 
   return (
     <AppBar

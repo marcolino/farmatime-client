@@ -207,17 +207,21 @@
 - do not use localstorage preferences, always use auth.user.preferences - OK
 - signout MUST redirect to /, otherwise current page can get 403 error... - OK
 - use MediaQueryProvider instead of useMediaQuery - OK
+- fare uno script per chiedere ad una AI di tradurre un file messages.json - OK
+- "devi essere autenticato per questa azione" su signout... - OK
+- save cart in auth.user / guest.user ... - OK
+- add "Edit" button in ProductDetails for at least operator users
+- add "Buy" ("AddToCart") button in ProductDetails for all users - OK - OK
+- assert config.ecommerce.enabled flag - OK
+- add link to "Edit" button in ProductDetails - OK
+- gestire gift in cart - OK
 
 - rinominare HandleUsers -> UsersHandle, ... (prima il soggetto, poi l'azione)
-- "devi essere autenticato per questa azione" su signout...
-- save cart in auth.user / guest.user ...
-- add "Edit" button in ProductDetails for at least operator users
-- add "Buy" ("AddToCart") button in ProductDetails for all users
 - migliorare il tema scuro
 - risolvere i TODO's nel codice
 - make tests (use AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
-- fare uno script per chiedere ad una AI di tradurre un file messages.json
+
 
 
 NEWFEATURE:

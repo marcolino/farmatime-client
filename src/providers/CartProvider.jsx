@@ -1,12 +1,13 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { usePersistedState } from "../hooks/usePersistedState";
-import LocalStorage from "../libs/LocalStorage";
+//import LocalStorage from "../libs/LocalStorage";
 //import config from "../config";
 
 const initialStateCart = {
   acceptToReceiveOffersEmails: false,
   deliveryCode: "-",
+  isGift: false,
   items: [],
 };
 
@@ -108,7 +109,7 @@ export const CartProvider = ({ children }) => {
 
   const setCartProperty = (propertyName, propertyValue) => {
     if (!Object.hasOwn(cart, propertyName)) {
-      console.warning(`cart object has no property "${propertyName}", refusing to set it`);
+      console.warn(`cart object has no property "${propertyName}", refusing to set it`);
       return;
     }
     setCart(prevCart => ({

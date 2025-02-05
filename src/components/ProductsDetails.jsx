@@ -94,8 +94,8 @@ const ProductsDetails = (props) => {
     setCurrentIndex((prev) => (prev === props.products.length - 1 ? (loop ? 0 : prev) : prev + 1));
   };
 
-  const editProduct = () => {
-
+  const productEdit = () => {
+    navigate(`/edit-product/${currentProduct._id}`);
   };
 
   const addProductToCart = () => {
@@ -117,7 +117,6 @@ const ProductsDetails = (props) => {
     showSnackbar(t("Product added to cart ({{count}} products present)", { count: newCount }), "info");
   };
 
-  //const productId = currentIndex; // TODO...
   const currentProduct = props.products[currentIndex];
 
   return (
@@ -171,7 +170,7 @@ const ProductsDetails = (props) => {
               justifyContent: "center",
             }}
           >
-            {!currentProduct.limit &&
+            {config.ecommerce.enabled && !currentProduct.limit &&
               <Tooltip title={t("Add to cart")}>
                 <IconButton
                   size="small"
@@ -227,7 +226,7 @@ const ProductsDetails = (props) => {
               <Tooltip title={t("Edit product")}>
                 <IconButton
                   size="small"
-                  onClick={() => editProduct()}
+                  onClick={() => productEdit()}
                   sx={{
                     borderRadius: 1,
                     px: { xs: 1, sm: 2, },
@@ -240,7 +239,11 @@ const ProductsDetails = (props) => {
                   }}
                 >
                   <Edit fontSize="small" />
-                  {!isMobile && <Typography component={"span"} variant={"caption"} sx={{ pl: 1, fontSize: "1rem", fontWeight: "bold"}}> {t("Edit")} </Typography>}
+                  {!isMobile &&
+                    <Typography component={"span"} variant={"caption"} sx={{ pl: 1, fontSize: "1rem", fontWeight: "bold" }}>
+                      {t("Edit")}
+                    </Typography>
+                  }
                 </IconButton>
               </Tooltip>
             }
