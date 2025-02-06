@@ -1,31 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import PropTypes from "prop-types";
 import { Box, Typography, Chip } from "@mui/material";
-//import { makeStyles } from "@material-ui/core/styles";
-//import { withTheme } from '@material-ui/core/styles';
 
-// const useStyles = makeStyles((theme) => ({
-//   paper: {
-//     position: "fixed",
-//     bottom: 36,
-//     right: 36,
-//     padding: "4px",
-//     backgroundColor: "rgba(0, 0, 0, 0.33)",
-//     zIndex: 999,
-//   },
-//   chip: {
-//     backgroundColor: "#eee",
-//     color: "#333",
-//     //fontWeight: "bold",
-//     margin: 3,
-//   },
-// }));
 
 const ClientInfoDisplay = ({ theme }) => {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [breakpoint, setBreakpoint] = useState("?");
 
   //console.log("theme.breakpoints.values:", theme.breakpoints.values);
-  const updateViewportWidth = () => {
+  // const updateViewportWidth = () => {
+  //   setViewportWidth(window.innerWidth);
+  //   setBreakpoint(
+  //     window.innerWidth >= theme.breakpoints.values.xl ? "xl" :
+  //       window.innerWidth >= theme.breakpoints.values.lg ? "lg" :
+  //         window.innerWidth >= theme.breakpoints.values.md ? "md" :
+  //           window.innerWidth >= theme.breakpoints.values.sm ? "sm" :
+  //             window.innerWidth >= theme.breakpoints.values.xs ? "xs" :
+  //               "?"
+  //   );
+  // };
+  const updateViewportWidth = useCallback(() => {
     setViewportWidth(window.innerWidth);
     setBreakpoint(
       window.innerWidth >= theme.breakpoints.values.xl ? "xl" :
@@ -35,7 +29,8 @@ const ClientInfoDisplay = ({ theme }) => {
               window.innerWidth >= theme.breakpoints.values.xs ? "xs" :
                 "?"
     );
-  };
+  }, [theme.breakpoints.values]);
+
 
   useEffect(() => {
     // set the initial viewport width
@@ -48,7 +43,7 @@ const ClientInfoDisplay = ({ theme }) => {
     return () => {
       window.removeEventListener("resize", updateViewportWidth);
     };
-  }, []);
+  }, [updateViewportWidth]);
 
   return (
     <Box
@@ -81,6 +76,10 @@ const ClientInfoDisplay = ({ theme }) => {
       </Typography>
     </Box>
   );
+};
+
+ClientInfoDisplay.propTypes = {
+  theme: PropTypes.object,
 };
 
 export default ClientInfoDisplay;

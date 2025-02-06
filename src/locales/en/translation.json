@@ -259,7 +259,7 @@
   "The cookies necessary for the app operativity": "The cookies necessary for the app operativity",
   "The cookies that allow users profiling": "The cookies that allow users profiling",
   "The cookies to collect anonymous statistics": "The cookies to collect anonymous statistics",
-  "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character,\n  - and a total of at least eight characters.\n": "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character,\n  - and a total of at least eight characters.\n",
+  "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character\n  - and a total of at least eight characters.\n": "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character\n  - and a total of at least eight characters.\n",
   "The purchase was not finalized": "The purchase was not finalized",
   "Tips and tutorials": "Tips and tutorials",
   "To access all products, please": "To access all products, please",

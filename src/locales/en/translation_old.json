@@ -1,4 +1,5 @@
 {
+  "\nThe password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character\n  - and a total of at least eight characters.\n": "\nThe password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character\n  - and a total of at least eight characters.\n",
   "An unexpected error occurred: {{err}}": "An unexpected error occurred: {{err}}",
   "Are you sure you want to delete all {{count}} selected products?_one": "Are you sure you want to delete all {{count}} selected products?",
   "Are you sure you want to delete all {{count}} selected products?_other": "Are you sure you want to delete all {{count}} selected products?",
@@ -62,6 +63,7 @@
   "reminders": "reminders",
   "Retry": "Retry",
   "Save Preferences": "Save Preferences",
+  "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character,\n  - and a total of at least eight characters.\n": "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character,\n  - and a total of at least eight characters.\n",
   "tipsTutorials": "tipsTutorials",
   "transactionAlerts": "transactionAlerts",
   "Unforeseen action {{action}}": "Unforeseen action {{action}}",

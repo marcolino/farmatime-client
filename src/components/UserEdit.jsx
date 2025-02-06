@@ -70,38 +70,44 @@ function UserEdit() {
   //const [sameUserProfile, setSameUserProfile] = useState(false); // to know if profile is the logged user's
   
   useEffect(() => { // get all users on mount
-    (async () => {
-      const result = await apiCall("post", "/user/getUser", { userId });
-      if (result.err) {
-        showSnackbar(result.message, result.status === 401 ? "warning" : "error");
-      } else {
-        setUser(result.user);
-        setUserOriginal(result.user);
-      }
-    })();
+    if (auth.user) {
+      (async () => {
+        const result = await apiCall("post", "/user/getUser", { userId });
+        if (result.err) {
+          showSnackbar(result.message, result.status === 401 ? "warning" : "error");
+        } else {
+          setUser(result.user);
+          setUserOriginal(result.user);
+        }
+      })();
+    }
   }, [userId]);
   // empty dependency array: this effect runs once when the component mounts
   
   useEffect(() => {
-    (async () => {
-      const result = await apiCall("get", "/user/getAllRoles");
-      if (result.err) {
-        showSnackbar(result.message, "error");
-      } else {
-        setAllRoles(result.roles);
-      }
-    })();
+    if (auth.user) {
+      (async () => {
+        const result = await apiCall("get", "/user/getAllRoles");
+        if (result.err) {
+          showSnackbar(result.message, "error");
+        } else {
+          setAllRoles(result.roles);
+        }
+      })();
+    }
   }, [t]);
   
   useEffect(() => {
-    (async () => {
-      const result = await apiCall("get", "/user/getAllPlans");
-      if (result.err) {
-        showSnackbar(result.message, "error");
-      } else {
-        setAllPlans(result.plans);
-      }
-    })();
+    if (auth.user) {
+      (async () => {
+        const result = await apiCall("get", "/user/getAllPlans");
+        if (result.err) {
+          showSnackbar(result.message, "error");
+        } else {
+          setAllPlans(result.plans);
+        }
+      })();
+    }
   }, [t]);
 
   useEffect(() => {
@@ -401,7 +407,7 @@ function UserEdit() {
                 value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
                 label={t("Roles")}
                 options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
-                optionsDisabled={allRoles.map(role => role.priority > Math.max(...auth.user?.roles?.map(r => r.priority)))}
+                optionsDisabled={auth.user ? allRoles.map(role => role.priority > Math.max(...auth.user.roles?.map(r => r.priority))) : true}
                 multiple={true}
                 onChange={(e) => setRoles(e.target.value)}
                 placeholder={t("Roles")}

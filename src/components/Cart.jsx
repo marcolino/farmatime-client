@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -135,7 +136,7 @@ const Cart = (props) => {
       default: // coming from internal routing
         break;
     }
-  }, [props.payment]);
+  }, [props.payment, cartItemsQuantity, emptyCartItems, navigate, showDialog, t]);
 
   if (!config.ecommerce.enabled) return;
 
@@ -398,5 +399,9 @@ const Cart = (props) => {
     </Container>
   );
 }
+
+Cart.propTypes = {
+  payment: PropTypes.string,
+};
 
 export default React.memo(Cart);

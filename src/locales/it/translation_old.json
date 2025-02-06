@@ -1,4 +1,5 @@
 {
+  "\nThe password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character\n  - and a total of at least eight characters.\n": "__STRING_NOT_TRANSLATED__",
   "An unexpected error occurred: {{err}}": "Si è verificato un errore inaspettato: {{err}}",
   "Are you sure you want to delete all {{count}} selected products?_one": "Sei sicuro di voler cancellare il prodotto selezionato?",
   "Are you sure you want to delete all {{count}} selected products?_many": "Sei sicuro di voler cancellare i {{count}} prodotti selezionati?",
@@ -74,6 +75,7 @@
   "reminders": "promemoria",
   "Retry": "Riprova",
   "Save Preferences": "Salva le preferenze",
+  "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character,\n  - and a total of at least eight characters.\n": "La password deve contenere almeno:\n  - un carattere alfabetico minuscolo,\n  - un carattere alfabetico maiuscolo,\n  - un carattere numerico,\n  - un carattere speciale,\n  - e un totale di almeno otto caratteri.\n",
   "tipsTutorials": "suggerimentiTutorial",
   "transactionAlerts": "avvisiDiTransazione",
   "Unforeseen action {{action}}": "Azione {{action}} non prevista",

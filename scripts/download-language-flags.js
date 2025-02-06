@@ -257,7 +257,7 @@ const countryCodes = [
 ];
 
 const FLAG_URL_BASE = "https://flagcdn.com/w40/";
-const OUTPUT_DIR = path.resolve("..", "public", "flags");
+const OUTPUT_DIR = path.resolve(".", "public", "flags");
 
 // ensure the output directory exists
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -265,25 +265,32 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 }
 
 (async function downloadFlags() {
+  let flagsCount = 0, flagsDownloadedCount = 0;
   for (const code of countryCodes) {
     const url = `${FLAG_URL_BASE}${code}.webp`;
     const outputPath = path.join(OUTPUT_DIR, `${code}.webp`);
     try {
-      console.log(`downloading ${url}`);
-      const response = await axios({
-        method: "get",
-        url,
-        responseType: "stream",
-      });
-      const writer = fs.createWriteStream(outputPath);
-      response.data.pipe(writer);
-      await new Promise((resolve, reject) => {
-        writer.on("finish", resolve);
-        writer.on("error", reject);
-      });
-      //console.log(`downloaded ${code}.webp`);
+      if (!fs.existsSync(outputPath)) { // if flag is already present locally, skip download
+        //console.log(`downloading ${url}`);
+        const response = await axios({
+          method: "get",
+          url,
+          responseType: "stream",
+        });
+        const writer = fs.createWriteStream(outputPath);
+        response.data.pipe(writer);
+        await new Promise((resolve, reject) => {
+          writer.on("finish", resolve);
+          writer.on("error", reject);
+        });
+        //console.log(`downloaded ${code}.webp`);
+        flagsDownloadedCount++;
+      }
+      flagsCount++;
     } catch (error) {
       console.error(`failed to download ${url}:`, error.message);
     }
   }
+  console.log(`downloaded ${flagsDownloadedCount} flags`);
+  console.log(`present totally ${flagsCount} flags`);
 })();

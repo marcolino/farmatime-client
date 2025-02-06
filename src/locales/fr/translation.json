@@ -270,7 +270,7 @@
   "The cookies necessary for the app operativity": "𐓙Les cookies nécessaires au fonctionnement de l'application",
   "The cookies that allow users profiling": "𐓙Les cookies qui permettent le profilage des utilisateurs",
   "The cookies to collect anonymous statistics": "𐓙Les cookies pour collecter des statistiques anonymes",
-  "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character,\n  - and a total of at least eight characters.\n": "Le mot de passe doit contenir au moins :\n  - un caractère alphabétique minuscule,\n  - un caractère alphabétique majuscule,\n  - un caractère numérique,\n  - un caractère spécial,\n  - et un total d'au moins huit caractères.",
+  "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character\n  - and a total of at least eight characters.\n": "Le mot de passe doit contenir au moins :\n  - un caractère alphabétique minuscule,\n  - un caractère alphabétique majuscule,\n  - un caractère numérique,\n  - un caractère spécial,\n  - et un total d'au moins huit caractères.",
   "The purchase was not finalized": "𐓙The purchase was not finalized",
   "Tips and tutorials": "Conseils et tutoriels",
   "To access all products, please": "Pour accéder à tous les produits, veuillez",

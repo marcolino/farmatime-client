@@ -21,6 +21,7 @@ import {
   validateEmail,
   validatePhone,
 } from "../libs/Validation";
+import { AuthContext } from "../providers/AuthProvider";
 import config from "../config";
 
 
@@ -31,6 +32,7 @@ function ProductEdit() {
   const [productOriginal, setProductOriginal] = useState(false);
   const [productAllTypes, setProductAllTypes] = useState([]);
   const [error, setError] = useState({});
+  const { auth } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
   const { productId } = useParams();
@@ -47,15 +49,17 @@ function ProductEdit() {
 
   
   useEffect(() => { // get product all constraints on mount
-    (async () => {
-      const result = await apiCall("post", "/product/getProductAllTypes");
-      if (result.err) {
-        showSnackbar(result.message, result.status === 401 ? "warning" : "error");
-      } else {
-        //showSnackbar("ok", "info");
-        setProductAllTypes(result.types);
-      }
-    })();
+    if (auth.user) {
+      (async () => {
+        const result = await apiCall("post", "/product/getProductAllTypes");
+        if (result.err) {
+          showSnackbar(result.message, result.status === 401 ? "warning" : "error");
+        } else {
+          //showSnackbar("ok", "info");
+          setProductAllTypes(result.types);
+        }
+      })();
+    }
   }, []);
 
   const handleImageChange = (e) => {

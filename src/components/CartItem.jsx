@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "@mui/material/styles";
 import { 
   Box, 
   Grid, 
@@ -18,7 +18,6 @@ import config from "../config";
 
 const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const [quantityCurrent, setQuantityCurrent] = useState(quantity ?? 1);
   const [priceCurrent, setPriceCurrent] = useState(item.price * quantityCurrent);
   const { md } = useMediaQueryContext();
@@ -245,6 +244,13 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
       </Grid>
     </Box>
   );
+};
+
+CartItem.propTypes = {
+  item: PropTypes.object,
+  quantity: PropTypes.number,
+  onQuantityChange: PropTypes.function,
+  onRemove: PropTypes.function,
 };
 
 export default React.memo(CartItem);

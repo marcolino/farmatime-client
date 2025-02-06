@@ -7,8 +7,8 @@ import config from "../config";
 export const isEmptyObject = (obj) => {
   return (
     obj ? // null and undefined check
-      Object.keys(obj).length === 0 // empty object check
-      && obj.constructor === Object // Object.keys(new Date()).length === 0; so we have to check it is not a Date
+      Object.keys(obj).length === 0 && // empty object check
+      obj.constructor === Object // Object.keys(new Date()).length === 0; so we have to check it is not a Date
     :
       true
   );
@@ -16,7 +16,7 @@ export const isEmptyObject = (obj) => {
 
 export const isNull = (v) => {
   return (v == null);
-}
+};
 
 export const isBoolean = (v) => {
   return typeof v === "boolean";
@@ -37,14 +37,14 @@ export const isArray = (v) => {
 
 export const isObject = (v) => {
   return (typeof v === "object" && !Array.isArray(v));
-}
+};
 
 export const objectsAreEqual = (o1, o2) => {
-  const retval = Object.keys(o1).length === Object.keys(o2).length
-    && Object.keys(o1).every(p => o1[p] === o2[p])
-  ;
+  const retval = Object.keys(o1).length === Object.keys(o2).length &&
+    Object.keys(o1).every(p => o1[p] === o2[p])
+    ;
   return retval;
-} 
+};
 
 // deeply merge objects with precedence to the source one
 export const deepMergeObjects = (target, source) => {
@@ -62,11 +62,11 @@ export const deepMergeObjects = (target, source) => {
   }
   // combine target and updated source
   return Object.assign(target || {}, source);
-}
+};
 
 export const currencyFormat = (value, currencySymbol) => {
-  return currencySymbol + " " + (value / 100).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-}
+  return currencySymbol + " " + (value / 100).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+};
 
 // check if consent is expired
 const cookiesIsConsentExpired = (timestamp) => {
@@ -120,7 +120,7 @@ export const isValidRegex = (regexString) => {
 
 export const escapeRegex = (string) => {
   return string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-}
+};
 
 export const encodeEmail = (email) => {
   let encodedEmail = "";
@@ -130,7 +130,7 @@ export const encodeEmail = (email) => {
   }
 
   function charToOctal(char) {
-    return ("0" + char.charCodeAt(0).toString(8)).slice(-3); 
+    return ("0" + char.charCodeAt(0).toString(8)).slice(-3);
   }
 
   for (let i = 0; i < email.length; i++) {
@@ -144,7 +144,7 @@ export const encodeEmail = (email) => {
     }
   }
   return React.createElement("span", { dangerouslySetInnerHTML: { __html: encodedEmail } });
-}
+};
 
 /**
  * @param {Number} seconds 
@@ -184,4 +184,14 @@ export const secondsToHumanDuration = (seconds) => {
       return value + " " + (value !== 1 ? units : unit);
     }
   }
-}
+};
+
+export const setupCustomConsole = () => {
+  if (!("devAlert" in console)) {
+    console.devAlert = message => {
+      if (config.mode.development) {
+        console.info("%c" + message, "color: red; -webkit-text-stroke: 2px black; font-size: 64px; font-weight: bold;");
+      }
+    };
+  }
+};

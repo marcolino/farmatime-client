@@ -133,12 +133,12 @@ const checkPassword = (password) => {
    */
   const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
 
-  return re.test(String(password)) ? null : i18n.t("\
-The password must contain at least:\n\
-  - one lowercase alphabetical character,\n\
-  - one uppercase alphabetical character,\n\
-  - one numeric character,\n\
-  - one special character,\n\
-  - and a total of at least eight characters.\n\
-");
-}
+  return re.test(String(password)) ? null : i18n.t(`\
+The password must contain at least:
+  - one lowercase alphabetical character,
+  - one uppercase alphabetical character,
+  - one numeric character,
+  - one special character
+  - and a total of at least eight characters.
+`);
+};
