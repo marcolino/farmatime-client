@@ -136,7 +136,7 @@ const Cart = (props) => {
       default: // coming from internal routing
         break;
     }
-  }, [props.payment, cartItemsQuantity, emptyCartItems, navigate, showDialog, t]);
+  }, [props.payment/*, cartItemsQuantity, emptyCartItems, navigate, showDialog, t*/]);
 
   if (!config.ecommerce.enabled) return;
 

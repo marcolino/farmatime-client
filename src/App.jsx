@@ -57,33 +57,33 @@ const AppStructure = () => {
         <DialogProvider>
           <SnackbarProviderWrapper>
             <ServiceWorkerMessages />
-              <ServiceWorkerProvider>
-                <OnlineStatusProvider>
-                  <MediaQueryProvider>
-                    <CssBaseline />
-                    <LoaderProvider>
-                      <Loader loading={loading} />
-                      <Router future={{ /* avoid v7 start transition warnings */ 
-                        v7_startTransition: true,
-                        v7_relativeSplatPath: true,
-                      }}>
-                        <SessionExpirationHandler>
-                          <BackgroundVideo />
-                          <SessionProvider />
-                          <CookiePreferences />
-                          {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
-                          <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
-                            <Routing />
-                          </Contents>
-                        </SessionExpirationHandler>
-                      </Router>
-                    </LoaderProvider>
-                  </MediaQueryProvider>
-                </OnlineStatusProvider>
-              </ServiceWorkerProvider>
-            </SnackbarProviderWrapper>
-          </DialogProvider>
-        </CartProvider>
+            <ServiceWorkerProvider>
+              <OnlineStatusProvider>
+                <MediaQueryProvider>
+                  <CssBaseline />
+                  <LoaderProvider>
+                    <Loader loading={loading} />
+                    <Router future={{ /* avoid v7 start transition warnings */ 
+                      v7_startTransition: true,
+                      v7_relativeSplatPath: true,
+                    }}>
+                      <SessionExpirationHandler>
+                        {/* <BackgroundVideo /> */}
+                        <SessionProvider />
+                        <CookiePreferences />
+                        {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                        <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
+                          <Routing />
+                        </Contents>
+                      </SessionExpirationHandler>
+                    </Router>
+                  </LoaderProvider>
+                </MediaQueryProvider>
+              </OnlineStatusProvider>
+            </ServiceWorkerProvider>
+          </SnackbarProviderWrapper>
+        </DialogProvider>
+      </CartProvider>
     </ThemeProvider>
   );
 };

@@ -1,33 +1,88 @@
-NOTES
+# NOTES
 
-Security
+
+## Security
  - .env files are excluded by git repositories; .env.gpg files are not;
    when adding some secret to .env, crypt it with yarn env-crypt (or better
    add a pre-push hook to encrypt it); it can be later decrypted with `yarn env-decrypt`.
 
-Font weigth names:
-  Thin        100
-  Extra Light 200
-  Light       300
-  Regular     400
-  Medium      500
-  Semi-Bold   600
-  Bold        700
-  Extra-Bold  800
-  Black       900
 
-REFERENCES
+## Colors:
+  In MUI v6 with the default theme, you can use these color names throughout your components:
 
-Authentication
+  ### Primary Colors
+  - `primary` - The main brand color (default: blue)
+  - `secondary` - The secondary brand color (default: purple)
+
+  ### Semantic Colors
+  - `error` - For error states (default: red)
+  - `warning` - For warning states (default: orange)
+  - `info` - For informational states (default: light blue)
+  - `success` - For success states (default: green)
+
+  ### Neutral Colors
+  - `grey` - Various shades of grey (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700)
+
+  ### Text Colors
+  - `text.primary` - Primary text color
+  - `text.secondary` - Secondary text color
+  - `text.disabled` - Disabled text color
+
+  ### Background Colors
+  - `background.default` - Default background
+  - `background.paper` - Paper/card background
+
+  ### Action Colors
+  - `action.active` - Active elements
+  - `action.hover` - Hover states
+  - `action.selected` - Selected states
+  - `action.disabled` - Disabled states
+  - `action.disabledBackground` - Disabled background
+
+  ### Divider
+  - `divider` - For dividers and borders
+
+  You can use these in various ways:
+  ```jsx
+  // In sx prop
+  <Box sx={{ color: 'primary.main', backgroundColor: 'grey.100' }} />
+
+  // In component color props
+  <Button color="primary" />
+  <Alert severity="error" />
+
+  // Accessing theme colors
+  const theme = useTheme();
+  theme.palette.primary.main
+  ```
+
+  Each color (except grey) has variants like `main`, `light`, `dark`, and `contrastText` that you can access with dot notation.
+
+
+## Font weigth names:
+  - Thin        `100`
+  - Extra Light `200`
+  - Light       `300`
+  - Regular     `400`
+  - Medium      `500`
+  - Semi-Bold   `600`
+  - Bold        `700`
+  - Extra-Bold  `800`
+  - Black       `900`
+
+
+## Authentication
  - AWS Cognito Agnita: https://levelup.gitconnected.com/agnita-authentication-for-create-react-app-using-aws-cognito-80cde1fb781b
  - aws-amplify Amplify.configure Auth.oauth parameter "responseType" can be set to "code" or "token";
    note that REFRESH token will only be generated when the responseType is "code"
 
-Privacy (GDPR)
+
+## Privacy (GDPR)
  - Privacy Policy generator: https://www.lorenzomoio.it/generatore-di-privacy-policy-gratuito
  - Terms of Use generator: https://zyro.com/it/strumenti/generatore-di-termini-e-condizioni
 
-Material UI Theme Customization
+
+## Material UI Theme Customization
  - MUI latest docs: https://mui.com/material-ui/getting-started/
  - MUI V5 Quickstart with hands on examples: https://levelup.gitconnected.com/material-ui-mui-v5-quick-start-with-hands-on-examples-649a0f712418
  - The ULTIMATE guide to styling/customizing Material UI (MUI): https://youtu.be/HsdjivqQ7BA?si=Em9v6dEw0GkjClbc
@@ -35,17 +90,16 @@ Material UI Theme Customization
  - Customization theming: https://mui.com/customization/theming/
  
 
-Performance
- - lighthouse & jest: https://medium.com/@togmund/lighthouse-jest-testing-what-matters-acbd0ff55825
-
-Styling
+## Styling
  - Fluid Typography: https://css-tricks.com/snippets/css/fluid-typography
  - Color Contrast Checker: https://dequeuniversity.com/rules/axe/2.2/color-contrast?application=lighthouse
 
-Tests
+
+## Tests
  - How to ignore partial Jest snapshot diffs: https://lanwen.ru/posts/ignore-jest-snapshot-diffs
 
-AWS
+
+## AWS
  - Reset Cloudfront distribution alternate domain name for qiuiccasa:
    https://console.aws.amazon.com/cloudfront/v3/home?region=eu-west-1#/distributions/E30CJEQ2PIR5NL,
    edit, set alternate domain name to "quiccasa.sistemisolari.com"
@@ -57,7 +111,8 @@ AWS
  - Test Federated Signin: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-federation-with-social-idp.html
  - Cache Control - Adding headers to your objects using the Amazon S3 console: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html
 
-CORS
+
+## CORS
  - React.js API calls to AWS Lambda, API Gateway and dealing with CORS:
    https://codeburst.io/react-js-api-calls-to-aws-lambda-api-gateway-and-dealing-with-cors-89fb897eb04d
  - How to set up a custom domain name for Lambda & API Gateway with Serverless
@@ -65,54 +120,69 @@ CORS
  - StackOverflow: Serverless AWS Lambda CORS Error
    https://stackoverflow.com/questions/46627532/serverless-aws-lambda-cors-error
 
-Cache
+
+## Cache
  - Serverless - Invalidating the Cache:
    https://serverless-stack.com/chapters/deploy-updates.html
  
-Google Search Console
+
+## Google Search Console
  - https://search.google.com/search-console?resource_id=sc-domain%3Asistemisolari.com
 
-Create Google Places API key for a project
+
+## Create Google Places API key for a project
  - https://console.cloud.google.com/apis/credentials?project=acme-431519
 
-Google Developer console for oAuth
+
+## Google Developer console for oAuth
  - (https://console.cloud.google.com/apis/dashboard?project=acme-431519)
 
-Facebook Developer console for oAuth
+
+## Facebook Developer console for oAuth
  - https://developers.facebook.com/apps/
 
-I18n
+
+## I18n
  - Language flags: https://apps.timwhitlock.info/emoji/tables/iso3166
  - yarn -D add i18next-parser
 
-E-Commerce
+
+## E-Commerce
  - 9 Must-Have Features of a Progressive Web App (PWA) for E-Commerce: https://www.simicart.com/blog/progressive-web-apps-features-for-ecommerce
 
-PWA
+
+## PWA
  - Minimal PWA (and minimal service worker): https://flancer32.com/minimal-pwa-585664286cda
 
-Push Notifications
+
+## Push Notifications
  - Cloud messaging with Firebase: https://blog.logrocket.com/push-notifications-with-react-and-firebase
  - Why we don't need Firebase InApp Messaging: https://stackoverflow.com/a/64373136/709439
  - Firebase Push Notifications In React: https://www.smashingmagazine.com/2020/06/firebase-push-notifications-react
  - Best practices for FCM registration token management: https://firebase.google.com/docs/cloud-messaging/manage-tokens
 
-Sounds
+
+## Sounds
  - Announcing “use-sound”, a React Hook for Sound Effects: https://www.joshwcomeau.com/react/announcing-use-sound-react-hook/
 
-Axios Interceptors
+
+## Axios Interceptors
  - Debugging and Resolving Axios Network Error Issues: https://www.dhiwise.com/post/common-axios-network-errors-and-how-to-solve-the
 
-React Cookie Law banner
+
+## React Cookie Law banner
  - https://github.com/keepist/react-gdpr-cookie-banner?tab=readme-ov-file
 
-Error Boundaries
+
+## Error Boundaries
  - Error Handling in React Applications: React Error Boundary: https://medium.com/@agamkakkar/error-handling-in-react-applications-react-error-boundary-e633d383762a
 
-Theming
+
+## Theming
  - MUi Color Palette Creation Tool: https://m2.material.io/inline-tools/color/
  - Palette - Material UI: https://mui.com/material-ui/customization/palette/
 
-Performance
+## Performance
+ - Lighthouse & jest: https://medium.com/@togmund/lighthouse-jest-testing-what-matters-acbd0ff55825
  - Optimizing Performance in Production: https://www.freecodecamp.org/news/react-performance-optimization-techniques/
  - Optimizing Performance (old): https://legacy.reactjs.org/docs/optimizing-performance.html#use-the-production-build

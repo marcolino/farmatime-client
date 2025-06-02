@@ -26,6 +26,7 @@ import config from "../config";
 const Header = ({ theme, toggleTheme }) => {
   const { auth, isLoggedIn, signOut, didSignInBefore } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
+  //console.log("Snackbar Context in Header:", showSnackbar); // Debugging line
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
@@ -152,13 +153,7 @@ const Header = ({ theme, toggleTheme }) => {
     showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
   };
 
-  // const flag = false;
-  // const sections2 = React.useMemo(() => [
-  //   ...(flag ? [{ a: 1 }] : []),
-  //   { b: 2 }
-  // ], [flag]);
-  // console.log("sections2:", sections2);
-  console.log("sections:", sections);
+  //console.log("sections:", sections);
 
   return (
     <AppBar

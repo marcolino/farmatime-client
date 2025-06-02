@@ -215,11 +215,13 @@
 - assert config.ecommerce.enabled flag - OK
 - add link to "Edit" button in ProductDetails - OK
 - gestire gift in cart - OK
+- rinominare HandleUsers -> UsersHandle, ... (prima il soggetto, poi l'azione) - OK
+- correggere popup per "info" (adesso mostra "network-status"...) - OK
 
-- rinominare HandleUsers -> UsersHandle, ... (prima il soggetto, poi l'azione)
+- update index.language, index.dir, index.charset when user changes locale
 - migliorare il tema scuro
 - risolvere i TODO's nel codice
-- make tests (use AI for this...)
+- make tests (also use AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
 
 

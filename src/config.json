@@ -44,7 +44,8 @@
     }
   },
   "api": {
-    "version": 1,
+    "name": "acme",
+    "version": "1",
     "headers": {
       "Content-Type": "application/json"
     },
@@ -57,6 +58,7 @@
     "refreshTokenExpirationSeconds": 1209600,
     "refreshTokenExpirationDontRememberMeSeconds": 3600,
     "notificationTokenExpirationSeconds": 3600,
+    "verificationCodeExpirationSeconds": 3600,
     "codeDeliveryMedium": "email",
     "clientSessionExpirationSeconds": 0,
     "clientSessionExpirationResponseMaximumSeconds": 900
@@ -160,13 +162,18 @@
         }
       }
     },
-    "backgroundVideo": "wave"
+    "backgroundVideo": "wind-turbines"
   },
   "oauth": {
-    "scope": [
-      "email",
-      "openid"
-    ],
+    "scope": {
+      "google": [
+        "profile",
+        "email"
+      ],
+      "facebook": [
+        "email"
+      ]
+    },
     "responseType": "code",
     "redirectSignIn": "http://localhost:5000",
     "redirectSignOut": "http://localhost:5000",
@@ -205,7 +212,7 @@
     "dir": "ltr",
     "charset": "UTF-8",
     "description": "A powerful web app, easily customizable",
-    "themeColor": "#a5dc6f",
+    "themeColor": "#4e4f4c",
     "cacheControl": "mag-age=1440",
     "og": {
       "title": "ACME",
@@ -231,7 +238,7 @@
       "mobileWebAppTitle": "ACME"
     },
     "ms": {
-      "themeColor": "#a5dc6f",
+      "themeColor": "#4e4f4c",
       "tileImage": "http://localhost:5000/ms-tile.png"
     },
     "canonicalUrl": "http://localhost:5000",

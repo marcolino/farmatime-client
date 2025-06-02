@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
@@ -34,14 +34,20 @@ function ProductEdit() {
   const [error, setError] = useState({});
   const { auth } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
+  const fileInputRef = useRef(null);
   const { t } = useTranslation();
   const { productId } = useParams();
+
   if (!productId) {
     showSnackbar(t("No product id specified"), "error");
     navigate(-1);
     return;
   }
     
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
   const [updateReady, setUpdateReady] = useState(false); // to handle form values changes refresh
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageObjectUrl, setSelectedImageObjectUrl] = useState(null);
@@ -51,7 +57,7 @@ function ProductEdit() {
   useEffect(() => { // get product all constraints on mount
     if (auth.user) {
       (async () => {
-        const result = await apiCall("post", "/product/getProductAllTypes");
+        const result = await apiCall("get", "/product/getProductAllTypes");
         if (result.err) {
           showSnackbar(result.message, result.status === 401 ? "warning" : "error");
         } else {
@@ -102,7 +108,7 @@ function ProductEdit() {
         };
         setProduct(product);
       } else {
-        const result = await apiCall("post", "/product/getProduct", { productId });
+        const result = await apiCall("get", "/product/getProduct", { productId });
         if (result.err) {
           showSnackbar(result.message, result.status === 401 ? "warning" : "error");
         } else {
@@ -258,6 +264,8 @@ function ProductEdit() {
     };
   }
 
+  console.log("product.imageName:", product.imageName);
+  
   if (product && productAllTypes.length) {
     return (
       <>
@@ -474,15 +482,23 @@ function ProductEdit() {
                 
                 <Box display="flex" flexDirection="column" gap={1} mt={{ xs: -1, sm: 1 }} alignItems="center" flexGrow={1}>
 
-                  {/* current image */}
-                  <ImageContainer
-                    src={`${config.siteUrl}${config.images.publicPathWaterMark}/${product.imageName}`}
-                    alt={t("Current image")}
-                    borderColor="primary.main"
-                    backgroundColor="background.default"
-                    label={productOriginal.imageNameOriginal}
+                  <input
+                    type="file"
+                    hidden
+                    ref={fileInputRef}
+                    onChange={handleImageChange}
                   />
-
+                  <div onClick={handleImageClick} style={{ cursor: "pointer" }}>
+                    {/* current image */}
+                    <ImageContainer
+                      src={product.imageName ? `${config.siteUrl}${config.images.publicPathWaterMark}/${product.imageName}` : undefined}
+                      alt={t("Current image")}
+                      borderColor="primary.main"
+                      backgroundColor="background.default"
+                      label={productOriginal.imageNameOriginal}
+                    />
+                  </div>
+                  
                   {/* selected image */}
                   {selectedImageObjectUrl && <ImageContainer
                     key={selectedImageObjectUrl} // force re-render when object URL changes

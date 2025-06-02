@@ -72,7 +72,7 @@ function UserEdit() {
   useEffect(() => { // get all users on mount
     if (auth.user) {
       (async () => {
-        const result = await apiCall("post", "/user/getUser", { userId });
+        const result = await apiCall("get", "/user/getUser", { userId });
         if (result.err) {
           showSnackbar(result.message, result.status === 401 ? "warning" : "error");
         } else {

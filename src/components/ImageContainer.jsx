@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, FormLabel } from "@mui/material";
 
 import fallbackImage from "../assets/images/ImageNotFound.jpg";
@@ -7,8 +7,12 @@ import fallbackImage from "../assets/images/ImageNotFound.jpg";
 const ImageContainer = ({ _src, alt, borderColor = "transparent", backgroundColor = "transparent", label, ...props }) => {
   const [imgSrc, setImgSrc] = useState(props.src);
 
+  if (!imgSrc) {
+    setImgSrc(fallbackImage); // switch to the fallback image if the specified image fails to load
+  }
+
   const handleError = () => {
-    if (!imgSrc.endsWith("/")) { // if imgSrc is a folder name, with no image, do not warn, it is the normal case for new images
+    if (!imgSrc.endsWith("/undefined") && !imgSrc.endsWith("/")) { // if imgSrc is a folder name, with no image, do not warn, it is the normal case for new images
       console.warn(`image ${imgSrc} not found`);
     }
     setImgSrc(fallbackImage); // switch to the fallback image if the specified image fails to load

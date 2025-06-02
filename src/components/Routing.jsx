@@ -24,7 +24,6 @@ const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
 const Routing = () => {
-  //const { i18n } = useTranslation();
   return (
     <Suspense fallback={<Loader lazyloading={true} />}>
       <Routes>

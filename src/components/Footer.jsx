@@ -63,6 +63,11 @@ const Footer = ({ changeLocale }) => {
     ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\
   `;
 
+  const networkTitle = packageJson.name; 
+  const networkContents =
+    <>{t("Network is")} {isOnline ? t("online") : t("offline")}</>
+  ;
+
   const changeLanguage = () => {
     const newLanguage = getNextSupportedLanguage();
     i18n.changeLanguage(newLanguage);
@@ -155,14 +160,9 @@ const Footer = ({ changeLocale }) => {
         
         {/* network connection indicator */}
         <Box
-          // onClick={() => handleOpenDialog(
-          //   t("Network status"),
-          //   <>{t("Network is")} {isOnline ? t("online") : t("offline")}</>,
-          //   null,
-          // )
           onClick={() => showDialog({
-            title: t("Network status"),
-            message: infoContents,
+            title: networkTitle,
+            message: networkContents,
             confirmText: t("Ok"),
           })
         }

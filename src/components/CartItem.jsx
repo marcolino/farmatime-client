@@ -249,8 +249,8 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
 CartItem.propTypes = {
   item: PropTypes.object,
   quantity: PropTypes.number,
-  onQuantityChange: PropTypes.function,
-  onRemove: PropTypes.function,
+  //onQuantityChange: PropTypes.function,
+  //onRemove: PropTypes.function,
 };
 
 export default React.memo(CartItem);

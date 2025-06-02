@@ -40,6 +40,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
      • $PLAN$ => The plan of the user\n\
      • $COMPANY$ => The company of the user\n"
     );
+  // TODO: translate only text strings... ("The name of the user", ...)
 
   const validateForm = () => {
     if (!subject) {
