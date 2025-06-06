@@ -53,13 +53,13 @@ async function main() {
 
   try {
     // Download and process each file
-    const confezioniFile = 'confezioni.csv';
+    const confezioniFile = 'confezioni.csv'; // TODO: use a temp directory
     const paConfezioniFile = 'pa_confezioni.csv';
     const atcFile = 'atc.csv';
     
-    await downloadFile(urls.confezioni, confezioniFile);
+    //await downloadFile(urls.confezioni, confezioniFile);
     await downloadFile(urls.pa_confezioni, paConfezioniFile);
-    await downloadFile(urls.atc, atcFile);
+    //await downloadFile(urls.atc, atcFile);
     
     // Read and parse the files
     const confezioniContent = fs.readFileSync(confezioniFile, 'utf8');
@@ -100,7 +100,11 @@ async function main() {
       .map((item, index) => ({
         id: `PA${String(index + 1).padStart(3, '0')}`,
         name: item.principio_attivo,
-        description: `${item.quantita} ${item.unita_misura}`
+        description: `\
+${item.quantita ? item.quantita : ''}\
+${(item.quantita && item.unita_misura) ? ' ' : ''}\
+${item.unita_misura ? item.unita_misura : ''}\
+`
       }))
     ;
     

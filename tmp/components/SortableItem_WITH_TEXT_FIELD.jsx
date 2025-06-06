@@ -1,8 +1,11 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { IconButton, Box, Typography, Chip, Tooltip } from '@mui/material';
+import { IconButton, Box, /*Typography,*/ TextField, Chip, Tooltip } from '@mui/material';
 import { DragHandle as DragHandleIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { useRef, useState, useEffect } from 'react';
+// import { border } from '@mui/system';
+// import { is } from 'date-fns/locale';
+//import { bgcolor } from '@mui/system';
 
 export const SortableItem = ({
   id,
@@ -27,6 +30,7 @@ export const SortableItem = ({
 
   const nameRef = useRef(null);
   const [isTruncated, setIsTruncated] = useState(false);
+  //const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     if (nameRef.current) {
@@ -39,6 +43,13 @@ export const SortableItem = ({
   const transformStyle = {
     transform: CSS.Transform.toString(transform),
     transition,
+    //opacity: isDragging ? 0.3 : 0.6,
+    // opacity: opacity,
+    // border: isUpdating ? 1 : 0,
+    // borderColor: isUpdating ? 'grey.500' : 'transparent',
+    // borderWidth: isUpdating ? 1 : 0,
+    // borderStyle: isUpdating ? 'dashed' : 'solid',
+    // borderRadius: 1,
   };
   const opacityStyle = {
     opacity: isDragging ? 0.3 : isEditing ? 0.6 : 1
@@ -97,24 +108,31 @@ export const SortableItem = ({
           disableHoverListener={!isTruncated}
           placement="top"
         >
-          <Typography 
+          <TextField
+            variant="standard"
+            readOnly={true}
             ref={nameRef}
-            noWrap 
+            //noWrap 
             onClick={() => {
+              //setIsUpdating(true);
               onEditStart(id);
               onEdit(id, "name")
             }}
             sx={{ 
               flexShrink: 1,
               minWidth: 0,
-              overflow: 'hidden',
+              //overflow: 'hidden',
               textOverflow: 'ellipsis',
+              padding: 0,
               pr: 1,
               cursor: 'grab'
             }}
-          >
-            {name}
-          </Typography>
+            input={{ readOnly: true }}
+            InputProps={{ disableUnderline: true }}
+            value={name}
+          />
+            {/* {name} ...
+          </TextField> */}
         </Tooltip>
         
         <Box sx={{ 
@@ -122,9 +140,11 @@ export const SortableItem = ({
           ml: 'auto',
           gap: 1
         }}>
-          <Chip // TODO: reduce width if mobile
+          <Chip 
             label={`since ${formatDate(date)}`}
+            //size="small"
             onClick={() => {
+              //setIsUpdating(true);
               onEditStart(id);
               onEdit(id, "date");
             }}
@@ -136,9 +156,11 @@ export const SortableItem = ({
               color: 'primary.contrastText'
             }}
           />
-          <Chip // TODO: reduce width if mobile
+          <Chip 
             label={`every ${frequency} day${frequency !== 1 ? 's' : ''}`}
+            //size="small"
             onClick={() => {
+              //setIsUpdating(true);
               onEditStart(id);
               onEdit(id, "frequency")
             }}
@@ -146,6 +168,7 @@ export const SortableItem = ({
               width: 130,
               borderRadius: '4px',
               height: '24px',
+              //fontSize: '0.75rem',
               bgcolor: 'primary.light',
               color: 'primary.contrastText'
             }}
@@ -155,6 +178,7 @@ export const SortableItem = ({
 
       {/* Delete button */}
       <IconButton
+        //onMouseDown={(e) => e.stopPropagation()}
         onClick={(e) => {
           e.stopPropagation();
           onRemove(id);

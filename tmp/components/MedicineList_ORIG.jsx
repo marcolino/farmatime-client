@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useMemo } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -29,10 +29,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { format } from 'date-fns';
 import { enUS, it, fr, de, es } from 'date-fns/locale';
-import { ContextualHelp } from './ContextualHelp';
 import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
-import { mockAnagrafica, mockPrincipiAttivi, mockATC } from '../data/AIFA'; // TODO: rename mock to data...
+import { mockAnagrafica, mockPrincipiAttivi, mockATC } from '../data/AIFA';
 
 const localeMap = {
   en: enUS,
@@ -76,6 +75,7 @@ const ItemContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const MedicineList = ({ locale = 'it' }) => { // TODO: get locale from parent or global state
+  const [name, setName] = useState(null);
   const [option, setOption] = useState(null);
   const [editingItemId, setEditingItemId] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -83,28 +83,8 @@ export const MedicineList = ({ locale = 'it' }) => { // TODO: get locale from pa
   const [date, setDate] = useState(new Date());
   const [items, setItems] = useState([]);
   const [mode, setMode] = useState('add'); // 'add' or 'update'
-  const [fieldToFocus, setFieldToFocus] = useState(null);
-
-  // References to input fields
-  const nameRef = useRef(null);
-  const frequencyRef = useRef(null);
-  const dateRef = useRef(null);
-
-  // Store refs in an object keyed by field name
-  const inputRefs = {
-    name: nameRef,
-    frequency: frequencyRef,
-    date: dateRef,
-  };
-
-  // When fieldToFocus changes, focus the corresponding input
-  useEffect(() => {
-    if (fieldToFocus && inputRefs[fieldToFocus]?.current) {
-      inputRefs[fieldToFocus].current.focus();
-    }
-  }, [fieldToFocus]);
-
-  // Create unified options
+  
+    // Create unified options
   const unifiedOptions = useMemo(() => {
     if (!mockAnagrafica.length || !mockPrincipiAttivi.length || !mockATC.length) return [];
 
@@ -188,6 +168,16 @@ export const MedicineList = ({ locale = 'it' }) => { // TODO: get locale from pa
     return results;
   };
 
+  const resetItems = () => {
+    setName('');
+    //setFrequency(1);
+    //setDate(new Date());
+    setInputValue('');
+    setOption(null);
+    setFrequency(1);
+    setDate(new Date());
+  };
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -195,20 +185,9 @@ export const MedicineList = ({ locale = 'it' }) => { // TODO: get locale from pa
     })
   );
 
-  const resetItems = () => {
-    setInputValue('');
-    setOption(null);
-    setFrequency(1);
-    setDate(new Date());
-  };
-
   const addItem = (e) => {
-    console.log("addItem");
     e.preventDefault();
-    //const nameTrimmed = option?.label?.trim()
-    console.log("addItem - e.target[0].value?.trim():", e.target[0].value?.trim());
-
-    const nameTrimmed = e.target[0].value?.trim();
+    const nameTrimmed = name?.label?.trim()
     if (!nameTrimmed) {
       alert("Please enter a medicine name.");
       return;
@@ -217,87 +196,41 @@ export const MedicineList = ({ locale = 'it' }) => { // TODO: get locale from pa
       alert("Please enter a valid frequency in days.");
       return;
     }
-
-    // TODO: avoid double entries
-    
-    const optionForced = option || {}
-    optionForced.label = nameTrimmed; // Ensure option has the manually edited label
-    if (!optionForced.id) {
-      const random = Math.random().toString(36).substring(2, 9); // Generate a random string for id
-      optionForced.id = `manually_edited_${random}`; // Assign a random id if not set
-    }
-
-    if (mode === 'add') {
-      if (items.some(item => item.id === optionForced.id)) { // Check if item already exists by id
-        //if (optionForced.id in items.map(item => item.id)) { // Check if item already exists by id
-        alert("This item already exists in the list.");
-        return;
-      }
-    }
-
+    const id = items.length; 
+    setItems([...items, { 
+      option: name, // Store the full option object
+      id: `item-${id}`, 
+      name: nameTrimmed,
+      frequency,
+      date
+    }]);
     resetItems();
-    console.log(`addItem - items reset: inputValue: ${inputValue}, option: ${option}, frequency: ${frequency}, date: ${date}`);
-
-    if (mode === 'add') { // Mode is 'add'
-      console.log(`addItem - mode is add`);
-      setItems([...items, {
-        option: optionForced, // Store the full option object
-        id: optionForced.id,
-        name: optionForced.label,
-        frequency,
-        date
-      }]);
-    } else { // Mode is 'update'
-      // Update existing item by id
-      console.log(`addItem - mode is update`);
-      setItems(prevItems =>
-        prevItems.map(item =>
-          item.id === editingItemId // Track which item we are editing
-            ? { ...item, option, name: nameTrimmed, frequency, date }
-            : item
-        )
-      );
-      setEditingItemId(null); // Clear editing state
-      console.log(`addItem - editingItemId reset`);
-      setMode('add'); // Reset to add mode
-      console.log(`addItem - mode reset to add`);
+    if (mode === 'update') {
+      setMode('add');
     }
   };
 
-  const startEdit = (id, field) => {
-    console.log(`startEdit - id: ${id}, field: ${field}`);
-    console.log(`startEdit - Items: ${JSON.stringify(items, null, 2)}`);
+  const startEdit = (id, fieldName) => {
+    //console.log('Editing item:', id, fieldName);
+    //console.log('Items:', items);
     const item = items.find(i => i.id === id);
     if (!item) {
       console.error(`Item by id ${id} not found!`); // TODO...
       return;
     }
     //console.log('Item:', item);
-    setEditingItemId(id); // Track which item is being edited
-    console.log(`startEdit - editingItemId set to: ${id}`);
     setMode('update');
-    console.log(`startEdit - mode set to update`);
-    setFieldToFocus(field); // e.g. "name", "frequency", or "date"
-    console.log(`startEdit - fieldToFocus set to: ${field}`);
-    setOption(item.option || null);
-    console.log(`startEdit - option set to: ${JSON.stringify(item.option)}`);
+    setName(item.option || null);
     setFrequency(item.frequency);
-    console.log(`startEdit - frequency set to: ${item.frequency}`);
     setDate(new Date(item.date));
-    console.log(`startEdit - date set to: ${item.date}`);
-
-    setInputValue(item.name); // Set inputValue to the item's name
-    console.log(`startEdit - inputValue set to: ${item.name}`);
   };
 
   const handleEditStart = (id) => {
     setEditingItemId(id);
-    console.log(`handleEditStart - editingItemId set to: ${id}`);
   };
 
   const handleEditEnd = () => {
     setEditingItemId(null);
-    console.log(`handleEditEnd - editingItemId reset`);
   };
 
   const removeItem = (id) => {
@@ -372,55 +305,38 @@ export const MedicineList = ({ locale = 'it' }) => { // TODO: get locale from pa
                 alignItems: 'flex-end'
               }}
             >
-              <ContextualHelp helpPagesKey="MedicineName" fullWidth showOnHover>
-                <MedicineInputAutocomplete
-                  autoFocus
-                  fullWidth
-                  variant="outlined"
-                  value={option}
-                  inputValue={inputValue}
-                  onChange={(_event, newValue) => {
-                    setOption(newValue);
-                    setInputValue(newValue ? newValue.label : ''); // Optionally sync inputValue to selected option label
-                  }}
-                  onInputChange={(_event, newInputValue, reason) => {
-                    // Update inputValue on user typing or clearing
-                    if (reason === 'input' || reason === 'clear') {
-                      setInputValue(newInputValue);
-                    }
-                  }}
-                  options={getFilteredOptions(inputValue)}
-                  placeholder="Enter full name of the medicine"
-                  ref={nameRef}
-                />
-              </ContextualHelp>
+              <MedicineInputAutocomplete
+                fullWidth
+                variant="outlined"
+                value={name}
+                inputValue={inputValue}
+                onChange={(event, newValue) => setName(newValue)}
+                onInputChange={(_e, newInputVal) => setInputValue(newInputVal)}
+                options={getFilteredOptions(inputValue)}
+                placeholder="Enter full name of the medicine"
+                autoFocus
+              />
 
-              <ContextualHelp helpPagesKey="DateSince">
-                <DatePicker
-                  label="Since day"
-                  value={date}
-                  onChange={(newValue) => setDate(newValue)}
-                  format={getLocaleBasedFormat()}
-                  sx={{ width: 140 }}
-                  PopperProps={{
-                    placement: 'bottom-start',
-                  }}
-                  inputRef={dateRef}
-                />
-              </ContextualHelp>
+              <DatePicker
+                label="Since day"
+                value={date}
+                onChange={(newValue) => setDate(newValue)}
+                format={getLocaleBasedFormat()}
+                sx={{ width: 240 }}
+                PopperProps={{
+                  placement: 'bottom-start',
+                }}
+              />
               
-              <ContextualHelp helpPagesKey="Frequency">
-                <TextField
-                  label="Frequency (days)"
-                  variant="outlined"
-                  type="number"
-                  input={{ min: 1 }}
-                  value={frequency}
-                  onChange={(e) => setFrequency(parseInt(e.target.value) || 1)}
-                  sx={{ width: 140 }}
-                  inputRef={frequencyRef}
-                  />
-              </ContextualHelp>
+              <TextField
+                label="Frequency (days)"
+                variant="outlined"
+                type="number"
+                input={{ min: 1 }}
+                value={frequency}
+                onChange={(e) => setFrequency(parseInt(e.target.value) || 1)}
+                sx={{ width: 240 }}
+              />
               
               <Button
                 type="submit"
@@ -431,18 +347,6 @@ export const MedicineList = ({ locale = 'it' }) => { // TODO: get locale from pa
               >
                 { mode === 'add' ? 'Add' : 'Update' }
               </Button>
-              {(mode === 'update') &&
-                <Button
-                  //type="submit"
-                  onClick={() => { resetItems(); setMode('add'); setEditingItemId(null); }}
-                  variant="contained"
-                  color="default"
-                  size="small"
-                  sx={{ height: 56, mb: 0.2 }}
-                >
-                  Cancel
-                </Button>
-              }
             </Box>
             
             <Divider />
@@ -480,7 +384,6 @@ export const MedicineList = ({ locale = 'it' }) => { // TODO: get locale from pa
                               formatDate={formatDate}
                               onEdit={startEdit}
                               onRemove={removeItem}
-                              isEditing={item.id === editingItemId}
                               onEditStart={() => handleEditStart(item.id)}
                               onEditEnd={handleEditEnd}
                             />
@@ -499,12 +402,11 @@ export const MedicineList = ({ locale = 'it' }) => { // TODO: get locale from pa
                     color="success"
                     size="large"
                     onClick={confirmList}
-                    sx={{
+                    sx={{ 
                       //height: 56,
                       //fontSize: '50px',
                       minWidth: '200px'
                     }}
-                    disabled={mode === 'update' || items.length === 0}
                   >
                     Confirm
                   </Button>
@@ -517,4 +419,3 @@ export const MedicineList = ({ locale = 'it' }) => { // TODO: get locale from pa
     </LocalizationProvider>
   );
 };
-

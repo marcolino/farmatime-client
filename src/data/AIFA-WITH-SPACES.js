@@ -72505,17 +72505,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA001",
     "name": "ACIDO ACETILSALICILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA002",
     "name": "ISTAMINA CLORIDRATO/AMILE SALICILATO/CANFORA/MENTOLO/TREMENTINA ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA003",
     "name": "EUCALIPTOLO/GUAIACOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA004",
@@ -72525,27 +72525,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA005",
     "name": "SCOPOLAMINA BROMIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA006",
     "name": "PILOCARPINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA007",
     "name": "RUBIDIO IODURO/CALCIO CLORURO/SODIO IODURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA008",
     "name": "FISOSTIGMINA SALICILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA009",
     "name": "ATROPINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA010",
@@ -72555,7 +72555,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA011",
     "name": "ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA012",
@@ -72570,7 +72570,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA014",
     "name": "BROMOFORMIO/CODEINA/BALSAMO DEL TOLU'",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA015",
@@ -72580,17 +72580,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA016",
     "name": "PEPSINA/ACIDO NICOTINICO/ACIDO LATTICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA017",
     "name": "ALLUMINIO ACETATO BASICO LIQUIDO/CANFORA/METILE SALICILATO/TIMO ESSENZA/TITANIO DIOSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA018",
     "name": "CANFORA/ALLUMINIO ACETATO BASICO/METILE SALICILATO/TIMO ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA019",
@@ -72605,12 +72605,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA021",
     "name": "PINO ESSENZA/GUAIFENESINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA022",
     "name": "EFEDRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA023",
@@ -72625,7 +72625,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA025",
     "name": "VALERIANA ROSSA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA026",
@@ -72635,27 +72635,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA027",
     "name": "COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA028",
     "name": "FITOTERAPICI/FENOLFTALEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA029",
     "name": "LIEVITO DI BIRRA/COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA030",
     "name": "NAFAZOLINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA031",
     "name": "TERPINA IDRATA/EFEDRINA CLORIDRATO/BALSAMO DEL TOLU'",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA032",
@@ -72665,22 +72665,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA033",
     "name": "NICOTINAMIDE/INOSITOLO/FITOTERAPICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA034",
     "name": "AMINOFILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA035",
     "name": "MAGNESIO IDROSSIDO/SODIO BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA036",
     "name": "EFEDRINA ANIDRA/EUCALIPTOLO/NIAOULI ESSENZA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA037",
@@ -72690,12 +72690,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA038",
     "name": "SULFOGUAIACOLO/SODIO BENZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA039",
     "name": "COLECALCIFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA040",
@@ -72705,7 +72705,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA041",
     "name": "MENADIOLO SODIO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA042",
@@ -72715,42 +72715,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA043",
     "name": "DIFENIDRAMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA044",
     "name": "METILE NICOTINATO/GLICOLE SALICILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA045",
     "name": "SULFOGUAIACOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA046",
     "name": "ACIDO ACETILSALICILICO/CAFFEINA/ALLUMINIO IDROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA047",
     "name": "BOLDO/CARCIOFO/RABARBARO/CASCARA/CAMOMILLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA048",
     "name": "FERMENTI LATTICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA049",
     "name": "RUSCOGENINA/TETRACAINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA050",
     "name": "VACCINO INFLUENZALE INATTIVATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA051",
@@ -72760,47 +72760,47 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA052",
     "name": "ARGENTO VITELLINATO/EFEDRINA SOLFATO/SODIO SOLFATO ANIDRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA053",
     "name": "PROPIFENAZONE/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA054",
     "name": "CASCARA/BOLDO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA055",
     "name": "CASCARA/BOLDO/INOSITOLO/CIANOCOBALAMINA",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA056",
     "name": "EMATOPORFIRINA/NICOTINAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA057",
     "name": "SODIO ASCORBATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA058",
     "name": "TIROTRICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA059",
     "name": "ZINCO SOLFATO/AMMONIO CLORURO/CANFORA/ZAFFERANO/ADRENALINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA060",
     "name": "DEXPANTENOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA061",
@@ -72810,37 +72810,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA062",
     "name": "RETINOLO PALMITATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA063",
     "name": "ACIDO ACETILSALICILICO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA064",
     "name": "PROGESTERONE/TOCOFEROLO ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA065",
     "name": "PARACETAMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA066",
     "name": "BORNILE ACETATO/BENZILE BENZOATO/EUCALIPTOLO/MENTOLO/CANFORA/LINALILE ACETATO/FITOTERAPICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA067",
     "name": "LEVOCARNITINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA068",
     "name": "BILE BOVINA ESTRATTO/FITOTERAPICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA069",
@@ -72850,12 +72850,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA070",
     "name": "CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA071",
     "name": "PARACETAMOLO/ACIDO ACETILSALICILICO/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA072",
@@ -72865,12 +72865,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA073",
     "name": "SULFOGUAIACOLO/DESTROMETORFANO/EUCALIPTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA074",
     "name": "ACIDO ASCORBICO/SULMARINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA075",
@@ -72880,147 +72880,147 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA076",
     "name": "ANTAZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA077",
     "name": "NAFAZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA078",
     "name": "VITAMINA A ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA079",
     "name": "TOCOFEROLO ACETATO ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA080",
     "name": "MEGLUMINA STIBIATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA081",
     "name": "IODIO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA082",
     "name": "TIAMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA083",
     "name": "OLIO DI RICINO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA084",
     "name": "ACIDO COLICO/NICOTINAMIDE/BOLDO/CASCARA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA085",
     "name": "VACCINO STAFILOCOCCICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA086",
     "name": "VACCINO VAIOLOSO DERMICO LIOFILIZZATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA087",
     "name": "GONADOTROPINA CORIONICA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA088",
     "name": "CANFORA/NIAOULI ESSENZA/EUCALIPTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA089",
     "name": "PROPIFENAZONE/CAFFEINA/ETILMORFINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA090",
     "name": "RUTOSIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA091",
     "name": "ALLUMINIO FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA092",
     "name": "PROPIFENAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA093",
     "name": "CLORTETRACICLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA094",
     "name": "CLORTETRACICLINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA095",
     "name": "ZINCO PARAFENOLSOLFONATO/PROCAINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA096",
     "name": "DICLOROFENILCARBINOLO/ARGENTO PROTEINATO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA097",
     "name": "FENITOINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA098",
     "name": "VACCINO DIFTERICO ADSORBITO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA099",
     "name": "INOSITOLO/CARCIOFO ESTRATTO FLUIDO/BOLDO ESTRATTO FLUIDO/CARCIOFO ESTRATTO FLUIDO/CASCARA SAGRADA ESTRATTO FLUIDO/CASCARILLA ESTRATTO FLUIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA100",
     "name": "TETRACICLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA101",
     "name": "SULFAMETILTIAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA102",
     "name": "CLORAMFENICOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA103",
     "name": "CLORAMFENICOLO PALMITATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA104",
     "name": "ALFA TOCOFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA105",
@@ -73030,12 +73030,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA106",
     "name": "FERRO CITRATO AMMONIACALE/COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA107",
     "name": "SIERIMMUNE ANTITETANICO EQUINO USO UMANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA108",
@@ -73045,17 +73045,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA109",
     "name": "CASCARA ESTRATTO/GENZIANA ESTRATTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA110",
     "name": "FITOTERAPICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA111",
     "name": "PROTEINA IDROLISATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA112",
@@ -73065,127 +73065,127 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA113",
     "name": "RABARBARO ESTRATTO FLUIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA114",
     "name": "BOLDO ESTRATTO FLUIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA115",
     "name": "GENZIANA RADICE (Gentiana lutea L.)   estratto molle",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA116",
     "name": "CASCARA ESTRATTO SECCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA117",
     "name": "CASCARA/ALOE/ALOINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA118",
     "name": "VALERIANA/CAMOMILLA COMUNE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA119",
     "name": "CALCIO GLUCONATO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA120",
     "name": "PROMETAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA121",
     "name": "PROPIFENAZONE/DROFENINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA122",
     "name": "PAPAVERINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA123",
     "name": "ACIDO ASCORBICO/SODIO ASCORBATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA124",
     "name": "BENZILE BENZOATO/BENZOCAINA/CLOFENOTANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA125",
     "name": "CODEINA/EFEDRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA126",
     "name": "PARACETAMOLO/PROPIFENAZONE/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA127",
     "name": "FENOLFTALEINA/ACIDO CITRICO ANIDRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA128",
     "name": "BATROXOBINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA129",
     "name": "ESTROGENI CONIUGATI NATURALI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA130",
     "name": "PROPIFENAZONE/PARACETAMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA131",
     "name": "RABARBARO ESTRATTO SECCO IDROALCOLICO/CASCARA ESTRATTO SECCO DEPURATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA132",
     "name": "BOLDO/CASCARA SAGRADA/RABARBARO/ARANCIO AMARO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA133",
     "name": "METILFENOBARBITALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA134",
     "name": "FENOBARBITALE SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA135",
     "name": "FENOBARBITALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA136",
     "name": "ESTRADIOLO BENZOATO/PROGESTERONE",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA137",
     "name": "FENOLFTALEINA/CASCARA/BILE BOVINA ESTRATTO/RABARBARO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA138",
@@ -73195,17 +73195,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA139",
     "name": "BELLADONNA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA140",
     "name": "TESTOSTERONE PROPIONATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA141",
     "name": "TESTOSTERONE ENANTATO/TESTOSTERONE PROPIONATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA142",
@@ -73215,22 +73215,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA143",
     "name": "FRANGOLA/BOLDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA144",
     "name": "BENZALCONIO CLORURO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA145",
     "name": "VACCINO CATARRALE CURATIVO E PROFILATTICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA146",
     "name": "NITROFURAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA147",
@@ -73240,37 +73240,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA148",
     "name": "DEQUALINIO CLORURO/MENTOLO/EUCALIPTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA149",
     "name": "MENTOLO/EUCALIPTOLO/CANFORA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA150",
     "name": "GUAIFENESINA/MENTOLO/EUCALIPTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA151",
     "name": "GUAIFENESINA/LEVOMENTOLO/EUCALIPTOLO/CANFORA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA152",
     "name": "AMINOSALICILATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA153",
     "name": "FENOLFTALEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA154",
     "name": "BENZILPENICILLINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA155",
@@ -73280,7 +73280,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA156",
     "name": "VACCINO TIFOIDEO USO ORALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA157",
@@ -73290,17 +73290,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA158",
     "name": "MENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA159",
     "name": "CANFORA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA160",
     "name": "STROFANTINA K",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA161",
@@ -73310,27 +73310,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA162",
     "name": "ACIDO ASCORBICO/CALCIO ASCORBATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA163",
     "name": "PROMETAZINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA164",
     "name": "IALURONIDASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA165",
     "name": "IALURONIDASI/CLOREXIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA166",
     "name": "CALCIO GLUCOEPTONATO/ERGOCALCIFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA167",
@@ -73340,22 +73340,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA168",
     "name": "SULFAMETIZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA169",
     "name": "ACIDO ASCORBICO/MENADIOLO/SODIO SOLFATO/SULMARINA/RUTOSIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA170",
     "name": "TONZILAMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA171",
     "name": "NAFAZOLINA/TONZILAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA172",
@@ -73365,17 +73365,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA173",
     "name": "MEPIRAMINA CLORIDRATO/PIRIDOSSINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA174",
     "name": "ACIDO UNDECILENICO/ZINCO CAPRILATO/CALCIO PROPIONATO/ACIDO SALICILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA175",
     "name": "GUAIACOLO/ACIDO LATTICO/CALCIO FOSFATO TRIBASICO/CALCIO LATTATO/CODEINA/ACONITO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA176",
@@ -73390,57 +73390,57 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA178",
     "name": "CARBACOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA179",
     "name": "DIFENIDRAMINA/AMMONIO CLORURO/SODIO CITRATO/MENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA180",
     "name": "SODIO CITRATO/SODIO BICARBONATO/MAGNESIO OSSIDO/ALLUMINIO SILICATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA181",
     "name": "ANATOSSINA DIFTERICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA182",
     "name": "ANATOSSINA TETANICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA183",
     "name": "ZINCO PEROSSIDO/ZINCO OSSIDO/MAGNESIO PEROSSIDO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA184",
     "name": "CARBONE ATTIVO/MAGNESIO OSSIDO LEGGERO/CALCIO CARBONATO/MAGNESIO PEROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA185",
     "name": "CALCIO OLEATO/ERGOCALCIFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA186",
     "name": "SODIO GLICEROFOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA187",
     "name": "SODIO GLICEROFOSFATO/VALERIANA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA188",
     "name": "METILE SALICILATO/EUCALIPTO ESSENZA/CANFORA/TREMENTINA ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA189",
@@ -73450,17 +73450,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA190",
     "name": "FENIRAMINA MALEATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA191",
     "name": "SANGUISUGA ESTRATTO/ESCULOSIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA192",
     "name": "COCARBOSSILASI CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA193",
@@ -73470,57 +73470,57 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA194",
     "name": "ARGENTO VITELLINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA195",
     "name": "VACCINO DIFTERICO ADSORBITO/TETANICO ADSORBITO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA196",
     "name": "SALICILAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA197",
     "name": "METILE SALICILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA198",
     "name": "CLOROBUTANOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA199",
     "name": "CANFORA RACEMICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA200",
     "name": "VACCINO DIFTERICO/PERTOSSICO ADSORBITO/TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA201",
     "name": "DESTROMETORFANO BROMIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA202",
     "name": "DEQUALINIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA203",
     "name": "MAGNESIO IDROSSIDO/ALGELDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA204",
     "name": "PANCREAS POLVERE/PEPSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA205",
@@ -73530,17 +73530,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA206",
     "name": "DESOSSICORTONE ENANTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA207",
     "name": "CARMELLOSA SODICA/FENOLFTALEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA208",
     "name": "TIAMINA/NICOTINAMIDE/STRICNINA GLICEROFOSFATO/PROCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA209",
@@ -73550,22 +73550,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA210",
     "name": "GLICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA211",
     "name": "DIIDROERGOTOSSINA MESILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA212",
     "name": "SODIO CITRATO/DIMETICONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA213",
     "name": "SULFOGUAIACOLO/EUCALIPTOLO/PINO GEMME/MENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA214",
@@ -73575,12 +73575,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA215",
     "name": "FENOBARBITAL/CALCIO LATTATO/MANGANESE LATTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA216",
     "name": "RUBIDIO IODURO/SODIO IODURO/CALCIO FORMIATO/SODIO ASCORBATO/TIAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA217",
@@ -73595,12 +73595,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA219",
     "name": "CLOROBUTANOLO/BENZOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA220",
     "name": "MALVA/METILTIONINIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA221",
@@ -73625,42 +73625,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA225",
     "name": "CAPSICO/GLICOLE SALICILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA226",
     "name": "FENAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA227",
     "name": "PROCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA228",
     "name": "FENAZONE/PROCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA229",
     "name": "CHINIDINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA230",
     "name": "CASCARA (Rhamnus purshiana DC) ESTRATTO SECCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA231",
     "name": "SIERIMMUNE CONTRO IL VELENO DI VIPERE EUROPEE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA232",
     "name": "PINO ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA233",
@@ -73670,32 +73670,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA234",
     "name": "FIBRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA235",
     "name": "BENZILPENICILLINA BENZATINICA/BENZILPENICILLINA SODICA/BENZILPENICILLINA PROCAINICA/DIIDROSTREPTOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA236",
     "name": "ERGOTAMINA TARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA237",
     "name": "FENOLFTALEINA/RABARBARO/BOLDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA238",
     "name": "LIQUIRIZIA/SULFOGUAIACOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA239",
     "name": "ACIDO ISOVALERIANICO/SODIO GLICEROFOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA240",
@@ -73710,7 +73710,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA242",
     "name": "METADONE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA243",
@@ -73725,22 +73725,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA245",
     "name": "ACIDO ACETILSALICILICO/SODIO BICARBONATO/ACIDO CITRICO ANIDRO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA246",
     "name": "PANCREATINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA247",
     "name": "ESTRADIOLO BENZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA248",
     "name": "ESTRADIOLO VALERATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA249",
@@ -73750,27 +73750,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA250",
     "name": "TROMBINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA251",
     "name": "POLICRESULENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA252",
     "name": "PROTAMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA253",
     "name": "COCARBOSSILASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA254",
     "name": "SENNA FOGLIA (GLUCOSIDI PURI)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA255",
@@ -73780,22 +73780,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA256",
     "name": "EPARINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA257",
     "name": "ISTAMINA DICLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA258",
     "name": "LIQUIRIZIA/ALLUMINIO OSSIDO IDRATO/MAGNESIO CARBONATO BASICO LEGGERO/SODIO BICARBONATO/FRANGOLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA259",
     "name": "FRUTTOSIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA260",
@@ -73805,32 +73805,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA261",
     "name": "LIDOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA262",
     "name": "ALCOOL BENZILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA263",
     "name": "ALCOOL BENZILICO/SODIO BENZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA264",
     "name": "POLIDERIBOTIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA265",
     "name": "ALOE/RABARBARO/CASCARA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA266",
     "name": "SODIO IODURO/POTASSIO IODURO/RUBIDIO IODURO/CALCIO GLUCONATO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA267",
@@ -73860,12 +73860,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA272",
     "name": "SALI MINERALI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA273",
     "name": "TERPINA IDRATA/DROPROPIZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA274",
@@ -73875,52 +73875,52 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA275",
     "name": "DIGITOSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA276",
     "name": "BENZIDAMINA/OSSICHINOLO/BENZOSSICHINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA277",
     "name": "BENZIDAMINA/OSSICHINOLO/BENZOSSICHINA/CETRIMONIO TOSILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA278",
     "name": "MEFENESINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA279",
     "name": "MEFENESINA/METILE NICOTINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA280",
     "name": "SULFASALAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA281",
     "name": "DIBROMOTIROSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA282",
     "name": "NEURAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA283",
     "name": "BELLADONNA/ERGOTAMINA/FENOBARBITAL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA284",
     "name": "BUTALBITAL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA285",
@@ -73930,37 +73930,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA286",
     "name": "MORFINA CLORIDRATO/ATROPINA SOLFATO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA287",
     "name": "PAPAVERINA/CHININA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA288",
     "name": "CLORTETRACICLINA/SULFACETAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA289",
     "name": "CLORTETRACICLINA CLORIDRATO/SULFACETAMIDE SODICA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA290",
     "name": "RESORCINA/BISMUTO OSSIDO/BISMUTO GALLATO BASICO/BISMUTO IODURO BASICO/BALSAMO DEL PERU'/ZINCO OSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA291",
     "name": "DIMERCAPROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA292",
     "name": "ENZIMI DIGESTIVI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA293",
@@ -73970,32 +73970,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA294",
     "name": "RETINOLO/COLECALCIFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA295",
     "name": "PROGESTERONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA296",
     "name": "CALCIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA297",
     "name": "ACIDO SALICILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA298",
     "name": "RABARBARO/ACIDO SALICILICO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA299",
     "name": "DESTROMETORFANO/SULFOGUAIACOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA300",
@@ -74010,47 +74010,47 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA302",
     "name": "ALOE ESTRATTO SECCO/RABARBARO ESTRATTO SECCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA303",
     "name": "SODIO TETRACLOROIODITO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA304",
     "name": "CALCIO GLUCONATO/CALCIO GLUCOEPTONATO/CIANOCOBALAMINA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA305",
     "name": "SODIO DEIDROCOLATO/FITOTERAPICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA306",
     "name": "METILE SALICILATO/ETILE NICOTINATO/CANFORA/EUCALIPTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA307",
     "name": "IDROSSIPROGESTERONE CAPROATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA308",
     "name": "CASCARA SAGRADA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA309",
     "name": "BOLDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA310",
     "name": "CASCARA/BOLDO/RABARBARO/FENOLFTALEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA311",
@@ -74060,12 +74060,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA312",
     "name": "L-TIROXINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA313",
     "name": "ALLUMINIO GLICINATO/MAGNESIO CARBONATO BASICO LEGGERO/SODIO BICARBONATO/CAOLINO PESANTE/BELLADONNA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA314",
@@ -74075,7 +74075,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA315",
     "name": "DIIDROCHINIDINA CLORIDRATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA316",
@@ -74085,27 +74085,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA317",
     "name": "EUCALIPTOLO/TERPINOLO/FITOTERAPICI",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA318",
     "name": "COLINA BITARTRATO/METIONINA/COMPLESSO VITAMINICO/SALI MINERALI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA319",
     "name": "LEVOLISINA CLORIDRATO/CISTEINA CLORIDRATO/COLINA BITARTRATO/COMPLESSO VITAMINICO/SALI MINERALI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA320",
     "name": "ALLUMINIO LATTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA321",
     "name": "STREPTOCHINASI/STREPTODORNASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA322",
@@ -74120,32 +74120,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA324",
     "name": "TIMO SERPILLO/CASTAGNO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA325",
     "name": "DROPROPIZINA/TIMO SERPILLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA326",
     "name": "SIERIMMUNE POLIVALENTE CONTRO LA GANGRENA GASSOSA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA327",
     "name": "MAGNESIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA328",
     "name": "CALCIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA329",
     "name": "VALERIANA/PASSIFLORA/BIANCOSPINO FIORI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA330",
@@ -74160,27 +74160,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA332",
     "name": "TESTOSTERONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA333",
     "name": "MAGNESIO OSSIDO LEGGERO/MAGNESIO CARBONATO BASICO LEGGERO/ALGELDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA334",
     "name": "RETINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA335",
     "name": "TOCOFEROLO ACETATO D-ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA336",
     "name": "PANCREAS POLVERE/DIMETICONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA337",
@@ -74195,12 +74195,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA339",
     "name": "SODIO CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA340",
     "name": "PARAFFINA LIQUIDA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA341",
@@ -74210,37 +74210,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA342",
     "name": "ALLUMINIO GLICINATO/MAGNESIO IDROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA343",
     "name": "DESTROMETORFANO/SULFOGUAIACOLO/AMMONIO ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA344",
     "name": "CLORFENAMINA/ACIDO ACETILSALICILICO/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA345",
     "name": "SODIO CITRATO/POTASSIO CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA346",
     "name": "CALCIO BROMOBIONATO",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA347",
     "name": "OLIO DI FEGATO DI TONNO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA348",
     "name": "CLORFENAMINA MALEATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA349",
@@ -74250,42 +74250,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA350",
     "name": "TOCOFEROLI MISTI CONCENTRATI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA351",
     "name": "TOCOFEROLO SUCCINATO ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA352",
     "name": "CLOROXILENOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA353",
     "name": "BENZOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA354",
     "name": "BENZOCAINA/ALCOOL BENZILICO/CLOROXILENOLO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA355",
     "name": "MENTOLO/FITOTERAPICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA356",
     "name": "COLINA BITARTRATO/LEVOLISINA/COMPLESSO VITAMINICO/SALI MINERALI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA357",
     "name": "PASSIFLORA/BIANCOSPINO FIORI/SALICE BIANCO CORTECCIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA358",
@@ -74295,32 +74295,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA359",
     "name": "CREOSOTO/ACIDO LATTICO/CALCIO LATTOFOSFATO/EFEDRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA360",
     "name": "FENITOINA/METILFENOBARBITAL",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA361",
     "name": "FENITOINA/METILFENOBARBITAL/FENOBARBITAL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA362",
     "name": "PARACETAMOLO/PROPIFENAZONE/CAFFEINA/TIAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA363",
     "name": "ACIDO BORICO/BORACE/BENZALCONIO CLORURO/AMAMELIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA364",
     "name": "SIERIMMUNE ANTIRABBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA365",
@@ -74330,62 +74330,62 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA366",
     "name": "CAOLINO PESANTE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA367",
     "name": "MAGNESIO TRISILICATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA368",
     "name": "MAGNESIO CARBONATO BASICO LEGGERO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA369",
     "name": "COMPLESSO VITAMINICO/SALI MINERALI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA370",
     "name": "ALBUMINA UMANA SOLUZIONE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA371",
     "name": "IMMUNOGLOBULINA UMANA NORMALE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA372",
     "name": "SODIO CITRATO/SODIO FOSFATO/CALCIO FOSFATO/MAGNESIO IDROSSIDO/SODIO BICARBONATO/MAGNESIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA373",
     "name": "FERRO CITRATO AMMONIACALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA374",
     "name": "MOXISILITE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA375",
     "name": "MENTOLO/EUCALIPTOLO/BROMOFORMIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA376",
     "name": "CALCIO FOLINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA377",
     "name": "CALCIO LEVULINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA378",
@@ -74400,17 +74400,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA380",
     "name": "CAPSAICINA/CANFORA/EUCALIPTO ESSENZA/TREMENTINA ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA381",
     "name": "ACIDO IOPANOICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA382",
     "name": "LEVOGLUTAMIDE/FRUTTOSIO DIFOSFATO SALE DI CALCIO/TIAMINA NITRATO/PIRIDOSSINA CLORIDRATO/CALCIO PANTOTENATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA383",
@@ -74420,22 +74420,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA384",
     "name": "VACCINO TAB/TETANICO/ANTIGENE Vi",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA385",
     "name": "CLORCARVACROLO/AMMONIO SOLFITTIOLATO/MENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA386",
     "name": "CLORCARVACROLO/AMMONIO SOLFOITTIOLATO/MENTOLO/CAMOMILLA ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA387",
     "name": "ZOLFO PRECIPITATO/ZINCO OSSIDO/TITANIO DIOSSIDO/ACIDO DITIOSALICILICO/AMAMELIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA388",
@@ -74445,67 +74445,67 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA389",
     "name": "PROCAINAMIDE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA390",
     "name": "BAMETANO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA391",
     "name": "BENZOCAINA/FENOLO/TIMOLO/MENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA392",
     "name": "METILE NICOTINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA393",
     "name": "DIETILAMINA SALICILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA394",
     "name": "FERRICO OSSIDO SACCARATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA395",
     "name": "SULFACETAMIDE SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA396",
     "name": "FENILBUTAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA397",
     "name": "EPINEFRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA398",
     "name": "BOLDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA399",
     "name": "BOLDINA/ALOINA",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA400",
     "name": "VACCINO TIFO/PARATIFO A-B PROFILATTICO ADSORBITO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA401",
     "name": "TOCOFEROLO ACETATO ALFA/ACIDO LINOLEICO/RETINOLO/ERGOCALCIFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA402",
@@ -74520,42 +74520,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA404",
     "name": "FTALILSULFATIAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA405",
     "name": "PINO SILVESTRE ESSENZA/STORACE LIQUIDO/EUCALIPTOLO/MENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA406",
     "name": "PINO SILVESTRE ESSENZA/STORACE LIQUIDO/EUCALIPTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA407",
     "name": "CODEINA BROMIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA408",
     "name": "EDERAGENINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA409",
     "name": "METIONINA/COLINA TARTRATO ACIDO/COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA410",
     "name": "TIAMINA NITRATO/RIBOFLAVINA/PIRIDOSSINA CLORIDRATO/NICOTINAMIDE/BIOTINA/CIANOCOBALAMINA/ACIDO FOLICO/TOCOFEROLO ACETATO ALFA/CALCIO PANTOTENATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA411",
     "name": "NONIVAMIDE/NICOBOXILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA412",
@@ -74565,57 +74565,57 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA413",
     "name": "CALCIO GLUCONATO/CALCIO CARBONATO/COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA414",
     "name": "PROCICLIDINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA415",
     "name": "CETILPIRIDINIO CLORURO/LEVOMENTOLO/ACIDO ASCORBICO/CANFORA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA416",
     "name": "DIFEMANILE METILSOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA417",
     "name": "SODIO BICARBONATO/MAGNESIO SOLFATO/ACIDO CITRICO ANIDRO/ACIDO TARTARICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA418",
     "name": "PABACIDO/ACTINOCHINOLO/NAFAZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA419",
     "name": "ERITROMICINA ETILSUCCINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA420",
     "name": "CLORPROMAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA421",
     "name": "OLIO DI MENTA PIPERITA/MENTOLO/OLIO DI CARIOFILLA/ETILE PARAIDROSSIBENZOATO/FENOLO/BENZOINO TINTURA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA422",
     "name": "CLIOCHINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA423",
     "name": "ACIDO ISOBUTIACILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA424",
@@ -74625,17 +74625,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA425",
     "name": "COLINA TEOFILLINACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA426",
     "name": "DIIDROCODEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA427",
     "name": "ACIDO BENZOICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA428",
@@ -74650,12 +74650,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA430",
     "name": "BENZILPENICILLINA BENZATINICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA431",
     "name": "EMATOPORFIRINA/GLICINA/CIANOCOBALAMINA/CALCIO GLUCONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA432",
@@ -74665,32 +74665,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA433",
     "name": "ACESPARGININA/CITRULLINA/ACIDO AMINOACETICO/TIAMINA/CIANOCOBALAMINA/CALCIO GLUCONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA434",
     "name": "BENZOCAINA/AMAMELIDE/IPPOCASTANO CORTECCIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA435",
     "name": "BACITRACINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA436",
     "name": "NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA437",
     "name": "BACITRACINA/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA438",
     "name": "BETANECOLO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA439",
@@ -74700,67 +74700,67 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA440",
     "name": "RUBIDIO IODURO/SODIO IODURO/POTASSIO IODURO/SODIO FORMIATO/STRICNINA GLICEROFOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA441",
     "name": "POTASSIO IODURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA442",
     "name": "SODIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA443",
     "name": "LITIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA444",
     "name": "SODIO SOLFATO ANIDRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA445",
     "name": "SODIO SOLFATO ANIDRO/SODIO CLORURO/SODIO CARBONATO MONOIDRATO/LITIO CARBONATO/POTASSIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA446",
     "name": "NITROFURANTOINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA447",
     "name": "TETRACICLINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA448",
     "name": "ALLUMINIO IDROSSIDO/MAGNESIO TRISILICATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA449",
     "name": "FOSFATIDILCOLINA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA450",
     "name": "FUCUS/RABARBARO/FRANGOLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA451",
     "name": "FUCUS VESCICULOSUS/CASCARA SAGRADA/FRANGOLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA452",
     "name": "PROBENECID",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA453",
@@ -74770,22 +74770,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA454",
     "name": "DIMETICONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA455",
     "name": "ERGOTAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA456",
     "name": "GLICINA/ACIDO ACETILSALICILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA457",
     "name": "TEOFILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA458",
@@ -74795,42 +74795,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA459",
     "name": "CIANOCOBALAMINA/MONOFOSFOTIAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA460",
     "name": "RESERPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA461",
     "name": "PASSIFLORA/VALERIANA/BIANCOSPINO FIORI/CALCIO GLICEROFOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA462",
     "name": "FITOMENADIONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA463",
     "name": "FRUTTOSIO DIFOSFATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA464",
     "name": "GLICOLE SALICILATO/CANFORA/CAPSICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA465",
     "name": "IMMUNOGLOBULINA UMANA USO ENDOVENOSO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA466",
     "name": "DROPROPIZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA467",
@@ -74840,12 +74840,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA468",
     "name": "ACIDO FITICO/COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA469",
     "name": "MERCAPTAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA470",
@@ -74855,32 +74855,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA471",
     "name": "CETILPIRIDINIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA472",
     "name": "TIAMAZOLO/DIBROMOTIROSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA473",
     "name": "TRITICUM VULGARE PIANTA INTERA (Triticum vulgare) ESTRATTO ACQUOSO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA474",
     "name": "ALGELDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA475",
     "name": "SODIO CITRATO/PABACIDO/PROCAINA/OLIO DI FEGATO DI MERLUZZO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA476",
     "name": "BACILLO DI DOEDERLEIN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA477",
@@ -74890,27 +74890,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA478",
     "name": "POTASSIO SUCCINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA479",
     "name": "POTASSIO CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA480",
     "name": "POTASSIO BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA481",
     "name": "POTASSIO MALATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA482",
     "name": "POTASSIO TARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA483",
@@ -74920,22 +74920,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA484",
     "name": "AMMONIO SOLFOITTIOLATO/ZINCO OSSIDO/TITANIO DIOSSIDO/AMAMELIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA485",
     "name": "AMMONIO SOLFOITTIOLATO/ZINCO OSSIDO/AMAMELIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA486",
     "name": "PAPAVERINA CLORIDRATO/FITOTERAPICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA487",
     "name": "ACETAZOLAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA488",
@@ -74945,12 +74945,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA489",
     "name": "OXIBUPROCAINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA490",
     "name": "AUROTIOSOLFATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA491",
@@ -74960,7 +74960,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA492",
     "name": "GLUCOSIO (DESTROSIO) ANIDRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA493",
@@ -74980,72 +74980,72 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA496",
     "name": "TERPENI/REOCRISINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA497",
     "name": "TERPENI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA498",
     "name": "CHINA GIALLA CORTECCIA/GENZIANA/COLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA499",
     "name": "PEPSINA/STOMACO ESTRATTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA500",
     "name": "TETRACAINA/BENZOCAINA/ACIDO SALICILICO/FITOTERAPICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA501",
     "name": "PANTETINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA502",
     "name": "IDROCORTISONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA503",
     "name": "SELENIO SOLFURO/POLIENACIDINA/PANTENOLO/TROLAMINA LAURILSOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA504",
     "name": "EUCALIPTO ESSENZA/MENTA ESSENZA/PINO ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA505",
     "name": "ETILMORFINA CLORIDRATO/EUCALIPTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA506",
     "name": "INSULINA ZINCO PORCINA MC SOSPENSIONE AMORFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA507",
     "name": "OLIO DI FEGATO DI IPPOGLOSSO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA508",
     "name": "CORTECCIA SURRENALE ESTRATTO/CIANOCOBALAMINA/CALCIO FOLINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA509",
     "name": "ZINCO SOLFATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA510",
@@ -75055,12 +75055,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA511",
     "name": "DODECARBONIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA512",
     "name": "GLUCOSIO (DESTROSIO) 1-FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA513",
@@ -75070,52 +75070,52 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA514",
     "name": "GLUCOSIO (DESTROSIO) MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA515",
     "name": "SODIO LATTATO/POTASSIO CLORURO/SODIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA516",
     "name": "ETENZAMIDE/PROPIFENAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA517",
     "name": "ETENZAMIDE/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA518",
     "name": "PARETE VESCICOLARE ESTRATTO/PANCREAS POLVERE/PEPSINA/ALFAMILASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA519",
     "name": "PILOCARPINA CLORIDRATO/CARBACOLO/PARAOXONE/PROCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA520",
     "name": "PENTOXIVERINA CITRATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA521",
     "name": "PENTOXIVERINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA522",
     "name": "COLCHICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA523",
     "name": "PENTAERITRITILE TETRANITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA524",
@@ -75125,22 +75125,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA525",
     "name": "NISTATINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA526",
     "name": "PREDNISONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA527",
     "name": "ADRENALINA BITARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA528",
     "name": "OXITETRACICLINA/CLORAMFENICOLO/SULFACETAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA529",
@@ -75150,47 +75150,47 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA530",
     "name": "ALFAMILASI/PEPSINA/PANCREAS POLVERE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA531",
     "name": "STOMACO ESTRATTO/COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA532",
     "name": "FERRITINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA533",
     "name": "TOLPROPAMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA534",
     "name": "PENICILLINA V",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA535",
     "name": "SALSAPARIGLIA/FUMARIA/BORRAGINE/SAPONARIA RADICE/VIOLA DEL PENSIERO FIORE/NOCE FOGLIA/TRIFOGLIO FIBRINO/RABARBARO/SENNA FOGLIA/CASCARA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA536",
     "name": "ISONIAZIDE/PIRIDOSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA537",
     "name": "RUTOSIDE/SULMARINA/ESPERIDINA/EPICIANIDANOLO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA538",
     "name": "RUTOSIDE/SULMARINA/ESPERICALCONE/EPICIANIDANOLO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA539",
@@ -75205,122 +75205,122 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA541",
     "name": "PREDNISOLONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA542",
     "name": "AMIDOTRIZOATO SODICO/MEGLUMINA AMIDOTRIZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA543",
     "name": "FITOTERAPICI/NARCEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA544",
     "name": "FITOTERAPICI/NARCEINA/EFEDRINA CLORIDRATO/SODIO BENZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA545",
     "name": "BUSULFANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA546",
     "name": "IODOCASEINA/TIAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA547",
     "name": "SUXAMETONIO CLORURO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA548",
     "name": "IDROCORTISONE/TETRIZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA549",
     "name": "IDROCORTISONE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA550",
     "name": "DIGOSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA551",
     "name": "GLICOSAMINOGLICANOPOLISOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA552",
     "name": "CARBONE VEGETALE/RABARBARO ESTRATTO SECCO/SENNA FOGLIE/ZOLFO SUBLIMATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA553",
     "name": "OLIO DI FEGATO DI MERLUZZO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA554",
     "name": "OSSIDO DI ZINCO",
-    "description": "0"
+    "description": "0 "
   },
   {
     "id": "PA555",
     "name": "METILFENIDATO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA556",
     "name": "CLORAMFENICOLO/IDROCORTISONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA557",
     "name": "DESTROMETORFANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA558",
     "name": "OXITETRACICLINA/POLIMIXINA B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA559",
     "name": "CORTISONE/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA560",
     "name": "TESTOSTERONE/ESTRADIOLO CIPIONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA561",
     "name": "CICLANDELATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA562",
     "name": "PINO SILVESTRE ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA563",
     "name": "EUCALIPTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA564",
     "name": "DIGITALINA AMORFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA565",
@@ -75335,7 +75335,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA567",
     "name": "SULFOGUAIACOLO/GRINDELIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA568",
@@ -75345,37 +75345,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA569",
     "name": "ACIDO TARTARICO/ACIDO CITRICO/ACIDO MALICO/SODIO BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA570",
     "name": "SULFOGUAIACOLO/MEPIRAMINA/EDERA/LAUROCERASO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA571",
     "name": "IDROCORTISONE/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA572",
     "name": "PIPERAZINA IDRATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA573",
     "name": "POTASSIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA574",
     "name": "PIPERAZINA ADIPATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA575",
     "name": "VACCINO PIOGENO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA576",
@@ -75385,12 +75385,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA577",
     "name": "ALGELDRATO/CAOLINO PESANTE/PECTINA",
-    "description": "percent"
+    "description": " percent"
   },
   {
     "id": "PA578",
     "name": "ATTAPULGITE ATTIVATA/PECTINA/ALGELDRATO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA579",
@@ -75400,7 +75400,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA580",
     "name": "ACIDO TANNICO/RESORCINA/MENTOLO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA581",
@@ -75410,12 +75410,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA582",
     "name": "SIERIMMUNE ANTIDIFTERICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA583",
     "name": "IDROCORTISONE/NEOMICINA/NAFAZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA584",
@@ -75430,7 +75430,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA586",
     "name": "ORO SOLFURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA587",
@@ -75440,57 +75440,57 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA588",
     "name": "GLICINA/METIONINA",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA589",
     "name": "TIROTRICINA/IDROCORTISONE",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA590",
     "name": "PIRIDOSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA591",
     "name": "TIAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA592",
     "name": "FENCIBUTIRROLO/FITOTERAPICI/SODIO BICARBONATO/SORBITOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA593",
     "name": "TRANILCIPROMINA/TRIFLUOPERAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA594",
     "name": "EFLOXATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA595",
     "name": "BIBENZONIO BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA596",
     "name": "DESTROMETORFANO/DOXILAMINA/PARACETAMOLO/EFEDRINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA597",
     "name": "BETAINA CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA598",
     "name": "MEPROBAMATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA599",
@@ -75500,17 +75500,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA600",
     "name": "DOCUSATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA601",
     "name": "SORBITOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA602",
     "name": "FERRIPROTINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA603",
@@ -75525,7 +75525,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA605",
     "name": "PANTADEFOSFATO (COENZIMA A)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA606",
@@ -75535,12 +75535,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA607",
     "name": "IDROCORTISONE/NEOMICINA/GRAMICIDINA/TETRIZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA608",
     "name": "FLUMETASONE/GENTAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA609",
@@ -75550,42 +75550,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA610",
     "name": "L-GLUTAMMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA611",
     "name": "DL-FOSFOSERINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA612",
     "name": "ACIDO FOLICO SALE SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA613",
     "name": "TOLBUTAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA614",
     "name": "CIANOCOBALAMINA/TIAMINA CLORIDRATO/ADENOSINA FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA615",
     "name": "FOSFESTROLO TETRASODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA616",
     "name": "SULFADIMETOXINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA617",
     "name": "SULFOGUAIACOLO/SODIO BENZOATO/TERPINA IDRATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA618",
@@ -75600,42 +75600,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA620",
     "name": "CLOROBUTANOLO/XILOMETAZOLINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA621",
     "name": "SPIRAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA622",
     "name": "AGAR-AGAR/FENOLFTALEINA/BELLADONNA/BILE BOVINA ESTRATTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA623",
     "name": "EPARINA SODICA/TOCOFEROLO ALFA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA624",
     "name": "RIBOFLAVINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA625",
     "name": "CALCIO FOLINATO IDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA626",
     "name": "MENGLITATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA627",
     "name": "MECISTEINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA628",
@@ -75655,17 +75655,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA631",
     "name": "AMINOFENAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA632",
     "name": "FERMENTI LATTICI/COMPLESSO VITAMINICO/FEGATO ESTRATTO PER USO ORALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA633",
     "name": "FENCIBUTIRROLO/RABARBARO/CASCARA/FRANGOLA/BOLDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA634",
@@ -75675,72 +75675,72 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA635",
     "name": "DICICLOVERINA/METILCELLULOSA/SODIO LAURILSOLFATO/MAGNESIO IDROSSIDO/ALGELDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA636",
     "name": "FOSFOSERINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA637",
     "name": "LEVOGLUTAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA638",
     "name": "DOCUSATO SODICO/DANTRONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA639",
     "name": "VACCINO POLIOMIELITICO INATTIVATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA640",
     "name": "PROMAZINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA641",
     "name": "FLUOXIMESTERONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA642",
     "name": "PROCAINA CLORIDRATO/BENZOCAINA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA643",
     "name": "PROCAINA/PROCAINA CLORIDRATO/BENZOCAINA/EFEDRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA644",
     "name": "LEVOLISINA/CIANOCOBALAMINA/TIAMINA/PIRIDOSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA645",
     "name": "ADENOSINA FOSFATO/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA646",
     "name": "CLORAMBUCILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA647",
     "name": "GLICOLE SALICILATO/MENTOLO/BENZILE NICOTINATO/CANFORA RACEMICA/OLIO DI PINO/OLEORESINA DI CAPSICO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA648",
     "name": "VACCINO CATARRALE PROFILATTICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA649",
@@ -75750,12 +75750,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA650",
     "name": "VACCINO INFLUENZALE VIRUS FRAMMENTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA651",
     "name": "CARBAZOCROMO SODIO SOLFONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA652",
@@ -75765,7 +75765,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA653",
     "name": "ORFENADRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA654",
@@ -75775,72 +75775,72 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA655",
     "name": "ESTRADIOLO EMIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA656",
     "name": "IDROCORTISONE/ARGENTO VITELLINATO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA657",
     "name": "ZINCO FENOLSOLFONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA658",
     "name": "ARGENTO PROTEINATO/RESORCINA/NIAOULI ESSENZA/ADRENALINA/PROCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA659",
     "name": "XILOMETAZOLINA/TIMOLO/EUCALIPTOLO/CLOROBUTANOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA660",
     "name": "IDROCORTISONE/DIPROFILLINA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA661",
     "name": "METERGOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA662",
     "name": "CROTETAMIDE/CROPROPAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA663",
     "name": "PIRIDOSSALE-5-FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA664",
     "name": "ACIDO DEIDROCOLICO/RABARBARO/CASCARA/BOLDO/MANNA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA665",
     "name": "SULFATIAZOLO/SULFADIAZINA/SULFANILAMIDE/RETINOLO/ERGOCALCIFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA666",
     "name": "VACCINO LEPTOSPIROSI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA667",
     "name": "CORTECCIA SURRENALE ESTRATTO/CIANOCOBALAMINA/ACIDO FOLINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA668",
     "name": "CLOBUTINOLO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA669",
@@ -75850,7 +75850,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA670",
     "name": "SIERIMMUNE ANTICARBONCHIOSO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA671",
@@ -75860,22 +75860,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA672",
     "name": "TESTOSTERONE PROPIONATO/RUBIDIO IODURO/POTASSIO IODURO/RIBOFLAVINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA673",
     "name": "GLUCOMETAMINA/TRIGONELLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA674",
     "name": "PREDNISOLONE/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA675",
     "name": "VACCINO SUBTILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA676",
@@ -75890,82 +75890,82 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA678",
     "name": "METAMIZOLO SODICO/FENOPIRAZONE/CLORPROMAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA679",
     "name": "TUBERCOLINA DERIVATO PROTEICO PURIFICATO PER USO UMANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA680",
     "name": "CIANOCOBALAMINA/FEGATO ESTRATTO RAFFINATO USO PARENTERALE/SODIO FERREDETATO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA681",
     "name": "ACIDO ASCORBICO/ESPERIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA682",
     "name": "SANGUE ESTRATTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA683",
     "name": "SODIO SOLFURO/SODIO BROMURO/EUCALIPTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA684",
     "name": "TESTOSTERONE CIPIONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA685",
     "name": "ACIDO ASCORBICO/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA686",
     "name": "FENAZONE/PROPIFENAZONE/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA687",
     "name": "CICLOBUTIRROLO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA688",
     "name": "METISERGIDE MALEATO ACIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA689",
     "name": "IDROCORTISONE/METILE GENTISATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA690",
     "name": "GLICICLAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA691",
     "name": "DIIODIDRINA/CANFORA/MENTOLO/GUAIACOLO/PINO ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA692",
     "name": "CALCIO FOLINATO/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA693",
     "name": "ALLUMINIO SOLFATO/CETILPIRIDINIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA694",
@@ -75975,12 +75975,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA695",
     "name": "EPTAMINOLO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA696",
     "name": "EPARINA SODICA/ALLANTOINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA697",
@@ -75990,17 +75990,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA698",
     "name": "BROMFENIRAMINA MALEATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA699",
     "name": "IDROCORTISONE/ESCULINA/AMILEINA/BENZOCAINA/BENZALCONIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA700",
     "name": "IDROCORTISONE/ESCULINA/BENZOCAINA/BENZALCONIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA701",
@@ -76010,52 +76010,52 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA702",
     "name": "CHINIDINA POLIGALATTURONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA703",
     "name": "EMATOPORFIRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA704",
     "name": "EMATOPORFIRINA/CIANOCOBALAMINA/INOSITOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA705",
     "name": "MERBROMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA706",
     "name": "ISOTIPENDILE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA707",
     "name": "COCILLANA/ERIODICTO/MARRUBIO/GRINDELIA/GINEPRO/TIMO SERPILLO/TIMO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA708",
     "name": "COCILLANA/ERIODICTO/MARRUBIO/GRINDELIA/GINEPRO/TIMO SERPILLO/TIMO/PINO ESSENZA/MENTA ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA709",
     "name": "METILPREDNISOLONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA710",
     "name": "VACCINO COLERICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA711",
     "name": "IDROSSICLOROCHINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA712",
@@ -76065,12 +76065,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA713",
     "name": "TRIAMCINOLONE ACETONIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA714",
     "name": "CLORAMFENICOLO/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA715",
@@ -76085,17 +76085,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA717",
     "name": "CITROFLAVONOIDI/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA718",
     "name": "METIXENE CLORIDRATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA719",
     "name": "N-METIL-BENZOCHINOLINA METIL-SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA720",
@@ -76105,7 +76105,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA721",
     "name": "NEOMICINA/BACITRACINA/CISTEINA/TREONINA/GLICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA722",
@@ -76130,17 +76130,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA726",
     "name": "CIANOCOBALAMINA/TIAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA727",
     "name": "FENCIBUTIRROLO/FRANGULA/RABARBARO/CASCARA/BELLADONNA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA728",
     "name": "CASCARA SAGRADA ESTRATTO SECCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA729",
@@ -76160,17 +76160,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA732",
     "name": "POLIMIXINA B SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA733",
     "name": "CLOREXIDINA GLUCONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA734",
     "name": "SULFOMUCOPOLISACCARIDI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA735",
@@ -76185,17 +76185,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA737",
     "name": "METRONIDAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA738",
     "name": "FERRICO PIROFOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA739",
     "name": "CICLIZINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA740",
@@ -76205,52 +76205,52 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA741",
     "name": "DEQUALINIO CLORURO/ENOXOLONE",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA742",
     "name": "ADIPIODONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA743",
     "name": "FLUOCINOLONE ACETONIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA744",
     "name": "OXITOCINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA745",
     "name": "DESAMETASONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA746",
     "name": "DESAMETASONE 21-FOSFATO DISODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA747",
     "name": "DICLOROFENILCARBINOLO/ARGENTO PROTEINATO/TIROTRICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA748",
     "name": "SIERIMMUNE BOTULINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA749",
     "name": "SODIO GALATTOPOLISOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA750",
     "name": "IPPOCASTANO SEMI/CARDO MARIANO SEMI/AMAMELIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA751",
@@ -76270,12 +76270,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA754",
     "name": "FURAZOLIDONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA755",
     "name": "CALCIO CARBONATO/GLICINA/RESINA DI TIPO ANIONICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA756",
@@ -76290,7 +76290,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA758",
     "name": "PREDNISOLONE/TETRIZOLINA/LIDOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA759",
@@ -76300,17 +76300,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA760",
     "name": "NIFUROXIMA/FURAZOLIDONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA761",
     "name": "P-CLOROFENICONE/MIRISTILETANOL AMINA LATTATO/CLORAMFENICOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA762",
     "name": "MEDROSSIPROGESTERONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA763",
@@ -76320,12 +76320,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA764",
     "name": "CLORAMFENICOLO/ROLITETRACICLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA765",
     "name": "RAUBASINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA766",
@@ -76335,62 +76335,62 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA767",
     "name": "SENNA FOGLIA/TRIGONELLA/FINOCCHIO/RABARBARO/MENTA/LAPPA/BARDANA/ISSOPO/CASCARILLA/BOLDO ESTRATTO/MELISSA/CARCIOFO ESTRATTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA768",
     "name": "SENNA/RABARBARO/CARCIOFO/BOLDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA769",
     "name": "CLORPROPAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA770",
     "name": "DICLOFENAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA771",
     "name": "DICLOFENAMIDE SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA772",
     "name": "OXELADINA/TERPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA773",
     "name": "PREDNISOLONE IDROGENO SUCCINATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA774",
     "name": "TETRACICLINA FOSFATO/GLUCOSAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA775",
     "name": "FRUTTOSIO DIFOSFATO/LEVOLISINA/COMPLESSO VITAMINICO/SALI MINERALI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA776",
     "name": "ETILE SALICILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA777",
     "name": "FLAVOXATO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA778",
     "name": "CARNITINA/LEVOLISINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA779",
@@ -76400,17 +76400,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA780",
     "name": "BROMFENIRAMINA/PROPIFENAZONE/SALICILAMIDE/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA781",
     "name": "DIMETOXANATO CLORIDRATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA782",
     "name": "CICLOFOSFAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA783",
@@ -76420,52 +76420,52 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA784",
     "name": "PROPIFENAZONE/SALICILAMIDE/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA785",
     "name": "ERITROMICINA ESTOLATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA786",
     "name": "GUAIFENESINA/MECISTEINA/CANFORA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA787",
     "name": "KANAMICINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA788",
     "name": "TIAMINA DIFOSFATO ESTERE LIBERO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA789",
     "name": "RIBOFLAVINA FOSFATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA790",
     "name": "ACIDO CITRICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA791",
     "name": "SODIO CITRATO/POTASSIO CITRATO/COMPLESSO VITAMINICO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA792",
     "name": "BETAINA/SORBITOLO/SODIO BICARBONATO/ACIDO CITRICO ANIDRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA793",
     "name": "METILPREDNISOLONE EMISUCCINATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA794",
@@ -76475,32 +76475,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA795",
     "name": "CLORFENAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA796",
     "name": "DESAMETASONE/CLORFENAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA797",
     "name": "FOSFATO BISODICO EPTAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA798",
     "name": "FOSFATO MONOSODICO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA799",
     "name": "SODIO FOSFATO MONOBASICO MONOIDRATO/SODIO FOSFATO BIBASICO EPTAIDRATO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA800",
     "name": "DESTROMETORFANO/AMMONIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA801",
@@ -76510,37 +76510,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA802",
     "name": "MONOFOSFOTIAMINA/PIRIDOSSINA/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA803",
     "name": "DIPIRIDAMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA804",
     "name": "IDROXOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA805",
     "name": "FENCIBUTIRROLO/FITOTERAPICI/FENOLFTALEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA806",
     "name": "PREDNISOLONE FOSFATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA807",
     "name": "LISOZIMA/FENOLPROPAMINA/TONZILAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA808",
     "name": "TOCOFEROLO ACETATO ALFA/RETINOLO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA809",
@@ -76560,52 +76560,52 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA812",
     "name": "CARISOPRODOL/METAMIZOLO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA813",
     "name": "POTASSIO ASPARTATO/MAGNESIO ASPARTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA814",
     "name": "CENTASINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA815",
     "name": "DICLOROFENILCARBINOLO/AMILMETACRESOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA816",
     "name": "DICLOROFENILCARBINOLO/AMILMETACRESOLO/SODIO ASCORBATO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA817",
     "name": "ALCOOL 2.4 DICLOROBENZILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA818",
     "name": "AMILMETACRESOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA819",
     "name": "PARACETAMOLO/ACIDO ASCORBICO/PROPIFENAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA820",
     "name": "DIIDROERGOCRISTINA MESILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA821",
     "name": "VANCOMICINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA822",
@@ -76615,12 +76615,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA823",
     "name": "ALGELDRATO/CALCIO CARBONATO/MAGNESIO TRISILICATO/LATTE IN POLVERE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA824",
     "name": "CALCIO CARBONATO/ALGELDRATO/MAGNESIO TRISILICATO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA825",
@@ -76630,47 +76630,47 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA826",
     "name": "FERROSO GLUCONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA827",
     "name": "TROPICAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA828",
     "name": "TETRIZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA829",
     "name": "BIPERIDENE LATTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA830",
     "name": "METARAMINOLO BITARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA831",
     "name": "CALCIO LATTATO/CALCIO LATTOBIONATO/CALCIO GLUCOEPTONATO/COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA832",
     "name": "OXABOLONE CIPIONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA833",
     "name": "BETAMETASONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA834",
     "name": "BETAMETASONE SODIO FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA835",
@@ -76680,32 +76680,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA836",
     "name": "COCARBOSSILASI/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA837",
     "name": "GENZIANA/CARCIOFO/BOLDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA838",
     "name": "DEMECLOCICLINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA839",
     "name": "ETAFENONE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA840",
     "name": "MEPIVACAINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA841",
     "name": "MEPIVACAINA/ADRENALINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA842",
@@ -76715,12 +76715,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA843",
     "name": "TIROTRICINA/CETRIMONIO BROMURO/BENZOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA844",
     "name": "CETRIMONIUM BROMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA845",
@@ -76730,12 +76730,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA846",
     "name": "FERRO TRIVALENTE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA847",
     "name": "NORVALINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA848",
@@ -76750,7 +76750,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA850",
     "name": "PARACETAMOLO/CLORFENAMINA/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA851",
@@ -76760,17 +76760,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA852",
     "name": "GUANETIDINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA853",
     "name": "FENILPROPANOLAMINA/FENIRAMINA/MEPIRAMINA/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA854",
     "name": "ALESSITOLO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA855",
@@ -76780,27 +76780,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA856",
     "name": "SODIO CITRATO/POTASSIO CITRATO/SODIO FOSFATO TRIBASICO/ACIDO TARTARICO/SODIO BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA857",
     "name": "SODIO CITRATO/POTASSIO CITRATO/SODIO FOSFATO TRIBASICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA858",
     "name": "OXERUTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA859",
     "name": "PROPIFENAZONE/NOSCAPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA860",
     "name": "OXOLAMINA/PROPIFENAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA861",
@@ -76810,7 +76810,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA862",
     "name": "XANTINOLO NICOTINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA863",
@@ -76830,22 +76830,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA866",
     "name": "TRICLORMETIAZIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA867",
     "name": "L-ARGININA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA868",
     "name": "LEVOGLUTAMIDE/FOSFOSERINA/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA869",
     "name": "PIRVINIO EMBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA870",
@@ -76855,27 +76855,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA871",
     "name": "IDROCORTISONE/FENILPROPANOLAMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA872",
     "name": "OXOLAMINA CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA873",
     "name": "DESAMETASONE/KANAMICINA/FENILEFRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA874",
     "name": "CODECARBOSSILASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA875",
     "name": "CLORDIAZEPOSSIDO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA876",
@@ -76905,7 +76905,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA881",
     "name": "RUBIDIO IODURO/POTASSIO IODURO/TESTOSTERONE/LIDOCAINA/EPARINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA882",
@@ -76915,42 +76915,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA883",
     "name": "METFORMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA884",
     "name": "FIBRINOGENO UMANO LIOFILIZZATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA885",
     "name": "NIFENAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA886",
     "name": "TETRACICLINA/FLUDROCORTISONE/POLIMIXINA B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA887",
     "name": "PREDNISOLONE/ATROPINA SOLFATO/FENILEFRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA888",
     "name": "TRIAMCINOLONE ACETONIDE/NISTATINA/NEOMICINA SOLFATO/GRAMICIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA889",
     "name": "NISTATINA/TRIAMCINOLONE ACETONIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA890",
     "name": "METILPREDNISOLONE/LIDOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA891",
@@ -76960,22 +76960,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA892",
     "name": "PIRIDOSSINA/CODECARBOSSILASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA893",
     "name": "METICILLINA SALE SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA894",
     "name": "BICARNITINA CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA895",
     "name": "DIFLUCORTOLONE VALERATO/KANAMICINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA896",
@@ -76985,32 +76985,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA897",
     "name": "AMINOACIDI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA898",
     "name": "PIPAZETATO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA899",
     "name": "AMFEPRAMONE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA900",
     "name": "POLIESTRADIOLO FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA901",
     "name": "ERITROMICINA/DEMECLOCICLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA902",
     "name": "METILPREDNISOLONE IDROGENO SUCCINATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA903",
@@ -77020,137 +77020,137 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA904",
     "name": "FLUFENAZINA DICLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA905",
     "name": "TRIPROLIDINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA906",
     "name": "DIMEFLINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA907",
     "name": "INOSINA/FEGATO ESTRATTO TOTALE INIETTABILE/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA908",
     "name": "OXETACAINA/ALLUMINIO OSSIDO IDRATO/MAGNESIO OSSIDO LEGGERO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA909",
     "name": "OXETACAINA/ALGELDRATO/MAGNESIO CARBONATO BASICO LEGGERO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA910",
     "name": "SULFAMETOPIRAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA911",
     "name": "ALLUMINIO IDROSSIDO/MAGNESIO IDROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA912",
     "name": "ADENOSINA FOSFATO/CIANOCOBALAMINA/COCARBOSSILASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA913",
     "name": "TETRACICLINA LEVOMETILENLISINA (LIMECICLINA)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA914",
     "name": "TETRACICLINA BASE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA915",
     "name": "FENCIBUTIRROLO/BOLDO/CASCARA/FRANGOLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA916",
     "name": "GALANTAMINA BROMIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA917",
     "name": "DESCLORFENIRAMINA MALEATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA918",
     "name": "LEVOGLUTAMIDE/LEVOASPARAGINA/FOSFOSERINA/PIRIDOSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA919",
     "name": "ACEGLUTAMIDE/LEVOASPARAGINA/SERINFOSFATO/PIRIDOSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA920",
     "name": "DESTROPROPOSSIFENE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA921",
     "name": "FENILPROPANOLAMINA/CLORFENAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA922",
     "name": "PSEUDOEFEDRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA923",
     "name": "PSEUDOEFEDRINA/TRIPROLIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA924",
     "name": "NICLOSAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA925",
     "name": "GLUCOMETAMINA/GLUCODIAMINA/NICOTINAMIDE ASCORBATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA926",
     "name": "SORBINICATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA927",
     "name": "IDROCORTISONE/TETRACICLINA/MALVA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA928",
     "name": "DIPIRIDAMOLO/OXAZEPAM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA929",
     "name": "CITRULLINA/ORNITINA/ARGININA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA930",
     "name": "DESAMETASONE/NEOMICINA/GRAMICIDINA/TETRIZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA931",
@@ -77160,12 +77160,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA932",
     "name": "BETAMETASONE/CLORAMFENAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA933",
     "name": "BUXAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA934",
@@ -77175,57 +77175,57 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA935",
     "name": "DESAMETASONE/TONZONIO BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA936",
     "name": "METILPREDNISOLONE/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA937",
     "name": "TETRACICLINA/OXOLAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA938",
     "name": "CICLOPENTOLATO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA939",
     "name": "MAGNESIO POLIGALATTURONATO/CALCIO PANTOTENATO/DIMETICONE/PROMETAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA940",
     "name": "TRIFLUOPERAZINA DICLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA941",
     "name": "TRIFLUOPERAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA942",
     "name": "ACIDO OROTICO/ACIDO FOLICO/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA943",
     "name": "LEVOFOSFOSERINA/ARGININA TREONINFOSFATO/LEVOGLUTAMIDE/IDROXOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA944",
     "name": "FOSFOSERINA/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA945",
     "name": "LEVOGLUTAMIDE/RACEFOSFOSERINA/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA946",
@@ -77240,37 +77240,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA948",
     "name": "FENIPENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA949",
     "name": "MAGNESIO ASPARTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA950",
     "name": "POTASSIO ASPARTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA951",
     "name": "BENZOSSICHINA/DESAMETASONE/PIRIDOSSINA/POLIENACIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA952",
     "name": "SULFINPIRAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA953",
     "name": "MONOFOSFOTIAMINA/IDROXOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA954",
     "name": "ASPERGILLASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA955",
@@ -77285,7 +77285,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA957",
     "name": "IMMUNOGLOBULINA UMANA ANTIPERTOSSE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA958",
@@ -77295,17 +77295,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA959",
     "name": "FERROSO SOLFATO/ACIDO AMINOACETICO/FEGATO ESTRATTO PER USO ORALE/CIANOCOBALAMINA/ACIDO CITRICO ANIDRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA960",
     "name": "DESAMETASONE/EPARINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA961",
     "name": "PIPERIDIONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA962",
@@ -77315,7 +77315,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA963",
     "name": "MEBUTAMATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA964",
@@ -77330,12 +77330,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA966",
     "name": "ARGININA GLUCOSIO-L-FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA967",
     "name": "LEVOCARNITINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA968",
@@ -77345,27 +77345,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA969",
     "name": "AMPICILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA970",
     "name": "CLORPROPAMIDE/FENFORMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA971",
     "name": "IDROCORTAMATO/LIDOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA972",
     "name": "FIBRINOLISINA BOVINA/DESOSSIRIBONUCLEASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA973",
     "name": "OXIMETAZOLINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA974",
@@ -77375,87 +77375,87 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA975",
     "name": "FENCIBUTIRROLO/BOLDO/CASCARA/RABARBARO/SORBITOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA976",
     "name": "DIISOPROPILAMINA DICLOROACETATO/TIAMINA/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA977",
     "name": "ACIDO IALURONICO SALE SODICO FRAZ.HYALASTINE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA978",
     "name": "SODIO IALURONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA979",
     "name": "ACIDO IALURONICO SALE SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA980",
     "name": "METOTREXATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA981",
     "name": "TIETILPERAZINA DIMALEATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA982",
     "name": "ERITROMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA983",
     "name": "ERITROMICINA STEARATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA984",
     "name": "FLUDROXICORTIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA985",
     "name": "FLUDROXICORTIDE/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA986",
     "name": "FOSFOLIPIDI DA CORTECCIA CEREBRALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA987",
     "name": "DIBUNATO SODICO/FITOTERAPICI/SODIO BENZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA988",
     "name": "URIDINA TRIFOSFATO SALE TRISODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA989",
     "name": "URIDINA TRIFOSFATO/CIANOCOBALAMINA/TIAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA990",
     "name": "METILDOPA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA991",
     "name": "DESTROMETORFANO/CALCIO GUAIACOLGLICOLATO/PANTENOLO/BALSAMO DEL TOLU",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA992",
@@ -77475,7 +77475,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA995",
     "name": "DIDROGESTERONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA996",
@@ -77485,17 +77485,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA997",
     "name": "ARGININA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA998",
     "name": "PEPSINA/DIMETICONE/PANCREAS POLVERE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA999",
     "name": "OXOLAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1000",
@@ -77505,12 +77505,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1001",
     "name": "XANTOPTERINA/RETINOLO/RIBOFLAVINA/ERGOCALCIFEROLO/CALCIO PANTOTENATO/TOCOFEROLO ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1002",
     "name": "XANTOPTERINA/EPARINA SODICA/RETINOLO/MONOFOSFORIBOFLAVINA/ERGOCALCIFEROLO/TOCOFEROLO ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1003",
@@ -77525,17 +77525,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1005",
     "name": "TETRIZOLINA FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1006",
     "name": "CIANOCOBALAMINA/INOSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1007",
     "name": "TRIMIPRAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1008",
@@ -77560,17 +77560,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1012",
     "name": "SODIO GLUCOPOLISOLFATO/IALURONIDASI/RETINOLO/CALCIO PANTOTENATO/MENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1013",
     "name": "EPARINOIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1014",
     "name": "NEOMICINA/POLIMIXINA B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1015",
@@ -77580,7 +77580,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1016",
     "name": "FLUOCINOLONE ACETONIDE/NEOMICINA",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA1017",
@@ -77590,7 +77590,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1018",
     "name": "EPARINA SODICA/IDROCORTISONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1019",
@@ -77600,42 +77600,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1020",
     "name": "PAROMOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1021",
     "name": "PARACETAMOLO/CODEINA FOSFATO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA1022",
     "name": "IDROSSICOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1023",
     "name": "COCARBOSSILASI/PIRIDOSSINA/IDROSSICOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1024",
     "name": "TIAMINA/PIRIDOSSINA/CIANOCOBALAMINA",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA1025",
     "name": "BUXAMINA/FENOBARBITAL/FENITOINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1026",
     "name": "IPPOCASTANO SEMI/AMAMELIDE/EPARINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1027",
     "name": "BETAMETASONE VALERATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1028",
@@ -77655,17 +77655,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1031",
     "name": "VACCINO POLIOMIELITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1032",
     "name": "BETAMETASONE/CLORAMFENICOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1033",
     "name": "POLIGELINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1034",
@@ -77675,7 +77675,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1035",
     "name": "ACIDO ACETILASPARTICO/CITRULLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1036",
@@ -77695,7 +77695,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1039",
     "name": "DIIDROSSIBUTILETERE/CASCARA ESTRATTO SECCO/RABARBARO ESTRATTO SECCO/BOLDO ESTRATTO SECCO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA1040",
@@ -77710,7 +77710,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1042",
     "name": "ACIDO TAUROCOLICO/PIPERIDOLATO/ENZIMI DIGESTIVI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1043",
@@ -77720,17 +77720,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1044",
     "name": "VINBLASTINA SOLFATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA1045",
     "name": "DIMETICONE/CALCIO PANTOTENATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1046",
     "name": "ACIDO IOTALAMICO SALE SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1047",
@@ -77740,7 +77740,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1048",
     "name": "VACCINO DIFTERICO/PERTOSSICO/TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1049",
@@ -77750,12 +77750,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1050",
     "name": "TRIAMTERENE/IDROCLOROTIAZIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1051",
     "name": "FENTANIL/DROPERIDOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1052",
@@ -77765,7 +77765,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1053",
     "name": "ZOLFO SUBLIMATO/MECLOCICLINA/NICOBOXIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1054",
@@ -77775,7 +77775,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1055",
     "name": "ALLUMINIO IDROSSIDO/MAGNESIO IDROSSIDO/DIMETICONE/LATTE IN POLVERE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1056",
@@ -77800,17 +77800,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1060",
     "name": "MENOTROPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1061",
     "name": "TERIZIDONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1062",
     "name": "FOSFOSERINA/ARGININA TREONINFOSFATO/LEVOGLUTAMIDE/LEVOTRIPTOFANO/COBAMAMIDE/ACIDO FOLINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1063",
@@ -77820,17 +77820,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1064",
     "name": "CARBAZOCROMO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1065",
     "name": "TROXERUTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1066",
     "name": "DESTRANO 40",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1067",
@@ -77845,27 +77845,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1069",
     "name": "ACIDO ALFABUTIRRICO/RABARBARO/CASCARA SAGRADA/BOLDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1070",
     "name": "SODIO LAURILSOLFOACETATO/SODIO CITRATO/SORBITOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1071",
     "name": "ACETILCISTEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1072",
     "name": "CLORTALIDONE/RESERPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1073",
     "name": "LINCOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1074",
@@ -77880,57 +77880,57 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1076",
     "name": "FENIPENTOLO/CASCARA/BOLDO/RABARBARO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1077",
     "name": "CLORAMFENICOLO/COLISTIMETATO SODICO/ROLITETRACICLINA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA1078",
     "name": "VERAPAMIL/PENTOBARBITAL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1079",
     "name": "NUCLEOSIDI/COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1080",
     "name": "LEVOARGININA CLORIDRATO/LEVOCITRULLINA/LEVOORNITINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1081",
     "name": "VERAPAMIL CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1082",
     "name": "FLUMETASONE PIVALATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1083",
     "name": "FLUMETASONE/CLIOCHINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1084",
     "name": "FLUMETASONE/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1085",
     "name": "FLUMETASONE/ACIDO SALICILICO/CATRAME DI CARBON FOSSILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1086",
     "name": "PROPIFENAZONE/CODEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1087",
@@ -77940,22 +77940,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1088",
     "name": "DEPTROPINA CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1089",
     "name": "LIDOCAINA/IDROCORTISONE/ALLUMINIO ACETATO BASICO/ZINCO OSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1090",
     "name": "PARACETAMOLO/FENILPROPANOLAMINA/CLORFENAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1091",
     "name": "TRIMETOPRIM/POLIMIXINA B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1092",
@@ -77965,12 +77965,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1093",
     "name": "BENFOTIAMINA/PIRIDOSSINA/IDROXOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1094",
     "name": "STREPTOCHINASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1095",
@@ -77985,22 +77985,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1097",
     "name": "PROXAZOLO CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1098",
     "name": "PREDNISOLONE STEAGLATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1099",
     "name": "TROLEANDOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1100",
     "name": "ALLUMINIO IDROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1101",
@@ -78015,7 +78015,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1103",
     "name": "OXACILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1104",
@@ -78025,7 +78025,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1105",
     "name": "NATAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1106",
@@ -78040,7 +78040,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1108",
     "name": "PERICIAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1109",
@@ -78065,7 +78065,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1113",
     "name": "METOCLOPRAMIDE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1114",
@@ -78085,22 +78085,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1117",
     "name": "VINCRISTINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1118",
     "name": "MONOFOSFOTIAMINA/CODECARBOSSILASI/IDROXOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1119",
     "name": "METILPREDNISOLONE/ZOLFO COLLOIDALE/ALLUMINIO IDROSSICLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1120",
     "name": "FUROSEMIDE/RESERPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1121",
@@ -78110,22 +78110,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1122",
     "name": "ETAMBUTOLO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1123",
     "name": "PROCARBAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1124",
     "name": "FLOROGLUCINA ANIDRA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1125",
     "name": "TRIMETOSSIBENZENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1126",
@@ -78140,7 +78140,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1128",
     "name": "PROGLUMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1129",
@@ -78150,7 +78150,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1130",
     "name": "BECLOMETASONE DIPROPIONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1131",
@@ -78160,7 +78160,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1132",
     "name": "CLORFENAMINA MALEATO/OXIMETAZOLINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1133",
@@ -78170,7 +78170,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1134",
     "name": "ZUCLOPENTIXOLO DICLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1135",
@@ -78180,17 +78180,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1136",
     "name": "CALCIO CARBONATO/COLECALCIFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1137",
     "name": "CITIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1138",
     "name": "URIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1139",
@@ -78210,12 +78210,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1142",
     "name": "DROPROPIZINA/GUAIFENESINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1143",
     "name": "CITRULLINA/ORNITINA/ARGININA/ACIDO ACETILASPARTICO/ACIDO ACEGLUMICO/CALCIO OSSOGLUTARATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1144",
@@ -78230,12 +78230,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1146",
     "name": "QUINETAZONE/RESERPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1147",
     "name": "TIAMINA/PIRIDOSSINA/IDROXOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1148",
@@ -78245,17 +78245,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1149",
     "name": "PEPSINA/PANCREAS POLVERE/BROMELAINA/CELLULASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1150",
     "name": "ACIDO EDETICO SALE DI CALCIO BISODICO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA1151",
     "name": "SODIO PICOSOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1152",
@@ -78280,17 +78280,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1156",
     "name": "BENZILPENICILLINA BENZATINICA/BENZILPENICILLINA POTASSICA/BENZILPENICILLINA PROCAINICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1157",
     "name": "AMIDOTRIZOATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1158",
     "name": "SALE DI MEGLUMINA DELL'ACIDO AMIDOTRIZOICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1159",
@@ -78300,17 +78300,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1160",
     "name": "ETINODIOLO/MESTRANOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1161",
     "name": "CLORAMFENICOLO/FENILEFRINA/MEPIRAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1162",
     "name": "BISACODIL/DOCUSATO SODICO/CALCIO PANTOTENATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1163",
@@ -78320,12 +78320,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1164",
     "name": "BROMEXINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1165",
     "name": "BROMEXINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1166",
@@ -78335,7 +78335,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1167",
     "name": "PIRITINOLO DICLORIDRATO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1168",
@@ -78360,7 +78360,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1172",
     "name": "ACIDO SALICILICO/IDROCORTISONE/SULFOPOLIGLICANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1173",
@@ -78370,22 +78370,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1174",
     "name": "PARACETAMOLO/MEPIRAMINA/NOREFEDRINA/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1175",
     "name": "BUXAMINA/FITOTERAPICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1176",
     "name": "PSEUDOEFEDRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1177",
     "name": "TRIPROLIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1178",
@@ -78395,32 +78395,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1179",
     "name": "IDOXURIDINA/COLISTIMETATO SODICO/ROLITETRACICLINA/XANTOPTERINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1180",
     "name": "IDOXURIDINA/COLISTIMETATO SODICO/TETRACICLINA/XANTOPTERINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1181",
     "name": "FLOROGLUCINOLO/MEGLUCINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1182",
     "name": "RIFAMPICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1183",
     "name": "ALBUMINA UMANA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1184",
     "name": "FLUOCORTOLONE/CINCOCAINA",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA1185",
@@ -78440,27 +78440,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1188",
     "name": "DEMECLOCICLINA/DESTROMETORFANO/SULFOGUAIACOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1189",
     "name": "COBAMAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1190",
     "name": "CASCARA ESTRATTO SECCO IDROALCOLICO/GENZIANA/RABARBARO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1191",
     "name": "NORGESTREL/ETINILESTRADIOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1192",
     "name": "CLORACETADOLO/PROMETAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1193",
@@ -78470,7 +78470,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1194",
     "name": "OCTATROPINA METILBROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1195",
@@ -78480,12 +78480,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1196",
     "name": "CALCIO OSSOGLURATO/COLINA OROTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1197",
     "name": "IMMUNOGLOBULINA UMANA DISAGGREGATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1198",
@@ -78500,7 +78500,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1200",
     "name": "DIAZEPAM/SCOPOLAMINA METILBROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1201",
@@ -78510,7 +78510,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1202",
     "name": "ISOPROPAMIDE IODURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1203",
@@ -78520,12 +78520,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1204",
     "name": "BENZIDAMINA/TETRACICLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1205",
     "name": "EMATOPORFIRINA/CIANOCOBALAMINA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA1206",
@@ -78540,7 +78540,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1208",
     "name": "OXICHINOLINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1209",
@@ -78550,12 +78550,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1210",
     "name": "METFORMINA/GLICICLAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1211",
     "name": "TROMETAMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1212",
@@ -78580,27 +78580,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1216",
     "name": "PARACETAMOLO/ACIDO ACETILSALICILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1217",
     "name": "FENILPROPANOLAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1218",
     "name": "IODOGLICEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1219",
     "name": "ESSENZA DI MENTA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1220",
     "name": "SULFACETAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1221",
@@ -78610,12 +78610,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1222",
     "name": "ACIDO FOLINICO/IDROXOCOBALAMINA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA1223",
     "name": "DESERPIDINA/METICLOTIAZIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1224",
@@ -78625,7 +78625,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1225",
     "name": "ADRENALINA BORATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1226",
@@ -78645,12 +78645,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1229",
     "name": "DIIDROERGOCRISTINA/CLOPAMIDE/RESERPINA",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA1230",
     "name": "TIORIDAZINA/DIIDROERGOTOSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1231",
@@ -78660,7 +78660,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1232",
     "name": "ARGININA PIDOLATO/PIRIDOSSINA/TAURINA/ACIDO PIDOLICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1233",
@@ -78675,7 +78675,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1235",
     "name": "TRIAMTERENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1236",
@@ -78690,7 +78690,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1238",
     "name": "METOCLOPRAMIDE/DIMETICONE/ENZIMI DIGESTIVI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1239",
@@ -78705,7 +78705,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1241",
     "name": "CLORAZEPATO DIPOTASSICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1242",
@@ -78720,7 +78720,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1244",
     "name": "ADRENALINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1245",
@@ -78730,7 +78730,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1246",
     "name": "BUPIVACAINA CLORIDRATO/ADRENALINA BITARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1247",
@@ -78745,7 +78745,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1249",
     "name": "AMPICILLINA/CLOXACILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1250",
@@ -78770,12 +78770,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1254",
     "name": "ACIDO TRANEXAMICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1255",
     "name": "AMITRIPTILINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1256",
@@ -78785,12 +78785,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1257",
     "name": "AMITRIPTILINA CLORIDRATO/CLORDIAZEPOSSIDO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1258",
     "name": "CLORDIAZEPOSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1259",
@@ -78800,7 +78800,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1260",
     "name": "TROXERUTINA/MUCOPOLISACCARIDE POLIFOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1261",
@@ -78820,7 +78820,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1264",
     "name": "CLONIDINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1265",
@@ -78840,17 +78840,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1268",
     "name": "METFORMINA/TOLBUTAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1269",
     "name": "CASSIA ANGUSTIFOLIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1270",
     "name": "CASSIA FISTULA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1271",
@@ -78860,7 +78860,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1272",
     "name": "DIIDROBUTILERE/FRANGULA/CASCARA/RABARBARO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1273",
@@ -78870,7 +78870,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1274",
     "name": "ISOPROPAMIDE IODURO/PARACETAMOLO/DIFENIDRAMINA/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1275",
@@ -78885,7 +78885,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1277",
     "name": "PRILOCAINA/FELIPRESSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1278",
@@ -78895,7 +78895,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1279",
     "name": "ETAMBUTOLO/ISONIAZIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1280",
@@ -78905,7 +78905,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1281",
     "name": "BROMEXINA/SULFOGUAIACOLO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA1282",
@@ -78915,27 +78915,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1283",
     "name": "TREMENTINA ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1284",
     "name": "MENTOLO/CANFORA/EUCALIPTOLO/TREMENTINA ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1285",
     "name": "INDOMETACINA/CAFFEINA/PROCLORPERAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1286",
     "name": "DOXICICLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1287",
     "name": "CLOMIPRAMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1288",
@@ -78970,7 +78970,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1294",
     "name": "GENTAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1295",
@@ -78980,17 +78980,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1296",
     "name": "CODEINA/FENILTOLOXAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1297",
     "name": "LEVOCARNITINA/GLICOCINNAMINA/COLINA BITARTRATO/COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1298",
     "name": "MEBIDROLINA NAPADISILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1299",
@@ -79000,7 +79000,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1300",
     "name": "BETAINA ASPARTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1301",
@@ -79015,7 +79015,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1303",
     "name": "PROZAPINA/SORBITOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1304",
@@ -79045,17 +79045,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1309",
     "name": "FERROSO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1310",
     "name": "FLUOCINOLONE ACETONIDE/KETOCAINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1311",
     "name": "CORTECCIA SURRENALE ESTRATTO/CIANOCOBALAMINA/NUCLEOSIDI/GUANOSINA FOSFATO/SALE SODICO/FEGATO ESTRATTO PER USO PARENTERALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1312",
@@ -79070,32 +79070,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1314",
     "name": "FENILEFRINA/ZINCO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1315",
     "name": "COGALATTOISOMERASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1316",
     "name": "TRIMETOPRIM/SULFAMETOXAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1317",
     "name": "SULFAMETOSSAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1318",
     "name": "TRIMETOPRIM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1319",
     "name": "SACCAROMICETI BOULARDI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1320",
@@ -79105,7 +79105,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1321",
     "name": "TUAMINOEPTANO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1322",
@@ -79120,12 +79120,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1324",
     "name": "ISOSORBIDE DINITRATO/PENTAERITRITILE TETRANITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1325",
     "name": "DEMECLOCICLINA/STREPTOCHINASI/STREPTODORNASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1326",
@@ -79140,27 +79140,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1328",
     "name": "CEFALEXINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1329",
     "name": "GLUCOSIO (DESTROSIO) 1-FOSFATO/COMPLESSO VITAMINICO/CALCIO FOSFATO MONOBASICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1330",
     "name": "ASPARAGINASI",
-    "description": "10000"
+    "description": "10000 "
   },
   {
     "id": "PA1331",
     "name": "ETAMBUTOLO/ISONIAZIDE/PIRIDOSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1332",
     "name": "AMPICILLINA/DICLOXACILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1333",
@@ -79180,17 +79180,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1336",
     "name": "FLAVOXATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1337",
     "name": "FLAVOXATO/PROPIFENAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1338",
     "name": "CLOTRIMAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1339",
@@ -79205,17 +79205,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1341",
     "name": "ESTRADIOLO VALERATO/IDROSSIPROGESTERONE CAPROATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA1342",
     "name": "ESCINA/EPARINA SODICA/DIETILAMINA SALICILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1343",
     "name": "COBAMAMIDE/PROTEINA IDROLISATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1344",
@@ -79225,17 +79225,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1345",
     "name": "FLUMETASONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1346",
     "name": "DICLOROFENILCARBINOLO/ARGENTO PROTEINATO/DESAMETASONE 21-FOSFATO DISODICO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA1347",
     "name": "TROXERUTINA/QUERCETINA/ESPERICALCONE/CALCIO ASCORBATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1348",
@@ -79245,37 +79245,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1349",
     "name": "ACIDO CROMOGLICICO SALE DISODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1350",
     "name": "TRAZODONE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1351",
     "name": "FLUOCINOLONE ACETONIDE/BENZALCONIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1352",
     "name": "ALUSTIDINA/MAGNESIO IDROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1353",
     "name": "FLUOCORTOLONE PIVALATO/FLUOCORTOLONE CAPROATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1354",
     "name": "CITARABINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1355",
     "name": "DOXORUBICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1356",
@@ -79310,7 +79310,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1362",
     "name": "DESOSSIRIBONUCLEASI/BROMELAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1363",
@@ -79330,7 +79330,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1366",
     "name": "NOSCAPINA/GUAIFENESINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1367",
@@ -79355,27 +79355,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1371",
     "name": "MIRTILLINA/BETACAROTENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1372",
     "name": "ESCINA/FOSFATIDILCOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1373",
     "name": "ESCINA/TIOCOLCHICOSIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1374",
     "name": "SODIO VALPROATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1375",
     "name": "SODIO VALPROATO/ACIDO VALPROICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1376",
@@ -79390,7 +79390,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1378",
     "name": "ALGESTONE ACETOFENIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1379",
@@ -79410,12 +79410,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1382",
     "name": "METILE SALICILATO/CANFORA/TIMOLO/GLICOLE SALICILATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA1383",
     "name": "METILE SALICILATO/MENTOLO/CANFORA/BENZILE NICOTINATO/GLICOLE SALICILATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA1384",
@@ -79435,7 +79435,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1387",
     "name": "SODIO GLUCOPOLISOLFATO/GLICOLE SALICILATO/BENZILE NICOTINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1388",
@@ -79445,7 +79445,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1389",
     "name": "LORAZEPAM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1390",
@@ -79455,7 +79455,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1391",
     "name": "IMMUNOGLOBULINA UMANA ANTI-D",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1392",
@@ -79465,7 +79465,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1393",
     "name": "FLUOCINONIDE/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1394",
@@ -79490,7 +79490,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1398",
     "name": "RETINOLO/COLECALCIFEROLO/CALCIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1399",
@@ -79505,12 +79505,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1401",
     "name": "PIGELINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1402",
     "name": "EPARINA CALCICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1403",
@@ -79520,12 +79520,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1404",
     "name": "NAFTIDROFURILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1405",
     "name": "CLONIDINA/CLORTALIDONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1406",
@@ -79535,27 +79535,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1407",
     "name": "SULFAMETOPIRAZINA/PIRIMETAMINA",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA1408",
     "name": "IBUPROFENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1409",
     "name": "TETRACICLINA/AMFOTERICINA B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1410",
     "name": "ACIDO ASCORBICO/TROXERUTINA/CALCIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1411",
     "name": "PIRROLNITRINA/BETAMETASONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1412",
@@ -79570,7 +79570,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1414",
     "name": "LISINA ACETILSALICILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1415",
@@ -79585,7 +79585,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1417",
     "name": "ALCOOL 2.4-DICLOROBENZILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1418",
@@ -79605,22 +79605,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1421",
     "name": "ACIDO CICLOSSILICO/CASCARA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1422",
     "name": "FERROSO SOLFATO/ACIDO ASCORBICO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA1423",
     "name": "FERRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1424",
     "name": "BETAMETASONE/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1425",
@@ -79635,22 +79635,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1427",
     "name": "FENOSSIMETILPENICILLINA POTASSICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1428",
     "name": "DESONIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1429",
     "name": "DESONIDE/CLIOCHINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1430",
     "name": "LIDOCAINA CLORIDRATO/ADRENALINA BITARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1431",
@@ -79665,17 +79665,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1433",
     "name": "ACIDO FUSIDICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1434",
     "name": "TRIAMCINOLONE BENETONIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1435",
     "name": "CHINIDINA ARABOGALATTONATO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1436",
@@ -79695,22 +79695,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1439",
     "name": "FATTORE VIII DI COAGULAZIONE DEL SANGUE UMANO LIOFILIZZATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA1440",
     "name": "BEKANAMICINA/TETRIZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1441",
     "name": "BEKANAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1442",
     "name": "DOXICICLINA MONOIDRATO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA1443",
@@ -79740,7 +79740,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1448",
     "name": "POLIAMINOACIDI/SODIO ACETATO/MAGNESIO ACETATO/SODIO CLORURO/POTASSIO CLORURO/ACIDO FOSFORICO/POTASSIO METABISOLFITO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA1449",
@@ -79750,7 +79750,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1450",
     "name": "MEDRISONE/TETRIZOLINA/FENIRAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1451",
@@ -79770,17 +79770,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1454",
     "name": "AMINOPROPILONE SODICO/CONDROPOLISOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1455",
     "name": "SUCRALFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1456",
     "name": "LEVOTIROXINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1457",
@@ -79835,7 +79835,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1467",
     "name": "CHININA/COMPLESSO VITAMINICO/BIANCOSPINO FIORI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1468",
@@ -79845,12 +79845,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1469",
     "name": "TETRACAINA/SULFOGUAIACOLO/ACIDO SALICILICO/MENTOLO/FITOTERAPICI",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA1470",
     "name": "ENZIMI DIGESTIVI/BETAINA CLORURO/ACIDO NICOTINICO/FLOPROPIONE/MEBURAMIDE/PARETE VESCICOLARE ESTRATTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1471",
@@ -79885,7 +79885,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1477",
     "name": "CEFACETRILE SODICO",
-    "description": "1"
+    "description": "1 "
   },
   {
     "id": "PA1478",
@@ -79895,7 +79895,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1479",
     "name": "SULFOGUAIACOLO/DROPROPIZINA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA1480",
@@ -79905,7 +79905,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1481",
     "name": "ALLOPURINOLO/BENZIODARONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1482",
@@ -79920,12 +79920,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1484",
     "name": "CLOROSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1485",
     "name": "BETAMETASONE/CLOROSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1486",
@@ -79960,7 +79960,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1492",
     "name": "FLURAZEPAM DICLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1493",
@@ -79975,12 +79975,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1495",
     "name": "ERGOCALCIFEROLO/CALCIO ASCORBATO/CALCIO GLUCONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1496",
     "name": "DIMETICONE/ALESSITOLO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1497",
@@ -79990,7 +79990,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1498",
     "name": "GLUTARGININA/COBAMAMIDE/CALCIO FOLINATO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA1499",
@@ -80020,7 +80020,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1504",
     "name": "DESAMETASONE/LIDOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1505",
@@ -80030,32 +80030,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1506",
     "name": "DESAMETASONE/FENILEFRINA/NEOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1507",
     "name": "DESAMETASONE ISONICOTINATO/NEOMICINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1508",
     "name": "CORTECCIA SURRENALE ESTRATTO/COBAMAMIDE/CALCIO FOLINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1509",
     "name": "SALBUTAMOLO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1510",
     "name": "PRASTERONE/ESTRADIOLO VALERATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1511",
     "name": "CALCIO GLUCONATO/CALCIO GLUCOEPTONATO/COLECALCIFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1512",
@@ -80085,12 +80085,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1517",
     "name": "TRIMETOPRIM/SULFAMETOXIPIRIDAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1518",
     "name": "NORTRIPTILINA/FLUFENAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1519",
@@ -80110,7 +80110,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1522",
     "name": "CIANOCOBALAMINA/LEVOGLUTAMIDE SERINFOSFATO/LEVOLISINA/ARGININA/METIONINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1523",
@@ -80125,12 +80125,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1525",
     "name": "ACIDO OXOLINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1526",
     "name": "CUPRIGLICINATO/SODIO FERRICITRATO/COMPLESSO VITAMINICO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA1527",
@@ -80140,17 +80140,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1528",
     "name": "MEGLUMINA AMIDOTRIZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1529",
     "name": "BETAMETASONE DIPROPIONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1530",
     "name": "CIPROTERONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1531",
@@ -80165,7 +80165,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1533",
     "name": "MECLOCICLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1534",
@@ -80200,7 +80200,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1540",
     "name": "ARGININA GLICEROFOSFATO/LISINA GLICEROFOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1541",
@@ -80210,27 +80210,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1542",
     "name": "LEVODOPA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1543",
     "name": "BENSERAZIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1544",
     "name": "CARBIDOPA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1545",
     "name": "FENSPIRIDE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1546",
     "name": "CLONAZEPAM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1547",
@@ -80245,22 +80245,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1549",
     "name": "BENZOXONIO CLORURO",
-    "description": "30"
+    "description": "30 "
   },
   {
     "id": "PA1550",
     "name": "VACCINO MORBILLO VIVO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1551",
     "name": "METILDOPA/BUTIZIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1552",
     "name": "DESCLORFENIRAMINA/GUAIFENESINA/PSEUDOEFEDRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1553",
@@ -80275,12 +80275,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1555",
     "name": "PARACETAMOLO/ISOPROPAMIDE IODURO/DIMETOFRINA/CAFFEINA/CLORFENAMINA/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1556",
     "name": "DICLOFENAC SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1557",
@@ -80290,7 +80290,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1558",
     "name": "KETOPROFENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1559",
@@ -80310,7 +80310,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1562",
     "name": "TOBRAMICINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1563",
@@ -80330,22 +80330,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1566",
     "name": "SODIO CLORURO/SODIO ACETATO/SODIO GLUCONATO/POTASSIO CLORURO/MAGNESIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1567",
     "name": "SODIO CLORURO/POTASSIO CLORURO/MAGNESIO CLORURO/SODIO ACETATO/SODIO GLUCONATO/GLUCOSIO (DESTROSIO) MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1568",
     "name": "MAPROTILINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1569",
     "name": "UROCHINASI",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA1570",
@@ -80355,12 +80355,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1571",
     "name": "FLUOCINOLONE ACETONIDE/KANAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1572",
     "name": "FORMOCORTAL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1573",
@@ -80380,7 +80380,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1576",
     "name": "MIRTILLINA/COBAMAMIDE/FOSFOSERINA/ACEGLUTAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1577",
@@ -80390,22 +80390,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1578",
     "name": "CITIOLONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1579",
     "name": "FLUCLOXACILLINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1580",
     "name": "BROMELINA/ESCINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1581",
     "name": "MALTO ESTRATTO/ISPAGHULA SEME",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1582",
@@ -80425,7 +80425,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1585",
     "name": "ACIDO SALICILICO/TRETINOINA/BETAMETASONE VALEROACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1586",
@@ -80440,22 +80440,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1588",
     "name": "ARGININA PIDOLATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1589",
     "name": "ARGININA PIDOLATO/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1590",
     "name": "FATTORE II DELLA COAGULAZIONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1591",
     "name": "FATTORE X DI COAGULAZIONE DEL SANGUE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1592",
@@ -80465,17 +80465,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1593",
     "name": "FOSFOMICINA CALCICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1594",
     "name": "FOSFOMICINA DISODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1595",
     "name": "BENDACORTONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1596",
@@ -80495,7 +80495,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1599",
     "name": "FENBUFENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1600",
@@ -80520,12 +80520,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1604",
     "name": "BEKANAMICINA/PIRROLNITRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1605",
     "name": "FLUOROMETOLONE/TETRIZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1606",
@@ -80535,12 +80535,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1607",
     "name": "FLUOROMETOLONE/TETRACICLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1608",
     "name": "DICLOXACILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1609",
@@ -80550,7 +80550,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1610",
     "name": "METOCLOPRAMIDE/DIMETICONE/POTASSIO CITRATO/ACIDO TARTARICO/ACIDO CITRICO ANIDRO/SODIO BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1611",
@@ -80560,12 +80560,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1612",
     "name": "BROMOPRIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1613",
     "name": "DIIDROERGOTOSSINA/PAPAVERINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1614",
@@ -80585,27 +80585,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1617",
     "name": "NOSCAPINA/NOSCAPINA EMBONATO/PROMETAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1618",
     "name": "OXPRENOLOLO/CLORTALIDONE",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA1619",
     "name": "SIMFIBRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1620",
     "name": "DESTROMETORFANO/DIFENIDRAMINA/PSEUDOEFEDRINA/AMMONIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1621",
     "name": "FLUCLOXACILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1622",
@@ -80615,17 +80615,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1623",
     "name": "ACIDO ALGINICO/ALGELDRATO/MAGNESIO TRISILICATO/SODIO BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1624",
     "name": "PANTETINA/CARNITINA/CIPROEPTADINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1625",
     "name": "ESCINA/EPARINA SODICA/FOSFATIDILCOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1626",
@@ -80640,12 +80640,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1628",
     "name": "SALBUTAMOLO/GUAIFENESINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1629",
     "name": "BETAMETASONE/DESTRANO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA1630",
@@ -80665,7 +80665,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1633",
     "name": "SULINDAC",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1634",
@@ -80675,22 +80675,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1635",
     "name": "OTILONIO BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1636",
     "name": "METOCLOPRAMIDE/DIIDROSSIALLUMINIO SODIO CARBONATO/DIMETICONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1637",
     "name": "DIMETICONE/SILICE COLLOIDALE ANIDRA/ALLUMINIO IDROSSIDO/MAGNESIO IDROSSIDO/MAGNESIO CARBONATO BASICO LEGGERO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1638",
     "name": "DIMETICONE/ALMASILATO/MAGNESIO IDROSSIDO/ALLUMINIO IDROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1639",
@@ -80710,17 +80710,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1642",
     "name": "DIMETINDENE/FENILEFRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1643",
     "name": "AMPICILLINA/FLUCLOXACILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1644",
     "name": "MIRTECAINA/ALLUMINIO GLICINATO/GALATTANO SOLFATO",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA1645",
@@ -80745,7 +80745,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1649",
     "name": "TETRACAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1650",
@@ -80760,7 +80760,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1652",
     "name": "PRENOXDIAZINA/CARBOCISTEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1653",
@@ -80795,7 +80795,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1659",
     "name": "TRIMETOPRIM/SULFAMETOPIRAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1660",
@@ -80835,7 +80835,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1667",
     "name": "SULODEXIDE/AMINOPROPILONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1668",
@@ -80845,12 +80845,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1669",
     "name": "OLIO ETIODATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1670",
     "name": "CEFUROXIMA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1671",
@@ -80870,7 +80870,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1674",
     "name": "BENMETIAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1675",
@@ -80880,7 +80880,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1676",
     "name": "NEOMICINA/SULFATIAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1677",
@@ -80920,7 +80920,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1684",
     "name": "ECONAZOLO NITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1685",
@@ -80930,17 +80930,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1686",
     "name": "BROMOPRIDE/PAPAINA/DIMETICONE/ACIDO DEIDROCOLICO/ENZIMI DIGESTIVI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1687",
     "name": "ACIDO PIPEMIDICO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA1688",
     "name": "METOPROLOLO TARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1689",
@@ -80950,7 +80950,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1690",
     "name": "OXOLAMINA FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1691",
@@ -80965,7 +80965,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1693",
     "name": "INSULINA ZINCO UMANA HM SOSPENSIONE COMPOSTA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1694",
@@ -80980,7 +80980,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1696",
     "name": "POTASSIO CANRENOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1697",
@@ -80990,7 +80990,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1698",
     "name": "CALCIO FOSFATO TRIBASICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1699",
@@ -81010,12 +81010,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1702",
     "name": "CITICOLINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1703",
     "name": "FERMENTI LATTICI/LIEVITO DI BIRRA/COMPLESSO VITAMINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1704",
@@ -81025,7 +81025,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1705",
     "name": "ETINODIOLO/ETINILESTRADIOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1706",
@@ -81035,7 +81035,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1707",
     "name": "PIRIDOSSINA FOSFOSERINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1708",
@@ -81045,7 +81045,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1709",
     "name": "PILOCARPINA CLORIDRATO/ADRENALINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1710",
@@ -81075,12 +81075,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1715",
     "name": "RIBOSTAMICINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1716",
     "name": "ISPAGHULA SEMI (TEGUMENTO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1717",
@@ -81105,27 +81105,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1721",
     "name": "FUROSEMIDE/SPIRONOLATTONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1722",
     "name": "XIPAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1723",
     "name": "PRIDINOLO MESILATO/BENZIDAMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1724",
     "name": "SODIO CROMOGLICATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1725",
     "name": "ACIDO CROMOGLICICO/CLORFENAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1726",
@@ -81140,7 +81140,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1728",
     "name": "TINIDAZOLO/NISTATINA",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA1729",
@@ -81160,27 +81160,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1732",
     "name": "IFOSFAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1733",
     "name": "BROMOCRIPTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1734",
     "name": "IMMUNOGLOBULINA UMANA ANTIEPATITE B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1735",
     "name": "ADRENALINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1736",
     "name": "LIDOCAINA/CETRIMONIO BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1737",
@@ -81190,12 +81190,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1738",
     "name": "DESONIDE/CLOREXIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1739",
     "name": "FORMOCORTAL/GENTAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1740",
@@ -81210,7 +81210,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1742",
     "name": "CALCIO DOBESILATO/LIDOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1743",
@@ -81240,12 +81240,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1748",
     "name": "DIIDROERGOTOSSINA/PAPAVERINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1749",
     "name": "CEFAZOLINA ACIDA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1750",
@@ -81255,7 +81255,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1751",
     "name": "CLINDAMICINA FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1752",
@@ -81265,7 +81265,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1753",
     "name": "DESMOPRESSINA ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1754",
@@ -81280,12 +81280,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1756",
     "name": "COLLAGENASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1757",
     "name": "GENTAMICINA/ATROPINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1758",
@@ -81340,12 +81340,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1768",
     "name": "KETOPROFENE SALE DI LISINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1769",
     "name": "OXPRENOLOLO/BENCICLANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1770",
@@ -81360,17 +81360,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1772",
     "name": "INDAPAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1773",
     "name": "LACTOBACILLUS ACIDOPHILUS VIVO LIOFILIZZATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1774",
     "name": "BIFIDOBACTERIUM BIFIDUM VIVO LIOFILIZZATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1775",
@@ -81380,7 +81380,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1776",
     "name": "BROMAZEPAM/PROPANTELINA BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1777",
@@ -81390,7 +81390,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1778",
     "name": "METISOPRINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1779",
@@ -81400,7 +81400,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1780",
     "name": "AMMONIO SOLFOITTIOLATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1781",
@@ -81430,7 +81430,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1786",
     "name": "FOSFOCREATININA/ACEGLUTAMIDE/PIRIDOSSINA/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1787",
@@ -81445,12 +81445,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1789",
     "name": "BECLOMETASONE/SALBUTAMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1790",
     "name": "FENILPROPANOLAMINA/BUZEPIDE METIODURO/CLOCINIZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1791",
@@ -81465,12 +81465,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1793",
     "name": "IPRATROPIO BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1794",
     "name": "ACEBUTOLOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1795",
@@ -81485,7 +81485,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1797",
     "name": "OXERUTINA/SODIO CALCIO METILGALATTOPOLISOLFATO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA1798",
@@ -81525,7 +81525,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1805",
     "name": "CEFACLORO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1806",
@@ -81565,7 +81565,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1813",
     "name": "CEFOTAXIMA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1814",
@@ -81590,7 +81590,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1818",
     "name": "CANRENONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1819",
@@ -81610,12 +81610,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1822",
     "name": "FLURBIPROFENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1823",
     "name": "ACIDO TRANEXAMICO/ETAMSILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1824",
@@ -81645,7 +81645,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1829",
     "name": "DOMPERIDONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1830",
@@ -81660,7 +81660,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1832",
     "name": "DIBEKACINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1833",
@@ -81695,12 +81695,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1839",
     "name": "SODIO FLUOROFOSFATO/SODIO FLUORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1840",
     "name": "SODIO MONOFLUOROFOSFATO/SODIO FLUORURO/SODIO BENZOATO/ACIDO BENZOICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1841",
@@ -81710,57 +81710,57 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1842",
     "name": "DANTROLENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1843",
     "name": "MIRTILLO NERO ESTRATTO SECCO IDROALCOLICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1844",
     "name": "CLORCHINALDOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1845",
     "name": "DIFLUCORTOLONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1846",
     "name": "CEFALEXINA/FOSFOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1847",
     "name": "OLIO DI SOIA/LECITINA D'UOVO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1848",
     "name": "LIPIDI DI SOIA PURIFICATI/FOSFOLIPIDI DA TUORLO D'UOVO PURIFICATI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1849",
     "name": "FOSFOLIPIDI DA TUORLO DI UOVO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1850",
     "name": "OLIO DI SOIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1851",
     "name": "SODIO FLUORURO/CALCIO GLUCONATO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA1852",
     "name": "MESNA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1853",
@@ -81770,12 +81770,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1854",
     "name": "FLUNARIZINA DICLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1855",
     "name": "ESTRAMUSTINA FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1856",
@@ -81795,12 +81795,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1859",
     "name": "EPARINA SODICA/GLUCOSUROGLICANO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1860",
     "name": "LEVOTIROXINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1861",
@@ -81825,7 +81825,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1865",
     "name": "CARFECILLINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1866",
@@ -81835,7 +81835,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1867",
     "name": "PSEUDOEFEDRINA/CARBINOSSAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1868",
@@ -81870,12 +81870,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1874",
     "name": "DOXILAMINA SUCCINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1875",
     "name": "DOXILAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1876",
@@ -81900,12 +81900,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1880",
     "name": "MELITRACENE/FLUPENTIXOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1881",
     "name": "IDROTALCITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1882",
@@ -81925,7 +81925,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1885",
     "name": "VACCINO MENINGITE CEREBROSPINALE A C",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1886",
@@ -81975,7 +81975,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1895",
     "name": "BETAMETASONE/CLIOCHINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1896",
@@ -82015,12 +82015,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1903",
     "name": "DESTROMETORFANO/GUAIFENESINA/CARBINOSSAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1904",
     "name": "URICASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1905",
@@ -82045,7 +82045,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1909",
     "name": "SULTOPRIDE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1910",
@@ -82055,12 +82055,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1911",
     "name": "VACCINO PNEUMOCOCCICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1912",
     "name": "TRIMETOPRIM/SULFAMOXOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1913",
@@ -82095,7 +82095,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1919",
     "name": "FLUNISOLIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1920",
@@ -82110,7 +82110,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1922",
     "name": "ATENOLOLO/CLORTALIDONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1923",
@@ -82125,7 +82125,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1925",
     "name": "LABETALOLO/CLORTALIDONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1926",
@@ -82145,7 +82145,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1929",
     "name": "METOPROLOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1930",
@@ -82170,12 +82170,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1934",
     "name": "FENOTEROLO/IPRATROPIO BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1935",
     "name": "METOPROLOLO/CLORTALIDONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1936",
@@ -82190,12 +82190,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1938",
     "name": "CICLIOMENOLO/ENOXOLONE/MENTOLO/EUCALIPTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1939",
     "name": "PSEUDOEFEDRINA/TRIPROLIDINA/PARACETAMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1940",
@@ -82230,7 +82230,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1946",
     "name": "ACIDO FLUFENAMICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1947",
@@ -82240,7 +82240,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1948",
     "name": "SENNA FOGLIA/BOLDO/CARCIOFO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1949",
@@ -82250,17 +82250,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1950",
     "name": "DICLOROFENILCARBINOLO/TERPINA IDRATA/MENGLITATO",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA1951",
     "name": "SODIO FOSFATO MONOBASICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1952",
     "name": "SODIO FOSFATO DIBASICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1953",
@@ -82270,7 +82270,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1954",
     "name": "CALCIO CARBONATO/MAGNESIO CARBONATO BASICO LEGGERO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA1955",
@@ -82285,12 +82285,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1957",
     "name": "ETAMIDO",
-    "description": "250"
+    "description": "250 "
   },
   {
     "id": "PA1958",
     "name": "TETROXOPRIM/SULFADIAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1959",
@@ -82320,12 +82320,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1964",
     "name": "FERROSO SOLFATO/ACIDO ASCORBICO/ACIDO FOLICO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA1965",
     "name": "ALCINONIDE/AMFOTERICINA B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1966",
@@ -82335,7 +82335,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1967",
     "name": "FLUOCINONIDE/CHETOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1968",
@@ -82345,7 +82345,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1969",
     "name": "PENTOXIVERINA/GUAIFENESINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1970",
@@ -82355,52 +82355,52 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1971",
     "name": "TROMBINA/KANAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1972",
     "name": "SENNA FOGLIA/LIQUIRIZIA/MENTA/CARVI FRUTTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1973",
     "name": "AMAMELIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1974",
     "name": "BORACE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1975",
     "name": "ACIDO BORICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1976",
     "name": "MALVA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1977",
     "name": "SENNA FOGLIA/SENNA FRUTTI/TAMARINDO FRUTTI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1978",
     "name": "PASSIFLORA/BIANCOSPINO FIORI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1979",
     "name": "TRIMETOPRIM/SULFADIAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1980",
     "name": "TIMO/EUCALIPTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1981",
@@ -82410,17 +82410,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1982",
     "name": "BUTIZIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1983",
     "name": "MIRTILLINA/RETINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1984",
     "name": "BENZALCONIO SACCARINATO/BENZOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1985",
@@ -82475,7 +82475,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1995",
     "name": "CEFTRIAXONE SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1996",
@@ -82485,7 +82485,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1997",
     "name": "VALERIANA/PASSIFLORA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA1998",
@@ -82495,7 +82495,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA1999",
     "name": "SALICILATO DI DIETILAMMONIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2000",
@@ -82510,12 +82510,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2002",
     "name": "CEFTAZIDIMA PENTAIDRATO CON SODIO CARBONATO STERILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2003",
     "name": "CEFTAZIDIMA PENTAIDRATO (TD)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2004",
@@ -82530,7 +82530,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2006",
     "name": "VACCINO TIFOIDEO VIVO USO ORALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2007",
@@ -82555,22 +82555,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2011",
     "name": "TROMBINA UMANA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2012",
     "name": "CALCIO CLORURO BIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2013",
     "name": "PROTEINA COAGULABILE UMANA CHE CONTIENE PRINCIPALMENTE FIBRINOGENO UMANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2014",
     "name": "DESOGESTREL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2015",
@@ -82585,7 +82585,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2017",
     "name": "DILTIAZEM CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2018",
@@ -82620,7 +82620,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2024",
     "name": "OXATOMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2025",
@@ -82630,12 +82630,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2026",
     "name": "ACICLOVIR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2027",
     "name": "RIFAXIMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2028",
@@ -82645,7 +82645,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2029",
     "name": "CICLOSPORINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2030",
@@ -82675,7 +82675,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2035",
     "name": "PROPIFENAZONE/BUTALBITAL/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2036",
@@ -82695,17 +82695,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2039",
     "name": "ALOPERIDOLO DECANOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2040",
     "name": "CEFTEZOLO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2041",
     "name": "BENZOCAINA/RESORCINOLO/CLOROTIMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2042",
@@ -82755,7 +82755,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2051",
     "name": "STEPRONINA SALE DI LISINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2052",
@@ -82770,12 +82770,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2054",
     "name": "IPPOCASTANO SEMI/CARDO MARIANO SEMI/AMAMELIDE FOGLIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2055",
     "name": "CEFONICID SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2056",
@@ -82875,12 +82875,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2075",
     "name": "MAGNESIO PIDOLATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2076",
     "name": "BOLDO/RABARBARO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2077",
@@ -82900,7 +82900,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2080",
     "name": "VALERIANA/BIANCOSPINO FIORI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2081",
@@ -82915,7 +82915,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2083",
     "name": "CEFOXITINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2084",
@@ -82925,7 +82925,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2085",
     "name": "ALIZAPRIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2086",
@@ -82950,7 +82950,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2090",
     "name": "PARACETAMOLO/CAFFEINA/FENILEFRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2091",
@@ -82975,12 +82975,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2095",
     "name": "CLORFENAMINA/EFEDRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2096",
     "name": "CELIPROLOLO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2097",
@@ -82995,7 +82995,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2099",
     "name": "DIIDROERGOCRIPTINA MESILATO/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2100",
@@ -83005,7 +83005,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2101",
     "name": "FOSFOMICINA TROMETAMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2102",
@@ -83020,7 +83020,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2104",
     "name": "INSULINA UMANA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2105",
@@ -83045,12 +83045,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2109",
     "name": "BOLDO/CAMOMILLA COMUNE/RABARBARO/GENZIANA/ROSMARINO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2110",
     "name": "FLECAINIDE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2111",
@@ -83090,7 +83090,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2118",
     "name": "IDROCORTISONE/BENZOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2119",
@@ -83105,7 +83105,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2121",
     "name": "FRANGOLA/CASCARA/SENNA FOGLIE/DOCUSATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2122",
@@ -83150,7 +83150,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2130",
     "name": "DESTROMETORFANO/GUAIAFENESINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2131",
@@ -83175,7 +83175,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2135",
     "name": "TETRIZOLINA/ACIDO CROMOGLICICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2136",
@@ -83185,7 +83185,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2137",
     "name": "ALCLOMETASONE DIPROPIONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2138",
@@ -83200,12 +83200,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2140",
     "name": "POTASSIO CLORURO/SODIO CLORURO/CALCIO CLORURO/MAGNESIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2141",
     "name": "ATENOLOLO/INDAPAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2142",
@@ -83245,7 +83245,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2149",
     "name": "DIFLUCORTOLONE VALERATO/ACIDO SALICILICO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA2150",
@@ -83265,12 +83265,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2153",
     "name": "CALCIO FOLINATO PENTAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2154",
     "name": "FERRIPROTINATO/CALCIO FOLINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2155",
@@ -83310,7 +83310,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2162",
     "name": "ACIDO FOLINICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2163",
@@ -83340,12 +83340,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2168",
     "name": "ETINILESTRADIOLO/NORGESTIMATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2169",
     "name": "CASCARA ESTRATTO/QUERCIA MARINA ESTRATTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2170",
@@ -83355,7 +83355,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2171",
     "name": "VACCINO INFLUENZALE INATTIVATO/ANTIGENI DI SUPERFICIE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2172",
@@ -83380,7 +83380,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2176",
     "name": "TRIMETOPRIM/SULFAMETROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2177",
@@ -83395,7 +83395,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2179",
     "name": "PENBUTOLOLO/FUROSEMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2180",
@@ -83420,7 +83420,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2184",
     "name": "MICONAZOLO/BENZOPEROSSIDO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA2185",
@@ -83455,12 +83455,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2191",
     "name": "SENNA FOGLIA/ALOE/ALTEA/LIQUIRIZIA/SOLFATO FERROSO/CARBONE VEGETALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2192",
     "name": "SENNA FOGLIA/MELISSA/CASCARILLA/QUASSIO LEGNO/ZENZERO/ALOE/ALTEA/LAURO/MIRTO/BERGAMOTTO ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2193",
@@ -83480,7 +83480,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2196",
     "name": "TIMOLOLO MALEATO/PILOCARPINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2197",
@@ -83490,7 +83490,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2198",
     "name": "NICARDIPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2199",
@@ -83505,17 +83505,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2201",
     "name": "ALLOPURINOLO/BENZBROMARONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2202",
     "name": "ACIDO CLAVULANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2203",
     "name": "AMOXICILLINA TRIIDRATA/POTASSIO CLAVULANATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2204",
@@ -83525,12 +83525,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2205",
     "name": "LIDOCAINA/LEVARTERENOLO/ADRENALINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2206",
     "name": "LIDOCAINA CLORIDRATO/NORADRENALINA TARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2207",
@@ -83540,12 +83540,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2208",
     "name": "CLORPROPAMIDE/METFORMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2209",
     "name": "FLUVOXAMINA MALEATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA2210",
@@ -83555,7 +83555,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2211",
     "name": "MIDAZOLAM CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2212",
@@ -83575,7 +83575,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2215",
     "name": "GLIBENCLAMIDE/METFORMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2216",
@@ -83585,7 +83585,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2217",
     "name": "POTASSIO CLAVULANATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2218",
@@ -83620,12 +83620,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2224",
     "name": "L-TIROXINA/ESCINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2225",
     "name": "ARTICAINA CLORIDRATO/ADRENALINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2226",
@@ -83650,7 +83650,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2230",
     "name": "CARBONE ATTIVO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2231",
@@ -83665,12 +83665,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2233",
     "name": "VACCINO MORBILLOSO/RUBEOLICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2234",
     "name": "IMMUNOGLOBULINA UMANA ANTITETANICA USO ENDOVENOSO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2235",
@@ -83690,7 +83690,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2238",
     "name": "PARACETAMOLO/SALICILAMIDE/CAFFEINA/TRIPELENNAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2239",
@@ -83700,7 +83700,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2240",
     "name": "VACCINO MORBILLO/PAROTITE/ROSOLIA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA2241",
@@ -83720,7 +83720,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2244",
     "name": "GESTODENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2245",
@@ -83730,7 +83730,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2246",
     "name": "CEFOTETAN DISODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2247",
@@ -83750,7 +83750,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2250",
     "name": "ACIDO IOSSAGLICO SALE SODICO/ACIDO IOSSAGLICO SALE DI MEGLUMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2251",
@@ -83760,7 +83760,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2252",
     "name": "POLIANTIGENI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2253",
@@ -83810,12 +83810,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2262",
     "name": "SULBACTAM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2263",
     "name": "AMINOACIDI KETOANALOGHI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2264",
@@ -83825,7 +83825,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2265",
     "name": "AMINOACIDI KETOANALOGHI/AMINOACIDI",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA2266",
@@ -83840,12 +83840,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2268",
     "name": "DISODIO CLODRONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2269",
     "name": "LECITINA D'UOVO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2270",
@@ -83880,22 +83880,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2276",
     "name": "CLOPREDNOLO",
-    "description": "5"
+    "description": "5 "
   },
   {
     "id": "PA2277",
     "name": "SODIO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2278",
     "name": "MAGNESIO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2279",
     "name": "MESALAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2280",
@@ -83905,7 +83905,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2281",
     "name": "IDROCORTISONE ACETATO/BENZOCAINA/AMAMELIDE ESTRATTO SECCO/IPPOCASTANO ESTRATTO SECCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2282",
@@ -83915,7 +83915,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2283",
     "name": "ETINILESTRADIOLO/GESTODENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2284",
@@ -83940,12 +83940,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2288",
     "name": "IMIPENEM/CILASTATINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2289",
     "name": "CALCIO DOBESILATO/POTASSIO IDRODESTRANSOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2290",
@@ -83960,12 +83960,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2292",
     "name": "IDROFLUORURO DI OTTADECILAMMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2293",
     "name": "DIIDROFLUORURO DI BIS-(IDROSSIETIL)-AMMINO-PROPIL-N-IDROSSIETIL-OTTADECILAMMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2294",
@@ -83990,7 +83990,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2298",
     "name": "ATRACURIO BESILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2299",
@@ -84020,7 +84020,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2304",
     "name": "METOTREXATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2305",
@@ -84030,12 +84030,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2306",
     "name": "URAPIDIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2307",
     "name": "VECURONIO BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2308",
@@ -84050,27 +84050,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2310",
     "name": "IALURONIDASI/LIDOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2311",
     "name": "OLIO DI SOIA/LECITINA DI SOIA/GLICEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2312",
     "name": "RIBOSOMAL/KLEBSPROTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2313",
     "name": "FLUORESCEINA DILAURATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA2314",
     "name": "ESTRADIOLO VALERATO/NORETISTERONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2315",
@@ -84085,17 +84085,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2317",
     "name": "FATTORE VIII UMANO DI COAGULAZIONE/FATTORE DI VON WILLEBRAND",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2318",
     "name": "FATTORE DI VON WILLEBRAND",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2319",
     "name": "FATTORE VIII UMANO DI COAGULAZIONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2320",
@@ -84155,17 +84155,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2331",
     "name": "CIPROFLOXACINA CLORIDRATO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2332",
     "name": "CIPROFLOXACINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2333",
     "name": "CIPROFLOXACINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2334",
@@ -84185,7 +84185,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2337",
     "name": "ACIDO FLUORIDRICO/SODIO FLUORURO/ACIDO FOSFORICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2338",
@@ -84195,12 +84195,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2339",
     "name": "TERTATOLOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2340",
     "name": "ZOLPIDEM TARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2341",
@@ -84235,7 +84235,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2347",
     "name": "ROXITROMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2348",
@@ -84245,17 +84245,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2349",
     "name": "AMPICILLINA/SULBACTAM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2350",
     "name": "LEVOGLUTAMIDE MONOFLUOROFOSFATO/CALCIO GLUCONATO/CALCIO CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2351",
     "name": "FLUMAZENIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2352",
@@ -84275,7 +84275,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2355",
     "name": "CONDROITIN SODIO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2356",
@@ -84295,22 +84295,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2359",
     "name": "POLIAMINOACIDI/SODIO ACETATO/POTASSIO ACETATO/MAGNESIO ACETATO/SODIO FOSFATO ACIDO DIIDRATO/ACIDO MALICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2360",
     "name": "POLIAMINOACIDI/SORBITOLO/SODIO ACETATO/POTASSIO ACETATO/SODIO FOSFATO ACIDO DIIDRATO/ACIDO MALICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2361",
     "name": "LATTITOLO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA2362",
     "name": "DOXAZOSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2363",
@@ -84320,17 +84320,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2364",
     "name": "LISINOPRIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2365",
     "name": "LISINOPRIL DIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2366",
     "name": "CISAPRIDE",
-    "description": "100"
+    "description": "100 "
   },
   {
     "id": "PA2367",
@@ -84345,12 +84345,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2369",
     "name": "BENZOCAINA/CLORESIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2370",
     "name": "FUROSEMIDE/AMILORIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2371",
@@ -84365,7 +84365,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2373",
     "name": "MAGNESIO ALGINATO/ALLUMINIO IDROSSIDO/MAGNESIO CARBONATO/POTASSIO BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2374",
@@ -84385,22 +84385,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2377",
     "name": "CETIRIZINA DICLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2378",
     "name": "IPPOCASTANO/HAMAMELIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2379",
     "name": "VACCINO PAROTITICO VIVO/RUBEOLICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2380",
     "name": "VACCINO MORBILLO/PAROTITE ATTENUATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2381",
@@ -84410,17 +84410,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2382",
     "name": "CEFUROXIMA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2383",
     "name": "IBUPROFENE SALE DI ARGININA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA2384",
     "name": "ACETOSSIETILCEFUROXIMA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2385",
@@ -84450,7 +84450,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2390",
     "name": "VACCINO FEBBRE GIALLA VIVO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2391",
@@ -84480,22 +84480,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2396",
     "name": "EPOETINA ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2397",
     "name": "GENTAMICINA SOLFATO/ZIRCONIO OSSIDO/COPOLIMERO METILMETACRILATO-METIL ACRILATO/BENZOILE PEROSSIDO/COMPLESSO RAME-CLOROFILLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2398",
     "name": "OLIO DI CARTAMO/OLIO DI SOIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2399",
     "name": "POLIAMINOACIDI/OLIO DI SOIA/LECITINA DI SOIA/SORBITOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2400",
@@ -84535,7 +84535,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2407",
     "name": "SODIO FLUORURO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2408",
@@ -84575,7 +84575,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2415",
     "name": "TICARCILLINA/ACIDO CLAVULANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2416",
@@ -84625,7 +84625,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2425",
     "name": "TEMOCILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2426",
@@ -84635,7 +84635,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2427",
     "name": "SIMVASTATINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2428",
@@ -84645,12 +84645,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2429",
     "name": "QUINAPRIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2430",
     "name": "PLANTAGO OVATA SEMI/HISPAGULA HUSK",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2431",
@@ -84660,12 +84660,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2432",
     "name": "ESMOLOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2433",
     "name": "MEFLOCHINA",
-    "description": "250"
+    "description": "250 "
   },
   {
     "id": "PA2434",
@@ -84800,7 +84800,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2460",
     "name": "ADEMETIONINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2461",
@@ -84815,22 +84815,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2463",
     "name": "AMLODIPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2464",
     "name": "TAMOXIFENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2465",
     "name": "ACETILSOLFISOSSAZOLO/ERITROMICINA ETILSUCCINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2466",
     "name": "FENAZONE/CAFFEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2467",
@@ -84860,7 +84860,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2472",
     "name": "CILAZAPRIL MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2473",
@@ -84875,17 +84875,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2475",
     "name": "TRIGLICERIDI A CATENA MEDIA/OLIO DI SOIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2476",
     "name": "TRIGLICERIDI A MEDIA CATENA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2477",
     "name": "AMISULPRIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2478",
@@ -84905,7 +84905,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2481",
     "name": "ACIDO GAMOLENICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2482",
@@ -84915,12 +84915,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2483",
     "name": "CLARITROMICINA LATTOBIONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2484",
     "name": "IOTROLAN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2485",
@@ -84945,7 +84945,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2489",
     "name": "DESTROMETORFANO/PARACETAMOLO/PSEUDOEFEDRINA/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2490",
@@ -84960,7 +84960,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2492",
     "name": "ACRIFLAVINA CLORIDRATO/CETOCAL/BENZOCAINA/MENTOLO/GAROFANO ESSENZA/BALSAMO DEL PERU'/GARZA ASSORBIBILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2493",
@@ -84985,17 +84985,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2497",
     "name": "ONDANSETRONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2498",
     "name": "ONDANSETRON CLORIDRATO DIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2499",
     "name": "ONDANSETRONE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2500",
@@ -85015,12 +85015,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2503",
     "name": "ACIDO ALGINICO/CIMETIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2504",
     "name": "FLUTICASONE PROPIONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2505",
@@ -85035,12 +85035,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2507",
     "name": "FORMOTEROLO FUMARATO DIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2508",
     "name": "DESMOPRESSINA ACETATO IDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2509",
@@ -85065,7 +85065,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2513",
     "name": "ACRIVASTINA/PSEUDOEFEDRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2514",
@@ -85115,17 +85115,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2523",
     "name": "SERTRALINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2524",
     "name": "SERTRALINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2525",
     "name": "PRILOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2526",
@@ -85135,7 +85135,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2527",
     "name": "FILGRASTIM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2528",
@@ -85185,7 +85185,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2537",
     "name": "CASCARA/BOLDO/RABARBARO/FRUTTOSIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2538",
@@ -85195,7 +85195,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2539",
     "name": "OLIO DI SOIA/FOSFOLIPIDI D'UOVO/GLICEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2540",
@@ -85205,12 +85205,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2541",
     "name": "CEFTIBUTEN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2542",
     "name": "ATENOLOLO/NIFEDIPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2543",
@@ -85220,7 +85220,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2544",
     "name": "AZITROMICINA DIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2545",
@@ -85230,7 +85230,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2546",
     "name": "GALATTOSIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2547",
@@ -85240,12 +85240,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2548",
     "name": "EUCALIPTOLO/CANFORA/LEVOMENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2549",
     "name": "SALMETEROLO XINAFOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2550",
@@ -85255,12 +85255,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2551",
     "name": "CEFMETAZOLO",
-    "description": "0.5"
+    "description": "0.5 "
   },
   {
     "id": "PA2552",
     "name": "TRAMAZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2553",
@@ -85280,7 +85280,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2556",
     "name": "BENZOCAINA/TRICLOSANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2557",
@@ -85310,12 +85310,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2562",
     "name": "COCARBOSSILASI TETRAIDRATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2563",
     "name": "NICOTINAMMIDE ADENINA DINUCLEOTIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2564",
@@ -85325,12 +85325,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2565",
     "name": "LEVODOPA/CARBIDOPA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2566",
     "name": "PAROXETINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2567",
@@ -85340,37 +85340,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2568",
     "name": "CEFPODOXIME PROXETIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2569",
     "name": "SUMATRIPTAN SUCCINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2570",
     "name": "SUMATRIPTAN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2571",
     "name": "ACIDO PANTOTENICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2572",
     "name": "TIAMINA MONONITRATO/RIBOFLAVINA/SODIO FOSFATO/NICOTINAMIDE/PIRIDOSSINA CLORIDRATO/ACIDO PANTOTENICO/ACIDO ASCORBICO/BIOTINA/ACIDO FOLICO/CIANOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2573",
     "name": "GINSENG/COLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2574",
     "name": "ESCOLZIA CALIFORNIANA/PASSIFLORA/VALERIANA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2575",
@@ -85400,7 +85400,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2580",
     "name": "ESTROGENI CONIUGATI NATURALI/MEDROGESTONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2581",
@@ -85420,7 +85420,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2584",
     "name": "AMINOACIDI/ACIDO L-MALICO/ACIDO ACETICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2585",
@@ -85440,12 +85440,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2588",
     "name": "ALLUMINIO IDROSSIDO/MAGNESIO IDROSSIDO/DIMETICONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2589",
     "name": "LORATADINA/PSEUDOEFEDRINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2590",
@@ -85490,7 +85490,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2598",
     "name": "ACIDO ETIDRONICO/CALCIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2599",
@@ -85510,7 +85510,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2602",
     "name": "BIFONAZOLO/UREA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2603",
@@ -85525,7 +85525,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2605",
     "name": "MEPIVACAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2606",
@@ -85540,7 +85540,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2608",
     "name": "PARACETAMOLO/FENIRAMINA/FENILEFRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2609",
@@ -85550,7 +85550,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2610",
     "name": "ASPERULA ODORATA/BIANCOSPINO FIORI/TIGLIO",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA2611",
@@ -85560,7 +85560,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2612",
     "name": "SODIO SOLFURO IDRATO/LIEVITO (SACCHAROMYCES CEREVISIAE)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2613",
@@ -85570,7 +85570,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2614",
     "name": "DEXRAZOXANO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2615",
@@ -85585,12 +85585,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2617",
     "name": "XANTOPTERINA/CLORAMFENICOLO/RETINOLO/RIBOFLAVINA/ERGOCALCIFEROLO/CALCIO PANTOTENATO/TOCOFEROLO ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2618",
     "name": "TAZOBACTAM SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2619",
@@ -85605,12 +85605,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2621",
     "name": "LITIO SUCCINATO/ZINCO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2622",
     "name": "PEG (POLIETILENGLICOLE)/SOLUZIONE ELETTROLITICA PER LAVANDA",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA2623",
@@ -85620,7 +85620,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2624",
     "name": "VACCINO PERTOSSICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2625",
@@ -85635,7 +85635,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2627",
     "name": "DESTROMETORFANO BROMIDRATO/PARACETAMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2628",
@@ -85650,7 +85650,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2630",
     "name": "ESTRADIOLO/NORETISTERONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2631",
@@ -85660,7 +85660,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2632",
     "name": "AZELASTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2633",
@@ -85680,7 +85680,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2636",
     "name": "BIPERIDENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2637",
@@ -85705,7 +85705,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2641",
     "name": "BACILLO DI CALMETTE-GUERIN (BCG), CEPPO TICE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2642",
@@ -85725,22 +85725,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2645",
     "name": "QUERCIA MARINA ESTRATTO SECCO/FRANGOLA ESTRATTO SECCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2646",
     "name": "PARACETAMOLO/FENILPROPANOLAMINA/DIFENIDRAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2647",
     "name": "FLUPREDNIDENE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2648",
     "name": "CEFOPERAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2649",
@@ -85780,17 +85780,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2656",
     "name": "VACCINO HAEMOPHILUS INFLUENZAE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2657",
     "name": "SULFADIAZINA ARGENTICA/ACIDO IALURONICO SALE SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2658",
     "name": "ACIDO IALURONICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2659",
@@ -85815,7 +85815,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2663",
     "name": "LACTOBACILLUS ACIDOPHILUS INATTIVATO LIOFILIZZATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2664",
@@ -85830,7 +85830,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2666",
     "name": "PIPERACILLINA SODICA/TAZOBACTAM SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2667",
@@ -85840,12 +85840,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2668",
     "name": "SODIO BICARBONATO/ACIDO CITRICO ANIDRO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA2669",
     "name": "KETOPROFENE/SUCRALFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2670",
@@ -85870,12 +85870,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2674",
     "name": "TETRAKIS CU TETRAFLUOROBORATO/CLORURO STANNOSO DIIDRATO/LEVOCISTEINA CLORIDRATO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2675",
     "name": "MEPIVACAINA CLORIDRATO/ADRENALINA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA2676",
@@ -85910,7 +85910,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2682",
     "name": "BUPIVACAINA/ADRENALINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2683",
@@ -85920,7 +85920,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2684",
     "name": "PARACETAMOLO/ACIDO ACETILSALICILICO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2685",
@@ -85930,7 +85930,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2686",
     "name": "CATALASI EQUINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2687",
@@ -85950,7 +85950,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2690",
     "name": "OCTOCOG ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2691",
@@ -85970,7 +85970,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2694",
     "name": "FLUOROMETOLONE/GENTAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2695",
@@ -85980,12 +85980,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2696",
     "name": "ZINCO ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2697",
     "name": "GABAPENTIN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2698",
@@ -85995,62 +85995,62 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2699",
     "name": "AMBROXOLO CLORIDRATO/CLENBUTEROLO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2700",
     "name": "ANTAZOLINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2701",
     "name": "IBUPROFENE/LEVOARGININA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2702",
     "name": "LEVOPROPIONILCARNITINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2703",
     "name": "DESAMETASONE/CLORAMFENICOLO/TETRIZOLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2704",
     "name": "VACCINO HAEMOPHILUS INFLUENZAE B CONIUGATO CON PROTEINA DIFTERICA CRM197",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2705",
     "name": "SENNA FOGLIA/POLICARBOFIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2706",
     "name": "CALCIO FLUORURO/SODIO FLUORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2707",
     "name": "SODIO FOSFATO MONOBASICO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2708",
     "name": "SODIO FOSFATO BIBASICO EPTAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2709",
     "name": "SENNA FOGLIA/FRANGOLA CORTECCIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2710",
     "name": "METIPRANOLOLO/PILOCARPINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2711",
@@ -86060,7 +86060,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2712",
     "name": "FENITOINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2713",
@@ -86070,7 +86070,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2714",
     "name": "VENLAFAXINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2715",
@@ -86080,7 +86080,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2716",
     "name": "AGLIO/BIANCOSPINO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2717",
@@ -86100,17 +86100,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2720",
     "name": "SALBUTAMOL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2721",
     "name": "TECNEZIO 99m Tc BICISATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2722",
     "name": "PACLITAXEL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2723",
@@ -86120,7 +86120,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2724",
     "name": "TRAMADOLO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2725",
@@ -86135,7 +86135,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2727",
     "name": "ALOMETASONE/TRICLOSANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2728",
@@ -86185,12 +86185,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2737",
     "name": "LACTOBACILLUS LB(LACTOBACILLUS FERMENTUM/LACTOBACILLUS DELBRUECKII)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2738",
     "name": "TONZILAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2739",
@@ -86230,12 +86230,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2746",
     "name": "SODIO FOSFATO MONOBASICO BIIDRATO/SODIO FOSFATO BIBASICO DODECAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2747",
     "name": "FOSINOPRIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2748",
@@ -86250,12 +86250,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2750",
     "name": "METRONIDAZOLO BENZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2751",
     "name": "SACCHAROMYCES BOULARDII",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2752",
@@ -86270,12 +86270,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2754",
     "name": "ALENDRONATO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2755",
     "name": "ALENDRONATO SODICO TRIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2756",
@@ -86290,7 +86290,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2758",
     "name": "GADOTERIDOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2759",
@@ -86300,12 +86300,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2760",
     "name": "METILE ACETILCISTEINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2761",
     "name": "ACQUA PURIFICATA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA2762",
@@ -86315,12 +86315,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2763",
     "name": "SERTACONAZOLO NITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2764",
     "name": "VALERIANA/PASSIFLORA/MENTA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA2765",
@@ -86340,7 +86340,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2768",
     "name": "DESTROFOSFOSERINA/ARGININA/FOSFOTREONINA/LEVOGLUTAMIDE/IDROXOCOBALAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2769",
@@ -86360,17 +86360,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2772",
     "name": "TOBRAMICINA/FLUOROMETOLONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2773",
     "name": "FLUVASTATINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2774",
     "name": "RETINOLO/TOCOFEROLO NICOTINATO ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2775",
@@ -86390,7 +86390,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2778",
     "name": "SODIO CLORURO/POTASSIO CLORURO/CALCIO CLORURO/MAGNESIO CLORURO/SODIO ACETATO/SODIO CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2779",
@@ -86400,7 +86400,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2780",
     "name": "FLUVASTATINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2781",
@@ -86420,12 +86420,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2784",
     "name": "ROCURONIO BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2785",
     "name": "PARACETAMOLO/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2786",
@@ -86440,22 +86440,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2788",
     "name": "ARTICAINA CLORIDRATO/ADRENALINA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA2789",
     "name": "FERRO/ZINCO/MANGANESE/RAME/CROMO/SELENIO/MOLIBDENO/FLUORO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2790",
     "name": "ZINCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2791",
     "name": "VACCINO DIFTERICO/PERTOSSICO ACELLULARE/TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2792",
@@ -86480,7 +86480,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2796",
     "name": "POLIMIXINA B SOLFATO/BACITRACINA ZINCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2797",
@@ -86490,7 +86490,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2798",
     "name": "GLICINA/ETANOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2799",
@@ -86520,7 +86520,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2804",
     "name": "SODIO DIIDROGENO FOSFATO DIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2805",
@@ -86550,7 +86550,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2810",
     "name": "LOSARTAN POTASSICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2811",
@@ -86565,7 +86565,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2813",
     "name": "VACCINO DIFTERICO/PERTOSSICO ACELLULARE DA BIOTECNOLOGIA/TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2814",
@@ -86625,12 +86625,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2825",
     "name": "EPTACOG ALFA ATTIVATO (FATTORE VII DI COAGULAZIONE DA DNA RICOMBINANTE)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2826",
     "name": "GEMCITABINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2827",
@@ -86640,17 +86640,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2828",
     "name": "BENAZEPRIL CLORIDRATO/AMLODIPINA BESILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2829",
     "name": "CALCIO LATTOGLUCONATO/CALCIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2830",
     "name": "TACROLIMUS MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2831",
@@ -86670,12 +86670,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2834",
     "name": "VALACICLOVIR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2835",
     "name": "PROPACETAMOLO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2836",
@@ -86695,17 +86695,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2839",
     "name": "ESTROGENI CONIUGATI NATURALI/MEDROSSIPROGESTERONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2840",
     "name": "FLUDARABINA FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2841",
     "name": "ATOVAQUONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2842",
@@ -86740,7 +86740,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2848",
     "name": "MORFINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2849",
@@ -86765,7 +86765,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2853",
     "name": "POTASSIO FOSFATO MONOBASICO/POTASSIO FOSFATO BIBASICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2854",
@@ -86775,17 +86775,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2855",
     "name": "SODIO LATTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2856",
     "name": "CETILPIRIDINIO CLORURO/PROCAINA CLORIDRATO/CALCIO GLUCONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2857",
     "name": "SODIO FLUORURO/CETILPIRIDINIO CLORURO/BORACE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2858",
@@ -86795,27 +86795,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2859",
     "name": "SODIO CLORURO/POTASSIO CLORURO/CALCIO CLORURO/SODIO ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2860",
     "name": "ACIDO LATTICO/SODIO IDROSSIDO/SODIO CLORURO/POTASSIO CLORURO/CALCIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2861",
     "name": "MAGNESIO CLORURO ESAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2862",
     "name": "CALCIO CLORURO DIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2863",
     "name": "CAMOMILLA COMUNE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2864",
@@ -86825,17 +86825,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2865",
     "name": "TALCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2866",
     "name": "CARBONE VEGETALE/MAGNESIO IDROSSIDO/CALCIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2867",
     "name": "EUCALIPTO ESSENZA/CANFORA/MENTOLO/TIMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2868",
@@ -86850,32 +86850,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2870",
     "name": "ACIDO SALICILICO/ZINCO OSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2871",
     "name": "SODIO IDROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2872",
     "name": "ACIDO LATTICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2873",
     "name": "ACIDO ACETICO GLACIALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2874",
     "name": "CODEINA/SODIO BENZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2875",
     "name": "CASCARA ESTRATTO SECCO ACQUOSO/FRANGOLA ESTRATTO SECCO IDROALCOLICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2876",
@@ -86960,12 +86960,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2892",
     "name": "ACIDO GADOTERICO/GADOLINIO OSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2893",
     "name": "ACIDO GADOTERICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2894",
@@ -86975,7 +86975,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2895",
     "name": "ITTAMMOLO/ZINCO OSSIDO/BISMUTO GALLATO BASICO/BELLADONNA FOGLIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2896",
@@ -86985,7 +86985,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2897",
     "name": "CANFORA/METILE SALICILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2898",
@@ -87000,47 +87000,47 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2900",
     "name": "RESORCINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2901",
     "name": "FENOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2902",
     "name": "FUCSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2903",
     "name": "EUGENOLO/CLOROBUTANOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2904",
     "name": "ALOE/RABARBARO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2905",
     "name": "ALLUMINIO ACETATO BASICO/ACIDO ACETICO GLACIALE/ZINCO OSSIDO/CALCIO OSSIDO/OLIO DI OLIVA/LEVOMENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2906",
     "name": "POLIGALA/NARCEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2907",
     "name": "FENILE SALICILATO/MENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2908",
     "name": "AMIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2909",
@@ -87050,12 +87050,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2910",
     "name": "GLICEROLO 85%",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2911",
     "name": "MICOFENOLATO MOFETILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2912",
@@ -87065,17 +87065,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2913",
     "name": "MIELE DEPURATO/ROSA ROSSA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2914",
     "name": "MENTOLO/METILE SALICILATO/PINO ESSENZA/CANFORA/SASSOFRASSO ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2915",
     "name": "ZOLFO PRECIPITATO/ACIDO SALICILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2916",
@@ -87085,7 +87085,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2917",
     "name": "CALCIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2918",
@@ -87095,57 +87095,57 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2919",
     "name": "MAGNESIO CLORURO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA2920",
     "name": "MAGNESIO ACETATO TETRAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2921",
     "name": "SODIO ACETATO TRIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2922",
     "name": "POTASSIO FOSFATO BIBASICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2923",
     "name": "SODIO GLUCONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2924",
     "name": "SODIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2925",
     "name": "AMMONIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2926",
     "name": "CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2927",
     "name": "POTASSIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2928",
     "name": "SODIO LATTATO AL 60%",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2929",
     "name": "GLICINA/MANNITOLO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA2930",
@@ -87155,7 +87155,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2931",
     "name": "PENTETREOTIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2932",
@@ -87165,17 +87165,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2933",
     "name": "MAGNESIO SOLFATO EPTAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2934",
     "name": "POTASSIO FOSFATO MONOBASICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2935",
     "name": "MANNITOLO/SORBITOLO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA2936",
@@ -87195,7 +87195,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2939",
     "name": "TOREMIFENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2940",
@@ -87220,12 +87220,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2944",
     "name": "ASSENZIO/GENZIANA RADICE/ARANCIO AMARO/CENTAUREA MINORE/CANNELLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2945",
     "name": "CAMOMILLA/VALERIANA/CUMINO FRUTTO/MENTA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2946",
@@ -87235,37 +87235,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2947",
     "name": "AMIDO DI FRUMENTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2948",
     "name": "BACITRACINA/POLIMIXINA B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2949",
     "name": "ARGENTO NITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2950",
     "name": "POTASSIO LATTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2951",
     "name": "SODIO BICARBONATO/POTASSIO BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2952",
     "name": "ACIDO FOSFORICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2953",
     "name": "ZOLFO PRECIPITATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2954",
@@ -87290,7 +87290,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2958",
     "name": "SULFADIAZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2959",
@@ -87310,22 +87310,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2962",
     "name": "PRIMACHINA FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2963",
     "name": "COMPLESSO VITAMINICO B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2964",
     "name": "CALCIO IDROSSIDO/OLIO DI OLIVA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2965",
     "name": "MENTOLO/TALCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2966",
@@ -87340,12 +87340,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2968",
     "name": "EOSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2969",
     "name": "MIRRA/RATANIA RADICE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2970",
@@ -87355,12 +87355,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2971",
     "name": "ATROPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2972",
     "name": "BROMSULFALEINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2973",
@@ -87380,7 +87380,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2976",
     "name": "NALOXONE CLORIDRATO DIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2977",
@@ -87390,7 +87390,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2978",
     "name": "SODIO TIOSOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2979",
@@ -87400,22 +87400,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2980",
     "name": "CITRATO TRISODICO BIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2981",
     "name": "SODIO CITRATO/ACIDO CITRICO ANIDRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2982",
     "name": "SODIO LATTATO/SODIO CLORURO/POTASSIO CLORURO/SODIO FOSFATO MONOBASICO MONOIDRATO/SODIO FOSFATO BIBASICO DODECAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2983",
     "name": "VACCINO DIFTERICO/EPATITICO B/PERTOSSICO/TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2984",
@@ -87425,12 +87425,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2985",
     "name": "SODIO CITRATO/ACIDO CITRICO ANIDRO/GLUCOSIO (DESTROSIO) ANIDRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2986",
     "name": "MAGNESIO ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2987",
@@ -87440,12 +87440,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2988",
     "name": "POTASSIO FOSFATO ACIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2989",
     "name": "SOLUZIONE PER EMOFILTRAZIONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2990",
@@ -87455,22 +87455,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2991",
     "name": "TAPENTADOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2992",
     "name": "SODIO CLORURO/POTASSIO ACETATO/MAGNESIO ACETATO/GLUCOSIO (DESTROSIO) MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2993",
     "name": "SODIO LATTATO 50%",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2994",
     "name": "SODIO FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2995",
@@ -87480,7 +87480,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2996",
     "name": "FELBAMATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA2997",
@@ -87490,12 +87490,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA2998",
     "name": "SODIO CLORURO/POTASSIO CLORURO/MAGNESIO CLORURO ESAIDRATO/CALCIO CLORURO BIIDRATO/SODIO BICARBONATO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA2999",
     "name": "GLICEROLO/SODIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3000",
@@ -87505,32 +87505,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3001",
     "name": "IDROCORTISONE ACETATO/NEOMICINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3002",
     "name": "MINOXIDIL CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3003",
     "name": "ESTRADIOLO/DIDROGESTERONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3004",
     "name": "ACIDO BORICO/FENOLO/FUCSINA/RESORCINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3005",
     "name": "ALLUMINIO SOLFATO/ACIDO ACETICO GLACIALE/CALCIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3006",
     "name": "GALATTOSIO/ACIDO PALMITICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3007",
@@ -87540,37 +87540,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3008",
     "name": "BICALUTAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3009",
     "name": "SALBUTAMOLO SOLFATO/NEDOCROMILE SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3010",
     "name": "PIOMBO ACETATO/PIOMBO MONOSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3011",
     "name": "RAME SOLFATO/ZINCO SOLFATO/ZAFFERANO/CANFORA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3012",
     "name": "ACIDO LATTICO/SODIO IDROSSIDO/SODIO CLORURO/POTASSIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3013",
     "name": "SODIO CLORURO/POTASSIO CLORURO/SODIO BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3014",
     "name": "CALCIO GLUCONATO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3015",
@@ -87580,7 +87580,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3016",
     "name": "CETIRIZINA DICLORIDRATO/PSEUDOEFEDRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3017",
@@ -87590,7 +87590,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3018",
     "name": "POTASSIO CLORURO/GLUCOSIO (DESTROSIO) MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3019",
@@ -87600,22 +87600,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3020",
     "name": "SODIO CLORURO/POTASSIO CLORURO/MAGNESIO CLORURO/POTASSIO ACETATO/SODIO ACETATO/SODIO GLUCONATO/GLUCOSIO (DESTROSIO) MONOIDRATO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3021",
     "name": "SOLUZIONE PER EMODIALISI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3022",
     "name": "ICODEXTRIN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3023",
     "name": "SOLUZIONE PER EMODIAFILTRAZIONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3024",
@@ -87630,32 +87630,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3026",
     "name": "SOLUZIONE STERILE DI RINGER",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3027",
     "name": "TAMPONE FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3028",
     "name": "TUAMINOEPTANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3029",
     "name": "DICLOFENAC SODICO/GENTAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3030",
     "name": "MENTOLO/NIAOULI ESSENZA/OLIO VEGETALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3031",
     "name": "ANASTROZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3032",
@@ -87670,12 +87670,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3034",
     "name": "PANTOPRAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3035",
     "name": "VACCINO INFLUENZALE INATTIVATO,ANTIGENI DI SUPERFICIE ADIUVATO CON MF59C.1",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3036",
@@ -87685,7 +87685,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3037",
     "name": "ZINCO OSSIDO/LIDOCAINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3038",
@@ -87700,7 +87700,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3040",
     "name": "CARBOMER",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3041",
@@ -87715,12 +87715,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3043",
     "name": "SODIO NITROPRUSSIATO ANIDRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3044",
     "name": "SODIO STIBOGLUCONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3045",
@@ -87740,7 +87740,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3048",
     "name": "CISATRACURIO BESILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3049",
@@ -87765,7 +87765,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3053",
     "name": "ESTRADIOLO EMIIDRATO/NORETISTERONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3054",
@@ -87775,7 +87775,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3055",
     "name": "IBUPROFENE/PSEUDOEFEDRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3056",
@@ -87785,12 +87785,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3057",
     "name": "PARACETAMOLO/PSEUDOEFEDRINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3058",
     "name": "ALLUMINIO DIIDROSSIDO/MAGNESIO TRISILICATO/DIMETICONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3059",
@@ -87810,27 +87810,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3062",
     "name": "PARACETAMOLO/CLORFENAMINA MALEATO/FENILPROPANOLAMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3063",
     "name": "ALCHILBENZILOLEILAMMONIO CLORURO/PENTACLORODIIDROSSIDIFENILMETANO/ALCHILISOCHINOLINA BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3064",
     "name": "TIOMERSAL/CARBOMER",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA3065",
     "name": "ALLUME",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3066",
     "name": "CLOREXIDINA GLUCONATO/ALCOOL BENZILICO 20%/AMAMELIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3067",
@@ -87840,12 +87840,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3068",
     "name": "CLORAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3069",
     "name": "ACIDO CITRICO/SODIO CITRATO/ALLUME/FENOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3070",
@@ -87860,7 +87860,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3072",
     "name": "ALCHILDIMETILBENZILAMMONIO SACCARINATO/ALCHILISOCHINOLINA BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3073",
@@ -87870,17 +87870,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3074",
     "name": "IDROCORTISONE ACEPONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3075",
     "name": "FUCUS VESCICULOSUS ESTRATTO SECCO/SENNA ESTRATTO SECCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3076",
     "name": "CLOREXIDINA DIGLUCONATO/LAURILDIMETILBENZILAMMONIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3077",
@@ -87890,7 +87890,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3078",
     "name": "BENZALCONIO CLORURO/BENZIDAMINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3079",
@@ -87910,7 +87910,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3082",
     "name": "VACCINO DIFTERICO/HAEMOPHILUS INFLUENZAE B/PERTOSSICO/TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3083",
@@ -87925,12 +87925,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3085",
     "name": "BENZETONIO CLORURO/AMAMELIDE ESTRATTO GLICOLICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3086",
     "name": "DESTRANO/IDROSSIPROPILMETILCELLULOSA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3087",
@@ -87945,7 +87945,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3089",
     "name": "BENZALCONIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3090",
@@ -87955,7 +87955,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3091",
     "name": "AMINOACIDI/ELETTROLITI/GLUCOSIO (DESTROSIO)/CALCIO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3092",
@@ -87970,7 +87970,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3094",
     "name": "CICLIOMENOLO/SODIO MONOFLUOROFOSFATO P.A.IONE FLUORO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3095",
@@ -87980,12 +87980,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3096",
     "name": "GUAIACOLO/LIDOCAINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3097",
     "name": "CICLIOMENOLO/ESILRESORCINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3098",
@@ -87995,17 +87995,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3099",
     "name": "MONOIODOGLICEROLO/DOMIFENE BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3100",
     "name": "OXICHINOLINA SOLFATO/ENOXOLONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3101",
     "name": "ARGENTO METALLICO/BENZOPEROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3102",
@@ -88020,12 +88020,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3104",
     "name": "METILBENZETONIO CLORURO/CLOROTIMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3105",
     "name": "BENZALCONIO CLORURO/BENZOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3106",
@@ -88035,22 +88035,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3107",
     "name": "ALCHILBENZILOLEILAMMONIO CLORURO/DIIDROSSIDIFENILE/ALCHILISOCHINOLINA BROMURO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA3108",
     "name": "BENZALCONIO CLORURO/ORTOFENILFENOLO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3109",
     "name": "OLEILDIMETILBENZILAMMONIO CLORURO/DIIDROSSIDIFENILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3110",
     "name": "BENZALCONIO CLORURO/GUAIAZULENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3111",
@@ -88060,17 +88060,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3112",
     "name": "GLICOLE PROPILENICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3113",
     "name": "EOSINA/CLOROXILENOLO/GLICOLE PROPILENICO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3114",
     "name": "ETAMIDO/SODIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3115",
@@ -88080,62 +88080,62 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3116",
     "name": "SODIO CLORURO/SODIO BICARBONATO/SODIO FOSFATO MONOBASICO/MAGNESIO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3117",
     "name": "BENZALCONIO CLORURO/ALLUME",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3118",
     "name": "ROPINIROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3119",
     "name": "CETILPIRIDINIO CLORURO/DICLOROFENILCARBINOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3120",
     "name": "CETILPIRIDINIO CLORURO/SODIO MONOFLUOROFOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3121",
     "name": "BENZALCONIO CLORURO/QUATERNIUM-14/ALLANTOINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3122",
     "name": "FLUOROURACILE/ADRENALINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3123",
     "name": "POLIVINILPIRROLIDONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3124",
     "name": "ACIDO TANNICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3125",
     "name": "CLOREXIDINA DIGLUCONATO/ZOLFO PRECIPITATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3126",
     "name": "ARGENTO CARBONATO MICRONIZZATO/BENZALCONIO SACCARINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3127",
     "name": "ALCHILDIMETILBENZILAMMONIO CLORURO/ALCHILDIMETILETILBENZILAMMONIO CLORURO/N-TRICLOROMETILTIO-4-CICLOESENE-1.2-DICARBOXIMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3128",
@@ -88145,7 +88145,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3129",
     "name": "MIZOLASTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3130",
@@ -88160,7 +88160,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3132",
     "name": "VERAPAMIL CLORIDRATO/TRANDOLAPRIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3133",
@@ -88170,7 +88170,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3134",
     "name": "FOLLITROPINA ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3135",
@@ -88200,27 +88200,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3140",
     "name": "BENZOILPEROSSIDO/CETILPIRIDINIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3141",
     "name": "VANCIDE 89 RE (N-TRICLOROMETILTIO-4-CICLOESENE-1.2-DICARBOXIMIDE)/ALCHIL DIMETILBENZILAMMONIO CLORURO 50%",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3142",
     "name": "CLOREXIDINA GLUCONATO/ALCHILISOCHINOLINA BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3143",
     "name": "CLOREXIDINA GLUCONATO/DIAZOLIDINIL UREA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3144",
     "name": "CLOREXIDINA DIGLUCONATO/SODIO FLUORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3145",
@@ -88230,32 +88230,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3146",
     "name": "CLOREXIDINA GLUCONATO/CETRIMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3147",
     "name": "CALCIO CLORURO/MAGNESIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3148",
     "name": "FENILEFRINA/IDROCORTISONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3149",
     "name": "CLOREXIDINA DIGLUCONATO/ETILENGLICOFENILUNDECILETERE PARAOSSIBENZOATO (UNDIBENZOFENE)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3150",
     "name": "ESTRADIOLO VALERATO/LEVONORGESTREL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3151",
     "name": "ESTRADIOLO EMIIDRATO/LEVONORGESTREL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3152",
@@ -88270,7 +88270,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3154",
     "name": "CLOREXIDINA GLUCONATO/ALCOOL ETILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3155",
@@ -88290,12 +88290,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3158",
     "name": "FERROSO GLUCONATO/RAME GLUCONATO/MANGANESE GLUCONATO/ZINCO GLUCONATO/COBALTO GLUCONATO/SODIO FLUORURO/SODIO IODURO/SODIO SELENITO/AMMONIO MOLIBDATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3159",
     "name": "FERROSO GLUCONATO/RAME GLUCONATO/MANGANESE GLUCONATO/ZINCO GLUCONATO/COBALTO GLUCONATO/SODIO FLUORURO/SODIO IODURO/SODIO SELENITO/AMMONIO MOLIBDATO/CROMO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3160",
@@ -88330,7 +88330,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3166",
     "name": "TIAGABINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3167",
@@ -88345,42 +88345,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3169",
     "name": "OXETACAINA/ALLUMINIO OSSIDO/MAGNESIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3170",
     "name": "REMIFENTANIL CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3171",
     "name": "ATORVASTATINA CALCIO TRIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3172",
     "name": "ANTIGENE DI SUPERFICIE DELL'EPATITE B ADSORBITO SU ALLUMINIO IDROSSIDO IDRATO PRODOTTO SU CELLULE DI LIEVITO TRAMITE TECNOLOGIA RICOMBINNTE DEL DNA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3173",
     "name": "VIRUS DELL?EPATITE A (INATTIVATO) ADSORBITO SU ALLUMINIO IDROSSIDO IDRATO PRODOTTO SU CELLULE UMANE DIPLOIDI (MRC5)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3174",
     "name": "ACECLIDINA CLORIDRATO/TIMOLOLO MALEATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3175",
     "name": "ECONAZOLO SOLFOSALICILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3176",
     "name": "BENZALCONIO CLORURO/CLOREXIDINA DIGLUCONATO/ALCOOL ETILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3177",
@@ -88390,12 +88390,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3178",
     "name": "FRAMMENTI MONOVALENTI E BIVALENTI DELL'ANTICORPO MONOCLONALE MURINO (Mab)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3179",
     "name": "SODIO CITRATO/SODIO LAURILSOLFOACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3180",
@@ -88405,7 +88405,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3181",
     "name": "ESTRADIOLO/MEDROSSIPROGESTERONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3182",
@@ -88415,22 +88415,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3183",
     "name": "DOLASETRON MESILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3184",
     "name": "BENZALCONIO CLORURO/ALCOOL ETILICO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA3185",
     "name": "SAMARIO 153SM LEXIDRONAM PENTASODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3186",
     "name": "ALCOOL ETILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3187",
@@ -88460,7 +88460,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3192",
     "name": "DIPIRIDAMOLO/ACIDO ACETILSALICILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3193",
@@ -88480,7 +88480,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3196",
     "name": "LERCANIDIPINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3197",
@@ -88495,7 +88495,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3199",
     "name": "VACCINO ANTIEPATITE A",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3200",
@@ -88505,7 +88505,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3201",
     "name": "PAPAVERINA CLORIDRATO/FENTOLAMINA MESILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3202",
@@ -88520,12 +88520,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3204",
     "name": "IRBESARTAN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3205",
     "name": "TOLCAPONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3206",
@@ -88545,12 +88545,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3209",
     "name": "PROGUANIL CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3210",
     "name": "ICODESTRINA/SODIO CLORURO/SODIO LATTATO/ CALCIO CLORURO/MAGNESIO CLORURO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA3211",
@@ -88570,12 +88570,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3214",
     "name": "TOPOTECAN CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3215",
     "name": "DOXORUBICINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3216",
@@ -88585,57 +88585,57 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3217",
     "name": "VACCINO DIFTERICO/EPATITICO B RICOMBINANTE ADSORBITO/TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3218",
     "name": "IODOPOVIDONE/ALCOOL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3219",
     "name": "MERCAPTAMINA BITARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3220",
     "name": "RITUXIMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3221",
     "name": "PROPANOLO/MECETRONIO ETILSOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3222",
     "name": "EPROSARTAN MESILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3223",
     "name": "ZOLMITRIPTAN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3224",
     "name": "APOMORFINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3225",
     "name": "LISINA ACETILSALICILATO/METOCLOPRAMIDE MONOIDROCLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3226",
     "name": "OLIO DI OLIVA PURIFICATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3227",
     "name": "CANDESARTAN CILEXETIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3228",
@@ -88660,42 +88660,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3232",
     "name": "ANATOSSINA DIFTERICA. TETANICA. PERTOSSICA/EMOAGGLUTININA FILAMENTOSA/PROTEINA MEMBRANA ESTERNA 69kDa/VIRUS POLIOM.INATT.TIPI: 1-2-3/POLISACCARIDE PRP HAEMOPHILUS INFLUENZAE B CONIUG.TOSSOIDE TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3233",
     "name": "FLUOXETINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3234",
     "name": "DICLOFENAC SODICO/TOBRAMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3235",
     "name": "TRICLOSANO/ACIDO USNICO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA3236",
     "name": "ACIDO UNDECILENICO/ACIDO USNICO/ACIDO SALICILICO/ALLUMINIO ACETATO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA3237",
     "name": "ACIDO UNDECILENICO/ACIDO USNICO",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA3238",
     "name": "MUCILLAGINE NATURALE DA SEMI DI PLANTAGO OVATA FORSK/ISPAGHULA HUSK (PSYLLIUM HUSK)/PARAFFINA LIQUIDA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3239",
     "name": "REBOXETINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3240",
@@ -88705,17 +88705,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3241",
     "name": "LEVOFLOXACINA EMIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3242",
     "name": "DEXKETOPROFENE TROMETAMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3243",
     "name": "INSULINA LISPRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3244",
@@ -88730,12 +88730,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3246",
     "name": "OLANZAPINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3247",
     "name": "ESTRADIOLO  17-BETA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3248",
@@ -88745,12 +88745,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3249",
     "name": "ESTRADIOLO/DESOGESTREL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3250",
     "name": "DEXKETOPROFENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3251",
@@ -88760,17 +88760,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3252",
     "name": "FATTORE VIII",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3253",
     "name": "GLUCOSIO (DESTROSIO) ANIDRO/SODIO ACETATO/SODIO CLORURO/POTASSIO CLORURO/MAGNESIO CLORURO/CALCIO CLORURO/ACIDO ACETICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3254",
     "name": "CALCIO IONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3255",
@@ -88785,22 +88785,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3257",
     "name": "GOMMA STERCULIA/FRANGOLA POLVERE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3258",
     "name": "METILE SALICILATO/LEVOMENTOLO/CANFORA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3259",
     "name": "BENZALCONIO CLORURO/EUGENOLO/TETRACAINA BASE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3260",
     "name": "ANATOSSINA PERTOSSICA/EMOAGGLUTININA FILAMENTOSA/PERTACTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3261",
@@ -88820,7 +88820,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3264",
     "name": "CLOROXILENOLO/DIBUCAINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3265",
@@ -88830,12 +88830,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3266",
     "name": "KETOTIFENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3267",
     "name": "ETINILESTRADIOLO/DESOGESTREL",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA3268",
@@ -88845,32 +88845,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3269",
     "name": "CARBASALATO CALCICO/METOCLOPRAMIDE CLORIDRATO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3270",
     "name": "COMPLESSO VITAMINICO/CALCIO PANTOTENATO/MINERALI/OLIGOELEMENTI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3271",
     "name": "SERENOA REPENS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3272",
     "name": "ORTICA ESTRATTO SECCO QUANTIFICATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3273",
     "name": "MELISSA ESTRATTO SECCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3274",
     "name": "VALERIANA (ESTRATTO SECCO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3275",
@@ -88885,7 +88885,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3277",
     "name": "ORTOFENILFENOLO/EUGENOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3278",
@@ -88920,7 +88920,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3284",
     "name": "FELODIPINA/RAMIPRIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3285",
@@ -88930,12 +88930,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3286",
     "name": "MONTELUKAST SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3287",
     "name": "MONTELUKAST",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3288",
@@ -88945,7 +88945,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3289",
     "name": "BETIATIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3290",
@@ -88960,17 +88960,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3292",
     "name": "RIVASTIGMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3293",
     "name": "IMIGLUCERASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3294",
     "name": "PRAMIPEXOLO DICLORIDRATO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3295",
@@ -88980,72 +88980,72 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3296",
     "name": "INTERFERONE BETA-1A",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3297",
     "name": "RIZATRIPTAN BENZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3298",
     "name": "CLOPIDOGREL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3299",
     "name": "BORACE/BENZOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3300",
     "name": "TOSSOIDE DIFTERICO/TOSSOIDE TETANICO/TOSSOIDE PERTOSSICO/EMOAGGLUTININA FILAMENTOSA/VACCINO POLIOMIELITICO INATTIVATO/POLISACCARIDE HAEMOFILUS INFLUENZAE CONIUGATO CON PROTEINA DEL TETANO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3301",
     "name": "VIRUS DELLA POLIOMIELITE INATTIVATO DI TIPO 3",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3302",
     "name": "EMOAGGLUTININA FILAMENTOSA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3303",
     "name": "VIRUS DELLA POLIOMIELITE INATTIVATO DI TIPO 1",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3304",
     "name": "TOSSOIDE PERTOSSICO (PT)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3305",
     "name": "TOSSOIDE TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3306",
     "name": "TOSSOIDE DIFTERICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3307",
     "name": "VIRUS DELLA POLIOMIELITE INATTIVATO DI TIPO 2",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3308",
     "name": "RIZATRIPTAN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3309",
     "name": "UREA 13C",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3310",
@@ -89075,7 +89075,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3315",
     "name": "ESTRADIOLO/NORETISTERONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3316",
@@ -89110,7 +89110,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3322",
     "name": "RABEPRAZOLO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3323",
@@ -89135,7 +89135,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3327",
     "name": "CALCIO FOSFATO TRIBASICO/COLECALCIFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3328",
@@ -89145,27 +89145,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3329",
     "name": "LACTOBACILLUS ACIDOPHILUS/LACTOBACILLUS BULGARICUS/BIFIDOBACTERIUM ANIMALIS/STREPTOCOCCUS THERMOPHILUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3330",
     "name": "ISOTRETINOINA/ERITROMICINA",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA3331",
     "name": "DL-ALFA-TOCOFEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3332",
     "name": "ACIDO DOCOSAESANOICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3333",
     "name": "ACIDO EICOSAPENTAENOICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3334",
@@ -89180,12 +89180,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3336",
     "name": "SODIO ALGINATO/CALCIO CARBONATO/MAGNESIO CARBONATO LEGGERO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3337",
     "name": "ALGELDRATO/CALCIO CARBONATO/MAGNESIO CARBONATO PESANTE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3338",
@@ -89220,12 +89220,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3344",
     "name": "ZINCO CLORURO/ALCOOL ETILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3345",
     "name": "ZINCO CLORURO/ALCOOL ETILICO/SODIO MONOFLUOROFOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3346",
@@ -89245,17 +89245,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3349",
     "name": "GLUCOSIO (DESTROSIO) MONOIDRATO/POLIAMINOACIDI/SALI MINERALI/OLIO DI SOIA/LECITINA DI SOIA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3350",
     "name": "PROGUANILE CLORIDRATO/CLOROCHINA FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3351",
     "name": "IODOFORMIO/P CLOROFENOLO/CANFORA/MENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3352",
@@ -89280,7 +89280,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3356",
     "name": "VACCINO ENCEFALITE DA ZECCA PURIFICATO E INATTIVATO (CEPPO NEUDOERLF)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3357",
@@ -89290,7 +89290,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3358",
     "name": "GLUCOSIO (DESTROSIO) MONOIDRATO/SODIO CLORURO/CALCIO CLORURO BIIDRATO/MAGNESIO CLORURO ESAIDRATO/SODIO BICARBONATO/SODIO LATTATO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3359",
@@ -89305,12 +89305,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3361",
     "name": "MOROCTOCOG ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3362",
     "name": "VACCINO VIVO ATTENUATO ANTI ROTAVIRUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3363",
@@ -89320,7 +89320,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3364",
     "name": "MOXIFLOXACINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3365",
@@ -89330,7 +89330,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3366",
     "name": "VASELINA BIANCA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3367",
@@ -89340,12 +89340,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3368",
     "name": "VACCINO (ADSORBITO, CONTENUTO ANTIGENICO RIDOTTO) DIFTERICO, TETANICO E DELLA POLIOMIELITE (INATTIVATO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3369",
     "name": "ACIDO USNICO SALE DI RAME/POLIMIDAZOLIDINILUREA/ALCLOROIDROSSIALLANTOINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3370",
@@ -89365,7 +89365,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3373",
     "name": "ANIDRIDE ARSENIOSA/EFEDRINA CLORIDRATO/LIDOCAINA BASE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3374",
@@ -89385,12 +89385,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3377",
     "name": "EUGENOLO/GUAIACOLO/TIMOLO/CLOROBUTANOLO EMIIDRATO/LIDOCAINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3378",
     "name": "CREOSOTO/FENOLO/EUGENOLO/LIDOCAINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3379",
@@ -89400,12 +89400,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3380",
     "name": "POLIAMINOACIDI/SODIO ACETATO TRIIDRATO/FOSFATO BIPOTASSICO/SODIO CLORURO/MAGNESIO CLORURO ESAIDRATO/GLUCOSIO (DESTROSIO) MONOIDRATO/CALCIO CLORURO IDRATO/OLIO DI SOIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3381",
     "name": "ACIDO SALICILICO/ACIDO LATTICO/RAME ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3382",
@@ -89435,12 +89435,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3387",
     "name": "ASPARTATO DI MAGNESIO TETRAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3388",
     "name": "ASPARTATO DI POTASSIO EMIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3389",
@@ -89450,7 +89450,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3390",
     "name": "TECNEZIO 99 MTC TECHNEGAS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3391",
@@ -89475,7 +89475,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3395",
     "name": "PARAFORMALDEIDE/LIDOCAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3396",
@@ -89500,7 +89500,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3400",
     "name": "POLI(O-2-IDROSSIETIL) AMIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3401",
@@ -89540,12 +89540,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3408",
     "name": "DIMETICONE/SILICE COLLOIDALE ANIDRA/ALLUMINIO IDROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3409",
     "name": "SODIO FLUOROFOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3410",
@@ -89555,12 +89555,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3411",
     "name": "LEFLUNOMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3412",
     "name": "TIAMINA CLORIDRATO/RIBOFLAVINA FOSFATO SODICO/PIRIDOSSINA CLORIDRATO/NICOTINAMMIDE/CALCIO PANTOTENATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3413",
@@ -89575,12 +89575,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3415",
     "name": "LIDOCAINA CLORIDRATO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3416",
     "name": "GLUCOSIO (DESTROSIO) MONOIDRATO/POLIAMINOACIDI/SALI MINERALI/OLIO DI SOIA/TRIGLICERIDI A MEDIA CATENA/SODIO IDROSSIDO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3417",
@@ -89595,7 +89595,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3419",
     "name": "IBUPROFENE SODICO DIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3420",
@@ -89610,7 +89610,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3422",
     "name": "BRINZOLAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3423",
@@ -89620,27 +89620,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3424",
     "name": "DROSPIRENONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3425",
     "name": "FAMOTIDINA/MAGNESIO IDROSSIDO/CALCIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3426",
     "name": "SODIO CLORURO/SODIO ACETATO/ACIDO LATTICO/SODIO IDROSSIDO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3427",
     "name": "ACIDO LATTICO/SODIO IDROSSIDO/SODIO CLORURO/POTASSIO CLORURO/SODIO FOSFATO MONOBASICO MONOIDRATO/SODIO FOSFATOBIBASICO BIIDRATO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3428",
     "name": "PERTACTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3429",
@@ -89650,17 +89650,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3430",
     "name": "DALFOPRISTIN/QUINUPRISTIN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3431",
     "name": "INTERFERON ALFA-2B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3432",
     "name": "INTERFERONE ALFA-2B-RICOMBINANTE",
-    "description": "0"
+    "description": "0 "
   },
   {
     "id": "PA3433",
@@ -89670,12 +89670,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3434",
     "name": "INTERFERONE ALFA 2B PEGILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3435",
     "name": "TEGAFUR/URACILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3436",
@@ -89700,17 +89700,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3440",
     "name": "ZIPRASIDONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3441",
     "name": "NEOMICINA SOLFATO/DESAMETASONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3442",
     "name": "BETAMETASONE SODIO FOSFATO/TETRACICLINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3443",
@@ -89720,17 +89720,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3444",
     "name": "AGAR-AGAR/SODIO DEIDROCOLATO/BISACODILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3445",
     "name": "PIOGLITAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3446",
     "name": "VACCINO DIFTERICO/EPATITICO B RICOMBINANTE/HAEMOFILUS INFLUENZAE B CONIUGATO E ADIUVATO/PERTOSSICO ACELLULARE/POLIOMELITICO INATTIVATO/TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3447",
@@ -89745,7 +89745,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3449",
     "name": "LUTROPINA ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3450",
@@ -89765,12 +89765,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3453",
     "name": "ANTIGENE DI SUPERFICIE DELL''EPATITE B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3454",
     "name": "VACCINO DIFTERICO/EPATITICO B RICOMBINANTE ADSORBITO/PERTOSSICO ACELLULARE/POLIOMELITICO INATTIVATO/TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3455",
@@ -89780,17 +89780,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3456",
     "name": "ESOMEPRAZOLO MAGNESIO TRIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3457",
     "name": "ESOMEPRAZOLO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3458",
     "name": "GLUCOSIO (DESTROSIO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3459",
@@ -89800,7 +89800,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3460",
     "name": "PENCICLOVIR SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3461",
@@ -89810,12 +89810,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3462",
     "name": "ANATOSSINA DIFTERICA PURIFICATA/ANATOSSINA TETANICA PURIFICATA/SOSPENSIONE BORDETELLA PERTUSSIS/OLIGOSACCARIDE CAPSULARE HAEMOPHILUS INFLUENZAE TIPO B CONIUG.CRM197",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3463",
     "name": "ESOMEPRAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3464",
@@ -89825,7 +89825,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3465",
     "name": "TERAZOSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3466",
@@ -89840,12 +89840,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3468",
     "name": "EFLORNITINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3469",
     "name": "SIROLIMUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3470",
@@ -89855,12 +89855,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3471",
     "name": "BARNIDIPINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3472",
     "name": "CIANOCOBALAMINA/ACIDO FOLICO/NICOTINAMIDE/ACIDO ASCORBICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3473",
@@ -89870,12 +89870,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3474",
     "name": "LOPINAVIR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3475",
     "name": "CORIOGONADOTROPINA ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3476",
@@ -89885,12 +89885,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3477",
     "name": "BUDESONIDE/FORMOTEROLO FUMARATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA3478",
     "name": "DESLORATADINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3479",
@@ -89920,7 +89920,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3484",
     "name": "VACCINO EPATITE B DA DNA RICOMBINANTE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3485",
@@ -89930,12 +89930,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3486",
     "name": "DELAPRIL CLORIDRATO/MANIDIPINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3487",
     "name": "ACIDO NERIDRONICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3488",
@@ -89950,12 +89950,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3490",
     "name": "ESPERIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3491",
     "name": "ACIDO SALICILICO/MOMETASONE FUROATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3492",
@@ -89965,12 +89965,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3493",
     "name": "ETAMIDO/MS1/ACIDO LATTOBIONICO/POTASSIO IDROSSIDO/SODIO IDROSSIDO/ADENOSINA/ALLOPURINOLO/POTASSIO FOSFATO MONOBASICO/MAGNESIO SOLFATO EPTAIDRATO/RAFFINOSIO PENTAIDRATO/GLUTATIONE",
-    "description": "Litro"
+    "description": " Litro"
   },
   {
     "id": "PA3494",
     "name": "ELETRIPTAN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3495",
@@ -89980,12 +89980,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3496",
     "name": "OSSICODONE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3497",
     "name": "ESTRADIOLO EMIIDRATO/TRIMEGESTONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3498",
@@ -90010,7 +90010,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3502",
     "name": "IMATINIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3503",
@@ -90030,12 +90030,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3506",
     "name": "TIMOLOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3507",
     "name": "LATANOPROST/TIMOLOLO MALEATO",
-    "description": "microgrammi"
+    "description": " microgrammi"
   },
   {
     "id": "PA3508",
@@ -90060,7 +90060,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3512",
     "name": "PAROXETINA MESILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3513",
@@ -90070,7 +90070,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3514",
     "name": "SODIO CLORURO/SODIO BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3515",
@@ -90085,7 +90085,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3517",
     "name": "GLUCOSIO (DESTROSIO) MONOIDRATO/POLIAMINOACIDI/OLIO DI SOIA PURIFICATO/OLIO DI OLIVA PURIFICATO/SALI MINERALI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3518",
@@ -90100,7 +90100,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3520",
     "name": "CEFALEXINA MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3521",
@@ -90110,32 +90110,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3522",
     "name": "MONOSSIDO DI AZOTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3523",
     "name": "ALCHILDIMETILBENZILAMMONIO CLORURO/ALCHILDIMETILETILBENZILAMMONIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3524",
     "name": "ALCHILDIMETILBENZILAMMONIO SACCARINATO",
-    "description": "Q.TA E UM NON PRESENTI SU ET"
+    "description": " Q.TA E UM NON PRESENTI SU ET"
   },
   {
     "id": "PA3525",
     "name": "CLOREXIDINA CLORIDRATO/IDROSSICHINOLINA SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3526",
     "name": "ALCHILDIMETILBENZILAMMONIO SACCARINATO/DICLOROBENZIL ALCOOL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3527",
     "name": "BENZALCONIO CLORURO/ALCHILISOCHINOLINA BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3528",
@@ -90145,7 +90145,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3529",
     "name": "BENZILE BENZOATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3530",
@@ -90170,17 +90170,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3534",
     "name": "N-ACETIL-L-CISTEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3535",
     "name": "PROTEINA COAGULABILE UMANA/TROMBINA UMANA/CALCIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3536",
     "name": "VACCINO MENINGOCOCCICO GRUPPO C CONIUGATO CON TOSSOIDE TETANICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3537",
@@ -90195,7 +90195,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3539",
     "name": "BOSENTAN MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3540",
@@ -90205,7 +90205,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3541",
     "name": "CARBIDOPA IDRATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3542",
@@ -90215,7 +90215,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3543",
     "name": "SUFENTANIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3544",
@@ -90240,17 +90240,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3548",
     "name": "LEVOCETIRIZINA DICLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3549",
     "name": "TIOTROPIO BROMURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3550",
     "name": "TIOTROPIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3551",
@@ -90275,7 +90275,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3555",
     "name": "CALCIPOTRIOLO IDRATO/BETAMETASONE DIPROPIONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3556",
@@ -90290,7 +90290,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3558",
     "name": "MEMANTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3559",
@@ -90310,7 +90310,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3562",
     "name": "ELETTROLITI",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA3563",
@@ -90355,7 +90355,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3571",
     "name": "VARDENAFIL IDROCLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3572",
@@ -90365,7 +90365,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3573",
     "name": "VALGANCICLOVIR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3574",
@@ -90375,12 +90375,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3575",
     "name": "VITAMINA C",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3576",
     "name": "ESCITALOPRAM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3577",
@@ -90400,7 +90400,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3580",
     "name": "PAROXETINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3581",
@@ -90425,7 +90425,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3585",
     "name": "ETORICOXIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3586",
@@ -90440,7 +90440,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3588",
     "name": "FERROSO CLORURO/ZINCO CLORURO/MANGANESE CLORURO/CLORURO RAMEICO/CLORURO CROMICO/SODIO SELENITO PENTAIDRATO/SODIO MOLIBDATO DIIDRATO/POTASSIO IODURO/SODIO FLUORURO",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3589",
@@ -90460,7 +90460,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3592",
     "name": "VACCINO EPATITE A INATTIVATO/VACCINO TIFOIDEO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3593",
@@ -90475,7 +90475,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3595",
     "name": "LIPIDI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3596",
@@ -90495,12 +90495,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3599",
     "name": "FIBRINOGENO UMANO/FATTORE XIII DELLA COAGULAZIONE UMANO/APROTININA BOVINA/TROMBINA UMANA/CALCIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3600",
     "name": "OSELTAMIVIR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3601",
@@ -90535,7 +90535,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3607",
     "name": "CEFTAZIDIMA PENTAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3608",
@@ -90545,7 +90545,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3609",
     "name": "ILOPROST",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3610",
@@ -90570,12 +90570,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3614",
     "name": "AMINOACIDI/ELETTROLITI/GLUCOSIO (DESTROSIO) ANIDRO/LIPIDI",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3615",
     "name": "AMINOACIDI/GLUCOSIO (DESTROSIO) ANIDRO/LIPIDI",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3616",
@@ -90585,22 +90585,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3617",
     "name": "MITOXANTRONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3618",
     "name": "APREPITANT",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3619",
     "name": "ROSIGLITAZONE/METFORMINA CLORIDRATO",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA3620",
     "name": "ATAZANAVIR SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3621",
@@ -90610,7 +90610,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3622",
     "name": "GENTAMICINA/BETAMETASONE",
-    "description": "grammi"
+    "description": " grammi"
   },
   {
     "id": "PA3623",
@@ -90630,7 +90630,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3626",
     "name": "ACIDO VALPROICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3627",
@@ -90645,7 +90645,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3629",
     "name": "PARACALCITOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3630",
@@ -90665,12 +90665,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3633",
     "name": "NETILMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3634",
     "name": "DESAMETASONE FOSFATO DISODICO/NETILMICINA SOLFATO",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA3635",
@@ -90680,17 +90680,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3636",
     "name": "PREGABALIN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3637",
     "name": "ACIDO MICOFENOLICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3638",
     "name": "CARBIDOPA MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3639",
@@ -90700,12 +90700,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3640",
     "name": "XIMELAGATRAN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3641",
     "name": "FIBRINOGENO UMANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3642",
@@ -90725,7 +90725,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3645",
     "name": "SOLIFENACINA SUCCINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3646",
@@ -90755,7 +90755,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3651",
     "name": "EMTRICITABINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3652",
@@ -90765,7 +90765,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3653",
     "name": "ACIDO CROMOGLICICO SALE SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3654",
@@ -90775,7 +90775,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3655",
     "name": "CINACALCET CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3656",
@@ -90790,7 +90790,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3658",
     "name": "ABACAVIR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3659",
@@ -90800,7 +90800,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3660",
     "name": "LOTEPRENDOLOLO ETABONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3661",
@@ -90820,7 +90820,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3664",
     "name": "INSULINA GLULISINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3665",
@@ -90830,7 +90830,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3666",
     "name": "MELAGATRAN MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3667",
@@ -90840,7 +90840,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3668",
     "name": "ACIDI OMEGA-3 TRIGLICERIDI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3669",
@@ -90855,7 +90855,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3671",
     "name": "FERROGLICINASOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3672",
@@ -90895,7 +90895,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3679",
     "name": "ACIDO PAMIDRONICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3680",
@@ -90910,22 +90910,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3682",
     "name": "CLORMADINONE ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3683",
     "name": "CLORMADINONE ACETATO/ETINILESTRADIOLO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA3684",
     "name": "ACIDO L-MALICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3685",
     "name": "AMOXICILLINA SODICA/POTASSIO CLAVULANATO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA3686",
@@ -90935,7 +90935,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3687",
     "name": "VIRUS DELLA ROSOLIA CEPPO WISTAR RA 27/3 (VIVO,ATTENUATO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3688",
@@ -90950,7 +90950,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3690",
     "name": "RIFAMPICINA/ISONIAZIDE/PIRAZINAMIDE/ETAMBUTOLO CLORIDRATO",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA3691",
@@ -90960,7 +90960,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3692",
     "name": "FLUODEOSSIGLUCOSIO (18F)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3693",
@@ -91015,7 +91015,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3703",
     "name": "SODIO PERTECNETATO TC-99M",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3704",
@@ -91030,12 +91030,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3706",
     "name": "AMINOACIDI/GLUCOSIO (DESTROSIO)/ELETTROLITI",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3707",
     "name": "AMINOACIDI/GLUCOSIO (DESTROSIO)",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3708",
@@ -91050,27 +91050,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3710",
     "name": "POSACONAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3711",
     "name": "IVABRADINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3712",
     "name": "ATOMOXETINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3713",
     "name": "LATTULOSIO/PARAFFINA LIQUIDA/PARAFFINA BIANCA SOFFICE",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3714",
     "name": "LANTANIO CARBONATO IDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3715",
@@ -91085,12 +91085,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3717",
     "name": "OLIO DI PESCE ARRICHITO IN ACIDI OMEGA 3",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3718",
     "name": "OLIO DI OLIVA RAFFINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3719",
@@ -91110,7 +91110,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3722",
     "name": "NATALIZUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3723",
@@ -91155,12 +91155,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3731",
     "name": "DESAMETASONE FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3732",
     "name": "SOLUZIONE PER EMOFILTRAZIONE/EMODIALISI/EMODIAFILTRAZIONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3733",
@@ -91180,7 +91180,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3736",
     "name": "EPLERENONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3737",
@@ -91215,17 +91215,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3743",
     "name": "ETINILESTRADIOLO/DROSPIRENONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3744",
     "name": "PIPERACILLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3745",
     "name": "TAZOBACTAM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3746",
@@ -91235,7 +91235,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3747",
     "name": "IDROMORFONE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3748",
@@ -91270,7 +91270,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3754",
     "name": "VARENICLINA TARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3755",
@@ -91290,17 +91290,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3758",
     "name": "CIPROFLOXACINA LATTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3759",
     "name": "HYDROCHLOROTHIAZIDE",
-    "description": "0"
+    "description": "0 "
   },
   {
     "id": "PA3760",
     "name": "ETAMIDO/ELETTROLITI",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3761",
@@ -91330,7 +91330,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3766",
     "name": "MERTIATIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3767",
@@ -91340,7 +91340,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3768",
     "name": "INIBITORE DELL''ALFA1-PROTEINASI UMANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3769",
@@ -91360,7 +91360,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3772",
     "name": "BECLOMETASONE DIPROPIONATO ANIDRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3773",
@@ -91380,12 +91380,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3776",
     "name": "CLOREXIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3777",
     "name": "ALCOOL ETILICO 96%",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3778",
@@ -91475,12 +91475,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3795",
     "name": "PROTEINA L1 DEL PAPILLOMA VIRUS1  UMANO DI TIPO 18",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3796",
     "name": "PROTEINA L1 DEL PAPILLOMA VIRUS1  UMANO DI TIPO 16",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3797",
@@ -91495,7 +91495,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3799",
     "name": "ESTRATTO LIQUIDO ESSICCATO DELLE RADICI DI PELARGONIUM SIDOIDES",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3800",
@@ -91535,17 +91535,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3807",
     "name": "VIRUS VIVO ATTENUATO DEL MORBILLO (CEPPO SCHWARZ)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3808",
     "name": "VIRUS DELLA VARICELLA VIVO ATTENUATO(CEPPO OKA)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3809",
     "name": "VIRUS DELLA PAROTITE CEPPO JERYL LYNN (LIVELLO B) (VIVO, ATTENUATO) PRODOTTO SU CELLULE EMBRIONALI DI POLLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3810",
@@ -91565,7 +91565,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3813",
     "name": "TOSSINA BOTULINICA DI TIPO A",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3814",
@@ -91585,12 +91585,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3817",
     "name": "MAGNESIO OSSIDO LEGGERO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3818",
     "name": "STIRIPENTOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3819",
@@ -91610,7 +91610,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3822",
     "name": "RALTEGRAVIR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3823",
@@ -91625,7 +91625,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3825",
     "name": "ACIDO CITRICO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3826",
@@ -91635,7 +91635,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3827",
     "name": "FLUTICASONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3828",
@@ -91665,12 +91665,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3833",
     "name": "DABIGATRAN ETEXILATO MESILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3834",
     "name": "DABIGATRAN ETEXILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3835",
@@ -91690,12 +91690,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3838",
     "name": "CALCIO ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3839",
     "name": "FATTORE VIII DELLA COAGULAZIONE DEL PLASMA UMANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3840",
@@ -91735,7 +91735,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3847",
     "name": "LAPATINIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3848",
@@ -91770,7 +91770,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3854",
     "name": "MICAFUNGINA SODICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3855",
@@ -91795,7 +91795,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3859",
     "name": "TETRAKIS(2-METOSSI-2-METILPROPIL-1 ISOCIANIDE)RAME(I)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3860",
@@ -91825,7 +91825,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3865",
     "name": "PANTOPRAZOLO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3866",
@@ -91835,7 +91835,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3867",
     "name": "OSSIGENO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3868",
@@ -91870,7 +91870,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3874",
     "name": "TOCILIZUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3875",
@@ -91905,17 +91905,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3881",
     "name": "GALLIO (67 GA) CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3882",
     "name": "SODIO PIROFOSFATO DECAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3883",
     "name": "CLORURO DI TALLIO (201-TL)*",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3884",
@@ -91925,7 +91925,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3885",
     "name": "SODIO OSSIDRONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3886",
@@ -91945,7 +91945,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3889",
     "name": "INIBITORE UMANO C1-ESTERASI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3890",
@@ -91965,7 +91965,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3893",
     "name": "ACIDO PENTETICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3894",
@@ -91975,17 +91975,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3895",
     "name": "INDIO (111IN) CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3896",
     "name": "INDIO (111IN) OSSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3897",
     "name": "IOBENGUANO (123I)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3898",
@@ -91995,7 +91995,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3899",
     "name": "VACCINO PNEUMOCOCCICO POLISACCARIDICO CONIUGATO (ADSORBITO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3900",
@@ -92005,7 +92005,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3901",
     "name": "INDIO (111IN) DTPA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3902",
@@ -92015,12 +92015,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3903",
     "name": "ACIDO DIMERCAPTOSUCCINICO (DMSA)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3904",
     "name": "ALBUMINA UMANA MACROAGGREGATI (MACROSALB)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3905",
@@ -92050,7 +92050,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3910",
     "name": "OLANZAPINA PAMOATO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3911",
@@ -92115,7 +92115,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3923",
     "name": "VACCINO INFLUENZALE PANDEMICO (H1N1)V (VIRIONE FRAZIONATO, INATTIVATO, ADIUVATO) A/CALIFORNIA/7/2009 (H1N1)V ? EQUIVALENTE CEPPO (X ? 179A)",
-    "description": "microgram(s)/millilitre"
+    "description": " microgram(s)/millilitre"
   },
   {
     "id": "PA3924",
@@ -92140,7 +92140,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3928",
     "name": "ACIDO LIPOICO",
-    "description": "600"
+    "description": "600 "
   },
   {
     "id": "PA3929",
@@ -92165,7 +92165,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3933",
     "name": "ANTIGENI DI VIRUS INFLUENZALE A/CALIFORNIA/7/2009 (H1N1)V ? CEPPO EQUIVALENTE (NYMC X-179A)",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA3934",
@@ -92175,7 +92175,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3935",
     "name": "CLOPIDOGREL CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3936",
@@ -92185,7 +92185,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3937",
     "name": "METILPREDNISOLONE SODIO SUCCINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3938",
@@ -92200,7 +92200,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3940",
     "name": "RISEDRONATO SODICO EMIPENTAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3941",
@@ -92235,7 +92235,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3947",
     "name": "VACCINO PNEUMOCOCCICO POLISACCARIDICO CONIUGATO (13 VALENTE ADSORBITO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3948",
@@ -92270,7 +92270,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3954",
     "name": "INDACATEROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3955",
@@ -92295,7 +92295,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3959",
     "name": "VACCINO (ADSORBITO) DIFTERICO, TETANICO, PERTOSSICO (COMPONENTE ACELLULARE)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3960",
@@ -92315,27 +92315,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3963",
     "name": "ESTRATTO DI ALLERGENI  DI POLLINE DI GRAMINACEEE-LOLIUM PERENNE L. (LOGLIARELLO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3964",
     "name": "Estratto di allergeni di polline di Graminaceee-Poa pratensis L. (Erba dei prati)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3965",
     "name": "ESTRATTO DI ALLERGENI DI POLLINE DI GRAMINACEEE-ANTHOXANTHUM ODORATUM L. (PALEO ODOROSO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3966",
     "name": "Estratto di allergeni  di polline di Graminaceee-Phleum pratense L. (Codolina)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3967",
     "name": "ESTRATTO  DI ALLERGENI DI POLLINE DI GRAMINACEEE- DACTYLIS GLOMERATA L. (MAZZOLINA)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3968",
@@ -92345,7 +92345,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3969",
     "name": "ESLICARBAZEPINA ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3970",
@@ -92370,7 +92370,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3974",
     "name": "OSSIDO DI MAGNESIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3975",
@@ -92390,7 +92390,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3978",
     "name": "VALSARTAN/IDROCLOROTIAZIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3979",
@@ -92410,12 +92410,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3982",
     "name": "PERINDOPRIL ERBUMINA/INDAPAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3983",
     "name": "ROFLUMILAST",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3984",
@@ -92440,7 +92440,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3988",
     "name": "GRINDELIA",
-    "description": "300"
+    "description": "300 "
   },
   {
     "id": "PA3989",
@@ -92475,22 +92475,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA3995",
     "name": "FLUORODOPA (18F)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3996",
     "name": "IDROGENO FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3997",
     "name": "MAGNESIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3998",
     "name": "BICARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA3999",
@@ -92505,12 +92505,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4001",
     "name": "ALCOOL ISOPROPILICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4002",
     "name": "TAPENTADOLO CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4003",
@@ -92545,7 +92545,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4009",
     "name": "ATORVASTATINA CALCIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4010",
@@ -92590,7 +92590,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4018",
     "name": "ACIDI OMEGA 3 ESTERI ETILICI 90",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4019",
@@ -92600,57 +92600,57 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4020",
     "name": "OLIO DI SEMI DI SOIA RAFFINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4021",
     "name": "VALINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4022",
     "name": "TIROSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4023",
     "name": "TRIPTOFANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4024",
     "name": "SERINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4025",
     "name": "PROLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4026",
     "name": "FENILALANINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4027",
     "name": "METIONINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4028",
     "name": "LISINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4029",
     "name": "ISOLEUCINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4030",
     "name": "ARGININA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4031",
@@ -92675,7 +92675,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4035",
     "name": "BILASTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4036",
@@ -92725,7 +92725,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4045",
     "name": "COLLAGENASI/CLORAMFENICOLO",
-    "description": "MG"
+    "description": " MG"
   },
   {
     "id": "PA4046",
@@ -92735,7 +92735,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4047",
     "name": "PERINDOPRIL TOSILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4048",
@@ -92755,7 +92755,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4051",
     "name": "ZOLPIDEM EMITARTRATO",
-    "description": "10"
+    "description": "10 "
   },
   {
     "id": "PA4052",
@@ -92860,12 +92860,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4072",
     "name": "LIPIDI + GLUCIDI + AMINOACIDI LEVOGIRI MISCELA",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA4073",
     "name": "AMINOACIDI/ELETTROLITI",
-    "description": "millilitre"
+    "description": " millilitre"
   },
   {
     "id": "PA4074",
@@ -92890,12 +92890,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4078",
     "name": "BISMUTO SUBCITRATO POTASSIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4079",
     "name": "RABEPRAZOLO SODICO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4080",
@@ -92980,7 +92980,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4096",
     "name": "VACCINO CONIUGATO MENINGOCOCCICO GRUPPO A,C,W,Y",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4097",
@@ -93030,7 +93030,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4106",
     "name": "CODEINA FOSFATO EMIIDRATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4107",
@@ -93055,7 +93055,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4111",
     "name": "FIDAXOMICINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4112",
@@ -93065,12 +93065,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4113",
     "name": "HYNIC-[D-PHE1, TYR3-OCTREOTIDE], SALE DI TFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4114",
     "name": "ACIDO ETILENDIAMMINO-N,N'-DIACETICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4115",
@@ -93095,7 +93095,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4119",
     "name": "immunoglobulina di coniglio anti-linfociti T umani",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4120",
@@ -93160,12 +93160,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4132",
     "name": "DAPAGLIFLOZIN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4133",
     "name": "LEVOTHYROXINE SODIUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4134",
@@ -93210,7 +93210,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4142",
     "name": "FATTORE XIII",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4143",
@@ -93285,7 +93285,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4157",
     "name": "VACCINO MENINGOCOCCICO GRUPPO B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4158",
@@ -93370,12 +93370,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4174",
     "name": "LOMITAPIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4175",
     "name": "TERIFLUNOMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4176",
@@ -93400,7 +93400,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4180",
     "name": "VACCINO ANTIVAIOLO E ANTIVAIOLO DELLE SCIMMIE (VIRUS VACCINICO VIVO ANKARA MODIFICATO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4181",
@@ -93460,7 +93460,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4192",
     "name": "AMOXICILLINA/ACIDO CLAVULANICO",
-    "description": "milligrammi"
+    "description": " milligrammi"
   },
   {
     "id": "PA4193",
@@ -93470,7 +93470,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4194",
     "name": "RADIO (223RA) DICLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4195",
@@ -93480,7 +93480,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4196",
     "name": "Vaccino influenzale  split inattivati",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4197",
@@ -93490,7 +93490,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4198",
     "name": "VILANTEROLO TRIFENATATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4199",
@@ -93510,12 +93510,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4202",
     "name": "VORTIOXETINA BROMIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4203",
     "name": "VORTIOXETINA (D,L)-LATTATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4204",
@@ -93590,7 +93590,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4218",
     "name": "LURASIDONE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4219",
@@ -93690,7 +93690,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4238",
     "name": "ROSUVASTATINA SALE DI ZINCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4239",
@@ -93710,12 +93710,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4242",
     "name": "OBINUTUZUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4243",
     "name": "SIMOCTOCOG ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4244",
@@ -93795,27 +93795,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4259",
     "name": "EFEDRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4260",
     "name": "Estratto di allergeni di acari della polvere domestica-Dermatophagoides farinae",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4261",
     "name": "Estratto di allergeni di acari della polvere domestica-Dermatophagoides pteronyssinus",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4262",
     "name": "ACLIDINIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4263",
     "name": "ACLIDINIUM BROMIDE",
-    "description": "0"
+    "description": "0 "
   },
   {
     "id": "PA4264",
@@ -93875,7 +93875,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4275",
     "name": "DULOXETINA",
-    "description": "30"
+    "description": "30 "
   },
   {
     "id": "PA4276",
@@ -93905,12 +93905,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4281",
     "name": "L-CARNITINA SALE INTERNO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4282",
     "name": "ESTERI ETILICI DI ACIDI GRASSI POLIINSATURI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4283",
@@ -93950,7 +93950,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4290",
     "name": "SECUKINUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4291",
@@ -93975,7 +93975,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4295",
     "name": "DALBAVANCINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4296",
@@ -94055,7 +94055,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4311",
     "name": "TIZANIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4312",
@@ -94065,7 +94065,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4313",
     "name": "IMMUNOGLOBULINA ANTI-LINFOCITI T PER USO UMANO, EQUINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4314",
@@ -94085,7 +94085,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4317",
     "name": "SITAGLIPTIN MALATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4318",
@@ -94130,12 +94130,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4326",
     "name": "BENDAMUSTINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4327",
     "name": "ALVERINA CITRATO",
-    "description": "0"
+    "description": "0 "
   },
   {
     "id": "PA4328",
@@ -94155,22 +94155,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4331",
     "name": "SODIO SELENITO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4332",
     "name": "CLOPIDOGREL IDROGENO SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4333",
     "name": "ALENDRONIC ACID",
-    "description": "0"
+    "description": "0 "
   },
   {
     "id": "PA4334",
     "name": "ESTRATTO DI LAVANDA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4335",
@@ -94215,7 +94215,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4343",
     "name": "CEFTOLOZANE SOLFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4344",
@@ -94240,7 +94240,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4348",
     "name": "ALFACALCIDOL",
-    "description": "0"
+    "description": "0 "
   },
   {
     "id": "PA4349",
@@ -94265,12 +94265,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4353",
     "name": "SACUBITRIL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4354",
     "name": "TENOFOVIR ALAFENAMIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4355",
@@ -94280,7 +94280,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4356",
     "name": "IDARUCIZUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4357",
@@ -94295,7 +94295,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4359",
     "name": "CYTARABINE",
-    "description": "100"
+    "description": "100 "
   },
   {
     "id": "PA4360",
@@ -94310,7 +94310,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4362",
     "name": "TENOFOVIR DISOPROXIL SUCCINATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4363",
@@ -94320,7 +94320,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4364",
     "name": "TALIMOGENE LAHERPAREPVEC",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4365",
@@ -94330,7 +94330,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4366",
     "name": "PEGASPARGASE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4367",
@@ -94365,7 +94365,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4373",
     "name": "ACETYLSALICYLIC ACID",
-    "description": "0"
+    "description": "0 "
   },
   {
     "id": "PA4374",
@@ -94375,12 +94375,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4375",
     "name": "BRIMONIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4376",
     "name": "LAMIVUDINE",
-    "description": "0"
+    "description": "0 "
   },
   {
     "id": "PA4377",
@@ -94420,7 +94420,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4384",
     "name": "DARATUMUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4385",
@@ -94440,7 +94440,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4388",
     "name": "ALBUTREPENONACOG ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4389",
@@ -94480,7 +94480,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4396",
     "name": "ARNICA ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4397",
@@ -94510,12 +94510,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4402",
     "name": "ATROPINA SOLFATO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4403",
     "name": "DEXMEDETOMIDINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4404",
@@ -94555,7 +94555,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4411",
     "name": "PIANTAGGINE",
-    "description": "12.144"
+    "description": "12.144 "
   },
   {
     "id": "PA4412",
@@ -94675,7 +94675,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4435",
     "name": "APOMORFINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4436",
@@ -94715,27 +94715,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4443",
     "name": "PIBRENTASVIR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4444",
     "name": "GLECAPREVIR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4445",
     "name": "A/KANSAS/14/2017 (H3N2)-LIKE VIRUS (A/KANSAS/14/2017, NYMC X-327)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4446",
     "name": "B/COLORADO/06/2017-CEPPO EQUIVALENTE (B/VICTORIA/2/87 LINEAGE) (B/MARYLAND/15/2016, NYMC BX-69A)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4447",
     "name": "A/BRISBANE/02/2018 (H1N1)PDM09-CEPPO EQUIVALENTE (A/BRISBANE/02/2018, IVR-190)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4448",
@@ -94765,7 +94765,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4453",
     "name": "CARIPRAZINA CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4454",
@@ -94775,7 +94775,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4455",
     "name": "PATIROMER CALCIO SORBITOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4456",
@@ -94810,7 +94810,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4462",
     "name": "IMMUNOGLOBULINA A UMANA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4463",
@@ -94850,12 +94850,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4470",
     "name": "Vaccino del tifo vivo attenuato",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4471",
     "name": "DUPILUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4472",
@@ -94880,92 +94880,92 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4476",
     "name": "EUPHRASIA OFFICINALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4477",
     "name": "ARSENICUM ALBUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4478",
     "name": "CALCAREA PHOSPHORICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4479",
     "name": "GRAPHITES",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4480",
     "name": "PLUMBUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4481",
     "name": "TESSUTO ADIPOSO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4482",
     "name": "GANGLI LINFATICI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4483",
     "name": "HYPOTHALAMUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4484",
     "name": "RENINE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4485",
     "name": "TESSUTO CONNETTIVO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4486",
     "name": "HYPOPHYSIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4487",
     "name": "THYROIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4488",
     "name": "DULCAMARA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4489",
     "name": "SABADILLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4490",
     "name": "IGNATIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4491",
     "name": "SANGUINARIA CANADENSIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4492",
     "name": "SELENIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4493",
     "name": "IRIS VERSICOLOR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4494",
@@ -94975,147 +94975,147 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4495",
     "name": "GUSELKUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4496",
     "name": "PADELIPORFINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4497",
     "name": "HEPAR SULFUR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4498",
     "name": "MERCURIUS CYANATUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4499",
     "name": "PHYTOLACCA DECANDRA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4500",
     "name": "CHAMOMILLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4501",
     "name": "ARNICA MONTANA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4502",
     "name": "BRYONIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4503",
     "name": "ECHINACEA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4504",
     "name": "FERRUM PHOSPHORICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4505",
     "name": "MERCURIUS SOLUBILIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4506",
     "name": "EUPATORIUM PERFOLIATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4507",
     "name": "KALIUM MURIATICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4508",
     "name": "SECALE CORNUTUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4509",
     "name": "CALCAREA FLUORICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4510",
     "name": "BARYTA CARBONICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4511",
     "name": "RHUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4512",
     "name": "CACTUS GRANDIFLORUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4513",
     "name": "VERATRUM ALBUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4514",
     "name": "ZINNOBER",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4515",
     "name": "KALIUM PHOSPHORICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4516",
     "name": "ARGENTUM NITRICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4517",
     "name": "KALIUM BROMATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4518",
     "name": "SILICEA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4519",
     "name": "NATRIUM MURIATICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4520",
     "name": "ANTIMONIUM TARTARICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4521",
     "name": "ACTAEA RACEMOSA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4522",
     "name": "ACONITUM NAPELLUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4523",
     "name": "ACIDUM MURIATICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4524",
@@ -95125,12 +95125,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4525",
     "name": "Estratto di allergeni di polline di Erbacee-Ambrosia Artemisifolia",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4526",
     "name": "MERCURIUS CORROSIVUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4527",
@@ -95145,42 +95145,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4529",
     "name": "ARSENICUM IODATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4530",
     "name": "SULFUR",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4531",
     "name": "ASA FOETIDA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4532",
     "name": "ACIDUM PICRICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4533",
     "name": "KALIUM IODATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4534",
     "name": "CHELIDONIUM MAJUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4535",
     "name": "VIBURNUM OPULUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4536",
     "name": "NATRIUM CARBONICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4537",
@@ -95190,32 +95190,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4538",
     "name": "PULSATILLA PRATENSIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4539",
     "name": "GUAIACUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4540",
     "name": "GELSEMIUM SEMPERVIRENS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4541",
     "name": "LACHESIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4542",
     "name": "SARSAPARILLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4543",
     "name": "CANTHARIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4544",
@@ -95230,37 +95230,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4546",
     "name": "MAGNESIA PHOSPHORICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4547",
     "name": "CINNABARIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4548",
     "name": "ACIDUM NITRICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4549",
     "name": "CAUSTICUM HAHNEMANNI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4550",
     "name": "ESTRATTO DI ALLERGENI DI VELENO DI IMENOTTERI - APIS MELLIFERA (APE)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4551",
     "name": "ALLERGENI, VELENO DI INSETTI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4552",
     "name": "MERCURIUS DULCIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4553",
@@ -95285,17 +95285,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4557",
     "name": "RHEUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4558",
     "name": "LYCOPODIUM CLAVATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4559",
     "name": "KALIUM BICHROMICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4560",
@@ -95305,7 +95305,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4561",
     "name": "AGNUS CASTUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4562",
@@ -95320,12 +95320,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4564",
     "name": "DATURA STRAMONIUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4565",
     "name": "LOBELIA INFLATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4566",
@@ -95350,157 +95350,157 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4570",
     "name": "ALNUS INCANA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4571",
     "name": "RIBES NIGRUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4572",
     "name": "CASTANEA SATIVA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4573",
     "name": "ILEX AQUIFOLIUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4574",
     "name": "VACCINIUM VITIS IDAEA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4575",
     "name": "SALICE BIANCO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4576",
     "name": "RUBUS IDAEUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4577",
     "name": "RUBUS FRUTICOSUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4578",
     "name": "LEDUM PALUSTRE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4579",
     "name": "SAMBUCUS NIGRA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4580",
     "name": "STANNUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4581",
     "name": "HYDRASTIS CANADENSIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4582",
     "name": "RAPHANUS NIGER",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4583",
     "name": "AESCULUS HIPPOCASTANUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4584",
     "name": "QUERCUS PEDUNCOLATA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4585",
     "name": "VIBURNUM LANTANA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4586",
     "name": "ALNUS GLUTINOSA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4587",
     "name": "BETULA PUBESCENS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4588",
     "name": "CARPINUS BETULUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4589",
     "name": "CORYLUS AVELLANA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4590",
     "name": "FAGUS SYLVATICA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4591",
     "name": "GINEPRO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4592",
     "name": "FRAXINUS EXCELSIOR",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4593",
     "name": "SEQUOIA GIGANTEA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4594",
     "name": "CALLUNA VULGARIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4595",
     "name": "BETULA VERRUCOSA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4596",
     "name": "VACCINIUM MYRTILLUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4597",
     "name": "ABIES PECTINATA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4598",
     "name": "JUGLANS REGIA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4599",
     "name": "SORBUS DOMESTICA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4600",
     "name": "VITIS VINIFERA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4601",
@@ -95520,127 +95520,127 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4604",
     "name": "ANTIMONIUM CRUDUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4605",
     "name": "CITRULLUS COLOCYNTHIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4606",
     "name": "NUX VOMICA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4607",
     "name": "MANGANUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4608",
     "name": "ZINCUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4609",
     "name": "AURUM MURIATICUM NATRONATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4610",
     "name": "PHOSPHORUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4611",
     "name": "VESCICA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4612",
     "name": "SEPIA OFFICINALIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4613",
     "name": "OVAIO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4614",
     "name": "SPIGELIA ANTHELMIA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4615",
     "name": "PULSATILLA VULGARIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4616",
     "name": "TARENTULA HISPANICA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4617",
     "name": "CONDURANGO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4618",
     "name": "ARTEMISIA ABROTANUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4619",
     "name": "INTESTINO TENUE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4620",
     "name": "CARBO VEGETABILIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4621",
     "name": "VENA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4622",
     "name": "CUPRUM ARSENICOSUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4623",
     "name": "NERIUM OLEANDER",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4624",
     "name": "CAPSICUM ANNUUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4625",
     "name": "CHINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4626",
     "name": "BELLIS PERENNIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4627",
     "name": "PLANTAGO MAJOR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4628",
     "name": "KALIUM SULFURICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4629",
@@ -95655,27 +95655,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4631",
     "name": "AMMONIUM MURIATICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4632",
     "name": "DROSERA ROTUNDIFOLIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4633",
     "name": "ALCHEMILLA VULGARIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4634",
     "name": "CALCAREA ACETICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4635",
     "name": "FUCUS VESCICULOSUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4636",
@@ -95685,287 +95685,287 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4637",
     "name": "CALADIUM SEGUINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4638",
     "name": "LACHNANTHES TINCTORIA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4639",
     "name": "TABACUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4640",
     "name": "COCCULUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4641",
     "name": "IPECA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4642",
     "name": "PETROLEUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4643",
     "name": "HYPERICUM PERFORATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4644",
     "name": "SYMPHYTUM OFFICINALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4645",
     "name": "SULFUR IODATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4646",
     "name": "KALIUM CARBONICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4647",
     "name": "ACIDUM SULFURICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4648",
     "name": "CALENDULA OFFICINALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4649",
     "name": "COFFEA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4650",
     "name": "APATITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4651",
     "name": "MAGNESIA CARBONICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4652",
     "name": "BERBERIS VULGARIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4653",
     "name": "NUX MOSCHATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4654",
     "name": "TEUCRIUM MARUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4655",
     "name": "AMMONIUM CARBONICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4656",
     "name": "ALUMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4657",
     "name": "MAGNESIA MURIATICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4658",
     "name": "CALCAREA CARBONICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4659",
     "name": "RUTA GRAVEOLENS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4660",
     "name": "GERMANIUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4661",
     "name": "ACIDUM PHOSPHORICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4662",
     "name": "RNA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4663",
     "name": "DNA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4664",
     "name": "SOLANUM LYCOPERSICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4665",
     "name": "RHAMNUS PURSHIANA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4666",
     "name": "TANACETUM VULGARE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4667",
     "name": "ALLIUM CEPA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4668",
     "name": "BARYTA IODATA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4669",
     "name": "ALLIUM SATIVUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4670",
     "name": "ARTEMISIA ABSINTHIUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4671",
     "name": "CUCURBITA PEPO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4672",
     "name": "CROTON TIGLIUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4673",
     "name": "GARNIERITE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4674",
     "name": "ALOE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4675",
     "name": "MIDOLLO OSSEO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4676",
     "name": "IODUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4677",
     "name": "ROSA CANINA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4678",
     "name": "VITAMINA E",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4679",
     "name": "METILGLIOSSALE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4680",
     "name": "GLIOSSALE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4681",
     "name": "NATRIUM PHOSPHORICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4682",
     "name": "SYRINGA VULGARIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4683",
     "name": "POPULUS NIGRA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4684",
     "name": "OLEA EUROPAEA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4685",
     "name": "CORNUS SANGUINEA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4686",
     "name": "CITRUS LIMONUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4687",
     "name": "ACER CAMPESTRIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4688",
     "name": "CERCIS SYLIQUASTRUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4689",
     "name": "CRATAEGUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4690",
     "name": "TILIA TOMENTOSA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4691",
     "name": "ZEA MAIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4692",
     "name": "PRUNUS AMYGDALUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4693",
     "name": "BENZOCHINONE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4694",
@@ -95975,32 +95975,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4695",
     "name": "ANTIMONITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4696",
     "name": "ARGENTITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4697",
     "name": "STIBIUM ARSENICOSUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4698",
     "name": "TARTARUS STIBIATUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4699",
     "name": "NATRIUM SULFURICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4700",
     "name": "CALCIUM PHOSPHORICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4701",
@@ -96010,12 +96010,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4702",
     "name": "DARVADSTROCEL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4703",
     "name": "CICLOSILICATO DI SODIO E ZIRCONIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4704",
@@ -96025,22 +96025,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4705",
     "name": "ERTUGLIFLOZIN ACIDO L-PIROGLUTAMMICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4706",
     "name": "PODOPHYLLUM PELTATUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4707",
     "name": "VALERIANA OFFICINALIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4708",
     "name": "HYOSCYAMUS NIGER",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4709",
@@ -96050,117 +96050,117 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4710",
     "name": "THUYA OCCIDENTALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4711",
     "name": "CONIUM MACULATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4712",
     "name": "STAPHYSAGRIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4713",
     "name": "HISTAMINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4714",
     "name": "CADMIUM SULFURICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4715",
     "name": "SPONGIA TOSTA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4716",
     "name": "CUPRUM ACETICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4717",
     "name": "AILANTHUS ALTISSIMA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4718",
     "name": "HYDROCOTYLE ASIATICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4719",
     "name": "FUMARICUM ACIDUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4720",
     "name": "ACIDUM CITRICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4721",
     "name": "MANGANUM PHOSPHORICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4722",
     "name": "ACIDUM SUCCINICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4723",
     "name": "ACIDUM ACONITICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4724",
     "name": "NATRIUM PIRUVICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4725",
     "name": "CUPRUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4726",
     "name": "URTICA URENS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4727",
     "name": "HAMAMELIS VIRGINIANA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4728",
     "name": "AURUM METALLICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4729",
     "name": "COLCHICUM AUTUMNALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4730",
     "name": "LYCOPUS VIRGINICUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4731",
     "name": "CALCAREA SULFURICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4732",
     "name": "APIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4733",
@@ -96170,22 +96170,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4734",
     "name": "PLACENTA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4735",
     "name": "CALCITONIN",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4736",
     "name": "LAUROCERASUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4737",
     "name": "PASSIFLORA INCARNATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4738",
@@ -96200,77 +96200,77 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4740",
     "name": "SENECIO AUREUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4741",
     "name": "MELFALAN CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4742",
     "name": "BARYTA MURIATICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4743",
     "name": "CLEMATIS RECTA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4744",
     "name": "CHININUM SULFURICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4745",
     "name": "LITHIUM CARBONICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4746",
     "name": "ACIDUM BENZOICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4747",
     "name": "RHODODENDRON AUREUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4748",
     "name": "ERYSIMUM OFFICINALE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4749",
     "name": "ARUM TRIPHYLLUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4750",
     "name": "ESTRATTO SECCO DI TIMO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4751",
     "name": "ESTRATTO SECCO DI PRIMULA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4752",
     "name": "APTENI SINGOLI O IN MISCELA (TOTALE).",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4753",
     "name": "USTILAGO MAIDIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4754",
     "name": "FERRUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4755",
@@ -96285,62 +96285,62 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4757",
     "name": "KALMIA LATIFOLIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4758",
     "name": "COLLINSONIA CANADENSIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4759",
     "name": "GNAPHALIUM POLYCEPHALUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4760",
     "name": "HELLEBORUS NIGER",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4761",
     "name": "ACTAEA SPICATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4762",
     "name": "ARGENTUM METALLICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4763",
     "name": "OXALIS ACETOSELLA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4764",
     "name": "SYZYGIUM JAMBOLANUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4765",
     "name": "CAULOPHYLLUM THALICTROIDES",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4766",
     "name": "GERMANIO (68 GE) CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4767",
     "name": "GALLIO (68 GA) CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4768",
     "name": "POTENTILLA ERECTA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4769",
@@ -96350,12 +96350,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4770",
     "name": "MEZEREUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4771",
     "name": "ANTI CD 21",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4772",
@@ -96370,7 +96370,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4774",
     "name": "ROSMARINUS OFFICINALIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4775",
@@ -96380,32 +96380,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4776",
     "name": "MOMORDICA BALSAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4777",
     "name": "MELILOTUS ALBA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4778",
     "name": "LEPTANDRA VIRGINICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4779",
     "name": "EPSTEIN-BARR VIRUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4780",
     "name": "TARAXACUM OFFICINALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4781",
     "name": "EUPHORBIA RESINIFERA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4782",
@@ -96415,32 +96415,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4783",
     "name": "DIGITALIS PURPUREA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4784",
     "name": "BOVISTA GIGANTEA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4785",
     "name": "ABIES NIGRA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4786",
     "name": "STICTA PULMONARIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4787",
     "name": "PAEONIA OFFICINALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4788",
     "name": "AGRAPHIS NUTANS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4789",
@@ -96450,7 +96450,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4790",
     "name": "BAPTISIA TINCTORIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4791",
@@ -96460,62 +96460,62 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4792",
     "name": "PYROGENIUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4793",
     "name": "HYDRARGYRUM OXYDATUM RUBRUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4794",
     "name": "BRONCHI",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4795",
     "name": "LIGUSTRUM VULGARE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4796",
     "name": "KREOSOTUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4797",
     "name": "SURRENE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4798",
     "name": "RENE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4799",
     "name": "POLMONE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4800",
     "name": "FEGATO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4801",
     "name": "DIENCEFALO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4802",
     "name": "ARTERIA AORTA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4803",
     "name": "MARRUBIO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4804",
@@ -96530,52 +96530,52 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4806",
     "name": "THUYA LOBII",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4807",
     "name": "RICINUS COMMUNIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4808",
     "name": "ANACARDIUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4809",
     "name": "ASARUM EUROPAEUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4810",
     "name": "HERPES SIMPLEX",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4811",
     "name": "HERPES ZOSTER",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4812",
     "name": "LUESINUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4813",
     "name": "MEDORRHINUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4814",
     "name": "ANTI CD 36",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4815",
     "name": "SABAL SERRULATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4816",
@@ -96590,152 +96590,152 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4818",
     "name": "AMBRA GRISEA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4819",
     "name": "ANTI CD 46",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4820",
     "name": "ANTI CD 26",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4821",
     "name": "ANTI CD 14",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4822",
     "name": "ANTI CD 43",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4823",
     "name": "ANTI CD 62",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4824",
     "name": "ANTI CD 23",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4825",
     "name": "ANTI CD 81",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4826",
     "name": "ANTI CD 55",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4827",
     "name": "ANTI CD 15",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4828",
     "name": "ANTI CD 13",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4829",
     "name": "ANTI CD 44",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4830",
     "name": "ANTI CD 11",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4831",
     "name": "ANTI CD 25",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4832",
     "name": "CYCLAMEN EUROPAEUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4833",
     "name": "ANTI CD 35",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4834",
     "name": "VISCUM ALBUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4835",
     "name": "CICUTA VIROSA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4836",
     "name": "EMBRIONE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4837",
     "name": "COLON",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4838",
     "name": "APPENDICE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4839",
     "name": "ADENOIDI",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4840",
     "name": "CERVELLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4841",
     "name": "PROSTATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4842",
     "name": "LEGAMENTI ARTICOLAZIONE GINOCCHIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4843",
     "name": "CARTILAGINE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4844",
     "name": "MUCOSA GASTRICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4845",
     "name": "OCCHIO TOTALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4846",
     "name": "STAPHYLOCOCCINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4847",
     "name": "VERBENA OFFICINALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4848",
@@ -96745,82 +96745,82 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4849",
     "name": "IMPERATORIA OSTRUTHIUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4850",
     "name": "PANCREAS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4851",
     "name": "ALPINIA OFFICINARUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4852",
     "name": "CHOLESTERINUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4853",
     "name": "CANALE COLEDOCO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4854",
     "name": "CANALE EPATICO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4855",
     "name": "CANALE CISTICO",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4856",
     "name": "VESCICHETTA BILIARE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4857",
     "name": "FUMARIA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4858",
     "name": "AVENA SATIVA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4859",
     "name": "ALFA ALFA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4860",
     "name": "ZONA CUTANEA PILO SEBACEA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4861",
     "name": "EQUISETUM ARVENSE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4862",
     "name": "BACINETTO RENALE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4863",
     "name": "URETERE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4864",
     "name": "HISTAMINI DIHYDROCHLORIDUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4865",
@@ -96840,37 +96840,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4868",
     "name": "MYCOPLASMA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4869",
     "name": "SABINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4870",
     "name": "ORNITHOGALLUM UMBELLATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4871",
     "name": "CALCAREA  IODATA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4872",
     "name": "CEANOTHUS AMERICANUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4873",
     "name": "PAREIRA BRAVA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4874",
     "name": "SENEGA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4875",
@@ -96890,27 +96890,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4878",
     "name": "BREXPIPRAZOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4879",
     "name": "GLONOINUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4880",
     "name": "APOCYNUM CANNABINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4881",
     "name": "MYRICA CERIFERA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4882",
     "name": "SOLIDAGO VIRGAUREA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4883",
@@ -96935,12 +96935,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4887",
     "name": "AXICABTAGENE CILOLEUCEL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4888",
     "name": "TISAGENLECLEUCEL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4889",
@@ -96950,7 +96950,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4890",
     "name": "POPULUS TREMULA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4891",
@@ -96960,17 +96960,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4892",
     "name": "ESZOPICLONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4893",
     "name": "RUMEX CRISPUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4894",
     "name": "ANTI CD 54",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4895",
@@ -96985,157 +96985,157 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4897",
     "name": "ARGENTUM NATIVUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4898",
     "name": "AURUM NATIVUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4899",
     "name": "FELDSPATO QUADRATICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4900",
     "name": "LITHIUM BENZOICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4901",
     "name": "BUXUS SEMPERVIRENS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4902",
     "name": "LONICERA NIGRA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4903",
     "name": "RHODODENDRON FERRUGINEUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4904",
     "name": "ULMUS CAMPESTRIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4905",
     "name": "ACIDUM URICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4906",
     "name": "SPIRAEA ULMARIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4907",
     "name": "PIROLUSITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4908",
     "name": "BLENDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4909",
     "name": "ERITRITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4910",
     "name": "GRANITO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4911",
     "name": "MORUS NIGRA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4912",
     "name": "GINKGO BILOBA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4913",
     "name": "CAFFEINUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4914",
     "name": "PROTEUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4915",
     "name": "MUCOSA INTESTINALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4916",
     "name": "SKATOLUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4917",
     "name": "INDOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4918",
     "name": "MAGNOLIA OFFICINALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4919",
     "name": "OCIMUM BASILICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4920",
     "name": "CISTEINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4921",
     "name": "BACTERIUM FAECALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4922",
     "name": "COLIBACILLINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4923",
     "name": "FEL SUIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4924",
     "name": "FUNICOLO OMBELICALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4925",
     "name": "URETRA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4926",
     "name": "ZINCUM VALERIANICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4927",
     "name": "CARDIOSPERMUM HALICACABUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4928",
@@ -97145,142 +97145,142 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4929",
     "name": "VINCA MINOR",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4930",
     "name": "PHOSPHORUS TRIIODATUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4931",
     "name": "ACIDUM OXALICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4932",
     "name": "HELONIAS DIOICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4933",
     "name": "ANTRACHINONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4934",
     "name": "NAFTOCHINONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4935",
     "name": "SEDUM ACRE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4936",
     "name": "RETTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4937",
     "name": "INTESTINO CRASSO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4938",
     "name": "DUODENO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4939",
     "name": "DIGIUNO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4940",
     "name": "INTESTINO CIECO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4941",
     "name": "HYDROCHINONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4942",
     "name": "TRACHEA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4943",
     "name": "PLEURA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4944",
     "name": "COLLO UTERINO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4945",
     "name": "VAGINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4946",
     "name": "UTERO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4947",
     "name": "CORPO LUTEO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4948",
     "name": "EPIDIDIMO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4949",
     "name": "CHIMAPHILA UMBELLATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4950",
     "name": "VESCICOLA SEMINALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4951",
     "name": "TESTICOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4952",
     "name": "ASPERGILLUS NIGER",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4953",
     "name": "MANGANUM ACETICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4954",
     "name": "STREPTOCOCCINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4955",
     "name": "ACIDUM FLUORICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4956",
     "name": "ERAVACICLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4957",
@@ -97305,92 +97305,92 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4961",
     "name": "EPINEFRINA BITARTRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4962",
     "name": "PSORINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4963",
     "name": "ROBINIA PSEUDO ACACIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4964",
     "name": "AGARICUS MUSCARIUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4965",
     "name": "LILIUM TIGRINUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4966",
     "name": "RHODODENDRON CHRYSANTHUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4967",
     "name": "SOLANUM NIGRUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4968",
     "name": "OKOUBAKA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4969",
     "name": "VERBASCUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4970",
     "name": "ANTHEMIS NOBILIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4971",
     "name": "SUMBULUS MOSCHATUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4972",
     "name": "SCUTELLARIA LATERIFLORA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4973",
     "name": "CUPRUM GLUCONICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4974",
     "name": "MANGANUM GLUCONICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4975",
     "name": "GENTIANA LUTEA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4976",
     "name": "CINERARIA MARITIMA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4977",
     "name": "KALIUM NITRICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4978",
     "name": "BISMUTHUM METALLICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4979",
@@ -97400,42 +97400,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4980",
     "name": "COBALTUM NITRICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4981",
     "name": "ORIGANUM VULGARE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4982",
     "name": "HERPES GENITALIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA4983",
     "name": "CARDUUS MARIANUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4984",
     "name": "SINAPIS NIGRA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4985",
     "name": "CANDIDA ALBICANS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4986",
     "name": "RATHANIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4987",
     "name": "VINCETOXICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4988",
@@ -97450,12 +97450,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4990",
     "name": "FOSFATO BIPOTASSICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4991",
     "name": "CEFIXIME TRIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4992",
@@ -97465,12 +97465,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4993",
     "name": "LANADELUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4994",
     "name": "DAMOCTOCOG ALFA PEGOL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4995",
@@ -97490,17 +97490,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA4998",
     "name": "VORETIGENE NEPARVOVEC",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA4999",
     "name": "GALCANEZUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5000",
     "name": "GRINDELIA ROBUSTA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5001",
@@ -97515,7 +97515,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5003",
     "name": "ALLUMINIO OSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5004",
@@ -97535,7 +97535,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5007",
     "name": "NORTRIPTILINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5008",
@@ -97545,7 +97545,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5009",
     "name": "CLIDINIO BROMURO",
-    "description": "2.5"
+    "description": "2.5 "
   },
   {
     "id": "PA5010",
@@ -97555,282 +97555,282 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5011",
     "name": "VACCINO CONTRO LA FEBBRE GIALLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5012",
     "name": "CINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5013",
     "name": "AZURITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5014",
     "name": "ZINCO GLUCONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5015",
     "name": "GIARDIA LAMBLIA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5016",
     "name": "HARPAGOPHYTHUM PROCUMBENS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5017",
     "name": "TRIIODOTIRONINA T3",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5018",
     "name": "ASPERULA ODORATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5019",
     "name": "HUMULUS LUPULUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5020",
     "name": "CYTOMEGALOVIRUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5021",
     "name": "FICUS CARICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5022",
     "name": "LUFFA OPERCULATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5023",
     "name": "SCROPHULARIA NODOSA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5024",
     "name": "EUCALYPTUS GLOBULUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5025",
     "name": "MAGNOLIA GLAUCA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5026",
     "name": "THYMUS VULGARIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5027",
     "name": "MUCOSA MASCELLARE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5028",
     "name": "MUCOSA NASALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5029",
     "name": "MERCURIUS BIIODATUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5030",
     "name": "UNCARIA TOMENTOSA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5031",
     "name": "MUCOSA SINUSALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5032",
     "name": "ECHINACEA PURPUREA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5033",
     "name": "RUSCUS ACULEATUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5034",
     "name": "VIPERA TORVA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5035",
     "name": "VITAMINA A",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5036",
     "name": "MELILOTUS OFFICINALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5037",
     "name": "NAJA NAJA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5038",
     "name": "Thlaspi bursa pastoris",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5039",
     "name": "SALVIA OFFICINALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5040",
     "name": "FLUORITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5041",
     "name": "PRUNUS PERSICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5042",
     "name": "ACHILLEA MILLEFOLIUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5043",
     "name": "FOLLICOLINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5044",
     "name": "ASSE CORTICO IPOTALAMICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5045",
     "name": "CALCAREA DI VERSAILLES",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5046",
     "name": "PARATHYROIDINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5047",
     "name": "OSSO TOTALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5048",
     "name": "CORTECCIA SURRENALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5049",
     "name": "TAMARIX GALLICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5050",
     "name": "MILZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5051",
     "name": "HAEMATITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5052",
     "name": "HEMOGLOBINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5053",
     "name": "CLOROFILLA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5054",
     "name": "FERRUM MURIATICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5055",
     "name": "FUMARATO DI FERRO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5056",
     "name": "PRUNUS SPINOSA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5057",
     "name": "THYMUS SERPYLLUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5058",
     "name": "ASPERGILLUS ALBUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5059",
     "name": "MUCOR MUCEDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5060",
     "name": "TESSUTO RETICOLO ENDOTELIALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5061",
     "name": "TRICHOMONAS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5062",
     "name": "TROMBA DI FALLOPPIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5063",
     "name": "CITRUS BERGAMIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5064",
     "name": "LAMIUM ALBUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5065",
     "name": "PLATINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5066",
     "name": "AETHUSA CYNAPIUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5067",
@@ -97850,157 +97850,157 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5070",
     "name": "ELEUTHEROCOCCUS SENTICOSUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5071",
     "name": "LONICERA CAPRIFOLIUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5072",
     "name": "INFLUENZINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5073",
     "name": "MELISSA OFFICINALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5074",
     "name": "URTICA DIOICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5075",
     "name": "HEDERA HELIX",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5076",
     "name": "ERIGERON CANADENSIS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5077",
     "name": "CONVALLARIA MAJALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5078",
     "name": "PARIS QUADRIFOLIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5079",
     "name": "VIOLA TRICOLOR",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5080",
     "name": "IDRURO DI MAGNESIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5081",
     "name": "CHIONANTHUS VIRGINICUS",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5082",
     "name": "DIOSCOREA VILLOSA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5083",
     "name": "JABORANDI",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5084",
     "name": "PETROSELINUM SATIVUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5085",
     "name": "GNAPHALIUM OBTUSIFOLIUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5086",
     "name": "EPHEDRA VULGARIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5087",
     "name": "RANUNCULUS BULBOSUS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5088",
     "name": "TUBERCOLINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5089",
     "name": "ESTRATTO LIQUIDO DI ONOPORDON ACANTHIUM L., FLOS REC. (FIORI FRESCHI DI ONOPORDO TOMENTOSO, RAPPORTO DROGA SOLVENTE DSR 1:3,1), SOLVENTE DI ESTRAZIONE: 99 PARTI DI ETANOLO 26% M/M E 1 PARTE DI ESTRATTO LIQUIDO DI HYOSCYAMUS NIGER L., HERBA REC. (ERBA FRESCA DI GIUSQUIAMO, RAPPORTO DROGA ESTRATTO DER 1:2, SOLVENTE DI ESTRAZIONE ETANOLO 86 % M/M)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5090",
     "name": "CHROMIUM SULFURICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5091",
     "name": "MAGNESIUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5092",
     "name": "BERBERIS AQUIFOLIUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5093",
     "name": "TRILLIUM PENDULUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5094",
     "name": "THALLIUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5095",
     "name": "HEKLA LAVA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5096",
     "name": "CHININUM ARSENICOSUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5097",
     "name": "AGOMELATINE",
-    "description": "0"
+    "description": "0 "
   },
   {
     "id": "PA5098",
     "name": "TEREBINTHINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5099",
     "name": "FREMANEZUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5100",
     "name": "STRONTIUM CARBONICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5101",
@@ -98010,7 +98010,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5102",
     "name": "RISANKIZUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5103",
@@ -98025,32 +98025,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5105",
     "name": "NICCOLUM METALLICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5106",
     "name": "OSMIUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5107",
     "name": "ESTRATTO SECCO IDROALCOOLICO DI PASSIFLORA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5108",
     "name": "AURUM MURIATICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5109",
     "name": "NATRIUM SILICICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5110",
     "name": "PALLADIUM METALLICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5111",
@@ -98080,12 +98080,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5116",
     "name": "CINNAMOMUM ZEYLANICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5117",
     "name": "NAPHTHALINUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5118",
@@ -98095,7 +98095,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5119",
     "name": "NOREPINEFRINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5120",
@@ -98115,17 +98115,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5123",
     "name": "FAGOPYRUM ESCULENTUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5124",
     "name": "ARCTIUM LAPPA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5125",
     "name": "RHEUM OFFICINALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5126",
@@ -98140,12 +98140,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5128",
     "name": "VERATRUM VIRIDE",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5129",
     "name": "TALAZOPARIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5130",
@@ -98165,7 +98165,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5133",
     "name": "SENNA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5134",
@@ -98185,17 +98185,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5137",
     "name": "ZINCUM SULFURICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5138",
     "name": "MANDRAGORA OFFICINARUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5139",
     "name": "TILIA EUROPAEA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5140",
@@ -98210,7 +98210,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5142",
     "name": "NUPHAR LUTEUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5143",
@@ -98225,37 +98225,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5145",
     "name": "BACLOFEN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5146",
     "name": "ZINCUM PHOSPHORICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5147",
     "name": "SENNOSIDI A E B",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5148",
     "name": "VIOLA ODORATA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5149",
     "name": "CUPRUM SULFURICUM",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5150",
     "name": "INTERLEUCHINA 2",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5151",
     "name": "ANGIOTENSINA II",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5152",
@@ -98265,7 +98265,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5153",
     "name": "FOSCARNET",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5154",
@@ -98290,12 +98290,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5158",
     "name": "MAGNESIA SULFURICA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5159",
     "name": "VACCINO (ADSORBITO) DIFTERICO, TETANICO, PERTOSSICO (COMPONENTE ACELLULARE) E POLIOMIELITICO (INATTIVATO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5160",
@@ -98305,22 +98305,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5161",
     "name": "MUCOSA RETTO SIGMOIDEA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5162",
     "name": "CURCUMA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5163",
     "name": "NIGELLA SATIVA",
-    "description": "N.D."
+    "description": " N.D."
   },
   {
     "id": "PA5164",
     "name": "TOSSINA BOTULINICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5165",
@@ -98335,7 +98335,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5167",
     "name": "ANTIGENI DI SUPERFICIE DEL VIRUS DELL?INFLUENZA DEL CEPPO A/VIETNAM/1194/2004 (H5N1)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5168",
@@ -98345,7 +98345,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5169",
     "name": "UPADACITINIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5170",
@@ -98360,17 +98360,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5172",
     "name": "COFFEA ARABICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5173",
     "name": "ZINCUM ISOVALERIANICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5174",
     "name": "SITAGLIPTIN CLORIDRATO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5175",
@@ -98380,7 +98380,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5176",
     "name": "SIPONIMOD",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5177",
@@ -98395,7 +98395,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5179",
     "name": "POLATUZUMAB VEDOTIN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5180",
@@ -98405,7 +98405,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5181",
     "name": "BROLUCIZUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5182",
@@ -98420,7 +98420,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5184",
     "name": "LANTANIO CARBONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5185",
@@ -98430,27 +98430,27 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5186",
     "name": "L-LISINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5187",
     "name": "L-PROLINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5188",
     "name": "L-ALANINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5189",
     "name": "L-TIROSINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5190",
     "name": "L-SERINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5191",
@@ -98490,32 +98490,32 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5198",
     "name": "B/PHUKET/3073/2013 - CEPPO EQUIVALENTE (B/PHUKET/3073/2013, TIPO SELVAGGIO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5199",
     "name": "A/VICTORIA/2570/2019 (H1N1)PDM09-CEPPO EQUIVALENTE (A/VICTORIA/2570/2019, IVR-215)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5200",
     "name": "A/DARWIN/9/2021 (H3N2) ? CEPPO EQUIVALENTE (A/DARWIN/9/2021, SAN-010)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5201",
     "name": "B/AUSTRIA/1359417/2021 ? CEPPO EQUIVALENTE (B/MICHIGAN/01/2021, TIPO SELVAGGIO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5202",
     "name": "ACIDO BEMPEDOICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5203",
     "name": "VERGA D'ORO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5204",
@@ -98525,7 +98525,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5205",
     "name": "BUTILIDROSSIANISOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5206",
@@ -98535,7 +98535,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5207",
     "name": "ITOPRIDE CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5208",
@@ -98550,17 +98550,17 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5210",
     "name": "VACCINO ANTINFLUENZALE (ANTIGENE DI SUPERFICIE, INATTIVATO, ADIUVATO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5211",
     "name": "INDACATEROLO ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5212",
     "name": "MIDAZOLAM MALEATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5213",
@@ -98575,7 +98575,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5215",
     "name": "OZANIMOD CLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5216",
@@ -98590,7 +98590,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5218",
     "name": "GLASDEGIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5219",
@@ -98600,12 +98600,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5220",
     "name": "VACCINO CONTRO L?EBOLA (AD26.ZEBOV-GP [RICOMBINANTE])",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5221",
     "name": "VIRUS VACCINICO ANKARA MODIFICATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5222",
@@ -98620,12 +98620,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5224",
     "name": "ICATIBANT",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5225",
     "name": "PRETOMANID",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5226",
@@ -98650,7 +98650,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5230",
     "name": "IMLIFIDASE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5231",
@@ -98660,12 +98660,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5232",
     "name": "FOSFORO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5233",
     "name": "FRAXINUS AMERICANA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5234",
@@ -98690,7 +98690,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5238",
     "name": "IOFLUPANE (123I)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5239",
@@ -98720,7 +98720,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5244",
     "name": "ACALABRUTINIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5245",
@@ -98735,7 +98735,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5247",
     "name": "VACCINO ANTINFLUENZALE QUADRIVALENTE (RICOMBINANTE, PREPARATO IN COLTURA CELLULARE)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5248",
@@ -98785,12 +98785,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5257",
     "name": "FENFLURAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5258",
     "name": "POLVERE SGRASSATA DI SEMI DI ARACHIS HYPOGAEA L. (ARACHIDI)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5259",
@@ -98805,7 +98805,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5261",
     "name": "PEMIGATINIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5262",
@@ -98830,12 +98830,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5266",
     "name": "SELPERCATINIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5267",
     "name": "TUCATINIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5268",
@@ -98845,7 +98845,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5269",
     "name": "PHYSOSTIGMA VENENOSUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5270",
@@ -98895,12 +98895,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5279",
     "name": "CENOBAMATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5280",
     "name": "CALCIPOTRIOLO IDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5281",
@@ -98925,47 +98925,47 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5285",
     "name": "ESAMIDINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5286",
     "name": "ESAMIDINA DIISETIONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5287",
     "name": "DUVELISIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5288",
     "name": "ESTETROLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5289",
     "name": "SELUMETINIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5290",
     "name": "PONESIMOD",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5291",
     "name": "AGNI CASTI FRUCTUS EXTRACTUM SICCUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5292",
     "name": "ODEVIXIBAT",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5293",
     "name": "TRALOKINUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5294",
@@ -98975,12 +98975,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5295",
     "name": "ONDANSETRON",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5296",
     "name": "IDECABTAGENE VICLEUCEL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5297",
@@ -99030,12 +99030,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5306",
     "name": "COLCHICINE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5307",
     "name": "ROXADUSTAT",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5308",
@@ -99060,7 +99060,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5312",
     "name": "PEGCETACOPLAN",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5313",
@@ -99080,7 +99080,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5316",
     "name": "PRALSETINIB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5317",
@@ -99095,7 +99095,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5319",
     "name": "BENZIDAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5320",
@@ -99125,7 +99125,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5325",
     "name": "DESVENLAFAXINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5326",
@@ -99135,7 +99135,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5327",
     "name": "VACCINO PNEUMOCOCCICO POLISACCARIDICO CONIUGATO (15-VALENTE, ADSORBITO)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5328",
@@ -99170,7 +99170,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5334",
     "name": "LAVANDA ESSENZA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5335",
@@ -99225,52 +99225,52 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5345",
     "name": "NOCE VOMICA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5346",
     "name": "BROMELAINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5347",
     "name": "CARCIOFO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5348",
     "name": "SILYBUM MARIANUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5349",
     "name": "RODONITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5350",
     "name": "COBALTO GLUCONATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5351",
     "name": "LITHIUM GLUCONICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5352",
     "name": "LEPIDOLITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5353",
     "name": "AMMONIUM BROMATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5354",
     "name": "NICCOLUM GLUCONICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5355",
@@ -99290,7 +99290,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5358",
     "name": "ANAS BARBARIE HEPATIS ET CORDIS EXTRACTUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5359",
@@ -99320,42 +99320,42 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5364",
     "name": "ARISTOLOCHIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5365",
     "name": "BORNITE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5366",
     "name": "EBERTHINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5367",
     "name": "MELALEUCA ALTERNIFOLIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5368",
     "name": "PENICILLINUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5369",
     "name": "PISUM SATIVUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5370",
     "name": "PYRITES",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5371",
     "name": "SACCHAROMYCES CEREVISIAE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5372",
@@ -99390,22 +99390,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5378",
     "name": "RIMEGEPANT",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5379",
     "name": "INEBILIZUMAB",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5380",
     "name": "GALIUM APARINE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5381",
     "name": "SODIO FOSFATO BIBASICO DODECAIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5382",
@@ -99505,7 +99505,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5401",
     "name": "EFGARTIGIMOD ALFA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5402",
@@ -99605,7 +99605,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5421",
     "name": "CARDO MARIANO FRUTTO (Silybum Marianum L.GAERTNER) ESTRATTO SECCO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5422",
@@ -99615,7 +99615,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5423",
     "name": "BENZOIL PEROSSIDO IDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5424",
@@ -99635,7 +99635,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5427",
     "name": "RUBIDIO CLORURO (82RB)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5428",
@@ -99660,12 +99660,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5432",
     "name": "ABALOPARATIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5433",
     "name": "OSSIBENZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5434",
@@ -99685,22 +99685,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5437",
     "name": "RATANIA RADICE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5438",
     "name": "CRISANTASPASI (ERWINASE)",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5439",
     "name": "ZAFFERANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5440",
     "name": "PHENAZONE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5441",
@@ -99710,7 +99710,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5442",
     "name": "PHELLANDRIUM AQUATICUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5443",
@@ -99720,7 +99720,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5444",
     "name": "IBERIS AMARA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5445",
@@ -99740,7 +99740,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5448",
     "name": "[18F]PSMA-1007",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5449",
@@ -99760,7 +99760,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5452",
     "name": "OMEPRAZOLO SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5453",
@@ -99770,7 +99770,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5454",
     "name": "ELTROMBOPAG OLAMINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5455",
@@ -99800,7 +99800,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5460",
     "name": "METOXALENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5461",
@@ -99860,7 +99860,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5472",
     "name": "ATOGEPANT",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5473",
@@ -99890,7 +99890,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5478",
     "name": "METOCARBAMOLO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5479",
@@ -99905,7 +99905,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5481",
     "name": "DEGARELIX ACETATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5482",
@@ -99915,22 +99915,22 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5483",
     "name": "DAMIANA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5484",
     "name": "GINSENG",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5485",
     "name": "GLANDULA SUPRARENALIS SUIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5486",
     "name": "PLACENTA SUIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5487",
@@ -99945,37 +99945,37 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5489",
     "name": "ELACESTRANT DICLORIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5490",
     "name": "GEFAPIXANT CITRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5491",
     "name": "ELIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5492",
     "name": "MONOSSIDO DI CARBONIO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5493",
     "name": "RITLECITINIB TOSILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5494",
     "name": "METANO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5495",
     "name": "ACETILENE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5496",
@@ -100095,7 +100095,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5519",
     "name": "RUBIA TINCTORIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5520",
@@ -100115,7 +100115,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5523",
     "name": "PASSIFLORA PARTI AEREE (Passiflora incarnata L.) estratto secco",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5524",
@@ -100135,12 +100135,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5527",
     "name": "AMIFAMPRIDINA FOSFATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5528",
     "name": "DAPAGLIFLOZINA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5529",
@@ -100180,7 +100180,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5536",
     "name": "CICLOFOSFAMIDE MONOIDRATA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5537",
@@ -100215,7 +100215,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5543",
     "name": "IMMUNOGLOBULINA UMANA NORMALE PER USO ENDOVENOSO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5544",
@@ -100230,7 +100230,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5546",
     "name": "VACCINO ANTINFLUENZALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5547",
@@ -100240,7 +100240,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5548",
     "name": "BENZIDAMINA CLORIDRATO/CETILPIRIDINIO CLORURO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5549",
@@ -100255,7 +100255,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5551",
     "name": "EDOXABAN TOSILATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5552",
@@ -100365,7 +100365,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5573",
     "name": "BENZOILE PEROSSIDO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5574",
@@ -100425,7 +100425,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5585",
     "name": "ZINCO OROTATO DIIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5586",
@@ -100435,7 +100435,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5587",
     "name": "EDERA HELIX ESTRATTO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5588",
@@ -100480,7 +100480,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5596",
     "name": "ARMORACIA RUSTICANA D4",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5597",
@@ -100515,12 +100515,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5603",
     "name": "SACUBITRIL SODICO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5604",
     "name": "BIBROCATHOL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5605",
@@ -100530,7 +100530,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5606",
     "name": "CILASTATINA SODICA STERILE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5607",
@@ -100555,7 +100555,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5611",
     "name": "MEPTAZINOL",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5612",
@@ -100600,47 +100600,47 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5620",
     "name": "PINUS SILVESTRIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5621",
     "name": "VERONICA OFFICINALIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5622",
     "name": "SMILAX ASPERA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5623",
     "name": "GERANIUM ROBERTIANUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5624",
     "name": "FERRUM IODATUM",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5625",
     "name": "EQUISETUM HIEMALE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5626",
     "name": "ARANEA DIADEMA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5627",
     "name": "TEUCRIUM SCORODONIA",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5628",
     "name": "MYOSOTIS ARVENSIS",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5629",
@@ -100655,7 +100655,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5631",
     "name": "GADOBUTROLO MONOIDRATO",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5632",
@@ -100680,7 +100680,7 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5636",
     "name": "TAMSULOSIN HYDROCHLORIDE",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5637",
@@ -100705,12 +100705,12 @@ export const mockPrincipiAttivi = [
   {
     "id": "PA5641",
     "name": "MANGANUM SULFURICUM D3",
-    "description": ""
+    "description": " "
   },
   {
     "id": "PA5642",
     "name": "DOLUTEGRAVIR SODICO",
-    "description": ""
+    "description": " "
   }
 ];
 
