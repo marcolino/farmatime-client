@@ -61,6 +61,8 @@
   "Error verifying notification token: {{err}}": "Erreur lors de la vérification du jeton de notification : {{err}}",
   "Get notified about comments and replies to your posts": "Recevez des notifications sur les commentaires et les réponses à vos publications",
   "Get notified about comments and replies to your posts.": "Recevez des notifications sur les commentaires et les réponses à vos publications.",
+  "Home page for guest user": "Page d'accueil pour utilisateur invité",
+  "Home page for logged user": "Page d'accueil pour utilisateur connecté",
   "Logout": "Se déconnecter",
   "marketingMessages": "messagesMarketing",
   "Network status": "État du réseau",

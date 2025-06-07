@@ -6,6 +6,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 
 export const MedicineInputAutocomplete = forwardRef(({
@@ -17,6 +18,8 @@ export const MedicineInputAutocomplete = forwardRef(({
   autoFocus = false,
   ...props
 }, ref) => {
+  const { t } = useTranslation();
+  
   return (
     <Autocomplete
       {...props}
@@ -42,12 +45,13 @@ export const MedicineInputAutocomplete = forwardRef(({
       renderInput={(params) => (
         <TextField
           {...params}
+          onKeyDown={(e) => { if (e.key === 'Enter') e.stopPropagation(); }} // Force consistent Enter behavior
           autoFocus={autoFocus}
           inputRef={ref}  // Forward the ref
-          label="Nome farmaco (nome, principio attivo o codice ATC)"
+          label={t("Medicine name (name, active ingredient or ATC code)")}
           variant="outlined"
           fullWidth
-          placeholder="Farmaco (es: Tachipirina, Paracetamolo, N02BE01...)"
+          placeholder={t("Medicine (e.g.: Tachipirina, Paracetamolo, N02BE01...)")}
         />
       )}
       renderOption={(props, option) => {
@@ -74,12 +78,12 @@ export const MedicineInputAutocomplete = forwardRef(({
                     </Typography>
                   </Grid>
                   <Grid>
-                    {(option.type === 'medicine' && option.data.form/* && option.data.form !== " "*/) && (
+                    {(option.type === 'medicine' && option.data.form) && (
                       <Typography variant="caption" color="text.secondary">
                         &nbsp; • &nbsp;{option.data.form}
                       </Typography>
                     )}
-                    {(option.type === 'ingredient' && option.data.description/* && option.data.description !== " "*/) && (
+                    {(option.type === 'ingredient' && option.data.description) && (
                       <Typography variant="caption" color="text.secondary">
                         &nbsp; • &nbsp; {option.data.description}
                       </Typography>
@@ -92,7 +96,7 @@ export const MedicineInputAutocomplete = forwardRef(({
         );
       }}
       noOptionsText={
-        inputValue ? "Nessun farmaco trovato" : "Inizia a digitare il nome del farmaco per cercare"
+        inputValue ? t("No medicine found") : t("Start typing the medicine name")
       }
     />
   );

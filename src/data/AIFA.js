@@ -1,5 +1,5 @@
-// Auto-generated mock data from AIFA sources
-export const mockAnagrafica = [
+// Auto-generated data data from AIFA sources
+export const dataAnagrafica = [
   {
     "id": "000367045",
     "name": "TISANA KELEMATA",
@@ -72501,7 +72501,7 @@ export const mockAnagrafica = [
   }
 ];
 
-export const mockPrincipiAttivi = [
+export const dataPrincipiAttivi = [
   {
     "id": "PA001",
     "name": "ACIDO ACETILSALICILICO",
@@ -100714,7 +100714,7 @@ export const mockPrincipiAttivi = [
   }
 ];
 
-export const mockATC = [
+export const dataATC = [
   {
     "code": "V09DB07",
     "description": "TECNEZIO-99MTC-FITATO",

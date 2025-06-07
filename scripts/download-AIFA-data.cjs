@@ -71,7 +71,7 @@ async function main() {
     const atcData = parseCSV(atcContent);
     
     // Process anagrafica data
-    const mockAnagrafica = confezioniData
+    const Anagrafica = confezioniData
       .reduce((acc, item) => {
         // Check if name already exists in accumulator
         if (!acc.some(x => x.denominazione === item.denominazione)) {
@@ -89,7 +89,7 @@ async function main() {
     ;
     
     // Process principi attivi data
-    const mockPrincipiAttivi = paConfezioniData
+    const PrincipiAttivi = paConfezioniData
       .reduce((acc, item) => {
         // Check if name already exists in accumulator
         if (!acc.some(x => x.principio_attivo === item.principio_attivo)) {
@@ -109,7 +109,7 @@ ${item.unita_misura ? item.unita_misura : ''}\
     ;
     
     // Process ATC data
-    const mockATC = atcData
+    const ATC = atcData
        .reduce((acc, item) => {
         // Check if name already exists in accumulator
         if (!acc.some(x => x.descrizione === item.descrizione)) {
@@ -125,12 +125,12 @@ ${item.unita_misura ? item.unita_misura : ''}\
     ;
     
     // Generate the output file
-    const output = `// Auto-generated mock data from AIFA sources
-export const mockAnagrafica = ${JSON.stringify(mockAnagrafica, null, 2)};
+    const output = `// Auto-generated  data from AIFA sources
+export const dataAnagrafica = ${JSON.stringify(Anagrafica, null, 2)};
 
-export const mockPrincipiAttivi = ${JSON.stringify(mockPrincipiAttivi, null, 2)};
+export const dataPrincipiAttivi = ${JSON.stringify(PrincipiAttivi, null, 2)};
 
-export const mockATC = ${JSON.stringify(mockATC, null, 2)};
+export const dataATC = ${JSON.stringify(ATC, null, 2)};
 `;
     
     fs.writeFileSync(outputFile, output);

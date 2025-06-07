@@ -56,11 +56,24 @@ fs.readFile(routesPath, "utf8", (err, data) => {
         return;
       }
 
-      const stats = fs.statSync(filenameFull)
-      if (!stats || !stats.mtime) {
-        console.warn("No mtime for file name", filename);
+      // const stats = fs.statSync(filenameFull)
+      // if (!stats || !stats.mtime) {
+      //   console.warn("No mtime for file name", filename);
+      //   return;
+      // }
+      let stats;
+      try {
+        stats = fs.statSync(filenameFull);
+        if (!stats.mtime) {
+          console.warn("No mtime for file name", filenameFull);
+          return;
+        }
+        // proceed with logic that uses stats.mtime
+      } catch (err) {
+        console.warn("Could not stat file", filenameFull, err.message);
         return;
       }
+      
       const lastmod = stats.mtime;
       //console.log("lastmod:", lastmod);
       if (path && lastmod) {

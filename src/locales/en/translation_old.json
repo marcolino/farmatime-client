@@ -49,6 +49,8 @@
   "Error verifying notification token: {{err}}": "Error verifying notification token: {{err}}",
   "Get notified about comments and replies to your posts": "Get notified about comments and replies to your posts",
   "Get notified about comments and replies to your posts.": "Get notified about comments and replies to your posts.",
+  "Home page for guest user": "Home page for guest user",
+  "Home page for logged user": "Home page for logged user",
   "Logout": "Logout",
   "marketingMessages": "marketingMessages",
   "Network status": "Network status",

@@ -357,111 +357,93 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
           </Header>
           
           <Box p={4}>
-
-            <Box
-              component="form"
+            <Box 
+              component="form" 
               onSubmit={addItem}
-              sx={{
-                display: 'flex',
+              sx={{ 
+                display: 'flex', 
                 flexDirection: { xs: 'column', sm: 'row' },
                 gap: 2,
                 mb: 4,
                 alignItems: 'flex-end'
               }}
             >
-              {/* First row: Only the medicine input on xs, full row on sm+ */}
-              <Box
-                sx={{
-                  width: { xs: '100%', sm: 'auto' },
-                  flexGrow: { xs: 0, sm: 1 }, // Take all space on sm+, not on xs
-                  mb: { xs: 2, sm: 0 }
-                }}
-              >
-                <ContextualHelp helpPagesKey="MedicineName" fullWidth showOnHover>
-                  <MedicineInputAutocomplete
-                    autoFocus
-                    fullWidth
-                    variant="outlined"
-                    value={option}
-                    inputValue={inputValue ?? ""}
-                    onChange={(_event, newValue) => {
-                      setOption(newValue);
-                      setInputValue(newValue ? newValue.label : '');
-                    }}
-                    onInputChange={(event, newInputValue, reason) => {
-                      if (reason === 'input' || reason === 'clear') {
+              <ContextualHelp helpPagesKey="MedicineName" fullWidth showOnHover>
+                <MedicineInputAutocomplete
+                  autoFocus
+                  fullWidth
+                  variant="outlined"
+                  value={option}
+                  inputValue={inputValue ?? ""}
+                  onChange={(_event, newValue) => {
+                    setOption(newValue);
+                    setInputValue(newValue ? newValue.label : ''); // Optionally sync inputValue to selected option label
+                  }}
+                  onInputChange={(event, newInputValue, reason) => {
+                    // Update inputValue on user typing or clearing
+                    if (reason === 'input' || reason === 'clear') {
                         setInputValue(newInputValue);
-                      }
-                    }}
-                    options={getFilteredOptions(inputValue)}
-                    placeholder="Enter full name of the medicine"
-                    ref={nameRef}
-                  />
-                </ContextualHelp>
-              </Box>
+                    }
+                    // if (reason === 'createOption') {
+                    //   setInputValue(event.target.value ?? '');
+                    // }
+                  }}
+                  options={getFilteredOptions(inputValue)}
+                  placeholder="Enter full name of the medicine"
+                  ref={nameRef}
+                />
+              </ContextualHelp>
 
-              {/* Second row (xs): Date, Frequency, Buttons; 
-                  On sm+, these are just next to the input */}
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: 2,
-                  width: { xs: '100%', sm: 'auto' }
-                }}
+              <ContextualHelp helpPagesKey="DateSince">
+                <DatePicker
+                  label={t("Since day")}
+                  value={date}
+                  onChange={(newValue) => setDate(newValue)}
+                  format={getLocaleBasedFormat()}
+                  sx={{ width: isXs ? 145 : isSm ? 125 : 145 }}
+                  PopperProps={{
+                    placement: 'bottom-start',
+                  }}
+                  inputRef={dateRef}
+                />
+              </ContextualHelp>
+              
+              <ContextualHelp helpPagesKey="Frequency">
+                <TextField
+                  label={isXs ? t("Frequency (days)") : isSm ? t("Freq.") : t("Frequency (days)")}
+                  variant="outlined"
+                  type="number"
+                  input={{ min: 1 }}
+                  value={frequency}
+                  onChange={(e) => setFrequency(parseInt(e.target.value) || 1)}
+                  sx={{ width: isXs ? 145 : isSm ? 65 : 145 }}
+                  inputRef={frequencyRef}
+                  />
+              </ContextualHelp>
+              
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+                sx={{ height: 56, mb: 0.2, px: 4.5 }}
               >
-                <ContextualHelp helpPagesKey="DateSince">
-                  <DatePicker
-                    label={t("Since day")}
-                    value={date}
-                    onChange={(newValue) => setDate(newValue)}
-                    format={getLocaleBasedFormat()}
-                    sx={{ width: isXs ? 145 : isSm ? 125 : 145 }}
-                    PopperProps={{
-                      placement: 'bottom-start',
-                    }}
-                    inputRef={dateRef}
-                  />
-                </ContextualHelp>
-
-                <ContextualHelp helpPagesKey="Frequency">
-                  <TextField
-                    label={isXs ? t("Frequency (days)") : isSm ? t("Freq.") : t("Frequency (days)")}
-                    variant="outlined"
-                    type="number"
-                    input={{ min: 1 }}
-                    value={frequency}
-                    onChange={(e) => setFrequency(parseInt(e.target.value) || 1)}
-                    sx={{ width: isXs ? 145 : isSm ? 65 : 145 }}
-                    inputRef={frequencyRef}
-                  />
-                </ContextualHelp>
-
+                { mode === 'add' ? t("Add") : t("Update") }
+              </Button>
+              {(mode === 'update') &&
                 <Button
-                  type="submit"
+                  type="cancel"
+                  onClick={() => { resetItems(); setMode('add'); setEditingItemId(null); }}
                   variant="contained"
-                  color="primary"
+                  color="default"
                   size="large"
-                  sx={{ height: 56, mb: 0.2, px: isSm ? 1 : 4.5 }}
+                  sx={{ height: 56, mb: 0.2, px: 4.5 }}
                 >
-                  {mode === 'add' ? t("Add") : t("Update")}
+                  {t("Cancel")}
                 </Button>
-                {mode === 'update' && (
-                  <Button
-                    type="button"
-                    onClick={() => { resetItems(); setMode('add'); setEditingItemId(null); }}
-                    variant="contained"
-                    color="default"
-                    size="large"
-                    sx={{ height: 56, mb: 0.2, px: isSm ? 1 : 4.5 }}
-                  >
-                    {t("Cancel")}
-                  </Button>
-                )}
-              </Box>
+              }
             </Box>
-
-
+            
             <Divider />
             
             <Box mt={4}>

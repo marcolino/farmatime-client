@@ -10,7 +10,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
-import red from "@mui/material/colors/red";
+//import red from "@mui/material/colors/red";
 import { StatusContext } from "../providers/StatusProvider";
 import { i18n }  from "../i18n";
 
@@ -53,7 +53,7 @@ const /*function*/ Notifications = (props) => {
 
             <CardHeader
               avatar={
-                <Avatar sx={{ bgcolor: red }} src={state.notification.image} aria-label="notification avatar" />
+                <Avatar sx={{ bgcolor: "red" }} src={state.notification.image} aria-label="notification avatar" />
               }
               action={
                 <IconButton aria-label="settings">

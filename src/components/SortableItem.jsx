@@ -1,8 +1,10 @@
+import { useRef, useState, useEffect } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { IconButton, Box, Typography, Chip, Tooltip } from '@mui/material';
+import { IconButton, Box, Typography, Chip, Tooltip, useTheme } from '@mui/material';
 import { DragHandle as DragHandleIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import { useRef, useState, useEffect } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { t } from 'i18next';
 
 export const SortableItem = ({
   id,
@@ -27,7 +29,10 @@ export const SortableItem = ({
 
   const nameRef = useRef(null);
   const [isTruncated, setIsTruncated] = useState(false);
-
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSm = useMediaQuery(theme.breakpoints.down('md'));
+  
   useEffect(() => {
     if (nameRef.current) {
       setIsTruncated(
@@ -56,6 +61,7 @@ export const SortableItem = ({
     ...borderStyle, 
   };
 
+  console.log("data:", date);
   return (
     <Box
       ref={setNodeRef}
@@ -64,10 +70,9 @@ export const SortableItem = ({
       sx={{
         display: 'flex',
         alignItems: 'center',
-        //mr: -1,
-        mb: 0.8,
-        p: 0.5,
-        bgcolor: 'grey.300',
+        mb: 1,
+        p: 1,
+        bgcolor: 'secondary.light',
         borderRadius: 1,
         boxShadow: 1,
       }}
@@ -86,71 +91,83 @@ export const SortableItem = ({
       </IconButton>
 
       {/* Combined name and info */}
-      <Box sx={{ 
-        display: 'flex', 
-        alignItems: 'center',
-        flexGrow: 1,
-        minWidth: 0,
-      }}>
+      <Box
+        sx={{ 
+          display: 'flex', 
+          alignItems: 'center',
+          flexGrow: 1,
+          minWidth: 0,
+          gap: 1,
+          fontSize: '0.875rem',
+          overflow: 'hidden',
+        }}
+      >
         <Tooltip 
           title={name} 
           disableHoverListener={!isTruncated}
           placement="top"
         >
-          <Typography 
+          <Typography
+            variant="body2"
             ref={nameRef}
             noWrap 
             onClick={() => {
               onEditStart(id);
-              onEdit(id, "name")
+              onEdit(id, "name");
             }}
-            sx={{ 
+            sx={{
               flexShrink: 1,
+              flexGrow: 1,
               minWidth: 0,
+              whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              pr: 1,
-              cursor: 'grab'
             }}
           >
             {name}
           </Typography>
         </Tooltip>
         
-        <Box sx={{ 
-          display: 'flex',
-          ml: 'auto',
-          gap: 1
-        }}>
-          <Chip // TODO: reduce width if mobile
-            label={`since ${formatDate(date)}`}
+        <Box
+          sx={{
+            whiteSpace: 'nowrap',
+            display: 'flex',
+            ml: 'auto',
+            gap: 1
+          }}
+        >
+          <Chip
+            label={(isSm ? "" : t("since") + " ") + formatDate(date)}
             onClick={() => {
               onEditStart(id);
               onEdit(id, "date");
             }}
             sx={{
-              width: 120,
+              width: (isXs || isSm) ? 'auto' : 120,
               borderRadius: '4px',
-              height: '24px',
-              bgcolor: 'primary.light',
-              color: 'primary.contrastText'
+              mr: isXs ? 0 : isSm ? 1 : 3,
+              bgcolor: 'action.disabled',
+              color: 'info.contrastText',
+              '&:hover': { bgcolor: 'text.primary' }
             }}
           />
-          <Chip // TODO: reduce width if mobile
-            label={`every ${frequency} day${frequency !== 1 ? 's' : ''}`}
+
+          <Chip
+            label={(isSm ? "" : t("every") + " ") + t("{{count}} day", { count: frequency })}
             onClick={() => {
               onEditStart(id);
               onEdit(id, "frequency")
             }}
             sx={{
-              width: 130,
+              width: (isXs || isSm) ? 'auto' : 130,
               borderRadius: '4px',
-              height: '24px',
-              bgcolor: 'primary.light',
-              color: 'primary.contrastText'
+              mr: isXs ? 0 : isSm ? 1 : 3,
+              bgcolor: 'action.disabled',
+              color: 'info.contrastText',
             }}
           />
         </Box>
+      
       </Box>
 
       {/* Delete button */}
@@ -162,7 +179,7 @@ export const SortableItem = ({
         size="small"
         color="default"
         sx={{ 
-          ml: 1,
+          ml: isXs || isSm ? 0 : 1,
           '&:hover': { bgcolor: 'warning.light' }
         }}
       >
