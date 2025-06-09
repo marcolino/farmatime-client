@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -31,13 +31,18 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { format } from 'date-fns';
-import { enUS, it, fr, de, es } from 'date-fns/locale'; // TODO: check enUS works with config.locales ...
+import { enUS, it, fr, de, es } from 'date-fns/locale';
 import { ContextualHelp } from './ContextualHelp';
 import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
+import { useSecureStorage } from "../hooks/useSecureStorage";
+import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { i18n }  from "../i18n";
-//import config from '../config';
+import config from '../config';
+
+
+// TODO: avoid navigating away from page if a list is not confirmed
 
 const localeMap = {
   en: enUS,
@@ -62,7 +67,8 @@ const Header = styled(Box)(({ theme }) => ({
 }));
 
 const ItemContainer = styled(Box)(({ theme }) => ({
-  maxHeight: 500, // TODO: make it dynamical ?
+  maxHeight: `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 400px - 150px)`, // 100% of viewport height, minus header and footer, minus this component header and footer 
+  minHeight: 120,
   overflowY: 'auto',
   marginBottom: theme.spacing(2),
   paddingRight: theme.spacing(1),
@@ -79,7 +85,7 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const MedicineList = () => { // TODO: get locale from parent or global state
+export const MedicineList = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const [option, setOption] = useState(null);
@@ -90,7 +96,7 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
   const [items, setItems] = useState([]);
   const [mode, setMode] = useState('add'); // 'add' or 'update'
   const [fieldToFocus, setFieldToFocus] = useState(null);
-
+  
   // References to input fields
   const nameRef = useRef(null);
   const frequencyRef = useRef(null);
@@ -100,6 +106,38 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
   const isSm = useMediaQuery(theme.breakpoints.down('md'));
   
+  const { showSnackbar } = useSnackbarContext(); 
+  
+  // Use the secure storage hook
+  const { 
+    //secureStorage, 
+    //secureStorageIsReady, 
+    //secureStorageError,
+    secureStorageStatus,
+    secureStorageSet, 
+    secureStorageGet 
+  } = useSecureStorage();
+  
+  // Load data when secure storage is ready
+  useEffect(() => {
+    if (secureStorageStatus !== 'ready') return;
+    const loadData = async () => {
+      try {
+        const data = await secureStorageGet('userData');
+        if (data) {
+          setItems(data);
+          showSnackbar(t('Data loaded successfully'), 'success');
+        }
+      } catch (err) {
+        showSnackbar(t('Error loading data: {{error}}', {
+          error: err.message
+        }), 'error');
+      }
+    };
+    loadData();
+    //}
+  }, [secureStorageStatus, secureStorageGet, showSnackbar, t]);
+
   // When fieldToFocus changes, focus the corresponding input
   useEffect(() => {
     // Store refs in an object keyed by field name
@@ -153,7 +191,8 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
     return options;
   }, []);
 
-    // Filter function moved here
+
+  // Filter function moved here
   const getFilteredOptions = (inputVal) => {
     if (!inputVal) return [];
 
@@ -218,16 +257,14 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
 
     const nameTrimmed = e.target[0].value?.trim();
     if (!nameTrimmed) {
-      alert(t("Please enter a medicine name.")); // TODO
+      showSnackbar(t("Please enter a medicine name"), "warning");
       return;
     } 
     if (!(frequency > 0)) {
-      alert(t("Please enter a valid frequency in days.")); // TODO
+      showSnackbar(t("Please enter a valid frequency in days"), "warning");
       return;
     }
 
-    // TODO: avoid double entries
-    
     const optionForced = option || {}
     optionForced.label = nameTrimmed; // Ensure option has the manually edited label
     if (!optionForced.id) {
@@ -237,8 +274,7 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
 
     if (mode === 'add') {
       if (items.some(item => item.id === optionForced.id)) { // Check if item already exists by id
-        //if (optionForced.id in items.map(item => item.id)) { // Check if item already exists by id
-        alert(t("This item already exists in the list.")); // TODO
+        showSnackbar(t("This item already exists in the list"), "warning");
         return;
       }
     }
@@ -273,7 +309,7 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
   const startEdit = (id, field) => {
     const item = items.find(i => i.id === id);
     if (!item) {
-      alert(t("Item by id {{id}} not found!", { id })); // TODO... (should not happen)
+      showSnackbar(t("Item by id {{id}} not found!", { id }), "error"); // should not happen...
       return;
     }
     setEditingItemId(id); // Track which item is being edited
@@ -295,8 +331,23 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
     //console.log(`handleEditEnd - editingItemId reset`);
   };
 
-  const removeItem = (id) => {
-    setItems(items.filter(item => item.id !== id));
+  const removeItem = async (id) => {
+    const filteredItems = items.filter(item => item.id !== id);
+    setItems(filteredItems);
+
+    storeItems(filteredItems);
+    // // Confirm automatically (to store to SecureStorage)
+    // try {
+    //   await secureStorageSet('userData', filteredItems);
+    //   showSnackbar(
+    //     t('Item removed, list confirmed with {{count}} items', { count: filteredItems.length }), 
+    //     'success'
+    //   );
+    // } catch (err) {
+    //   showSnackbar(t('Failed to save list: {{error}}', { 
+    //     error: err.message 
+    //   }), 'error');
+    // }
   };
 
   const handleDragEnd = (event) => {
@@ -310,10 +361,46 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
     }
   };
 
-  const confirmList = () => {
+  const confirmList = async () => {
     console.log('Confirmed list:', items);
-    alert(t("List confirmed with {{count}} items.", { count: items.length })); // TODO
+    //showSnackbar(t("List confirmed with {{count}} items", { count: items.length }), "info");
+    // const password = "userPassword";
+    // const secureStorage = new SecureStorage('local'); // Can switch to 'server' later
+    // await secureStorage.init(); // Fetches key from server
+    
+    storeItems(items);
+    // try {
+    //   await secureStorageSet('userData', items);
+    //   showSnackbar(
+    //     t('List confirmed with {{count}} items', { count: items.length }), 
+    //     'success'
+    //   );
+    // } catch (err) {
+    //   showSnackbar(t('Failed to save list: {{error}}', { 
+    //     error: err.message 
+    //   }), 'error');
+    // }
+
+    //secureStorage.set('userData', items);
+
+    // DEBUG ONLY - LOAD BACK DATA TO CHECK!
+    const data = await secureStorageGet('userData');
+    console.log("**************** data:", data);
   };
+
+  const storeItems = async (items) => {
+    try {
+      await secureStorageSet('userData', items);
+      showSnackbar(
+        t('List confirmed with {{count}} items', { count: items.length }), 
+        'success'
+      );
+    } catch (err) {
+      showSnackbar(t('Failed to save list: {{error}}', { 
+        error: err.message 
+      }), 'error');
+    }
+  }
 
   const formatDate = (date) => {
     const locale = i18n.language;
@@ -342,6 +429,18 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
     // Default fallback
     return 'dd MMM';
   };
+
+  // if (!secureStorageIsReady) {
+  //   return <div>{t('Initializing secure storage...')}</div>;
+  // }
+
+  if (secureStorageStatus === 'initializing') {
+    return <div>{t('Loading secure storage...')}</div>;
+  }
+
+  if (secureStorageStatus === 'error') {
+    return <div>{t('Secure storage unavailable')}</div>;
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localeMap[i18n.language]}>
@@ -461,8 +560,7 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
               </Box>
             </Box>
 
-
-            <Divider />
+            <Divider sx={{ margin: -1.5 }} />
             
             <Box mt={4}>
               <DndContext
@@ -534,4 +632,3 @@ export const MedicineList = () => { // TODO: get locale from parent or global st
     </LocalizationProvider>
   );
 };
-

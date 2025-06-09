@@ -200,7 +200,7 @@
 - change "Consenso Cookies" in "Cookies Preferences" in EditUser.jsx - OK
 - always use useDialog, and not directly DialogConfirm (when possible) - OK
 - refactor cookies consent like notification preferences - OK
-- use API_KEY from ../acme-server/.env in scripts/translate - OK
+- use API_KEY from ../med-server/.env in scripts/translate - OK
 - reduce ProductDetails height on mobile to avoid scroll (no...) - OK
 - use LocalStorage and not localStorage directly - OK
 - is maintenancePath localstorage really useful? yes - OK

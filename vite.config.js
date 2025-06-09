@@ -147,7 +147,7 @@ export default defineConfig(({ mode }) => {
               },
             },
             {
-              urlPattern: /^https:\/\/acme-server-lingering-brook-4120\.fly\.dev\/api\/.*$/,
+              urlPattern: /^https:\/\/med-server-lingering-brook-4120\.fly\.dev\/api\/.*$/,
               handler: "NetworkFirst",
               options: {
                 cacheName: "public-api-cache",

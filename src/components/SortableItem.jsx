@@ -61,7 +61,7 @@ export const SortableItem = ({
     ...borderStyle, 
   };
 
-  console.log("data:", date);
+  //console.log("data:", date);
   return (
     <Box
       ref={setNodeRef}

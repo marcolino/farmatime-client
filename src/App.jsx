@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+//import { SecureStorage } from './libs/SecureStorage';
 import { SnackbarProviderWrapper } from "./providers/SnackbarProvider"; 
 import ServiceWorkerProvider from "./providers/ServiceWorkerProvider";
 import { DialogProvider } from "./providers/DialogProvider";
@@ -16,7 +17,7 @@ import ServiceWorkerMessages from "./components/ServiceWorkerMessages";
 import Contents from "./components/Contents";
 import Routing from "./components/Routing";
 import CookiePreferences  from "./components/CookiePreferences";
-import BackgroundVideo from "./components/BackgroundVideo";
+//import BackgroundVideo from "./components/BackgroundVideo";
 import ClientInfoDisplay from "./components/ClientInfoDisplay";
 import Loader from "./components/Loader";
 import { useAxiosLoader } from "./hooks/useAxiosLoader";
@@ -38,6 +39,7 @@ const App = () => {
 const AppStructure = () => {
   const [loading] = useAxiosLoader();
   const { preferences, changeLocale, toggleTheme } = useContext(AuthContext);
+  //const [_secureStorageReady, setSecureStorageReady] = useState(false);
   const [theme, setTheme] = useState(config.ui.defaultTheme === "light" ? themeLight : themeDark);
 
   useEffect(() => {
@@ -46,11 +48,29 @@ const AppStructure = () => {
     }
   }, [preferences]);
 
+  // useEffect(() => {
+  //   const secureStorage = new SecureStorage();
+  //   secureStorage.init().then(() => {
+  //     console.log(1);
+  //     //setSecureStorageReady(true);
+  //     //return secureStorage.get('userPreferences');
+  //   });//.then(_data => {
+  //   //  console.log(2);
+  //   //  //setPreferences(data || { theme: 'light' });
+  //   //});
+  // }, []);
+
   const themeToggle = () => {
     setTheme((prevTheme) => (prevTheme.palette.mode === "light" ? themeDark : themeLight));
     toggleTheme();
   };
 
+  // if (!secureStorageReady) {
+  //   console.log("NULL");
+  //   return null;
+  //   //return <div>Initializing secure storage...</div>;
+  // }
+  
   return (
     <ThemeProvider theme={theme}>
       <CartProvider>

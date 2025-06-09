@@ -96,7 +96,18 @@ export function ContextualHelpWrapper({
           </IconButton>
         </Box>
     
-        <Modal open={open} onClose={handleClose} disableAutoFocus>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            disableAutoFocus
+            slotProps={{
+              backdrop: {
+                sx: {
+                  backgroundColor: 'rgba(0, 0, 0, 0.1)', // Semi transparent background
+                },
+              },
+            }}
+          >
           <Box
             sx={{
               position: "absolute",

@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import OpenAI from "openai";
 
 // load environment variables
-config({ path: "../acme-server/.env" });
+config({ path: "../med-server/.env" });
 
 const languages = [
   { name: "English", code: "en", source: true },

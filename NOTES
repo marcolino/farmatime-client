@@ -131,11 +131,11 @@
 
 
 ## Create Google Places API key for a project
- - https://console.cloud.google.com/apis/credentials?project=acme-431519
+ - https://console.cloud.google.com/apis/credentials?project=med-431519
 
 
 ## Google Developer console for oAuth
- - (https://console.cloud.google.com/apis/dashboard?project=acme-431519)
+ - (https://console.cloud.google.com/apis/dashboard?project=med-431519)
 
 
 ## Facebook Developer console for oAuth

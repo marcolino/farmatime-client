@@ -11,17 +11,17 @@ const urls = {
   atc: 'https://drive.aifa.gov.it/farmaci/atc.csv'
 };
 
-// Function to download a file
-function downloadFile(url, filename) {
+
+// Function to download a data file in memory
+function downloadData(url) {
   return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(filename);
     https.get(url, (response) => {
-      response.pipe(file);
-      file.on('finish', () => {
-        file.close(resolve);
-      });
+      let data = '';
+      response.setEncoding('utf8'); // ensures we're working with strings
+      response.on('data', (chunk) => data += chunk);
+      response.on('end', () => resolve(data));
     }).on('error', (err) => {
-      fs.unlink(filename, () => reject(err));
+      reject(err);
     });
   });
 }
@@ -52,20 +52,11 @@ async function main() {
   const outputFile = './src/data/AIFA.js';
 
   try {
-    // Download and process each file
-    const confezioniFile = 'confezioni.csv'; // TODO: use a temp directory
-    const paConfezioniFile = 'pa_confezioni.csv';
-    const atcFile = 'atc.csv';
-    
-    //await downloadFile(urls.confezioni, confezioniFile);
-    await downloadFile(urls.pa_confezioni, paConfezioniFile);
-    //await downloadFile(urls.atc, atcFile);
-    
-    // Read and parse the files
-    const confezioniContent = fs.readFileSync(confezioniFile, 'utf8');
-    const paConfezioniContent = fs.readFileSync(paConfezioniFile, 'utf8');
-    const atcContent = fs.readFileSync(atcFile, 'utf8');
-    
+    // Download and process each data file
+    const confezioniContent = await downloadData(urls.confezioni);
+    const paConfezioniContent = await downloadData(urls.pa_confezioni);
+    const atcContent = await downloadData(urls.atc);
+
     const confezioniData = parseCSV(confezioniContent);
     const paConfezioniData = parseCSV(paConfezioniContent);
     const atcData = parseCSV(atcContent);
@@ -82,9 +73,9 @@ async function main() {
       .map(item => ({
         id: item.codice_aic,
         name: item.denominazione,
-        holder: item.ragione_sociale,
+        //holder: item.ragione_sociale,
         form: item.forma,
-        atcCode: item.codice_atc
+        //atcCode: item.codice_atc
       }))
     ;
     
@@ -120,39 +111,41 @@ ${item.unita_misura ? item.unita_misura : ''}\
       .map(item => ({
         code: item.codice_atc,
         description: item.descrizione,
-        level: getATCLevelDescription(item.codice_atc)
+        //level: getATCLevelDescription(item.codice_atc)
       }))
     ;
     
     // Generate the output file
     const output = `// Auto-generated  data from AIFA sources
-export const dataAnagrafica = ${JSON.stringify(Anagrafica, null, 2)};
+export const dataAnagrafica = [
+${jsonStringifyArrayCustom(Anagrafica)}
+];
 
-export const dataPrincipiAttivi = ${JSON.stringify(PrincipiAttivi, null, 2)};
+export const dataPrincipiAttivi = [
+${jsonStringifyArrayCustom(PrincipiAttivi)}
+];
 
-export const dataATC = ${JSON.stringify(ATC, null, 2)};
+export const dataATC = [
+${jsonStringifyArrayCustom(ATC)}
+];
 `;
     
     fs.writeFileSync(outputFile, output);
 
-    //console.log(`Data processing complete. Output saved to const ${outputFile}`);
-
-    // Clean up temporary files
-    fs.unlinkSync(confezioniFile);
-    fs.unlinkSync(paConfezioniFile);
-    fs.unlinkSync(atcFile);
-    
+    console.log(`Data processing complete. Output saved to const ${outputFile}`); 
   } catch (error) {
     console.error('Error:', error);
   }
 }
 
+// Helper function to stringify array of objects in a custom way
+const jsonStringifyArrayCustom = (arr) => {
+  return arr.map(obj => JSON.stringify(obj)).join(',\n');
+}
+
 // Helper function to determine ATC level
 function getATCLevelDescription(atcCode) {
-  if (!atcCode) return 'Unknown';
-  
-  const length = atcCode.length;
-  switch (length) {
+  switch (atcCode?.length) {
     case 1: return 'Anatomico';
     case 3: return 'Terapeutico';
     case 4: return 'Farmacologico';
