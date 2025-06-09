@@ -14,6 +14,7 @@ export class SecureStorage {
 
   // Fetch the encryption key from the server
   async init() {
+    
     try {
       const response = await apiCall("get", "/auth/encryptionKey");
 
@@ -119,6 +120,7 @@ export class SecureStorage {
     );
   }
 
+/*
   async #encryptData(data, password) {
     const key = await this.#getKey(password);
     const encoder = new TextEncoder();
@@ -148,4 +150,5 @@ export class SecureStorage {
 
     return JSON.parse(new TextDecoder().decode(decrypted)); // Parse if data was stringified
   }
+*/
 }

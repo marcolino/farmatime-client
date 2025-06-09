@@ -1,4 +1,4 @@
-import React, { useState, createContext, useCallback } from "react";
+import { useState, createContext, useCallback } from "react";
 import { usePersistedState } from "../hooks/usePersistedState";
 import { apiCall } from "../libs/Network";
 import config from "../config";

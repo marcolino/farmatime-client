@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useState, useEffect, useMemo, useRef, useContext } from 'react';
+//import { useNavigate } from 'react-router-dom';
 import {
   DndContext,
   closestCenter,
@@ -36,11 +37,11 @@ import { ContextualHelp } from './ContextualHelp';
 import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
 import { useSecureStorage } from "../hooks/useSecureStorage";
+import { AuthContext } from "../providers/AuthProvider";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { i18n }  from "../i18n";
 import config from '../config';
-
 
 // TODO: avoid navigating away from page if a list is not confirmed
 
@@ -88,6 +89,7 @@ const ItemContainer = styled(Box)(({ theme }) => ({
 export const MedicineList = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const { isLoggedIn } = useContext(AuthContext);
   const [option, setOption] = useState(null);
   const [editingItemId, setEditingItemId] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -96,6 +98,7 @@ export const MedicineList = () => {
   const [items, setItems] = useState([]);
   const [mode, setMode] = useState('add'); // 'add' or 'update'
   const [fieldToFocus, setFieldToFocus] = useState(null);
+  //const navigate = useNavigate();
   
   // References to input fields
   const nameRef = useRef(null);
@@ -118,6 +121,32 @@ export const MedicineList = () => {
     secureStorageGet 
   } = useSecureStorage();
   
+  const storeItems = async (items) => {
+    if (secureStorageStatus !== 'ready') {
+      console.log("SKIPPING secureStorageSet, secureStorageStatus !== ready", secureStorageStatus);
+      return;
+    }
+    try {
+      await secureStorageSet('userData', items);
+      console.log(`List stored with ${items.length} items`);
+      // showSnackbar(
+      //   t('List confirmed with {{count}} items', { count: items.length }), 
+      //   'success'
+      // );
+    } catch (err) {
+      console.error(`Failed to save list: ${err.message}`);
+      // showSnackbar(t('Failed to save list: {{error}}', { 
+      //   error: err.message 
+      // }), 'error');
+    }
+  }
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      showSnackbar(t("User must be logged in"), "error");
+    }
+  }, [isLoggedIn, showSnackbar, t]);
+  
   // Load data when secure storage is ready
   useEffect(() => {
     if (secureStorageStatus !== 'ready') return;
@@ -126,9 +155,11 @@ export const MedicineList = () => {
         const data = await secureStorageGet('userData');
         if (data) {
           setItems(data);
-          showSnackbar(t('Data loaded successfully'), 'success');
+          console.log(`${data?.length} items loaded successfully`);
+          //showSnackbar(t('Data loaded successfully'), 'success');
         }
       } catch (err) {
+        console.error(`Error loading data: ${err.message}`);
         showSnackbar(t('Error loading data: {{error}}', {
           error: err.message
         }), 'error');
@@ -138,6 +169,13 @@ export const MedicineList = () => {
     //}
   }, [secureStorageStatus, secureStorageGet, showSnackbar, t]);
 
+  // When items changes, store them immediately
+  useEffect(() => {
+    //console.log("SSSSSSSSSSSSS");
+    storeItems(items);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
+  
   // When fieldToFocus changes, focus the corresponding input
   useEffect(() => {
     // Store refs in an object keyed by field name
@@ -282,6 +320,7 @@ export const MedicineList = () => {
     resetItems();
     console.log(`addItem - items reset: inputValue: ${inputValue}, option: ${option}, frequency: ${frequency}, date: ${date}`);
 
+    //let newItems;
     if (mode === 'add') { // Mode is 'add'
       //console.log(`addItem - mode is add`);
       setItems([...items, {
@@ -335,7 +374,7 @@ export const MedicineList = () => {
     const filteredItems = items.filter(item => item.id !== id);
     setItems(filteredItems);
 
-    storeItems(filteredItems);
+    //storeItems(filteredItems);
     // // Confirm automatically (to store to SecureStorage)
     // try {
     //   await secureStorageSet('userData', filteredItems);
@@ -361,46 +400,22 @@ export const MedicineList = () => {
     }
   };
 
-  const confirmList = async () => {
-    console.log('Confirmed list:', items);
-    //showSnackbar(t("List confirmed with {{count}} items", { count: items.length }), "info");
-    // const password = "userPassword";
-    // const secureStorage = new SecureStorage('local'); // Can switch to 'server' later
-    // await secureStorage.init(); // Fetches key from server
-    
-    storeItems(items);
-    // try {
-    //   await secureStorageSet('userData', items);
-    //   showSnackbar(
-    //     t('List confirmed with {{count}} items', { count: items.length }), 
-    //     'success'
-    //   );
-    // } catch (err) {
-    //   showSnackbar(t('Failed to save list: {{error}}', { 
-    //     error: err.message 
-    //   }), 'error');
-    // }
-
-    //secureStorage.set('userData', items);
-
-    // DEBUG ONLY - LOAD BACK DATA TO CHECK!
-    const data = await secureStorageGet('userData');
-    console.log("**************** data:", data);
+  const proceed = async () => {
+    console.log('Proceeding...');
+    showSnackbar(t('Proceeding...'), 'info');
   };
 
-  const storeItems = async (items) => {
-    try {
-      await secureStorageSet('userData', items);
-      showSnackbar(
-        t('List confirmed with {{count}} items', { count: items.length }), 
-        'success'
-      );
-    } catch (err) {
-      showSnackbar(t('Failed to save list: {{error}}', { 
-        error: err.message 
-      }), 'error');
-    }
-  }
+  // const confirmList = async () => {
+  //   console.log('Confirmed items data:', items);
+
+  //   storeItems(items);
+
+  //   console.log('Items data stored');
+
+  //   // DEBUG ONLY - LOAD BACK DATA TO CHECK!
+  //   const data = await secureStorageGet('userData');
+  //   console.log("Items data reloaded:", data);
+  // };
 
   const formatDate = (date) => {
     const locale = i18n.language;
@@ -434,8 +449,16 @@ export const MedicineList = () => {
   //   return <div>{t('Initializing secure storage...')}</div>;
   // }
 
+  if (!isLoggedIn) { // Check if user is logged in
+    //showSnackbar(t("User must be logged in"), "error");
+    console.log(t("User must be logged in to use this component"));
+    //navigate(-1, { replace: true });
+    return null;
+  }
+  
   if (secureStorageStatus === 'initializing') {
-    return <div>{t('Loading secure storage...')}</div>;
+    console.log('Loading secure storage...');
+    return null; //<div>{t('Loading secure storage...')}</div>;
   }
 
   if (secureStorageStatus === 'error') {
@@ -610,7 +633,8 @@ export const MedicineList = () => {
               {items.length > 0 && (
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
                   <Button
-                    onClick={confirmList}
+                    // onClick={confirmList}
+                    onClick={proceed}
                     type="submit"
                     variant="contained"
                     color="success"
@@ -621,7 +645,8 @@ export const MedicineList = () => {
                     }}
                     disabled={mode === 'update' || items.length === 0}
                   >
-                    {t("Confirm")}
+                    {/* {t("Confirm")} */}
+                    {t("Proceed")}
                   </Button>
                 </Box>
               )}

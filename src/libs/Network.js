@@ -36,7 +36,7 @@ const apiCall = async(method, url, data = {}) => {
     if (err.response) {
       // the request was made and the server responded with a status code out of the range of 2xx
       console.error(`⇒ ${url} error response`, err.response);
-      const message = err.response.data?.message ?? err.message ?? err.response.toString();
+      // const message = err.response.data?.message ?? err.message ?? err.response.toString();
       // if (!message) {
       //   message = err.response.toString();
       // }
