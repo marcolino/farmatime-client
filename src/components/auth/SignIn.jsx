@@ -170,7 +170,7 @@ function SignIn() {
               mb: 3,
             }}
           >
-            <Avatar sx={{ backgroundColor: "primary.main" }}>
+            <Avatar sx={{ bgColor: "primary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
           </Box>
@@ -307,7 +307,7 @@ function SignIn() {
                     startIcon={(
                       provider === "Google" ? <GoogleIcon sx={{ color: "red" }} /> :
                       provider === "Facebook" ? <FacebookIcon sx={{ color: "blue" }} /> :
-                      <Icon sx={{ backgroundColor: "white", color: "red" }}>G</Icon>
+                      <Icon sx={{ bgColor: "white", color: "red" }}>G</Icon>
                       // <></>
                     )}
                     sx={{

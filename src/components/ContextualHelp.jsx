@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   IconButton,
@@ -10,44 +11,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import InfoIcon from "@mui/icons-material/Info";
 import CloseIcon from "@mui/icons-material/Close";
 
-// Help content map
-const HelpPages = {
-  MedicineName: {
-    title: "Medicine Name",
-    content: (
-      <>
-        <p>Enter the name of the medicine, its active ingredient, or its ATC code.</p>
-        <p>You can use the autocomplete feature to help you find the correct medicine.</p>
-      </>
-    ),
-  },
-  DateSince: {
-    title: "Date of first request",
-    content: (
-      <>
-        <p>Enter the date when the first request to the doctor should be made.</p>
-        <p>For example, if you have some pills left, and you foresee to finish
-          it in a week, you should enter the day after a week from now.</p>
-      </>
-    ),
-  },
-  Frequency: {
-    title: "The frequency of the requests, in days",
-    content: (
-      <>
-        <p>Enter the frequency of the requests, in day.</p>
-        <p>For example, if you have to take 2 pills a day, and the packaging contains 36 pills, you should enter 18 here, to request the medicine every 18 days.</p>
-      </>
-    ),
-  },
-};
-
-const placementOffsets = {
-  "top-left": { top: -24, left: -24 },
-  "top-right": { top: -24, right: 24 },
-  "bottom-left": { bottom: 24, left: -24 },
-  "bottom-right": { bottom: 24, right: 24 },
-};
 
 export function ContextualHelpWrapper({
   children,
@@ -56,12 +19,55 @@ export function ContextualHelpWrapper({
   placement = "top-left",
   fullWidth = false,
 }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const help = HelpPages[helpPagesKey];
   const theme = useTheme();
   const iconButtonRef = useRef(null);
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
 
+  // Help content map
+  const HelpPages = {
+    MedicineName: {
+      title: t("Medicine Name"),
+      content: (
+        <>
+          <p>{t('Enter the name of the medicine, its active ingredient, or its ATC code')}.</p>
+          <p>{t('You can use the autocomplete feature to help you find the correct medicine:\
+ it is sufficent to start typing the medicine name')}.</p>
+        </>
+      ),
+    },
+    DateSince: {
+      title: t("Date of first request"),
+      content: (
+        <>
+          <p>{t('Enter the date when the first request to the doctor should be made')}.</p>
+          <p>{t('For example, if you have some pills left, and you foresee to finish it\
+ in a week, you should enter the day after a week from now')}.</p>
+        </>
+      ),
+    },
+    Frequency: {
+      title: t("Frequency of the requests"),
+      content: (
+        <>
+          <p>{t('Enter the frequency of the requests, in days')}.</p>
+            < p > {
+              t('For example, if you have to take 2 pills a day, and the packaging contains 36 pills,\
+ you should enter 18 here, to request the medicine every 18 days')}.</p>
+        </>
+      ),
+    },
+  };
+  
+  const placementOffsets = {
+    "top-left": { top: -24, left: -24 },
+    "top-right": { top: -24, right: 24 },
+    "bottom-left": { bottom: 24, left: -24 },
+    "bottom-right": { bottom: 24, right: 24 },
+  };
+
+  const help = HelpPages[helpPagesKey];
   if (!help) return children;
 
   const placementStyle = placementOffsets[placement] || placementOffsets["top-left"];
@@ -103,7 +109,7 @@ export function ContextualHelpWrapper({
             slotProps={{
               backdrop: {
                 sx: {
-                  backgroundColor: 'rgba(0, 0, 0, 0.1)', // Semi transparent background
+                  bgColor: 'rgba(0, 0, 0, 0.1)', // Semi transparent background
                 },
               },
             }}

@@ -1,5 +1,7 @@
 # NOTES
 
+## Eslint, disable react hooks axaustive deps warnings:
+// eslint-disable-next-line react-hooks/exhaustive-deps
 
 ## Security
  - .env files are excluded by git repositories; .env.gpg files are not;
@@ -45,7 +47,7 @@
   You can use these in various ways:
   ```jsx
   // In sx prop
-  <Box sx={{ color: 'primary.main', backgroundColor: 'grey.100' }} />
+  <Box sx={{ color: 'primary.main', bgColor: 'grey.100' }} />
 
   // In component color props
   <Button color="primary" />

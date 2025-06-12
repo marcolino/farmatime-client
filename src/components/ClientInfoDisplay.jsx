@@ -53,7 +53,7 @@ const ClientInfoDisplay = ({ theme }) => {
         right: 5,
         padding: 0,
         margin: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.33)",
+        bgColor: "rgba(0, 0, 0, 0.33)",
         borderRadius: 6,
         zIndex: 999,
       }}
@@ -61,14 +61,14 @@ const ClientInfoDisplay = ({ theme }) => {
       <Typography component={"span"} variant="body1">
         <Chip label={`W: ${viewportWidth}px`}
           sx={{
-            backgroundColor: "lightyellow",
+            bgColor: "lightyellow",
             color: "#888",
             margin: 1,
           }}
         />
         <Chip label={`B: ${breakpoint}`}
           sx={{
-            backgroundColor: "lightyellow",
+            bgColor: "lightyellow",
             color: "#888",
             margin: 1
           }}

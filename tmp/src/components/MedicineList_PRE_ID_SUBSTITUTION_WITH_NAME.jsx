@@ -1,3 +1,6 @@
+
+// TODO: do not use id's for medicines, but names, which must be unique !
+
 import { useState, useEffect, useMemo, useRef, useContext } from 'react';
 import { useDeepCompareEffect } from 'react-use';
 import {
@@ -43,6 +46,8 @@ import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { i18n }  from '../i18n';
 import config from '../config';
 
+// TODO: avoid navigating away from page if a list is not confirmed
+
 const localeMap = {
   en: enUS,
   it: it,
@@ -66,8 +71,7 @@ const Header = styled(Box)(({ theme }) => ({
 }));
 
 const ItemContainer = styled(Box)(({ theme }) => ({
-  // 100% of viewport height, minus header and footer, minus this component header and footer 
-  maxHeight: `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 400px - 120px)`,
+  maxHeight: `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 400px - 120px)`, // 100% of viewport height, minus header and footer, minus this component header and footer 
   minHeight: 120,
   overflowY: 'auto',
   marginBottom: theme.spacing(2),
@@ -89,7 +93,7 @@ export const MedicineList = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { isLoggedIn } = useContext(AuthContext);
-  const [option, setOption] = useState({});
+  const [option, setOption] = useState(null);
   const [editingItemId, setEditingItemId] = useState(null);
   const [fieldMedicine, setFieldMedicine] = useState('');
   const [fieldFrequency, setFieldFrequency] = useState(1);
@@ -119,8 +123,12 @@ export const MedicineList = () => {
       return;
     }
     try {
-      await secureStorageSet('medicinesList', items);
-      //console.log(`List stored with ${items.length} items`);
+      await secureStorageSet('userData', items);
+      console.log(`List stored with ${items.length} items`);
+      // showSnackbar(
+      //   t('List confirmed with {{count}} items', { count: items.length }), 
+      //   'success'
+      // );
     } catch (err) {
       //console.error(`Failed to save list: ${err.message}`);
       showSnackbar(t('Failed to save list: {{error}}', { 
@@ -129,7 +137,7 @@ export const MedicineList = () => {
     }
   }
 
-  // Check user is logged in - TODO: these checks should be done in an higher level component (like a route guard)
+  // Temporary useEffect: these checks should be done in an higher level component (like a route guard)
   useEffect(() => {
     if (!isLoggedIn) {
       showSnackbar(t('User must be logged in'), 'error');
@@ -137,18 +145,12 @@ export const MedicineList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
   
-  useEffect(() => {
-    // Reset to a fresh date when locale changes to avoid invalid state
-    setFieldDate(new Date());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [i18n.language]);
-  
   // Load data when secure storage is ready
   useEffect(() => {
     if (secureStorageStatus !== 'ready') return;
     const loadData = async () => {
       try {
-        const data = await secureStorageGet('medicinesList');
+        const data = await secureStorageGet('userData');
         if (data) {
           setItems(data);
           //console.log(`${data?.length} items loaded successfully`);
@@ -285,8 +287,8 @@ export const MedicineList = () => {
   const addItem = (e) => {
     e.preventDefault();
 
-    const name = e.target[0].value?.trim();
-    if (!name) {
+    const nameTrimmed = e.target[0].value?.trim();
+    if (!nameTrimmed) {
       showSnackbar(t('Please enter a medicine name'), 'warning');
       return;
     }
@@ -299,11 +301,17 @@ export const MedicineList = () => {
       return;
     }
 
-    option.label = name; // Ensure option has the manually edited label
+    const optionForced = option || {}
+    optionForced.label = nameTrimmed; // Ensure option has the manually edited label
+    if (!optionForced.id) {
+      const random = Math.random().toString(36).substring(2, 9); // Generate a random string for id
+      optionForced.id = `manually_edited_${random}`; // Assign a random id if not set
+    }
 
     if (mode === 'add') {
       if (
-        items.some(item => item.id === option.label) //|| // Check if item already exists by id
+        //items.some(item => item.id === optionForced.id) || // Check if item already exists by id
+        items.some(item => item.name === optionForced.label) // Check if item already exists by name
       ) {
         showSnackbar(t('This item already exists in the list'), 'warning');
         return;
@@ -311,37 +319,38 @@ export const MedicineList = () => {
     }
 
     resetItems();
-    //console.log(`addItem - items reset: fieldMedicine: ${fieldMedicine}, fieldFrequency: ${fieldFrequency}, fieldDate: ${fieldDate}, option: ${option}`);
+    console.log(`addItem - items reset: fieldMedicine: ${fieldMedicine}, fieldFrequency: ${fieldFrequency}, fieldDate: ${fieldDate}, option: ${option}`);
 
     if (mode === 'add') { // Mode is 'add'
       setItems([...items, {
-        id: name, // We need id for drag'n'drop, but name is unique also for manually edited items, so we use name for id value
-        name,
+        option: optionForced, // Store the full option object
+        id: optionForced.id,
+        name: optionForced.label,
         fieldFrequency,
-        fieldDate,
-        option // Store the full option object
+        fieldDate
       }]);
     } else { // Mode is 'update'
       setItems(prevItems =>
         prevItems.map(item =>
           item.id === editingItemId // Track which item we are editing
-            ? { ...item, option, name, fieldFrequency, fieldDate }
+            ? { ...item, option, name: nameTrimmed, fieldFrequency, fieldDate }
             : item
         )
       );
+      //setEditingItemId(null); // Clear editing state
       handleEditEnd();
       setMode('add'); // Reset to add mode
     }
   };
 
-  const startEdit = (name, field) => {
-    const item = items.find(i => i.name === name);
+  const startEdit = (id, field) => {
+    const item = items.find(i => i.id === id);
     if (!item) {
-      showSnackbar(t('Item by name {{name}} not found!', { name }), 'error'); // should not happen...
+      showSnackbar(t('Item by id {{id}} not found!', { id }), 'error'); // should not happen...
       return;
     }
     //setEditingItemId(id); // Track which item is being edited
-    handleEditStart(name); // Track which item is being edited
+    handleEditStart(id);
     setMode('update');
     setFieldToFocus(field); // e.g. 'name', 'frequency', or 'date'
     setOption(item.option || null);
@@ -350,8 +359,8 @@ export const MedicineList = () => {
     setFieldMedicine(item.name); // Set fieldMedicine to the item's name
   };
 
-  const handleEditStart = (name) => {
-    setEditingItemId(name);
+  const handleEditStart = (id) => {
+    setEditingItemId(id);
     //console.log(`handleEditStart - editingItemId set to: ${id}`);
   };
 
@@ -360,8 +369,8 @@ export const MedicineList = () => {
     //console.log(`handleEditEnd - editingItemId reset`);
   };
 
-  const removeItem = async (name) => {
-    const filteredItems = items.filter(item => item.name !== name);
+  const removeItem = async (id) => {
+    const filteredItems = items.filter(item => item.id !== id);
     setItems(filteredItems);
   };
 
@@ -381,7 +390,7 @@ export const MedicineList = () => {
       showSnackbar(t('Please confirm item being edited before proceeding...'), 'warning');
       return;
     }
-    //console.log('Proceeding...');
+    console.log('Proceeding...');
     showSnackbar(t('Proceeding... (Work in Progress!)'), 'info');
   };
 
@@ -392,7 +401,6 @@ export const MedicineList = () => {
 
   const getLocaleBasedFormat = () => {
     const locale = i18n.language;
-    console.log('getLocaleBasedFormat called with locale:', locale);
 
     // US format: MMM dd (Jun 02)
     if (locale.startsWith('en-US')) {
@@ -497,14 +505,9 @@ export const MedicineList = () => {
               >
                 <ContextualHelp helpPagesKey="DateSince">
                   <DatePicker
-                    key={i18n.language} // This forces a complete remount when locale changes
                     label={t('Since day')}
                     value={fieldDate}
-                    onChange={(newValue) => {
-                      //if (isValidDate(newValue)) {
-                        setFieldDate(newValue)
-                      //}
-                    }}
+                    onChange={(newValue) => setFieldDate(newValue)}
                     format={getLocaleBasedFormat()}
                     sx={{
                       width: { xs: 145, sm: 125, md: 145 }
@@ -610,7 +613,7 @@ export const MedicineList = () => {
                             <SortableItem 
                               key={item.id} 
                               id={item.id}
-                              name={item.name}
+                              name={item.option.label}
                               frequency={item.fieldFrequency}
                               date={item.fieldDate}
                               formatDate={formatDate}

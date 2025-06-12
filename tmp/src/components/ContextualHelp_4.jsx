@@ -49,11 +49,11 @@ const FloatingIconWrapper = styled('div')({
 });
 
 const HelpIconButton = styled(IconButton)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
+  bgColor: theme.palette.background.paper,
   boxShadow: theme.shadows[2],
   padding: theme.spacing(0.75),
   '&:hover': {
-    backgroundColor: theme.palette.action.hover,
+    bgColor: theme.palette.action.hover,
     boxShadow: theme.shadows[4],
   },
 }));

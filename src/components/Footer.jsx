@@ -100,8 +100,8 @@ const Footer = ({ changeLocale }) => {
       component="footer"
       sx={{
         width: "100%",
-        //backgroundColor: "transparent",
-        backgroundColor: "rgba(255, 255, 255, 0.33)",
+        //bgColor: "transparent",
+        bgColor: "rgba(255, 255, 255, 0.33)",
         opacity: 0.8,
         textAlign: "center",
         fontStyle: "italic",

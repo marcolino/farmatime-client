@@ -86,4 +86,64 @@ export class SecureStorage {
       //return data;
     }
   }
+
+/*
+  // ======================
+  // Private Encryption Methods 
+  // (Prefixed with `#` for true privacy in ES2022+)
+  // ======================
+  async #getKey(password) {
+    const encoder = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(password),
+      { name: 'PBKDF2' },
+      false,
+      ['deriveKey']
+    );
+
+    return crypto.subtle.deriveKey(
+      {
+        name: 'PBKDF2',
+        salt: encoder.encode('secure-salt'), // Use a fixed or stored salt
+        iterations: 100000,
+        hash: 'SHA-256',
+      },
+      keyMaterial,
+      { name: 'AES-GCM', length: 256 },
+      false,
+      ['encrypt', 'decrypt']
+    );
+  }
+
+  async #encryptData(data, password) {
+    const key = await this.#getKey(password);
+    const encoder = new TextEncoder();
+    const iv = crypto.getRandomValues(new Uint8Array(12)); // Initialization vector
+    const encrypted = await crypto.subtle.encrypt(
+      { name: 'AES-GCM', iv },
+      key,
+      encoder.encode(JSON.stringify(data)) // Stringify if data is an object
+    );
+
+    return {
+      iv: Array.from(iv).toString(),
+      data: Array.from(new Uint8Array(encrypted)).toString(),
+    };
+  }
+
+  async #decryptData(encryptedData, password) {
+    const key = await this.#getKey(password);
+    const iv = new Uint8Array(encryptedData.iv.split(',').map(Number));
+    const data = new Uint8Array(encryptedData.data.split(',').map(Number));
+
+    const decrypted = await crypto.subtle.decrypt(
+      { name: 'AES-GCM', iv },
+      key,
+      data
+    );
+
+    return JSON.parse(new TextDecoder().decode(decrypted)); // Parse if data was stringified
+  }
+*/
 }

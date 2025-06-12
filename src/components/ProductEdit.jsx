@@ -494,7 +494,7 @@ function ProductEdit() {
                       src={product.imageName ? `${config.siteUrl}${config.images.publicPathWaterMark}/${product.imageName}` : undefined}
                       alt={t("Current image")}
                       borderColor="primary.main"
-                      backgroundColor="background.default"
+                      bgColor="background.default"
                       label={productOriginal.imageNameOriginal}
                     />
                   </div>
@@ -505,7 +505,7 @@ function ProductEdit() {
                     src={selectedImageObjectUrl}
                     alt={t("Image being uploaded")}
                     borderColor="primary.main"
-                    backgroundColor="background.default"
+                    bgColor="background.default"
                     label={selectedImage.name}
                   />}
                 </Box>

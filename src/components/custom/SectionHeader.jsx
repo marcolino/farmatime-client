@@ -3,7 +3,7 @@ import { Paper, Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 const HeaderBar = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.nature.light,
+  bgColor: theme.palette.nature.light,
   width: "100%",
   position: "relative",
   marginTop: theme.spacing(2),
@@ -15,7 +15,7 @@ const HeaderBar = styled(Box)(({ theme }) => ({
 
 const HeaderText = styled(Typography)(({ theme }) => ({
   textAlign: "right",
-  //backgroundColor: "transparent",
+  //bgColor: "transparent",
   color: theme.palette.gun.dark,
   textTransform: "uppercase",
   fontWeight: "bold",

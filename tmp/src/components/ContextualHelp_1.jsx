@@ -144,7 +144,7 @@ const ContextualHelp = ({
           aria-label="contextual help"
           sx={{
             '&:hover': {
-              backgroundColor: 'action.hover'
+              bgColor: 'action.hover'
             }
           }}
         >

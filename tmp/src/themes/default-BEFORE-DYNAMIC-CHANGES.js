@@ -1,37 +1,22 @@
 // for full theme values, see https://mui.com/material-ui/customization/default-theme/
 
 import { createTheme, responsiveFontSizes, alpha, getContrastRatio } from "@mui/material/styles";
-import { useMediaQuery } from "@mui/material";
 import { deepMergeObjects } from "../libs/Misc";
 
 // custom colors
 const violet = "#953bee";
 
-// function that generates base theme props based on screen size
-const getCustomBaseThemeProps = (isXs = false) => ({
+// custom base theme props
+const customBaseThemeProps = {
   spacing: 8,
   typography: {
     fontFamily: "Open Sans",
-    fontSize: isXs ? 15 : 16, // Smaller base font size for xs screens
-    // You can also adjust other typography variants
-    // h1: {
-    //   fontSize: isXs ? '1.8rem' : '2.125rem',
-    // },
-    // h2: {
-    //   fontSize: isXs ? '1.6rem' : '1.875rem',
-    // },
-    // h3: {
-    //   fontSize: isXs ? '1.4rem' : '1.5rem',
-    // },
-    // body1: {
-    //   fontSize: isXs ? '0.8rem' : '0.875rem',
-    // },
-    // body2: {
-    //   fontSize: isXs ? '0.75rem' : '0.8125rem',
+    fontSize: 16,
+    // subtitle1: {
+    //   fontSize: "clamp(1rem, 1.1429rem + .5857vw, 2rem)",
     // },
     button: {
-      textTransform: "none",
-    //  fontSize: isXs ? '0.75rem' : '0.8125rem',
+      textTransform: "none", // avoid buttons text to be uppercase
     }
   },
   breakpoints: {
@@ -56,7 +41,7 @@ const getCustomBaseThemeProps = (isXs = false) => ({
       },
     },
   },
-});
+};
 
 // custom colors theme props
 const customColorsThemeProps = {
@@ -247,30 +232,7 @@ const customThemeDarkProps = {
     },
   },
 };
-
-// Create theme factory functions
-const createResponsiveTheme = (isDark = false, isXs = false) => {
-  //console.log("isXS:", isXs);
-  const customThemeProps = deepMergeObjects(
-    getCustomBaseThemeProps(isXs), 
-    customColorsThemeProps
-  );
   
-  const specificThemeProps = isDark ? customThemeDarkProps : customThemeLightProps;
-  
-  return responsiveFontSizes(
-    createTheme(
-      deepMergeObjects(customThemeProps, specificThemeProps)
-    )
-  );
-};
-
-export const useResponsiveTheme = (isDark = false) => {
-  const isXs = useMediaQuery('(max-width:599px)');
-  return createResponsiveTheme(isDark, isXs);
-};
-  
-/*
 const customThemeProps = deepMergeObjects(customBaseThemeProps, customColorsThemeProps);
 
 const themeLight = responsiveFontSizes(
@@ -295,4 +257,3 @@ const themeDark = responsiveFontSizes(
 // console.log("theme dark:", themeDark);
 
 export { themeLight, themeDark };
-*/

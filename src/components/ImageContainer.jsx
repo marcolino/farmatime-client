@@ -4,7 +4,7 @@ import { Box, FormLabel } from "@mui/material";
 import fallbackImage from "../assets/images/ImageNotFound.jpg";
 
 
-const ImageContainer = ({ _src, alt, borderColor = "transparent", backgroundColor = "transparent", label, ...props }) => {
+const ImageContainer = ({ _src, alt, borderColor = "transparent", bgColor = "transparent", label, ...props }) => {
   const [imgSrc, setImgSrc] = useState(props.src);
 
   if (!imgSrc) {
@@ -26,7 +26,7 @@ const ImageContainer = ({ _src, alt, borderColor = "transparent", backgroundColo
             position: "absolute",
             top: -8, // adjust label position above the border
             left: 12, // adjust label position horizontally
-            backgroundColor: "background.default",
+            bgColor: "background.default",
             px: 1,
             fontSize: "0.875rem !important",
             color: "text.secondary",

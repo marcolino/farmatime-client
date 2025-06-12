@@ -1,32 +1,31 @@
 import React from "react";
 import { useContext } from "react";
-import { Paper, Typography } from "@mui/material";
-//import { Button } from "./custom";
-import { useTranslation } from "react-i18next";
+// import { Paper, Typography } from "@mui/material";
+// import { useTranslation } from "react-i18next";
 import { AuthContext } from "../providers/AuthProvider";
-import FloatingLogo from "./FloatingLogo";
-import { MedicineList }  from "./MedicineList";
-import { MedicineInputAutocomplete }  from "./MedicineInputAutocomplete";
-//import { useSnackbarContext } from "../providers/SnackbarProvider";
-import config from "../config";
+// import FloatingLogo from "./FloatingLogo";
+// import { MedicineList }  from "./MedicineList";
+// import { MedicineInputAutocomplete }  from "./MedicineInputAutocomplete";
+import FlowPatient from "./FlowPatient";
+//import config from "../config";
 
 
 function Home() {
   const { auth } = useContext(AuthContext);
-  const { t } = useTranslation();
-  // const { showSnackbar } = useSnackbarContext(); 
+  //const { t } = useTranslation();
 
   if (typeof auth?.user === "undefined") {
+    console.log("auth.user is undefined", auth);
     return; // if auth.user is undefined, we don't know yet about user authentication...
   }
 
-  // return (
-  //   <MedicineInputAutocomplete />
-  // );
-
   return (
-    <MedicineList />
+    <FlowPatient />
   );
+
+  // return (
+  //   <MedicineList />
+  // );
 
   // return (
   //   <FloatingLogo text={config.title} />

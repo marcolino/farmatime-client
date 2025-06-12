@@ -180,9 +180,9 @@ const ProductsDetails = (props) => {
                     px: { xs: 1, sm: 2, },
                     py: 1,
                     margin: 1,
-                    backgroundColor: "primary.main",
+                    bgColor: "primary.main",
                     "&:hover": {
-                      backgroundColor: "primary.dark", // slightly darker on hover
+                      bgColor: "primary.dark", // slightly darker on hover
                     },
                   }}
                 >
@@ -232,9 +232,9 @@ const ProductsDetails = (props) => {
                     px: { xs: 1, sm: 2, },
                     py: 1,
                     margin: 1,
-                    backgroundColor: "primary.main", // or a custom color
+                    bgColor: "primary.main", // or a custom color
                     "&:hover": {
-                      backgroundColor: "primary.dark", // slightly darker on hover
+                      bgColor: "primary.dark", // slightly darker on hover
                     },
                   }}
                 >
@@ -290,7 +290,7 @@ const ProductDetailsCard = ({ product, imageHeight }) => {
     return (
       <Typography variant="body1" align="left" fontWeight="bold"
         sx={{
-          backgroundColor: "background.paper",
+          bgColor: "background.paper",
           borderRadius: 1.5,
           px: 1,
           mr: 1,

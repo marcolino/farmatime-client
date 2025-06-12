@@ -362,7 +362,7 @@ const Cart = (props) => {
                   </>
                 }
 
-                <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" sx={{ mt: 3, pl: 2, py: 1.5, backgroundColor: "ochre.dark" }}>
+                <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" sx={{ mt: 3, pl: 2, py: 1.5, bgColor: "ochre.dark" }}>
                   <Typography variant="body1">
                     {t("ORDER TOTAL")}
                   </Typography>

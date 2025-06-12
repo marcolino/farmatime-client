@@ -308,7 +308,7 @@ function SignUp() {
               mb: 3,
             }}
           >
-            <Avatar sx={{ backgroundColor: "primary.main" }}>
+            <Avatar sx={{ bgColor: "primary.main" }}>
               <AccountCircleOutlined />
             </Avatar>
           </Box>
@@ -424,7 +424,7 @@ function SignUp() {
                         startIcon={(
                           provider === "Google" ? <Google sx={{ color: "red" }} /> :
                           provider === "Facebook" ? <Facebook sx={{ color: "blue" }} /> :
-                          <Icon sx={{ backgroundColor: "white", color: "red" }}>G</Icon>
+                          <Icon sx={{ bgColor: "white", color: "red" }}>G</Icon>
                           // <></>
                         )}
                         sx={{

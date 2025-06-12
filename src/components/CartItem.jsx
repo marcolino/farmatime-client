@@ -214,7 +214,7 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
 
         {/* 3rd column - close icon and price */}
         <Grid item xs={2}>
-          <Box sx={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%"/*, backgroundColor: "yellow"*/}}>
+          <Box sx={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%"/*, bgColor: "yellow"*/}}>
             <Box sx={{ textAlign: "right" }}>
               <IconButton
                 size="small"
@@ -234,7 +234,7 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
                 color: "text.secondary",
                 textAlign: "right",
                 whiteSpace: "nowrap",
-                //backgroundColor: "yellow"
+                //bgColor: "yellow"
               }}
             >
               {currencyFormat(priceCurrent, item.currency)}

@@ -21,7 +21,8 @@ import CookiePreferences  from "./components/CookiePreferences";
 import ClientInfoDisplay from "./components/ClientInfoDisplay";
 import Loader from "./components/Loader";
 import { useAxiosLoader } from "./hooks/useAxiosLoader";
-import { themeLight, themeDark } from "./themes/default";
+//import { themeLight, themeDark } from "./themes/default";
+import { useResponsiveTheme } from "./themes/default";
 import config from "./config";
 
 /**
@@ -40,11 +41,21 @@ const AppStructure = () => {
   const [loading] = useAxiosLoader();
   const { preferences, changeLocale, toggleTheme } = useContext(AuthContext);
   //const [_secureStorageReady, setSecureStorageReady] = useState(false);
-  const [theme, setTheme] = useState(config.ui.defaultTheme === "light" ? themeLight : themeDark);
+  //const [theme, setTheme] = useState(config.ui.defaultTheme === "light" ? themeLight : themeDark);
+  //const theme = useResponsiveTheme(config.ui.defaultTheme === "dark");
+  const [isDarkMode, setIsDarkMode] = useState(config.ui.defaultTheme !== "light");
+  
+  // Get the responsive theme based on current mode and screen size
+  const theme = useResponsiveTheme(isDarkMode);
 
+  // Function to set theme
+  const setTheme = (themeName) => {
+    setIsDarkMode(themeName === "dark");
+  };
+  
   useEffect(() => {
     if (preferences && preferences.theme) {
-      setTheme(preferences.theme === "light" ? themeLight : themeDark);
+      setTheme(preferences.theme);
     }
   }, [preferences]);
 
@@ -61,7 +72,7 @@ const AppStructure = () => {
   // }, []);
 
   const themeToggle = () => {
-    setTheme((prevTheme) => (prevTheme.palette.mode === "light" ? themeDark : themeLight));
+    setTheme((prevTheme) => (prevTheme.palette.mode));
     toggleTheme();
   };
 

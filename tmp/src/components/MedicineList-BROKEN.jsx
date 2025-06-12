@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef, useContext } from 'react';
 import { useDeepCompareEffect } from 'react-use';
+//import { useNavigate } from 'react-router-dom';
 import {
   DndContext,
   closestCenter,
@@ -36,12 +37,14 @@ import { enUS, it, fr, de, es } from 'date-fns/locale';
 import { ContextualHelp } from './ContextualHelp';
 import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
-import { useSecureStorage } from '../hooks/useSecureStorage';
-import { AuthContext } from '../providers/AuthProvider';
-import { useSnackbarContext } from '../providers/SnackbarProvider';
+import { useSecureStorage } from "../hooks/useSecureStorage";
+import { AuthContext } from "../providers/AuthProvider";
+import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
-import { i18n }  from '../i18n';
+import { i18n }  from "../i18n";
 import config from '../config';
+
+// TODO: avoid navigating away from page if a list is not confirmed
 
 const localeMap = {
   en: enUS,
@@ -66,8 +69,7 @@ const Header = styled(Box)(({ theme }) => ({
 }));
 
 const ItemContainer = styled(Box)(({ theme }) => ({
-  // 100% of viewport height, minus header and footer, minus this component header and footer 
-  maxHeight: `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 400px - 120px)`,
+  maxHeight: `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 400px - 150px)`, // 100% of viewport height, minus header and footer, minus this component header and footer 
   minHeight: 120,
   overflowY: 'auto',
   marginBottom: theme.spacing(2),
@@ -89,7 +91,7 @@ export const MedicineList = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { isLoggedIn } = useContext(AuthContext);
-  const [option, setOption] = useState({});
+  const [option, setOption] = useState(null);
   const [editingItemId, setEditingItemId] = useState(null);
   const [fieldMedicine, setFieldMedicine] = useState('');
   const [fieldFrequency, setFieldFrequency] = useState(1);
@@ -109,18 +111,22 @@ export const MedicineList = () => {
   const isSm = useMediaQuery(theme.breakpoints.down('md'));
 
   // References to input fields
-  const fieldMedicineRef = useRef(null);
-  const fieldFrequencyRef = useRef(null);
-  const fieldDateRef = useRef(null);
+  const nameRef = useRef(null);
+  const frequencyRef = useRef(null);
+  const dateRef = useRef(null);
   
   const storeItems = async (items) => {
     if (secureStorageStatus !== 'ready') {
-      //console.log('skipping secureStorageSet, secureStorageStatus not ready, but', secureStorageStatus);
+      //console.log("skipping secureStorageSet, secureStorageStatus not ready, but", secureStorageStatus);
       return;
     }
     try {
-      await secureStorageSet('medicinesList', items);
-      //console.log(`List stored with ${items.length} items`);
+      await secureStorageSet('userData', items);
+      console.log(`List stored with ${items.length} items`);
+      // showSnackbar(
+      //   t('List confirmed with {{count}} items', { count: items.length }), 
+      //   'success'
+      // );
     } catch (err) {
       //console.error(`Failed to save list: ${err.message}`);
       showSnackbar(t('Failed to save list: {{error}}', { 
@@ -129,26 +135,20 @@ export const MedicineList = () => {
     }
   }
 
-  // Check user is logged in - TODO: these checks should be done in an higher level component (like a route guard)
+  // Temporary useEffect: these checks should be done in an higher level component (like a route guard)
   useEffect(() => {
     if (!isLoggedIn) {
-      showSnackbar(t('User must be logged in'), 'error');
+      showSnackbar(t("User must be logged in"), "error");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
-  
-  useEffect(() => {
-    // Reset to a fresh date when locale changes to avoid invalid state
-    setFieldDate(new Date());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [i18n.language]);
   
   // Load data when secure storage is ready
   useEffect(() => {
     if (secureStorageStatus !== 'ready') return;
     const loadData = async () => {
       try {
-        const data = await secureStorageGet('medicinesList');
+        const data = await secureStorageGet('userData');
         if (data) {
           setItems(data);
           //console.log(`${data?.length} items loaded successfully`);
@@ -171,14 +171,14 @@ export const MedicineList = () => {
   // When fieldToFocus changes, focus the corresponding input
   useEffect(() => {
     // Store refs in an object keyed by field name
-    const inputRefs = {
-      name: fieldMedicineRef,
-      frequency: fieldFrequencyRef,
-      date: fieldDateRef,
+    const itemFieldsRefs = {
+      name: nameRef,
+      frequency: frequencyRef,
+      date: dateRef,
     };
 
-    if (fieldToFocus && inputRefs[fieldToFocus]?.current) {
-      inputRefs[fieldToFocus].current.focus();
+    if (fieldToFocus && itemFieldsRefs[fieldToFocus]?.current) {
+      itemFieldsRefs[fieldToFocus].current.focus();
     }
   }, [fieldToFocus]);
 
@@ -277,81 +277,79 @@ export const MedicineList = () => {
 
   const resetItems = () => {
     setFieldMedicine('');
+    setOption(null);
     setFieldFrequency(1);
     setFieldDate(new Date());
-    setOption(null);
   };
 
   const addItem = (e) => {
     e.preventDefault();
 
-    const name = e.target[0].value?.trim();
-    if (!name) {
-      showSnackbar(t('Please enter a medicine name'), 'warning');
+    const nameTrimmed = e.target[0].value?.trim();
+    if (!nameTrimmed) {
+      showSnackbar(t("Please enter a medicine name"), "warning");
       return;
-    }
-    if (!fieldDate) {
-      showSnackbar(t('Please enter a valid date'), 'warning');
-      return;
-    }
-    if (!(fieldFrequency > 0)) {
-      showSnackbar(t('Please enter a valid frequency in days'), 'warning');
+    } 
+    if (!(frequency > 0)) {
+      showSnackbar(t("Please enter a valid frequency in days"), "warning");
       return;
     }
 
-    option.label = name; // Ensure option has the manually edited label
+    const optionForced = option || {}
+    optionForced.label = nameTrimmed; // Ensure option has the manually edited label
+    if (!optionForced.id) {
+      const random = Math.random().toString(36).substring(2, 9); // Generate a random string for id
+      optionForced.id = `manually_edited_${random}`; // Assign a random id if not set
+    }
 
     if (mode === 'add') {
-      if (
-        items.some(item => item.id === option.label) //|| // Check if item already exists by id
-      ) {
-        showSnackbar(t('This item already exists in the list'), 'warning');
+      if (items.some(item => item.id === optionForced.id)) { // Check if item already exists by id
+        showSnackbar(t("This item already exists in the list"), "warning");
         return;
       }
     }
 
     resetItems();
-    //console.log(`addItem - items reset: fieldMedicine: ${fieldMedicine}, fieldFrequency: ${fieldFrequency}, fieldDate: ${fieldDate}, option: ${option}`);
+    console.log(`addItem - items reset: fieldMedicine: ${fieldMedicine}, frequency: ${fieldFrequency}, date: ${fieldDate}, option: ${option}`);
 
     if (mode === 'add') { // Mode is 'add'
       setItems([...items, {
-        id: name, // We need id for drag'n'drop, but name is unique also for manually edited items, so we use name for id value
-        name,
+        option: optionForced, // Store the full option object
+        id: optionForced.id,
+        name: optionForced.label,
         fieldFrequency,
-        fieldDate,
-        option // Store the full option object
+        fieldDate
       }]);
     } else { // Mode is 'update'
       setItems(prevItems =>
         prevItems.map(item =>
           item.id === editingItemId // Track which item we are editing
-            ? { ...item, option, name, fieldFrequency, fieldDate }
+            ? { ...item, option, name: nameTrimmed, fieldFrequency, fieldDate }
             : item
         )
       );
-      handleEditEnd();
+      setEditingItemId(null); // Clear editing state
       setMode('add'); // Reset to add mode
     }
   };
 
-  const startEdit = (name, field) => {
-    const item = items.find(i => i.name === name);
+  const startEdit = (id, field) => {
+    const item = items.find(i => i.id === id);
     if (!item) {
-      showSnackbar(t('Item by name {{name}} not found!', { name }), 'error'); // should not happen...
+      showSnackbar(t("Item by id {{id}} not found!", { id }), "error"); // should not happen...
       return;
     }
-    //setEditingItemId(id); // Track which item is being edited
-    handleEditStart(name); // Track which item is being edited
+    setEditingItemId(id); // Track which item is being edited
     setMode('update');
-    setFieldToFocus(field); // e.g. 'name', 'frequency', or 'date'
+    setFieldToFocus(field); // e.g. "name", "fieldFrequency", or "fieldDate"
     setOption(item.option || null);
-    setFieldFrequency(item.fieldFrequency);
-    setFieldDate(new Date(item.fieldDate));
+    setFieldFrequency(item.frequency);
+    setFieldDate(new Date(item.date));
     setFieldMedicine(item.name); // Set fieldMedicine to the item's name
   };
 
-  const handleEditStart = (name) => {
-    setEditingItemId(name);
+  const handleEditStart = (id) => {
+    setEditingItemId(id);
     //console.log(`handleEditStart - editingItemId set to: ${id}`);
   };
 
@@ -360,8 +358,8 @@ export const MedicineList = () => {
     //console.log(`handleEditEnd - editingItemId reset`);
   };
 
-  const removeItem = async (name) => {
-    const filteredItems = items.filter(item => item.name !== name);
+  const removeItem = async (id) => {
+    const filteredItems = items.filter(item => item.id !== id);
     setItems(filteredItems);
   };
 
@@ -377,12 +375,9 @@ export const MedicineList = () => {
   };
 
   const proceed = async () => {
-    if (fieldMedicine) {
-      showSnackbar(t('Please confirm item being edited before proceeding...'), 'warning');
-      return;
-    }
-    //console.log('Proceeding...');
-    showSnackbar(t('Proceeding... (Work in Progress!)'), 'info');
+    // TODO: check if input is being edited, and show a warning, asking to complete editing, or cancel editing...
+    console.log('Proceeding...');
+    showSnackbar(t('Proceeding...'), 'info');
   };
 
   const formatDate = (date) => {
@@ -392,7 +387,6 @@ export const MedicineList = () => {
 
   const getLocaleBasedFormat = () => {
     const locale = i18n.language;
-    console.log('getLocaleBasedFormat called with locale:', locale);
 
     // US format: MMM dd (Jun 02)
     if (locale.startsWith('en-US')) {
@@ -413,9 +407,8 @@ export const MedicineList = () => {
     return 'dd MMM';
   };
 
-
   if (!isLoggedIn) { // Check if user is logged in
-    console.log(t('User must be logged in to use this component'));
+    console.log(t("User must be logged in to use this component"));
     return null;
   }
   
@@ -431,18 +424,19 @@ export const MedicineList = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localeMap[i18n.language]}>
-      <Container maxWidth="lg" sx={{ py: 0 }}>
-        <StyledPaper /*sx={{ m: 0 }}*/>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <StyledPaper>
           <Header>
             <Typography variant="h3" fontWeight="bold">
               {t("Medicines List")}
             </Typography>
             <Typography variant="subtitle2" fontWeight="light">
-              {t('Add to the list medicines names, first request date, and frequency of requests in days')}
+              {t("Add to the list medicines names, first request date, and frequency of requests in days")}
             </Typography>
           </Header>
           
           <Box p={4}>
+
             <Box
               component="form"
               onSubmit={addItem}
@@ -454,7 +448,7 @@ export const MedicineList = () => {
                 alignItems: 'flex-end'
               }}
             >
-              {/* First row: only the medicine input on xs, full row on sm+ */}
+              {/* First row: Only the medicine input on xs, full row on sm+ */}
               <Box
                 sx={{
                   width: { xs: '100%', sm: 'auto' },
@@ -468,25 +462,25 @@ export const MedicineList = () => {
                     fullWidth
                     variant="outlined"
                     value={option}
-                    inputValue={fieldMedicine ?? ''}
+                    fieldMedicine={fieldMedicine ?? ""}
                     onChange={(_event, newValue) => {
                       setOption(newValue);
                       setFieldMedicine(newValue ? newValue.label : '');
                     }}
-                    onInputChange={(event, newFieldMedicine, reason) => {
+                    onInputChange={(event, newfieldMedicine, reason) => {
                       if (reason === 'input' || reason === 'clear') {
-                        setFieldMedicine(newFieldMedicine);
+                        setFieldMedicine(newfieldMedicine);
                       }
                     }}
                     options={getFilteredOptions(fieldMedicine)}
                     placeholder="Enter full name of the medicine"
-                    ref={fieldMedicineRef}
+                    ref={nameRef}
                   />
                 </ContextualHelp>
               </Box>
 
-              {/* Second row (xs): date, frequency, buttons; 
-                  on sm+, these are just next to the input */}
+              {/* Second row (xs): Date, Frequency, Buttons; 
+                  On sm+, these are just next to the input */}
               <Box
                 sx={{
                   display: 'flex',
@@ -497,90 +491,56 @@ export const MedicineList = () => {
               >
                 <ContextualHelp helpPagesKey="DateSince">
                   <DatePicker
-                    key={i18n.language} // This forces a complete remount when locale changes
-                    label={t('Since day')}
+                    label={t("Since day")}
                     value={fieldDate}
-                    onChange={(newValue) => {
-                      //if (isValidDate(newValue)) {
-                        setFieldDate(newValue)
-                      //}
-                    }}
+                    onChange={(newValue) => setFieldDate(newValue)}
                     format={getLocaleBasedFormat()}
-                    sx={{
-                      width: { xs: 145, sm: 125, md: 145 }
-                    }}
+                    sx={{ width: isXs ? 145 : isSm ? 125 : 145 }}
                     PopperProps={{
                       placement: 'bottom-start',
                     }}
-                    minDate={new Date()} // Today onwards: only dates in the future
-                    formatDensity="spacious"
-                    inputRef={fieldDateRef}
+                    inputRef={dateRef}
                   />
                 </ContextualHelp>
 
                 <ContextualHelp helpPagesKey="Frequency">
                   <TextField
-                    label={isXs ? t('Freq.') : isSm ? t('Freq.') : t('Frequency (days)')}
+                    label={isXs ? t("Frequency (days)") : isSm ? t("Freq.") : t("Frequency (days)")}
                     variant="outlined"
                     type="number"
                     input={{ min: 1 }}
                     value={fieldFrequency}
                     onChange={(e) => setFieldFrequency(parseInt(e.target.value) || 1)}
-                    sx={{
-                      width: { xs: 65, sm: 65, md: 145}
-                    }}
-                    inputRef={fieldFrequencyRef}
+                    sx={{ width: isXs ? 145 : isSm ? 65 : 145 }}
+                    inputRef={frequencyRef}
                   />
                 </ContextualHelp>
 
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: { xs: mode === 'update' ? 'column' : 'row', sm: 'row' },
-                    gap: 2,
-                    width: { xs: '100%', sm: 'auto' },
-                    mt: { xs: mode === 'update' ? 0 : 0, sm: 0 }
-                  }}
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  sx={{ height: 56, mb: 0.2, px: isSm ? 1 : 4.5 }}
                 >
+                  {mode === 'add' ? t("Add") : t("Update")}
+                </Button>
+                {mode === 'update' && (
                   <Button
-                    type="submit"
+                    type="button"
+                    onClick={() => { resetItems(); setMode('add'); setEditingItemId(null); }}
                     variant="contained"
-                    color="primary"
+                    color="default"
                     size="large"
-                    sx={{
-                      height: { xs: mode === 'update' ? 36 : 56, sm: 56 },
-                      mt: { xs: mode === 'update' ? -1.2 : 0, sm: 0 },
-                      mb: 0.2,
-                      px: { xs: 0, sm: 1, md: 4.5 },
-                      width: { xs: mode === 'update' ? '100%' : 'auto', sm: 'auto' }
-                    }}
+                    sx={{ height: 56, mb: 0.2, px: isSm ? 1 : 4.5 }}
                   >
-                    {mode === 'add' ? (isXs ? t('Add:punctuated') : t('Add')) : (isXs ? t('Update:punctuated') : t('Update'))}
+                    {t("Cancel")}
                   </Button>
-                  {mode === 'update' && (
-                    <Button
-                      type="button"
-                      onClick={() => { resetItems(); setMode('add'); handleEditEnd(); }}
-                      variant="contained"
-                      color="default"
-                      size="large"
-                      sx={{ 
-                        height: { xs: 36, sm: 56 },
-                        mt: { xs: -1.2, sm: 0 },
-                        mb: 0.2,
-                        px: { xs: 0, sm: 1, md: 4.5 },
-                        width: { xs: '100%', sm: 'auto' }
-                      }}
-                    >
-                      {isXs ? t('Cancel:punctuated') : t('Cancel')}
-                    </Button>
-                  )}
-                </Box>
-
+                )}
               </Box>
             </Box>
 
-            <Divider sx={{ margin: -1 }} />
+            <Divider sx={{ margin: -1.5 }} />
             
             <Box mt={4}>
               <DndContext
@@ -588,7 +548,6 @@ export const MedicineList = () => {
                 collisionDetection={closestCenter}
                 onDragEnd={handleDragEnd}
                 modifiers={[restrictToVerticalAxis]}
-
               >
                 <SortableContext
                   items={items}
@@ -605,14 +564,14 @@ export const MedicineList = () => {
                         No items present yet
                       </Typography>
                     ) : (
-                        <Box component="ul" sx={{ p: 0, m: 0}}>
+                        <Box component="ul" sx={{ p: 0, m: 0 }}>
                           {items.map((item) => (
                             <SortableItem 
                               key={item.id} 
                               id={item.id}
-                              name={item.name}
-                              frequency={item.fieldFrequency}
-                              date={item.fieldDate}
+                              name={item.option.label}
+                              frequency={item.frequency}
+                              date={item.date}
                               formatDate={formatDate}
                               onEdit={startEdit}
                               onRemove={removeItem}
@@ -629,11 +588,7 @@ export const MedicineList = () => {
               </DndContext>
 
               {items.length > 0 && (
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  mt: { xs: 0, sm: 1 },
-                }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
                   <Button
                     // onClick={confirmList}
                     onClick={proceed}
@@ -647,8 +602,8 @@ export const MedicineList = () => {
                     }}
                     disabled={mode === 'update' || items.length === 0}
                   >
-                    {/* {t('Confirm')} */}
-                    {t('Proceed')}
+                    {/* {t("Confirm")} */}
+                    {t("Proceed")}
                   </Button>
                 </Box>
               )}

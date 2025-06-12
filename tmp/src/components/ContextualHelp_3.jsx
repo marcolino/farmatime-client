@@ -50,12 +50,12 @@ const FloatingIconWrapper = styled('div')({
 
 const FloatingIconButton = styled(IconButton)(({ theme }) => ({
   position: 'relative',
-  backgroundColor: theme.palette.background.paper,
+  bgColor: theme.palette.background.paper,
   boxShadow: theme.shadows[2],
   padding: theme.spacing(0.75),
   zIndex: 1,
   '&:hover': {
-    backgroundColor: theme.palette.action.hover,
+    bgColor: theme.palette.action.hover,
     boxShadow: theme.shadows[4],
   },
 }));

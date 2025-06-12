@@ -228,7 +228,7 @@ function ForgotPassword() {
               mb: 3,
             }}
           >
-            <Avatar sx={{ backgroundColor: "primary.main" }}>
+            <Avatar sx={{ bgColor: "primary.main" }}>
               <LockOpenOutlined />
             </Avatar>
           </Box>

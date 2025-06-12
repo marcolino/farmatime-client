@@ -358,7 +358,7 @@ const UserTable = () => {
 
       <Paper sx={{
         overflow: "hidden",
-        backgroundColor: theme.palette.background.default,
+        bgColor: theme.palette.background.default,
         color: theme.palette.text.secondary,
       }}>
         <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 26rem))" }}>
@@ -369,7 +369,7 @@ const UserTable = () => {
               <TableRow 
                 sx={(theme) => ({
                   "& th": {
-                    backgroundColor: theme.palette.secondary.main,
+                    bgColor: theme.palette.secondary.main,
                     color: theme.palette.common.black,
                     py: 0,
                     whiteSpace: "nowrap",
@@ -426,7 +426,7 @@ const UserTable = () => {
                       selected={isItemSelected}
                       sx={(theme) => ({
                         "& td": {
-                          backgroundColor: theme.palette.ochre.light,
+                          bgColor: theme.palette.ochre.light,
                           color: theme.palette.common.text,
                           py: 0,
                         }

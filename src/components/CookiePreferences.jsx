@@ -83,7 +83,7 @@ const CookiePreferences = (props) => {
         maxWidth: 600,
         width: "90%",
         padding: theme.spacing(3),
-        backgroundColor: theme.palette.background.paper,
+        bgColor: theme.palette.background.paper,
         color: theme.palette.text.primary,
         zIndex: 9999, // above other elements
       }

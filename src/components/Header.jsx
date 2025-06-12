@@ -159,7 +159,7 @@ const Header = ({ theme, toggleTheme }) => {
     <AppBar
       position="sticky"
       elevation={1}
-      sx={{ backgroundColor: theme.palette.ochre.light }}>
+      sx={{ bgColor: theme.palette.ochre.light }}>
       <Toolbar>
         <Box
           component={Link}

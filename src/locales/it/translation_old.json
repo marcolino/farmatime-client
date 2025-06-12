@@ -63,6 +63,9 @@
   "Get notified about comments and replies to your posts.": "Ricevi notifiche sui commenti e sulle risposte ai tuoi post.",
   "Home page for guest user": "Pagina iniziale per l'utente ospite",
   "Home page for logged user": "Pagina iniziale per l'utente loggato",
+  "List confirmed with {{count}} items._one": "Elenco confermato con 1 elemento",
+  "List confirmed with {{count}} items._many": "Elenco confermato con {{count}} elementi",
+  "List confirmed with {{count}} items._other": "Elenco confermato con {{count}} elementi",
   "Logout": "Esci",
   "marketingMessages": "messaggiDiMarketing",
   "Medicine name (name, active ingredient or ATC code) is required": "Il nome del medicinale (nome, principio attivo o codice ATC) è richiesto",
@@ -74,10 +77,13 @@
   "now": "adesso",
   "Please \"Enter\" and then go to \"Profile\", and use \"Notifications preferences\" to change your notification preferences": "__STRING_NOT_TRANSLATED__",
   "Please Join and then go to \"Profile\", and use \"Notifications preferences\" to change your notification preferences": "Unisciti e poi vai su \"Profilo\", e utilizza \"Preferenze di notifica\" per modificare le tue preferenze di notifica",
+  "Proceeding...": "Si procede...",
   "Remember me": "Ricordami",
   "reminders": "promemoria",
   "Retry": "Riprova",
   "Save Preferences": "Salva le preferenze",
+  "Secure storage unavailable": "Lo storage sicuro non è disponibile",
+  "The frequency of the requests, in days": "La frequenza delle richieste, in giorni",
   "The password must contain at least:\n  - one lowercase alphabetical character,\n  - one uppercase alphabetical character,\n  - one numeric character,\n  - one special character,\n  - and a total of at least eight characters.\n": "La password deve contenere almeno:\n  - un carattere alfabetico minuscolo,\n  - un carattere alfabetico maiuscolo,\n  - un carattere numerico,\n  - un carattere speciale,\n  - e un totale di almeno otto caratteri.\n",
   "tipsTutorials": "suggerimentiTutorial",
   "transactionAlerts": "avvisiDiTransazione",
@@ -90,5 +96,7 @@
   "We are working hard to restore the functionality of this web app. Please come back soon…": "Stiamo lavorando sodo per ripristinare la funzionalità della web app. Si prega di riprovare a breve…",
   "We use Cookies": "Usiamo i cookies",
   "We uses cookies to ensure you get the best experience": "Usiamo i cookies o tecnologie simili per assicurarti la miglior esperienza",
-  "with": "con"
+  "with": "con",
+  "You can use the autocomplete feature to help you find the correct medicine": "Si può utilizzare la funzione di completamento automatico per trovare il medicinale corretto",
+  "You can use the autocomplete feature to help you find the correct medicine:it is sufficent to start typing the medicine name": "__STRING_NOT_TRANSLATED__"
 }

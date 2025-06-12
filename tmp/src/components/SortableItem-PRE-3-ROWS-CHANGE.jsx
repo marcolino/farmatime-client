@@ -16,6 +16,7 @@ export const SortableItem = ({
   onRemove,
   isEditing,
   onEditStart,
+  //onEditEnd
 }) => {
   const {
     attributes,
@@ -121,12 +122,6 @@ export const SortableItem = ({
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              cursor: 'pointer',
-              '&:hover': {
-                bgcolor: 'action.hover', // Uses theme's hover color
-              },
-              padding: '5px 8px',
-              borderRadius: 1,
             }}
           >
             {name}
@@ -150,10 +145,7 @@ export const SortableItem = ({
             sx={{
               width: (isXs || isSm) ? 'auto' : 120,
               borderRadius: '4px',
-              '& .MuiChip-label': {
-                px: isXs ? 1 : isSm ? 1 : 'auto',
-              },
-              mr: isXs ? 0 : isSm ? 0 : 3,
+              mr: isXs ? 0 : isSm ? 1 : 3,
               bgcolor: 'action.disabled',
               color: 'info.contrastText',
               '&:hover': { bgcolor: 'text.primary' }
@@ -172,13 +164,9 @@ export const SortableItem = ({
             sx={{
               width: (isXs || isSm) ? 'auto' : 130,
               borderRadius: '4px',
-              '& .MuiChip-label': {
-                px: isXs ? 1 : isSm ? 1 : 'auto',
-              },
               mr: isXs ? 0 : isSm ? 1 : 3,
               bgcolor: 'action.disabled',
               color: 'info.contrastText',
-              '&:hover': { bgcolor: 'text.primary' }
             }}
           />
         </Box>

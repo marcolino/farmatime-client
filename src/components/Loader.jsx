@@ -19,7 +19,7 @@ function Loader({ loading = false, lazyloading = false }) {
         width: "100vw", // ensure full viewport width
         height: "100vh", // ensure full viewport height
         zIndex: 999, // higher z-index to ensure it's above everything
-        backgroundColor: "rgba(0, 0, 0, 0.1)", // darken the background for contrast
+        bgColor: "rgba(0, 0, 0, 0.1)", // darken the background for contrast
       }}>
         <CircularProgress
           variant="indeterminate"

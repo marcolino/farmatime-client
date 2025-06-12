@@ -178,7 +178,7 @@ const NotificationPreferences = (props) => {
       <Grid container spacing={1} alignItems="flex-start">
         {/* section title on left */}
         <Grid item xs={12} md={3}>
-          <Typography variant="h6" sx={{px: 2, mr: 2, backgroundColor: "secondary.main", borderRadius: 1 }}>
+          <Typography variant="h6" sx={{px: 2, mr: 2, bgColor: "secondary.main", borderRadius: 1 }}>
             {sectionTitle}
           </Typography>
         </Grid>

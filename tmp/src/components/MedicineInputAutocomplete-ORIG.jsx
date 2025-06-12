@@ -209,9 +209,9 @@ export const MedicineInputAutocomplete = () => {
               component="li"
               {...props2}
               sx={{
-                backgroundColor: getOptionColor(option.type),
+                bgColor: getOptionColor(option.type),
                 '&:hover': {
-                  backgroundColor: `${getOptionColor(option.type)} !important`,
+                  bgColor: `${getOptionColor(option.type)} !important`,
                   filter: 'brightness(0.95)'
                 }
               }}
