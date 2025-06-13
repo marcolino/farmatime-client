@@ -3,8 +3,7 @@
 
 //import dotenv from "dotenv";
 import fs from "fs/promises";
-import { access } from "fs/promises"; // access as a promise-based version
-import config from "../src/config.json" assert { type: "json" };
+import config from "../src/config.json" with { type: "json" };
 
 //dotenv.config({ path: "./.env" });
 
@@ -41,7 +40,7 @@ const manifestJson = {
       "src": "apple-touch-icon.png",
       "type": "image/png",
       "sizes": "512x512"
-    },
+    }
   ],
   "screenshots": [    
     {
@@ -50,54 +49,61 @@ const manifestJson = {
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Mobile application"
-      },
-      {
-        "src": "screenshot-wide.png",
-        "sizes": "1024x1574",
-        "type": "image/png",
-        "form_factor": "wide",
-        "label": "Desktop application"
-      }
-    ],
-    "start_url": config.manifest.startUrl,
-    "display": config.manifest.display,
-    "theme_color": config.ui.defaultThemeColor,
-    "background_color": config.ui.defaultThemeBackgroundColor,
+    },
+    {
+      "src": "screenshot-wide.png",
+      "sizes": "1024x1574",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop application"
+    }
+  ],
+  "start_url": config.manifest.startUrl,
+  "display": config.manifest.display,
+  "theme_color": config.ui.defaultThemeColor,
+  "background_color": config.ui.defaultThemeBackgroundColor
 };
 
 const manifestFileName = "public/manifest.webmanifest";
 const faviconSourcePath = "Logo.png";
 
-// check favicons existence
-const faviconsPaths = [
-  "./public/favicon-16x16.png",
-  "./public/favicon-32x32.png",
-  "./public/favicon-64x64.png",
-];
-
-for (const faviconsPath of faviconsPaths) {
+async function buildManifest() {
   try {
-    await access(faviconsPath);
-    // favicon exists
+    // check favicons existence
+    const faviconsPaths = [
+      "./public/favicon-16x16.png",
+      "./public/favicon-32x32.png",
+      "./public/favicon-64x64.png"
+    ];
+
+    for (const faviconsPath of faviconsPaths) {
+      try {
+        await fs.access(faviconsPath);
+        // favicon exists
+      } catch (err) {
+        console.error(`Favicon not found: ${faviconsPath}`);
+        console.error(err.message);
+        process.exit(1);
+      }
+    }
+
+    try {
+      await fs.access(faviconSourcePath);
+      // favicon source exists
+    } catch (err) {
+      console.error(`Favicon source not found: ${faviconSourcePath}`);
+      console.error(err.message);
+      process.exit(2);
+    }
+
+    await fs.writeFile(manifestFileName, JSON.stringify(manifestJson, null, 2), "utf8");
+    console.log(`Manifest file ${manifestFileName} created successfully.`);
+    
   } catch (err) {
-    console.error(err.message);
-    process.exit(-1);
+    console.error("Error creating manifest:", err);
+    process.exit(3);
   }
 }
 
-try {
-  await access(faviconSourcePath);
-  // favicon exists
-} catch (err) {
-  console.error(err.message);
-  process.exit(-2);
-}
-
-
-try {
-  await fs.writeFile(manifestFileName, JSON.stringify(manifestJson, null, 0));
-  //console.log(`Manifest file ${manifestFileName} created successfully.`);
-} catch (err) {
-  console.error(err);
-  process.exit(-3);
-}
+// Run the manifest builder
+buildManifest();

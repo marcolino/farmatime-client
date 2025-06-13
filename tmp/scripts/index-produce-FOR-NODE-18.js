@@ -1,11 +1,8 @@
 // (note: use yarn node --no-warnings)
 
-import fs from "fs/promises";
-//import { readFileSync } from "fs";
+import fs from "fs";
 import get from "lodash.get";
-
-// Use import attributes syntax for JSON (Node.js 24+)
-import config from "../src/config.json" with { type: "json" };
+import config from "../src/config.json" assert { type: "json" };
 
 const indexFileNameInput = "index-template.html";
 const indexFileNameOutput = "index.html";
@@ -47,26 +44,26 @@ const replaceConfigTags = (template, config, options = {}) => {
     
     return value.toString();
   });
-};
+}
 
 const insertWarningComment = (template) => {
   const warningComment = "<!-- this file is built by the build process, do not edit this, but index-template.html -->\n";
-  return warningComment + template;
+  return template = warningComment + template;
 };
 
 let template;
 try {
-  template = await fs.readFile(indexFileNameInput, 'utf8');
+  template = fs.readFileSync(indexFileNameInput).toString();
 } catch (err) {
   console.error(err);
   process.exit(-1);
 }
 
-template = insertWarningComment(template);
-const contents = replaceConfigTags(template, config);
+template = await insertWarningComment(template);
+const contents = await replaceConfigTags(template, config);
 
 try {
-  await fs.writeFile(indexFileNameOutput, contents, 'utf8');
+  await fs.writeFile(indexFileNameOutput, contents);
   //console.log(`Index file ${indexFileNameOutput} created successfully.`);
 } catch (err) {
   console.error(err);

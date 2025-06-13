@@ -63,6 +63,7 @@
   "Get notified about comments and replies to your posts.": "Ricevi notifiche sui commenti e sulle risposte ai tuoi post.",
   "Home page for guest user": "Pagina iniziale per l'utente ospite",
   "Home page for logged user": "Pagina iniziale per l'utente loggato",
+  "Item by id {{id}} not found!": "Elemento con id {{id}} non trovato!",
   "List confirmed with {{count}} items._one": "Elenco confermato con 1 elemento",
   "List confirmed with {{count}} items._many": "Elenco confermato con {{count}} elementi",
   "List confirmed with {{count}} items._other": "Elenco confermato con {{count}} elementi",

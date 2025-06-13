@@ -21,17 +21,17 @@ function Home() {
     return; // if auth.user is undefined, we don't know yet about user authentication...
   }
 
-  // return (
-  //   <FlowPatient />
-  // );
+  return (
+    <FlowPatient />
+  );
 
   // return (
   //   <FlowPatientStepperExample />
   // );
 
-  return (
-    <EmailTemplateEditor />
-  );
+  // return (
+  //   <EmailTemplateEditor />
+  // );
 
   // return (
   //   <MedicinesList />

@@ -13,7 +13,7 @@ publicFavicon64x64="public/favicon-64x64.png"
 publicAppleTouchIcon="public/apple-touch-icon.png"
 publicMsTileImage="public/ms-tile.png"
 publicLogoMailHeader="public/logo-main-header.png"
-srcLogoMain="src/assets/images/logoMain.png"
+srcLogoMain="src/assets/images/LogoMain.png"
 
 if [ ! -f "$sourceImage" ]; then
   echo "Source image \"$sourceImage\" not found"
@@ -30,11 +30,11 @@ fi
 width=`identify -format '%w' "$sourceImage"`
 height=`identify -format '%h' "$sourceImage"`
 if [ $width -lt $minSize ]; then
-  echo "Source image \"$sourceImage\" should be at least \$minSize pixels wide"
+  echo "Source image \"$sourceImage\" should be at least $minSize pixels wide"
   exit 4;
 fi
 if [ $height -lt $minSize ]; then
-  echo "Source image \"$sourceImage\" should be at least \$minSize pixels high"
+  echo "Source image \"$sourceImage\" should be at least $minSize pixels high"
   exit 5;
 fi
 

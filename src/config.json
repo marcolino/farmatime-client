@@ -215,7 +215,7 @@
     "themeColor": "#4e4f4c",
     "cacheControl": "mag-age=1440",
     "og": {
-      "title": "ACME",
+      "title": "DOC",
       "description": "A powerful web app, easily customizable",
       "url": "http://localhost:5000",
       "type": "website",

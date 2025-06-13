@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -23,6 +24,7 @@ import { ArrowBack, ArrowForward, Check } from '@mui/icons-material';
 
 // Mock Medicine List Component (replace with your existing component)
 const MedicinesList = ({ medicines, onChange }) => {
+  const { t } = useTranslation();
   const [newMedicine, setNewMedicine] = useState({ name: '', date: '', frequency: '' });
 
   const addMedicine = () => {
@@ -107,142 +109,159 @@ const MedicinesList = ({ medicines, onChange }) => {
 };
 
 // Individual Form Components
-const PatientForm = ({ data, onChange }) => (
-  <Card>
-    <CardContent>
-      <Typography variant="h6" gutterBottom>Patient Information</Typography>
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label="First Name"
-            value={data.firstName || ''}
-            onChange={(e) => onChange({ ...data, firstName: e.target.value })}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label="Last Name"
-            value={data.lastName || ''}
-            onChange={(e) => onChange({ ...data, lastName: e.target.value })}
-          />
-        </Grid>
-        <Grid size={{ xs: 12 }}>
-          <TextField
-            fullWidth
-            label="Email"
-            type="email"
-            value={data.email || ''}
-            onChange={(e) => onChange({ ...data, email: e.target.value })}
-          />
-        </Grid>
-      </Grid>
-    </CardContent>
-  </Card>
-);
+const PatientForm = ({ data, onChange }) => {
+  const { t } = useTranslation();
 
-const DoctorForm = ({ data, onChange }) => (
-  <Card>
-    <CardContent>
-      <Typography variant="h6" gutterBottom>Doctor Information</Typography>
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label="First Name"
-            value={data.firstName || ''}
-            onChange={(e) => onChange({ ...data, firstName: e.target.value })}
-          />
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>Patient Information</Typography>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <TextField
+              fullWidth
+              label={t("First Name")}
+              value={data.firstName || ''}
+              onChange={(e) => onChange({ ...data, firstName: e.target.value })}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <TextField
+              fullWidth
+              label="Last Name"
+              value={data.lastName || ''}
+              onChange={(e) => onChange({ ...data, lastName: e.target.value })}
+            />
+          </Grid>
+          <Grid size={{ xs: 12 }}>
+            <TextField
+              fullWidth
+              label="Email"
+              type="email"
+              value={data.email || ''}
+              onChange={(e) => onChange({ ...data, email: e.target.value })}
+            />
+          </Grid>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label="Last Name"
-            value={data.lastName || ''}
-            onChange={(e) => onChange({ ...data, lastName: e.target.value })}
-          />
+      </CardContent>
+    </Card>
+  );
+};
+
+const DoctorForm = ({ data, onChange }) => {
+  const { t } = useTranslation();
+
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>{t('Doctor Information')}</Typography>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <TextField
+              fullWidth
+              label="First Name"
+              value={data.firstName || ''}
+              onChange={(e) => onChange({ ...data, firstName: e.target.value })}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <TextField
+              fullWidth
+              label="Last Name"
+              value={data.lastName || ''}
+              onChange={(e) => onChange({ ...data, lastName: e.target.value })}
+            />
+          </Grid>
+          <Grid size={{ xs: 12 }}>
+            <TextField
+              fullWidth
+              label="Email"
+              type="email"
+              value={data.email || ''}
+              onChange={(e) => onChange({ ...data, email: e.target.value })}
+            />
+          </Grid>
         </Grid>
-        <Grid size={{ xs: 12 }}>
-          <TextField
-            fullWidth
-            label="Email"
-            type="email"
-            value={data.email || ''}
-            onChange={(e) => onChange({ ...data, email: e.target.value })}
-          />
-        </Grid>
-      </Grid>
-    </CardContent>
-  </Card>
-);
+      </CardContent>
+    </Card>
+  );
+}
 
-const EmailTemplate = ({ template, onChange }) => (
-  <Card>
-    <CardContent>
-      <Typography variant="h6" gutterBottom>Email Template</Typography>
-      <TextField
-        fullWidth
-        multiline
-        rows={6}
-        label="Email Content"
-        placeholder="Enter your email template here..."
-        value={template || ''}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    </CardContent>
-  </Card>
-);
+const EmailTemplate = ({ template, onChange }) => {
+  const { t } = useTranslation();
 
-const ConfirmationReview = ({ patient, doctor, medicines, emailTemplate }) => (
-  <Card>
-    <CardContent>
-      <Typography variant="h6" gutterBottom>Review & Confirmation</Typography>
-      
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="subtitle1" gutterBottom>Patient:</Typography>
-        <Typography variant="body2">
-          {patient.firstName} {patient.lastName} ({patient.email})
-        </Typography>
-      </Box>
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>{t('Email Template')}</Typography>
+        <TextField
+          fullWidth
+          multiline
+          rows={6}
+          label="Email Content"
+          placeholder="Enter your email template here..."
+          value={template || ''}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      </CardContent>
+    </Card>
+  );
+};
 
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="subtitle1" gutterBottom>Doctor:</Typography>
-        <Typography variant="body2">
-          {doctor.firstName} {doctor.lastName} ({doctor.email})
-        </Typography>
-      </Box>
+const ConfirmationReview = ({ patient, doctor, medicines, emailTemplate }) => {
+  const { t } = useTranslation();
 
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="subtitle1" gutterBottom>Medicines ({medicines.length}):</Typography>
-        {medicines.map((med, index) => (
-          <Chip
-            key={med.id}
-            label={`${med.name} - ${med.frequency}`}
-            sx={{ mr: 1, mb: 1 }}
-            size="small"
-          />
-        ))}
-      </Box>
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>{t('Review & Confirmation')}</Typography>
+        
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" gutterBottom>Patient:</Typography>
+          <Typography variant="body2">
+            {patient.firstName} {patient.lastName} ({patient.email})
+          </Typography>
+        </Box>
 
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="subtitle1" gutterBottom>Email Template:</Typography>
-        <Typography variant="body2" sx={{ 
-          bgcolor: 'grey.50', 
-          p: 2, 
-          borderRadius: 1,
-          maxHeight: 100,
-          overflow: 'auto'
-        }}>
-          {emailTemplate || 'No template provided'}
-        </Typography>
-      </Box>
-    </CardContent>
-  </Card>
-);
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" gutterBottom>Doctor:</Typography>
+          <Typography variant="body2">
+            {doctor.firstName} {doctor.lastName} ({doctor.email})
+          </Typography>
+        </Box>
+
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" gutterBottom>Medicines ({medicines.length}):</Typography>
+          {medicines.map((med, index) => (
+            <Chip
+              key={med.id}
+              label={`${med.name} - ${med.frequency}`}
+              sx={{ mr: 1, mb: 1 }}
+              size="small"
+            />
+          ))}
+        </Box>
+
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" gutterBottom>Email Template:</Typography>
+          <Typography variant="body2" sx={{
+            bgcolor: 'grey.50',
+            p: 2,
+            borderRadius: 1,
+            maxHeight: 100,
+            overflow: 'auto'
+          }}>
+            {emailTemplate || 'No template provided'}
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
 
 // Main App Component
 const FlowPatient = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
@@ -258,7 +277,7 @@ const FlowPatient = () => {
 
   // Define steps based on screen size
   const mobileSteps = [
-    { id: 'patient', label: 'Patient Info' },
+    { id: 'patient', label: t('Patient Info') },
     { id: 'doctor', label: 'Doctor Info' },
     { id: 'medicines', label: 'Medicines' },
     { id: 'template', label: 'Email Template' },
@@ -266,7 +285,7 @@ const FlowPatient = () => {
   ];
 
   const desktopSteps = [
-    { id: 'patient-doctor', label: 'Patient & Doctor Info' },
+    { id: 'patient-doctor', label: t('Patient & Doctor Info') },
     { id: 'medicines', label: 'Medicines' },
     { id: 'template', label: 'Email Template' },
     { id: 'confirm', label: 'Review & Confirmation' }
