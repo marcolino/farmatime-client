@@ -4,9 +4,11 @@ import { useContext } from "react";
 // import { useTranslation } from "react-i18next";
 import { AuthContext } from "../providers/AuthProvider";
 // import FloatingLogo from "./FloatingLogo";
-// import { MedicineList }  from "./MedicineList";
+// import { MedicinesList }  from "./MedicinesList";
 // import { MedicineInputAutocomplete }  from "./MedicineInputAutocomplete";
 import FlowPatient from "./FlowPatient";
+import EmailTemplateEditor from "./EmailTemplateEditor";
+import FlowPatientStepperExample from "./FlowPatientStepperExample";
 //import config from "../config";
 
 
@@ -19,17 +21,25 @@ function Home() {
     return; // if auth.user is undefined, we don't know yet about user authentication...
   }
 
+  // return (
+  //   <FlowPatient />
+  // );
+
+  // return (
+  //   <FlowPatientStepperExample />
+  // );
+
   return (
-    <FlowPatient />
+    <EmailTemplateEditor />
   );
 
   // return (
-  //   <MedicineList />
+  //   <MedicinesList />
   // );
 
   // return (
   //   <FloatingLogo text={config.title} />
-  //   <MedicineList />
+  //   <MedicinesList />
   // );
 
   // return (

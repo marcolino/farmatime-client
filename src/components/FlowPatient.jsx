@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -284,6 +284,10 @@ const FlowPatient = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
 
+  const handleGoto = (index) => {
+    setCurrentStep(index);
+  };
+
   const handleConfirm = () => {
     setIsConfirmed(true);
     alert('Service activated successfully!');
@@ -375,14 +379,14 @@ const FlowPatient = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      {/* Title with contrasting background */}
+      {/* Title with contrasting bgcolor */}
       <Paper 
         elevation={2} 
         sx={{ 
           p: 3, 
           mb: 4, 
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white'
+          bgcolor: 'primary.main', //'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'info.contrastText',
         }}
       >
         <Typography variant="h4" align="center" sx={{ fontWeight: 'bold' }}>
@@ -397,11 +401,27 @@ const FlowPatient = () => {
         alternativeLabel={isMobile}
       >
         {steps.map((step, index) => (
-          <Step key={step.id} completed={isConfirmed ? true : index < currentStep}>
+          <Step
+            key={step.id}
+            completed={isConfirmed ? true : index < currentStep}
+            onClick={() => {
+              console.log("STEP ICON:", step);
+              handleGoto(index);
+            }}
+          >
             <StepLabel 
-              StepIconProps={{
-                completed: isConfirmed || index < currentStep
+              // StepIconProps={{
+              //   completed: isConfirmed || index < currentStep
+              // }}
+              slotProps={{
+                stepIcon: {
+                  completed: isConfirmed || index < currentStep
+                }
               }}
+              onClick={() => {
+              console.log("STEP LABEL:", step);
+              handleGoto(index);
+            }}
             >
               {step.label}
             </StepLabel>
@@ -421,11 +441,11 @@ const FlowPatient = () => {
             onClick={handleBack}
             disabled={currentStep === 0}
             startIcon={<ArrowBack />}
-            variant="outlined"
+            variant="contained"//"outlined"
             sx={{ 
-              opacity: currentStep === 0 ? 0.3 : 0.7,
+              opacity: currentStep === 0 ? 0 : 0.5,
               '&:hover': {
-                opacity: currentStep === 0 ? 0.3 : 1
+                opacity: currentStep === 0 ? 0 : 0.75,
               }
             }}
           >
@@ -444,7 +464,7 @@ const FlowPatient = () => {
             variant="contained"
             disabled={isConfirmed}
           >
-            {isConfirmed ? 'Completed' : (isLastStep ? 'Confirm & Activate' : 'Proceed')}
+            {isConfirmed ? 'Confirmed' : (isLastStep ? 'Confirm and activate requests' : 'Proceed')}
           </Button>
         </Box>
       </Paper>

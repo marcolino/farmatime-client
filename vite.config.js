@@ -32,6 +32,7 @@ export default defineConfig(({ mode }) => {
     define: {
       __BUILD_NUMBER__: JSON.stringify(process.env.BUILD_NUMBER || "?"),
       __BUILD_TIMESTAMP__: JSON.stringify(process.env.BUILD_TIMESTAMP || "?"),
+      global: {},
     },
     plugins: [
       react(),
@@ -169,7 +170,12 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     optimizeDeps: {
-      include: ['@mui/x-date-pickers']
+      include: ['@mui/x-date-pickers'],
+       esbuildOptions: {
+        define: {
+          global: 'globalThis'
+        }
+      }
     },
     server: {
       port: 5005,
@@ -192,5 +198,24 @@ export default defineConfig(({ mode }) => {
       globals: true,
       setupFiles: "./test/setup.js",
     },
+     resolve: {
+      alias: {
+        setimmediate: 'setimmediate/setImmediate.js',
+        buffer: 'buffer',
+        process: 'process/browser',
+        stream: 'stream-browserify',
+        assert: 'assert',
+        util: 'util',
+        path: 'path-browserify',
+        querystring: 'querystring-es3'
+      }
+    },
+    // optimizeDeps: {
+    //   esbuildOptions: {
+    //     define: {
+    //       global: 'globalThis'
+    //     }
+    //   }
+    // }
   };
 });

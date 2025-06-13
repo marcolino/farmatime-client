@@ -85,7 +85,7 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const MedicineList = () => {
+export const MedicinesList = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { isLoggedIn } = useContext(AuthContext);
