@@ -11,7 +11,7 @@ var publicAssets = [
   "favicon-16x16.ico",
   "favicon-32x32.ico",
   "favicon-64x64.ico",
-  "apple-touch-icosn.png",
+  "apple-touch-icon.png",
   "ms-tile.png",
   "robots.txt",
   "sitemap.xml",

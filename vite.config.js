@@ -15,7 +15,7 @@ const publicAssets = [
   "favicon-16x16.ico",
   "favicon-32x32.ico",
   "favicon-64x64.ico",
-  "apple-touch-icosn.png",
+  "apple-touch-icon.png",
   "ms-tile.png",
   "robots.txt",
   "sitemap.xml",
@@ -199,7 +199,8 @@ export default defineConfig(({ mode }) => {
       setupFiles: "./test/setup.js",
     },
      resolve: {
-      alias: {
+       alias: {
+        'mui-material-custom': path.resolve(__dirname, 'src/components/mui-material-custom'),
         setimmediate: 'setimmediate/setImmediate.js',
         buffer: 'buffer',
         process: 'process/browser',

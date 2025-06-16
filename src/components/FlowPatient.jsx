@@ -21,9 +21,10 @@ import {
   ListItemText
 } from '@mui/material';
 import { ArrowBack, ArrowForward, Check } from '@mui/icons-material';
+import { MedicinesList } from './MedicinesList';
 
 // Mock Medicine List Component (replace with your existing component)
-const MedicinesList = ({ medicines, onChange }) => {
+const _MedicinesList = ({ medicines, onChange }) => {
   const { t } = useTranslation();
   const [newMedicine, setNewMedicine] = useState({ name: '', date: '', frequency: '' });
 
@@ -409,7 +410,7 @@ const FlowPatient = () => {
         }}
       >
         <Typography variant="h4" align="center" sx={{ fontWeight: 'bold' }}>
-          Patient Care Service Setup
+          {t('Patient Care Service Setup')}
         </Typography>
       </Paper>
 

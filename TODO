@@ -224,6 +224,7 @@
 - make tests (also use AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
 
+- move custom/* to mui-material-custom/
 
 
 NEWFEATURE:

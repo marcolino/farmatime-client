@@ -6,6 +6,7 @@ import { AuthContext } from "../providers/AuthProvider";
 // import FloatingLogo from "./FloatingLogo";
 // import { MedicinesList }  from "./MedicinesList";
 // import { MedicineInputAutocomplete }  from "./MedicineInputAutocomplete";
+import Landing from "./Landing";
 import FlowPatient from "./FlowPatient";
 import EmailTemplateEditor from "./EmailTemplateEditor";
 import FlowPatientStepperExample from "./FlowPatientStepperExample";
@@ -22,8 +23,12 @@ function Home() {
   }
 
   return (
-    <FlowPatient />
+    <Landing />
   );
+
+  // return (
+  //   <FlowPatient />
+  // );
 
   // return (
   //   <FlowPatientStepperExample />
