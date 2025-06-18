@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useMemo } from "react";
+import { /*createContext, */useContext, useMemo } from "react";
 import { SnackbarProvider as NotistackSnackbarProvider, useSnackbar, closeSnackbar } from "notistack";
+import { SnackbarContext } from "./SnackbarContext";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import config from "../config";
 
-
-const SnackbarContext = createContext(null);
+//const SnackbarContext = createContext(null);
 
 // internal component to use useSnackbar inside the NotistackSnackbarProvider
 const InnerSnackbarProvider = ({ children }) => {

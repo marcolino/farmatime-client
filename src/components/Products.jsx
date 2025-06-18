@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import { Category, Search } from "@mui/icons-material";
 //import debounce from "lodash.debounce";
-import { AuthContext } from "../providers/AuthProvider";
-import { useMediaQueryContext } from "../providers/MediaQueryProvider";
+import { AuthContext } from "../providers/AuthContext";
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { apiCall } from "../libs/Network";
 import { TextFieldSearch, Button } from "./custom";
 import ProductsDetails from "./ProductsDetails";

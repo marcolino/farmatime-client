@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import DialogConfirm from "./DialogConfirm";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../providers/AuthContext";
 import instance from "../middlewares/Interceptors";
 import { i18n } from "../i18n";
 

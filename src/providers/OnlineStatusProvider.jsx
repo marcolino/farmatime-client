@@ -1,7 +1,6 @@
-import React, { useState, useEffect, createContext } from "react";
+import { useState, useEffect } from "react";
 import { useSnackbarContext } from "./SnackbarProvider";
-
-const OnlineStatusContext = createContext(true);
+import { OnlineStatusContext } from "./OnlineStatusContext";
 
 const OnlineStatusProvider = (props) => {
   const [onlineStatus, setOnlineStatus] = useState(navigator.onLine);
@@ -39,4 +38,4 @@ const OnlineStatusProvider = (props) => {
   );
 };
 
-export { OnlineStatusProvider, OnlineStatusContext };
+export { OnlineStatusProvider };

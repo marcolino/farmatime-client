@@ -11,12 +11,12 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 //import red from "@mui/material/colors/red";
-import { StatusContext } from "../providers/StatusProvider";
+import { PushNotificationsStatusContext } from "../providers/PushNotificationsStatusProvider";
 import { i18n }  from "../i18n";
 
 
 const /*function*/ Notifications = (props) => {
-  const { status, setStatus } = useContext(StatusContext);
+  const { status, setStatus } = useContext(PushNotificationsStatusContext);
   const navigate = useNavigate();
   const classes = {};
 

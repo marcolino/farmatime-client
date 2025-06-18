@@ -1,4 +1,6 @@
 import React from "react";
+import { format } from 'date-fns';
+import { enUS, it, fr, de, es } from 'date-fns/locale';
 import LocalStorage from "../libs/LocalStorage";
 import { i18n } from "../i18n";
 import config from "../config";
@@ -194,4 +196,26 @@ export const setupCustomConsole = () => {
       }
     };
   }
+};
+
+// date formatting functions
+export const localeMap = {
+  en: enUS,
+  it: it,
+  fr: fr,
+  de: de,
+  es: es,
+};
+
+export const getLocaleBasedFormat = (locale) => {
+  if (locale.startsWith('en-US')) return 'MMM dd';
+  if (locale.startsWith('en') || locale.startsWith('it') || locale.startsWith('de') || locale.startsWith('fr'))
+    return 'dd MMM';
+  return 'dd MMM'; // Fallback
+};
+
+export const formatDate = (date, locale = i18n.language) => {
+  return format(date, getLocaleBasedFormat(locale), {
+    locale: localeMap[locale] || enUS, // fallback to enUS if locale is unknown
+  });
 };

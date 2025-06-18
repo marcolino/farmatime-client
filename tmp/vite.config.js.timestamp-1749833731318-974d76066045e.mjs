@@ -143,7 +143,7 @@ var vite_config_default = defineConfig(({ mode }) => {
               }
             },
             {
-              urlPattern: /^https:\/\/med-server-lingering-brook-4120\.fly\.dev\/api\/.*$/,
+              urlPattern: /^https:\/\/medicare-server-lingering-brook-4120\.fly\.dev\/api\/.*$/,
               handler: "NetworkFirst",
               options: {
                 cacheName: "public-api-cache",

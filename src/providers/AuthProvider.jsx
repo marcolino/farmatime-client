@@ -1,4 +1,5 @@
-import { useState, createContext, useCallback } from "react";
+import { useState, /*createContext, */useCallback } from "react";
+import { AuthContext } from "./AuthContext";
 import { usePersistedState } from "../hooks/usePersistedState";
 import { apiCall } from "../libs/Network";
 import config from "../config";
@@ -6,7 +7,7 @@ import config from "../config";
 const initialStateUser = { user: null }; // initial state for user, when app if first loaded
 const initialStatePreferences = { locale: config.serverLocale, theme: config.ui.defaultTheme }; // initial state for locale and theme (used for guest users only), when app if first loaded
 
-const AuthContext = createContext(initialStateUser);
+//const AuthContext = createContext(initialStateUser);
 
 
 const AuthProvider = (props) => {
@@ -136,4 +137,4 @@ const AuthProvider = (props) => {
   );
 };
 
-export { AuthProvider, AuthContext };
+export { AuthProvider };

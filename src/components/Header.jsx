@@ -14,12 +14,13 @@ import {
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
 import { cancelAllRequests } from "../middlewares/Interceptors";
-import { useMediaQueryContext } from "../providers/MediaQueryProvider";
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../providers/AuthContext";
 import { useCart } from "../providers/CartProvider";
 import { isAdmin } from "../libs/Validation";
 import logoMain from "../assets/images/LogoMain.png";
+import logoMainText from "../../Logo-text.png"; // TODO...
 import config from "../config";
 
 
@@ -35,7 +36,7 @@ const Header = ({ theme, toggleTheme }) => {
   const { isMobile } = useMediaQueryContext();
 
   const sections = React.useMemo(() => [
-    ...(config.ecommerce.enabled ? [{ // add cart to sections only if ecommerce is enabled
+    ...(config.ui.cart.enabled && config.ecommerce.enabled? [{ // add cart to sections only if ui.cart and ecommerce is enabled
       key: "cart",
       to: "/cart",
       icon:
@@ -50,19 +51,23 @@ const Header = ({ theme, toggleTheme }) => {
         :
           t("Cart")
     }] : []),
-    {
+    ...(config.ui.products.enabled ? [{
       key: "products",
       to: "/products",
       icon: <Category />,
       text: t("Products"),
-    },
-    {
+    }] : []),
+    ...(config.ui.contacts.enabled ? [{
       key: "contacts",
       to: "/contacts",
       icon: <ContactPhone />,
       text: t("Contacts"),
-    },
-  ], [cartItemsQuantity, isMobile, t, config.ecommerce.enabled]);
+    }] : []),
+  ], [
+    cartItemsQuantity,
+    isMobile,
+    t
+  ]);
 
   // the highest priority role name
   const roleNameHighestPriority = isLoggedIn ? auth.user.roles.reduce(
@@ -75,16 +80,22 @@ const Header = ({ theme, toggleTheme }) => {
 
   const userItems = [
     ...(isLoggedIn && isAdmin(auth.user) ?
-      [{
-        label: t("Handle users"),
-        icon: <ManageAccounts />,
-        href: "/handle-users",
-      },
-      {
-        label: t("Handle products"),
-        icon: <Category />,
-        href: "/handle-products",
-      }]
+      [
+        {
+          label: t("Handle users"),
+          icon: <ManageAccounts />,
+          href: "/handle-users",
+        },
+         ...(config.ui.products.enabled ?
+          [
+            {
+              label: t("Handle products"),
+              icon: <Category />,
+              href: "/handle-products",
+            },
+          ]
+        : []),
+      ]
     : []),
     {
       label: t("Change theme"),
@@ -172,11 +183,27 @@ const Header = ({ theme, toggleTheme }) => {
             component="img"
             src={logoMain}
             alt="Main logo"
-            sx={{ height: config.ui.headerHeight, marginRight: 2 }}
+            sx={{
+              width: { xs: 78, sm: 96 },
+              height: "auto", // let browser calculate height proportionally
+              mr: 2,
+              borderRadius: 2,
+              display: "block" // remove inline spacing
+            }}
           />
-          {/* <Typography variant="h6" component="span" sx={{ color: theme.palette.text.secondary, flexGrow: 1, }}>
-            {config.title}
-          </Typography> */}
+          <Box
+            component="img"
+            src={logoMainText}
+            alt="Main text logo"
+            sx={{
+              width: { xs: 120, sm: 150 },
+              height: "auto", // let browser calculate height proportionally
+              mr: 2,
+              //borderRadius: 2,
+              //display: "block" // remove inline spacing
+
+            }}
+          />
         </Box>
 
         <Box sx={{
@@ -188,19 +215,21 @@ const Header = ({ theme, toggleTheme }) => {
 
         {isMobile ?
           <>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={() => navigate("cart")}
-              sx={{ mr: 2 }}
-            >
-              {cartItemsQuantity() ?
-                <Badge badgeContent={cartItemsQuantity()} color="primary"><ShoppingCart /></Badge>
-                :
-                <ShoppingCart />
-              }
-            </IconButton>
+            {config.ui.cart.enabled && (
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={() => navigate("cart")}
+                sx={{ mr: 2 }}
+              >
+                {cartItemsQuantity() ?
+                  <Badge badgeContent={cartItemsQuantity()} color="primary"><ShoppingCart /></Badge>
+                  :
+                  <ShoppingCart />
+                }
+              </IconButton>
+            )}
             <IconButton
               edge="start"
               color="inherit"
@@ -216,8 +245,6 @@ const Header = ({ theme, toggleTheme }) => {
             {sections.map(section => (
               <Button key={section.key} color="inherit" component={RouterLink} to={section.to}>{section.text}</Button>
             ))}
-            {/* <Button color="inherit" component={RouterLink} to="/products">{t("Products")}</Button>
-                <Button color="inherit" component={RouterLink} to="/contacts">{t("Contacts")}</Button> */}
           </Box>
         }
         

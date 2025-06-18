@@ -1,9 +1,10 @@
-import React, { createContext, useContext } from "react";
+import { /*createContext, */useContext } from "react";
 import { useMediaQuery, useTheme } from "@mui/material";
+import { MediaQueryContext } from "./MediaQueryContext";
 
-const MediaQueryContext = createContext();
+//const MediaQueryContext = createContext();
 
-export const MediaQueryProvider = ({ children }) => {
+export const MediaQueryProvider = ({ children }) => { // TODO: always use mui-material media query component...
   const theme = useTheme();
 
   const xs = useMediaQuery(theme.breakpoints.down("sm"));
@@ -22,10 +23,3 @@ export const MediaQueryProvider = ({ children }) => {
   );
 };
 
-export const useMediaQueryContext = () => {
-  const context = useContext(MediaQueryContext);
-  if (!context) {
-    throw new Error("useMediaQueryContext must be used within a MediaQueryProvider");
-  }
-  return context;
-};

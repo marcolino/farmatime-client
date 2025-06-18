@@ -182,6 +182,9 @@ const customThemeDarkProps = {
     secondary: {
       main: "rgb(29, 111, 71)",
     },
+     tertiary: {
+      main: "#32541c", // #499f13
+    },
     background: {
       default: "#303030",
       paper: "#424242",
@@ -189,6 +192,23 @@ const customThemeDarkProps = {
     text: {
       primary: "rgb(255, 255, 255)",
       secondary: "rgb(230, 230, 230)",
+    },
+     gun: {
+      main: "#676767",
+      light: "#969696",
+      dark: "#262626",
+    },
+    nature: {  
+      main: "#7fb188",
+      light: "#a5e7b1",
+      dark: "#4e8558",
+      contrastText: "#fefdf1",
+    },
+    marine: {
+      main: "#262a9a",
+      light: "#1f227d",
+      dark: "#111342",
+      contrastText: "#fefce6",
     },
     ochre: {
       main: "#6e6512",

@@ -5,11 +5,13 @@ import { ThemeProvider } from "@mui/material/styles";
 import { SnackbarProviderWrapper } from "./providers/SnackbarProvider"; 
 import ServiceWorkerProvider from "./providers/ServiceWorkerProvider";
 import { DialogProvider } from "./providers/DialogProvider";
-import { AuthProvider, AuthContext } from "./providers/AuthProvider";
+import { AuthProvider } from "./providers/AuthProvider";
+import { AuthContext } from "./providers/AuthContext";
 import { CartProvider } from "./providers/CartProvider";
 import { OnlineStatusProvider } from "./providers/OnlineStatusProvider";
 import { LoaderProvider} from "./providers/LoaderProvider";
 import SessionProvider from "./providers/SessionProvider";
+import { JobProvider } from "./providers/JobProvider"; 
 import { MediaQueryProvider } from "./providers/MediaQueryProvider";
 import SessionExpirationHandler from "./components/SessionExpirationHandler";
 import ServiceWorkerMessages from "./components/ServiceWorkerMessages";
@@ -78,11 +80,13 @@ const AppStructure = () => {
                       <SessionExpirationHandler>
                         {/* <BackgroundVideo /> */}
                         <SessionProvider />
-                        <CookiePreferences />
-                        {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
-                        <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
-                          <Routing />
-                        </Contents>
+                        <JobProvider>
+                          <CookiePreferences />
+                          {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                          <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
+                            <Routing />
+                          </Contents>
+                        </JobProvider>
                       </SessionExpirationHandler>
                     </Router>
                   </LoaderProvider>

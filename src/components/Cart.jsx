@@ -22,11 +22,11 @@ import {
 import { ShoppingCart, Reorder } from "@mui/icons-material";
 import CartItem from "./CartItem";
 import { apiCall } from "../libs/Network";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../providers/AuthContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { useCart } from "../providers/CartProvider";
-import { useMediaQueryContext } from "../providers/MediaQueryProvider";
-import { useDialog } from "../providers/DialogProvider";
+import { useMediaQueryContext } from "../providers/MediaQuerContext";
+import { useDialog } from "../providers/DialogContext";
 //import LocalStorage from "../libs/LocalStorage";
 import { currencyFormat } from "../libs/Misc";
 import config from "../config";

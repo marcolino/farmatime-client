@@ -24,7 +24,7 @@ import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import { apiCall } from "../libs/Network";
 import LocalStorage from "../libs/LocalStorage";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
-import { useDialog } from "../providers/DialogProvider";
+import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { i18n } from "../i18n";
 

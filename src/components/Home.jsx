@@ -2,36 +2,62 @@ import React from "react";
 import { useContext } from "react";
 // import { Paper, Typography } from "@mui/material";
 // import { useTranslation } from "react-i18next";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../providers/AuthContext";
+import { JobContext } from "../providers/JobContext";
 // import FloatingLogo from "./FloatingLogo";
-// import { MedicinesList }  from "./MedicinesList";
+// import { JobMedicines }  from "./JobMedicines";
 // import { MedicineInputAutocomplete }  from "./MedicineInputAutocomplete";
+import SignIn from "./auth/SignIn";
 import Landing from "./Landing";
-import FlowPatient from "./FlowPatient";
-import EmailTemplateEditor from "./EmailTemplateEditor";
-import FlowPatientStepperExample from "./FlowPatientStepperExample";
+import JobFlow from "./JobFlow";
+import JobsHandle from "./JobsHandle";
+// import EmailTemplateEditor from "./EmailTemplateEditor";
+// import JobFlowStepperExample from "./JobFlowStepperExample";
 //import config from "../config";
 
 
 function Home() {
-  const { auth } = useContext(AuthContext);
-  //const { t } = useTranslation();
+  const { /*auth,*/ isLoggedIn, didSignInBefore } = useContext(AuthContext);
+  const { job, setJob } = useContext(JobContext);
 
-  if (typeof auth?.user === "undefined") {
-    console.log("auth.user is undefined", auth);
-    return; // if auth.user is undefined, we don't know yet about user authentication...
+  console.log("HOME");
+  // if (typeof auth?.user === "undefined") {
+  //   console.log("auth.user is undefined", auth);
+  //   return; // if auth.user is undefined, we don't know yet about user authentication...
+  // }
+
+  if (job?.isCompleted) {
+    console.log("job is completed, show JobsHandle component");
+    return (
+      <JobsHandle />
+    );
   }
 
+  if (isLoggedIn) {
+    console.log("user is logged in, show JobFlow component");
+    return (
+      <JobFlow />
+    );
+  }
+
+  if (didSignInBefore) {
+    console.log("user is not logged in, but did sign in before: show SignIn component");
+    return (
+      <SignIn />
+    );
+  }
+
+  console.log("user is not logged in, and did never sign in before: show Landing component");
   return (
     <Landing />
   );
 
   // return (
-  //   <FlowPatient />
+  //   <JobFlow />
   // );
 
   // return (
-  //   <FlowPatientStepperExample />
+  //   <JobFlowStepperExample />
   // );
 
   // return (
@@ -39,12 +65,12 @@ function Home() {
   // );
 
   // return (
-  //   <MedicinesList />
+  //   <JobMedicines />
   // );
 
   // return (
   //   <FloatingLogo text={config.title} />
-  //   <MedicinesList />
+  //   <JobMedicines />
   // );
 
   // return (

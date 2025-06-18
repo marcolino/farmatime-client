@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 
-const useInactivityTimer = (isLoggedIn, timeout, onTimeout, resetTrigger) => {
+const useInactivityTimer = (enabled, timeout, onTimeout, resetTrigger) => {
   const [lastActivity, setLastActivity] = useState(null);
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!enabled) {
       setLastActivity(null); // Reset timer when logged out
+      return;
+    }
+    if (!timeout) { // Ignore timer if timeout os not set
       return;
     }
 
@@ -34,7 +37,7 @@ const useInactivityTimer = (isLoggedIn, timeout, onTimeout, resetTrigger) => {
       events.forEach((event) => window.removeEventListener(event, handleActivity));
       clearInterval(interval);
     };
-  }, [isLoggedIn, lastActivity, timeout, onTimeout, resetTrigger]);
+  }, [enabled, timeout, onTimeout, resetTrigger, lastActivity]);
 
   return lastActivity;
 };

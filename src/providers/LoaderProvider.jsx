@@ -1,7 +1,8 @@
-import React, { createContext, useState, useContext, useCallback, useEffect } from "react";
-import { setDisableLoaderHandler } from "./LoaderState";
+import { /*createContext,*/ useState, /*useContext, */useCallback, useEffect } from "react";
+//import { setDisableLoaderHandler } from "./LoaderState";
+import { LoaderContext, setDisableLoaderHandler } from "./LoaderContext";
 
-const LoaderContext = createContext();
+//const LoaderContext = createContext();
 
 export const LoaderProvider = ({ children }) => {
   const [disableLoader, setDisableLoader] = useState(false);
@@ -21,4 +22,4 @@ export const LoaderProvider = ({ children }) => {
   );
 };
 
-export const useLoader = () => useContext(LoaderContext);
+//export const useLoader = () => useContext(LoaderContext);

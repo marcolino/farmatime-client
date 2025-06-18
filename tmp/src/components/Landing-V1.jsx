@@ -2,10 +2,12 @@ import { useState } from "react"
 import { Button } from "mui-material-custom"
 import { t } from "i18next"
 import { motion } from "framer-motion"
+import { useTranslation } from "react-i18next";
 
 export default function Landing() {
   const [showOnboarding, setShowOnboarding] = useState(false)
-
+  const { t } = useTranslation();
+  
   return (
     <main className="flex flex-col items-center w-full overflow-x-hidden">
       {/* Hero Section */}

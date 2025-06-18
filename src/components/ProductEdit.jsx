@@ -21,7 +21,7 @@ import {
   validateEmail,
   validatePhone,
 } from "../libs/Validation";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../providers/AuthContext";
 import config from "../config";
 
 

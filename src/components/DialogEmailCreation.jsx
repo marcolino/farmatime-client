@@ -10,7 +10,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import TextField from "./custom/TextField";
-import { useDialog } from "../providers/DialogProvider";
+import { useDialog } from "../providers/DialogContext";
 import { Subject } from "@mui/icons-material";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 

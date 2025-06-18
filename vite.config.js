@@ -47,13 +47,14 @@ export default defineConfig(({ mode }) => {
         },
         includeAssets: publicAssets,
         manifest: false,
+        //workbox: isProduction ?
         workbox: {
           clientsClaim: true,
           skipWaiting: false,
           cleanupOutdatedCaches: true,
-          globPatterns: [
+          globPatterns: isProduction ? [
             "**/*.{js,css,html,ico,png,jpg,svg,webp,wav,mp3,mp4,webmanifest}",
-          ],
+          ] : [],
           runtimeCaching: [
             {
               urlPattern: ({ request }) => request.destination === "document",
@@ -148,7 +149,7 @@ export default defineConfig(({ mode }) => {
               },
             },
             {
-              urlPattern: /^https:\/\/med-server-lingering-brook-4120\.fly\.dev\/api\/.*$/,
+              urlPattern: /^https:\/\/medicare-server-lingering-brook-4120\.fly\.dev\/api\/.*$/,
               handler: "NetworkFirst",
               options: {
                 cacheName: "public-api-cache",
@@ -167,6 +168,7 @@ export default defineConfig(({ mode }) => {
           globDirectory: buildDir,
           maximumFileSizeToCacheInBytes: 30 * (1024 ** 2),
         },
+        //} : undefined
       }),
     ],
     optimizeDeps: {

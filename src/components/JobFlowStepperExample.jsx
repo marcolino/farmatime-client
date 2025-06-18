@@ -1,5 +1,5 @@
 // MainStepper.js - Main component that holds all data
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Stepper,
   Step,
@@ -14,7 +14,7 @@ import {
 
 const steps = ['Medical Info', 'Personal Details', 'Review'];
 
-const FlowPatientStepperExample = () => {
+const JobFlowStepperExample = () => {
   const [activeStep, setActiveStep] = useState(0);
   
   // All step data in one place
@@ -222,7 +222,7 @@ const decryptData = (encryptedData) => {
   return JSON.parse(atob(encryptedData)); // Simple base64 decoding
 };
 
-export default FlowPatientStepperExample;
+export default JobFlowStepperExample;
 
 // Step1Component.js - Medical information form
 // import React from 'react';

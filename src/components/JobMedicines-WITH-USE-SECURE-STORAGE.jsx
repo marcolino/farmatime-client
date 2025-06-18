@@ -15,24 +15,12 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-// import {
-//   //Box,
-//   Button,
-//   Container,
-//   TextField,
-//   Typography,
-//   Paper,
-//   Divider,
-//   useTheme,
-//   styled
-// } from '@mui/material';
 import {
   Box,
   Button,
   Container,
   TextField,
   Typography,
-  Paper,
   Divider,
   useTheme,
   styled
@@ -48,9 +36,10 @@ import { ContextualHelp } from './ContextualHelp';
 import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
 import { useSecureStorage } from '../hooks/useSecureStorage';
-import { AuthContext } from '../providers/AuthProvider';
+import { AuthContext } from '../providers/AuthContext';
 import { useSnackbarContext } from '../providers/SnackbarProvider';
 import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
+import { StyledPaper, StyledBox } from './JobStyles';
 import { i18n }  from '../i18n';
 import config from '../config';
 
@@ -61,20 +50,6 @@ const localeMap = {
   de: de,
   es: es,
 };
-
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  marginTop: theme.spacing(3),
-  overflow: 'hidden',
-  borderRadius: theme.shape.borderRadius * 2,
-  boxShadow: theme.shadows[4],
-}));
-
-const Header = styled(Box)(({ theme }) => ({
-  background: theme.palette.primary.dark,
-  color: theme.palette.common.white,
-  padding: theme.spacing(4),
-  textAlign: 'center',
-}));
 
 const ItemContainer = styled(Box)(({ theme }) => ({
   // 100% of viewport height, minus header and footer, minus this component header and footer 
@@ -96,7 +71,7 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const MedicinesList = () => {
+const JobMedicines = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { isLoggedIn } = useContext(AuthContext);
@@ -130,7 +105,7 @@ export const MedicinesList = () => {
       return;
     }
     try {
-      await secureStorageSet('medicinesList', items);
+      await secureStorageSet('JobMedicines', items);
       //console.log(`List stored with ${items.length} items`);
     } catch (err) {
       //console.error(`Failed to save list: ${err.message}`);
@@ -159,7 +134,7 @@ export const MedicinesList = () => {
     if (secureStorageStatus !== 'ready') return;
     const loadData = async () => {
       try {
-        const data = await secureStorageGet('medicinesList');
+        const data = await secureStorageGet('JobMedicines');
         if (data) {
           setItems(data);
           //console.log(`${data?.length} items loaded successfully`);
@@ -387,15 +362,6 @@ export const MedicinesList = () => {
     }
   };
 
-  const proceed = async () => {
-    if (fieldMedicine) {
-      showSnackbar(t('Please confirm item being edited before proceeding...'), 'warning');
-      return;
-    }
-    //console.log('Proceeding...');
-    showSnackbar(t('Proceeding... (Work in Progress!)'), 'info');
-  };
-
   const formatDate = (date) => {
     const locale = i18n.language;
     return format(date, getLocaleBasedFormat(), { locale: localeMap[locale] });
@@ -403,7 +369,7 @@ export const MedicinesList = () => {
 
   const getLocaleBasedFormat = () => {
     const locale = i18n.language;
-    console.log('getLocaleBasedFormat called with locale:', locale);
+    //console.log('getLocaleBasedFormat called with locale:', locale);
 
     // US format: MMM dd (Jun 02)
     if (locale.startsWith('en-US')) {
@@ -425,7 +391,7 @@ export const MedicinesList = () => {
   };
 
 
-  if (!isLoggedIn) { // Check if user is logged in
+  if (!isLoggedIn) { // Check if user is logged in - TODO: use a common guard upper level component to check for login
     console.log(t('User must be logged in to use this component'));
     return null;
   }
@@ -443,15 +409,15 @@ export const MedicinesList = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localeMap[i18n.language]}>
       <Container maxWidth="lg" sx={{ py: 0 }}>
-        <StyledPaper /*sx={{ m: 0 }}*/>
-          <Header>
-            <Typography variant="h3" fontWeight="bold">
+        <StyledPaper>
+          <StyledBox>
+            <Typography variant="h5" fontWeight="bold">
               {t("Medicines List")}
             </Typography>
-            <Typography variant="subtitle2" fontWeight="light">
+            {/* <Typography variant="subtitle2" fontWeight="light">
               {t('Add to the list medicines names, first request date, and frequency of requests in days')}
-            </Typography>
-          </Header>
+            </Typography> */}
+          </StyledBox>
           
           <Box p={4}>
             <Box
@@ -638,31 +604,6 @@ export const MedicinesList = () => {
                   </ItemContainer>
                 </SortableContext>
               </DndContext>
-
-              {items.length > 0 && (
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  mt: { xs: 0, sm: 1 },
-                }}>
-                  <Button
-                    // onClick={confirmList}
-                    onClick={proceed}
-                    type="submit"
-                    variant="contained"
-                    color="success"
-                    size="large"
-                    sx={{
-                      height: 56,
-                      mb: 0.2
-                    }}
-                    disabled={mode === 'update' || items.length === 0}
-                  >
-                    {/* {t('Confirm')} */}
-                    {t('Proceed')}
-                  </Button>
-                </Box>
-              )}
             </Box>
           </Box>
         </StyledPaper>
@@ -670,3 +611,5 @@ export const MedicinesList = () => {
     </LocalizationProvider>
   );
 };
+
+export default JobMedicines;

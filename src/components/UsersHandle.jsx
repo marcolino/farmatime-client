@@ -22,12 +22,12 @@ import {
 import { TextFieldSearch, SectionHeader } from "./custom";
 import { Search, Edit, BuildCircle, Delete } from "@mui/icons-material";
 import DialogEmailCreation from "./DialogEmailCreation";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../providers/AuthContext";
 import { apiCall } from "../libs/Network";
 import LocalStorage from "../libs/LocalStorage";
 import { isAdmin } from "../libs/Validation";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
-import { useDialog } from "../providers/DialogProvider";
+import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import { i18n } from "../i18n";

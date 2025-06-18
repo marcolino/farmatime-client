@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, CircularProgress } from "@mui/material";
-import { useLoader } from "../providers/LoaderProvider";
+import { useLoader } from "../providers/LoaderContext";
 import config from "../config";
 
 

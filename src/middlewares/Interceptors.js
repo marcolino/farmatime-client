@@ -40,9 +40,8 @@ const createInstance = () => {
   });
 };
 
-console.log(`interceptor - base url is ${cfg.siteUrl}/api`);
-
 const instance = createInstance();
+console.log(`axios instance base url is ${instance.defaults.baseURL}`);
 
 // add request interceptor for appending additional headers
 instance.interceptors.request.use(

@@ -11,9 +11,9 @@ import {
   Container,
   Grid,
 } from "@mui/material";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../providers/AuthContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
-import { useDialog } from "../providers/DialogProvider";
+import { useDialog } from "../providers/DialogContext";
 import { apiCall } from "../libs/Network";
 //import ErrorMessage from "../components/ErrorMessage";
 import { i18n }  from "../i18n";

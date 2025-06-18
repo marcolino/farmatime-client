@@ -1,9 +1,9 @@
 import React, { useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useDialog } from "../../providers/DialogProvider";
+import { useDialog } from "../../providers/DialogContext";
 //import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
-import { AuthContext } from "../../providers/AuthProvider";
+import { AuthContext } from "../../providers/AuthContext";
 
 
 function SocialSignInError() {

@@ -14,7 +14,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { SectionHeader, TextField, TextFieldPhone, Select, Button } from "./custom";
 import { apiCall } from "../libs/Network";
 import { objectsAreEqual } from "../libs/Misc";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../providers/AuthContext";
 //import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
 import CookiePreferences from "./CookiePreferences";

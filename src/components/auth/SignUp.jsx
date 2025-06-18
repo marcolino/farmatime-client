@@ -22,7 +22,7 @@ import {
   Google,
 } from "@mui/icons-material";
 //import { useSnackbar } from "../../providers/SnackbarManager";
-import { AuthContext } from "../../providers/AuthProvider";
+import { AuthContext } from "../../providers/AuthContext";
 import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { apiCall } from "../../libs/Network";
 import { validateFirstName, validateLastName, validateEmail, validatePassword } from "../../libs/Validation";

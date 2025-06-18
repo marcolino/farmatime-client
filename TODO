@@ -200,7 +200,7 @@
 - change "Consenso Cookies" in "Cookies Preferences" in EditUser.jsx - OK
 - always use useDialog, and not directly DialogConfirm (when possible) - OK
 - refactor cookies consent like notification preferences - OK
-- use API_KEY from ../med-server/.env in scripts/translate - OK
+- use API_KEY from ../medicare-server/.env in scripts/translate - OK
 - reduce ProductDetails height on mobile to avoid scroll (no...) - OK
 - use LocalStorage and not localStorage directly - OK
 - is maintenancePath localstorage really useful? yes - OK
@@ -223,9 +223,10 @@
 - risolvere i TODO's nel codice
 - make tests (also use AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
-
-- move custom/* to mui-material-custom/
-
+- find a better place for Logo* images other than / ...
+- move custom/* to mui-material-custom/ and always import from 'mui-material-custom'
+- better cookie popup: see unisalute.it
+- PushNotificationsStatusProvider => NotificationPushNotificationsStatusProvider
 
 NEWFEATURE:
 - decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore
