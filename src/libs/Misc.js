@@ -219,3 +219,21 @@ export const formatDate = (date, locale = i18n.language) => {
     locale: localeMap[locale] || enUS, // fallback to enUS if locale is unknown
   });
 };
+
+export const maxRowsWithinLimit = (dataArray, checkCapacityFn, maxBytes) => {
+  let cumulativeSize = 0;
+  let maxItems = 0;
+
+  for (let i = 0; i < dataArray.length; i++) {
+    try {
+      const itemString = JSON.stringify(dataArray[i]);
+      const itemSize = new TextEncoder().encode(itemString).length;
+      if (cumulativeSize + itemSize > maxBytes) break;
+      cumulativeSize += itemSize;
+      maxItems++;
+    } catch {
+      break; // On serialization error, stop counting
+    }
+  }
+  return maxItems;
+}

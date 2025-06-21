@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Box,
@@ -26,7 +26,7 @@ const JobFlow = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
   const { job, setJob } = useContext(JobContext);
-  
+
   // Navigation state
   const currentStep = job.currentStep;
   //const [currentStep, setCurrentStep] = useState(0);
@@ -41,18 +41,23 @@ const JobFlow = () => {
 
   const maxSteps = steps.length;
 
+  const [isMedicinesEditing, setIsMedicinesEditing] = useState(false);
+
   // Navigation handlers
   const handleNext = () => {
-    //setCurrentStep((prev) => Math.min(prev + 1, maxSteps - 1));
+    // TODO: if jobMedicines is editing, spit a warning and return immediately
+    if (isMedicinesEditing) {
+      alert(t('Please finish editing medicines before proceeding...')); //TODO: use Snackbar
+      return;
+    }
     setJob(prev => ({
       ...prev,
       currentStep: Math.min(prev.currentStep + 1, maxSteps - 1)
     }));
-    // handleUpdate('currentStep', Math.min(prev.currentStep + 1, maxSteps - 1); // TODO: better...
   };
 
   const handleBack = () => {
-    //setCurrentStep((prev) => Math.max(prev - 1, 0));
+    // TODO: if jobMedicines is editing, spit a warning and return immediately
     setJob(prev => ({
       ...prev,
       currentStep: Math.max(prev.currentStep - 1, 0)
@@ -60,7 +65,7 @@ const JobFlow = () => {
   };
 
   const handleGoto = (index) => {
-    //setCurrentStep(index);
+    // TODO: if jobMedicines is editing, spit a warning and return immediately
     if (index < 0 || index > maxSteps - 1) {
       console.error(`Cannot goto index ${index}, it's out of range [0-${maxSteps - 1}]`);
       return;
@@ -102,11 +107,11 @@ const JobFlow = () => {
         );
       case 1:
         return (
-          <JobMedicines data={job.medicines} onChange={(val) => handleUpdate('medicines', val)} />
+          <JobMedicines data={job.medicines} onChange={(val) => handleUpdate('medicines', val)} onEditingChange={setIsMedicinesEditing} />
         );
       case 2:
         return (
-         <JobEmailTemplate data={job.emailTemplate} onChange={(val) => handleUpdate('emailTemplate', val)} />
+          <JobEmailTemplate data={job.emailTemplate} job={job} onChange={(val) => handleUpdate('emailTemplate', val)} />
         );
       case 3:
          return (
@@ -200,8 +205,9 @@ const JobFlow = () => {
             endIcon={isLastStep ? <Check /> : <ArrowForward />}
             variant="contained"
             //disabled={isConfirmed}
+            size={isLastStep ? "large" : "medium" }
           >
-            {(isLastStep ? t('Confirm and activate!') : t('Next'))} {/* TODO... */}
+            {isLastStep ? (isMobile ? t('Activate!') : t('Confirm and activate!')) : t('Next')} {/* TODO... */}
           </Button>
         </Box>
       </Paper>

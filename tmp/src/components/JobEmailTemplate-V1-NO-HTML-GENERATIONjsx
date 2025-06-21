@@ -1,0 +1,209 @@
+import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  Container,
+  Box,
+  Button,
+  Typography,
+  TextField,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from 'mui-material-custom';
+import EditIcon from '@mui/icons-material/Edit';
+//import CancelIcon from '@mui/icons-material/Cancel';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import { ContextualHelp } from './ContextualHelp';
+import { StyledPaper, StyledBox } from './JobStyles';
+
+const JobEmailTemplate = ({ data, onChange }) => {
+  const { t } = useTranslation();
+
+  // clone fields from data in case user cancels editing
+  const dataInitial = useMemo(() => {
+    return Object.fromEntries(
+      ["subject", "body", "signature"].map(key => [key, data[key]])
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // or better: [data.subject, data.body, data.signature]
+   
+  const handleFieldChange = (field, value) => {
+
+    onChange({ ...data, [field]: value });
+  };
+
+  const handleFieldsCancel = () => {
+    onChange({
+      ...data,
+      subject: dataInitial.subject,
+      body: dataInitial.body,
+      signature: dataInitial.signature,
+    });
+  };
+
+
+  const [editing, setEditing] = useState(false);
+
+  const fields = [
+    {
+      label: t("Email subject"),
+      key: 'subject',
+      helpKey: 'EmailTemplateSubject',
+      //placeholder: '',
+    },
+    {
+      label: t("Email body"),
+      key: 'body',
+      helpKey: 'EmailTemplateBody',
+      //placeholder: '',
+    },
+    {
+      label: t("Email signature"),
+      key: 'signature',
+      helpKey: 'EmailTemplateSignature',
+      //placeholder: '',
+    },
+  ];
+
+  return (
+    <Container maxWidth="lg" sx={{ py: 0 }}>
+      <StyledPaper>
+        <StyledBox>
+          <Typography variant="h5" fontWeight="bold">
+            {t("Email Template")}
+          </Typography>
+        </StyledBox>
+
+        <Box p={4} pb={2}>
+          <Box
+            component="form"
+            sx={{
+              display: 'flex',
+              flexDirection: {
+                xs: 'column',
+                sm: 'row',
+              },
+              gap: 2,
+              flexWrap: 'wrap',
+              mb: 0,
+            }}
+          >
+            {fields.map(({ label, key, helpKey, placeholder }) => (
+              <Box
+                key={key}
+                sx={{
+                  flex: {
+                    xs: '1 1 100%',
+                  },
+                  mb: 2,
+                }}
+              >
+                <ContextualHelp helpPagesKey={helpKey} fullWidth showOnHover>
+                  <TextField
+                    disabled={!editing}
+                    fullWidth
+                    multiline={key === 'body' ? true : false}
+                    rows={key === 'body' ? 6 : 1}
+                    label={label}
+                    value={data[key] || ''}
+                    onChange={(e) => handleFieldChange(key, e.target.value)}
+                    placeholder={placeholder}
+                  />
+                </ContextualHelp>
+              </Box>
+            ))}
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            {editing && (
+              <Button
+                onClick={() => { handleFieldsCancel(); setEditing(false) }}
+                //endIcon={<CancelIcon />}
+                //variant="contained"
+                variant="outlined"
+                size="small"
+                sx={{ mr: 2 }}
+              >
+                {t('Cancel')}
+              </Button>
+            )}
+            <Button
+              onClick={() => setEditing(!editing) }
+              endIcon={<EditIcon />}
+              variant="contained"
+              size="medium"
+            >
+              {editing ? t('Confirm changes') : t('Edit email template')}
+            </Button>
+          </Box>
+          
+        </Box>
+      </StyledPaper>
+    </Container>
+  );
+};
+
+const HtmlPreviewDialog = ({ 
+  isOpen, 
+  onClose, 
+  htmlContent 
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      maxWidth="lg"
+      fullWidth
+    >
+     <DialogTitle sx={{
+        bgcolor: 'primary.main',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        px: 2,
+        mb: 2,
+      }}>
+        {/* Left aligned content */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <DraftsIcon sx={{
+            fontSize: 24,
+            color: 'white',
+            mx: 1,
+          }} />
+          <span style={{ color: 'white' }}>{t('Email preview')}</span>
+        </div>
+
+        {/* Right-aligned close button */}
+        <IconButton
+          onClick={onClose}
+          sx={{
+            bgcolor: 'rgba(255, 255, 255, 0.1)',
+            borderRadius: '50%',
+            '&:hover': {
+              bgcolor: 'rgba(255, 255, 255, 0.2)'
+            }
+          }}
+        >
+          <CloseIcon sx={{ color: 'white' }} />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        {/* Safe way to render HTML content */}
+        <Box 
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+          sx={{
+            minHeight: '200px',
+            overflowY: 'auto',
+            p: 2,
+            border: '1px solid #ccc'
+          }} 
+        />
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default JobEmailTemplate;

@@ -11,9 +11,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  TextFieldHtml,
 } from 'mui-material-custom';
-import { Global } from '@emotion/react';
 import EditIcon from '@mui/icons-material/Edit';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import CloseIcon from '@mui/icons-material/Close';
@@ -28,21 +26,27 @@ import {
 } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+
 import { ContextualHelp } from './ContextualHelp';
 import { StyledPaper, StyledBox } from './JobStyles';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-//import config from '../config';
+//import { SdCardAlert } from '@mui/icons-material';
 
-
-const JobEmailTemplate = ({ data, job, onChange }) => {
+const JobEmailTemplate = ({ data, onChange }) => {
   const { t } = useTranslation();
-  
+
   // Variables and their preview values
   const variables = [
-    t('{DOCTOR NAME}'),
-    t('{FIRST AND LAST NAME OF THE PATIENT}'),
-    //t('{SIGNATURE OF THE SENDER}'),
-    t('{NAME OF THE MEDICINE}'),
+    '{NOME DEL DOTTORE}',
+    '{NOME E COGNOME DEL PAZIENTE}',
+    '{FIRMA DEL MITTENTE}',
+    '{NOME DEL FARMACO}',
+  ];
+  const variablesValuesForPreview = [ // TODO...
+    'Dott.ssa Siringhetti',
+    'Culetto Rosa',
+    'Mario Rossi (tel.: 333 4567890)',
+    ' Tachipirina 1000',
   ];
 
   // Initial data snapshot for cancel/reset
@@ -54,27 +58,10 @@ const JobEmailTemplate = ({ data, job, onChange }) => {
     };
   }, [data.subject, data.body, data.signature]);
 
-  const dataDefaultValues = {
-    subject: t('Medicines prescription request'),
-    bodyHtml: t(`\
-Good morning, {DOCTOR NAME}.
-      
-We require the prescription of this medicine for {FIRST AND LAST NAME OF THE PATIENT}:
-
-  {NAME OF THE MEDICINE}
-
-Best regards.
-    `),
-    signature: (
-      ((job.patient.firstName && job.patient.lastName) ? `${job.patient.firstName} ${job.patient.lastName}` : '') +
-      (job.patient.email ? ` <${job.patient.email}>` : '')
-    ),
-  };
-
   // States for controlled fields
-  const [subject, setSubject] = useState(data.subject || dataDefaultValues.subject);
-  const [bodyHtml, setBodyHtml] = useState(data.body || dataDefaultValues.bodyHtml);
-  const [signature, setSignature] = useState(data.signature || dataDefaultValues.signature);
+  const [subject, setSubject] = useState(data.subject || '');
+  
+  const [signature, setSignature] = useState(data.signature || '');
 
   // EditorState for body
   const [editorState, setEditorState] = useState(() => {
@@ -90,32 +77,20 @@ Best regards.
     }
     return EditorState.createEmpty();
   });
-  
+
   // Editing mode
   const [editing, setEditing] = useState(false);
 
   // Preview dialog state
   const [previewIsOpen, setPreviewIsOpen] = useState(false);
-  //const [generatedHtml, setGeneratedHtml] = useState('');
+  const [generatedHtml, setGeneratedHtml] = useState('');
   const [expandedHtml, setExpandedHtml] = useState('');
 
-  // effect to ensure defaults are passed to the parent when all values are missing
-  useEffect(() => {
-    if (!data.subject && !data.body && !data.signature) {
-      onChange({
-        subject: dataDefaultValues.subject,
-        body: dataDefaultValues.bodyHtml,
-        signature: dataDefaultValues.signature,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  
   // Sync local states when data prop changes (only if not editing)
   useEffect(() => {
     if (!editing) {
-      setSubject(data.subject || dataDefaultValues.subject);
-      setSignature(data.signature || dataDefaultValues.signature);
+      setSubject(data.subject || '');
+      setSignature(data.signature || '');
       if (data.body) {
         const contentBlock = htmlToDraft(data.body);
         if (contentBlock) {
@@ -129,23 +104,7 @@ Best regards.
         setEditorState(EditorState.createEmpty());
       }
     }
-  }, [data, editing, dataDefaultValues.subject, dataDefaultValues.signature]);
-
-  // When switching to editing mode, initialize editorState from bodyHtml
-  useEffect(() => {
-    if (editing) {
-      const contentBlock = htmlToDraft(bodyHtml);
-      if (contentBlock) {
-        const contentState = ContentState.createFromBlockArray(
-          contentBlock.contentBlocks,
-          contentBlock.entityMap
-        );
-        setEditorState(EditorState.createWithContent(contentState));
-      } else {
-        setEditorState(EditorState.createEmpty());
-      }
-    }
-  }, [editing, bodyHtml]);
+  }, [data, editing]);
 
   // Handle variable insertion in editor
   const handleInsertVariable = (variable) => {
@@ -168,90 +127,51 @@ Best regards.
     setEditorState(newEditorState);
   };
 
-  const onEditorStateChange = (newState) => {
-    setEditorState(newState);
-    const html = draftToHtml(convertToRaw(newState.getCurrentContent()));
-    setBodyHtml(html);
-  };
-
-  // const handleGenerateHtml = () => {
-  //   const html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-  //   setGeneratedHtml(html);
-  //   console.log('Subject:', subject);
-  //   console.log('Generated HTML:', html);
-  // };
-
-  // Handle confirm: call onChange with updated data
-  const handleConfirm = () => {
-    //handleGenerateHtml(); // TODO: ok?
-    //const htmlBody = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-    onChange({
-      subject,
-      //body: htmlBody,
-      body: bodyHtml,
-      signature,
-    });
-    setEditing(false);
-  };
-
   // Handle cancel: reset states to initial data
   const handleCancel = () => {
     setSubject(dataInitial.subject);
     setSignature(dataInitial.signature);
-    setBodyHtml(dataInitial.body);
 
-    const contentBlock = htmlToDraft(dataInitial.body || '');
-    if (contentBlock) {
-      const contentState = ContentState.createFromBlockArray(
-        contentBlock.contentBlocks,
-        contentBlock.entityMap
-      );
-      setEditorState(EditorState.createWithContent(contentState));
+    if (dataInitial.body) {
+      const contentBlock = htmlToDraft(dataInitial.body);
+      if (contentBlock) {
+        const contentState = ContentState.createFromBlockArray(
+          contentBlock.contentBlocks,
+          contentBlock.entityMap
+        );
+        setEditorState(EditorState.createWithContent(contentState));
+      }
     } else {
       setEditorState(EditorState.createEmpty());
     }
-    // if (dataInitial.body) {
-    //   const contentBlock = htmlToDraft(dataInitial.body);
-    //   if (contentBlock) {
-    //     const contentState = ContentState.createFromBlockArray(
-    //       contentBlock.contentBlocks,
-    //       contentBlock.entityMap
-    //     );
-    //     setEditorState(EditorState.createWithContent(contentState));
-    //   }
-    // } else {
-    //   setEditorState(EditorState.createEmpty());
-    // }
+    setEditing(false);
+  };
+
+  const handleGenerateHtml = () => {
+    const html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    setGeneratedHtml(html);
+    console.log('Subject:', subject);
+    console.log('Generated HTML:', html);
+  };
+
+  // Handle confirm: call onChange with updated data
+  const handleConfirm = () => {
+    handleGenerateHtml(); // TODO: ok?
+    const htmlBody = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    onChange({
+      subject,
+      body: htmlBody,
+      signature,
+    });
     setEditing(false);
   };
 
   // Handle preview: replace variables in HTML and open dialog
   const handlePreviewEmail = () => {
     let html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-    variables.forEach((variable) => {
+    variables.forEach((variable, index) => {
       const escapedVar = variable.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      //const replacement = variablesValuesForPreview[index];
-      let replacement;
-      // if (variable === t('{DOCTOR NAME}')) {
-      //   replacement = job.doctor.name;
-      // }
-      switch (variable) {
-        case t('{DOCTOR NAME}'):
-          replacement = job.doctor.name ?? variable;
-          break
-        case t('{FIRST AND LAST NAME OF THE PATIENT}'):
-          replacement = (job.patient.firstName || job.patient.lastName) ? `${job.patient.firstName} ${job.patient.lastName}` : variable;
-          break;
-        // case t('{SIGNATURE OF THE SENDER}'):
-        //   replacement = data.signature ?? variable;
-        //   break;
-        case t('{NAME OF THE MEDICINE}'):
-          replacement = (job.medicines && job.medicines[0] && job.medicines[0].name) ? job.medicines[0].name : variable;
-          break;
-        default:
-          console.warning(`Found variable like string ${variable}, but it is not allowed`);
-          replacement = variable;
-      }
+      const replacement = variablesValuesForPreview[index];
       html = html.replace(new RegExp(escapedVar, 'g'), replacement);
     });
     setExpandedHtml(html);
@@ -308,56 +228,75 @@ Best regards.
               flexDirection: { xs: 'column', sm: 'row' },
               gap: 2,
               flexWrap: 'wrap',
+              mb: 2,
             }}
           >
             {fields.map(({ label, key, value, onChange, multiline, disabled, helpKey }) => (
               <Box
                 key={key}
-                sx={{ flex: { xs: '1 1 100%' }, mb: 2}}
+                sx={{ flex: { xs: '1 1 100%' }, mb: 2 }}
               >
                 <ContextualHelp helpPagesKey={helpKey} fullWidth showOnHover>
                   {(key === 'body') && !editing && (
-                    <TextFieldHtml disabled={true} label={t('Email body')} html={bodyHtml} minHeight={200} />
+                    <TextField
+                      disabled={disabled}
+                      fullWidth
+                      multiline={multiline}
+                      rows={multiline ? 4 : 1}
+                      label={label}
+                      value={value}
+                      onChange={(e) => onChange(e.target.value)}
+                    />
                   )}
-                  {(key === 'body') && editing && ( // Variable insertion buttons
-                    <Box label={t('Email body')}>
-                      {variables.map((varName) => (
-                        <Chip
-                          key={varName}
-                          onClick={() => handleInsertVariable(varName)}
-                          sx={{
-                            bgcolor: '#ffff00',
-                            mx: 0.5,
-                            mb: 3,
-                            border: 1
-                          }}
-                          label={varName}
-                        >
-                        </Chip>
-                      ))}
+                  {(key === 'body') && editing && ( // Body Field with Rich Text Editor
+                    <Box component="fieldset" label={t('Email body')}
+                      sx={{
+                        border: '1px solid',
+                        borderColor: 'grey.400',
+                        borderRadius: 1.2,
+                        mb: 2,
+                        p: 1
+                      }}>
+                      <Typography component="legend" variant="caption" sx={{ p: 0.66 }}>
+                        {t('Email body')}
+                      </Typography>
 
-                      <Global
-                        styles={{
-                          '.rdw-editor-toolbar': {
-                            backgroundColor: '#a5dc6f !important', // primary.main... TODO: adjust with theme...
-                          },
-                        }}
-                      />
-                      <Editor
-                        editorState={editorState}
-                        onEditorStateChange={onEditorStateChange}
-                        toolbar={{
-                          options: ['inline'],
-                          inline: { options: ['bold', 'italic', 'underline'] },
-                        }}
-                        editorStyle={{
-                          minHeight: '200px',
-                          padding: '8px',
-                          //padding-top: 0,
-                          backgroundColor: editing ? 'red !important'/*#cf4f8'*/ : 'red',
-                          pointerEvents: editing ? 'auto' : 'none',
-                        }}
-                      />
+                      {/* Variable insertion buttons */}
+                      <Box sx={{ mb: 1 }}>
+                        {variables.map((varName) => (
+                          <Chip
+                            key={varName}
+                            //variant="outlined"
+                            //size="small"
+                            onClick={() => handleInsertVariable(varName)}
+                            sx={{
+                              bgcolor: '#eeee44',
+                              mx: 0.5,
+                              mb: 1,
+                              border: 1
+                            }}
+                            label={varName}
+                          >
+                          </Chip>
+                        ))}
+                      </Box>
+
+                      <ContextualHelp helpPagesKey={'helpKey'} fullWidth showOnHover>
+                        <Editor
+                          editorState={editorState}
+                          onEditorStateChange={setEditorState}
+                          toolbar={{
+                            options: ['inline'],
+                            inline: { options: ['bold', 'italic', 'underline'] },
+                          }}
+                          editorStyle={{
+                            minHeight: '200px',
+                            padding: '8px',
+                            backgroundColor: editing ? '#cf4f8' : '#f5f5f5',
+                            pointerEvents: editing ? 'auto' : 'none',
+                          }}
+                        />
+                      </ContextualHelp>
                     </Box>
                   )}
                   {(key !== 'body') && (
@@ -374,17 +313,22 @@ Best regards.
                 </ContextualHelp>
               </Box>
             ))}
-
           </Box>
 
+          {/* TODO: only for development */}
+          {generatedHtml && (
+            <Box sx={{ mt: 3, p: 2, border: '1px dashed #ccc' }}>
+              <Typography variant="subtitle1">{t('Email subject')}:</Typography>
+              <p>{subject}</p>
+              <Typography variant="subtitle1" sx={{ mt: 2 }}>HTML Output:</Typography>
+              <pre>{generatedHtml}</pre>
+            </Box>
+          )}
+
           {/* Buttons */}
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: 2
-          }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
             {editing && (
-              <Button variant="contained" size="small" onClick={handleCancel}>
+              <Button variant="outlined" size="small" onClick={handleCancel}>
                 {t('Cancel')}
               </Button>
             )}
@@ -399,14 +343,16 @@ Best regards.
             </Button>
 
             {/* Preview button always available */}
-            <Button
-              variant="contained"
-              size="medium"
-              onClick={handlePreviewEmail}
-              endIcon={<PreviewIcon />}
-            >
-              {t('Preview email')}
-            </Button>
+            {editing && (
+              <Button
+                variant="contained"
+                size="medium"
+                onClick={handlePreviewEmail}
+                endIcon={<PreviewIcon />}
+              >
+                {t('Preview email')}
+              </Button>
+            )}
           </Box>
         </Box>
       </StyledPaper>
@@ -415,15 +361,13 @@ Best regards.
       <HtmlPreviewDialog
         isOpen={previewIsOpen}
         onClose={() => setPreviewIsOpen(false)}
-        subject={subject}
         htmlContent={expandedHtml}
-        signature={signature}
       />
     </Container>
   );
 };
 
-const HtmlPreviewDialog = ({ isOpen, onClose, subject, htmlContent, signature }) => {
+const HtmlPreviewDialog = ({ isOpen, onClose, htmlContent }) => {
   const { t } = useTranslation();
 
   console.log("htmlContent:", htmlContent, typeof htmlContent);
@@ -458,26 +402,13 @@ const HtmlPreviewDialog = ({ isOpen, onClose, subject, htmlContent, signature })
 
       {htmlContent && (        
         <DialogContent>
+          {/* {JSON.stringify(htmlContent)} */}
           <Box
-            sx={{
-              overflowY: 'auto',
-              p: 2,
-              border: '1px solid #ccc',
-              mb: 2,
-            }}
-          >
-            <Typography _ariant="h6">
-              {/*t('Subject')*/} {subject}
-            </Typography>
-          </Box>
-          
-          <Box
-            dangerouslySetInnerHTML={{ __html: `${htmlContent} ${signature}` }}
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
             sx={{
               minHeight: '200px',
               overflowY: 'auto',
               p: 2,
-              pt: 0,
               border: '1px solid #ccc',
             }}
           />

@@ -188,10 +188,10 @@ export function ContextualHelpWrapper({
   };
   
   const placementOffsets = {
-    "top-left": { top: -24, left: -24 },
-    "top-right": { top: -24, right: 24 },
-    "bottom-left": { bottom: 24, left: -24 },
-    "bottom-right": { bottom: 24, right: 24 },
+    "top-left": { top: -28, left: -28 },
+    "top-right": { top: -28, right: 28 },
+    "bottom-left": { bottom: 28, left: -28 },
+    "bottom-right": { bottom: 28, right: 28 },
   };
 
   const help = HelpPages[helpPagesKey];
@@ -221,7 +221,7 @@ export function ContextualHelpWrapper({
           onClick={handleOpen}
         >
           <IconButton
-            size="small"
+            size="large"
             sx={{ color: theme.palette.primary.main }}
             ref={iconButtonRef}
           >

@@ -11,7 +11,7 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 //import red from "@mui/material/colors/red";
-import { PushNotificationsStatusContext } from "../providers/PushNotificationsStatusProvider";
+import { PushNotificationsStatusContext } from "../providers/PushNotificationsStatusContext";
 import { i18n }  from "../i18n";
 
 

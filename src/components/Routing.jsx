@@ -20,8 +20,14 @@ const UsersHandle = lazy(() => import("./UsersHandle"));
 const ProductsHandle = lazy(() => import("./ProductsHandle"));
 const Cart = lazy(() => import("./Cart"));
 const NotificationPreferences = lazy(() => import("./NotificationPreferences"));
+// import JobDataExport from "./JobDataExport";
+// import JobDataImport from "./JobDataImport";
+const JobDataExport = lazy(() => import("./JobDataExport"));
+const JobDataImport = lazy(() => import("./JobDataImport"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
+
+//const JobDataExport = () => <div>Export Page</div>;
 
 const Routing = () => {
   return (
@@ -69,6 +75,8 @@ const Routing = () => {
           <Route path="/page-not-found" element={<PageNotFound />} />
           <Route path="/work-in-progress" element={<WorkInProgress />} />
           <Route path="/email-preferences" element={<NotificationPreferences section="email" action="preferences" />} />
+          <Route path="job-data-export" element={<JobDataExport />} />
+          <Route path="job-data-import" element={<JobDataImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} />
           {/* <Route path="/api/*" element={null} /> */}
           <Route path="*" element={<PageNotFound />} />
         </Route>

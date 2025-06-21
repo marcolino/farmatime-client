@@ -70,7 +70,7 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const JobMedicines = ({ data, onChange }) => {
+const JobMedicines = ({ data, onChange, onEditingChange }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { isLoggedIn } = useContext(AuthContext);
@@ -117,6 +117,18 @@ const JobMedicines = ({ data, onChange }) => {
       inputRefs[fieldToFocus].current.focus();
     }
   }, [fieldToFocus]);
+
+  // // inform caller we are editing
+  // useEffect(() => {
+  //   onEditingChange(editingItemId !== null);
+  // }, [editingItemId]);
+
+  // inform caller we are finished editing if no medicine name is set
+  useEffect(() => {
+    if (!fieldMedicine) {
+      onEditingChange(false);
+    }
+  }, [fieldMedicine, onEditingChange]);
 
   // Create unified options
   const unifiedOptions = useMemo(() => {
@@ -181,6 +193,7 @@ const JobMedicines = ({ data, onChange }) => {
     setFieldFrequency(1);
     setFieldDate(new Date());
     setOption(null);
+    onEditingChange(false); // inform caller we are done editing
   };
 
   const addItem = (e) => {
@@ -239,9 +252,13 @@ const JobMedicines = ({ data, onChange }) => {
     setFieldFrequency(item.fieldFrequency);
     setFieldDate(new Date(item.fieldDate));
     setFieldMedicine(item.name);
+    onEditingChange(true); // inform caller we are editing
   };
 
-  const handleEditStart = (name) => setEditingItemId(name);
+  const handleEditStart = (name) => {
+    setEditingItemId(name);
+  };
+
   const handleEditEnd = () => setEditingItemId(null);
 
   const removeItem = (name) => {
@@ -330,12 +347,13 @@ const JobMedicines = ({ data, onChange }) => {
                     inputValue={fieldMedicine ?? ''}
                     onChange={(_event, newValue) => {
                       setOption(newValue);
-                      setFieldMedicine(newValue ? newValue.label : '');
+                      setFieldMedicine(newValue ? newValue.label : '');                      
                     }}
-                    onInputChange={(event, newFieldMedicine, reason) => {
+                    onInputChange={(_event, newFieldMedicine, reason) => {
                       if (reason === 'input' || reason === 'clear') {
                         setFieldMedicine(newFieldMedicine);
                       }
+                      onEditingChange(true); // inform caller we are editing
                     }}
                     options={getFilteredOptions(fieldMedicine)}
                     placeholder={t("Enter full name of the medicine")}

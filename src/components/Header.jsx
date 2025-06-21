@@ -9,7 +9,8 @@ import { useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AccountCircle, ExitToApp, ManageAccounts,
-  ShoppingCart, Category, Brightness4, Brightness7, ContactPhone,
+  ShoppingCart, Category, Brightness4, Brightness7,
+  ContactPhone, ImportExport,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
@@ -22,7 +23,6 @@ import { isAdmin } from "../libs/Validation";
 import logoMain from "../assets/images/LogoMain.png";
 import logoMainText from "../../Logo-text.png"; // TODO...
 import config from "../config";
-
 
 const Header = ({ theme, toggleTheme }) => {
   const { auth, isLoggedIn, signOut, didSignInBefore } = useContext(AuthContext);
@@ -121,6 +121,20 @@ const Header = ({ theme, toggleTheme }) => {
           onClick: () => handleSignOut(),
           shortcutKey: "", //"Ctrl-Q"
         },
+        {
+          label: t("Export data"),
+          icon: <ImportExport />,
+          href: false,
+          onClick: () => handleJobDataExport(),
+          shortcutKey: "", //"Ctrl-I"
+        },
+        {
+          label: t("Import data"),
+          icon: <ImportExport />,
+          href: false,
+          onClick: () => handleJobDataImport({ onDataImported: (data) => alert(data) }),
+          shortcutKey: "", //"Ctrl-E"
+        },
       ] : [ ]
     ),
   ];
@@ -162,6 +176,16 @@ const Header = ({ theme, toggleTheme }) => {
       console.error("signout error:", err);
     }
     showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
+  };
+
+  const handleJobDataExport = () => {
+    console.log("EEEEEEEEEEEEEEEEEEEEEEEE");
+    navigate("/job-data-export", { replace: true });
+  };
+
+  const handleJobDataImport = () => {
+    console.log("IIIIIIIIIIIIIIIIIIIIIIII");
+    navigate("/job-data-import", { replace: true });
   };
 
   //console.log("sections:", sections);
@@ -283,7 +307,7 @@ const Header = ({ theme, toggleTheme }) => {
             </Button>
           }
 
-          <Menu
+          {/* <Menu
             id="menu-appbar"
             anchorEl={anchorUserMenuEl}
             open={userMenuIsOpen}
@@ -291,7 +315,15 @@ const Header = ({ theme, toggleTheme }) => {
             onClick={handleUserMenuClose} // to close on click everywhere
           >
             {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
-              <MenuItem key={label} component={RouterLink} to={href} /*dense*/>
+              <MenuItem
+                key={label}
+                component={RouterLink}
+                to={href}
+                {...(href ?
+                  { component: RouterLink, to: href } :
+                  { onClick: () => { onClick(); handleUserMenuClose(); } })
+                }
+              >
                 <ListItemIcon>
                   {icon}
                 </ListItemIcon>
@@ -300,6 +332,45 @@ const Header = ({ theme, toggleTheme }) => {
                   &nbsp; {shortcutKey}
                 </Typography>}
               </MenuItem>
+            ))}
+          </Menu> */}
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorUserMenuEl}
+            open={userMenuIsOpen}
+            onClose={handleUserMenuClose}
+            onClick={handleUserMenuClose} // to close on click everywhere
+          >
+            {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
+              href
+                ? (
+                  <MenuItem key={label} component={RouterLink} to={href}>
+                    <ListItemIcon>
+                      {icon}
+                    </ListItemIcon>
+                    <ListItemText>{label}</ListItemText>
+                    {shortcutKey && <Typography variant="body2" sx={{ color: "text.secondary", fontStyle: "italic" }}>
+                      &nbsp; {shortcutKey}
+                    </Typography>}
+                  </MenuItem>
+                )
+                : (
+                  <MenuItem
+                    key={label}
+                    onClick={() => {
+                      if (onClick) onClick();
+                      handleUserMenuClose();
+                    }}
+                  >
+                    <ListItemIcon>
+                      {icon}
+                    </ListItemIcon>
+                    <ListItemText>{label}</ListItemText>
+                    {shortcutKey && <Typography variant="body2" sx={{ color: "text.secondary", fontStyle: "italic" }}>
+                      &nbsp; {shortcutKey}
+                    </Typography>}
+                  </MenuItem>
+                )
             ))}
           </Menu>
         </>

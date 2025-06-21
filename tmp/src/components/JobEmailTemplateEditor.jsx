@@ -15,7 +15,7 @@ import DraftsIcon from '@mui/icons-material/Drafts';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-const EmailTemplateEditor = () => {
+const JobEmailTemplateEditor = () => {
   const { t } = useTranslation();
 
   const [subject, setSubject] = useState('');
@@ -105,7 +105,6 @@ const EmailTemplateEditor = () => {
         />
       </Box>
 
-      {/* TODO: make a new component: BoxLegendary */}
       <Box component="fieldset" sx={{ border: '1px solid', borderColor: 'grey.400', borderRadius: 1.2, mb: 2 }}>
         <Typography component="legend" variant="caption" sx={{ p: 0.66 }}>
           {t('Email body')}
@@ -237,4 +236,4 @@ const HtmlPreviewDialog = ({
   );
 };
 
-export default EmailTemplateEditor;
+export default JobEmailTemplateEditor;

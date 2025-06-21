@@ -76,14 +76,16 @@ const JobConfirmationReview = ({ data }) => {
               </StyledBoxSmall>
             </StyledPaperSmall>
             <Typography variant="body2" component="li" sx={{ pl: 2 }}>
-              {t('Subject')}: <b>{data.emailTemplate.subject}</b>
+              {t("Subject")}: <b>{data.emailTemplate.subject}</b>
             </Typography>
-            <Typography variant="body2" component="li" sx={{ pl: 2 }}>
-              {t('Body')}: <b>{data.emailTemplate.body}</b>
-            </Typography>
-            <Typography variant="body2" component="li" sx={{ pl: 2 }}>
-              {t('Signature')}: <b>{data.emailTemplate.signature}</b>
-            </Typography>
+            <Typography variant="body2" component="li" sx={{ pl: 2 }}
+              dangerouslySetInnerHTML={{ __html: `${t("Body")}: <b>${data.emailTemplate.body ? data.emailTemplate.body.replace(/(?:\r\n|\r|\n)/g, "<br />") : ''}<br /><br />${data.emailTemplate.signature ? data.emailTemplate.signature: ''}` }}
+            />
+            {/* </Typography>
+            <Typography variant="body2" sx={{ pl: 2 }}
+              dangerouslySetInnerHTML={{ __html: data.emailTemplate.signature }}
+            >
+            </Typography> */}
           </Box>
 
         </Box>
