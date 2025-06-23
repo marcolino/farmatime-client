@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Box,
@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { ArrowBack, ArrowForward, Check } from '@mui/icons-material';
 import { JobContext } from '../providers/JobContext';
+import { useSnackbarContext } from "../providers/SnackbarProvider";
 import JobPatient from './JobPatient';
 import JobDoctor from './JobDoctor';
 import JobMedicines from './JobMedicines';
@@ -24,8 +25,8 @@ const JobFlow = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  
-  const { job, setJob } = useContext(JobContext);
+  const { showSnackbar } = useSnackbarContext();
+  const { job, setJob, jobError } = useContext(JobContext);
 
   // Navigation state
   const currentStep = job.currentStep;
@@ -42,6 +43,20 @@ const JobFlow = () => {
   const maxSteps = steps.length;
 
   const [isMedicinesEditing, setIsMedicinesEditing] = useState(false);
+
+  // show job errors to the user
+ useEffect(() => {
+   if (jobError) {
+      let message = "An unexpected error occurred.";
+      if (jobError.type === "load") {
+        message = "Failed to load job data. Please try again.";
+      } else if (jobError.type === "store") {
+        message = "Failed to save job data. Please try again.";
+      }
+      // showSnackbar is your existing function to display messages to the user
+      showSnackbar(message, "error");
+    }
+  }, [jobError, showSnackbar]);
 
   // Navigation handlers
   const handleNext = () => {
@@ -77,7 +92,20 @@ const JobFlow = () => {
   };
 
   const handleUpdate = (key, value) => {
-    setJob(prev => ({ ...prev, [key]: value }));
+    console.log("* handleUpdate", key, value);
+    const updatedJob = { // Create updated job object by spreading current job and updating key
+      ...job,
+      [key]: value,
+    };
+    setJob(updatedJob); // Pass updated job object directly to setJob
+    
+    // //setJob(prev => ({ ...prev, [key]: value }));
+    // setJob(prev => {
+    //   console.log("* prev job", prev);
+    //   const updated = { ...prev, [key]: value };
+    //   console.log("* updated job", updated);
+    //   return updated;
+    // });
   };
 
   const handleConfirm = () => {

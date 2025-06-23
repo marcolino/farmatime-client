@@ -169,7 +169,15 @@
     "cart": {
       "enabled": false
     },
-    "backgroundVideo": "wind-turbines"
+    "backgroundVideo": "wind-turbines",
+    "jobs": {
+      "storageKey": "jobs",
+      "qrcode": {
+        "size": 360,
+        "level": "L",
+        "expirationMinutes": 3
+      }
+    }
   },
   "oauth": {
     "scope": {

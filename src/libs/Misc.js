@@ -220,7 +220,7 @@ export const formatDate = (date, locale = i18n.language) => {
   });
 };
 
-export const maxRowsWithinLimit = (dataArray, checkCapacityFn, maxBytes) => {
+export const maxRowsWithinLimit = (dataArray, maxBytes) => {
   let cumulativeSize = 0;
   let maxItems = 0;
 

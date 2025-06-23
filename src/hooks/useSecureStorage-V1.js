@@ -10,33 +10,30 @@ export const useSecureStorage = () => {
       try {
         const instance = new SecureStorage('local');
         await instance.init();
-        secureStorageRef.current = instance;
         setSecureStorageStatus('ready');
+        secureStorageRef.current = instance;
       } catch (err) {
         setSecureStorageStatus('error');
         console.error('SecureStorage initialization failed:', err);
       }
     })();
+
+    return () => { }; // cleanup function
   }, []);
-
-  const secureStorageSet = useCallback(async (key, value) => {
-    if (secureStorageStatus !== 'ready') {
-      throw new Error("SecureStorage not ready");
-    }
-    console.log("£££££££ secureStorageRef.current.set(key, value)", key, value);
-    return secureStorageRef.current.set(key, value);
-  }, [secureStorageStatus]);
-
-  const secureStorageGet = useCallback(async (key) => {
-    if (secureStorageStatus !== 'ready') {
-      throw new Error("SecureStorage not ready");
-    }
-    return secureStorageRef.current.get(key);
-  }, [secureStorageStatus]);
 
   return {
     secureStorageStatus,
-    secureStorageSet,
-    secureStorageGet,
+    secureStorageSet: useCallback(async (key, value) => {
+      if (secureStorageStatus !== 'ready') { // Check if status is ready
+        throw new Error("SecureStorage not ready");
+      }
+      return secureStorageRef.current.set(key, value);
+    }, [secureStorageRef, secureStorageStatus]),
+    secureStorageGet: useCallback(async (key) => {
+      if (secureStorageStatus !== 'ready') { // Check if status is ready
+        throw new Error("SecureStorage not ready");
+      }
+      return secureStorageRef.current.get(key);
+    }, [secureStorageRef, secureStorageStatus]),
   };
-};
+}

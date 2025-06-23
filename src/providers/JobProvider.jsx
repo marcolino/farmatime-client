@@ -1,85 +1,145 @@
-// src/providers/JobProvider.jsx
-import { useState, useEffect, useRef } from "react";
-import { JobContext } from "./JobContext";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { JobContext, initialJob, initialJobsState } from "./JobContext";
 import { useSecureStorage } from "../hooks/useSecureStorage";
-import { isEqual }  from "lodash";
-import { debounce } from "lodash";
+import { isEqual, debounce } from "lodash";
 
-const jobKey = "job";
-
-const initialJob = {
-  patient: {},
-  doctor: {},
-  medicines: [],
-  emailTemplate: '',
-  isConfirmed: false,
-  currentStep: 0,
-};
+const storageKey = "jobs"; // TODO: to config
 
 export const JobProvider = ({ children }) => {
   const { secureStorageStatus, secureStorageGet, secureStorageSet } = useSecureStorage();
-  const [job, setJob] = useState(initialJob);
+
+  // State for jobs array and current job index
+  const [jobs, setJobs] = useState(initialJobsState.jobs);
+  const [currentJobIndex, setCurrentJobIndex] = useState(initialJobsState.currentJobIndex);
   const [jobError, setJobError] = useState(null);
-  const resetJob = () => setJob(initialJob);
 
-  const lastSavedJobRef = useRef(initialJob);
+  // Refs for last saved state to avoid redundant writes
+  const lastSavedStateRef = useRef({
+    jobs: initialJobsState.jobs,
+    currentJobIndex: initialJobsState.currentJobIndex,
+  });
 
-  // Debounced save function (only created once)
+  // Debounced save function ref
   const debouncedSaveRef = useRef(null);
 
-  // Create debounced function once status is 'ready' and secureStorageSet is defined
+  // Convenience getter for current job
+  const job = jobs[currentJobIndex] || initialJob;
+
+  // setJob updates the job at currentJobIndex or optionally at a passed index
+  // const setJob = useCallback(
+  //   (updatedJob, index = currentJobIndex) => {
+  //     setJobs((prevJobs) => {
+  //       const newJobs = [...prevJobs];
+  //       newJobs[index] = updatedJob;
+  //       return newJobs;
+  //     });
+  //   },
+  //   [currentJobIndex]
+  // );
+  const setJob = useCallback(
+  (updatedJobOrUpdater, index = currentJobIndex) => {
+    setJobs((prevJobs) => {
+      const newJobs = [...prevJobs];
+      const prevJob = prevJobs[index];
+      const newJob =
+        typeof updatedJobOrUpdater === "function"
+          ? updatedJobOrUpdater(prevJob)
+          : updatedJobOrUpdater;
+      newJobs[index] = newJob;
+      return newJobs;
+    });
+  },
+  [currentJobIndex]
+);
+
+  // Initialize debounced save function when storage is ready
   useEffect(() => {
-    if (secureStorageStatus === 'ready') {
-      const debounced = debounce(async (newJob) => {
+    if (secureStorageStatus === "ready") {
+      debouncedSaveRef.current = debounce(async (newState) => {
         try {
-          await secureStorageSet(jobKey, newJob);
-          lastSavedJobRef.current = newJob;
-          console.log(" >>> secureStorageSet (debounced & changed)");
+          await secureStorageSet(storageKey, newState);
+          lastSavedStateRef.current = newState;
+          console.log(">>> secureStorageSet (debounced & changed)");
         } catch (e) {
-          console.error("Failed to save job state to secure storage:", e); // TODO: console error is for debug only
+          console.error("Failed to save jobs state to secure storage:", e);
           setJobError({ type: "store", e });
         }
       }, 300);
 
-      debouncedSaveRef.current = debounced;
-
       return () => {
-        debounced.cancel();
+        debouncedSaveRef.current.cancel();
       };
     }
   }, [secureStorageStatus, secureStorageSet]);
 
-  // Load job state from secure storage on mount
+  // Load jobs and currentJobIndex on mount
   useEffect(() => {
-    if (secureStorageStatus === 'ready') {
+    if (secureStorageStatus === "ready") {
       (async () => {
         try {
-          const saved = await secureStorageGet(jobKey);
-          console.log(" <<< secureStorageGet called");
-          if (saved) {
-            setJob(saved);
-            lastSavedJobRef.current = saved; // Sync reference
+          const savedState = await secureStorageGet(storageKey);
+          console.log("<<< secureStorageGet called");
+
+          if (
+            savedState &&
+            Array.isArray(savedState.jobs) &&
+            savedState.jobs.length > 0 &&
+            typeof savedState.currentJobIndex === "number"
+          ) {
+            setJobs(savedState.jobs);
+            setCurrentJobIndex(savedState.currentJobIndex);
+            lastSavedStateRef.current = savedState;
+          } else {
+            console.info("Jobs not set yet");
+            // throw (new Error("Error setting jobs!"));
           }
         } catch (e) {
-          console.error("Failed to load job state to secure storage:", e); // TODO: console error is for debug only
+          console.error("Failed to load jobs state from secure storage:", e);
           setJobError({ type: "load", e });
         }
       })();
     }
   }, [secureStorageStatus, secureStorageGet]);
 
-  // Save job state to secure storage on change (debounced + deduplicated)
+  // Save jobs state on change (debounced + deduplicated)
   useEffect(() => {
-    if (
-      secureStorageStatus === 'ready' &&
-      !isEqual(job, lastSavedJobRef.current)
-    ) {
-      debouncedSaveRef.current(job);
+    if (secureStorageStatus === "ready") {
+      const newState = { jobs, currentJobIndex };
+      if (!isEqual(newState, lastSavedStateRef.current)) {
+        debouncedSaveRef.current(newState);
+      }
     }
-  }, [job, secureStorageStatus]);
+  }, [jobs, currentJobIndex, secureStorageStatus]);
+
+  // Set jobError when it becomes "error"
+  useEffect(() => {
+    if (secureStorageStatus === "error") {
+      setJobError({
+        type: "init",
+        e: new Error("SecureStorage initialization failed"),
+      });
+    }
+  }, [secureStorageStatus]);
+  
+  // Reset all jobs and current index to initial state
+  const resetJobs = () => {
+    setJobs(initialJobsState.jobs);
+    setCurrentJobIndex(initialJobsState.currentJobIndex);
+  };
 
   return (
-    <JobContext.Provider value={{ job, setJob, resetJob, jobError }}>
+    <JobContext.Provider
+      value={{
+        jobs,
+        setJobs,
+        currentJobIndex,
+        setCurrentJobIndex,
+        job,
+        setJob,
+        resetJobs,
+        jobError,
+      }}
+    >
       {children}
     </JobContext.Provider>
   );

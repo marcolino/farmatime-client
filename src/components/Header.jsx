@@ -10,7 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import {
   AccountCircle, ExitToApp, ManageAccounts,
   ShoppingCart, Category, Brightness4, Brightness7,
-  ContactPhone, ImportExport,
+  ContactPhone, ImportExport, SettingsSuggest,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
@@ -115,26 +115,33 @@ const Header = ({ theme, toggleTheme }) => {
           href: `/edit-user/${auth?.user?.id}/editProfile`,
         },
         {
+          label: t("Advanced Options"),
+          icon: <SettingsSuggest />,
+          href: false,
+          onClick: () => handleAdvancedOptions(),
+          shortcutKey: "", //"Ctrl-O"
+        },
+        {
           label: t("Sign out"),
           icon: <ExitToApp />,
           href: false,
           onClick: () => handleSignOut(),
           shortcutKey: "", //"Ctrl-Q"
         },
-        {
-          label: t("Export data"),
-          icon: <ImportExport />,
-          href: false,
-          onClick: () => handleJobDataExport(),
-          shortcutKey: "", //"Ctrl-I"
-        },
-        {
-          label: t("Import data"),
-          icon: <ImportExport />,
-          href: false,
-          onClick: () => handleJobDataImport({ onDataImported: (data) => alert(data) }),
-          shortcutKey: "", //"Ctrl-E"
-        },
+        // {
+        //   label: t("Export data"),
+        //   icon: <ImportExport />,
+        //   href: false,
+        //   onClick: () => handleJobDataExport(),
+        //   shortcutKey: "", //"Ctrl-I"
+        // },
+        // {
+        //   label: t("Import data"),
+        //   icon: <ImportExport />,
+        //   href: false,
+        //   onClick: () => handleJobDataImport({ onDataImported: (data) => alert(data) }),
+        //   shortcutKey: "", //"Ctrl-E"
+        // },
       ] : [ ]
     ),
   ];
@@ -178,15 +185,17 @@ const Header = ({ theme, toggleTheme }) => {
     showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
   };
 
-  const handleJobDataExport = () => {
-    console.log("EEEEEEEEEEEEEEEEEEEEEEEE");
-    navigate("/job-data-export", { replace: true });
+  const handleAdvancedOptions = () => {
+    navigate("/advanced-options", { replace: true });
   };
 
-  const handleJobDataImport = () => {
-    console.log("IIIIIIIIIIIIIIIIIIIIIIII");
-    navigate("/job-data-import", { replace: true });
-  };
+  // const handleJobDataExport = () => {
+  //   navigate("/job-data-export", { replace: true });
+  // };
+
+  // const handleJobDataImport = () => {
+  //   navigate("/job-data-import", { replace: true });
+  // };
 
   //console.log("sections:", sections);
 

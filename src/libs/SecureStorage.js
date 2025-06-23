@@ -89,24 +89,24 @@ export class SecureStorage {
     }
   }
 
-  /**
-   * Checks if the given data fits within the specified QR code byte capacity.
-   * Uses TextEncoder to get accurate byte length of JSON string.
-   * 
-   * @param {any} data - Data to check (typically an object or array)
-   * @param {number} maxBytes - Maximum allowed bytes for QR code (default 3000)
-   * @returns {boolean} true if data fits, false if too large
-   */
-  checkQrCapacity(data, maxBytes = 2331) { // 2331 is max capacity for Level: M, Mode: byte QR-Codes (Version 40)
-    try {
-      const jsonString = JSON.stringify(data);
-      const byteLength = new TextEncoder().encode(jsonString).length;
-      return byteLength <= maxBytes;
-    } catch (e) {
-      console.warning(`Error checking if QR-Code is capable for a data size of ${data.size}: ${e.message}`);
-      // In case of serialization error, consider data too large
-      return false;
-    }
-  }
+  // /**
+  //  * Checks if the given data fits within the specified QR code byte capacity.
+  //  * Uses TextEncoder to get accurate byte length of JSON string.
+  //  * 
+  //  * @param {any} data - Data to check (typically an object or array)
+  //  * @param {number} maxBytes - Maximum allowed bytes for QR code (default 3000)
+  //  * @returns {boolean} true if data fits, false if too large
+  //  */
+  // checkQrCapacity(data, maxBytes = 2331) { // 2331 is max capacity for Level: M, Mode: byte QR-Codes (Version 40)
+  //   try {
+  //     const jsonString = JSON.stringify(data);
+  //     const byteLength = new TextEncoder().encode(jsonString).length;
+  //     return byteLength <= maxBytes;
+  //   } catch (e) {
+  //     console.warning(`Error checking if QR-Code is capable for a data size of ${data.size}: ${e.message}`);
+  //     // In case of serialization error, consider data too large
+  //     return false;
+  //   }
+  // }
 
 }

@@ -11,7 +11,7 @@ export function TextFieldHtml({ label, html, minHeight = 120, disabled, sx }) {
         borderRadius: 1,
         border: '1.5px solid',
         borderColor: 'grey.400',
-        pt: 0,
+        pt: 2,
         px: 2,
         pb: 1,
         bgcolor: 'background.paper',
@@ -43,7 +43,7 @@ export function TextFieldHtml({ label, html, minHeight = 120, disabled, sx }) {
         disabled={true}
         sx={{
           minHeight,
-          pt: 0,
+          pt: 1,
           overflowY: 'auto',
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',

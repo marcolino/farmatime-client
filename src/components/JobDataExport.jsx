@@ -1,31 +1,35 @@
 import { useState, useEffect } from "react";
-import { Button, Dialog, DialogContent, Typography, Alert } from "@mui/material";
+import { Container, Typography, Alert } from "@mui/material";
 import QRCode from "react-qr-code";
 import { useSecureStorage } from "../hooks/useSecureStorage";
 import { maxRowsWithinLimit } from "../libs/Misc";
+import { isObject } from "../libs/Misc";
+import config from "../config";
 
-const JobDataExport = ({ userData }) => { // TODO: we do not use data from parameters, we get it fresh from secureStorageGet
+const JobDataExport = () => {
   const {
     secureStorageStatus,
-    secureStorageSet,
     secureStorageGet,
   } = useSecureStorage();
 
   const [qrValue, setQrValue] = useState("");
-  const [open, setOpen] = useState(false);
   const [warning, setWarning] = useState("");
-  const [truncatedData, setTruncatedData] = useState(null);
-  const [maxBytes, setMaxBytes] = useState(2331); // default QR capacity Level M
-  //const [jobData, setJobData] = useState({});
-  const [jobsData, setJobsData] = useState([]);
+  //const [truncatedData, setTruncatedData] = useState(null);
+  const maxBytes = 2331; // default QR capacity Level L (get this value from a function)
+  const [jobsData, setJobsData] = useState(null);
 
   useEffect(() => {
     if (secureStorageStatus === "ready") {
-      secureStorageGet("job").then(data => setJobsData([data]));
-      // secureStorageGet("jobs").then(data => setJobsData(data)); // TODO: use this when we will have jobs
+      secureStorageGet(config.app.ui.jobs.storageKey).then(data => setJobsData(data));
     }
   }, [secureStorageStatus, secureStorageGet]);
   
+  useEffect(() => {
+    if (jobsData !== null) {
+      handleExport();
+    }
+  }, [jobsData]);
+
   // // Wait for SecureStorage ready and get maxBytes from instance
   // useEffect(() => {
   //   if (secureStorageStatus === "ready") {
@@ -44,34 +48,28 @@ const JobDataExport = ({ userData }) => { // TODO: we do not use data from param
       alert("SecureStorage not ready");
       return;
     }
-    if (!Array.isArray(jobsData)) {
+    if (!isObject(jobsData)) {
       alert("Invalid user data format");
       return;
     }
 
     // Calculate max rows that fit in QR capacity
-    const maxItems = maxRowsWithinLimit(jobsData, null, maxBytes);
+    const maxItems = maxRowsWithinLimit(jobsData.jobs, maxBytes);
 
-    if (maxItems < jobsData.length) {
+    let JobsDataToExport;
+    if (maxItems < jobsData.jobs.length) {
+      JobsDataToExport = jobsData.slice(0, maxItems);
       setWarning(
         `Warning: Data truncated to first ${maxItems} items to fit QR code size limit.`
       );
     } else {
+      JobsDataToExport = jobsData;
       setWarning("");
     }
 
-    const JobsDataToExport = jobsData.slice(0, maxItems);
-    console.log("JobsDataToExport:", JobsDataToExport);
+    //const JobsDataToExport = jobsData;
     
     try {
-      // Encrypt data and prepare QR payload
-      // Assuming secureStorageSet encrypts internally; else encrypt here
-      // For QR, we need the encrypted string or JSON payload
-
-      // Here, we store encrypted data temporarily in secureStorage and retrieve it for QR
-      // Or encrypt inline if you have encryption function exposed
-
-      // For demo, we stringify directly (replace with encryption if needed)
       const payload = JSON.stringify({
         data: JobsDataToExport,
         timestamp: Date.now(),
@@ -80,50 +78,48 @@ const JobDataExport = ({ userData }) => { // TODO: we do not use data from param
       // Check if payload fits QR (extra check)
       // You can implement checkQrCapacity here if you expose it from SecureStorage
       if (payload.length > maxBytes) {
-        alert(
+        alert( // TODO: snackbar, or setWarning
           "Even truncated data is too large for QR code."
         );
         return;
       }
 
-      setQrValue(payload);
-      console.log("QRCODE EXPORT:", payload);
-      setTruncatedData(JobsDataToExport);
-      setOpen(true);
+      const base64Payload = base64EncodeUnicode(payload);
+      setQrValue(base64Payload);
+      //console.log("QRCODE EXPORT:", payload);
+      //setTruncatedData(JobsDataToExport);
     } catch (err) {
-      alert("Failed to prepare export data: " + err.message);
+      alert("Failed to prepare export data: " + err.message);// TODO: snackbar, or setWarning
     }
   };
 
+  const base64EncodeUnicode = (str) => {  
+    return btoa(
+      encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        (match, p1) => String.fromCharCode('0x' + p1)
+      )
+    );
+  }
+  
   return (
-    <>
-      <Button variant="contained" onClick={handleExport} disabled={secureStorageStatus !== "ready"}>
-        Export Medical Data
-      </Button>
-
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="xs" fullWidth>
-        <DialogContent style={{ textAlign: "center" }}>
-          <Typography variant="h6" gutterBottom>
-            Scan QR Code to Import Data
-          </Typography>
-          {warning && <Alert severity="warning">{warning}</Alert>}
-          {qrValue && (
-            <div style={{ marginTop: 16, display: "inline-block", background: "transparent", padding: 1 }}>
-              <QRCode
-                value={qrValue}
-                //size={256}
-                size={360}
-                //level="M"
-                level="L" // "L" = Low (max capacity), "M" = Medium (default), "Q", "H" = High (max redundancy)
-              />
-            </div>
-          )}
-          <Typography variant="caption" display="block" mt={2} color="textSecondary"> {/* TODO: 2 minutes to config */}
-            QR code expires in 20 minutes.
-          </Typography>
-        </DialogContent>
-      </Dialog>
-    </>
+    <Container  maxWidth="xs">
+        <Typography variant="h6" gutterBottom>
+          Scan QR Code to Import Data
+        </Typography>
+        {warning && <Alert severity="warning">{warning}</Alert>}
+        {qrValue && (
+          <div style={{ marginTop: 16, display: "inline-block", background: "transparent", padding: 1 }}>
+            <QRCode // TODO: to config...
+              value={qrValue}
+              size={config.app.ui.qrcode.size}
+              level={config.app.ui.qrcode.level}
+            />
+          </div>
+        )}
+        <Typography variant="caption" display="block" mt={2} color="textSecondary">
+          {`QR code expires in ${config.app.ui.qrcode.expirationMinutes} minutes.`}
+      </Typography>
+    </Container>
   );
 }
 
