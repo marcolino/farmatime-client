@@ -19,7 +19,7 @@ To add a new language locale support:
 This project was bootstrapped with [yarn create vite](https://vitejs.dev/guide/).
 
 To start:
- - yarn create vite med-client --template react
- - cd med-client
+ - yarn create vite medicare-client --template react
+ - cd medicare-client
  - yarn
  - yarn dev

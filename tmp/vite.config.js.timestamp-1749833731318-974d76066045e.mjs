@@ -1,10 +1,10 @@
 // vite.config.js
-import { defineConfig } from "file:///home/marco/apps/sistemisolari/med-client/node_modules/vite/dist/node/index.js";
-import react from "file:///home/marco/apps/sistemisolari/med-client/node_modules/@vitejs/plugin-react/dist/index.mjs";
+import { defineConfig } from "file:///home/marco/apps/sistemisolari/medicare-client/node_modules/vite/dist/node/index.js";
+import react from "file:///home/marco/apps/sistemisolari/medicare-client/node_modules/@vitejs/plugin-react/dist/index.mjs";
 import path from "path";
-import { VitePWA } from "file:///home/marco/apps/sistemisolari/med-client/node_modules/vite-plugin-pwa/dist/index.js";
-import { createHtmlPlugin } from "file:///home/marco/apps/sistemisolari/med-client/node_modules/vite-plugin-html/dist/index.mjs";
-var __vite_injected_original_dirname = "/home/marco/apps/sistemisolari/med-client";
+import { VitePWA } from "file:///home/marco/apps/sistemisolari/medicare-client/node_modules/vite-plugin-pwa/dist/index.js";
+import { createHtmlPlugin } from "file:///home/marco/apps/sistemisolari/medicare-client/node_modules/vite-plugin-html/dist/index.mjs";
+var __vite_injected_original_dirname = "/home/marco/apps/sistemisolari/medicare-client";
 var publicDir = path.resolve(__vite_injected_original_dirname, "public");
 var buildDir = path.resolve(__vite_injected_original_dirname, "build");
 var publicAssets = [

@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Container, Typography, Alert } from "@mui/material";
-import QRCode from "qrcode";
+import QRCode from "react-qr-code";
 import { useSecureStorage } from "../hooks/useSecureStorage";
 import { maxRowsWithinLimit, isObject } from "../libs/Misc";
 import config from "../config";
@@ -12,7 +12,6 @@ const JobDataExport = () => {
     secureStorageEncrypt
   } = useSecureStorage();
 
-  const canvasRef = useRef();
   const [qrValue, setQrValue] = useState("");
   const [warning, setWarning] = useState("");
   const [jobsData, setJobsData] = useState(null);
@@ -31,27 +30,6 @@ const JobDataExport = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jobsData]);
 
-  // Generate QR code when qrValue changes
-  useEffect(() => {
-    if (qrValue && canvasRef.current) {
-      generateQRCode(qrValue);
-    }
-  }, [qrValue]);
-
-  const generateQRCode = async (value) => {
-    try {
-      await QRCode.toCanvas(canvasRef.current, value, {
-        errorCorrectionLevel: config.ui.jobs.qrcode.level,
-        margin: 1,
-        scale: 4,
-        width: config.ui.jobs.qrcode.size || 256
-      });
-    } catch (err) {
-      console.error('Failed to generate QR code:', err);
-      alert('Failed to generate QR code: ' + err.message);
-    }
-  };
-
   const handleExport = async () => {
     if (secureStorageStatus !== "ready") {
       alert("SecureStorage not ready");
@@ -62,8 +40,8 @@ const JobDataExport = () => {
       return;
     }
 
-    //jobsData.jobs[0].emailTemplate = {}; // TODO: TEST ONLY!!!
-    //jobsData.jobs[0].medicines[0].option = null; // TODO: TEST ONLY!!!
+    jobsData.jobs[0].emailTemplate = {}; // TODO: TEST ONLY!!!
+    jobsData.jobs[0].medicines[0].option = null; // TODO: TEST ONLY!!!
 
     const maxItems = maxRowsWithinLimit(jobsData.jobs, maxBytes);
     const JobsDataToExport = (maxItems < jobsData.jobs.length)
@@ -82,24 +60,15 @@ const JobDataExport = () => {
         timestamp: Date.now(),
       };
 
-      let value;
-      //const QRCodeEncryption = false; // TODO: to config
-      //if (QRCodeEncryption) {
-      if (config.ui.jobs.qrcode.ecryption) {
-        const encrypted = await secureStorageEncrypt(payload);
-        const base64Payload = base64EncodeUnicode(JSON.stringify(encrypted));
+      const encrypted = await secureStorageEncrypt(payload);
+      const base64Payload = base64EncodeUnicode(JSON.stringify(encrypted));
 
-        if (base64Payload.length > maxBytes) {
-          alert("Even truncated encrypted data is too large for QR code.");
-          return;
-        }
-        value = base64Payload;
-      } else {
-        // Remove the problematic replaceAll - let qrcode.js handle UTF-8 properly
-        const payloadString = JSON.stringify(payload);
-        value = payloadString;
+      if (base64Payload.length > maxBytes) {
+        alert("Even truncated encrypted data is too large for QR code.");
+        return;
       }
-      setQrValue(value);
+
+      setQrValue(base64Payload);
     } catch (err) {
       alert("Failed to prepare export data: " + err.message);
     }
@@ -121,9 +90,10 @@ const JobDataExport = () => {
       {warning && <Alert severity="warning">{warning}</Alert>}
       {qrValue && (
         <div style={{ marginTop: 16, display: "inline-block", background: "transparent", padding: 1 }}>
-          <canvas 
-            ref={canvasRef}
-            style={{ display: 'block' }}
+          <QRCode
+            value={qrValue}
+            size={config.ui.jobs.qrcode.size}
+            level={config.ui.jobs.qrcode.level}
           />
         </div>
       )}

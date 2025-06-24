@@ -225,12 +225,12 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
         name,
         fieldFrequency,
         fieldDate,
-        option
+        //option
       }]);
     } else {
       onChange(data.map(item =>
         item.id === editingItemId
-          ? { ...item, option, name, fieldFrequency, fieldDate }
+          ? { ...item, /*option, */name, fieldFrequency, fieldDate }
           : item
       ));
       handleEditEnd();

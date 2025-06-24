@@ -1,5 +1,5 @@
 {
-  "name": "med-client",
+  "name": "medicare-client",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -20,7 +20,7 @@
     "_vitebuild-staging": "echo 'Generating staging build' && vite build --mode staging",
     "_vitebuild-dev": "echo 'Generating development build' && vite build --mode development",
     "_postbuild": "echo 'Copying build to server' && rm -rf ../medicare-server/client/build; cp -a build ../medicare-server/client/build",
-    "inject": "echo 'Injecting config...' && cd ../medicare-server && yarn inject && cd ../med-client",
+    "inject": "echo 'Injecting config...' && cd ../medicare-server && yarn inject && cd ../medicare-client",
     "build-info-produce": "/usr/bin/echo -n 'Producing build-info...' && node --no-warnings=ExperimentalWarning scripts/build-info-produce.js",
     "index-produce": "echo 'Producing index...' && node --no-warnings=ExperimentalWarning scripts/index-produce.js",
     "sitemap-produce": "echo 'Producing sitemap...' && node --no-warnings=ExperimentalWarning scripts/sitemap-produce.js",
@@ -69,6 +69,7 @@
     "notistack": "^3.0.1",
     "prop-types": "^15.8.1",
     "qr-scanner": "^1.4.2",
+    "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-draft-wysiwyg": "^1.15.0",
@@ -77,7 +78,6 @@
     "react-leaflet": "^4.2.1",
     "react-material-ui-carousel": "^3.4.2",
     "react-motion": "^0.5.2",
-    "react-qr-code": "^2.0.16",
     "react-router-dom": "^6.26.1",
     "react-use": "^17.6.0"
   },

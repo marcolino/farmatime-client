@@ -50,7 +50,7 @@ function Home() {
   }
 
   if (isLoggedIn) {
-    console.log("user is logged in, show JobFlow component");
+    //console.log("user is logged in, show JobFlow component");
     return (
       <JobFlow />
     );

@@ -173,6 +173,7 @@
     "jobs": {
       "storageKey": "jobs",
       "qrcode": {
+        "encryption": false,
         "size": 360,
         "level": "L",
         "expirationMinutes": 3

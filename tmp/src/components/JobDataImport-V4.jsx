@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Typography, Alert } from "@mui/material";
+import { Container, Button, Dialog, DialogContent, Typography, Alert } from "@mui/material";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { useSecureStorage } from "../hooks/useSecureStorage";
 import { isObject } from "../libs/Misc";
@@ -12,63 +12,61 @@ const JobDataImport = ({ onDataImported }) => {
   const {
     secureStorageStatus,
     secureStorageSet,
-    secureStorageDecrypt,
+    //secureStorageGet,
   } = useSecureStorage();
 
   const navigate = useNavigate();
+
+  //const [open, setOpen] = useState(true);
   const [error, setError] = useState("");
 
   const handleScan = async (result) => {
+    // The 'result' from @yudiel/react-qr-scanner's onScan is an array of detected barcodes.
+    // We expect the first one to contain the data.
+    console.log("RAW scanned data from QR:", result);
+    
     if (!result || result.length === 0 || !result[0].rawValue) return;
-
+    
     try {
-      const scannedData = result[0].rawValue;
+      const scannedData = result[0].rawValue; // Access the raw value from the first detected barcode
+      //console.log("QRCODE IMPORT:", typeof scannedData, scannedData);
 
-      //const decrypted = JSON.parse(scannedData);
+      const decodedData = base64DecodeUnicode(scannedData);
 
-      const QRCodeEncryption = false; // TODO: to config
-      let value;
-      if (QRCodeEncryption) {
-        const decodedStr = base64DecodeUnicode(scannedData);
-        const encryptedPayload = JSON.parse(decodedStr);
+      const payload = JSON.parse(decodedData);
 
-        if (secureStorageStatus !== "ready") {
-          throw new Error("SecureStorage not ready");
-        }
-
-        const decrypted = await secureStorageDecrypt(encryptedPayload);
-        value = decrypted;
-      } else {
-        value = JSON.parse(scannedData);
+      if (!isObject(payload.data)) {
+        throw new Error("Invalid data format in QR code");
       }
 
-      if (!isObject(value.data)) {
-        throw new Error("Invalid decrypted format");
-      }
-
-      if (Date.now() - value.timestamp > (60 * config.ui.jobs.qrcode.expirationMinutes * 1000)) {
+      if (Date.now() - payload.timestamp > (60 * config.ui.jobs.qrcode.expirationMinutes * 1000)) {
         throw new Error("QR code is expired");
       }
 
-      await secureStorageSet(storageKey, value.data);
-      onDataImported(value.data);
+      if (secureStorageStatus !== "ready") {
+        throw new Error("SecureStorage not ready");
+      }
+
+      // Store decrypted data securely
+      await secureStorageSet(storageKey, payload.data);
+      onDataImported(payload.data);
       setError("");
       navigate(-1);
     } catch (err) {
-      console.error("Import error:", err);
+      console.error("JSON parsing error:", err);
       setError(err.message || "Failed to import data");
-      //navigate(-1);
+      navigate(-1);
     }
   };
 
   const base64DecodeUnicode = (str) => {
     return decodeURIComponent(
-      atob(str).split('').map(c =>
-        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-      ).join('')
+      atob(str).split('')
+        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
     );
   };
-
+  
   return (
     <Container maxWidth="xs">
       <Typography variant="h6" gutterBottom>
@@ -79,8 +77,7 @@ const JobDataImport = ({ onDataImported }) => {
         onError={error => {
           console.error("SCANNER ERROR:", error);
           setError(error?.message || "Camera error");
-          //navigate(-1);
-          {/* TODO: on error, we must go back after showing the error, or reload the page, because scanner will not try again */}
+          navigate(-1);
         }}
         constraints={{ facingMode: "environment" }}
         styles={{
@@ -91,6 +88,6 @@ const JobDataImport = ({ onDataImported }) => {
       {error && <Alert severity="error" style={{ marginTop: 16 }}>{error}</Alert>}
     </Container>
   );
-};
+}
 
 export default React.memo(JobDataImport);

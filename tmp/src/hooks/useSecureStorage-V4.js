@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { SecureStorage } from "../libs/SecureStorage";
 
 export const useSecureStorage = () => {
-  const [secureStorageStatus, setSecureStorageStatus] = useState('initializing');
+  const [secureStorageStatus, setSecureStorageStatus] = useState('initializing'); // 'initializing' | 'ready' | 'error'
   const secureStorageRef = useRef(null);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export const useSecureStorage = () => {
     if (secureStorageStatus !== 'ready') {
       throw new Error("SecureStorage not ready");
     }
+    console.log("£££££££ secureStorageRef.current.set(key, value)", key, value);
     return secureStorageRef.current.set(key, value);
   }, [secureStorageStatus]);
 
@@ -33,25 +34,9 @@ export const useSecureStorage = () => {
     return secureStorageRef.current.get(key);
   }, [secureStorageStatus]);
 
-  const secureStorageEncrypt = useCallback(async (value) => {
-    if (secureStorageStatus !== 'ready') {
-      throw new Error("SecureStorage not ready");
-    }
-    return secureStorageRef.current.encrypt(value);
-  }, [secureStorageStatus]);
-
-  const secureStorageDecrypt = useCallback(async (encryptedObject) => {
-    if (secureStorageStatus !== 'ready') {
-      throw new Error("SecureStorage not ready");
-    }
-    return secureStorageRef.current.decrypt(encryptedObject);
-  }, [secureStorageStatus]);
-
   return {
     secureStorageStatus,
     secureStorageSet,
     secureStorageGet,
-    secureStorageEncrypt,
-    secureStorageDecrypt,
   };
 };

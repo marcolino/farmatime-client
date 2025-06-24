@@ -237,3 +237,62 @@ export const maxRowsWithinLimit = (dataArray, maxBytes) => {
   }
   return maxItems;
 }
+
+export const base64UrlEncode = (str) => {
+  const bytes = new TextEncoder().encode(str);
+  const binary = String.fromCharCode(...bytes);
+  const base64 = btoa(binary);
+  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+};
+
+export const base64UrlDecode = (str) => {
+  const padded = str.padEnd(str.length + (4 - str.length % 4) % 4, "=")
+                   .replace(/-/g, "+")
+                   .replace(/_/g, "/");
+  const binary = atob(padded);
+  const bytes = new Uint8Array([...binary].map(c => c.charCodeAt(0)));
+  return new TextDecoder().decode(bytes);
+};
+
+//import { base64UrlEncode } from "../libs/Misc";
+
+export const bestFitQrPayload = async (jobsArray, maxBytes, encryptFn) => {
+  try {
+    for (let i = jobsArray.length; i > 0; i--) {
+      const slice = jobsArray.slice(0, i);
+      const payload = {
+        data: null,
+        timestamp: Date.now(),
+      };
+
+      const toEncrypt = { jobs: slice };
+      const encrypted = await encryptFn(toEncrypt);
+      payload.data = encrypted;
+
+      const encoded = base64UrlEncode(JSON.stringify(payload));
+      const byteLength = new TextEncoder().encode(encoded).length;
+
+      if (byteLength <= maxBytes) {
+        return {
+          success: true,
+          payloadObject: payload,
+          encoded,
+          truncatedCount: jobsArray.length - i,
+          byteLength,
+        };
+      }
+    }
+
+    return {
+      success: false,
+      reason: "Unable to fit payload within QR byte limit",
+      attemptedCount: jobsArray.length,
+    };
+  } catch (e) {
+    return {
+      success: false,
+      reason: "Failed during export optimization",
+      error: e.message,
+    };
+  }
+};
