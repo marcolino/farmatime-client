@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  //TextFieldHtml,
 } from 'mui-material-custom';
 import { Global } from '@emotion/react';
 import EditIcon from '@mui/icons-material/Edit';
@@ -23,11 +24,11 @@ import { Editor } from 'react-draft-wysiwyg';
 import {
   EditorState,
   convertToRaw,
+  ContentState,
   Modifier,
 } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-// REMOVE: import htmlToDraft from 'html-to-draftjs';
-import { convertFromHTML } from 'draft-convert'; // ADD THIS
+import htmlToDraft from 'html-to-draftjs';
 import { ContextualHelp } from './ContextualHelp';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { AuthContext } from "../providers/AuthContext";
@@ -42,41 +43,55 @@ const JobEmailTemplate = () => {
   const { job, setJob, jobError } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const { auth } = useContext(AuthContext);
-
+  
   // Get email template data from job context
   const data = job?.emailTemplate || {};
-
+  
   // States for controlled fields
   const [subject, setSubject] = useState(data.subject || '');
   const [body, setBody] = useState(data.body || '');
+  //const [signature, setSignature] = useState(data.signature || '');
 
   // EditorState for body
   const [editorState, setEditorState] = useState(() => {
     if (data.body) {
-      const contentState = convertFromHTML(data.body);
-      if (contentState) {
+      console.log("DATA:.BODY:", data.body);
+
+      const contentBlock = htmlToDraft(data.body);
+      if (contentBlock) {
+        const contentState = ContentState.createFromBlockArray(
+          contentBlock.contentBlocks,
+          contentBlock.entityMap
+        );
         return EditorState.createWithContent(contentState);
       }
     }
     return EditorState.createEmpty();
   });
-
+  
   // Preview dialog state
   const [previewIsOpen, setPreviewIsOpen] = useState(false);
   const [expandedHtml, setExpandedHtml] = useState('');
 
   // Initialize editorState from bodyHtml
   useEffect(() => {
-    const contentState = convertFromHTML(body);
-    if (contentState) {
-      setEditorState(EditorState.createWithContent(contentState));
-    } else {
-      setEditorState(EditorState.createEmpty());
-    }
-  }, [body]);
+    //if (editing) {
+      const contentBlock = htmlToDraft(body);
+      if (contentBlock) {
+        const contentState = ContentState.createFromBlockArray(
+          contentBlock.contentBlocks,
+          contentBlock.entityMap
+        );
+        setEditorState(EditorState.createWithContent(contentState));
+      } else {
+        setEditorState(EditorState.createEmpty());
+      }
+    //}
+  }, [/*editing,*/ body]);
 
   // Handle variable insertion in editor
   const handleInsertVariable = (variable) => {
+    //if (!editing) return;
     const contentState = editorState.getCurrentContent();
     const selectionState = editorState.getSelection();
 
@@ -106,8 +121,10 @@ const JobEmailTemplate = () => {
     const updatedEmailTemplate = {
       subject,
       body,
+      //signature,
     };
-
+    
+    // Update job context
     setJob(prevJob => ({
       ...prevJob,
       emailTemplate: {
@@ -115,28 +132,36 @@ const JobEmailTemplate = () => {
         ...updatedEmailTemplate
       }
     }));
-
+    
+    //setEditing(false);
     showSnackbar(t('Email template updated successfully') + '.');
     setTimeout(() => {
-      navigate(-1);
+      navigate(-1); // navigate back to the previous page
     }, ((config.ui.snacks.autoHideDurationSeconds + 0.5) * 1000));
   };
 
   // Handle cancel: reset states to current job data
   const handleCancel = () => {
     const currentEmailTemplate = job?.emailTemplate || {};
-
+    
     setSubject(currentEmailTemplate.subject || '');
+    //setSignature(currentEmailTemplate.signature || '');
     setBody(currentEmailTemplate.body || '');
+
     if (currentEmailTemplate.body) {
-      const contentState = convertFromHTML(currentEmailTemplate.body);
-      if (contentState) {
+      const contentBlock = htmlToDraft(currentEmailTemplate.body);
+      if (contentBlock) {
+        const contentState = ContentState.createFromBlockArray(
+          contentBlock.contentBlocks,
+          contentBlock.entityMap
+        );
         setEditorState(EditorState.createWithContent(contentState));
       }
     } else {
       setEditorState(EditorState.createEmpty());
     }
-
+    
+    //setEditing(false);
     navigate(-1);
   };
 
@@ -148,6 +173,7 @@ const JobEmailTemplate = () => {
     setPreviewIsOpen(true);
   };
 
+  // Show error state if job context has errors
   if (jobError) {
     return (
       <Container maxWidth="lg" sx={{ py: 0 }}>
@@ -165,6 +191,7 @@ const JobEmailTemplate = () => {
     );
   }
 
+  // Show loading state if job is not yet available
   if (!job) {
     return (
       <Container maxWidth="lg" sx={{ py: 0 }}>
@@ -179,6 +206,7 @@ const JobEmailTemplate = () => {
     );
   }
 
+  // Fields configuration for subject (plain TextField)
   const fields = [
     {
       label: t('Email subject'),
@@ -186,6 +214,7 @@ const JobEmailTemplate = () => {
       value: subject,
       onChange: (val) => setSubject(val),
       multiline: false,
+      //disabled: !editing,
       helpKey: 'EmailTemplateSubject',
     },
     {
@@ -193,6 +222,7 @@ const JobEmailTemplate = () => {
       key: 'body',
       onChange: (val) => setBody(val),
       multiline: true,
+      //disabled: !editing,
       helpKey: 'EmailTemplateBody',
     },
   ];
@@ -223,7 +253,10 @@ const JobEmailTemplate = () => {
                 sx={{ flex: { xs: '1 1 100%' }, mb: 2}}
               >
                 <ContextualHelp helpPagesKey={helpKey} fullWidth showOnHover>
-                  {(key === 'body') && (
+                  {/* {(key === 'body') && !editing && (
+                    <TextFieldHtml disabled={true} label={t('Email body')} html={body} minHeight={200} />
+                  )} */}
+                  {(key === 'body') /*&& editing*/ && (
                     <Box label={t('Email body')}>
                       {variables.map((varName) => (
                         <Chip
@@ -239,6 +272,7 @@ const JobEmailTemplate = () => {
                         >
                         </Chip>
                       ))}
+
                       <Global
                         styles={{
                           '.rdw-editor-toolbar': {
@@ -256,6 +290,9 @@ const JobEmailTemplate = () => {
                         editorStyle={{
                           minHeight: '200px',
                           padding: '8px',
+                          //backgroundColor: editing ? 'red !important' : 'red',
+                          //backgroundColor: 'red !important',
+                          //pointerEvents: editing ? 'auto' : 'none',
                           pointerEvents: 'auto',
                         }}
                       />
@@ -283,17 +320,24 @@ const JobEmailTemplate = () => {
             justifyContent: 'flex-end',
             gap: 2
           }}>
-            <Button variant="contained" size="small" onClick={handleCancel}>
-              {t('Cancel')}
-            </Button>
+            {/*editing && (*/}
+              <Button variant="contained" size="small" onClick={handleCancel}>
+                {t('Cancel')}
+              </Button>
+            {/*)*/}
+
             <Button
               variant="contained"
               size="medium"
+              //onClick={editing ? handleConfirm : () => setEditing(true)}
               onClick={handleConfirm}
               endIcon={<EditIcon />}
             >
+              {/* {editing ? t('Confirm changes') : t('Edit email template')} */}
               {t('Confirm changes')}
             </Button>
+
+            {/* Preview button always available */}
             <Button
               variant="contained"
               size="medium"
@@ -312,12 +356,13 @@ const JobEmailTemplate = () => {
         onClose={() => setPreviewIsOpen(false)}
         subject={subject}
         htmlContent={expandedHtml}
+        //signature={signature}
       />
     </Container>
   );
 };
 
-const HtmlPreviewDialog = ({ isOpen, onClose, subject, htmlContent }) => {
+const HtmlPreviewDialog = ({ isOpen, onClose, subject, htmlContent/*, signature*/ }) => {
   const { t } = useTranslation();
   const { auth } = useContext(AuthContext);
 
@@ -350,7 +395,7 @@ const HtmlPreviewDialog = ({ isOpen, onClose, subject, htmlContent }) => {
         </IconButton>
       </DialogTitle>
 
-      {htmlContent && (
+      {htmlContent && (        
         <DialogContent>
           <Box
             sx={{
@@ -364,8 +409,9 @@ const HtmlPreviewDialog = ({ isOpen, onClose, subject, htmlContent }) => {
               {subject}
             </Typography>
           </Box>
+          
           <Box
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
+            dangerouslySetInnerHTML={{ __html: htmlContent/*${signature}*/ }}
             sx={{
               minHeight: '200px',
               overflowY: 'auto',
@@ -382,10 +428,13 @@ const HtmlPreviewDialog = ({ isOpen, onClose, subject, htmlContent }) => {
 
 import { i18n } from "../i18n";
 
-const variables = [
+const variables = [ // TODO: to config
   i18n.t('{DOCTOR NAME}'),
   i18n.t('{FIRST AND LAST NAME OF THE PATIENT}'),
+  //i18n.t('{SIGNATURE OF THE SENDER}'),
   i18n.t('{NAME OF THE MEDICINE}'),
+  //i18n.t('{PATIENT NAME}'),
+  //i18n.t('{PATIENT SURNAME}'),
   i18n.t('{FIRST AND LAST NAME OF THE USER}'),
   i18n.t('{EMAIL OF THE USER}'),
 ];
@@ -401,6 +450,12 @@ const variablesExpand = (job, html, auth) => {
       case i18n.t('{FIRST AND LAST NAME OF THE PATIENT}'):
         replacement = (job.patient.firstName || job.patient.lastName) ? `${job.patient.firstName} ${job.patient.lastName}` : variable;
         break;
+      // case i18n.t('{EMAIL OF THE PATIENT}'):
+      //   replacement = job.patient.email ?? variable;
+      //   break;
+      // case i18n.t('{SIGNATURE OF THE SENDER}'):
+      //   replacement = job.emailTemplate.signature ?? variable;
+      //   break;
       case i18n.t('{NAME OF THE MEDICINE}'):
         replacement = (job.medicines && job.medicines[0] && job.medicines[0].name) ? job.medicines[0].name : variable;
         break;
@@ -420,5 +475,6 @@ const variablesExpand = (job, html, auth) => {
   return html;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { variablesExpand };
 export default JobEmailTemplate;

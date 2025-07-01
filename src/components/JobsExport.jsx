@@ -5,7 +5,7 @@ import { useSecureStorage } from "../hooks/useSecureStorage";
 import { maxRowsWithinLimit, isObject } from "../libs/Misc";
 import config from "../config";
 
-const JobDataExport = () => {
+const jobsExport = () => {
   const {
     secureStorageStatus,
     secureStorageGet,
@@ -19,7 +19,7 @@ const JobDataExport = () => {
   const maxBytes = 2500;
 
   useEffect(() => {
-    if (secureStorageStatus === "ready") {
+    if (secureStorageStatus.status === "ready") {
       secureStorageGet(config.ui.jobs.storageKey).then(data => setJobsData(data));
     }
   }, [secureStorageStatus, secureStorageGet]);
@@ -53,17 +53,12 @@ const JobDataExport = () => {
   };
 
   const handleExport = async () => {
-    if (secureStorageStatus !== "ready") {
-      alert("SecureStorage not ready");
-      return;
+    if (secureStorageStatus.status !== "ready") {
+      throw new Error(secureStorageStatus.error); // TODO: is it ok to throw here?
     }
     if (!isObject(jobsData)) {
-      alert("Invalid user data format");
-      return;
+      throw new Error("Invalid user data format"); // TODO: is it ok to throw here?
     }
-
-    //jobsData.jobs[0].emailTemplate = {}; // TODO: TEST ONLY!!!
-    //jobsData.jobs[0].medicines[0].option = null; // TODO: TEST ONLY!!!
 
     const maxItems = maxRowsWithinLimit(jobsData.jobs, maxBytes);
     const JobsDataToExport = (maxItems < jobsData.jobs.length)
@@ -134,4 +129,4 @@ const JobDataExport = () => {
   );
 };
 
-export default JobDataExport;
+export default jobsExport;

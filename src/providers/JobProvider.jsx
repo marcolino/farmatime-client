@@ -54,15 +54,19 @@ export const JobProvider = ({ children }) => {
 
   // Initialize debounced save function when storage is ready
   useEffect(() => {
-    if (secureStorageStatus === "ready") {
+    if (secureStorageStatus.status === "ready") {
       debouncedSaveRef.current = debounce(async (newState) => {
         try {
           await secureStorageSet(storageKey, newState);
           lastSavedStateRef.current = newState;
           console.log(">>> secureStorageSet (debounced & changed)");
-        } catch (e) {
-          console.error("Failed to save jobs state to secure storage:", e);
-          setJobError({ type: "store", e });
+        } catch (err) {
+          console.error("Failed to save jobs state to secure storage:", err);
+          setJobError({
+            type: "store",
+            message: err.message,
+            code: err.code || null,
+          });
         }
       }, 300);
 
@@ -74,7 +78,7 @@ export const JobProvider = ({ children }) => {
 
   // Load jobs and currentJobIndex on mount
   useEffect(() => {
-    if (secureStorageStatus === "ready") {
+    if (secureStorageStatus.status === "ready") {
       (async () => {
         try {
           const savedState = await secureStorageGet(storageKey);
@@ -93,9 +97,13 @@ export const JobProvider = ({ children }) => {
             console.info("Jobs not set yet");
             // throw (new Error("Error setting jobs!"));
           }
-        } catch (e) {
-          console.error("Failed to load jobs state from secure storage:", e);
-          setJobError({ type: "load", e });
+        } catch (err) {
+          console.error("Failed to load jobs state from secure storage:", err);
+           setJobError({
+            type: "store",
+            message: err.message,
+            code: err.code || null,
+          });
         }
       })();
     }
@@ -103,7 +111,7 @@ export const JobProvider = ({ children }) => {
 
   // Save jobs state on change (debounced + deduplicated)
   useEffect(() => {
-    if (secureStorageStatus === "ready") {
+    if (secureStorageStatus.status === "ready") {
       const newState = { jobs, currentJobIndex };
       if (!isEqual(newState, lastSavedStateRef.current)) {
         debouncedSaveRef.current(newState);
@@ -113,11 +121,14 @@ export const JobProvider = ({ children }) => {
 
   // Set jobError when it becomes "error"
   useEffect(() => {
-    if (secureStorageStatus === "error") {
-      setJobError({
-        type: "init",
-        e: new Error("SecureStorage initialization failed"),
-      });
+    if (secureStorageStatus.status === "error") {
+      if (secureStorageStatus.code !== 403) { // a code of 403 means the user is not logged in, so we don't want to show an error
+        setJobError({
+          type: "init",
+          message: secureStorageStatus.error || "SecureStorage initialization failed",
+          code: secureStorageStatus.code || null,
+        });
+      }
     }
   }, [secureStorageStatus]);
   

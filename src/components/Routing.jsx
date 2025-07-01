@@ -21,12 +21,14 @@ const ProductsHandle = lazy(() => import("./ProductsHandle"));
 const Cart = lazy(() => import("./Cart"));
 const NotificationPreferences = lazy(() => import("./NotificationPreferences"));
 const AdvancedOptions = lazy(() => import("./AdvancedOptions"));
-const JobDataExport = lazy(() => import("./JobDataExport"));
-const JobDataImport = lazy(() => import("./JobDataImport"));
+const JobsExport = lazy(() => import("./JobsExport"));
+const JobsImport = lazy(() => import("./JobsImport"));
+const JobsEmailTemplateEdit = lazy(() => import("./JobEmailTemplate"));
+const JobsRemove = lazy(() => import("./JobsRemove"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
-//const JobDataExport = () => <div>Export Page</div>;
+//const jobsExport = () => <div>Export Page</div>;
 
 const Routing = () => {
   return (
@@ -75,8 +77,10 @@ const Routing = () => {
           <Route path="/work-in-progress" element={<WorkInProgress />} />
           <Route path="/email-preferences" element={<NotificationPreferences section="email" action="preferences" />} />
           <Route path="/advanced-options" element={<AdvancedOptions />} />
-          <Route path="/job-data-export" element={<JobDataExport />} />
-          <Route path="/job-data-import" element={<JobDataImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} />
+          <Route path="/job-email-template-edit" element={<JobsEmailTemplateEdit /* onCompleted={(data) => alert("COMPLETED:" + JSON.stringify(data))} */ />} />
+          <Route path="/job-data-export" element={<JobsExport />} />
+          <Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} />
+          <Route path="/job-data-remove" element={<JobsRemove />} />
           {/* <Route path="/api/*" element={null} /> */}
           <Route path="*" element={<PageNotFound />} />
         </Route>

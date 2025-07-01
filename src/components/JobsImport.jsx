@@ -8,7 +8,7 @@ import config from "../config";
 
 const storageKey = "jobs"; // TODO: to config
 
-const JobDataImport = ({ onDataImported }) => {
+const jobsImport = ({ onDataImported }) => {
   const {
     secureStorageStatus,
     secureStorageSet,
@@ -32,7 +32,7 @@ const JobDataImport = ({ onDataImported }) => {
         const decodedStr = base64DecodeUnicode(scannedData);
         const encryptedPayload = JSON.parse(decodedStr);
 
-        if (secureStorageStatus !== "ready") {
+        if (secureStorageStatus.status !== "ready") {
           throw new Error("SecureStorage not ready");
         }
 
@@ -62,11 +62,17 @@ const JobDataImport = ({ onDataImported }) => {
   };
 
   const base64DecodeUnicode = (str) => {
-    return decodeURIComponent(
-      atob(str).split('').map(c =>
-        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-      ).join('')
-    );
+    try {
+      const binaryStr = atob(str);
+      return decodeURIComponent(
+        binaryStr.split('').map(c =>
+          '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+        ).join('')
+      );
+    } catch (e) {
+      console.error("Corrupted string in base64DecodeUnicode", str.slice(0, 20), e);
+      return 
+    }
   };
 
   return (
@@ -93,4 +99,4 @@ const JobDataImport = ({ onDataImported }) => {
   );
 };
 
-export default React.memo(JobDataImport);
+export default React.memo(jobsImport);

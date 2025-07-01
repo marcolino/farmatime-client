@@ -25,7 +25,7 @@ import { apiCall } from "../libs/Network";
 import { AuthContext } from "../providers/AuthContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { useCart } from "../providers/CartProvider";
-import { useMediaQueryContext } from "../providers/MediaQuerContext";
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useDialog } from "../providers/DialogContext";
 //import LocalStorage from "../libs/LocalStorage";
 import { currencyFormat } from "../libs/Misc";

@@ -115,6 +115,7 @@ export const validatePassword = (password, passwordConfirmed) => {
   return [true];
 };
 
+
 /**
  * 
  * @param {string} password 
@@ -141,4 +142,70 @@ The password must contain at least:
   - one special character
   - and a total of at least eight characters.
 `);
+};
+
+export const validateJobPatientFirstName = (value) => {
+  const re = /.{2,}/;
+  if (!String(value)) {
+    return "ERROR_PLEASE_SUPPLY_A_FIRSTNAME";
+  }
+  if (!re.test(String(value).toLowerCase())) {
+    return "ERROR_PLEASE_SUPPLY_A_VALID_FIRSTNAME";
+  }
+  return true;
+  // const validity = validateFirstName(value);
+  // switch (validity) {
+  //   case "ERROR_PLEASE_SUPPLY_A_FIRSTNAME":
+  //     return i18n.t("Please supply a valid first name");
+  //   case "ERROR_PLEASE_SUPPLY_A_VALID_FIRSTNAME":
+  //     return i18n.t("Please supply a valid first name");
+  //   case true:
+  //     return true;
+  //   default:
+  //     console.error("Unforeseen first name validation error:", validity)
+  //     return i18n.t("First name is wrong");
+  // }
+}
+
+export const validateJobPatientLastName = (value) => {
+  const re = /.{2,}/;
+  if (!String(value)) {
+    return "ERROR_PLEASE_SUPPLY_A_LASTNAME";
+  }
+  if (!re.test(String(value).toLowerCase())) {
+    return "ERROR_PLEASE_SUPPLY_A_VALID_LASTNAME";
+  }
+  return true;
+}
+
+export const validateJobPatientEmail = (value) => {
+  const validity = validateEmail(value);
+  return (validity === true);
+}
+
+export const validateJobDoctorName = (value) => {
+  const re = /.{2,}/;
+  if (!String(value)) {
+    return "ERROR_PLEASE_SUPPLY_A_NAME";
+  }
+  if (!re.test(String(value).toLowerCase())) {
+    return "ERROR_PLEASE_SUPPLY_A_VALID_NAME";
+  }
+  return true;
+}
+
+export const validateJobDoctorEmail = (value) => {
+  const validity = validateEmail(value);
+  return (validity === true);
+}
+
+export const validateAllFields = (fields, data) => {
+  let valid = true;
+  fields.forEach(field => {
+    if (field.isValid(data[field.key]) !== true) {
+      valid = false;
+      return; // break forEach loop
+    }
+  });
+  return valid;
 };

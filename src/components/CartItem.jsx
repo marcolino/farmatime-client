@@ -11,7 +11,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useMediaQueryContext } from "../providers/MediaQuerContext";
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { currencyFormat } from "../libs/Misc";
 import config from "../config";
 

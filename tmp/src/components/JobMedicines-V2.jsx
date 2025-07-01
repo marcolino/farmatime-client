@@ -1,9 +1,10 @@
-import { useState, useEffect, useMemo, useRef, useContext } from 'react';
+import { useState, useEffect, useMemo, useRef, useContext, useCallback } from 'react';
 import {
   DndContext,
   closestCenter,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor, // Import MouseSensor
+  TouchSensor, // Import TouchSensor
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -23,14 +24,12 @@ import {
   Divider,
   useTheme,
   styled
-} from 'mui-material-custom';
+} from '@mui/material'; // Changed to @mui/material
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTranslation } from 'react-i18next';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { format } from 'date-fns';
-// import { enUS, it, fr, de, es } from 'date-fns/locale';
 import { ContextualHelp } from './ContextualHelp';
 import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
@@ -42,21 +41,14 @@ import { i18n } from '../i18n';
 import { localeMap, formatDate } from '../libs/Misc';
 import config from '../config';
 
-// const localeMap = {
-//   en: enUS,
-//   it: it,
-//   fr: fr,
-//   de: de,
-//   es: es,
-// };
-
 const ItemContainer = styled(Box)(({ theme }) => ({
-  // 100% of viewport height, minus header and footer, minus this component header and footer 
+  // 100% of viewport height, minus header and footer, minus this component header and footer
   maxHeight: `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 400px - 120px)`,
   minHeight: 120,
   overflowY: 'auto',
   marginBottom: theme.spacing(2),
   paddingRight: theme.spacing(1),
+  //touchAction: 'none',
   '&::-webkit-scrollbar': {
     width: 8,
   },
@@ -74,7 +66,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { isLoggedIn } = useContext(AuthContext);
-  const [option, setOption] = useState({});
+  const [option, setOption] = useState(null); // Initialize with null for clarity
   const [editingItemId, setEditingItemId] = useState(null);
   const [fieldMedicine, setFieldMedicine] = useState('');
   const [fieldFrequency, setFieldFrequency] = useState(1);
@@ -92,7 +84,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
   const fieldDateRef = useRef(null);
 
   console.log("MEDICINES:", data);
-  
+
   // Check user is logged in
   useEffect(() => {
     if (!isLoggedIn) {
@@ -115,14 +107,13 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
     };
 
     if (fieldToFocus && inputRefs[fieldToFocus]?.current) {
-      inputRefs[fieldToFocus].current.focus();
+      // Small delay to ensure the field is rendered and ready for focus
+      const timer = setTimeout(() => {
+        inputRefs[fieldToFocus].current.focus();
+      }, 100);
+      return () => clearTimeout(timer); // Cleanup timeout
     }
   }, [fieldToFocus]);
-
-  // // inform caller we are editing
-  // useEffect(() => {
-  //   onEditingChange(editingItemId !== null);
-  // }, [editingItemId]);
 
   // inform caller we are finished editing if no medicine name is set
   useEffect(() => {
@@ -138,7 +129,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
   }, [data]);
 
   const isValid = () => {
-    return (data.length >= 1);  // at least one item is present) 
+    return (data.length >= 1);  // at least one item is present)
   };
 
   // Create unified options
@@ -171,11 +162,11 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
   }, []);
 
   // Filter function
-  const getFilteredOptions = (inputVal) => {
+  const getFilteredOptions = useCallback((inputVal) => {
     if (!inputVal) return [];
     const query = inputVal.toLowerCase();
 
-    const getMatchScore = (terms) => terms.reduce((score, term) => 
+    const getMatchScore = (terms) => terms.reduce((score, term) =>
       term.startsWith(query) ? score + 2 : term.includes(query) ? score + 1 : score, 0);
 
     const sortByMatchQuality = (a, b) => getMatchScore(b.searchTerms) - getMatchScore(a.searchTerms);
@@ -188,29 +179,40 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
     const results = filterAndSlice('medicine', 8);
     if (results.length < 15) results.push(...filterAndSlice('ingredient', 15 - results.length));
     if (results.length < 15) results.push(...filterAndSlice('atc', 15 - results.length));
-    
+
     return results;
-  };
+  }, [unifiedOptions]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
 
-  const resetItems = () => {
+  const resetItems = useCallback(() => {
     setFieldMedicine('');
     setFieldFrequency(1);
     setFieldDate(new Date());
-    setOption(null);
+    setOption(null); // Reset option to null
     onEditingChange(false); // inform caller we are done editing
-  };
+    setFieldToFocus(null); // Clear focus
+  }, [onEditingChange]);
 
-  const addItem = (e) => {
+  const addItem = useCallback((e) => {
     e.preventDefault();
 
-    const name = e.target[0].value?.trim();
+    const name = fieldMedicine?.trim(); // Use state variable directly
     if (!name) {
       showSnackbar(t('Please enter a medicine name'), 'warning');
       return;
@@ -224,82 +226,83 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
       return;
     }
 
-    option.label = name; // Ensure option has the manually edited label
+    // Use a unique ID for new items, if not already existing (for manual input)
+    const newItemId = option?.id || name;
 
     if (mode === 'add') {
-      if (data.some(item => item.id === option.label)) {
+      if (data.some(item => item.id === newItemId)) {
         showSnackbar(t('This item already exists in the list'), 'warning');
         return;
       }
       onChange([...data, {
-        id: name,
+        id: newItemId, // Use the new unique ID or existing option ID
         name,
         fieldFrequency,
         fieldDate,
-        //option
+        option: option // Store the full option object for re-editing
       }]);
-    } else {
+    } else { // mode === 'update'
       onChange(data.map(item =>
         item.id === editingItemId
-          ? { ...item, /*option, */name, fieldFrequency, fieldDate }
+          ? { ...item, option, name, fieldFrequency, fieldDate } // Update option as well
           : item
       ));
       handleEditEnd();
       setMode('add');
     }
     resetItems();
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fieldMedicine, fieldDate, fieldFrequency, option, mode, data, editingItemId, onChange, resetItems, showSnackbar, t]);
 
-  const startEdit = (name, field) => {
-    const item = data.find(i => i.name === name);
+
+  const startEdit = useCallback((id, field) => {
+    const item = data.find(i => i.id === id);
     if (!item) {
-      showSnackbar(t('Item by name {{name}} not found!', { name }), 'error');
+      showSnackbar(t('Item by ID {{id}} not found!', { id }), 'error');
       return;
     }
-    handleEditStart(name);
+    setEditingItemId(id); // Use item.id for editingItemId
     setMode('update');
     setFieldToFocus(field); // e.g. 'name', 'frequency', or 'date'
-    setOption(item.option || null);
+    setOption(item.option || null); // Restore the full option object
     setFieldFrequency(item.fieldFrequency);
     setFieldDate(new Date(item.fieldDate));
     setFieldMedicine(item.name);
     onEditingChange(true); // inform caller we are editing
-  };
+  }, [data, onEditingChange, showSnackbar, t]);
 
-  const handleEditStart = (name) => {
-    setEditingItemId(name);
-  };
+  const handleEditEnd = useCallback(() => {
+    setEditingItemId(null);
+    onEditingChange(false); // Ensure parent knows editing has ended
+  }, [onEditingChange]);
 
-  const handleEditEnd = () => setEditingItemId(null);
+  const removeItem = useCallback((id) => {
+    onChange(data.filter(item => item.id !== id));
+    if (editingItemId === id) { // If the removed item was being edited, reset the form
+      resetItems();
+      setMode('add');
+      handleEditEnd();
+    }
+  }, [data, onChange, editingItemId, resetItems, handleEditEnd]);
 
-  const removeItem = (name) => {
-    onChange(data.filter(item => item.name !== name));
-  };
-
-  const handleDragEnd = (event) => {
+  const handleDragEnd = useCallback((event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
       const oldIndex = data.findIndex(item => item.id === active.id);
       const newIndex = data.findIndex(item => item.id === over.id);
       onChange(arrayMove(data, oldIndex, newIndex));
     }
-  };
+  }, [data, onChange]);
 
-  // const formatDate = (date) => {
-  //   return format(date, getLocaleBasedFormat(), { 
-  //     locale: localeMap[i18n.language] 
-  //   });
-  // };
-
-  const getLocaleBasedFormat = () => {
+  const getLocaleBasedFormat = useCallback(() => {
     const locale = i18n.language;
     //console.log('getLocaleBasedFormat called with locale:', locale);
 
     // US format: MMM dd (Jun 02)
-    if (locale.startsWith('en-US')) {
+    if (locale.startsWith('en')) {
       return 'MMM dd';
     }
-    
+
     // Most other locales: dd MMM (02 Jun)
     if (
       locale.startsWith('en') ||
@@ -309,16 +312,16 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
     ) {
       return 'dd MMM';
     }
-    
+
     // Default fallback
     return 'dd MMM';
-  };
+  }/*, [i18n.language]*/);
 
   if (!isLoggedIn) { // Check if user is logged in - TODO: use a common guard upper level component to check for login
     console.log(t('User must be logged in to use this component'));
     return null;
   }
-  
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localeMap[i18n.language]}>
       <Container maxWidth="lg" sx={{ py: 0 }}>
@@ -328,7 +331,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
               {t("Medicines List")}
             </Typography>
           </StyledBox>
-          
+
           <Box p={4}>
             <Box
               component="form"
@@ -358,7 +361,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                     inputValue={fieldMedicine ?? ''}
                     onChange={(_event, newValue) => {
                       setOption(newValue);
-                      setFieldMedicine(newValue ? newValue.label : '');                      
+                      setFieldMedicine(newValue ? newValue.label : '');
                     }}
                     onInputChange={(_event, newFieldMedicine, reason) => {
                       if (reason === 'input' || reason === 'clear') {
@@ -373,7 +376,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                 </ContextualHelp>
               </Box>
 
-              {/* Second row (xs): date, frequency, buttons; 
+              {/* Second row (xs): date, frequency, buttons;
                   on sm+, these are just next to the input */}
               <Box
                 sx={{
@@ -415,10 +418,10 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                 <Box
                   sx={{
                     display: 'flex',
-                    flexDirection: { xs: mode === 'update' ? 'column' : 'row', sm: 'row' },
+                    flexDirection: 'row',
                     gap: 2,
                     width: { xs: '100%', sm: 'auto' },
-                    mt: { xs: mode === 'update' ? 0 : 0, sm: 0 }
+                    mt: 0,
                   }}
                 >
                   <Button
@@ -434,7 +437,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                       width: { xs: mode === 'update' ? '100%' : 'auto', sm: 'auto' }
                     }}
                   >
-                    {mode === 'add' ? t('Add') : t('Update')}
+                    {mode === 'add' ? (isXs ? t('Add:punctuated') : t('Add')) : (isXs ? t('Update:punctuated') : t('Update'))}
                   </Button>
                   {mode === 'update' && (
                     <Button
@@ -443,7 +446,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                       variant="contained"
                       color="default"
                       size="large"
-                      sx={{ 
+                      sx={{
                         height: { xs: 36, sm: 56 },
                         mt: { xs: -1.2, sm: 0 },
                         mb: 0.2,
@@ -451,7 +454,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                         width: { xs: '100%', sm: 'auto' }
                       }}
                     >
-                      {t('Cancel')}
+                      {isXs ? t('Cancel:punctuated') : t('Cancel')}
                     </Button>
                   )}
                 </Box>
@@ -459,7 +462,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
             </Box>
 
             <Divider sx={{ margin: -1 }} />
-            
+
             <Box mt={4}>
               <DndContext
                 sensors={sensors}
@@ -479,8 +482,8 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                     ) : (
                       <Box component="ul" sx={{ p: 0, m: 0 }}>
                         {data.map((item) => (
-                          <SortableItem 
-                            key={item.id} 
+                          <SortableItem
+                            key={item.id}
                             id={item.id}
                             name={item.name}
                             frequency={item.fieldFrequency}
@@ -489,8 +492,6 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                             onEdit={startEdit}
                             onRemove={removeItem}
                             isEditing={item.id === editingItemId}
-                            onEditStart={() => handleEditStart(item.id)}
-                            onEditEnd={handleEditEnd}
                           />
                         ))}
                       </Box>

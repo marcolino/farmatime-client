@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy } from "react";
 import { useContext } from "react";
 // import { Paper, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -6,24 +6,27 @@ import { AuthContext } from "../providers/AuthContext";
 import { JobContext } from "../providers/JobContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 // import FloatingLogo from "./FloatingLogo";
-// import { JobMedicines }  from "./JobMedicines";
-// import { MedicineInputAutocomplete }  from "./MedicineInputAutocomplete";
-import SignIn from "./auth/SignIn";
-import Landing from "./Landing";
-import JobFlow from "./JobFlow";
-import JobsHandle from "./JobsHandle";
-// import JobEmailTemplateEditor from "./JobEmailTemplateEditor";
-// import JobFlowStepperExample from "./JobFlowStepperExample";
-//import config from "../config";
+
+//import SignIn from "./auth/SignIn";
+const SignIn = lazy(() => import("./auth/SignIn"));
+
+//import Landing from "./Landing";
+const Landing = lazy(() => import("./Landing"));
+
+//import JobFlow from "./JobFlow";
+const JobFlow = lazy(() => import("./JobFlow"));
+
+//import JobsHandle from "./JobsHandle";
+const JobsHandle = lazy(() => import("./JobsHandle"));
 
 
 function Home() {
-  const { /*auth,*/ isLoggedIn, didSignInBefore } = useContext(AuthContext);
+  const { isLoggedIn, didSignInBefore } = useContext(AuthContext);
   const { job, jobError } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
 
-  console.log("HOME");
+  //console.log("HOME");
   // if (typeof auth?.user === "undefined") {
   //   console.log("auth.user is undefined", auth);
   //   return; // if auth.user is undefined, we don't know yet about user authentication...
@@ -36,7 +39,7 @@ function Home() {
       showSnackbar(t("Error while {{what}} data to secure storage: {{error}}",
         {
           what: jobError.type === "load" ? "loading" : jobError.type === "store" ? "storing" : t("unforeseen action"),
-          error: jobError.e.message
+          error: jobError.message
         }
       ), "error");
     }

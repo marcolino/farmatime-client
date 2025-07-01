@@ -186,12 +186,22 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: buildDir,
       emptyOutDir: true,
+      // rollupOptions: {
+      //   output: {
+      //     manualChunks: undefined,
+      //   },
+      // },
       rollupOptions: {
         output: {
-          manualChunks: undefined,
-        },
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              return id.toString().split('node_modules/')[1].split('/')[0];
+            }
+          }
+        }
       },
-      chunkSizeWarningLimit: 1280,
+      chunkSizeWarningLimit: 1536,
+      
     },
     publicDir: publicDir,
     logLevel: "info",

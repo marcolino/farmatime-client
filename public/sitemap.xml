@@ -1,119 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
-    <loc>http://localhost:5000/</loc>
-    <lastmod>2025-06-15</lastmod>
+    <loc>https://medicare-staging.fly.dev/</loc>
+    <lastmod>2025-07-01</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
+    <loc>https://medicare-staging.fly.dev/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
+    <lastmod>2025-06-18</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/signin</loc>
+    <lastmod>2025-06-18</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/social-signin-success</loc>
+    <lastmod>2025-06-18</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/social-signin-error</loc>
+    <lastmod>2025-06-18</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/forgot-password</loc>
     <lastmod>2025-06-11</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/signin</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/products/:productId?</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/social-signin-success</loc>
-    <lastmod>2025-03-07</lastmod>
+    <loc>https://medicare-staging.fly.dev/notifications</loc>
+    <lastmod>2025-06-21</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/social-signin-error</loc>
-    <lastmod>2025-03-07</lastmod>
+    <loc>https://medicare-staging.fly.dev/edit-user/:userId/:origin</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/forgot-password</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/edit-product/:productId</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/products/:productId?</loc>
-    <lastmod>2025-01-22</lastmod>
-  </url>
-  <url>
-    <loc>http://localhost:5000/notifications</loc>
-    <lastmod>2025-06-06</lastmod>
-  </url>
-  <url>
-    <loc>http://localhost:5000/edit-user/:userId/:origin</loc>
-    <lastmod>2025-02-15</lastmod>
-  </url>
-  <url>
-    <loc>http://localhost:5000/edit-product/:productId</loc>
-    <lastmod>2025-06-11</lastmod>
-  </url>
-  <url>
-    <loc>http://localhost:5000/terms-of-use</loc>
+    <loc>https://medicare-staging.fly.dev/terms-of-use</loc>
     <lastmod>2025-02-06</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/privacy-policy</loc>
+    <loc>https://medicare-staging.fly.dev/privacy-policy</loc>
     <lastmod>2025-02-06</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/cookie-preferences</loc>
+    <loc>https://medicare-staging.fly.dev/cookie-preferences</loc>
     <lastmod>2025-06-11</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/contacts</loc>
+    <loc>https://medicare-staging.fly.dev/contacts</loc>
     <lastmod>2024-12-14</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/handle-users</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/handle-users</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/handle-products</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/handle-products</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/cart/</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/cart/</loc>
+    <lastmod>2025-06-26</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/payment-success</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/payment-success</loc>
+    <lastmod>2025-06-26</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/payment-cancel</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/payment-cancel</loc>
+    <lastmod>2025-06-26</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/notification-preferences/:token?/:language?</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/notification-preferences/:token?/:language?</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/email-preferences/:token?/:language?</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/email-preferences/:token?/:language?</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/email-unsubscribe/:token?/:language?</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/email-unsubscribe/:token?/:language?</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/push-preferences/:token?/:language?</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/push-preferences/:token?/:language?</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/push-unsubscribe/:token?/:language?</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/push-unsubscribe/:token?/:language?</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/sms-preferences/:token?/:language?</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/sms-preferences/:token?/:language?</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/sms-unsubscribe/:token?/:language?</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/sms-unsubscribe/:token?/:language?</loc>
+    <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/page-not-found</loc>
+    <loc>https://medicare-staging.fly.dev/page-not-found</loc>
     <lastmod>2025-01-29</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/work-in-progress</loc>
+    <loc>https://medicare-staging.fly.dev/work-in-progress</loc>
     <lastmod>2025-01-29</lastmod>
   </url>
   <url>
-    <loc>http://localhost:5000/email-preferences</loc>
-    <lastmod>2025-06-11</lastmod>
+    <loc>https://medicare-staging.fly.dev/email-preferences</loc>
+    <lastmod>2025-06-18</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/advanced-options</loc>
+    <lastmod>2025-06-30</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/job-email-template-edit</loc>
+    <lastmod>2025-06-30</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/job-data-export</loc>
+    <lastmod>2025-06-29</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/job-data-import</loc>
+    <lastmod>2025-06-29</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/job-data-remove</loc>
+    <lastmod>2025-06-30</lastmod>
   </url>
 </urlset>

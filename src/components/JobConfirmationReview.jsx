@@ -1,17 +1,45 @@
+import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Container,
   Box,
   Typography,
 } from '@mui/material';
+import { AuthContext } from "../providers/AuthContext";
 import { formatDate } from '../libs/Misc';
+import { variablesExpand } from './JobEmailTemplate';
 import { StyledPaper, StyledBox, StyledPaperSmall, StyledBoxSmall } from './JobStyles';
 
-const JobConfirmationReview = ({ data }) => {
+const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
   const { t } = useTranslation();
-  
-  console.log("JOB DATA:", data);
+  const { auth } = useContext(AuthContext);
+  const [bodyExpanded, setBodyExpanded] = useState(null);
 
+  // inform caller a valid medicines list (at least one item is present) is available
+  // useEffect(() => {
+  //   if (isValid()) {
+  //     onCompleted(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [data]);
+
+  // on every data change, if necessary, expand emailTemplate variables
+  useEffect(() => {
+    setBodyExpanded(variablesExpand(data, data.emailTemplate.body, auth));
+  }, [data, auth]);
+
+  // on every bodyExpanded change, convert it to HTML
+  useEffect(() => {
+    if (bodyExpanded) {
+      let bodyExpandedHtml = bodyExpanded.replace(/(?:\r\n|\r|\n)/g, "<br />");
+      setBodyExpanded(bodyExpandedHtml);
+    }
+  }, [bodyExpanded/*, data.emailTemplate.signature*/]);
+
+  const isValid = () => {
+    return (data.emailTemplate.subject && data.emailTemplate.body /* && data.emailTemplate.signature*/); // all 3 emailTemplate items must be present) 
+  };
+  
   return (
     <Container maxWidth="lg" sx={{ py: 0 }}>
       <StyledPaper>
@@ -76,11 +104,14 @@ const JobConfirmationReview = ({ data }) => {
               </StyledBoxSmall>
             </StyledPaperSmall>
             <Typography variant="body2" component="li" sx={{ pl: 2 }}>
-              {t("Subject")}: <b>{data.emailTemplate.subject}</b>
+              {t("Email subject")}: <b>{data.emailTemplate.subject}</b>
             </Typography>
             <Typography variant="body2" component="li" sx={{ pl: 2 }}
-              dangerouslySetInnerHTML={{ __html: `${t("Body")}: <b>${data.emailTemplate.body ? data.emailTemplate.body.replace(/(?:\r\n|\r|\n)/g, "<br />") : ''}<br /><br />${data.emailTemplate.signature ? data.emailTemplate.signature: ''}` }}
+              dangerouslySetInnerHTML={{ __html: `${t("Email message")}:<br /><br />${bodyExpanded}` }}
             />
+            {/* <Typography variant="body2" component="li" sx={{ pl: 2 }}
+              dangerouslySetInnerHTML={{ __html: `${t("Body")}:<br /><br />${data.emailTemplate.bodyExpanded ? data.emailTemplate.bodyExpanded.replace(/(?:\r\n|\r|\n)/g, "<br />") : ''}<br /><br />${data.emailTemplate.signature ? data.emailTemplate.signature: ''}` }}
+            /> */}
             {/* </Typography>
             <Typography variant="body2" sx={{ pl: 2 }}
               dangerouslySetInnerHTML={{ __html: data.emailTemplate.signature }}
@@ -94,54 +125,6 @@ const JobConfirmationReview = ({ data }) => {
     </Container>
   );
 
-/*
-  return (
-    <Card>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>{t('Review & Confirmation')}</Typography>
-        
-        {/ * <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" gutterBottom>{t("Patient")}:</Typography>
-          <Typography variant="body2">
-            {data.patient.firstName} {data.patient.lastName} ({data.patient.email})
-          </Typography>
-        </Box>
-
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" gutterBottom>{t("Doctor")}:</Typography>
-          <Typography variant="body2">
-            {data.doctor.firstName} {data.doctor.lastName} ({data.doctor.email})
-          </Typography>
-        </Box>
-
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" gutterBottom>{t("Medicines")} ({data.medicines.length}):</Typography>
-          {data.medicines.map((medicine) => (
-            <Chip
-              key={medicine.id}
-              label={`${medicine.name} - ${medicine.frequency}`}
-              sx={{ mr: 1, mb: 1 }}
-              size="small"
-            />
-          ))}
-        </Box>
-
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" gutterBottom>{t("Email Template")}:</Typography>
-          <Typography variant="body2" sx={{
-            bgcolor: 'grey.50',
-            p: 2,
-            borderRadius: 1,
-            maxHeight: 100,
-            overflow: 'auto'
-          }}>
-            {data.emailTemplate || 'No email template provided'}
-          </Typography>
-        </Box> * /}
-      </CardContent>
-    </Card>
-  );
-  */
 };
 
 export default JobConfirmationReview;

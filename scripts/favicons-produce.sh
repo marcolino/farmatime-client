@@ -13,7 +13,8 @@ publicFavicon64x64="public/favicon-64x64.png"
 publicAppleTouchIcon="public/apple-touch-icon.png"
 publicMsTileImage="public/ms-tile.png"
 publicLogoMailHeader="public/logo-main-header.png"
-srcLogoMain="src/assets/images/LogoMain.png"
+#srcLogoMain="src/assets/images/LogoMain.png"
+srcLogoMain="base-assets/LogoMain.png"
 
 if [ ! -f "$sourceImage" ]; then
   echo "Source image \"$sourceImage\" not found"

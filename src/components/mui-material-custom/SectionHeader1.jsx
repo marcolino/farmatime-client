@@ -1,6 +1,14 @@
-import { Paper, Box, Typography } from "@mui/material";
-import { styled } from "@mui/system";
+//import { useTranslation } from "react-i18next";
+//import { Paper, Typography, /*Box*/ } from "@mui/material";
+import {
+  //Box,
+  Paper,
+  Typography,
+  //styled
+} from "@mui/material";
+//import { styled } from "@mui/system";
 
+/*
 const HeaderBar = styled(Box)(({ theme }) => ({
   bgColor: theme.palette.nature.light,
   width: "100%",
@@ -27,7 +35,9 @@ const HeaderText = styled(Typography)(({ theme }) => ({
   zIndex: 2, // ensure text is above the bar
   overflow: "visible", // ensure the text can escape the header
 }));
+*/
 
+/*
 const SectionHeader = ({
   ...props
 }) => {
@@ -41,6 +51,24 @@ const SectionHeader = ({
     </Paper>
   );
 };
+*/
 
-export default SectionHeader;
-
+export const SectionHeader1 = ({
+  ...props
+}) => {
+  return (
+    <Paper 
+      elevation={2} 
+      sx={{ 
+        p: 3, 
+        mb: 4, 
+        bgcolor: 'primary.main',
+        color: 'info.contrastText',
+      }}
+    >
+      <Typography variant="h4" align="center" sx={{ fontWeight: 'bold' }}>
+        {props.children}
+      </Typography>
+    </Paper>
+  );
+};

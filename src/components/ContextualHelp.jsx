@@ -171,19 +171,19 @@ export function ContextualHelpWrapper({
         </>
       ),
     },
-    EmailTemplateSignature: {
-      title: t("Email signature"),
-      content: (
-        <>
-          <p>{t('Edit the email signature...')}.</p>
-          <p>
-            {
-              t('...')
-            }
-          </p>
-        </>
-      ),
-    },
+    // EmailTemplateSignature: {
+    //   title: t("Email signature"),
+    //   content: (
+    //     <>
+    //       <p>{t('Edit the email signature...')}.</p>
+    //       <p>
+    //         {
+    //           t('...')
+    //         }
+    //       </p>
+    //     </>
+    //   ),
+    // },
 
   };
   

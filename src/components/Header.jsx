@@ -10,7 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import {
   AccountCircle, ExitToApp, ManageAccounts,
   ShoppingCart, Category, Brightness4, Brightness7,
-  ContactPhone, ImportExport, SettingsSuggest,
+  ContactPhone, /*ImportExport,*/ SettingsSuggest,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
@@ -132,14 +132,14 @@ const Header = ({ theme, toggleTheme }) => {
         //   label: t("Export data"),
         //   icon: <ImportExport />,
         //   href: false,
-        //   onClick: () => handleJobDataExport(),
+        //   onClick: () => handlejobsExport(),
         //   shortcutKey: "", //"Ctrl-I"
         // },
         // {
         //   label: t("Import data"),
         //   icon: <ImportExport />,
         //   href: false,
-        //   onClick: () => handleJobDataImport({ onDataImported: (data) => alert(data) }),
+        //   onClick: () => handlejobsImport({ onDataImported: (data) => alert(data) }),
         //   shortcutKey: "", //"Ctrl-E"
         // },
       ] : [ ]
@@ -189,11 +189,11 @@ const Header = ({ theme, toggleTheme }) => {
     navigate("/advanced-options", { replace: true });
   };
 
-  // const handleJobDataExport = () => {
+  // const handlejobsExport = () => {
   //   navigate("/job-data-export", { replace: true });
   // };
 
-  // const handleJobDataImport = () => {
+  // const handlejobsImport = () => {
   //   navigate("/job-data-import", { replace: true });
   // };
 

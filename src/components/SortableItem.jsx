@@ -1,22 +1,24 @@
-import { useRef, useState, useEffect } from 'react';
+//import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { IconButton, Box, Typography, Chip, Tooltip, useTheme } from '@mui/material';
-import { DragHandle as DragHandleIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { t } from 'i18next';
+import { Box, ListItem, Typography, IconButton, Tooltip, Paper, styled } from 'mui-material-custom';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
+import config from '../config';
 
-export const SortableItem = ({
-  id,
-  name,
-  frequency,
-  date,
-  formatDate,
-  onEdit,
-  onRemove,
-  isEditing,
-  onEditStart,
-}) => {
+const StyledSortableItem = styled(Paper)(({ theme }) => ({
+  marginBottom: theme.spacing(1),
+  padding: theme.spacing(1.5),
+  display: 'flex',
+  alignItems: 'center',
+}));
+
+export function SortableItem({
+  id, name, frequency, date, formatDate, onEdit, onRemove, isEditing
+}) {
   const {
     attributes,
     listeners,
@@ -25,181 +27,83 @@ export const SortableItem = ({
     transition,
     isDragging,
   } = useSortable({ id });
+  const { t } = useTranslation();
+  const { isMobile, isXs, isSm } = useMediaQueryContext();
 
-  const nameRef = useRef(null);
-  const [isTruncated, setIsTruncated] = useState(false);
-  const theme = useTheme();
-  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
-  const isSm = useMediaQuery(theme.breakpoints.down('md'));
-  
-  useEffect(() => {
-    if (nameRef.current) {
-      setIsTruncated(
-        nameRef.current.scrollWidth > nameRef.current.clientWidth
-      );
-    }
-  }, [name]);
+  const isDragEnabled = (
+    (isMobile && config.ui.jobs.dragAndDrop.mobile.enabled) ||
+    (!isMobile && config.ui.jobs.dragAndDrop.desktop.enabled)
+  );
 
-  const transformStyle = {
+  const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-  };
-  const opacityStyle = {
-    opacity: isDragging ? 0.3 : isEditing ? 0.6 : 1
-  };
-  const borderStyle = {
-    border: isEditing ? 1 : 0,
-    borderColor: isEditing ? 'grey.500' : 'transparent',
-    borderWidth: isEditing ? 1 : 0,
-    borderStyle: isEditing ? 'dotted' : 'solid',
-    borderRadius: 1,
-  };
-  const style = {
-    ...transformStyle,
-    ...opacityStyle,
-    ...borderStyle, 
+    zIndex: isDragging ? 1 : 'auto',
+    opacity: isDragging ? 0.7 : 1,
+    background: isDragging ? '#f0f0f0' : undefined,
   };
 
-  //console.log("data:", date);
   return (
-    <Box
+    <ListItem
       ref={setNodeRef}
       style={style}
       {...attributes}
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        mb: 1,
-        p: 1,
-        bgcolor: 'secondary.light',
-        borderRadius: 1,
-        boxShadow: 1,
-      }}
+      component={StyledSortableItem}
+      disableGutters
     >
-      {/* Drag handle */}
-      <IconButton
-        {...listeners}
-        size="small"
-        sx={{ 
-          cursor: 'grab',
-          '&:active': { cursor: 'grabbing' },
-          mr: 1
-        }}
-      >
-        <DragHandleIcon />
-      </IconButton>
-
-      {/* Combined name and info */}
-      <Box
-        sx={{ 
-          display: 'flex', 
-          alignItems: 'center',
-          flexGrow: 1,
-          minWidth: 0,
-          gap: 1,
-          fontSize: '0.875rem',
-          overflow: 'hidden',
-        }}
-      >
-        <Tooltip 
-          title={name} 
-          disableHoverListener={!isTruncated}
-          placement="top"
-        >
-          <Typography
-            variant="body2"
-            ref={nameRef}
-            noWrap 
-            onClick={() => {
-              onEditStart(id);
-              onEdit(id, "name");
-            }}
-            sx={{
-              flexShrink: 1,
-              flexGrow: 1,
-              minWidth: 0,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              cursor: 'pointer',
-              '&:hover': {
-                bgcolor: 'action.hover', // Uses theme's hover color
-              },
-              padding: '5px 8px',
-              borderRadius: 1,
-            }}
-          >
-            {name}
-          </Typography>
-        </Tooltip>
-        
-        <Box
+      {isDragEnabled && (
+        <IconButton
+          {...listeners}
           sx={{
-            whiteSpace: 'nowrap',
-            display: 'flex',
-            ml: 'auto',
-            gap: 1
+            cursor: 'grab',
+            mr: 1,
+            touchAction: 'none', // Crucial for mobile drag-and-drop
+            minWidth: isMobile ? 48 : undefined,
+            minHeight: isMobile ? 48 : undefined,
+            padding: isMobile ? '12px' : undefined,
+          }}
+          aria-label={t('Drag item')}
+        >
+          <DragIndicatorIcon fontSize={isMobile ? "large" : "medium"} />
+        </IconButton>
+      )}
+      <Box sx={{ flexGrow: 1 }}>
+        <Typography variant="body1" fontWeight="bold">
+          {name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {t('Every {{count}} days since {{date}}', { count: frequency, date: formatDate(date) })}
+        </Typography>
+      </Box>
+      <Tooltip title={t("Edit item")} placement="top">
+        <IconButton
+          edge="end"
+          aria-label={t('edit')}
+          onClick={() => onEdit(id)}
+          sx={{ 
+            mx: 0,
+            //mx: isXs || isSm ? 0 : 0,
+            '&:hover': { bgcolor: 'success.light' }
+          }}
+          disabled={isEditing}
+        >
+          <EditIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title={t("Delete item")} placement="top">
+        <IconButton
+          edge="end"
+          aria-label={t('delete')}
+          onClick={() => onRemove(id)}
+          sx={{
+            mx: 0,
+            //mx: isXs || isSm ? 0 : 0,
+            '&:hover': { bgcolor: 'warning.light' }
           }}
         >
-          <Chip
-            label={(isSm ? "" : t("since") + " ") + formatDate(date)}
-            onClick={() => {
-              onEditStart(id);
-              onEdit(id, "date");
-            }}
-            sx={{
-              width: (isXs || isSm) ? 'auto' : 120,
-              borderRadius: '4px',
-              '& .MuiChip-label': {
-                px: isXs ? 1 : isSm ? 1 : 'auto',
-              },
-              mr: isXs ? 0 : isSm ? 0 : 3,
-              bgcolor: 'action.disabled',
-              color: 'info.contrastText',
-              '&:hover': { bgcolor: 'text.primary' }
-            }}
-          />
-
-          <Chip
-            label={
-              (isSm ? "" : t("every") + " ") + 
-              (isXs || isSm ? t("{{count}} day:punctuated", { count: frequency }) : t("{{count}} day", { count: frequency }))
-            }
-            onClick={() => {
-              onEditStart(id);
-              onEdit(id, "frequency")
-            }}
-            sx={{
-              width: (isXs || isSm) ? 'auto' : 130,
-              borderRadius: '4px',
-              '& .MuiChip-label': {
-                px: isXs ? 1 : isSm ? 1 : 'auto',
-              },
-              mr: isXs ? 0 : isSm ? 1 : 3,
-              bgcolor: 'action.disabled',
-              color: 'info.contrastText',
-              '&:hover': { bgcolor: 'text.primary' }
-            }}
-          />
-        </Box>
-      
-      </Box>
-
-      {/* Delete button */}
-      <IconButton
-        onClick={(e) => {
-          e.stopPropagation();
-          onRemove(id);
-        }}
-        size="small"
-        color="default"
-        sx={{ 
-          ml: isXs || isSm ? 0 : 1,
-          '&:hover': { bgcolor: 'warning.light' }
-        }}
-      >
-        <DeleteIcon fontSize="small" />
-      </IconButton>
-    </Box>
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
+    </ListItem>
   );
-};
+}

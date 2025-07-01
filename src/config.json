@@ -172,6 +172,14 @@
     "backgroundVideo": "wind-turbines",
     "jobs": {
       "storageKey": "jobs",
+      "dragAndDrop": {
+        "desktop": {
+          "enabled": true
+        },
+        "mobile": {
+          "enabled": false
+        }
+      },
       "qrcode": {
         "encryption": false,
         "size": 360,

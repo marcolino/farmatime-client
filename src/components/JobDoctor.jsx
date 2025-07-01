@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import {
   Container,
@@ -6,30 +7,66 @@ import {
   TextField,
 } from 'mui-material-custom';
 import { ContextualHelp } from './ContextualHelp';
+import { validateAllFields } from '../libs/Validation';
 import { StyledPaper, StyledBox } from './JobStyles';
 
-const JobDoctor = ({ data, onChange }) => {
+const JobDoctor = ({ data, fields, onChange, onValid }) => {
   const { t } = useTranslation();
 
   const handleFieldChange = (field, value) => {
     onChange({ ...data, [field]: value });
   };
 
-  const fields = [
-    {
-      label: t("Doctor name"),
-      key: 'name',
-      helpKey: 'DoctorName',
-      placeholder: t("Dr. ..."),
-    },
-    {
-      label: t("Doctor email"),
-      key: 'email',
-      helpKey: 'DoctorEmail',
-      placeholder: t("doc@studio-medico.it"),
-      type: 'email',
-    },
-  ];
+  useEffect(() => {
+    if (onValid) {
+      onValid(validateAllFields(fields, data));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+/*
+  const isValidName = (value) => {
+    const validity = validateFirstName(value);
+    switch (validity) {
+      case "ERROR_PLEASE_SUPPLY_A_FIRSTNAME":
+        return t("Please supply a valid name");
+      case "ERROR_PLEASE_SUPPLY_A_VALID_FIRSTNAME":
+        return t("Please supply a valid name");
+      case true:
+        return true;
+      default:
+        console.error("Unforeseen name validation error:", validity)
+        return t("Name is wrong");
+    }
+  }
+
+  const isValidEmail = (value) => {
+    const validity = validateEmail(value);
+    switch (validity) {
+      case "ERROR_PLEASE_SUPPLY_AN_EMAIL":
+        return t("Please supply an email");
+      case "ERROR_PLEASE_SUPPLY_A_VALID_EMAIL":
+        return t("Please supply a valid email");
+      case true:
+        return true;
+      default:
+        console.error("Unforeseen email validation error:", validity)
+        return t("Email is wrong");
+    }
+  }
+  
+  const isValid = () => {
+    let valid = true;
+    fields.forEach(field => {
+      if (field.isValid(data[field.key]) !== true) {
+        valid = false;
+        return; // break forEach loop
+      }
+    });
+    console.log("JobDoctor - isValid:", valid);
+    return valid;
+  };
+*/
 
   return (
     <Container maxWidth="lg" sx={{ py: 0 }}>

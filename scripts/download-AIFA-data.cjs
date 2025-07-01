@@ -116,7 +116,7 @@ ${item.unita_misura ? item.unita_misura : ''}\
     ;
     
     // Generate the output file
-    const output = `// Auto-generated  data from AIFA sources
+    const output = `// Auto-generated data from AIFA sources
 export const dataAnagrafica = [
 ${jsonStringifyArrayCustom(Anagrafica)}
 ];

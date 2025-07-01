@@ -1,9 +1,10 @@
-import { useState, useEffect, useMemo, useRef, useContext } from 'react';
+import { useState, useEffect, useMemo, useRef, useContext, useCallback } from 'react';
 import {
   DndContext,
   closestCenter,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor, // Import MouseSensor
+  TouchSensor, // Import TouchSensor
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -23,40 +24,31 @@ import {
   Divider,
   useTheme,
   styled
-} from 'mui-material-custom';
+} from '@mui/material'; // Changed to @mui/material
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTranslation } from 'react-i18next';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { format } from 'date-fns';
-// import { enUS, it, fr, de, es } from 'date-fns/locale';
 import { ContextualHelp } from './ContextualHelp';
 import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
 import { AuthContext } from '../providers/AuthContext';
 import { useSnackbarContext } from '../providers/SnackbarProvider';
-import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
+//import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { i18n } from '../i18n';
 import { localeMap, formatDate } from '../libs/Misc';
 import config from '../config';
 
-// const localeMap = {
-//   en: enUS,
-//   it: it,
-//   fr: fr,
-//   de: de,
-//   es: es,
-// };
-
 const ItemContainer = styled(Box)(({ theme }) => ({
-  // 100% of viewport height, minus header and footer, minus this component header and footer 
+  // 100% of viewport height, minus header and footer, minus this component header and footer
   maxHeight: `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 400px - 120px)`,
   minHeight: 120,
   overflowY: 'auto',
   marginBottom: theme.spacing(2),
   paddingRight: theme.spacing(1),
+  //touchAction: 'none',
   '&::-webkit-scrollbar': {
     width: 8,
   },
@@ -70,11 +62,11 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const JobMedicines = ({ data, onChange, onEditingChange }) => {
+const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { isLoggedIn } = useContext(AuthContext);
-  const [option, setOption] = useState({});
+  const [option, setOption] = useState(null); // Initialize with null for clarity
   const [editingItemId, setEditingItemId] = useState(null);
   const [fieldMedicine, setFieldMedicine] = useState('');
   const [fieldFrequency, setFieldFrequency] = useState(1);
@@ -91,8 +83,22 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
   const fieldFrequencyRef = useRef(null);
   const fieldDateRef = useRef(null);
 
-  console.log("MEDICINES:", data);
+  const [dataAnagrafica, setDataAnagrafica] = useState([]);
+  const [dataPrincipiAttivi, setDataPrincipiAttivi] = useState([]);
+  const [dataATC, setDataATC] = useState([]);
+
+  // dynamically load AIFA data for medicines
+  useEffect(() => {
+    import('../data/AIFA').then(module => {
+      setDataAnagrafica(module.dataAnagrafica);
+      setDataPrincipiAttivi(module.dataPrincipiAttivi);
+      setDataATC(module.dataATC);
+    });
+  }, []);
   
+  console.log("MEDICINES:", data);
+  console.log("dataAnagrafica:", dataAnagrafica);
+
   // Check user is logged in
   useEffect(() => {
     if (!isLoggedIn) {
@@ -103,6 +109,7 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
   // Reset date when locale changes
   useEffect(() => {
     setFieldDate(new Date());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.language]);
 
   // Focus handling
@@ -114,14 +121,13 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
     };
 
     if (fieldToFocus && inputRefs[fieldToFocus]?.current) {
-      inputRefs[fieldToFocus].current.focus();
+      // Small delay to ensure the field is rendered and ready for focus
+      const timer = setTimeout(() => {
+        inputRefs[fieldToFocus].current.focus();
+      }, 100);
+      return () => clearTimeout(timer); // Cleanup timeout
     }
   }, [fieldToFocus]);
-
-  // // inform caller we are editing
-  // useEffect(() => {
-  //   onEditingChange(editingItemId !== null);
-  // }, [editingItemId]);
 
   // inform caller we are finished editing if no medicine name is set
   useEffect(() => {
@@ -129,6 +135,16 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
       onEditingChange(false);
     }
   }, [fieldMedicine, onEditingChange]);
+
+  // inform caller a valid medicines list (at least one item is present) is available
+  useEffect(() => {
+    onCompleted(isValid());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  const isValid = () => {
+    return (data.length >= 1);  // at least one item is present)
+  };
 
   // Create unified options
   const unifiedOptions = useMemo(() => {
@@ -157,14 +173,14 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
         searchTerms: [atc.code.toLowerCase(), atc.description.toLowerCase()]
       }))
     ];
-  }, []);
+  }, [dataAnagrafica, dataPrincipiAttivi, dataATC]);
 
   // Filter function
-  const getFilteredOptions = (inputVal) => {
+  const getFilteredOptions = useCallback((inputVal) => {
     if (!inputVal) return [];
     const query = inputVal.toLowerCase();
 
-    const getMatchScore = (terms) => terms.reduce((score, term) => 
+    const getMatchScore = (terms) => terms.reduce((score, term) =>
       term.startsWith(query) ? score + 2 : term.includes(query) ? score + 1 : score, 0);
 
     const sortByMatchQuality = (a, b) => getMatchScore(b.searchTerms) - getMatchScore(a.searchTerms);
@@ -177,29 +193,40 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
     const results = filterAndSlice('medicine', 8);
     if (results.length < 15) results.push(...filterAndSlice('ingredient', 15 - results.length));
     if (results.length < 15) results.push(...filterAndSlice('atc', 15 - results.length));
-    
+
     return results;
-  };
+  }, [unifiedOptions]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
 
-  const resetItems = () => {
+  const resetItems = useCallback(() => {
     setFieldMedicine('');
     setFieldFrequency(1);
     setFieldDate(new Date());
-    setOption(null);
+    setOption(null); // Reset option to null
     onEditingChange(false); // inform caller we are done editing
-  };
+    setFieldToFocus(null); // Clear focus
+  }, [onEditingChange]);
 
-  const addItem = (e) => {
+  const addItem = useCallback((e) => {
     e.preventDefault();
 
-    const name = e.target[0].value?.trim();
+    const name = fieldMedicine?.trim(); // Use state variable directly
     if (!name) {
       showSnackbar(t('Please enter a medicine name'), 'warning');
       return;
@@ -213,82 +240,83 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
       return;
     }
 
-    option.label = name; // Ensure option has the manually edited label
+    // Use a unique ID for new items, if not already existing (for manual input)
+    const newItemId = option?.id || name;
 
     if (mode === 'add') {
-      if (data.some(item => item.id === option.label)) {
+      if (data.some(item => item.id === newItemId)) {
         showSnackbar(t('This item already exists in the list'), 'warning');
         return;
       }
       onChange([...data, {
-        id: name,
+        id: newItemId, // Use the new unique ID or existing option ID
         name,
         fieldFrequency,
         fieldDate,
-        //option
+        option: option // Store the full option object for re-editing
       }]);
-    } else {
+    } else { // mode === 'update'
       onChange(data.map(item =>
         item.id === editingItemId
-          ? { ...item, /*option, */name, fieldFrequency, fieldDate }
+          ? { ...item, option, name, fieldFrequency, fieldDate } // Update option as well
           : item
       ));
       handleEditEnd();
       setMode('add');
     }
     resetItems();
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fieldMedicine, fieldDate, fieldFrequency, option, mode, data, editingItemId, onChange, resetItems, showSnackbar, t]);
 
-  const startEdit = (name, field) => {
-    const item = data.find(i => i.name === name);
+
+  const startEdit = useCallback((id, field) => {
+    const item = data.find(i => i.id === id);
     if (!item) {
-      showSnackbar(t('Item by name {{name}} not found!', { name }), 'error');
+      showSnackbar(t('Item by ID {{id}} not found!', { id }), 'error');
       return;
     }
-    handleEditStart(name);
+    setEditingItemId(id); // Use item.id for editingItemId
     setMode('update');
     setFieldToFocus(field); // e.g. 'name', 'frequency', or 'date'
-    setOption(item.option || null);
+    setOption(item.option || null); // Restore the full option object
     setFieldFrequency(item.fieldFrequency);
     setFieldDate(new Date(item.fieldDate));
     setFieldMedicine(item.name);
     onEditingChange(true); // inform caller we are editing
-  };
+  }, [data, onEditingChange, showSnackbar, t]);
 
-  const handleEditStart = (name) => {
-    setEditingItemId(name);
-  };
+  const handleEditEnd = useCallback(() => {
+    setEditingItemId(null);
+    onEditingChange(false); // Ensure parent knows editing has ended
+  }, [onEditingChange]);
 
-  const handleEditEnd = () => setEditingItemId(null);
+  const removeItem = useCallback((id) => {
+    onChange(data.filter(item => item.id !== id));
+    if (editingItemId === id) { // If the removed item was being edited, reset the form
+      resetItems();
+      setMode('add');
+      handleEditEnd();
+    }
+  }, [data, onChange, editingItemId, resetItems, handleEditEnd]);
 
-  const removeItem = (name) => {
-    onChange(data.filter(item => item.name !== name));
-  };
-
-  const handleDragEnd = (event) => {
+  const handleDragEnd = useCallback((event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
       const oldIndex = data.findIndex(item => item.id === active.id);
       const newIndex = data.findIndex(item => item.id === over.id);
       onChange(arrayMove(data, oldIndex, newIndex));
     }
-  };
+  }, [data, onChange]);
 
-  // const formatDate = (date) => {
-  //   return format(date, getLocaleBasedFormat(), { 
-  //     locale: localeMap[i18n.language] 
-  //   });
-  // };
-
-  const getLocaleBasedFormat = () => {
+  const getLocaleBasedFormat = useCallback(() => {
     const locale = i18n.language;
     //console.log('getLocaleBasedFormat called with locale:', locale);
 
     // US format: MMM dd (Jun 02)
-    if (locale.startsWith('en-US')) {
+    if (locale.startsWith('en')) {
       return 'MMM dd';
     }
-    
+
     // Most other locales: dd MMM (02 Jun)
     if (
       locale.startsWith('en') ||
@@ -298,16 +326,22 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
     ) {
       return 'dd MMM';
     }
-    
+
     // Default fallback
     return 'dd MMM';
-  };
+  }/*, [i18n.language]*/);
 
   if (!isLoggedIn) { // Check if user is logged in - TODO: use a common guard upper level component to check for login
     console.log(t('User must be logged in to use this component'));
     return null;
   }
-  
+
+  const isDataLoaded =
+    dataAnagrafica.length > 0 &&
+    dataPrincipiAttivi.length > 0 &&
+    dataATC.length > 0
+  ;
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localeMap[i18n.language]}>
       <Container maxWidth="lg" sx={{ py: 0 }}>
@@ -317,97 +351,104 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
               {t("Medicines List")}
             </Typography>
           </StyledBox>
-          
+
           <Box p={4}>
             <Box
               component="form"
               onSubmit={addItem}
               sx={{
                 display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
+                flexDirection: 'column',
                 gap: 2,
                 mb: 4,
-                alignItems: 'flex-end'
               }}
             >
-              {/* First row: only the medicine input on xs, full row on sm+ */}
-              <Box
-                sx={{
-                  width: { xs: '100%', sm: 'auto' },
-                  flexGrow: { xs: 0, sm: 1 }, // Take all space on sm+, not on xs
-                  mb: { xs: 2, sm: 0 }
-                }}
-              >
-                <ContextualHelp helpPagesKey="MedicineName" fullWidth showOnHover>
-                  <MedicineInputAutocomplete
-                    autoFocus
-                    fullWidth
-                    variant="outlined"
-                    value={option}
-                    inputValue={fieldMedicine ?? ''}
-                    onChange={(_event, newValue) => {
-                      setOption(newValue);
-                      setFieldMedicine(newValue ? newValue.label : '');                      
-                    }}
-                    onInputChange={(_event, newFieldMedicine, reason) => {
-                      if (reason === 'input' || reason === 'clear') {
-                        setFieldMedicine(newFieldMedicine);
-                      }
-                      onEditingChange(true); // inform caller we are editing
-                    }}
-                    options={getFilteredOptions(fieldMedicine)}
-                    placeholder={t("Enter full name of the medicine")}
-                    ref={fieldMedicineRef}
-                  />
-                </ContextualHelp>
-              </Box>
-
-              {/* Second row (xs): date, frequency, buttons; 
-                  on sm+, these are just next to the input */}
+              {/* First row: medicine input (xs: alone, sm+: with date & frequency) */}
               <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'row',
                   gap: 2,
-                  width: { xs: '100%', sm: 'auto' }
+                  alignItems: 'flex-end'
                 }}
               >
-                <ContextualHelp helpPagesKey="DateSince">
-                  <DatePicker
-                    key={i18n.language} // This forces a complete remount when locale changes
-                    label={t('Since day')}
-                    value={fieldDate}
-                    onChange={setFieldDate}
-                    format={getLocaleBasedFormat()}
-                    sx={{ width: { xs: 145, sm: 125, md: 145 } }}
-                    PopperProps={{ placement: 'bottom-start' }}
-                    minDate={new Date()} // Today onwards: only dates in the future
-                    formatDensity="spacious"
-                    inputRef={fieldDateRef}
-                  />
-                </ContextualHelp>
-
-                <ContextualHelp helpPagesKey="Frequency">
-                  <TextField
-                    label={isXs ? t('Freq.') : isSm ? t('Freq.') : t('Frequency (days)')}
-                    variant="outlined"
-                    type="number"
-                    inputProps={{ min: 1 }}
-                    input={{ min: 1 }}
-                    value={fieldFrequency}
-                    onChange={(e) => setFieldFrequency(parseInt(e.target.value) || 1)}
-                    sx={{ width: { xs: 65, sm: 65, md: 145 } }}
-                    inputRef={fieldFrequencyRef}
-                  />
-                </ContextualHelp>
-
+                {/* Medicine input - takes maximum space */}
                 <Box
                   sx={{
-                    display: 'flex',
-                    flexDirection: { xs: mode === 'update' ? 'column' : 'row', sm: 'row' },
-                    gap: 2,
                     width: { xs: '100%', sm: 'auto' },
-                    mt: { xs: mode === 'update' ? 0 : 0, sm: 0 }
+                    flexGrow: { xs: 1, sm: 1 }, // Take all available space
+                  }}
+                >
+                  <ContextualHelp helpPagesKey="MedicineName" fullWidth showOnHover>
+                    {!isDataLoaded ? (
+                      null //<Typography>{t('loading medicines data...')}</Typography>
+                    ) : (
+                      <MedicineInputAutocomplete
+                        autoFocus
+                        fullWidth
+                        variant="outlined"
+                        value={option}
+                        inputValue={fieldMedicine ?? ''}
+                        onChange={(_event, newValue) => {
+                          setOption(newValue);
+                          setFieldMedicine(newValue ? newValue.label : '');
+                        }}
+                        onInputChange={(_event, newFieldMedicine, reason) => {
+                          if (reason === 'input' || reason === 'clear') {
+                            setFieldMedicine(newFieldMedicine);
+                          }
+                          onEditingChange(true); // inform caller we are editing
+                        }}
+                        options={getFilteredOptions(fieldMedicine)}
+                        placeholder={t("Enter full name of the medicine")}
+                        ref={fieldMedicineRef}
+                      />
+                    )}
+                  </ContextualHelp>
+                </Box>
+
+                {/* Date picker - only visible on sm+ screens */}
+                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                  <ContextualHelp helpPagesKey="DateSince">
+                    <DatePicker
+                      key={i18n.language} // This forces a complete remount when locale changes
+                      label={t('Since day')}
+                      value={fieldDate}
+                      onChange={setFieldDate}
+                      format={getLocaleBasedFormat()}
+                      sx={{ width: 132 }}
+                      PopperProps={{ placement: 'bottom-start' }}
+                      minDate={new Date()} // Today onwards: only dates in the future
+                      formatDensity="spacious"
+                      inputRef={fieldDateRef}
+                    />
+                  </ContextualHelp>
+                </Box>
+
+                {/* Frequency input - only visible on sm+ screens */}
+                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                  <ContextualHelp helpPagesKey="Frequency">
+                    <TextField
+                      label={isSm ? t('Freq.') : t('Frequency (days)')}
+                      variant="outlined"
+                      type="number"
+                      inputProps={{ min: 1 }}
+                      input={{ min: 1 }}
+                      value={fieldFrequency}
+                      onChange={(e) => setFieldFrequency(parseInt(e.target.value) || 1)}
+                      sx={{ width: { sm: 65, md: 145 } }}
+                      inputRef={fieldFrequencyRef}
+                    />
+                  </ContextualHelp>
+                </Box>
+
+                {/* Buttons - only visible on sm+ screens */}
+                <Box
+                  sx={{
+                    display: { xs: 'none', sm: 'flex' },
+                    flexDirection: 'row',
+                    gap: 2,
+                    mt: 0,
                   }}
                 >
                   <Button
@@ -416,14 +457,12 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
                     color="primary"
                     size="large"
                     sx={{
-                      height: { xs: mode === 'update' ? 36 : 56, sm: 56 },
-                      mt: { xs: mode === 'update' ? -1.2 : 0, sm: 0 },
+                      height: 56,
                       mb: 0.2,
-                      px: { xs: 0, sm: 1, md: 4.5 },
-                      width: { xs: mode === 'update' ? '100%' : 'auto', sm: 'auto' }
+                      px: { sm: 1, md: 4.5 },
                     }}
                   >
-                    {mode === 'add' ? (isXs ? t('Add:punctuated') : t('Add')) : (isXs ? t('Update:punctuated') : t('Update'))}
+                    {mode === 'add' ? t('Add') : t('Update')}
                   </Button>
                   {mode === 'update' && (
                     <Button
@@ -432,23 +471,103 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
                       variant="contained"
                       color="default"
                       size="large"
-                      sx={{ 
-                        height: { xs: 36, sm: 56 },
-                        mt: { xs: -1.2, sm: 0 },
+                      sx={{
+                        height: 56,
                         mb: 0.2,
-                        px: { xs: 0, sm: 1, md: 4.5 },
-                        width: { xs: '100%', sm: 'auto' }
+                        px: { sm: 1, md: 4.5 },
                       }}
                     >
-                      {isXs ? t('Cancel:punctuated') : t('Cancel')}
+                      {t('Cancel')}
                     </Button>
                   )}
                 </Box>
               </Box>
+
+              {/* Second row: date + frequency (xs screens only) */}
+              <Box
+                sx={{
+                  display: { xs: 'flex', sm: 'none' },
+                  flexDirection: 'row',
+                  gap: 2,
+                  alignItems: 'flex-end'
+                }}
+              >
+                {/* Date picker */}
+                <ContextualHelp helpPagesKey="DateSince">
+                  <DatePicker
+                    key={i18n.language} // This forces a complete remount when locale changes
+                    label={t('Since day')}
+                    value={fieldDate}
+                    onChange={setFieldDate}
+                    format={getLocaleBasedFormat()}
+                    sx={{ width: 132 }}
+                    PopperProps={{ placement: 'bottom-start' }}
+                    minDate={new Date()} // Today onwards: only dates in the future
+                    formatDensity="spacious"
+                    inputRef={fieldDateRef}
+                  />
+                </ContextualHelp>
+
+                {/* Frequency input */}
+                <ContextualHelp helpPagesKey="Frequency">
+                  <TextField
+                    label={t('Freq.')}
+                    variant="outlined"
+                    type="number"
+                    inputProps={{ min: 1 }}
+                    input={{ min: 1 }}
+                    value={fieldFrequency}
+                    onChange={(e) => setFieldFrequency(parseInt(e.target.value) || 1)}
+                    sx={{ width: 65 }}
+                    inputRef={fieldFrequencyRef}
+                  />
+                </ContextualHelp>
+              </Box>
+
+              {/* Third row: buttons - only visible on xs screens */}
+              <Box
+                sx={{
+                  display: { xs: 'flex', sm: 'none' },
+                  flexDirection: 'row',
+                  gap: 2,
+                  width: '100%',
+                }}
+              >
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  sx={{
+                    height: mode === 'update' ? 36 : 56,
+                    px: 0,
+                    width: mode === 'update' ? '100%' : 'auto',
+                    flexGrow: mode === 'update' ? 0 : 1,
+                  }}
+                >
+                  {mode === 'add' ? t('Add') : t('Update')}
+                </Button>
+                {mode === 'update' && (
+                  <Button
+                    type="button"
+                    onClick={() => { resetItems(); setMode('add'); handleEditEnd(); }}
+                    variant="contained"
+                    color="default"
+                    size="large"
+                    sx={{
+                      height: 36,
+                      px: 0,
+                      width: '100%',
+                    }}
+                  >
+                    {t('Cancel')}
+                  </Button>
+                )}
+              </Box>
             </Box>
 
             <Divider sx={{ margin: -1 }} />
-            
+
             <Box mt={4}>
               <DndContext
                 sensors={sensors}
@@ -468,8 +587,8 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
                     ) : (
                       <Box component="ul" sx={{ p: 0, m: 0 }}>
                         {data.map((item) => (
-                          <SortableItem 
-                            key={item.id} 
+                          <SortableItem
+                            key={item.id}
                             id={item.id}
                             name={item.name}
                             frequency={item.fieldFrequency}
@@ -478,8 +597,6 @@ const JobMedicines = ({ data, onChange, onEditingChange }) => {
                             onEdit={startEdit}
                             onRemove={removeItem}
                             isEditing={item.id === editingItemId}
-                            onEditStart={() => handleEditStart(item.id)}
-                            onEditEnd={handleEditEnd}
                           />
                         ))}
                       </Box>

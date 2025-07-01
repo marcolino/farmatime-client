@@ -9,13 +9,15 @@ export class SecureStorage {
   }
 
   async init() {
+    const response = await apiCall("get", "/auth/encryptionKey");
+    if (response.status === 403) {
+      throw {message: 'Encryption key not available. Please log in.', code: response.status}; 
+    }
     try {
-      const response = await apiCall("get", "/auth/encryptionKey");
       const { key } = response;
       this.key = await this.#importKey(key);
     } catch (error) {
-      console.error('Failed to initialize SecureStorage:', error);
-      throw error;
+      throw new Error(`Failed to initialize SecureStorage: ${error.message}`);
     }
   }
 
@@ -72,6 +74,15 @@ export class SecureStorage {
       if (!item) return null;
       const parsed = JSON.parse(item);
       return await this.decrypt(parsed);
+    } else {
+      throw new Error('Only "local" backend is implemented.');
+    }
+  }
+
+  async remove(key) {
+    if (this.backend === 'local') {
+      if (!this.isLocalStorageAvailable) throw new Error('LocalStorage not available');
+      localStorage.removeItem(key);
     } else {
       throw new Error('Only "local" backend is implemented.');
     }

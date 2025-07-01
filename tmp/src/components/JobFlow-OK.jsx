@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Box,
@@ -11,20 +11,14 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-} from 'mui-material-custom';
+} from '@mui/material';
 import { ArrowBack, ArrowForward, Check } from '@mui/icons-material';
-import { SectionHeader1 } from 'mui-material-custom';
 import { JobContext } from '../providers/JobContext';
-import {
-  validateJobPatientFirstName, validateJobPatientLastName, validateJobPatientEmail,
-  validateJobDoctorName, validateJobDoctorEmail,
-  validateAllFields,
-} from '../libs/Validation';
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import JobPatient from './JobPatient';
 import JobDoctor from './JobDoctor';
 import JobMedicines from './JobMedicines';
-//import JobEmailTemplate from './JobEmailTemplate';
+import JobEmailTemplate from './JobEmailTemplate';
 import JobConfirmationReview from './JobConfirmationReview';
 
 const JobFlow = () => {
@@ -33,69 +27,27 @@ const JobFlow = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { showSnackbar } = useSnackbarContext();
   const { job, setJob, jobError } = useContext(JobContext);
+  const [patientValid, setPatientValid] = useState(false); // we need this because both patient and doctor are in step 0
+  const [doctorValid, setDoctorValid] = useState(false); // we need this because both patient and doctor are in step 0
 
   // Navigation state
   const currentStep = job.currentStep; // TODO: always use job.currentStep ?
- 
-  const steps = [
-    { id: 0, label: isMobile ? t('Patient & Doctor') : t('Patient & Doctor Info') },
+  //const [currentStep, setCurrentStep] = useState(0);
+
+  // Define the steps
+  // const steps = [
+  //   { id: 0, label: t('Patient & Doctor Info'), isCompleted: false },
+  //   { id: 1, label: t('Medicines'), isCompleted: false },
+  //   { id: 2, label: t('Email Template'), isCompleted: false },
+  //   { id: 3, label: t('Confirmation'), isCompleted: false }
+  // ];
+  const [steps, setSteps] = useState([
+    { id: 0, label: t('Patient & Doctor Info') },
     { id: 1, label: t('Medicines') },
-    //{ id: 2, label: t('Email Template') }, // TODO: remove this step from main steps, it is moved to advanced options
-    { id: 2, label: t('Confirmation') }
-  ];
+    { id: 2, label: t('Email Template') },
+    { id: 3, label: t('Confirmation') }
+  ]);
   const maxSteps = steps.length;
-
-  const fieldsPatient = [
-    {
-      label: t("Patient first name"),
-      key: 'firstName',
-      helpKey: 'PatientFirstName',
-      placeholder: '',
-      //isValid: isValidFirstName,
-      isValid: validateJobPatientFirstName,
-    },
-    {
-      label: t("Patient last name"),
-      key: 'lastName',
-      helpKey: 'PatientLastName',
-      placeholder: '',
-      //isValid: isValidLastName,
-      isValid: validateJobPatientLastName,
-    },
-    {
-      label: t("Patient email"),
-      key: 'email',
-      helpKey: 'PatientEmail',
-      type: 'email',
-      placeholder: 'info@mail.it',
-      //isValid: isValidEmail,
-      isValid: validateJobPatientEmail,
-    },
-  ];
-
-  const fieldsDoctor = [
-    {
-      label: t("Doctor name"),
-      key: 'name',
-      helpKey: 'DoctorName',
-      placeholder: t("Dr. ..."),
-      //isValid: isValidName,
-      isValid: validateJobDoctorName,
-    },
-    {
-      label: t("Doctor email"),
-      key: 'email',
-      helpKey: 'DoctorEmail',
-      placeholder: t("doc@studio-medico.it"),
-      type: 'email',
-      //isValid: isValidEmail,
-      isValid: validateJobDoctorEmail,
-    },
-  ];
-
-  // we need these because both patient and doctor are in step 0
-  const [patientValid, setPatientValid] = useState(() => validateAllFields(fieldsPatient, job.patient));
-  const [doctorValid, setDoctorValid] = useState(() => validateAllFields(fieldsDoctor, job.doctor));
 
   const [isMedicinesEditing, setIsMedicinesEditing] = useState(false);
 
@@ -106,7 +58,7 @@ const JobFlow = () => {
   }, [patientValid, doctorValid]);
   
   // Show job errors to the user
-  useEffect(() => {
+ useEffect(() => {
    if (jobError) {
       let message = "An unexpected error occurred.";
       if (jobError.type === "load") {
@@ -117,26 +69,6 @@ const JobFlow = () => {
       showSnackbar(message, "error");
     }
   }, [jobError, showSnackbar]);
-
-  // If not all previous are completed, set last step completion to false
-  useEffect(() => {
-    if (!job.stepsCompleted) return; // safety check
-
-    const lastIndex = job.stepsCompleted.length - 1;
-    const allPreviousCompleted = job.stepsCompleted
-      .slice(0, lastIndex)
-      .every(Boolean)
-    ;
-    if (!allPreviousCompleted && job.stepsCompleted[lastIndex]) {
-      // Reset last step completion to false
-      setJob(prev => ({
-        ...prev,
-        stepsCompleted: prev.stepsCompleted.map((val, idx) =>
-          idx === lastIndex ? false : val
-        ),
-      }));
-    }
-  }, [job.stepsCompleted, setJob]);
 
   // Navigation handlers
   const handleNext = () => {
@@ -189,6 +121,16 @@ const JobFlow = () => {
 
   const handleStepCompleted = (stepIndex, result) => {
     console.log("JobFlow - handleStepCompleted - step index:", stepIndex, "result:", result);
+    //steps[step].isCompleted = result;
+    // setSteps(prevSteps => {
+    //   const newSteps = prevSteps.map((step, index) => {
+    //     if (index === stepIndex) {
+    //       return { ...step, isCompleted: result };
+    //     }
+    //     return step;
+    //   });
+    //   return newSteps;
+    // });
     setJob(prev => ({
       ...prev,
       stepsCompleted: prev.stepsCompleted.map((val, idx) =>
@@ -198,24 +140,30 @@ const JobFlow = () => {
   };
 
   // const isAllCompleted = () => {
-  //   console.log("JobFlow - isAllCompleted:", job.stepsCompleted);
-  //   return job.stepsCompleted.every(Boolean);
-  // }
+  //   let completed = true;
+  //   steps.forEach(step => {
+  //     if (!step.isCompleted) {
+  //       completed = false;
+  //       return; // break forEach loop
+  //     }
+  //   });
+  //   console.log("JobFlow - isAllCompleted:", completed, "(",
+  //     steps[0].isCompleted,
+  //     steps[1].isCompleted,
+  //     steps[2].isCompleted,
+  //     steps[3].isCompleted,
+  //     ")"
+  //   );
+  //   return completed;
+  // };
+  const isAllCompleted = () => {
+    console.log("JobFlow - isAllCompleted:", job.stepsCompleted);
+    return job.stepsCompleted.every(Boolean);
+  }
 
   const handleConfirm = () => {
-    // if not all previous steps are completed, show a warning and return...
-    const lastIndex = job.stepsCompleted.length - 1;
-    const allPreviousCompleted = job.stepsCompleted
-      .slice(0, lastIndex)
-      .every(Boolean)
-    ;
-    if (!allPreviousCompleted) {
-      showSnackbar("Please complete all steps", "warning");
-      return;
-    }
-
     handleUpdate('isConfirmed', true); // TODO: ditch isConfirmed...
-    handleStepCompleted(lastIndex, true); // mark this last step as completed
+    handleStepCompleted(3, true);
     alert(t('Service activated successfully!'));
     // TODO: Redirect logic here
   };
@@ -224,101 +172,124 @@ const JobFlow = () => {
 
   // Render layout
   const renderStep = () => {
-    switch (job.currentStep) {
-      case 0:
-        return (
-          <>
-            <JobPatient
-              data={job.patient}
-              fields={fieldsPatient}
-              onChange={(val) => handleUpdate('patient', val)}
-              onValid={setPatientValid}
-            />
-            <JobDoctor
-              data={job.doctor}
-              fields={fieldsDoctor}
-              onChange={(val) => handleUpdate('doctor', val)}
-              onValid={setDoctorValid}
-            />
-          </>
-        );
-      case 1:
-        return (
-          <JobMedicines
-            data={job.medicines}
-            onChange={(val) => handleUpdate('medicines', val)}
-            onEditingChange={setIsMedicinesEditing}
-            onCompleted={(res) => handleStepCompleted(job.currentStep, res)}
+  switch (job.currentStep) {
+    case 0:
+      return (
+        <>
+          <JobPatient
+            data={job.patient}
+            onChange={(val) => handleUpdate('patient', val)}
+            onValid={setPatientValid}
           />
-        );
-      // case 2:
-      //   return (
-      //     <JobEmailTemplate
-      //       data={job.emailTemplate}
-      //       job={job}
-      //       onChange={(val) => handleUpdate('emailTemplate', val)}
-      //       onCompleted={(res) => handleStepCompleted(job.currentStep, res)}
-      //     />
-      //   );
-      case 2:
-        return (
-          <JobConfirmationReview
-            data={job}
-            onCompleted={(res) => handleStepCompleted(job.currentStep, res)}
+          <JobDoctor
+            data={job.doctor}
+            onChange={(val) => handleUpdate('doctor', val)}
+            onValid={setDoctorValid}
           />
-        );
-      default:
-        return null;
-    }
+        </>
+      );
+    case 1:
+      return (
+        <JobMedicines
+          data={job.medicines}
+          onChange={(val) => handleUpdate('medicines', val)}
+          onEditingChange={setIsMedicinesEditing}
+          onCompleted={(res) => handleStepCompleted(1, res)}
+        />
+      );
+    case 2:
+      return (
+        <JobEmailTemplate
+          data={job.emailTemplate}
+          job={job}
+          onChange={(val) => handleUpdate('emailTemplate', val)}
+          onCompleted={(res) => handleStepCompleted(2, res)}
+        />
+      );
+    case 3:
+      return (
+        <JobConfirmationReview
+          data={job}
+          onCompleted={(res) => handleStepCompleted(3, res)}
+        />
+      );
+    default:
+      return null;
+  }
+    // switch (currentStep) {
+    //   case 0:
+    //     return (
+    //       <>
+    //         <JobPatient
+    //           data={job.patient}
+    //           onChange={(val) => handleUpdate('patient', val)}
+    //           onValid={setPatientValid}
+    //         />
+    //         <JobDoctor
+    //           data={job.doctor}
+    //           onChange={(val) => handleUpdate('doctor', val)}
+    //           onValid={setDoctorValid}
+    //         />
+    //       </>
+    //     );
+    //   case 1:
+    //     return (
+    //       <JobMedicines data={job.medicines} onChange={(val) => handleUpdate('medicines', val)} onEditingChange={setIsMedicinesEditing} onCompleted={(res) => handleStepCompleted(1, res)} />
+    //     );
+    //   case 2:
+    //     return (
+    //       <JobEmailTemplate data={job.emailTemplate} job={job} onChange={(val) => handleUpdate('emailTemplate', val)} onCompleted={(res) => handleStepCompleted(2, res)} />
+    //     );
+    //   case 3:
+    //      return (
+    //      <JobConfirmationReview data={job} onCompleted={(res) => handleStepCompleted(3, res)}/>
+    //     );
+    //   default:
+    //     console.error(`Invalid step in renderStep: ${currentStep}, valid steps are [0-${maxSteps - 1}]`);
+    //     return null;
+    // }
   };
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <SectionHeader1>
-        {t('Configure MediCare Activity')}
-      </SectionHeader1>
+      <Paper 
+        elevation={2} 
+        sx={{ 
+          p: 3, 
+          mb: 4, 
+          bgcolor: 'primary.main',
+          color: 'info.contrastText',
+        }}
+      >
+        <Typography variant="h4" align="center" sx={{ fontWeight: 'bold' }}>
+          {t('Configure MediCare Activity')}
+          - All completed: {isAllCompleted() ? "SI" : "NO"}
+        </Typography>
+      </Paper>
+
       <Stepper
         activeStep={job.isConfirmed ? maxSteps : job.currentStep}
         sx={{ mb: 4 }} 
         alternativeLabel={isMobile}
       >
-        {/*
-          <Step
-            key={step.id}
-            completed={job.stepsCompleted[index]}
-            onClick={() => handleGoto(index)}
-          >
-            <StepLabel 
-              StepIconComponent={(iconProps) => (
-                <CustomStepIcon
-                  {...iconProps}
-                  current={index === job.currentStep}
-                />
-              )}
-              onClick={() => {
-                handleGoto(index);
-              }}
-            >
-              {step.label}
-            </StepLabel>
-          </Step>
-        */}
         {steps.map((step, index) => (
           <Step
             key={step.id}
-            completed={job.stepsCompleted[index]}
-            onClick={() => handleGoto(index)}
+            //completed={isConfirmed ? true : index < currentStep}
+            completed={ job.stepsCompleted[index] /*job.isConfirmed ? true : index < job.currentStep*/ }
+            onClick={() => handleGoto(index) }
           >
-            <StepLabel
-              icon={
-                <CustomStepIcon
-                  stepIndex={index+1}
-                  completed={job.stepsCompleted[index]}
-                  //active={index === job.currentStep}
-                  current={index === job.currentStep}
-                />
-              }
-              onClick={() => handleGoto(index)}
+            <StepLabel 
+              // slotProps={{
+              //   stepIcon: {
+              //     //completed: isConfirmed || index < currentStep
+              //     completed: job.stepsCompleted[index] /*job.isConfirmed || index < currentStep*/
+              //   }
+              // }}
+              StepIconComponent={CustomStepIcon}
+              onClick={() => {
+                handleGoto(index);
+              }}
             >
               {step.label}
             </StepLabel>
@@ -372,11 +343,11 @@ const JobFlow = () => {
 };
 
 const CustomStepIcon = (props) => {
-  const { stepIndex, completed, current, } = props;
+  const { active, completed, icon } = props;
 
   // Colors: green if completed, yellow if not completed
-  const backgroundColor = completed ? '#739a4d' : '#eeee44'; // green or yellow
-  const textColor       = completed ? '#ffffff' : '#000000'; // white text on green, black on yellow
+  const backgroundColor = completed ? '#4caf50' : '#ffeb3b'; // green or yellow
+  const textColor = completed ? '#fff' : '#000'; // white text on green, black on yellow
 
   return (
     <Box
@@ -390,15 +361,15 @@ const CustomStepIcon = (props) => {
         justifyContent: 'center',
         fontWeight: 'bold',
         color: textColor,
-        border: current ? '4px solid #555' : 'none', // optional: highlight active step
+        border: active ? '2px solid #1976d2' : 'none', // optional: highlight active step
         cursor: 'pointer',
       }}
     >
       <Typography variant="caption" component="span">
-        {stepIndex}
+        {icon}
       </Typography>
     </Box>
   );
 };
 
-export default React.memo(JobFlow);
+export default JobFlow;
