@@ -3,13 +3,13 @@
   "customization": null,
   "mode": {
     "production": false,
-    "staging": false,
-    "development": true,
+    "staging": true,
+    "development": false,
     "test": false
   },
   "name": "medicare",
   "title": "MEDICARE",
-  "siteUrl": "http://localhost:5000",
+  "siteUrl": "https://medicare-staging.fly.dev",
   "company": {
     "name": "Sistemi Solari Rossi s.r.l.",
     "title": "Sistemi Solari Rossi",
@@ -19,7 +19,7 @@
     "copyright": "© 2025 Sistemi Solari Rossi. All rights reserved.",
     "homeSite": {
       "name": "sistemisolarirossi.it",
-      "url": "http://localhost:5000"
+      "url": "https://medicare-staging.fly.dev"
     },
     "owner": {
       "name": "Marco Solari",
@@ -199,8 +199,8 @@
       ]
     },
     "responseType": "code",
-    "redirectSignIn": "http://localhost:5000",
-    "redirectSignOut": "http://localhost:5000",
+    "redirectSignIn": "https://medicare-staging.fly.dev",
+    "redirectSignOut": "https://medicare-staging.fly.dev",
     "federatedSigninProviders": [
       "Google",
       "Facebook"
@@ -241,20 +241,20 @@
     "og": {
       "title": "MEDICARE",
       "description": "A powerful web app, easily customizable",
-      "url": "http://localhost:5000",
+      "url": "https://medicare-staging.fly.dev",
       "type": "website",
       "image": {
-        "url": "http://localhost:5000/apple-touch-icon.png",
+        "url": "https://medicare-staging.fly.dev/apple-touch-icon.png",
         "alt": "MEDICARE logo image"
       },
       "locale": "it",
       "site_name": "MEDICARE"
     },
     "twitter": {
-      "card": "http://localhost:5000/apple-touch-icon.png",
+      "card": "https://medicare-staging.fly.dev/apple-touch-icon.png",
       "title": "MEDICARE",
       "description": "A powerful web app, easily customizable",
-      "image": "http://localhost:5000/favicon-64x64.png"
+      "image": "https://medicare-staging.fly.dev/favicon-64x64.png"
     },
     "apple": {
       "mobileWebAppCapable": "yes",
@@ -263,9 +263,9 @@
     },
     "ms": {
       "themeColor": "#4e4f4c",
-      "tileImage": "http://localhost:5000/ms-tile.png"
+      "tileImage": "https://medicare-staging.fly.dev/ms-tile.png"
     },
-    "canonicalUrl": "http://localhost:5000",
+    "canonicalUrl": "https://medicare-staging.fly.dev",
     "fontFamily": "Open+Sans:wght@400;600;700",
     "fontDisplayMode": "block",
     "title": "MEDICARE"
