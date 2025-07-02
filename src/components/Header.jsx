@@ -21,7 +21,7 @@ import { AuthContext } from "../providers/AuthContext";
 import { useCart } from "../providers/CartProvider";
 import { isAdmin } from "../libs/Validation";
 import logoMain from "../assets/images/LogoMain.png";
-import logoMainText from "../../Logo-text.png"; // TODO...
+import logoMainText from "../assets/images/LogoText.png";
 import config from "../config";
 
 const Header = ({ theme, toggleTheme }) => {
@@ -217,8 +217,9 @@ const Header = ({ theme, toggleTheme }) => {
             src={logoMain}
             alt="Main logo"
             sx={{
-              width: { xs: 78, sm: 96 },
+              width: 72,
               height: "auto", // let browser calculate height proportionally
+              //my: 1,
               mr: 2,
               borderRadius: 2,
               display: "block" // remove inline spacing

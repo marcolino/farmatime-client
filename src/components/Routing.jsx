@@ -21,6 +21,7 @@ const ProductsHandle = lazy(() => import("./ProductsHandle"));
 const Cart = lazy(() => import("./Cart"));
 const NotificationPreferences = lazy(() => import("./NotificationPreferences"));
 const AdvancedOptions = lazy(() => import("./AdvancedOptions"));
+const JobsHandle = lazy(() => import("./JobsHandle"));
 const JobsExport = lazy(() => import("./JobsExport"));
 const JobsImport = lazy(() => import("./JobsImport"));
 const JobsEmailTemplateEdit = lazy(() => import("./JobEmailTemplate"));
@@ -77,6 +78,7 @@ const Routing = () => {
           <Route path="/work-in-progress" element={<WorkInProgress />} />
           <Route path="/email-preferences" element={<NotificationPreferences section="email" action="preferences" />} />
           <Route path="/advanced-options" element={<AdvancedOptions />} />
+          <Route path="/jobs-handle" element={<JobsHandle />} />
           <Route path="/job-email-template-edit" element={<JobsEmailTemplateEdit /* onCompleted={(data) => alert("COMPLETED:" + JSON.stringify(data))} */ />} />
           <Route path="/job-data-export" element={<JobsExport />} />
           <Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -15,6 +16,7 @@ import {
 import { ArrowBack, ArrowForward, Check } from '@mui/icons-material';
 import { SectionHeader1 } from 'mui-material-custom';
 import { JobContext } from '../providers/JobContext';
+import { useDialog } from "../providers/DialogContext";
 import {
   validateJobPatientFirstName, validateJobPatientLastName, validateJobPatientEmail,
   validateJobDoctorName, validateJobDoctorEmail,
@@ -29,9 +31,11 @@ import JobConfirmationReview from './JobConfirmationReview';
 
 const JobFlow = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { showSnackbar } = useSnackbarContext();
+  const { showDialog } = useDialog();
   const { job, setJob, jobError } = useContext(JobContext);
 
   // Navigation state
@@ -216,8 +220,38 @@ const JobFlow = () => {
 
     handleUpdate('isConfirmed', true); // TODO: ditch isConfirmed...
     handleStepCompleted(lastIndex, true); // mark this last step as completed
-    alert(t('Service activated successfully!'));
-    // TODO: Redirect logic here
+    const forTheMedicine = t("for the medicine");
+    const forTheMedicines = t("for each of the {{num}} medicines", { num: job.medicines.length });
+    showDialog({
+      title:
+        <>
+          <Typography variant="h4" align="center" color="primary" sx={{ fontWeight: "bold", mt: 2 }}>
+            {t("Well done!")}
+          </Typography>
+          <Typography variant="h2" align="center" sx={{ mt: 3 }}>
+            🏁
+          </Typography>
+        </>,
+      message:
+        <>
+          <Typography variant="body2" sx={{ mt: 3}}>
+            {t("\
+You have completed the setup for this activity: {{oneOrMany}} you configured, \
+a request will be sent via email to the doctor \
+just in time when the medicine is needed.",
+              { oneOrMany: job.medicines.length === 1 ? forTheMedicine : forTheMedicines })
+            }
+          </Typography>
+          <Typography variant="body2" sx={{ mt: 2 }}>
+            {t("\
+Now, you will be able to see the activity in your activity list, where you can manage it by suspending, editing, or deleting it.")}
+          </Typography>
+        </>,
+      confirmText: t("Ok"),
+      onConfirm: () => {
+        navigate('/jobs-handle');
+      }
+    });
   };
 
   const isLastStep = job.currentStep === maxSteps - 1;
@@ -275,7 +309,7 @@ const JobFlow = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <SectionHeader1>
-        {t('Configure MediCare Activity')}
+        {t('Configure Activity')}
       </SectionHeader1>
       <Stepper
         activeStep={job.isConfirmed ? maxSteps : job.currentStep}
@@ -339,7 +373,8 @@ const JobFlow = () => {
             disabled={currentStep === 0}
             startIcon={<ArrowBack />}
             variant="contained"//"outlined"
-            size="small"
+            //size="small"
+            size="medium"
             sx={{ 
               opacity: currentStep === 0 ? 0 : 0.75,
               '&:hover': {

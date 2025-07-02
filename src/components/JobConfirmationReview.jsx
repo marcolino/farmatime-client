@@ -12,6 +12,7 @@ import { StyledPaper, StyledBox, StyledPaperSmall, StyledBoxSmall } from './JobS
 
 const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
   const { t } = useTranslation();
+
   const { auth } = useContext(AuthContext);
   const [bodyExpanded, setBodyExpanded] = useState(null);
 
@@ -25,6 +26,8 @@ const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
 
   // on every data change, if necessary, expand emailTemplate variables
   useEffect(() => {
+    console.log("******* data.emailTemplate.subject:", data?.emailTemplate?.subject || "undefined");
+    console.log("******* data.emailTemplate.body:", data?.emailTemplate?.body || "undefined");
     setBodyExpanded(variablesExpand(data, data.emailTemplate.body, auth));
   }, [data, auth]);
 
@@ -45,7 +48,7 @@ const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
       <StyledPaper>
         <StyledBox>
           <Typography variant="h5" fontWeight="bold">
-            {t("Confirmation of the request")}
+            {t("Confirmation of the activity")}
           </Typography>
         </StyledBox>
 
@@ -107,7 +110,7 @@ const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
               {t("Email subject")}: <b>{data.emailTemplate.subject}</b>
             </Typography>
             <Typography variant="body2" component="li" sx={{ pl: 2 }}
-              dangerouslySetInnerHTML={{ __html: `${t("Email message")}:<br /><br />${bodyExpanded}` }}
+              dangerouslySetInnerHTML={{ __html: `${t("Email message (the first request)")}:<br /><br />${bodyExpanded}` }}
             />
             {/* <Typography variant="body2" component="li" sx={{ pl: 2 }}
               dangerouslySetInnerHTML={{ __html: `${t("Body")}:<br /><br />${data.emailTemplate.bodyExpanded ? data.emailTemplate.bodyExpanded.replace(/(?:\r\n|\r|\n)/g, "<br />") : ''}<br /><br />${data.emailTemplate.signature ? data.emailTemplate.signature: ''}` }}

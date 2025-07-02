@@ -3,13 +3,12 @@ import { i18n } from "../i18n";
 
 const emailTemplate = {
   subject: i18n.t('Medicines prescription request'),
-  body: i18n.t("\
-Good morning, {DOCTOR NAME}.<br />\n\
-We require the <i>prescription</i> of this medicine for <i>{FIRST AND LAST NAME OF THE PATIENT}</i>:<br />\n\
-<b>{NAME OF THE MEDICINE}</b><br />\n\
-Best regards.<br />\n\
---<br />\n\
-<i>{FIRST AND LAST NAME OF THE USER} &lt;{EMAIL OF THE USER}&gt;</i>\
+  body: i18n.t("Good morning, [DOCTOR NAME].<br />\
+We require the prescription of this medicine for <i>[FIRST AND LAST NAME OF THE PATIENT]</i>:<br />\
+<br /><b>[NAME OF THE MEDICINE]</b><br /><br />\
+Best regards.<br />\
+--<br />\
+<i>[FIRST AND LAST NAME OF THE USER] &lt;[EMAIL OF THE USER]&gt;</i>\
 "),
 };
 

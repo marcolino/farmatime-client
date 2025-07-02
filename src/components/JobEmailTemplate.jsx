@@ -50,7 +50,17 @@ const JobEmailTemplate = () => {
   const [subject, setSubject] = useState(data.subject || '');
   const [body, setBody] = useState(data.body || '');
 
-  // EditorState for body
+  // // EditorState for body
+  // const [editorState, setEditorState] = useState(() => {
+  //   if (data.body) {
+  //     const contentState = convertFromHTML(data.body);
+  //     if (contentState) {
+  //       return EditorState.createWithContent(contentState);
+  //     }
+  //   }
+  //   return EditorState.createEmpty();
+  // });
+  // EditorState initialization (once)
   const [editorState, setEditorState] = useState(() => {
     if (data.body) {
       const contentState = convertFromHTML(data.body);
@@ -65,15 +75,15 @@ const JobEmailTemplate = () => {
   const [previewIsOpen, setPreviewIsOpen] = useState(false);
   const [expandedHtml, setExpandedHtml] = useState('');
 
-  // Initialize editorState from bodyHtml
-  useEffect(() => {
-    const contentState = convertFromHTML(body);
-    if (contentState) {
-      setEditorState(EditorState.createWithContent(contentState));
-    } else {
-      setEditorState(EditorState.createEmpty());
-    }
-  }, [body]);
+  // // Initialize editorState from bodyHtml
+  // useEffect(() => {
+  //   const contentState = convertFromHTML(body);
+  //   if (contentState) {
+  //     setEditorState(EditorState.createWithContent(contentState));
+  //   } else {
+  //     setEditorState(EditorState.createEmpty());
+  //   }
+  // }, [body]);
 
   // Handle variable insertion in editor
   const handleInsertVariable = (variable) => {
@@ -100,6 +110,11 @@ const JobEmailTemplate = () => {
     const html = draftToHtml(convertToRaw(newState.getCurrentContent()));
     setBody(html);
   };
+  // const onEditorStateChange = (newState) => {
+  //   setEditorState(newState);
+  //   const html = draftToHtml(convertToRaw(newState.getCurrentContent()));
+  //   setBody(html);
+  // };
 
   // Handle confirm: update job context with new email template data
   const handleConfirm = () => {
@@ -116,7 +131,7 @@ const JobEmailTemplate = () => {
       }
     }));
 
-    showSnackbar(t('Email template updated successfully') + '.');
+    showSnackbar(t('Email template updated successfully') + '.', 'success');
     setTimeout(() => {
       navigate(-1);
     }, ((config.ui.snacks.autoHideDurationSeconds + 0.5) * 1000));
@@ -125,13 +140,15 @@ const JobEmailTemplate = () => {
   // Handle cancel: reset states to current job data
   const handleCancel = () => {
     const currentEmailTemplate = job?.emailTemplate || {};
-
     setSubject(currentEmailTemplate.subject || '');
     setBody(currentEmailTemplate.body || '');
+
     if (currentEmailTemplate.body) {
       const contentState = convertFromHTML(currentEmailTemplate.body);
       if (contentState) {
         setEditorState(EditorState.createWithContent(contentState));
+      } else {
+        setEditorState(EditorState.createEmpty());
       }
     } else {
       setEditorState(EditorState.createEmpty());
@@ -383,11 +400,11 @@ const HtmlPreviewDialog = ({ isOpen, onClose, subject, htmlContent }) => {
 import { i18n } from "../i18n";
 
 const variables = [
-  i18n.t('{DOCTOR NAME}'),
-  i18n.t('{FIRST AND LAST NAME OF THE PATIENT}'),
-  i18n.t('{NAME OF THE MEDICINE}'),
-  i18n.t('{FIRST AND LAST NAME OF THE USER}'),
-  i18n.t('{EMAIL OF THE USER}'),
+  i18n.t('[DOCTOR NAME]'),
+  i18n.t('[FIRST AND LAST NAME OF THE PATIENT]'),
+  i18n.t('[NAME OF THE MEDICINE]'),
+  i18n.t('[FIRST AND LAST NAME OF THE USER]'),
+  i18n.t('[EMAIL OF THE USER]'),
 ];
 
 const variablesExpand = (job, html, auth) => {
@@ -395,26 +412,27 @@ const variablesExpand = (job, html, auth) => {
     const escapedVar = variable;
     let replacement;
     switch (variable) {
-      case i18n.t('{DOCTOR NAME}'):
+      case i18n.t('[DOCTOR NAME]'):
         replacement = job.doctor.name ?? variable;
         break
-      case i18n.t('{FIRST AND LAST NAME OF THE PATIENT}'):
+      case i18n.t('[FIRST AND LAST NAME OF THE PATIENT]'):
         replacement = (job.patient.firstName || job.patient.lastName) ? `${job.patient.firstName} ${job.patient.lastName}` : variable;
         break;
-      case i18n.t('{NAME OF THE MEDICINE}'):
+      case i18n.t('[NAME OF THE MEDICINE]'):
         replacement = (job.medicines && job.medicines[0] && job.medicines[0].name) ? job.medicines[0].name : variable;
         break;
-      case i18n.t('{FIRST AND LAST NAME OF THE USER}'):
+      case i18n.t('[FIRST AND LAST NAME OF THE USER]'):
         replacement = (auth?.user?.firstName && auth?.user?.lastName) ? `${auth.user.firstName} ${auth.user.lastName}` : variable;
         break;
-      case i18n.t('{EMAIL OF THE USER}'):
+      case i18n.t('[EMAIL OF THE USER]'):
         replacement = auth?.user?.email ?? variable;
         break;
       default:
         console.warn(`Found variable like string ${variable}, but it is not allowed`);
         replacement = variable;
     }
-    html = html.replace(new RegExp(escapedVar, 'g'), replacement);
+    //html = html.replace(new RegExp(escapedVar, 'g'), replacement);
+    html = html.replaceAll(escapedVar, replacement);
   });
 
   return html;
