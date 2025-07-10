@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box, Button } from "@mui/material";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
 
 function DialogConfirm({ open, onClose, onCancel, onConfirm, title, message, confirmText, cancelText, messageFontSize = "1em" }) {
@@ -8,7 +8,9 @@ function DialogConfirm({ open, onClose, onCancel, onConfirm, title, message, con
     <Dialog open={open} onClose={onClose} sx={{maxHeight: height * 4 / 5, overflowY: "auto" }}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText sx={{ mt: 2, whiteSpace: "pre-line", fontSize: messageFontSize }}>{message}</DialogContentText>
+        <Box sx={{ mt: 2, whiteSpace: "pre-line", fontSize: messageFontSize }}>
+          {message}
+        </Box>
       </DialogContent>
       <DialogActions>
         {cancelText &&

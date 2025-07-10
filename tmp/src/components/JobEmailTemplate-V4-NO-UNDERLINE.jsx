@@ -12,10 +12,6 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
 } from 'mui-material-custom';
 import {
   Edit as EditIcon,
@@ -28,14 +24,13 @@ import {
 } from '@mui/icons-material';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $generateHtmlFromNodes } from '@lexical/html';
-import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND, $getRoot, $insertNodes, $createParagraphNode, $createTextNode } from 'lexical';
+import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND, $getRoot, $insertNodes, $createParagraphNode } from 'lexical';
 import { $generateNodesFromDOM } from '@lexical/html';
 
 import { ContextualHelp } from './ContextualHelp';
@@ -44,14 +39,6 @@ import { useSnackbarContext } from '../providers/SnackbarProvider';
 import { JobContext } from '../providers/JobContext';
 import { AuthContext } from '../providers/AuthContext';
 import { variablesExpand, variableTokens } from './JobEmailTemplateVariables';
-
-// Text snippets to insert
-const INSERTABLE_TEXTS = [ // TODO: get it from variableTokens
-  { value: '[NAME OF THE DOCTOR]', label: '[NAME OF THE DOCTOR]' },
-  { value: '[DATE]', label: 'Current Date' },
-  { value: '[COMPANY_NAME]', label: 'Company Name' },
-  { value: '\n\nBest regards,\n', label: 'Closing' },
-];
 
 // Lexical Editor Configuration
 const editorConfig = {
@@ -68,20 +55,19 @@ const editorConfig = {
   },
 };
 
-// Toolbar Component with Text Insertion Select
+// Toolbar Component
 const ToolbarPlugin = () => {
-  const { t } = useTranslation();
   const [editor] = useLexicalComposerContext();
   const [activeFormats, setActiveFormats] = useState({
     bold: false,
     italic: false,
     underline: false,
   });
-  const [selectedText, setSelectedText] = useState('');
 
   const updateToolbar = useCallback(() => {
     editor.getEditorState().read(() => {
       const selection = $getSelection();
+console.log('Underline format:', selection.hasFormat('underline'));
       if ($isRangeSelection(selection)) {
         setActiveFormats({
           bold: selection.hasFormat('bold'),
@@ -92,31 +78,6 @@ const ToolbarPlugin = () => {
     });
   }, [editor]);
 
-  const applyFormat = (format) => {
-    editor.dispatchCommand(FORMAT_TEXT_COMMAND, format);
-  };
-
-  const handleTextInsert = (text) => {
-    if (!text) return;
-    
-    editor.update(() => {
-      const selection = $getSelection();
-      
-      if ($isRangeSelection(selection)) {
-        const textNode = $createTextNode(text);
-        selection.insertNodes([textNode]);
-        selection.insertText('');
-      } else {
-        const root = $getRoot();
-        const paragraph = $createParagraphNode();
-        paragraph.append($createTextNode(text));
-        root.append(paragraph);
-      }
-    });
-    
-    setSelectedText('');
-  };
-
   useEffect(() => {
     return editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
@@ -125,14 +86,17 @@ const ToolbarPlugin = () => {
     });
   }, [editor, updateToolbar]);
 
+  const applyFormat = (format) => {
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, format);
+  };
+
   return (
     <Box sx={{
       display: 'flex',
       gap: 1,
       p: 1,
       borderBottom: '1px solid #ccc',
-      bgcolor: '#f5f5f5',
-      alignItems: 'center',
+      bgcolor: '#f5f5f5'
     }}>
       <Button
         variant={activeFormats.bold ? 'contained' : 'outlined'}
@@ -158,51 +122,11 @@ const ToolbarPlugin = () => {
       >
         <FormatUnderlinedIcon fontSize="small" />
       </Button>
-
-      <FormControl size="small" sx={{ minWidth: 140, ml: 1 }}>
-        <InputLabel 
-          sx={{
-            // Position when closed (matches dropdown icon)
-            transform: 'translateY(-50%) scale(0.9)',
-            top: '50%',
-            left: 10,
-            // Position when open (floats above)
-            '&.MuiInputLabel-shrink': {
-              transform: 'translate(14px, -9px) scale(0.75)',
-              top: 0,
-              left: 0,
-            }
-          }}
-        >
-          {t('variables')}
-        </InputLabel>
-        <Select
-          value={selectedText}
-          onChange={(e) => handleTextInsert(e.target.value)}
-          label={t('variables')}
-          sx={{
-            height: 32,
-            '& .MuiSelect-select': {
-              py: 1,
-              px: 1.5,
-              display: 'flex',
-              alignItems: 'center'
-            },
-            // ... rest of your select styles
-          }}
-        >
-          <MenuItem value="" disabled><em>{t('select a variable to insert in the message...')}</em></MenuItem>
-          {console.log("variableTokens:", variableTokens)}
-          {Object.keys(variableTokens).map((token, index) => (
-            <MenuItem key={index} value={token}>
-              {token}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
     </Box>
   );
 };
+
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 
 // Initial HTML Plugin
 const InitialHtmlPlugin = ({ initialHtml }) => {
@@ -304,7 +228,6 @@ const JobEmailTemplate = () => {
   const [subject, setSubject] = useState(job?.emailTemplate?.subject || '');
   const [editorHtml, setEditorHtml] = useState(job?.emailTemplate?.body || '');
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [textToInsert, setTextToInsert] = useState(null);
 
   const handleEditorChange = useCallback((editorState, editor) => {
     editorState.read(() => {
@@ -314,7 +237,7 @@ const JobEmailTemplate = () => {
   }, []);
 
   const insertToken = (token) => {
-    setTextToInsert(token);
+    setEditorHtml((prev) => prev + token);
   };
 
   const handleConfirm = () => {
@@ -356,36 +279,26 @@ const JobEmailTemplate = () => {
             </ContextualHelp>
           </Box>
     
-          {/* <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
+          <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
             <Box mt={4} label={t('Variables')}>
               {Object.keys(variableTokens).map((token) => (
                 <Chip
                   key={token}
                   label={t(token)}
-                  onClick={() => insertToken(variableTokens[token])}
+                  onClick={() => insertToken(token)}
                   sx={{ mr: 1, mb: 1 }}
                 />
               ))}
             </Box>
-          </ContextualHelp> */}
+          </ContextualHelp>
 
           <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
             <Box mt={2} label={t('Email body')}>
               <LexicalComposer initialConfig={editorConfig}>
                 <ToolbarPlugin />
                 <InitialHtmlPlugin initialHtml={job?.emailTemplate?.body} />
-                {textToInsert && (
-                  <TextInsertionPlugin textToInsert={textToInsert} />
-                )}
                 
-                <Box sx={{ 
-                  p: 2, 
-                  minHeight: 200, 
-                  border: '1px solid #eee',
-                  '& .editor-text-bold': { fontWeight: 'bold' },
-                  '& .editor-text-italic': { fontStyle: 'italic' },
-                  '& .editor-text-underline': { textDecoration: 'underline' },
-                }}>
+                <Box sx={{ p: 2, minHeight: 200, border: '1px solid #eee' }}>
                   <RichTextPlugin
                     contentEditable={
                       <ContentEditable
@@ -398,7 +311,7 @@ const JobEmailTemplate = () => {
                         }}
                       />
                     }
-                    placeholder={<div style={{ color: '#999', position: 'absolute' }}>{t('Enter email body...')}</div>}
+                    placeholder={<div className="editor-placeholder">{t('Enter email body...')}</div>}
                     ErrorBoundary={LexicalErrorBoundary}
                   />
                 </Box>

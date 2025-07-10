@@ -34,6 +34,9 @@ export default defineConfig(({ mode }) => {
       __BUILD_TIMESTAMP__: JSON.stringify(process.env.BUILD_TIMESTAMP || "?"),
       global: {},
     },
+    esbuild: {
+      keepNames: true,
+    },
     plugins: [
       react(),
       createHtmlPlugin({
@@ -191,17 +194,18 @@ export default defineConfig(({ mode }) => {
       //     manualChunks: undefined,
       //   },
       // },
-      rollupOptions: {
-        output: {
-          manualChunks(id) {
-            if (id.includes('node_modules')) {
-              return id.toString().split('node_modules/')[1].split('/')[0];
-            }
-          }
-        }
-      },
+      // THESE ROLLUT OPTIONS DO BREAK EVERYTHING!
+      // rollupOptions: {
+      //   output: {
+      //     manualChunks(id) {
+      //       if (id.includes('node_modules')) {
+      //         return id.toString().split('node_modules/')[1].split('/')[0];
+      //       }
+      //     }
+      //   }
+      // },
       chunkSizeWarningLimit: 1536,
-      
+      sourcemap: true,
     },
     publicDir: publicDir,
     logLevel: "info",
@@ -210,8 +214,8 @@ export default defineConfig(({ mode }) => {
       globals: true,
       setupFiles: "./test/setup.js",
     },
-     resolve: {
-       alias: {
+    resolve: {
+      alias: {
         'mui-material-custom': path.resolve(__dirname, 'src/components/mui-material-custom'),
         setimmediate: 'setimmediate/setImmediate.js',
         buffer: 'buffer',

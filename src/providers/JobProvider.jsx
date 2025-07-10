@@ -10,46 +10,35 @@ export const JobProvider = ({ children }) => {
 
   // State for jobs array and current job index
   const [jobs, setJobs] = useState(initialJobsState.jobs);
-  const [currentJobIndex, setCurrentJobIndex] = useState(initialJobsState.currentJobIndex);
+  const [currentJobId, setCurrentJobId] = useState(initialJobsState.currentJobId);
   const [jobError, setJobError] = useState(null);
 
   // Refs for last saved state to avoid redundant writes
   const lastSavedStateRef = useRef({
     jobs: initialJobsState.jobs,
-    currentJobIndex: initialJobsState.currentJobIndex,
+    currentJobId: initialJobsState.currentJobId,
   });
 
   // Debounced save function ref
   const debouncedSaveRef = useRef(null);
 
   // Convenience getter for current job
-  const job = jobs[currentJobIndex] || initialJob;
+  const job = jobs.find(j => j.id === currentJobId) || initialJob;
 
-  // setJob updates the job at currentJobIndex or optionally at a passed index
-  // const setJob = useCallback(
-  //   (updatedJob, index = currentJobIndex) => {
-  //     setJobs((prevJobs) => {
-  //       const newJobs = [...prevJobs];
-  //       newJobs[index] = updatedJob;
-  //       return newJobs;
-  //     });
-  //   },
-  //   [currentJobIndex]
-  // );
   const setJob = useCallback(
-  (updatedJobOrUpdater, index = currentJobIndex) => {
+  (updatedJobOrUpdater, id = currentJobId) => {
     setJobs((prevJobs) => {
       const newJobs = [...prevJobs];
-      const prevJob = prevJobs[index];
+      const prevJob = prevJobs[id];
       const newJob =
         typeof updatedJobOrUpdater === "function"
           ? updatedJobOrUpdater(prevJob)
           : updatedJobOrUpdater;
-      newJobs[index] = newJob;
+      newJobs[id] = newJob;
       return newJobs;
     });
   },
-  [currentJobIndex]
+  [currentJobId]
 );
 
   // Initialize debounced save function when storage is ready
@@ -76,7 +65,7 @@ export const JobProvider = ({ children }) => {
     }
   }, [secureStorageStatus, secureStorageSet]);
 
-  // Load jobs and currentJobIndex on mount
+  // Load jobs data on mount
   useEffect(() => {
     if (secureStorageStatus.status === "ready") {
       (async () => {
@@ -87,11 +76,11 @@ export const JobProvider = ({ children }) => {
           if (
             savedState &&
             Array.isArray(savedState.jobs) &&
-            savedState.jobs.length > 0 &&
-            typeof savedState.currentJobIndex === "number"
+            savedState.jobs.length > 0 //&&
+            //typeof savedState.currentJobId === "number" // it should ALWAYS be a number
           ) {
             setJobs(savedState.jobs);
-            setCurrentJobIndex(savedState.currentJobIndex);
+            setCurrentJobId(savedState.currentJobId);
             lastSavedStateRef.current = savedState;
           } else {
             console.info("Jobs not set yet");
@@ -99,11 +88,13 @@ export const JobProvider = ({ children }) => {
           }
         } catch (err) {
           console.error("Failed to load jobs state from secure storage:", err);
-           setJobError({
+          setJobError({
             type: "store",
             message: err.message,
             code: err.code || null,
           });
+        } finally {
+          //setisJobHydrating(false);
         }
       })();
     }
@@ -112,12 +103,12 @@ export const JobProvider = ({ children }) => {
   // Save jobs state on change (debounced + deduplicated)
   useEffect(() => {
     if (secureStorageStatus.status === "ready") {
-      const newState = { jobs, currentJobIndex };
+      const newState = { jobs, currentJobId };
       if (!isEqual(newState, lastSavedStateRef.current)) {
         debouncedSaveRef.current(newState);
       }
     }
-  }, [jobs, currentJobIndex, secureStorageStatus]);
+  }, [jobs, currentJobId, secureStorageStatus]);
 
   // Set jobError when it becomes "error"
   useEffect(() => {
@@ -129,13 +120,14 @@ export const JobProvider = ({ children }) => {
           code: secureStorageStatus.code || null,
         });
       }
+      //setisJobHydrating(false); // stop hydration even on failure
     }
   }, [secureStorageStatus]);
   
   // Reset all jobs and current index to initial state
   const resetJobs = () => {
     setJobs(initialJobsState.jobs);
-    setCurrentJobIndex(initialJobsState.currentJobIndex);
+    setCurrentJobId(initialJobsState.currentJobId);
   };
 
   return (
@@ -143,8 +135,8 @@ export const JobProvider = ({ children }) => {
       value={{
         jobs,
         setJobs,
-        currentJobIndex,
-        setCurrentJobIndex,
+        currentJobId,
+        setCurrentJobId,
         job,
         setJob,
         resetJobs,

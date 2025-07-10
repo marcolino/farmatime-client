@@ -12,10 +12,6 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
 } from 'mui-material-custom';
 import {
   Edit as EditIcon,
@@ -35,7 +31,7 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $generateHtmlFromNodes } from '@lexical/html';
-import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND, $getRoot, $insertNodes, $createParagraphNode, $createTextNode } from 'lexical';
+import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND, COMMAND_PRIORITY_LOW, $getRoot, $insertNodes, $createParagraphNode } from 'lexical';
 import { $generateNodesFromDOM } from '@lexical/html';
 
 import { ContextualHelp } from './ContextualHelp';
@@ -45,164 +41,79 @@ import { JobContext } from '../providers/JobContext';
 import { AuthContext } from '../providers/AuthContext';
 import { variablesExpand, variableTokens } from './JobEmailTemplateVariables';
 
-// Text snippets to insert
-const INSERTABLE_TEXTS = [ // TODO: get it from variableTokens
-  { value: '[NAME OF THE DOCTOR]', label: '[NAME OF THE DOCTOR]' },
-  { value: '[DATE]', label: 'Current Date' },
-  { value: '[COMPANY_NAME]', label: 'Company Name' },
-  { value: '\n\nBest regards,\n', label: 'Closing' },
-];
-
 // Lexical Editor Configuration
+// const editorConfig = {
+//   namespace: 'JobEmailEditor',
+//   theme: {
+//     text: {
+//       bold: 'editor-text-bold',
+//       italic: 'editor-text-italic',
+//       underline: 'editor-text-underline',
+//     },
+//   },
+//   onError: (error) => {
+//     console.error(error);
+//   },
+// };
+
+// const editorConfig = {
+//   namespace: 'JobEmailEditor',
+//   theme: {
+//     text: {
+//       underline: 'underline-text', // This class will be applied to underlined text
+//     },
+//   },
+//   onError: (error) => console.error(error),
+// };
+
 const editorConfig = {
   namespace: 'JobEmailEditor',
   theme: {
     text: {
-      bold: 'editor-text-bold',
-      italic: 'editor-text-italic',
       underline: 'editor-text-underline',
     },
   },
-  onError: (error) => {
-    console.error(error);
-  },
+  onError: (error) => console.error(error),
 };
 
-// Toolbar Component with Text Insertion Select
+// Toolbar Component
 const ToolbarPlugin = () => {
-  const { t } = useTranslation();
   const [editor] = useLexicalComposerContext();
-  const [activeFormats, setActiveFormats] = useState({
-    bold: false,
-    italic: false,
-    underline: false,
-  });
-  const [selectedText, setSelectedText] = useState('');
+  const [isUnderline, setIsUnderline] = useState(false);
 
   const updateToolbar = useCallback(() => {
     editor.getEditorState().read(() => {
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
-        setActiveFormats({
-          bold: selection.hasFormat('bold'),
-          italic: selection.hasFormat('italic'),
-          underline: selection.hasFormat('underline'),
-        });
+        setIsUnderline(selection.hasFormat('underline'));
       }
     });
   }, [editor]);
 
-  const applyFormat = (format) => {
-    editor.dispatchCommand(FORMAT_TEXT_COMMAND, format);
-  };
-
-  const handleTextInsert = (text) => {
-    if (!text) return;
-    
-    editor.update(() => {
-      const selection = $getSelection();
-      
-      if ($isRangeSelection(selection)) {
-        const textNode = $createTextNode(text);
-        selection.insertNodes([textNode]);
-        selection.insertText('');
-      } else {
-        const root = $getRoot();
-        const paragraph = $createParagraphNode();
-        paragraph.append($createTextNode(text));
-        root.append(paragraph);
-      }
-    });
-    
-    setSelectedText('');
-  };
-
   useEffect(() => {
     return editor.registerUpdateListener(({ editorState }) => {
-      editorState.read(() => {
-        updateToolbar();
-      });
+      editorState.read(() => updateToolbar());
     });
   }, [editor, updateToolbar]);
 
-  return (
-    <Box sx={{
-      display: 'flex',
-      gap: 1,
-      p: 1,
-      borderBottom: '1px solid #ccc',
-      bgcolor: '#f5f5f5',
-      alignItems: 'center',
-    }}>
-      <Button
-        variant={activeFormats.bold ? 'contained' : 'outlined'}
-        size="small"
-        onClick={() => applyFormat('bold')}
-        sx={{ minWidth: 'auto', px: 1 }}
-      >
-        <FormatBoldIcon fontSize="small" />
-      </Button>
-      <Button
-        variant={activeFormats.italic ? 'contained' : 'outlined'}
-        size="small"
-        onClick={() => applyFormat('italic')}
-        sx={{ minWidth: 'auto', px: 1 }}
-      >
-        <FormatItalicIcon fontSize="small" />
-      </Button>
-      <Button
-        variant={activeFormats.underline ? 'contained' : 'outlined'}
-        size="small"
-        onClick={() => applyFormat('underline')}
-        sx={{ minWidth: 'auto', px: 1 }}
-      >
-        <FormatUnderlinedIcon fontSize="small" />
-      </Button>
+  const applyUnderline = useCallback(() => {
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
+  }, [editor]);
 
-      <FormControl size="small" sx={{ minWidth: 140, ml: 1 }}>
-        <InputLabel 
-          sx={{
-            // Position when closed (matches dropdown icon)
-            transform: 'translateY(-50%) scale(0.9)',
-            top: '50%',
-            left: 10,
-            // Position when open (floats above)
-            '&.MuiInputLabel-shrink': {
-              transform: 'translate(14px, -9px) scale(0.75)',
-              top: 0,
-              left: 0,
-            }
-          }}
-        >
-          {t('variables')}
-        </InputLabel>
-        <Select
-          value={selectedText}
-          onChange={(e) => handleTextInsert(e.target.value)}
-          label={t('variables')}
-          sx={{
-            height: 32,
-            '& .MuiSelect-select': {
-              py: 1,
-              px: 1.5,
-              display: 'flex',
-              alignItems: 'center'
-            },
-            // ... rest of your select styles
-          }}
-        >
-          <MenuItem value="" disabled><em>{t('select a variable to insert in the message...')}</em></MenuItem>
-          {console.log("variableTokens:", variableTokens)}
-          {Object.keys(variableTokens).map((token, index) => (
-            <MenuItem key={index} value={token}>
-              {token}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </Box>
+  return (
+    <Button
+      variant={isUnderline ? 'contained' : 'outlined'}
+      size="small"
+      onClick={applyUnderline}
+      sx={{ minWidth: 'auto', px: 1 }}
+    >
+      <FormatUnderlinedIcon fontSize="small" />
+    </Button>
   );
 };
+
+
+
 
 // Initial HTML Plugin
 const InitialHtmlPlugin = ({ initialHtml }) => {
@@ -304,7 +215,6 @@ const JobEmailTemplate = () => {
   const [subject, setSubject] = useState(job?.emailTemplate?.subject || '');
   const [editorHtml, setEditorHtml] = useState(job?.emailTemplate?.body || '');
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [textToInsert, setTextToInsert] = useState(null);
 
   const handleEditorChange = useCallback((editorState, editor) => {
     editorState.read(() => {
@@ -314,7 +224,7 @@ const JobEmailTemplate = () => {
   }, []);
 
   const insertToken = (token) => {
-    setTextToInsert(token);
+    setEditorHtml((prev) => prev + token);
   };
 
   const handleConfirm = () => {
@@ -356,53 +266,37 @@ const JobEmailTemplate = () => {
             </ContextualHelp>
           </Box>
     
-          {/* <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
+          <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
             <Box mt={4} label={t('Variables')}>
               {Object.keys(variableTokens).map((token) => (
                 <Chip
                   key={token}
                   label={t(token)}
-                  onClick={() => insertToken(variableTokens[token])}
+                  onClick={() => insertToken(token)}
                   sx={{ mr: 1, mb: 1 }}
                 />
               ))}
             </Box>
-          </ContextualHelp> */}
+          </ContextualHelp>
 
           <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
             <Box mt={2} label={t('Email body')}>
               <LexicalComposer initialConfig={editorConfig}>
+                <UnderlinePlugin />
                 <ToolbarPlugin />
-                <InitialHtmlPlugin initialHtml={job?.emailTemplate?.body} />
-                {textToInsert && (
-                  <TextInsertionPlugin textToInsert={textToInsert} />
-                )}
-                
-                <Box sx={{ 
-                  p: 2, 
-                  minHeight: 200, 
-                  border: '1px solid #eee',
-                  '& .editor-text-bold': { fontWeight: 'bold' },
-                  '& .editor-text-italic': { fontStyle: 'italic' },
-                  '& .editor-text-underline': { textDecoration: 'underline' },
-                }}>
-                  <RichTextPlugin
-                    contentEditable={
-                      <ContentEditable
-                        className="editor-input"
-                        aria-placeholder={t('Enter email body...')}
-                        style={{
-                          outline: 'none',
-                          minHeight: '150px',
-                          padding: '8px',
-                        }}
-                      />
-                    }
-                    placeholder={<div style={{ color: '#999', position: 'absolute' }}>{t('Enter email body...')}</div>}
-                    ErrorBoundary={LexicalErrorBoundary}
-                  />
-                </Box>
-                
+                <RichTextPlugin
+                  contentEditable={
+                    <Box sx={{
+                      '& .editor-text-underline': {
+                        textDecoration: 'underline',
+                      },
+                    }}>
+                      <ContentEditable className="editor-input" />
+                    </Box>
+                  }
+                  placeholder={null}
+                  ErrorBoundary={LexicalErrorBoundary}
+                />
                 <HistoryPlugin />
                 <OnChangePlugin onChange={handleEditorChange} />
               </LexicalComposer>
@@ -432,5 +326,51 @@ const JobEmailTemplate = () => {
     </Container>
   );
 };
+
+
+// function TextFormattingPlugin() {
+//   const [editor] = useLexicalComposerContext();
+
+//   useEffect(() => {
+//     return editor.registerCommand(
+//       REGISTER_FORMAT_COMMAND,
+//       (payload) => {
+//         if (payload === 'underline') {
+//           return true; // Handle underline format
+//         }
+//         return false;
+//       },
+//       0
+//     );
+//   }, [editor]);
+
+//   return null;
+// }
+
+function UnderlinePlugin() {
+  const [editor] = useLexicalComposerContext();
+
+  useEffect(() => {
+    return editor.registerCommand(
+      FORMAT_TEXT_COMMAND,
+      (payload) => {
+        if (payload === 'underline') {
+          // Force update the editor state
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              selection.formatText('underline');
+            }
+          });
+          return true;
+        }
+        return false;
+      },
+      COMMAND_PRIORITY_LOW
+    );
+  }, [editor]);
+
+  return null;
+}
 
 export default JobEmailTemplate;

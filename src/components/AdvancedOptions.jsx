@@ -163,6 +163,10 @@ const AdvancedOptions = () => {
           <Box key={section} sx={{ mt: idx === 0 ? 3 : 5 }}>
             <StyledPaper>
               <StyledBox sx={{
+                ...(section === "Administration" && {
+                  backgroundColor: 'gold',
+                  color: theme.palette.common.white,
+                }),
                 ...(section === "Danger Zone" && {
                   backgroundColor: 'error.main',
                   color: theme.palette.common.white,

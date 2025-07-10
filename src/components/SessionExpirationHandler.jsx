@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DialogConfirm from "./DialogConfirm";
 import { AuthContext } from "../providers/AuthContext";
@@ -11,27 +11,43 @@ const SessionExpirationHandler = ({ children }) => {
   const pendingRequests = useRef([]);
   const isHandlingExpiration = useRef(false);
   const isSigningOut = useRef(false);
-  const navigate = useNavigate();
 
-  React.useEffect(() => {
+  const navigate = useNavigate();
+  const navigateRef = useRef(navigate);
+
+  // Keep navigateRef updated if navigate changes (unlikely but safe)
+  useEffect(() => {
+    navigateRef.current = navigate;
+  }, [navigate]);
+
+  // Helper to reject all pending requests without error message (to avoid snackbar)
+  const rejectPendingRequests = () => {
+    pendingRequests.current.forEach((request) => {
+      request.reject(new Error("")); // suppress error message
+    });
+    pendingRequests.current = [];
+  };
+
+  useEffect(() => {
     const interceptor = instance.interceptors.response.use(
       (response) => response,
       async (error) => {
         const { response } = error;
 
         if (response?.status === 401) {
-          // if we're in the process of signing out, suppress all 401 errors
           if (isSigningOut.current) {
-            return new Promise(() => {}); // Swallow the error
+            // If signing out, swallow all 401 errors silently
+            return new Promise(() => {});
           }
 
           const errorCode = response?.data?.code;
 
           if (errorCode === "EXPIRED_TOKEN") {
+            // Create a deferred Promise for the failed request
             const deferredRequest = new Promise((_, reject) => {
               pendingRequests.current.push({
                 config: error.config,
-                reject
+                reject,
               });
             });
 
@@ -42,9 +58,10 @@ const SessionExpirationHandler = ({ children }) => {
 
             return deferredRequest;
           }
-          
+
           return Promise.reject(error);
         }
+
         return Promise.reject(error);
       }
     );
@@ -55,26 +72,25 @@ const SessionExpirationHandler = ({ children }) => {
     };
   }, []);
 
-  const rejectPendingRequests = () => {
-    pendingRequests.current.forEach(request => {
-      //request.reject(new Error(i18n.t("Session expired")));
-      request.reject(new Error("")); // we already show dialog, do not reject with an error message (which causes a snackbar...)
-    });
-    pendingRequests.current = [];
-  };
-
+  // Called when user confirms to sign in again
   const handleSignIn = () => {
     setShowDialog(false);
     isHandlingExpiration.current = false;
     rejectPendingRequests();
-    navigate("/signin", { 
-      state: { 
-        returnUrl: window.location.pathname,
-        expired: true,
-      } 
-    });
+
+    // Use navigateRef.current to ensure Router context
+    const nav = navigateRef.current;
+    if (nav) {
+      nav("/signin", {
+        state: {
+          returnUrl: window.location.pathname,
+          expired: true,
+        },
+      });
+    }
   };
 
+  // Called when user cancels (sign out)
   const handleCancel = async () => {
     setShowDialog(false);
     isHandlingExpiration.current = false;
@@ -96,7 +112,11 @@ const SessionExpirationHandler = ({ children }) => {
         onCancel={handleCancel}
         onConfirm={handleSignIn}
         title={i18n.t("Session Expired")}
-        message={i18n.t("Your session has expired") + ". " + i18n.t("Would you like to sign in again to continue?")}
+        message={
+          i18n.t("Your session has expired") +
+          ". " +
+          i18n.t("Would you like to sign in again to continue?")
+        }
         confirmText={i18n.t("Sign In")}
         cancelText={i18n.t("Cancel")}
       />

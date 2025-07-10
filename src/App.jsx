@@ -63,6 +63,10 @@ const AppStructure = () => {
 
   return (
     <ThemeProvider theme={theme}>
+                    {/* <Router future={{ /* avoid v7 start transition warnings * / 
+                      v7_startTransition: true,
+                      v7_relativeSplatPath: true,
+                    }}> */}
       <CartProvider>
         <DialogProvider>
           <SnackbarProviderWrapper>
@@ -73,11 +77,11 @@ const AppStructure = () => {
                   <CssBaseline />
                   <LoaderProvider>
                     <Loader loading={loading} />
-                    <Router future={{ /* avoid v7 start transition warnings */ 
+                    {/* <Router future={{ /* avoid v7 start transition warnings * / 
                       v7_startTransition: true,
                       v7_relativeSplatPath: true,
-                    }}>
-                      <SessionExpirationHandler>
+                    }}> */}
+                      {/* <SessionExpirationHandler> */}
                         {/* <BackgroundVideo /> */}
                         <SessionProvider />
                         <JobProvider>
@@ -87,8 +91,7 @@ const AppStructure = () => {
                             <Routing />
                           </Contents>
                         </JobProvider>
-                      </SessionExpirationHandler>
-                    </Router>
+                      {/* </SessionExpirationHandler> */}
                   </LoaderProvider>
                 </MediaQueryProvider>
               </OnlineStatusProvider>
@@ -96,6 +99,7 @@ const AppStructure = () => {
           </SnackbarProviderWrapper>
         </DialogProvider>
       </CartProvider>
+                    {/* </Router> */}
     </ThemeProvider>
   );
 };

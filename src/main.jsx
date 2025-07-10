@@ -1,5 +1,6 @@
 //import { React } from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import { setupCustomConsole } from "./libs/Misc";
 import config from "./config";
@@ -16,5 +17,12 @@ console.log(
 );
 
 createRoot(document.getElementById("root")).render(
-  <App />
+  <BrowserRouter
+    future={{ /* avoid v7 start transition warnings */ 
+      v7_startTransition: true,
+      v7_relativeSplatPath: true,
+    }}
+  >
+    <App />
+  </BrowserRouter>
 );

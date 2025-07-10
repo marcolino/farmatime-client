@@ -53,9 +53,9 @@ const SectionHeader = ({
 };
 */
 
-export const SectionHeader1 = ({
+export function SectionHeader1({
   ...props
-}) => {
+}) {
   return (
     <Paper 
       elevation={2} 
@@ -71,4 +71,4 @@ export const SectionHeader1 = ({
       </Typography>
     </Paper>
   );
-};
+}

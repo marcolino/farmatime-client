@@ -44,7 +44,7 @@ const JobFlow = () => {
   const steps = [
     { id: 0, label: isMobile ? t('Patient & Doctor') : t('Patient & Doctor Info') },
     { id: 1, label: t('Medicines') },
-    //{ id: 2, label: t('Email Template') }, // TODO: remove this step from main steps, it is moved to advanced options
+    //{ id: 2, label: t('Email Template') }, // TODO: remove this step from main steps, it is moved to advanced tools
     { id: 2, label: t('Confirmation') }
   ];
   const maxSteps = steps.length;
@@ -224,16 +224,16 @@ const JobFlow = () => {
     const forTheMedicines = t("for each of the {{num}} medicines", { num: job.medicines.length });
     showDialog({
       title:
-        <>
+        <Box>
           <Typography variant="h4" align="center" color="primary" sx={{ fontWeight: "bold", mt: 2 }}>
             {t("Well done!")}
           </Typography>
           <Typography variant="h2" align="center" sx={{ mt: 3 }}>
             🏁
           </Typography>
-        </>,
+        </Box>,
       message:
-        <>
+        <Box>
           <Typography variant="body2" sx={{ mt: 3}}>
             {t("\
 You have completed the setup for this activity: {{oneOrMany}} you configured, \
@@ -246,7 +246,7 @@ just in time when the medicine is needed.",
             {t("\
 Now, you will be able to see the activity in your activity list, where you can manage it by suspending, editing, or deleting it.")}
           </Typography>
-        </>,
+        </Box>,
       confirmText: t("Ok"),
       onConfirm: () => {
         navigate('/jobs-handle');
@@ -306,6 +306,7 @@ Now, you will be able to see the activity in your activity list, where you can m
     }
   };
 
+  console.log("JOB:", job);
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <SectionHeader1>

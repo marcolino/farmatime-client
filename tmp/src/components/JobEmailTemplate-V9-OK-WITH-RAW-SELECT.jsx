@@ -47,7 +47,7 @@ import { variablesExpand, variableTokens } from './JobEmailTemplateVariables';
 
 // Text snippets to insert
 const INSERTABLE_TEXTS = [ // TODO: get it from variableTokens
-  { value: '[NAME OF THE DOCTOR]', label: '[NAME OF THE DOCTOR]' },
+  { value: '[SIGNATURE]', label: 'Signature' },
   { value: '[DATE]', label: 'Current Date' },
   { value: '[COMPANY_NAME]', label: 'Company Name' },
   { value: '\n\nBest regards,\n', label: 'Closing' },
@@ -159,43 +159,18 @@ const ToolbarPlugin = () => {
         <FormatUnderlinedIcon fontSize="small" />
       </Button>
 
-      <FormControl size="small" sx={{ minWidth: 140, ml: 1 }}>
-        <InputLabel 
-          sx={{
-            // Position when closed (matches dropdown icon)
-            transform: 'translateY(-50%) scale(0.9)',
-            top: '50%',
-            left: 10,
-            // Position when open (floats above)
-            '&.MuiInputLabel-shrink': {
-              transform: 'translate(14px, -9px) scale(0.75)',
-              top: 0,
-              left: 0,
-            }
-          }}
-        >
-          {t('variables')}
-        </InputLabel>
+      <FormControl size="small" sx={{ minWidth: 120, ml: 1 }}>
+        <InputLabel>{t('variables')}</InputLabel>
         <Select
           value={selectedText}
           onChange={(e) => handleTextInsert(e.target.value)}
-          label={t('variables')}
-          sx={{
-            height: 32,
-            '& .MuiSelect-select': {
-              py: 1,
-              px: 1.5,
-              display: 'flex',
-              alignItems: 'center'
-            },
-            // ... rest of your select styles
-          }}
+          label="Insert Text"
+          sx={{ height: 30 }}
         >
           <MenuItem value="" disabled><em>{t('select a variable to insert in the message...')}</em></MenuItem>
-          {console.log("variableTokens:", variableTokens)}
-          {Object.keys(variableTokens).map((token, index) => (
-            <MenuItem key={index} value={token}>
-              {token}
+          {INSERTABLE_TEXTS.map((item) => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.label}
             </MenuItem>
           ))}
         </Select>
@@ -356,7 +331,7 @@ const JobEmailTemplate = () => {
             </ContextualHelp>
           </Box>
     
-          {/* <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
+          <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
             <Box mt={4} label={t('Variables')}>
               {Object.keys(variableTokens).map((token) => (
                 <Chip
@@ -367,7 +342,7 @@ const JobEmailTemplate = () => {
                 />
               ))}
             </Box>
-          </ContextualHelp> */}
+          </ContextualHelp>
 
           <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
             <Box mt={2} label={t('Email body')}>

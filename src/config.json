@@ -3,13 +3,13 @@
   "customization": null,
   "mode": {
     "production": false,
-    "staging": true,
-    "development": false,
+    "staging": false,
+    "development": true,
     "test": false
   },
   "name": "medicare",
-  "title": "MEDICARE",
-  "siteUrl": "https://medicare-staging.fly.dev",
+  "title": "MediCare",
+  "siteUrl": "http://localhost:5000",
   "company": {
     "name": "Sistemi Solari Rossi s.r.l.",
     "title": "Sistemi Solari Rossi",
@@ -19,7 +19,7 @@
     "copyright": "© 2025 Sistemi Solari Rossi. All rights reserved.",
     "homeSite": {
       "name": "sistemisolarirossi.it",
-      "url": "https://medicare-staging.fly.dev"
+      "url": "http://localhost:5000"
     },
     "owner": {
       "name": "Marco Solari",
@@ -199,8 +199,8 @@
       ]
     },
     "responseType": "code",
-    "redirectSignIn": "https://medicare-staging.fly.dev",
-    "redirectSignOut": "https://medicare-staging.fly.dev",
+    "redirectSignIn": "http://localhost:5000",
+    "redirectSignOut": "http://localhost:5000",
     "federatedSigninProviders": [
       "Google",
       "Facebook"
@@ -239,35 +239,35 @@
     "themeColor": "#4e4f4c",
     "cacheControl": "mag-age=1440",
     "og": {
-      "title": "MEDICARE",
+      "title": "MediCare",
       "description": "A powerful web app, easily customizable",
-      "url": "https://medicare-staging.fly.dev",
+      "url": "http://localhost:5000",
       "type": "website",
       "image": {
-        "url": "https://medicare-staging.fly.dev/apple-touch-icon.png",
-        "alt": "MEDICARE logo image"
+        "url": "http://localhost:5000/apple-touch-icon.png",
+        "alt": "MediCare logo image"
       },
       "locale": "it",
-      "site_name": "MEDICARE"
+      "site_name": "MediCare"
     },
     "twitter": {
-      "card": "https://medicare-staging.fly.dev/apple-touch-icon.png",
-      "title": "MEDICARE",
+      "card": "http://localhost:5000/apple-touch-icon.png",
+      "title": "MediCare",
       "description": "A powerful web app, easily customizable",
-      "image": "https://medicare-staging.fly.dev/favicon-64x64.png"
+      "image": "http://localhost:5000/favicon-64x64.png"
     },
     "apple": {
       "mobileWebAppCapable": "yes",
       "mobileWebAppStatusBarStyle": "black-translucent",
-      "mobileWebAppTitle": "MEDICARE"
+      "mobileWebAppTitle": "MediCare"
     },
     "ms": {
       "themeColor": "#4e4f4c",
-      "tileImage": "https://medicare-staging.fly.dev/ms-tile.png"
+      "tileImage": "http://localhost:5000/ms-tile.png"
     },
-    "canonicalUrl": "https://medicare-staging.fly.dev",
+    "canonicalUrl": "http://localhost:5000",
     "fontFamily": "Open+Sans:wght@400;600;700",
     "fontDisplayMode": "block",
-    "title": "MEDICARE"
+    "title": "MediCare"
   }
 }

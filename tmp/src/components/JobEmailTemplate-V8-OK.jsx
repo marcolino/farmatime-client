@@ -12,10 +12,6 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
 } from 'mui-material-custom';
 import {
   Edit as EditIcon,
@@ -45,14 +41,6 @@ import { JobContext } from '../providers/JobContext';
 import { AuthContext } from '../providers/AuthContext';
 import { variablesExpand, variableTokens } from './JobEmailTemplateVariables';
 
-// Text snippets to insert
-const INSERTABLE_TEXTS = [ // TODO: get it from variableTokens
-  { value: '[NAME OF THE DOCTOR]', label: '[NAME OF THE DOCTOR]' },
-  { value: '[DATE]', label: 'Current Date' },
-  { value: '[COMPANY_NAME]', label: 'Company Name' },
-  { value: '\n\nBest regards,\n', label: 'Closing' },
-];
-
 // Lexical Editor Configuration
 const editorConfig = {
   namespace: 'JobEmailEditor',
@@ -68,16 +56,44 @@ const editorConfig = {
   },
 };
 
-// Toolbar Component with Text Insertion Select
+// Text Insertion Component
+const TextInsertionPlugin = ({ textToInsert }) => {
+  const [editor] = useLexicalComposerContext();
+
+  useEffect(() => {
+    if (!textToInsert) return;
+
+    editor.update(() => {
+      const selection = $getSelection();
+      
+      if ($isRangeSelection(selection)) {
+        // Insert at current caret position
+        const textNode = $createTextNode(textToInsert);
+        selection.insertNodes([textNode]);
+        
+        // Move cursor to end of inserted text
+        selection.insertText('');
+      } else {
+        // Fallback: append at end if no selection
+        const root = $getRoot();
+        const paragraph = $createParagraphNode();
+        paragraph.append($createTextNode(textToInsert));
+        root.append(paragraph);
+      }
+    });
+  }, [textToInsert, editor]);
+
+  return null;
+};
+
+// Toolbar Component
 const ToolbarPlugin = () => {
-  const { t } = useTranslation();
   const [editor] = useLexicalComposerContext();
   const [activeFormats, setActiveFormats] = useState({
     bold: false,
     italic: false,
     underline: false,
   });
-  const [selectedText, setSelectedText] = useState('');
 
   const updateToolbar = useCallback(() => {
     editor.getEditorState().read(() => {
@@ -92,31 +108,6 @@ const ToolbarPlugin = () => {
     });
   }, [editor]);
 
-  const applyFormat = (format) => {
-    editor.dispatchCommand(FORMAT_TEXT_COMMAND, format);
-  };
-
-  const handleTextInsert = (text) => {
-    if (!text) return;
-    
-    editor.update(() => {
-      const selection = $getSelection();
-      
-      if ($isRangeSelection(selection)) {
-        const textNode = $createTextNode(text);
-        selection.insertNodes([textNode]);
-        selection.insertText('');
-      } else {
-        const root = $getRoot();
-        const paragraph = $createParagraphNode();
-        paragraph.append($createTextNode(text));
-        root.append(paragraph);
-      }
-    });
-    
-    setSelectedText('');
-  };
-
   useEffect(() => {
     return editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
@@ -125,14 +116,17 @@ const ToolbarPlugin = () => {
     });
   }, [editor, updateToolbar]);
 
+  const applyFormat = (format) => {
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, format);
+  };
+
   return (
     <Box sx={{
       display: 'flex',
       gap: 1,
       p: 1,
       borderBottom: '1px solid #ccc',
-      bgcolor: '#f5f5f5',
-      alignItems: 'center',
+      bgcolor: '#f5f5f5'
     }}>
       <Button
         variant={activeFormats.bold ? 'contained' : 'outlined'}
@@ -158,48 +152,6 @@ const ToolbarPlugin = () => {
       >
         <FormatUnderlinedIcon fontSize="small" />
       </Button>
-
-      <FormControl size="small" sx={{ minWidth: 140, ml: 1 }}>
-        <InputLabel 
-          sx={{
-            // Position when closed (matches dropdown icon)
-            transform: 'translateY(-50%) scale(0.9)',
-            top: '50%',
-            left: 10,
-            // Position when open (floats above)
-            '&.MuiInputLabel-shrink': {
-              transform: 'translate(14px, -9px) scale(0.75)',
-              top: 0,
-              left: 0,
-            }
-          }}
-        >
-          {t('variables')}
-        </InputLabel>
-        <Select
-          value={selectedText}
-          onChange={(e) => handleTextInsert(e.target.value)}
-          label={t('variables')}
-          sx={{
-            height: 32,
-            '& .MuiSelect-select': {
-              py: 1,
-              px: 1.5,
-              display: 'flex',
-              alignItems: 'center'
-            },
-            // ... rest of your select styles
-          }}
-        >
-          <MenuItem value="" disabled><em>{t('select a variable to insert in the message...')}</em></MenuItem>
-          {console.log("variableTokens:", variableTokens)}
-          {Object.keys(variableTokens).map((token, index) => (
-            <MenuItem key={index} value={token}>
-              {token}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
     </Box>
   );
 };
@@ -314,7 +266,7 @@ const JobEmailTemplate = () => {
   }, []);
 
   const insertToken = (token) => {
-    setTextToInsert(token);
+    setTextToInsert(token.name);
   };
 
   const handleConfirm = () => {
@@ -356,7 +308,7 @@ const JobEmailTemplate = () => {
             </ContextualHelp>
           </Box>
     
-          {/* <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
+          <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
             <Box mt={4} label={t('Variables')}>
               {Object.keys(variableTokens).map((token) => (
                 <Chip
@@ -367,16 +319,14 @@ const JobEmailTemplate = () => {
                 />
               ))}
             </Box>
-          </ContextualHelp> */}
+          </ContextualHelp>
 
           <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
             <Box mt={2} label={t('Email body')}>
               <LexicalComposer initialConfig={editorConfig}>
                 <ToolbarPlugin />
                 <InitialHtmlPlugin initialHtml={job?.emailTemplate?.body} />
-                {textToInsert && (
-                  <TextInsertionPlugin textToInsert={textToInsert} />
-                )}
+                <TextInsertionPlugin textToInsert={textToInsert} />
                 
                 <Box sx={{ 
                   p: 2, 

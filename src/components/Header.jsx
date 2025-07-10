@@ -115,7 +115,7 @@ const Header = ({ theme, toggleTheme }) => {
           href: `/edit-user/${auth?.user?.id}/editProfile`,
         },
         {
-          label: t("Advanced Options"),
+          label: t("Advanced Tools"),
           icon: <SettingsSuggest />,
           href: false,
           onClick: () => handleAdvancedOptions(),
@@ -210,7 +210,10 @@ const Header = ({ theme, toggleTheme }) => {
           href="/"
           display="flex"
           alignItems="center"
-          sx={{ textDecoration: "none" }}
+          sx={{
+            //textDecoration: "none",
+            alignItems: 'center', // Vertically centers the child
+           }}
         >
           <Box
             component="img"
@@ -219,7 +222,6 @@ const Header = ({ theme, toggleTheme }) => {
             sx={{
               width: 72,
               height: "auto", // let browser calculate height proportionally
-              //my: 1,
               mr: 2,
               borderRadius: 2,
               display: "block" // remove inline spacing
@@ -230,7 +232,7 @@ const Header = ({ theme, toggleTheme }) => {
             src={logoMainText}
             alt="Main text logo"
             sx={{
-              width: { xs: 120, sm: 150 },
+              width: { xs: 100, sm: 150 },
               height: "auto", // let browser calculate height proportionally
               mr: 2,
               //borderRadius: 2,
@@ -264,15 +266,17 @@ const Header = ({ theme, toggleTheme }) => {
                 }
               </IconButton>
             )}
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={toggleDrawer(true)}
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
+            {(sections.length > 0) && (
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={toggleDrawer(true)}
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
           </>
         :
           <Box sx={{ display: "flex", alignItems: "center" }}>

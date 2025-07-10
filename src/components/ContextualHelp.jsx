@@ -150,11 +150,6 @@ export function ContextualHelpWrapper({
       content: (
         <>
           <p>{t('Edit the email subject...')}.</p>
-          <p>
-            {
-              t('Use variables...')
-            }
-          </p>
         </>
       ),
     },
