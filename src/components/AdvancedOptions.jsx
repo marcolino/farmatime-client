@@ -22,6 +22,9 @@ import {
 } from "@mui/icons-material";
 import { AuthContext } from "../providers/AuthContext";
 import { useDialog } from "../providers/DialogContext";
+import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { cancelAllRequests } from "../middlewares/Interceptors";
+import { apiCall } from "../libs/Network";
 import { isAdmin } from "../libs/Validation";
 import { StyledPaper, StyledBox } from './JobStyles';
 import { SectionHeader1, useTheme } from 'mui-material-custom';
@@ -29,7 +32,8 @@ import packageJson from "../../package.json";
 
 const AdvancedOptions = () => {
   const navigate = useNavigate();
-  const { auth } = useContext(AuthContext);
+  const { auth, signOut } = useContext(AuthContext);
+  const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
   const theme = useTheme();
   const { showDialog } = useDialog();
@@ -41,7 +45,7 @@ const AdvancedOptions = () => {
         label: t("Users Handling"),
         subtitle: t("Manage users"),
         icon: <ProfileIcon fontSize="large" />,
-        action: "/handle-users"
+        action: "/handle-users",
       },
     ],
     System: [
@@ -49,19 +53,19 @@ const AdvancedOptions = () => {
         label: t("Export Data"),
         subtitle: t("Export your jobs data to QCode"),
         icon: <DownloadIcon fontSize="large" />,
-        action: "/job-data-export"
+        action: "/job-data-export",
       },
       {
         label: t("Import Data"),
         subtitle: t("Import job data from QRCode"),
         icon: <UploadIcon fontSize="large" />,
-        action: "/job-data-import"
+        action: "/job-data-import",
       },
       {
         label: t("Edit Email Template"),
         subtitle: t("Modify the default email template to be sent to the doctor"),
         icon: <DraftsIcon fontSize="large" />,
-        action: "/job-email-template-edit"
+        action: "/job-email-template-edit",
       },
       {
         label: t("About"),
@@ -75,13 +79,13 @@ const AdvancedOptions = () => {
     //     label: t("User Profile"),
     //     subtitle: t("Manage your personal information"),
     //     icon: <ProfileIcon fontSize="large" />,
-    //     action: "/profile"
+    //     action: "/profile",
     //   },
     //   {
     //     label: t("Change Theme"),
     //     subtitle: t("Switch between light and dark modes"),
     //     icon: <ThemeIcon fontSize="large" />,
-    //     action: "/theme"
+    //     action: "/theme",
     //   }
     // ],
     // Other: [
@@ -89,7 +93,7 @@ const AdvancedOptions = () => {
     //     label: t("Info About App"),
     //     subtitle: t("Learn more about this application"),
     //     icon: <InfoIcon fontSize="large" />,
-    //     action: "/about"
+    //     action: "/about",
     //   }
     // ],
     "Danger Zone": [
@@ -97,13 +101,13 @@ const AdvancedOptions = () => {
         label: t("Remove All Jobs Data"),
         subtitle: t("Permanently delete all your jobs data"),
         icon: <DeleteIcon fontSize="large" sx={{ color: "error.main" }} />,
-        action: "/job-data-remove"
+        action: "/job-data-remove",
       },
       {
         label: t("Completely Remove Your Account"),
         subtitle: t("Delete your account and all associated data"),
         icon: <PersonOffIcon fontSize="large" sx={{ color: "error.main" }} />,
-        action: "/account-remove"
+        action: () => revoke(),
       }
     ]
   };
@@ -148,6 +152,31 @@ const AdvancedOptions = () => {
       confirmText: t("Ok"),
     })
   };
+
+  const revoke = async () => {
+    if (auth.user) {
+      const result = await apiCall("post", "/auth/revoke", { userId: auth.user._id });
+      console.log("*** revoke user result:", result);
+      if (result.err) {
+        showSnackbar(result.message, "error");
+        console.error("revoke user error:", result);
+      } else {
+        showSnackbar("Account revoked", "info");
+        let ok;
+        try {
+          //cancelAllRequests(); // cancel all ongoing requests, to avoid "You must be authenticated for this action" warnings
+          ok = await signOut();
+          console.log("signout result:", ok);
+        } catch (err) {
+          console.error("signout error:", err);
+        }
+        navigate("/", { replace: true });
+        showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
+      }
+    } else {
+      showSnackbar("Cannot revoke a not authenticated user", "warning");
+    }
+  }
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>

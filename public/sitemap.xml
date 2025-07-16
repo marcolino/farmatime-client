@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://medicare-staging.fly.dev/</loc>
-    <lastmod>2025-07-01</lastmod>
+    <lastmod>2025-07-11</lastmod>
   </url>
   <url>
     <loc>https://medicare-staging.fly.dev/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
@@ -118,11 +118,19 @@
   </url>
   <url>
     <loc>https://medicare-staging.fly.dev/advanced-options</loc>
-    <lastmod>2025-07-08</lastmod>
+    <lastmod>2025-07-09</lastmod>
   </url>
   <url>
     <loc>https://medicare-staging.fly.dev/jobs-handle</loc>
-    <lastmod>2025-07-02</lastmod>
+    <lastmod>2025-07-11</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/job</loc>
+    <lastmod>2025-07-11</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-staging.fly.dev/job-new</loc>
+    <lastmod>2025-07-11</lastmod>
   </url>
   <url>
     <loc>https://medicare-staging.fly.dev/job-email-template-edit</loc>

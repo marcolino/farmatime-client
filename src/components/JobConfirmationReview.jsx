@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Container,
@@ -94,8 +94,8 @@ const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
             {data.medicines.map((medicine, index) => (
               <Typography key={index} variant="body2" component="li" sx={{ pl: 2 }}>
                 {t('Medicine')}: <b>{medicine.name}</b>{', '}
-                {t('since day')}: <b>{formatDate(medicine.fieldDate)}</b>{', '}
-                {t('every')}: <b>{t('{{count}} days', {count: medicine.fieldFrequency})}</b>
+                {t('since day')} <b>{formatDate(medicine.fieldDate)}</b>{', '}
+                {t('every')} <b>{t('{{count}} days', {count: medicine.fieldFrequency})}</b>
               </Typography>
             ))}
           </Box>
@@ -130,4 +130,4 @@ const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
 
 };
 
-export default JobConfirmationReview;
+export default React.memo(JobConfirmationReview);

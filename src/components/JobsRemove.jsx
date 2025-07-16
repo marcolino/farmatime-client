@@ -1,31 +1,33 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Typography, Button, Box } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { Container, SectionHeader1 } from 'mui-material-custom';
 import { useSecureStorage } from "../hooks/useSecureStorage";
+import { AuthContext } from "../providers/AuthContext";
 import DialogConfirm from './DialogConfirm';
 import config from '../config';
 
 const JobsRemove = () => {
+   const {
+    secureStorageStatus,
+    secureStorageGet,
+    secureStorageRemove
+  } = useSecureStorage();
+  const { auth } = useContext(AuthContext);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [showDialog, setShowDialog] = useState(false);
   const [jobsData, setJobsData] = useState({});
   const [jobsCount, setJobsCount] = useState(0);
   const { showSnackbar } = useSnackbarContext();
-  const {
-    secureStorageStatus,
-    secureStorageGet,
-    secureStorageRemove
-  } = useSecureStorage();
-
+ 
   useEffect(() => {
     if (secureStorageStatus.status === "ready") {
-      secureStorageGet(config.ui.jobs.storageKey).then(data => setJobsData(data || null));
+      secureStorageGet(auth?.user?.id ?? "0"/*config.ui.jobs.storageKey*/).then(data => setJobsData(data || null));
     }
-  }, [secureStorageStatus, secureStorageGet]);
+  }, [secureStorageStatus, secureStorageGet, auth?.user?.id]);
   
   useEffect(() => {
     if (jobsData && jobsData.jobs && jobsData.jobs.length)
@@ -87,4 +89,4 @@ const JobsRemove = () => {
   );
 };
 
-export default JobsRemove;
+export default React.memo(JobsRemove);

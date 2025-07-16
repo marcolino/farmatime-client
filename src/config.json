@@ -200,7 +200,6 @@
     },
     "responseType": "code",
     "redirectSignIn": "http://localhost:5000",
-    "redirectSignOut": "http://localhost:5000",
     "federatedSigninProviders": [
       "Google",
       "Facebook"

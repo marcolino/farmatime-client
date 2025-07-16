@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useContext } from "react";
 import { SecureStorage } from "../libs/SecureStorage";
+import { AuthContext } from "../providers/AuthContext";
 
 export const useSecureStorage = () => {
   const [secureStorageStatus, setSecureStorageStatus] = useState({ status: 'initializing' });
   const secureStorageRef = useRef(null);
+  const { auth } = useContext(AuthContext);
 
   useEffect(() => {
     (async () => {
@@ -17,25 +19,27 @@ export const useSecureStorage = () => {
         console.error('SecureStorage initialization failed:', err);
       }
     })();
-  }, []);
+  }, [auth?.user?.id]);
 
-  const secureStorageSet = useCallback(async (key, value) => {
+  const secureStorageSet = useCallback(async (userId/*key*/, value) => {
     if (secureStorageStatus.error) {
       throw new Error(secureStorageStatus.error);
     }
     if (secureStorageStatus.status !== 'ready') {
       throw new Error("SecureStorage not ready");
     }
+    const key = secureStorageRef.current.getSecureStorageKey(userId);
     return secureStorageRef.current.set(key, value);
   }, [secureStorageStatus]);
 
-  const secureStorageGet = useCallback(async (key) => {
+  const secureStorageGet = useCallback(async (userId/*key*/) => {
     if (secureStorageStatus.error) {
       throw new Error(secureStorageStatus.error);
     }
     if (secureStorageStatus.status !== 'ready') {
       throw new Error("SecureStorage not ready");
     }
+    const key = secureStorageRef.current.getSecureStorageKey(userId);
     return secureStorageRef.current.get(key);
   }, [secureStorageStatus]);
 
@@ -59,13 +63,14 @@ export const useSecureStorage = () => {
     return secureStorageRef.current.decrypt(encryptedObject);
   }, [secureStorageStatus]);
 
-  const secureStorageRemove = useCallback(async (key) => {
+  const secureStorageRemove = useCallback(async (userId/*key*/) => {
     if (secureStorageStatus.error) {
       throw new Error(secureStorageStatus.error);
     }
     if (secureStorageStatus.status !== 'ready') {
       throw new Error("SecureStorage not ready");
     }
+    const key = secureStorageRef.current.getSecureStorageKey(userId);
     return secureStorageRef.current.remove(key);
   }, [secureStorageStatus]);
 

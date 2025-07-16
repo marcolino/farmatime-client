@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useSnackbarContext } from "./SnackbarProvider";
 import { OnlineStatusContext } from "./OnlineStatusContext";
 
 const OnlineStatusProvider = (props) => {
+  const { t } = useTranslation();
   const [onlineStatus, setOnlineStatus] = useState(navigator.onLine);
   const { showSnackbar } = useSnackbarContext();
   
   // event handler functions defined outside useEffect to prevent double listeners
   const handleOffline = () => {
     console.log("You are offline");
-    showSnackbar("You are offline", "warning"); // pass variant as a separate argument
+    showSnackbar(t("You are offline"), "warning"); // pass variant as a separate argument
     setOnlineStatus(false);
   };
 
   const handleOnline = () => {
     console.log("You are online");
-    showSnackbar("You are online", "success"); // pass variant as a separate argument
+    showSnackbar(t("You are online"), "success"); // pass variant as a separate argument
     setOnlineStatus(true);
   };
 

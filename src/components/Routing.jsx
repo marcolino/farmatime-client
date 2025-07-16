@@ -80,7 +80,7 @@ const Routing = () => {
           <Route path="/email-preferences" element={<NotificationPreferences section="email" action="preferences" />} />
           <Route path="/advanced-options" element={<AdvancedOptions />} />
           <Route path="/jobs-handle" element={<JobsHandle />} />
-          <Route path="/job/:id" element={<JobFlow />} />
+          <Route path="/job" element={<JobFlow />} />
           <Route path="/job-new" element={<JobFlow />} />
           <Route path="/job-email-template-edit" element={<JobsEmailTemplateEdit /* onCompleted={(data) => alert("COMPLETED:" + JSON.stringify(data))} */ />} />
           <Route path="/job-data-export" element={<JobsExport />} />

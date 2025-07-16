@@ -36,10 +36,12 @@ const JobFlow = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
-  const { job, setJob, jobError } = useContext(JobContext);
+  const { job, setJob, currentJobId, jobError } = useContext(JobContext);
 
   // Navigation state
-  const currentStep = job.currentStep; // TODO: always use job.currentStep ?
+  //const currentStep = job.currentStep; // TODO: always use job.currentStep ?
+
+  // TODO: job. currentStep => job.currentStep
  
   const steps = [
     { id: 0, label: isMobile ? t('Patient & Doctor') : t('Patient & Doctor Info') },
@@ -114,13 +116,13 @@ const JobFlow = () => {
    if (jobError) {
       let message = "An unexpected error occurred.";
       if (jobError.type === "load") {
-        message = "Failed to load job data. Please try again.";
+        message = `${t("Failed to load job data")}. ${t("Please try again")}.`;
       } else if (jobError.type === "store") {
-        message = "Failed to save job data. Please try again.";
+        message = `${t("Failed to store job data")}. ${t("Please try again")}.`;
       }
       showSnackbar(message, "error");
     }
-  }, [jobError, showSnackbar]);
+  }, [jobError, showSnackbar, t]);
 
   // If not all previous are completed, set last step completion to false
   useEffect(() => {
@@ -214,7 +216,7 @@ const JobFlow = () => {
       .every(Boolean)
     ;
     if (!allPreviousCompleted) {
-      showSnackbar("Please complete all steps", "warning");
+      showSnackbar(t("Please complete all steps"), "warning");
       return;
     }
 
@@ -228,7 +230,7 @@ const JobFlow = () => {
           <Typography variant="h4" align="center" color="primary" sx={{ fontWeight: "bold", mt: 2 }}>
             {t("Well done!")}
           </Typography>
-          <Typography variant="h2" align="center" sx={{ mt: 3 }}>
+          <Typography variant="h3" align="center" sx={{ mt: 3 }}>
             🏁
           </Typography>
         </Box>,
@@ -310,7 +312,7 @@ Now, you will be able to see the activity in your activity list, where you can m
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <SectionHeader1>
-        {t('Configure Activity')}
+        {t('Configure Activity')} {currentJobId > 0 && (1 + currentJobId)}
       </SectionHeader1>
       <Stepper
         activeStep={job.isConfirmed ? maxSteps : job.currentStep}
@@ -371,15 +373,15 @@ Now, you will be able to see the activity in your activity list, where you can m
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Button
             onClick={handleBack}
-            disabled={currentStep === 0}
+            disabled={job. currentStep === 0}
             startIcon={<ArrowBack />}
             variant="contained"//"outlined"
             //size="small"
             size="medium"
             sx={{ 
-              opacity: currentStep === 0 ? 0 : 0.75,
+              opacity: job. currentStep === 0 ? 0 : 0.75,
               '&:hover': {
-                opacity: currentStep === 0 ? 0 : 0.90,
+                opacity: job. currentStep === 0 ? 0 : 0.90,
               }
             }}
           >
@@ -388,7 +390,7 @@ Now, you will be able to see the activity in your activity list, where you can m
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Typography variant="body2" color="text.secondary">
-              {t("Step")} {currentStep + 1} {t("of")} {maxSteps}
+              {t("Step")} {job. currentStep + 1} {t("of")} {maxSteps}
             </Typography>
           </Box>
 

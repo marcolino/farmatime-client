@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Typography, Alert } from "@mui/material";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { useSecureStorage } from "../hooks/useSecureStorage";
 import { isObject } from "../libs/Misc";
+import { AuthContext } from "../providers/AuthContext";
 import config from "../config";
 
-const storageKey = "jobs"; // TODO: to config
-
-const jobsImport = ({ onDataImported }) => {
+const JobsImport = ({ onDataImported }) => {
   const {
     secureStorageStatus,
     secureStorageSet,
     secureStorageDecrypt,
   } = useSecureStorage();
-
+  const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
@@ -50,7 +49,7 @@ const jobsImport = ({ onDataImported }) => {
         throw new Error("QR code is expired");
       }
 
-      await secureStorageSet(storageKey, value.data);
+      await secureStorageSet(auth?.user?.id ?? "0"/*config.ui.jobs.storageKey*/, value.data);
       onDataImported(value.data);
       setError("");
       navigate(-1);
@@ -99,4 +98,4 @@ const jobsImport = ({ onDataImported }) => {
   );
 };
 
-export default React.memo(jobsImport);
+export default React.memo(JobsImport);

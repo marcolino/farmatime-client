@@ -433,4 +433,4 @@ const JobEmailTemplate = () => {
   );
 };
 
-export default JobEmailTemplate;
+export default React.memo(JobEmailTemplate);

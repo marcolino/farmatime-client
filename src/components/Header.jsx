@@ -172,16 +172,17 @@ const Header = ({ theme, toggleTheme }) => {
 
   const handleSignOut = async () => {
     console.log("handleSignOut");
-    navigate("/", { replace: true });
+    //navigate("/", { replace: true });
     let ok;
     try {
       cancelAllRequests(); // cancel all ongoing requests, to avoid "You must be authenticated for this action" warnings
       ok = await signOut();
       console.log("signout result:", ok);
-      navigate("/"); // navigate to home page, because guest user could not be entitled to stay on current page
+      //navigate("/"); // navigate to home page, because guest user could not be entitled to stay on current page
     } catch (err) {
       console.error("signout error:", err);
     }
+    navigate("/", { replace: true });
     showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
   };
 

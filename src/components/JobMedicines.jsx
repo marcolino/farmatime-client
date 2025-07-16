@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useContext, useCallback } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -86,6 +86,8 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
   const [dataAnagrafica, setDataAnagrafica] = useState([]);
   const [dataPrincipiAttivi, setDataPrincipiAttivi] = useState([]);
   const [dataATC, setDataATC] = useState([]);
+
+  const fieldFrequencMinimum = 1;
 
   // dynamically load AIFA data for medicines
   useEffect(() => {
@@ -432,10 +434,14 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                       label={isSm ? t('Freq.') : t('Frequency (days)')}
                       variant="outlined"
                       type="number"
-                      inputProps={{ min: 1 }}
-                      input={{ min: 1 }}
                       value={fieldFrequency}
-                      onChange={(e) => setFieldFrequency(parseInt(e.target.value) || 1)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        // allow empty string or numeric strings only
+                        if (val === "" || /^[0-9\b]+$/.test(val)) {
+                          setFieldFrequency(val);
+                        }
+                      }}
                       sx={{ width: { sm: 65, md: 145 } }}
                       inputRef={fieldFrequencyRef}
                     />
@@ -514,10 +520,14 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                     label={t('Freq.')}
                     variant="outlined"
                     type="number"
-                    inputProps={{ min: 1 }}
-                    input={{ min: 1 }}
                     value={fieldFrequency}
-                    onChange={(e) => setFieldFrequency(parseInt(e.target.value) || 1)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      // allow empty string or numeric strings only
+                      if (val === "" || /^[0-9\b]+$/.test(val)) {
+                        setFieldFrequency(val);
+                      }
+                    }}
                     sx={{ width: 65 }}
                     inputRef={fieldFrequencyRef}
                   />
@@ -612,4 +622,4 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
   );
 };
 
-export default JobMedicines;
+export default React.memo(JobMedicines);

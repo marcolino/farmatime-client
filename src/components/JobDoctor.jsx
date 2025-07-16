@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import {
   Container,
@@ -115,4 +115,4 @@ const JobDoctor = ({ data, fields, onChange, onValid }) => {
   );
 };
 
-export default JobDoctor;
+export default React.memo(JobDoctor);

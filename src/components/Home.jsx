@@ -19,10 +19,11 @@ const JobFlow = lazy(() => import("./JobFlow"));
 //import JobsHandle from "./JobsHandle";
 const JobsHandle = lazy(() => import("./JobsHandle"));
 
+const TicketTeatherMap = lazy(() => import("./TicketTeatherMap"));
 
 function Home() {
   const { isLoggedIn, didSignInBefore } = useContext(AuthContext);
-  const { job, jobError } = useContext(JobContext);
+  const { jobs, job, jobError } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
 
@@ -45,8 +46,18 @@ function Home() {
     }
   }, [jobError, showSnackbar, t]);
 
-  if (job?.isCompleted) {
-    console.log("job is completed, show JobsHandle component");
+  //return <TicketTeatherMap />;
+
+  // if (job?.isCompleted) {
+  //   console.log("job is completed, show JobsHandle component");
+  //   return (
+  //     <JobsHandle />
+  //   );
+  // }
+  
+  if (jobs.length > 0 && job.isCompleted) { // TODO: not job, jobs[0] ...
+    //console.log("job is completed, show JobsHandle component");
+    console.log("at least one job is present and completed, show JobsHandle component");
     return (
       <JobsHandle />
     );

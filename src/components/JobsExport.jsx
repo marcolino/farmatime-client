@@ -1,17 +1,18 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Container, Typography, Alert } from "@mui/material";
 import QRCode from "qrcode";
 import { useSecureStorage } from "../hooks/useSecureStorage";
 import { maxRowsWithinLimit, isObject } from "../libs/Misc";
+import { AuthContext } from "../providers/AuthContext";
 import config from "../config";
 
-const jobsExport = () => {
+const JobsExport = () => {
   const {
     secureStorageStatus,
     secureStorageGet,
     secureStorageEncrypt
   } = useSecureStorage();
-
+  const { auth } = useContext(AuthContext);
   const canvasRef = useRef();
   const [qrValue, setQrValue] = useState("");
   const [warning, setWarning] = useState("");
@@ -20,9 +21,9 @@ const jobsExport = () => {
 
   useEffect(() => {
     if (secureStorageStatus.status === "ready") {
-      secureStorageGet(config.ui.jobs.storageKey).then(data => setJobsData(data));
+      secureStorageGet(auth?.user?.id ?? "0"/*config.ui.jobs.storageKey*/).then(data => setJobsData(data));
     }
-  }, [secureStorageStatus, secureStorageGet]);
+  }, [secureStorageStatus, secureStorageGet, auth?.user?.id]);
 
   useEffect(() => {
     if (jobsData !== null) {
@@ -129,4 +130,4 @@ const jobsExport = () => {
   );
 };
 
-export default jobsExport;
+export default React.memo(JobsExport);

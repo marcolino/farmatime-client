@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
@@ -19,26 +19,26 @@ import {
   Typography,
 } from "@mui/material";
 import { TextFieldSearch, Button } from "./custom";
-import { SectionHeader1 } from 'mui-material-custom';
+import { SectionHeader1 } from "mui-material-custom";
 import { Search, Edit, Delete, AddCircleOutline } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 //import { apiCall } from "../libs/Network";
 import LocalStorage from "../libs/LocalStorage";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+//import { useSnackbarContext } from "../providers/SnackbarProvider";
 // import { i18n } from "../i18n";
 
 const JobsTable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { showSnackbar } = useSnackbarContext();
+  //const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
   const { t } = useTranslation();
   const [filter, setFilter] = useState("");
   //const [action, setAction] = useState("");
   //const { job, setJob, jobError } = useContext(JobContext);
-  const { jobs, setJobs, currentJobId, setCurrentJobId, jobError } = useContext(JobContext);
+  const { jobs, currentJobId, setCurrentJobId, addJob, removeJob /*, jobError*/ } = useContext(JobContext);
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
@@ -49,16 +49,26 @@ const JobsTable = () => {
 
   const newJob = () => {
     // TODO: use setCurrentJobId to set a NEW job id (the biggest found + 1)
+    //setCurrentJobId(nextJobId(jobs)); // set a NEW job id (the biggest found + 1)
+    addJob();
     navigate(`/job-new`);
   };
 
-  const removeJob = (params) => {
+  // const nextJobId = (jobs) => {
+  //   const id = Math.max(...jobs.map(job => job.id)) + 1;
+  //   console.log('nextJobId:', id);
+  //   return id;
+  // }
+
+  const _removeJob = (jobId) => {
     // TODO: remove job from jobs
-    alert(`removing job ${params}`);
+    //alert(`removing job ${params}`);
+    removeJob(jobId);
   }
 
   const onEdit = (jobId) => {
-    navigate(`/job/${jobId}`);
+    setCurrentJobId(jobId);
+    navigate(`/job`);
   };
   
   // const onRemove = async (jobId) => {
@@ -198,31 +208,115 @@ const JobsTable = () => {
     if (!jobs || !jobs.length) {
       return [];
     }
-    const filterLower = filter?.toLowerCase();
 
     const filterJob = (job) => {
       if (!filter) {
         return true;
       }
-      return false ||
-        matches(job, "id") ||
-        matches(job, "patientFirstName") ||
-        matches(job, "patientLastName") ||
-        matches(job, "patientEmail") ||
-        matches(job, "doctorName") ||
-        matches(job, "doctorEmail") ||
-        matches(job, "medicines")
-      ;
+      return (
+        matches(job, "id", filter) ||
+        matches(job, "patient.firstName", filter) ||
+        matches(job, "patient.lastName", filter) ||
+        matches(job, "patient.email", filter) ||
+        matches(job, "doctor.name", filter) ||
+        matches(job, "doctor.email", filter) ||
+        matches(job, "medicines[].name", filter) ||
+        false
+      );
     };
 
-    const matches = (obj, fieldName) => {
+    // const matches = (obj, fieldName) => {
+    //   if (!obj) {
+    //     return false;
+    //   }
+    //   if (!obj[fieldName]) {
+    //     return false;
+    //   }
+    //   return obj[fieldName].toString().toLowerCase().includes(search);
+    // };
+
+    // const matches = (obj, fieldName, search) => {
+    //   if (!obj) {
+    //       return false;
+    //   }
+
+    //   // Split the fieldName by '.' to get each nested key
+    //   const fields = fieldName.split('.');
+
+    //   // Traverse the object to get the nested value
+    //   let value = obj;
+    //   for (const field of fields) {
+    //       if (value[field] === undefined || value[field] === null) {
+    //           return false;
+    //       }
+    //       value = value[field];
+    //   }
+
+    //   return value.toString().toLowerCase().includes(search);
+    // }
+
+    const matches = (obj, fieldName, search) => {
       if (!obj) {
         return false;
       }
-      if (!obj[fieldName]) {
+      if (!fieldName) {
         return false;
       }
-      return obj[fieldName].toString().toLowerCase().includes(filterLower);
+      if (!search) {
+        return false; // TODO: better true?
+      }
+
+      search = search?.toLowerCase();
+
+      // Split the fieldName by '.' to get each segment
+      const segments = fieldName.split('.');
+
+      let currentValue = obj;
+
+      for (let i = 0; i < segments.length; i++) {
+        let segment = segments[i];
+
+        // Check for array notation (e.g., "medicines[]")
+        if (segment.endsWith('[]')) {
+          const arrayPropertyName = segment.slice(0, -2); // Get "medicines"
+
+          if (!currentValue || !Array.isArray(currentValue[arrayPropertyName])) {
+            return false; // Property doesn't exist or is not an array
+          }
+
+          const array = currentValue[arrayPropertyName];
+
+          // If this is the last segment, we're checking values directly within the array
+          if (i === segments.length - 1) {
+            // If the array itself contains the values to check
+            return array.some(item =>
+              item !== null && item !== undefined &&
+              item.toString().toLowerCase().includes(search)
+            );
+          } else {
+            // There are more segments after the array (e.g., "medicines[].name")
+            const remainingFieldName = segments.slice(i + 1).join('.');
+            // We need to check if *any* element in the array matches the remaining field
+            return array.some(item =>
+              matches(item, remainingFieldName, search) // Recursively call matches
+            );
+          }
+        } else {
+          // Standard nested object property
+          if (!currentValue || typeof currentValue !== 'object' || currentValue[segment] === undefined) {
+            return false; // Property doesn't exist or current value is not an object
+          }
+          currentValue = currentValue[segment];
+        }
+      }
+
+      // If we reached here, it means we traversed all segments without encountering an array
+      // and the last segment was a direct property.
+      if (currentValue === null || currentValue === undefined) {
+          return false;
+      }
+
+      return currentValue.toString().toLowerCase().includes(search);
     };
     
     return sortedJobs.
@@ -268,9 +362,20 @@ const JobsTable = () => {
           color="primary"
           size="small"
           startIcon={<AddCircleOutline />}
-          hideChildrenUpToBreakpoint="sm" // for mobile, hide text children
+          //hideChildrenUpToBreakpoint="sm" // for mobile, hide text children
           sx={{
+            width: "auto",
+            minWidth: "auto",
+            maxWidth: 200,
+            flexShrink: 0,
+            // whiteSpace: "nowrap",
+            // flexShrink: 1,
+            // minWidth: 136,
+            // maxWidth: 150,
+            // overflow: "hidden",
+            // textOverflow: "ellipsis",
             mt: theme.spacing(0.3),
+            px: theme.spacing(1),
             py: theme.spacing(0.8),
             ml: theme.spacing(2),
           }}
@@ -308,11 +413,20 @@ const JobsTable = () => {
                 <TableCell onClick={handleSort("id")}>
                   {t("Id")} {sortButton({ column: "id" })}
                 </TableCell>
-                <TableCell onClick={handleSort("patientLastName")}>
-                  {t("patient last name")} {sortButton({ column: "patientLastName" })}
+                <TableCell onClick={handleSort("patientName")}>
+                  {t("Patient name")} {sortButton({ column: "patientName" })}
                 </TableCell>
-                <TableCell onClick={handleSort("patientFirststName")}>
-                  {t("patient first name")} {sortButton({ column: "patientFirstName" })}
+                <TableCell onClick={handleSort("patientEmail")}>
+                  {t("Patient email")} {sortButton({ column: "patientEmail" })}
+                </TableCell>
+                <TableCell onClick={handleSort("doctorName")}>
+                  {t("Doctor name")} {sortButton({ column: "doctorName" })}
+                </TableCell>
+                <TableCell onClick={handleSort("doctorEmail")}>
+                  {t("Doctor email")} {sortButton({ column: "doctorEmail" })}
+                </TableCell>
+                <TableCell onClick={handleSort("medicines")}>
+                  {t("Medicines")} {sortButton({ column: "medicines" })}
                 </TableCell>
                 <TableCell>
                   {t("Actions")}
@@ -343,15 +457,18 @@ const JobsTable = () => {
                       <TableCell padding="checkbox">
                         <Checkbox checked={isItemSelected} />
                       </TableCell>
-                      <TableCell>{job.id}</TableCell>
-                      <TableCell>{job.patient?.firstName}</TableCell>
-                      <TableCell>{job.patient?.lastName}</TableCell>
+                      <TableCell>{1 + job.id}</TableCell>
+                      <TableCell>{job.patient?.firstName} {job.patient?.lastName}</TableCell>
+                      <TableCell>{job.patient?.email}</TableCell>
+                      <TableCell>{job.doctor?.name}</TableCell>
+                      <TableCell>{job.doctor?.email}</TableCell>
+                      <TableCell>{job.medicines[0]?.name}</TableCell>{/* TODO */}
                       <TableCell>
                         <IconButton size="small" onClick={() => onEdit(job.id)}>
                           <Edit fontSize="small" />
                         </IconButton>
                         <IconButton size="small" onClick={() => showDialog({
-                          onConfirm: () => removeJob(job.id),
+                          onConfirm: () => _removeJob(job.id),
                           title: t("Confirm Delete"),
                           message: t("Are you sure you want to delete {{count}} selected job?", { count: 1 }),
                           confirmText: t("Confirm"),
@@ -366,15 +483,17 @@ const JobsTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={rowsPerPageOptions}
-          component="div"
-          count={jobs.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        {(jobs.length > rowsPerPageOptions) && ( // do not show pagination stuff if a few rows are present
+          <TablePagination
+            rowsPerPageOptions={rowsPerPageOptions}
+            component="div"
+            count={jobs.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        )}
         {/* <Box sx={{ padding: theme.spacing(2) }}>
           <Button
             variant="contained"
