@@ -17,7 +17,9 @@ function DialogConfirm({
   title,
   message,
   confirmText,
+  confirmColor,
   cancelText,
+  cancelColor,
 }) {
   const { height } = useWindowDimensions();
 
@@ -52,12 +54,12 @@ function DialogConfirm({
 
       <DialogActions>
         {cancelText && (
-          <Button onClick={onCancel} color="secondary" variant="contained" sx={{ m: 2 }}>
+          <Button onClick={onCancel} color={cancelColor ?? "secondary"} variant="contained" sx={{ m: 2 }}>
             {cancelText}
           </Button>
         )}
         {confirmText && (
-          <Button onClick={onConfirm} color="success" variant="contained" sx={{ m: 2 }}>
+          <Button onClick={onConfirm} color={confirmColor ?? "success"} variant="contained" sx={{ m: 2 }}>
             {confirmText}
           </Button>
         )}

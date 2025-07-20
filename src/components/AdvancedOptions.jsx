@@ -21,22 +21,26 @@ import {
   Info as InfoIcon,
 } from "@mui/icons-material";
 import { AuthContext } from "../providers/AuthContext";
+import { CartContext } from "../providers/CartContext";
 import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
-import { cancelAllRequests } from "../middlewares/Interceptors";
+//import { cancelAllRequests } from "../middlewares/Interceptors";
 import { apiCall } from "../libs/Network";
 import { isAdmin } from "../libs/Validation";
+import DialogConfirm from './DialogConfirm';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { SectionHeader1, useTheme } from 'mui-material-custom';
 import packageJson from "../../package.json";
 
 const AdvancedOptions = () => {
   const navigate = useNavigate();
-  const { auth, signOut } = useContext(AuthContext);
+  const { auth, /*signOut,*/ revoke } = useContext(AuthContext);
+  const { resetCart } = useContext(CartContext);
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
   const theme = useTheme();
   const { showDialog } = useDialog();
+  const [showDialogConfirm, setShowDialogConfirm] = useState(false);
   const [buildInfo, setBuildInfo] = useState(null);
 
   const groupedTools = {
@@ -107,7 +111,7 @@ const AdvancedOptions = () => {
         label: t("Completely Remove Your Account"),
         subtitle: t("Delete your account and all associated data"),
         icon: <PersonOffIcon fontSize="large" sx={{ color: "error.main" }} />,
-        action: () => revoke(),
+        action: () => setShowDialogConfirm(true),
       }
     ]
   };
@@ -153,7 +157,7 @@ const AdvancedOptions = () => {
     })
   };
 
-  const revoke = async () => {
+  const handleRevoke = async () => {
     if (auth.user) {
       const result = await apiCall("post", "/auth/revoke", { userId: auth.user._id });
       console.log("*** revoke user result:", result);
@@ -161,14 +165,16 @@ const AdvancedOptions = () => {
         showSnackbar(result.message, "error");
         console.error("revoke user error:", result);
       } else {
-        showSnackbar("Account revoked", "info");
+        showSnackbar("Account revoked", "success");
         let ok;
         try {
           //cancelAllRequests(); // cancel all ongoing requests, to avoid "You must be authenticated for this action" warnings
-          ok = await signOut();
-          console.log("signout result:", ok);
+          ok = await revoke();
+          console.log("revoke result:", ok);
+          ok = await resetCart();
+          console.log("resetCart result:", ok);
         } catch (err) {
-          console.error("signout error:", err);
+          console.error("revoke/resetCart error:", err);
         }
         navigate("/", { replace: true });
         showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
@@ -270,6 +276,18 @@ const AdvancedOptions = () => {
           </Box>
         );
       })}
+
+      <DialogConfirm
+        open={showDialogConfirm}
+        onClose={() => setShowDialogConfirm(false)}
+        onCancel={() => setShowDialogConfirm(false)}
+        onConfirm={handleRevoke}
+        title={t("Confirm complete revocation of your account")}
+        message={t("Are you sure you want to completely remove your account? This action cannot be undone.")}
+        confirmText={t("REVOKE YOUR ACCOUNT")}
+        confirmColor={"error"}
+        cancelText={t("Cancel")}
+      />
     </Container>
   );
 };

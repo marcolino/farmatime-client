@@ -199,6 +199,7 @@ export default function Landing() {
                 variant="contained"
                 color="primary"
                 sx={{ mt: 4, px: 4, py: 1.5, /*fontSize: "1rem"*/ }}
+                onClick={() => navigate("/signin", { replace: false })}
               >
                 {t("Start now — It's free!")}
               </Button>
@@ -376,7 +377,7 @@ export default function Landing() {
               variant="contained"
               color="secondary"
               sx={{ mt: 2, px: 4, py: 1.5, fontSize: "1rem" }}
-              onClick={() => navigate("/signin")}
+              onClick={() => navigate("/signin", { replace: false })}
             >
               {t("Get Started Now!")}
             </Button>

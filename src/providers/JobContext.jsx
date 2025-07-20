@@ -39,6 +39,7 @@ export const initialJobContext = {
   setJob: () => {},
   resetJobs: () => {},
   jobError: null,
+  confirmJobsOnServer: () => {},
 };
 
 export const JobContext = createContext(initialJobContext);

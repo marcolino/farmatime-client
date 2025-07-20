@@ -1,36 +1,39 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Container, Typography, Alert } from "@mui/material";
 import QRCode from "qrcode";
-import { useSecureStorage } from "../hooks/useSecureStorage";
+import { JobContext } from '../providers/JobContext';
+//import { useSecureStorage } from "../hooks/useSecureStorage";
 import { maxRowsWithinLimit, isObject } from "../libs/Misc";
-import { AuthContext } from "../providers/AuthContext";
+//import { AuthContext } from "../providers/AuthContext";
 import config from "../config";
 
 const JobsExport = () => {
-  const {
-    secureStorageStatus,
-    secureStorageGet,
-    secureStorageEncrypt
-  } = useSecureStorage();
-  const { auth } = useContext(AuthContext);
+  // const {
+  //   secureStorageStatus,
+  //   secureStorageGet,
+  //   secureStorageEncrypt
+  // } = useSecureStorage();
+  //const { auth } = useContext(AuthContext);
   const canvasRef = useRef();
   const [qrValue, setQrValue] = useState("");
   const [warning, setWarning] = useState("");
-  const [jobsData, setJobsData] = useState(null);
+  //const [jobsData, setJobsData] = useState(null);
+  const { jobs, currentJobId } = useContext(JobContext);
+
   const maxBytes = 2500;
 
-  useEffect(() => {
-    if (secureStorageStatus.status === "ready") {
-      secureStorageGet(auth?.user?.id ?? "0"/*config.ui.jobs.storageKey*/).then(data => setJobsData(data));
-    }
-  }, [secureStorageStatus, secureStorageGet, auth?.user?.id]);
+  // useEffect(() => {
+  //   if (secureStorageStatus.status === "ready") {
+  //     secureStorageGet(auth?.user?.id ?? "0"/*config.ui.jobs.storageKey*/).then(data => setJobsData(data));
+  //   }
+  // }, [secureStorageStatus, secureStorageGet, auth?.user?.id]);
 
   useEffect(() => {
-    if (jobsData !== null) {
+    if (jobs/*jobsData*/ !== null) {
       handleExport();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [jobsData]);
+  }, [jobs/*Data*/]);
 
   // Generate QR code when qrValue changes
   useEffect(() => {
@@ -54,19 +57,19 @@ const JobsExport = () => {
   };
 
   const handleExport = async () => {
-    if (secureStorageStatus.status !== "ready") {
-      throw new Error(secureStorageStatus.error); // TODO: is it ok to throw here?
-    }
-    if (!isObject(jobsData)) {
+    // if (secureStorageStatus.status !== "ready") {
+    //   throw new Error(secureStorageStatus.error); // TODO: is it ok to throw here?
+    // }
+    if (!isObject(jobs/*Data*/)) {
       throw new Error("Invalid user data format"); // TODO: is it ok to throw here?
     }
 
-    const maxItems = maxRowsWithinLimit(jobsData.jobs, maxBytes);
-    const JobsDataToExport = (maxItems < jobsData.jobs.length)
-      ? { ...jobsData, jobs: jobsData.jobs.slice(0, maxItems) }
-      : jobsData;
+    const maxItems = maxRowsWithinLimit(jobs, maxBytes);
+    const JobsDataToExport = (maxItems < jobs.length)
+      ? { currentJobId, jobs: jobs.slice(0, maxItems) }
+      : { currentJobId, jobs };
 
-    if (maxItems < jobsData.jobs.length) {
+    if (maxItems < jobs.length) {
       setWarning(`Warning: Data truncated to first ${maxItems} items to fit QR code size limit.`);
     } else {
       setWarning("");
@@ -81,33 +84,32 @@ const JobsExport = () => {
       let value;
       //const QRCodeEncryption = false; // TODO: to config
       //if (QRCodeEncryption) {
-      if (config.ui.jobs.qrcode.ecryption) {
-        const encrypted = await secureStorageEncrypt(payload);
-        const base64Payload = base64EncodeUnicode(JSON.stringify(encrypted));
+      // if (config.ui.jobs.qrcode.ecryption) {
+      //   const encrypted = await secureStorageEncrypt(payload);
+      //   const base64Payload = base64EncodeUnicode(JSON.stringify(encrypted));
 
-        if (base64Payload.length > maxBytes) {
-          alert("Even truncated encrypted data is too large for QR code.");
-          return;
-        }
-        value = base64Payload;
-      } else {
-        // Remove the problematic replaceAll - let qrcode.js handle UTF-8 properly
+      //   if (base64Payload.length > maxBytes) {
+      //     alert("Even truncated encrypted data is too large for QR code.");
+      //     return;
+      //   }
+      //   value = base64Payload;
+      // } else {
         const payloadString = JSON.stringify(payload);
         value = payloadString;
-      }
+      // }
       setQrValue(value);
     } catch (err) {
       alert("Failed to prepare export data: " + err.message);
     }
   };
 
-  const base64EncodeUnicode = (str) => {  
-    return btoa(
-      encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-        (match, p1) => String.fromCharCode('0x' + p1)
-      )
-    );
-  }
+  // const base64EncodeUnicode = (str) => {  
+  //   return btoa(
+  //     encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+  //       (match, p1) => String.fromCharCode('0x' + p1)
+  //     )
+  //   );
+  // }
   
   return (
     <Container maxWidth="xs">

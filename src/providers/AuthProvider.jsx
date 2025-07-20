@@ -17,6 +17,19 @@ const AuthProvider = (props) => {
   const didSignInBefore = (auth.user !== null);
   const [preferences, setPreferences] = useState(isLoggedIn ? auth.user?.preferences : initialStatePreferences);
 
+  const updateUserPreferences = useCallback(async (user, preferences) => {
+    try {
+      const result = await apiCall("post", "/user/updateUser", { _id: user.id, /*email: auth.user.email,*/ preferences });
+      if (result.err) {
+        console.error("update user error:", result.err);
+      } else {
+        console.log("update user successful", result);
+      }
+    } catch (error) {
+      console.error("update user error:", error);
+    }
+  }, []);
+
   // centralized sign in function
   const signIn = useCallback(async (user) => {
     console.log("AuthProvider signIn, user:", user);
@@ -57,7 +70,7 @@ const AuthProvider = (props) => {
       }});
     }
     //i18n.changeLanguage(locale);
-  }, [preferences, setPreferences, setAuth, setGuest, isLoggedIn, auth.user]);
+  }, [preferences, setPreferences, updateUserPreferences, setAuth, setGuest, isLoggedIn, auth.user]);
 
   const toggleTheme = useCallback(async () => {
     const newPreferences = {
@@ -80,7 +93,7 @@ const AuthProvider = (props) => {
         preferences: newPreferences,
       }});
     }
-  }, [preferences, setPreferences, setAuth, setGuest, isLoggedIn, auth.user]);
+  }, [preferences, setPreferences, updateUserPreferences, setAuth, setGuest, isLoggedIn, auth.user, guest.user]);
 
   // function to be called on successful signup, to avoid loosing guest user preferences
   const cloneGuestUserPreferencesToAuthUserOnSignup = async (user) => {
@@ -111,27 +124,26 @@ const AuthProvider = (props) => {
       }
       setAuth({ user: false }); // user is not set, but not null, it means she has an account
       setPreferences(guest.preferences);
-      return ok;
     } else {
       console.warn("already signed out");
     }
-  }, [auth.user, setAuth, apiCall]);
+    return ok;
+  }, [auth.user, setAuth, guest.preferences]);
 
-  const updateUserPreferences = useCallback(async (user, preferences) => {
-    try {
-      const result = await apiCall("post", "/user/updateUser", { _id: user.id, /*email: auth.user.email,*/ preferences });
-      if (result.err) {
-        console.error("update user error:", result.err);
-      } else {
-        console.log("update user successful", result);
-      }
-    } catch (error) {
-      console.error("update user error:", error);
+  const revoke = useCallback(async () => {
+    let ok = false;
+    if (auth.user !== null) {
+      setAuth({ user: null }); // user is not set, and null, it means she has not an account 8anymore9
+      setPreferences(guest.preferences);
+      ok = true;
+    } else {
+      console.warn("already revoked");
     }
-  }, [auth.user, apiCall]);
+    return ok;
+  }, [auth.user, setAuth, guest.preferences]);
 
   return (
-    <AuthContext.Provider value={{ auth, guest, preferences, isLoggedIn, didSignInBefore, signIn, updateSignedInUserPreferences, cloneGuestUserPreferencesToAuthUserOnSignup, signOut, changeLocale, toggleTheme }}>
+    <AuthContext.Provider value={{ auth, guest, preferences, isLoggedIn, didSignInBefore, signIn, updateSignedInUserPreferences, cloneGuestUserPreferencesToAuthUserOnSignup, signOut, revoke, changeLocale, toggleTheme }}>
       {props.children}
     </AuthContext.Provider>
   );

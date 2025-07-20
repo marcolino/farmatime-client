@@ -48,7 +48,7 @@ const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
       <StyledPaper>
         <StyledBox>
           <Typography variant="h5" fontWeight="bold">
-            {t("Confirmation of the activity")}
+            {t("Confirmation of the job")}
           </Typography>
         </StyledBox>
 

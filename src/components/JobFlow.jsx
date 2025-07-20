@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
+  IconButton,
+  Tooltip,
   Container,
   Paper,
   Stepper,
@@ -12,9 +14,9 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  SectionHeader1
 } from 'mui-material-custom';
-import { ArrowBack, ArrowForward, Check } from '@mui/icons-material';
-import { SectionHeader1 } from 'mui-material-custom';
+import { ArrowBack, ArrowForward, Check, Menu } from '@mui/icons-material';
 import { JobContext } from '../providers/JobContext';
 import { useDialog } from "../providers/DialogContext";
 import {
@@ -36,7 +38,7 @@ const JobFlow = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
-  const { job, setJob, currentJobId, jobError } = useContext(JobContext);
+  const { jobs, currentJobId, job, setJob, jobError, confirmJobsOnServer } = useContext(JobContext);
 
   // Navigation state
   //const currentStep = job.currentStep; // TODO: always use job.currentStep ?
@@ -114,7 +116,7 @@ const JobFlow = () => {
   // Show job errors to the user
   useEffect(() => {
    if (jobError) {
-      let message = "An unexpected error occurred.";
+      let message = jobError.message ?? "An unexpected error occurred.";
       if (jobError.type === "load") {
         message = `${t("Failed to load job data")}. ${t("Please try again")}.`;
       } else if (jobError.type === "store") {
@@ -208,7 +210,7 @@ const JobFlow = () => {
   //   return job.stepsCompleted.every(Boolean);
   // }
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     // if not all previous steps are completed, show a warning and return...
     const lastIndex = job.stepsCompleted.length - 1;
     const allPreviousCompleted = job.stepsCompleted
@@ -220,7 +222,11 @@ const JobFlow = () => {
       return;
     }
 
-    handleUpdate('isConfirmed', true); // TODO: ditch isConfirmed...
+    if (!await confirmJobsOnServer()) {
+      return; // useEffect automatically will show error
+    }
+
+    handleUpdate('isConfirmed', true);
     handleStepCompleted(lastIndex, true); // mark this last step as completed
     const forTheMedicine = t("for the medicine");
     const forTheMedicines = t("for each of the {{num}} medicines", { num: job.medicines.length });
@@ -236,9 +242,9 @@ const JobFlow = () => {
         </Box>,
       message:
         <Box>
-          <Typography variant="body2" sx={{ mt: 3}}>
+          <Typography variant="body2" sx={{ mt: 3 }}>
             {t("\
-You have completed the setup for this activity: {{oneOrMany}} you configured, \
+You have completed the setup for this job: {{oneOrMany}} you configured, \
 a request will be sent via email to the doctor \
 just in time when the medicine is needed.",
               { oneOrMany: job.medicines.length === 1 ? forTheMedicine : forTheMedicines })
@@ -246,7 +252,7 @@ just in time when the medicine is needed.",
           </Typography>
           <Typography variant="body2" sx={{ mt: 2 }}>
             {t("\
-Now, you will be able to see the activity in your activity list, where you can manage it by suspending, editing, or deleting it.")}
+Now, you will be able to see the job in your jobs list, where you can manage it by suspending, editing, or deleting it.")}
           </Typography>
         </Box>,
       confirmText: t("Ok"),
@@ -309,11 +315,39 @@ Now, you will be able to see the activity in your activity list, where you can m
   };
 
   console.log("JOB:", job);
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
+
       <SectionHeader1>
-        {t('Configure Activity')} {currentJobId > 0 && (1 + currentJobId)}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            width: '100%',
+          }}
+        >
+          {/* Menu icon, anchored left */}
+          <Box sx={{ position: 'absolute', left: 0, display: 'flex', alignItems: 'center' }}>
+            <Tooltip title="Go to jobs list" arrow>
+              <IconButton
+                onClick={() => navigate('/jobs-handle', { replace: false })}
+                sx={{ color: 'background.default' }}
+              >
+                <Menu />
+              </IconButton>
+            </Tooltip>
+          </Box>
+
+          {/* Centered header text */}
+          <Box sx={{ ml: 4 }}>
+            {t('Configure Job')} {/*currentJobId > 0 &&*/ (1 + currentJobId)}
+          </Box>
+        </Box>
       </SectionHeader1>
+
       <Stepper
         activeStep={job.isConfirmed ? maxSteps : job.currentStep}
         sx={{ mb: 4 }} 

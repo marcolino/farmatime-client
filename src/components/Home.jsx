@@ -33,6 +33,7 @@ function Home() {
   //   return; // if auth.user is undefined, we don't know yet about user authentication...
   // }
 
+  /* TODO: jobError already handled in jobFlow, removing from here... Ok?
   // Handle secure storage errors
   useEffect(() => {
     if (jobError) {
@@ -45,7 +46,8 @@ function Home() {
       ), "error");
     }
   }, [jobError, showSnackbar, t]);
-
+  */
+  
   //return <TicketTeatherMap />;
 
   // if (job?.isCompleted) {

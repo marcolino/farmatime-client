@@ -218,6 +218,7 @@
 - rinominare HandleUsers -> UsersHandle, ... (prima il soggetto, poi l'azione) - OK
 - correggere popup per "info" (adesso mostra "network-status"...) - OK
 
+- show fields errors in jobflow components
 - update index.language, index.dir, index.charset when user changes locale
 - migliorare il tema scuro
 - risolvere i TODO's nel codice

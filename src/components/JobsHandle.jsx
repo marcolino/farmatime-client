@@ -5,6 +5,7 @@ import { useTheme } from "@mui/material/styles";
 //import { DateTime } from "luxon";
 import { JobContext } from "../providers/JobContext";
 import {
+  Container,
   Box,
   Checkbox,
   IconButton,
@@ -333,7 +334,7 @@ const JobsTable = () => {
   };
 
   return (
-    <>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       <SectionHeader1>
         {t("Jobs list")}
       </SectionHeader1>
@@ -515,7 +516,7 @@ const JobsTable = () => {
         </Box> */}
       </Paper>
 
-    </>
+    </Container>
   );
 };
 
