@@ -248,6 +248,7 @@
 - clean up eslint warnings/errors
 - npm uninstall draft-js draft-convert react-draft-wysiwyg html-to-draftjs, and ask AI to refactor emailTemplateEditor with modern alternative: @react-editor-js, or @tiptap/react, or lexical from Meta ...
 - then add `"dedupe": "npm dedupe",` to package.json, and try `npm ls react` ...
+- evitare di notificare inizialmente "l'app è pronta per funzionare offline" troppe volte
 
 NEWFEATURE:
 - decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore
