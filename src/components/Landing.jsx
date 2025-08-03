@@ -16,12 +16,12 @@ import {
   Grid
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChildFriendly from "@mui/icons-material/ChildFriendly";
+//import ChildFriendly from "@mui/icons-material/ChildFriendly";
 // import LocalPharmacyIcon from "@mui/icons-material/LocalPharmacy";
 // import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 // import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import { MonetizationOnBarredIcon } from 'mui-material-custom';
+//import { MonetizationOnBarredIcon } from 'mui-material-custom';
 import SecurityIcon from "@mui/icons-material/Security";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
@@ -34,7 +34,7 @@ import heroMediumJpg from '../assets/images/health/hero-medium.jpg';
 import heroMediumWebp from '../assets/images/health/hero-medium.webp';
 import heroLargeJpg from '../assets/images/health/hero-large.jpg';
 import heroLargeWebp from '../assets/images/health/hero-large.webp';
-import SignIn from "./auth/SignIn";
+//import SignIn from "./auth/SignIn";
 
 
 export default function Landing() {
@@ -79,7 +79,7 @@ export default function Landing() {
     {
       icon: <SecurityIcon fontSize="large" color="primary" />, 
       label: t("Secure and Private"),
-      desc: t("We prioritize your data privacy and security: any information will stay inside YOUR browser, crypted.")
+      desc: t("We prioritize your data privacy and security: any information will aways be encrypted.")
     }
   ];
 
