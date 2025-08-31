@@ -62,7 +62,7 @@
   ],
   "ignoreUnused": [],
   "ignoreUnimported": [
-    "src/misc/strings-for-translation.js",
+    "src/labels-to-be-translated.js",
     "src/themes/mui-v5-reference-only.js"
   ]
 }

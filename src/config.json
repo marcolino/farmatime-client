@@ -72,7 +72,8 @@
     "cookieConsentExpirationDays": 365
   },
   "manifest": {
-    "startUrl": "./",
+    "startUrl": "/pwa/",
+    "scope": "/pwa",
     "display": "standalone"
   },
   "currency": "EUR",

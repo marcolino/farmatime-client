@@ -22,12 +22,13 @@ import {
 } from "@mui/icons-material";
 import { AuthContext } from "../providers/AuthContext";
 import { CartContext } from "../providers/CartContext";
-import { JobContext } from "../providers/JobContext";
+//import { JobContext } from "../providers/JobContext";
 import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 //import { cancelAllRequests } from "../middlewares/Interceptors";
 import { apiCall } from "../libs/Network";
 import { isAdmin } from "../libs/Validation";
+import { fetchBuildInfoData } from "../libs/Misc";
 import DialogConfirm from './DialogConfirm';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { SectionHeader1, useTheme } from 'mui-material-custom';
@@ -37,7 +38,7 @@ const AdvancedOptions = () => {
   const navigate = useNavigate();
   const { auth, /*signOut,*/ revoke } = useContext(AuthContext);
   const { resetCart } = useContext(CartContext);
-  const { resetJobs } = useContext(JobContext);
+  //const { resetJobs } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
   const theme = useTheme();
@@ -127,23 +128,27 @@ const AdvancedOptions = () => {
 
   useEffect(() => { // read build info from file on disk
     if (!buildInfo) {
-      fetch("/build-info.json")
-        .then((response) => response.json())
-        .then((data) => {
-          let d = new Date(data.buildTimestamp);
-          data.buildDateTime = // convert timestamp to human readable compact date
-            d.getFullYear() + "-" +
-            ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
-            ("00" + d.getDate()).slice(-2) + " " +
-            ("00" + d.getHours()).slice(-2) + ":" +
-            ("00" + d.getMinutes()).slice(-2) + ":" +
-            ("00" + d.getSeconds()).slice(-2)
-            ;
-          setBuildInfo(data);
-          //console.log("data:", data);
-        })
-        .catch((error) => console.error("Failed to fetch build info:", error))
-        ;
+      (async function () {
+        const data = await fetchBuildInfoData();
+        setBuildInfo(data);
+      })();
+      // fetch("/build-info.json")
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     let d = new Date(data.buildTimestamp);
+      //     data.buildDateTime = // convert timestamp to human readable compact date
+      //       d.getFullYear() + "-" +
+      //       ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
+      //       ("00" + d.getDate()).slice(-2) + " " +
+      //       ("00" + d.getHours()).slice(-2) + ":" +
+      //       ("00" + d.getMinutes()).slice(-2) + ":" +
+      //       ("00" + d.getSeconds()).slice(-2)
+      //       ;
+      //     setBuildInfo(data);
+      //     //console.log("data:", data);
+      //   })
+      //   .catch((error) => console.error("Failed to fetch build info:", error))
+      // ;
     }
   }, []);
   

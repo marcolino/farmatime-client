@@ -8,6 +8,7 @@ import SignalWifiBadOutlinedIcon from "@mui/icons-material/SignalWifiBadOutlined
 import { AuthContext } from "../providers/AuthContext";
 import { useDialog } from "../providers/DialogContext";
 import { OnlineStatusContext } from "../providers/OnlineStatusContext";
+import { fetchBuildInfoData } from "../libs/Misc";
 import { i18n, getNextSupportedLanguage }  from "../i18n";
 import packageJson from "../../package.json";
 import config from "../config";
@@ -27,24 +28,30 @@ const Footer = ({ changeLocale }) => {
   useEffect(() => { // read build info from file on disk
     if (import.meta.env.MODE === "test") return; // skip in vitest
     if (!buildInfo) {
-      fetch("/build-info.json")
-        .then((response) => response.json())
-        .then((data) => {
-          let d = new Date(data.buildTimestamp);
-          data.buildDateTime = // convert timestamp to human readable compact date
-            d.getFullYear() + "-" +
-            ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
-            ("00" + d.getDate()).slice(-2) + " " +
-            ("00" + d.getHours()).slice(-2) + ":" +
-            ("00" + d.getMinutes()).slice(-2) + ":" +
-            ("00" + d.getSeconds()).slice(-2)
-            ;
-          setBuildInfo(data);
-          //console.log("data:", data);
-        })
-        .catch((error) => console.error("Failed to fetch build info:", error))
-        ;
+      (async function () {
+        const data = await fetchBuildInfoData();
+        setBuildInfo(data);
+      })();
     }
+    // if (!buildInfo) {
+    //   fetch("/build-info.json")
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       let d = new Date(data.buildTimestamp);
+    //       data.buildDateTime = // convert timestamp to human readable compact date
+    //         d.getFullYear() + "-" +
+    //         ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
+    //         ("00" + d.getDate()).slice(-2) + " " +
+    //         ("00" + d.getHours()).slice(-2) + ":" +
+    //         ("00" + d.getMinutes()).slice(-2) + ":" +
+    //         ("00" + d.getSeconds()).slice(-2)
+    //         ;
+    //       setBuildInfo(data);
+    //       //console.log("data:", data);
+    //     })
+    //     .catch((error) => console.error("Failed to fetch build info:", error))
+    //     ;
+    // }
   }, []);
 
   useEffect(() => { // update language depending on user propertis change
@@ -126,7 +133,7 @@ const Footer = ({ changeLocale }) => {
           sx={{ lineHeight: 1, mr: 2 }}
         >
           {`
-            ${packageJson.name} v${packageJson.version}
+            ${packageJson.name.replace(/-.*$/, '')} v${packageJson.version}.${buildInfo ? buildInfo.buildNumber : "?"}
             © ${new Date().getFullYear()}
           `}
         </Box>

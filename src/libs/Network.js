@@ -68,7 +68,7 @@ const apiCall = async(method, url, data = {}) => {
     return {
       err: true,
       //message: i18n.t("Failed to send request")
-      message: i18n.t(err.message) // TODO: translate these messages in misc/strings-for-translation
+      message: i18n.t(err.message) // TODO: translate these messages in labels-to-be-translated
     };
 
     // AI /////////////////////////////////////////////////////////////////////////////////////

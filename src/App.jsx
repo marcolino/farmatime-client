@@ -26,6 +26,10 @@ import { useAxiosLoader } from "./hooks/useAxiosLoader";
 import { useResponsiveTheme } from "./themes/default";
 import config from "./config";
 
+const isPWA = window.location.pathname.startsWith("/pwa");
+
+console.log(" ********************* isPWA:", isPWA);
+
 /**
  * We need to separate the logic into App and AppStructure, because otherwise we access
  * AuthContext (preferences and toggleTheme) before AuthContext from AuthProvider was setup
@@ -33,6 +37,7 @@ import config from "./config";
 const App = () => {
   return (
     <BrowserRouter
+      basename={isPWA ? "/pwa" : "/"} /* differentiate basename to be able to handle oAuth2 for both web and PWA */
       future={{ /* avoid v7 start transition warnings */ 
         v7_startTransition: true,
         v7_relativeSplatPath: true,
@@ -72,46 +77,35 @@ const AppStructure = () => {
   };
 
   return (
-    // <BrowserRouter
-    //   future={{ /* avoid v7 start transition warnings */ 
-    //     v7_startTransition: true,
-    //     v7_relativeSplatPath: true,
-    //   }}
-    // >
-    // <SnackbarProviderWrapper>
-    //   <AuthProvider>
-        <ThemeProvider theme={theme}>
-          <CartProvider>
-            <DialogProvider>
-              <ServiceWorkerMessages />
-              <ServiceWorkerProvider>
-                <OnlineStatusProvider>
-                  <MediaQueryProvider>
-                    <CssBaseline />
-                    <LoaderProvider>
-                      <Loader loading={loading} />
-                      {/* <SessionExpirationHandler> */}
-                      {/* <BackgroundVideo /> */}
-                      {/* <SessionProvider /> */}
-                      <JobProvider>
-                        <InstallPWA />
-                        <CookiePreferences />
-                        {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
-                        <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
-                          <Routing />
-                        </Contents>
-                      </JobProvider>
-                      {/* </SessionExpirationHandler> */}
-                    </LoaderProvider>
-                  </MediaQueryProvider>
-                </OnlineStatusProvider>
-              </ServiceWorkerProvider>
-            </DialogProvider>
-          </CartProvider>
-        </ThemeProvider>
-      //     </AuthProvider>
-      //   </SnackbarProviderWrapper>
-      // </BrowserRouter> */}
+    <ThemeProvider theme={theme}>
+      <CartProvider>
+        <DialogProvider>
+          <ServiceWorkerMessages />
+          <ServiceWorkerProvider>
+            <OnlineStatusProvider>
+              <MediaQueryProvider>
+                <CssBaseline />
+                <LoaderProvider>
+                  <Loader loading={loading} />
+                  {/* <SessionExpirationHandler> */}
+                  {/* <BackgroundVideo /> */}
+                  {/* <SessionProvider /> */}
+                  <JobProvider>
+                    <InstallPWA />
+                    <CookiePreferences />
+                    {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                    <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
+                      <Routing />
+                    </Contents>
+                  </JobProvider>
+                  {/* </SessionExpirationHandler> */}
+                </LoaderProvider>
+              </MediaQueryProvider>
+            </OnlineStatusProvider>
+          </ServiceWorkerProvider>
+        </DialogProvider>
+      </CartProvider>
+    </ThemeProvider>
   );
 };
 

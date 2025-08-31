@@ -1,5 +1,7 @@
-#!/usr/bin/env node
-// (note: use yarn node)
+#!/usr/bin/env yarn node
+
+// #!/usr/bin/env node
+// // (note: use yarn node)
 
 //import dotenv from "dotenv";
 import fs from "fs/promises";
@@ -14,6 +16,7 @@ const manifestJson = {
   "theme_color": config.ui.defaultThemeColor,
   "background_color": config.ui.defaultThemeBackgroundColor,
   "start_url": config.manifest.startUrl,
+  "scope": config.manifest.scope,
   "display": config.manifest.display,
   "icons": [
     {
@@ -103,3 +106,5 @@ async function buildManifest() {
 
 // Run the manifest builder
 buildManifest();
+    
+process.exit(0);

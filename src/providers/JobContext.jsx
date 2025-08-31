@@ -42,6 +42,7 @@ export const initialJobContext = {
   jobError: null,
   confirmJobsOnServer: () => { },
   jobsConfirmedCount: () => { },
+  jobsIsValid: () => { },
 };
 
 export const JobContext = createContext(initialJobContext);

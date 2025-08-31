@@ -241,6 +241,9 @@
 - disable cart saving to localstorage if cart is not used - OK
 - add `"dedupe": "npm dedupe",` to package.json, and try `npm ls react` (?) ...  NO
 
+- add an auth.user attribute (lastAskedToInstallPWA) with the timestamp of when she was last asked to install PWA.
+  logic to show PWA install dialog will take it into consideration, to ask only once per 3 days... More, add some
+  explanation about the advantages of installing it as an app...
 - add remove-data-info url for FB
 - add beforeunload to avoid loosing woork in JobFlow
 - update index.language, index.dir, index.charset when user changes locale
@@ -259,6 +262,7 @@
 - move custom/* to mui-material-custom/ and always import from 'mui-material-custom'
 
 NEWFEATURE:
+- periodicamente eseguire `yarn update-medicines`
 - decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore
   (con vite/react16+) per gestire le notifiche in app (vedere /docs/PUSH-NOTIFICATIONS/*)
 - chiedere ad AI di completare le labels aria per tutti i componenti MUI
