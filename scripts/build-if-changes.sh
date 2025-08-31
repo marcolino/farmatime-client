@@ -7,6 +7,6 @@ if cmp -s .build-hash .build-hash-last; then
   exit 0
 else
   echo "🔨 Changes detected, building..."
-  yarn vite build
+  yarn build
   mv .build-hash .build-hash-last
 fi
