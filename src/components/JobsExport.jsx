@@ -52,15 +52,12 @@ const JobsExport = () => {
       });
     } catch (err) {
       console.error('Failed to generate QR code:', err);
-      alert('Failed to generate QR code: ' + err.message);
+      alert('Failed to generate QR code: ' + err.message); // TODO ...
     }
   };
 
   const handleExport = async () => {
-    // if (secureStorageStatus.status !== "ready") {
-    //   throw new Error(secureStorageStatus.error); // TODO: is it ok to throw here?
-    // }
-    if (!isObject(jobs/*Data*/)) {
+    if (!isObject(jobs)) {
       throw new Error("Invalid user data format"); // TODO: is it ok to throw here?
     }
 
@@ -80,26 +77,10 @@ const JobsExport = () => {
         data: JobsDataToExport,
         timestamp: Date.now(),
       };
-
-      let value;
-      //const QRCodeEncryption = false; // TODO: to config
-      //if (QRCodeEncryption) {
-      // if (config.ui.jobs.qrcode.ecryption) {
-      //   const encrypted = await secureStorageEncrypt(payload);
-      //   const base64Payload = base64EncodeUnicode(JSON.stringify(encrypted));
-
-      //   if (base64Payload.length > maxBytes) {
-      //     alert("Even truncated encrypted data is too large for QR code.");
-      //     return;
-      //   }
-      //   value = base64Payload;
-      // } else {
-        const payloadString = JSON.stringify(payload);
-        value = payloadString;
-      // }
-      setQrValue(value);
+      const payloadString = JSON.stringify(payload);
+      setQrValue(payloadString);
     } catch (err) {
-      alert("Failed to prepare export data: " + err.message);
+      alert("Failed to prepare export data: " + err.message); // TODO ...
     }
   };
 

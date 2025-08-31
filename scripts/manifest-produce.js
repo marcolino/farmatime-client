@@ -13,7 +13,7 @@ const manifestJson = {
   "description": config.description,
   "theme_color": config.ui.defaultThemeColor,
   "background_color": config.ui.defaultThemeBackgroundColor,
-  "start_url": config.siteUrl,
+  "start_url": config.manifest.startUrl,
   "display": config.manifest.display,
   "icons": [
     {
@@ -45,27 +45,23 @@ const manifestJson = {
   "screenshots": [    
     {
       "src": "screenshot-narrow.png",
-      "sizes": "360x636",
+      "sizes": "420x683",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Mobile application"
     },
     {
       "src": "screenshot-wide.png",
-      "sizes": "1024x1574",
+      "sizes": "1856x882",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Desktop application"
     }
-  ],
-  "start_url": config.manifest.startUrl,
-  "display": config.manifest.display,
-  "theme_color": config.ui.defaultThemeColor,
-  "background_color": config.ui.defaultThemeBackgroundColor
+  ]
 };
 
 const manifestFileName = "public/manifest.webmanifest";
-const faviconSourcePath = "Logo.png";
+const faviconSourcePath = "base-assets/LogoMain.png";
 
 async function buildManifest() {
   try {

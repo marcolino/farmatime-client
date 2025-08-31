@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 //import DialogConfirm from "./DialogConfirm";
 import SignalWifi3BarOutlinedIcon from "@mui/icons-material/SignalWifi3BarOutlined";
 import SignalWifiBadOutlinedIcon from "@mui/icons-material/SignalWifiBadOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+//import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { AuthContext } from "../providers/AuthContext";
 import { useDialog } from "../providers/DialogContext";
 import { OnlineStatusContext } from "../providers/OnlineStatusContext";
@@ -25,6 +25,7 @@ const Footer = ({ changeLocale }) => {
   const { auth, guest } = useContext(AuthContext);
 
   useEffect(() => { // read build info from file on disk
+    if (import.meta.env.MODE === "test") return; // skip in vitest
     if (!buildInfo) {
       fetch("/build-info.json")
         .then((response) => response.json())
@@ -57,11 +58,11 @@ const Footer = ({ changeLocale }) => {
     i18n.changeLanguage(currentLanguage);
   }, [auth, guest]); // re-run when auth or guest state changes
 
-  const infoTitle = packageJson.name; 
-  const infoContents = `\
-    v${packageJson.version} © ${new Date().getFullYear()}, \
-    ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\
-  `;
+  // const infoTitle = packageJson.name; 
+  // const infoContents = `\
+  //   v${packageJson.version} © ${new Date().getFullYear()}, \
+  //   ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\
+  // `;
 
   const networkTitle = packageJson.name; 
   const networkContents =
@@ -141,13 +142,7 @@ const Footer = ({ changeLocale }) => {
         </Link> */}
 
         {/* app and build full info */}
-        <Box
-          // OLDonClick={() => handleOpenDialog(
-          //     infoTitle,
-          //     infoContents,
-          //     null,
-          //   )
-          // }
+        {/*<Box
           onClick={() => showDialog({
             title: infoTitle,
             message: infoContents,
@@ -156,7 +151,7 @@ const Footer = ({ changeLocale }) => {
           sx={{ mr: 1.5, cursor: "pointer" }}
         >
           <InfoOutlinedIcon sx={{ fontSize: 22, verticalAlign: "bottom", marginBottom: 0.3  }}/>
-        </Box>
+        </Box> */}
         
         {/* network connection indicator */}
         <Box

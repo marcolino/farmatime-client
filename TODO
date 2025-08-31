@@ -217,23 +217,17 @@
 - gestire gift in cart - OK
 - rinominare HandleUsers -> UsersHandle, ... (prima il soggetto, poi l'azione) - OK
 - correggere popup per "info" (adesso mostra "network-status"...) - OK
-
-- use components/InstallPWA.jsx
-- show columns sort icons in tables handling components only if more than one row is shown
-- show fields errors in jobflow components
-- update index.language, index.dir, index.charset when user changes locale
-- migliorare il tema scuro
-- risolvere i TODO's nel codice
-- make tests (also use AI for this...)
-- reinstall from scratch (possibly on a fresh system), and compile README file
-- find a better place for Logo* images other than / ...
-- move custom/* to mui-material-custom/ and always import from 'mui-material-custom'
-- better cookie popup: see unisalute.it
-- PushNotificationsStatusProvider => NotificationPushNotificationsStatusProvider
-- move components from custom/ to mui-material-custom/
-- link "job" key to the user id, to differentiate job data in cookies among different users in the same browser
-- in JobConfirmationReview and email preview, say: "Preview of the FIRST request"
-- debug {FIRST AND LAST NAME OF THE USER} not replaced
+- use components/InstallPWA.jsx - OK
+- in UserEdit.jsx, formSubmit(), see call to updateSignedInUserLocally(updatedUser) to update localstorageuser when user data is updated on server - OK
+- disable "Entra" top button when on signin or signup screens - OK
+- change components/InstallPWA.jsx to fire install request after first successful activity creation - OK
+- test components/InstallPWA.jsx on Android - OK
+- show columns sort icons in tables handling components only if more than one row is shown - OK
+- show fields errors in jobflow components - OK
+- find a better place for Logo* images other than / ... - OK
+- link "job" key to the user id, to differentiate job data in cookies among different users in the same browser - OK
+- debug {FIRST AND LAST NAME OF THE USER} not replaced - OK
+- in JobConfirmationReview and email preview, say: "Preview of the FIRST request" - OK
 - reduce size of:
     build/assets/hero-medium.webp              131.81 kB
     build/assets/hero-small-portrait.jpg       192.74 kB
@@ -242,13 +236,27 @@
     build/assets/hero-small.jpg                296.71 kB
     build/assets/hero-medium.jpg               739.83 kB
     build/assets/hero-large.jpg              1,310.94 kB
-    build/assets/LogoMain.png                1,950.59 kB
+    build/assets/LogoMain.png                1,950.59 kB - OK
+- npm uninstall draft-js draft-convert react-draft-wysiwyg html-to-draftjs, and ask AI to refactor emailTemplateEditor with modern alternative: @react-editor-js, or @tiptap/react, or lexical from Meta - OK
+- disable cart saving to localstorage if cart is not used - OK
+- add `"dedupe": "npm dedupe",` to package.json, and try `npm ls react` (?) ...  NO
+
+- add remove-data-info url for FB
+- add beforeunload to avoid loosing woork in JobFlow
+- update index.language, index.dir, index.charset when user changes locale
+- migliorare il tema scuro
+- risolvere i TODO's nel codice
+- make tests (also use AI for this...)
+- reinstall from scratch (possibly on a fresh system), and compile README file
+- better cookie popup: see unisalute.it
+- PushNotificationsStatusProvider => NotificationPushNotificationsStatusProvider
+- move components from custom/ to mui-material-custom/
 - In JobFlow.jsx, use lazy import to reduce chunk size, then we can lower
   chunkSizeWarningLimit (currently at 1536) in .vite.config.js
 - clean up eslint warnings/errors
-- npm uninstall draft-js draft-convert react-draft-wysiwyg html-to-draftjs, and ask AI to refactor emailTemplateEditor with modern alternative: @react-editor-js, or @tiptap/react, or lexical from Meta ...
-- then add `"dedupe": "npm dedupe",` to package.json, and try `npm ls react` ...
 - evitare di notificare inizialmente "l'app è pronta per funzionare offline" troppe volte
+- always use in useEffect in components, when needed (to avoid using useCallback()): // eslint-disable-next-line react-hooks/exhaustive-deps
+- move custom/* to mui-material-custom/ and always import from 'mui-material-custom'
 
 NEWFEATURE:
 - decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore
@@ -273,3 +281,4 @@ NEWFEATURE:
   visualizzare all'utente una pagina d'errore anziché rimanere in una condizione d'errore,
   e forse usare un servizio tipo logRocket per loggare anche gli errori sui client
 - gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi (quando saranno usati)
+- test components/InstallPWA.jsx on iOS

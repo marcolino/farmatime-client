@@ -26,14 +26,14 @@ import SecurityIcon from "@mui/icons-material/Security";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-import heroSmallPortraitJpg from '../assets/images/health/hero-small-portrait.jpg';
-import heroSmallPortraitWebp from '../assets/images/health/hero-small-portrait.webp';
-import heroSmallJpg from '../assets/images/health/hero-small.jpg';
-import heroSmallWebp from '../assets/images/health/hero-small.webp';
-import heroMediumJpg from '../assets/images/health/hero-medium.jpg';
-import heroMediumWebp from '../assets/images/health/hero-medium.webp';
-import heroLargeJpg from '../assets/images/health/hero-large.jpg';
-import heroLargeWebp from '../assets/images/health/hero-large.webp';
+import heroSmallPortraitJpg from '../assets/images/Health/Hero-small-portrait.jpg';
+import heroSmallPortraitWebp from '../assets/images/Health/Hero-small-portrait.webp';
+import heroSmallJpg from '../assets/images/Health/Hero-small.jpg';
+import heroSmallWebp from '../assets/images/Health/Hero-small.webp';
+import heroMediumJpg from '../assets/images/Health/Hero-medium.jpg';
+import heroMediumWebp from '../assets/images/Health/Hero-medium.webp';
+import heroLargeJpg from '../assets/images/Health/Hero-large.jpg';
+import heroLargeWebp from '../assets/images/Health/Hero-large.webp';
 //import SignIn from "./auth/SignIn";
 
 

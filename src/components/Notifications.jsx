@@ -29,12 +29,12 @@ const /*function*/ Notifications = (props) => {
     }
   };
   
-  console.log("Notifications - status.pushNotifications:", status.pushNotifications);
-  console.log("Notifications - props.location.state:", props.location.state);
+  console.log("Notifications - status.pushNotifications:", status?.pushNotifications);
+  console.log("Notifications - props.location.state:", props?.location?.state);
 
   return (
     <div className={classes.root}>
-      {status.pushNotifications.map((state, index) => {
+      {status?.pushNotifications.map((state, index) => {
         console.log("Notifications state:", state);
         const timestamp = state.data["google.c.a.ts"];
         const when = new Intl.DateTimeFormat(

@@ -87,7 +87,7 @@ function SignUp() {
         let err;
         switch (validation) {
           case "ERROR_PLEASE_SUPPLY_A_FIRSTNAME":
-            err = t("Please supply first name");
+            err = t("Please supply a first name");
             break;
           case "ERROR_PLEASE_SUPPLY_A_VALID_FIRSTNAME":
             err = t("Please supply a valid first name");
@@ -106,7 +106,7 @@ function SignUp() {
          let err;
          switch (validation) {
            case "ERROR_PLEASE_SUPPLY_A_LASTNAME":
-             err = t("Please supply last name");
+             err = t("Please supply a last name");
              break;
            case "ERROR_PLEASE_SUPPLY_A_VALID_LASTNAME":
              err = t("Please supply a valid last name");

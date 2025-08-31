@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
@@ -18,98 +18,103 @@ import {
   TableRow,
   TablePagination,
   Typography,
+  Tooltip,
+  Chip,
 } from "@mui/material";
 import { TextFieldSearch, Button } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { Search, Edit, Delete, AddCircleOutline } from "@mui/icons-material";
+import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 //import { apiCall } from "../libs/Network";
+import { AuthContext } from '../providers/AuthContext';
 import LocalStorage from "../libs/LocalStorage";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
-//import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../providers/SnackbarProvider";
 // import { i18n } from "../i18n";
 
 const JobsTable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  //const { showSnackbar } = useSnackbarContext();
+  const { isLoggedIn } = useContext(AuthContext);
+  const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
   const { t } = useTranslation();
   const [filter, setFilter] = useState("");
   //const [action, setAction] = useState("");
   //const { job, setJob, jobError } = useContext(JobContext);
-  const { jobs, currentJobId, setCurrentJobId, addJob, removeJob /*, jobError*/ } = useContext(JobContext);
+  const { jobs, /*currentJobId, */setCurrentJobId, setJob, addJob, removeJob, playPauseJob, /*jobError, */ confirmJobsOnServer, jobIsValid} = useContext(JobContext);
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
+  const rowsPerPageInitial = 10;
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const [sortColumn, setSortColumn] = useState("id");
   const [sortDirection, setSortDirection] = useState("asc");
   
+  const [shouldConfirm, setShouldConfirm] = useState(false);
 
   const newJob = () => {
-    // TODO: use setCurrentJobId to set a NEW job id (the biggest found + 1)
-    //setCurrentJobId(nextJobId(jobs)); // set a NEW job id (the biggest found + 1)
     addJob();
     navigate(`/job-new`);
   };
 
-  // const nextJobId = (jobs) => {
-  //   const id = Math.max(...jobs.map(job => job.id)) + 1;
-  //   console.log('nextJobId:', id);
-  //   return id;
-  // }
-
   const _removeJob = (jobId) => {
-    // TODO: remove job from jobs
-    //alert(`removing job ${params}`);
     removeJob(jobId);
+    setShouldConfirm(true); // Trigger confirmation on server
   }
 
   const onEdit = (jobId) => {
     setCurrentJobId(jobId);
+    if (jobs[jobId].isConfirmed) { // if job is confirmed, reset current step to be the first one
+      setJob(prev => ({
+        ...prev,
+        currentStep: 0,
+      }));
+    }
     navigate(`/job`);
   };
   
-  // const onRemove = async (jobId) => {
-  //   removeJob({ filter: [jobId] }).then((data) => {
-  //     if (data.err) {
-  //       console.warn("removeJob error:", data);
-  //       showSnackbar(t("Error removing job: {{err}}", {err: data.message}), "error");
-  //       return;
-  //     }
-  //     // update the state to filter the removed job from the list
-  //     setJobs(previousJobs => previousJobs.filter(job => job.id !== jobId));
-  //     //setToBeRemoved(null);
-  //   }).catch(err => {
-  //     console.error(`Error removing job with id ${jobId}: ${err.message}`);
-  //     showSnackbar(t("Error removing job with id {{id}}: {{err}", {id: jobId, err: err.message}), "error");
-  //   });
-  // };
-
-  // const onBulkRemove = async (jobIds, params) => {
-  //   removeJob({ filter: jobIds, ...params }).then((data) => {
-  //     if (data.err) {
-  //       console.warn("bulkRemove job error:", data);
-  //       showSnackbar(t("Error bulk removing job: {{err}}", { err: data.message }), "error");
-  //       return;
-  //     }
-  //     setJobs(previousJobs => previousJobs.filter(job => !jobIds.includes(job.id)));
-  //     setSelected([]);
-  //     showSnackbar(t("Removed {{ count }} jobs", { count: jobIds.length }), "success");
-  //   }).catch(err => {
-  //     console.error(`Error bulk removing ${jobIds.length} jobs with ids ${jobIds}: ${err.message}`);
-  //     showSnackbar(t("Error bulk removing {{count}} jobs: {{err}}", {count: jobIds.length, err: err.message}), "error");
-  //   });
-  // };
+  const onSwitchActiveStatus = (jobId) => {
+    playPauseJob(jobId);
+    setShouldConfirm(true); // Trigger confirmation on server
+  };
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(() => {
-    return parseInt(LocalStorage.get("jobsRowsPerPage")) || 10; // persist to local storage
+    return parseInt(LocalStorage.get("jobsRowsPerPage")) || rowsPerPageInitial; // persist to local storage
   });
   const [selected, setSelected] = useState([]);
   //const [toBeRemoved, setToBeRemoved] = useState(null);
+  
+  // Check user is logged in (TODO: implement for all authenticated routes, possibly using a higher-order component)
+  useEffect(() => {
+    if (!isLoggedIn) {
+      console.warn('User must be logged in');
+      navigate("/", {replace: true})
+    }
+  }, [isLoggedIn]);
+
+  // Confirm job changes
+  useEffect(() => {
+    if (shouldConfirm) {
+      (async () => {
+        console.log("Confirming jobs on server...", jobs);
+        if (!await confirmJobsOnServer()) {
+          return;
+        }
+      })();
+      setShouldConfirm(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldConfirm]);
+
+  // Check if current page is still valid (for example after a row deletion); otherwise go back one page
+  useEffect(() => {
+    if (page > 0 && page * rowsPerPage >= jobs.length) {
+      setPage(page - 1);
+    }
+  }, [jobs, page, rowsPerPage]);
   
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -166,7 +171,7 @@ const JobsTable = () => {
   // sort jobs
   const sortedJobs = React.useMemo(() => {
     let sortedJobs = [...jobs];
-  
+
     if (sortColumn !== null) {
       sortedJobs.sort((a, b) => {
         if (isString(a[sortColumn])) {
@@ -206,6 +211,8 @@ const JobsTable = () => {
 
   // sort, filter and paginate jobs
   const getSortedFilteredPaginatedJobs = () => {
+    console.log("JOBS:", jobs);
+    
     if (!jobs || !jobs.length) {
       return [];
     }
@@ -226,36 +233,6 @@ const JobsTable = () => {
       );
     };
 
-    // const matches = (obj, fieldName) => {
-    //   if (!obj) {
-    //     return false;
-    //   }
-    //   if (!obj[fieldName]) {
-    //     return false;
-    //   }
-    //   return obj[fieldName].toString().toLowerCase().includes(search);
-    // };
-
-    // const matches = (obj, fieldName, search) => {
-    //   if (!obj) {
-    //       return false;
-    //   }
-
-    //   // Split the fieldName by '.' to get each nested key
-    //   const fields = fieldName.split('.');
-
-    //   // Traverse the object to get the nested value
-    //   let value = obj;
-    //   for (const field of fields) {
-    //       if (value[field] === undefined || value[field] === null) {
-    //           return false;
-    //       }
-    //       value = value[field];
-    //   }
-
-    //   return value.toString().toLowerCase().includes(search);
-    // }
-
     const matches = (obj, fieldName, search) => {
       if (!obj) {
         return false;
@@ -264,7 +241,7 @@ const JobsTable = () => {
         return false;
       }
       if (!search) {
-        return false; // TODO: better true?
+        return false; // return false if no search term is provided, to return soon
       }
 
       search = search?.toLowerCase();
@@ -326,12 +303,14 @@ const JobsTable = () => {
   };
     
   const sortButton = (props) => {
-    return (
+    return sortedFilteredPaginatedJobs.length > 1 ? (
       <Typography component="span">
         {(sortColumn === props.column) ? (sortDirection === "asc" ? "▼" : "▲") : <StackedArrowsGlyph opacity={0.4 } />}
       </Typography>
-    );
+    ) : null;
   };
+
+  const sortedFilteredPaginatedJobs = getSortedFilteredPaginatedJobs(/*jobs, sortColumn, sortDirection*/);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -414,6 +393,9 @@ const JobsTable = () => {
                 <TableCell onClick={handleSort("id")}>
                   {t("Id")} {sortButton({ column: "id" })}
                 </TableCell>
+                <TableCell onClick={handleSort("isActive")}>
+                  {t("Status")} {sortButton({ column: "isActive" })}
+                </TableCell>
                 <TableCell onClick={handleSort("patientName")}>
                   {t("Patient name")} {sortButton({ column: "patientName" })}
                 </TableCell>
@@ -426,8 +408,8 @@ const JobsTable = () => {
                 <TableCell onClick={handleSort("doctorEmail")}>
                   {t("Doctor email")} {sortButton({ column: "doctorEmail" })}
                 </TableCell>
-                <TableCell onClick={handleSort("medicines")}>
-                  {t("Medicines")} {sortButton({ column: "medicines" })}
+                <TableCell /*onClick={handleSort("medicines")}*/>
+                  {t("Medicines")} {/*sortButton({ column: "medicines" })*/}
                 </TableCell>
                 <TableCell>
                   {t("Actions")}
@@ -435,7 +417,7 @@ const JobsTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {getSortedFilteredPaginatedJobs(/*jobs, sortColumn, sortDirection*/).map(job => {
+              {sortedFilteredPaginatedJobs.map(job => {
                   const isItemSelected = isSelected(job.id);
                   //console.log("ID:", job.id);
                   return (
@@ -459,24 +441,77 @@ const JobsTable = () => {
                         <Checkbox checked={isItemSelected} />
                       </TableCell>
                       <TableCell>{1 + job.id}</TableCell>
+                      <TableCell>
+                        <Tooltip title={job.isActive ? t("Job is active") : t("Job is paused")} arrow>
+                          <Chip
+                            label={<IconButton size="small">
+                              {job.isActive ? <PlayArrow fontSize="small" /> : <Pause fontSize="small" />}
+                            </IconButton>}
+                            color={job.isActive ? "primary" : "warning"}
+                            variant="filled"
+                            size="small"
+                          />
+                        </Tooltip>
+                      </TableCell>
                       <TableCell>{job.patient?.firstName} {job.patient?.lastName}</TableCell>
                       <TableCell>{job.patient?.email}</TableCell>
                       <TableCell>{job.doctor?.name}</TableCell>
                       <TableCell>{job.doctor?.email}</TableCell>
-                      <TableCell>{job.medicines[0]?.name}</TableCell>{/* TODO */}
+                      <TableCell>{job.medicines?.length === 0 ? '' : `(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
                       <TableCell>
-                        <IconButton size="small" onClick={() => onEdit(job.id)}>
-                          <Edit fontSize="small" />
-                        </IconButton>
-                        <IconButton size="small" onClick={() => showDialog({
-                          onConfirm: () => _removeJob(job.id),
-                          title: t("Confirm Delete"),
-                          message: t("Are you sure you want to delete {{count}} selected job?", { count: 1 }),
-                          confirmText: t("Confirm"),
-                          cancelText: t("Cancel"),
-                        })}>
-                          <Delete fontSize="small" />
-                        </IconButton>
+                        <Tooltip title={t("Edit job")} arrow>
+                          <IconButton size="small" onClick={(e) => {
+                            e.stopPropagation(); // Prevents bubbling to TableRow and select the row
+                            onEdit(job.id);
+                          }}>
+                            <Edit fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title={job.isActive ? t("Pause job") : t("Activate job")} arrow>
+                          <IconButton size="small" onClick={(e) => {
+                            e.stopPropagation(); // Prevents bubbling to TableRow and select the row
+                            if (!jobIsValid(job.id)) {
+                              return showSnackbar(t("Job is not complete, can't be activated. Please edit the job and complete all requested fields"), "warning");
+                            }
+                            const title = job.isActive ? t("Pause job") : t("Activate job");
+                            const what = job.isActive ? t("pause") : t("activate");
+                            const explanation = job.isActive ?
+                              t("Requests for this activity will not be sent anymore until it is reactivated") :
+                              t("Requests for this activity will be sent again");
+                            showDialog({
+                              onConfirm: () => {
+                                onSwitchActiveStatus(job.id);
+                              },
+                              title,
+                              message:
+                                t("Are you sure you want to {{what}} this job?", { what }) +
+                                "\n\n" +
+                                explanation + "."
+                              ,
+                              confirmText: t("Confirm"),
+                              cancelText: t("Cancel"),
+                            });
+                          }}>
+                            {job.isActive ? <Pause fontSize="small" /> : <PlayArrow fontSize="small" />}
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title={t("Delete job")} arrow>
+                          <IconButton
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Stop row selection immediately
+                              showDialog({
+                                onConfirm: () => _removeJob(job.id),
+                                title: t("Confirm Delete"),
+                                message: t("Are you sure you want to delete {{count}} selected job?", { count: 1 }),
+                                confirmText: t("Confirm"),
+                                cancelText: t("Cancel"),
+                              });
+                            }}
+                          >
+                            <Delete fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   );
@@ -484,7 +519,7 @@ const JobsTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        {(jobs.length > rowsPerPageOptions) && ( // do not show pagination stuff if a few rows are present
+        {(jobs.length > rowsPerPageOptions[0]) && ( // do not show pagination stuff if a few rows are present
           <TablePagination
             rowsPerPageOptions={rowsPerPageOptions}
             component="div"

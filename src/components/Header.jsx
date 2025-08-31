@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
-  AccountCircle, ExitToApp, ManageAccounts,
+  AccountCircle, ExitToApp,
   ShoppingCart, Category, Brightness4, Brightness7,
   ContactPhone, /*ImportExport,*/ SettingsSuggest,
 } from "@mui/icons-material";
@@ -31,7 +31,6 @@ const Header = ({ theme, toggleTheme }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
-  //const [authRoute, setIsAuthRoute] = useState(location.pathname === "/signin");
   const { cartItemsQuantity } = useCart();
   const { isMobile } = useMediaQueryContext();
 
@@ -81,11 +80,11 @@ const Header = ({ theme, toggleTheme }) => {
   const userItems = [
     ...(isLoggedIn && isAdmin(auth.user) ?
       [
-        {
-          label: t("Handle users"),
-          icon: <ManageAccounts />,
-          href: "/handle-users",
-        },
+        // {
+        //   label: t("Handle users"),
+        //   icon: <ManageAccounts />,
+        //   href: "/handle-users",
+        // },
          ...(config.ui.products.enabled ?
           [
             {
@@ -97,16 +96,6 @@ const Header = ({ theme, toggleTheme }) => {
         : []),
       ]
     : []),
-    {
-      label: t("Change theme"),
-      icon: (
-        <IconButton onClick={toggleTheme} sx={{ padding: 0 }}>
-          {theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />}
-        </IconButton>
-      ),
-      href: null,
-      onClick: toggleTheme
-    },
     ...(isLoggedIn ?
       [
         {
@@ -121,13 +110,13 @@ const Header = ({ theme, toggleTheme }) => {
           onClick: () => handleAdvancedOptions(),
           shortcutKey: "", //"Ctrl-O"
         },
-        {
-          label: t("Sign out"),
-          icon: <ExitToApp />,
-          href: false,
-          onClick: () => handleSignOut(),
-          shortcutKey: "", //"Ctrl-Q"
-        },
+        // {
+        //   label: t("Sign out"),
+        //   icon: <ExitToApp />,
+        //   href: false,
+        //   onClick: () => handleSignOut(),
+        //   shortcutKey: "", //"Ctrl-Q"
+        // },
         // {
         //   label: t("Export data"),
         //   icon: <ImportExport />,
@@ -144,6 +133,27 @@ const Header = ({ theme, toggleTheme }) => {
         // },
       ] : [ ]
     ),
+    {
+      label: t("Change theme"),
+      icon: (
+        <IconButton onClick={toggleTheme} sx={{ padding: 0 }}>
+          {theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />}
+        </IconButton>
+      ),
+      href: null,
+      onClick: toggleTheme
+    },
+    ...(isLoggedIn ?
+      [
+        {
+          label: t("Sign out"),
+          icon: <ExitToApp />,
+          href: false,
+          onClick: () => handleSignOut(),
+          shortcutKey: "", //"Ctrl-Q"
+        },
+      ]
+    : []),
   ];
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -163,7 +173,7 @@ const Header = ({ theme, toggleTheme }) => {
     setAnchorUserMenuEl(null);
   };
   
-  const handleUserJoin = (event) => {
+  const handleUserJoin = () => {
     navigate(
       didSignInBefore ? "/signin" : "/signup",
       { replace: true }
@@ -199,7 +209,8 @@ const Header = ({ theme, toggleTheme }) => {
   // };
 
   //console.log("sections:", sections);
-
+  //console.log("+++++++++++++++ isAuthRoute:", isAuthRoute(), location, location.pathname);
+  
   return (
     <AppBar
       position="sticky"
@@ -213,7 +224,8 @@ const Header = ({ theme, toggleTheme }) => {
           alignItems="center"
           sx={{
             //textDecoration: "none",
-            alignItems: 'center', // Vertically centers the child
+            alignItems: "center", // Vertically centers the child
+            userSelect: "none"
            }}
         >
           <Box
@@ -225,7 +237,8 @@ const Header = ({ theme, toggleTheme }) => {
               height: "auto", // let browser calculate height proportionally
               mr: 2,
               borderRadius: 2,
-              display: "block" // remove inline spacing
+              display: "block", // remove inline spacing
+              userSelect: "none", // avoid user select
             }}
           />
           <Box
@@ -233,12 +246,12 @@ const Header = ({ theme, toggleTheme }) => {
             src={logoMainText}
             alt="Main text logo"
             sx={{
-              width: { xs: 100, sm: 150 },
+              width: { xs: 150, sm: 180 },
               height: "auto", // let browser calculate height proportionally
               mr: 2,
+              userSelect: "none", // avoid user select
               //borderRadius: 2,
               //display: "block" // remove inline spacing
-
             }}
           />
         </Box>
@@ -247,6 +260,7 @@ const Header = ({ theme, toggleTheme }) => {
           display: "flex",
           alignItems: "center",
           flexGrow: 1,
+          userSelect: "none"
         }}>
         </Box>
 
@@ -404,4 +418,4 @@ const Header = ({ theme, toggleTheme }) => {
 
 };
 
-export default Header;
+export default React.memo(Header);

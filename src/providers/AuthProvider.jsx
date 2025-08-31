@@ -1,14 +1,21 @@
-import { useState, /*createContext, */useCallback } from "react";
+import { useState, useEffect, /*useContext, */useCallback, useRef } from "react";
 import { AuthContext } from "./AuthContext";
+//import { JobContext } from "./JobContext";
+import { useNavigate } from "react-router-dom";
+import { useSnackbarContext } from "./SnackbarProvider";
+//import DialogConfirm from './DialogConfirm';
 import { usePersistedState } from "../hooks/usePersistedState";
 import { apiCall } from "../libs/Network";
+import LocalStorage from "../libs/LocalStorage";
 import config from "../config";
 
 const initialStateUser = { user: null }; // initial state for user, when app if first loaded
-const initialStatePreferences = { locale: config.serverLocale, theme: config.ui.defaultTheme }; // initial state for locale and theme (used for guest users only), when app if first loaded
+const initialStatePreferences = { locale: config.serverLocale, theme: config.ui.defaultTheme }; // initial state for locale and theme preferences (used for guest users only), when app if first loaded
 
-//const AuthContext = createContext(initialStateUser);
-
+// Module-level variable for global access
+let globalSignOut = null;
+/* eslint-disable-next-line react-refresh/only-export-components */
+export const getGlobalSignOut = () => globalSignOut;
 
 const AuthProvider = (props) => {
   const [auth, setAuth] = usePersistedState("auth", initialStateUser);
@@ -16,6 +23,26 @@ const AuthProvider = (props) => {
   const isLoggedIn = (!!auth.user);
   const didSignInBefore = (auth.user !== null);
   const [preferences, setPreferences] = useState(isLoggedIn ? auth.user?.preferences : initialStatePreferences);
+  const isPWAInstalled = isLoggedIn ? (auth.user.isPWAInstalled === true) : false;
+  //const { resetJobs } = useContext(JobContext);
+  const { showSnackbar } = useSnackbarContext();
+  const sessionTimerRef = useRef(null);
+  const navigate = useNavigate();
+
+  // Start session timer
+  const startSessionTimer = useCallback((expiresAt) => {
+    clearSessionTimer();
+    if (!expiresAt) return;
+
+    const msUntilExpiry = new Date(expiresAt).getTime() - Date.now();
+    if (msUntilExpiry > 0) {
+      sessionTimerRef.current = setTimeout(() => {
+        console.warn("Session expired (timer)");
+        signOut("expired"); // call signOut with reason
+        navigate("/signin", { replace: true, state: { reason: "expired" } });
+      }, msUntilExpiry);
+    }
+  }, []);
 
   const updateUserPreferences = useCallback(async (user, preferences) => {
     try {
@@ -38,16 +65,18 @@ const AuthProvider = (props) => {
       //updateUserPreferences(user, user.preferences);
       setPreferences(user.preferences);
     }
-  });
+    if (user?.refreshTokenExpiresAt) {
+      startSessionTimer(user.refreshTokenExpiresAt);
+    }
+  }, [setAuth, setPreferences, startSessionTimer]);
 
-  const updateSignedInUserPreferences = useCallback(async (user) => {
+  const updateSignedInUserPreferences = async (user) => {
     console.log("AuthProvider updateSignedInUserPreferences, user:", user);
     setAuth({ user });
     if (user && user.preferences) {
       setPreferences(user.preferences);
-      updateUserPreferences(user, user.preferences);
     }
-  });
+  };
 
   const changeLocale = useCallback((locale) => {
     console.log("AuthProvider changeLocale, user:", auth.user, ", locale:", locale);
@@ -102,14 +131,14 @@ const AuthProvider = (props) => {
       const newUser = { ...user, preferences: guestPreferences };
       setAuth({ user: newUser });
       //setGuest({ user: null });
-      alert("cloned guest user preferences to auth user: " + JSON.stringify(newUser));
+      //alert("cloned guest user preferences to auth user: " + JSON.stringify(newUser));
     }
   };
 
   // centralized sign out function
-  const signOut = useCallback(async () => {
+  const signOut = useCallback(async (reason) => {
     let ok = false;
-    if (auth.user) {
+    if (isLoggedIn) {
       try {
         const result = await apiCall("post", "/auth/signout", { userId: auth.user.id });
         if (result.err) {
@@ -122,18 +151,25 @@ const AuthProvider = (props) => {
       } catch (error) {
         console.error("sign out error:", error);
       }
+      clearSessionTimer();
       setAuth({ user: false }); // user is not set, but not null, it means she has an account
       setPreferences(guest.preferences);
     } else {
       console.warn("already signed out");
     }
+
+    if (reason === "expired") {
+      showSnackbar("Your session has expired. Please sign in again.", "info");
+    }
     return ok;
-  }, [auth.user, setAuth, guest.preferences]);
+  }, [auth.user, setAuth, guest.preferences, showSnackbar]);
 
   const revoke = useCallback(async () => {
     let ok = false;
     if (auth.user !== null) {
-      setAuth({ user: null }); // user is not set, and null, it means she has not an account 8anymore9
+      clearSessionTimer();
+      setAuth({ user: null }); // user is not set, and null, it means she had an account, but did revoke it
+      console.log("Setting auth to", { user: null });
       setPreferences(guest.preferences);
       ok = true;
     } else {
@@ -142,8 +178,51 @@ const AuthProvider = (props) => {
     return ok;
   }, [auth.user, setAuth, guest.preferences]);
 
+  const setPWAInstalled = useCallback(async (how) => {
+    console.log("AuthProvider setPWAInstalled, user:", auth.user);
+    if (auth.user) {
+      setAuth({ user: {
+        ...auth.user,
+        PWAInstalled: how, // how is a boolean
+      }});
+    }
+  }, [auth.user, setAuth]);
+
+  const updateSignedInUserLocally = useCallback(async (updatedUser) => {
+    setAuth({ user: updatedUser });
+  }, [setAuth]);
+
+    // Clear and reset session timer
+  const clearSessionTimer = () => {
+    if (sessionTimerRef.current) {
+      clearTimeout(sessionTimerRef.current);
+      sessionTimerRef.current = null;
+    }
+  };
+
+  // Restart timer if user already signed in
+  useEffect(() => {
+    if (auth.user?.refreshTokenExpiresAt) {
+      startSessionTimer(auth.user.refreshTokenExpiresAt);
+    }
+    return () => clearSessionTimer();
+  }, [auth.user?.refreshTokenExpiresAt, startSessionTimer]);
+
+
+  // Expose signOut globally
+  useEffect(() => {  
+    globalSignOut = signOut;
+    return () => { globalSignOut = null; };
+  }, [signOut]);
+
+
   return (
-    <AuthContext.Provider value={{ auth, guest, preferences, isLoggedIn, didSignInBefore, signIn, updateSignedInUserPreferences, cloneGuestUserPreferencesToAuthUserOnSignup, signOut, revoke, changeLocale, toggleTheme }}>
+    <AuthContext.Provider value={{
+      auth, guest, preferences,
+      isLoggedIn, didSignInBefore, signIn, updateSignedInUserPreferences,
+      cloneGuestUserPreferencesToAuthUserOnSignup, signOut, revoke, changeLocale,
+      toggleTheme, isPWAInstalled, setPWAInstalled, updateSignedInUserLocally,
+    }}>
       {props.children}
     </AuthContext.Provider>
   );

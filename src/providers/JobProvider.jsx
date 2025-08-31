@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useContext } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { JobContext, initialJob, initialJobsState } from "./JobContext";
 import { useTranslation } from "react-i18next";
 //import { useSecureStorage } from "../hooks/useSecureStorage";
@@ -9,7 +9,7 @@ import { AuthContext } from "../providers/AuthContext";
 
 export const JobProvider = ({ children }) => {
   //const { secureStorageStatus, secureStorageGet, secureStorageSet } = useSecureStorage();
-  const { auth } = useContext(AuthContext);
+  const { auth, updateSignedInUserLocally } = useContext(AuthContext);
   const { t } = useTranslation();
 
   // State for jobs array and current job index
@@ -27,24 +27,23 @@ export const JobProvider = ({ children }) => {
   // const debouncedSaveRef = useRef(null);
 
   // Convenience getter for current job
-  const job = jobs.find(j => j.id === currentJobId) || initialJob;
+  //const job = jobs.find(j => j.id === currentJobId) || initialJob;
 
+  //console.log("initialJobsState.jobs:", initialJobsState.jobs);
 
   useEffect(() => {
-    if (auth?.user?.jobsData /*&& Array.isArray(auth.user.jobsData.jobs)*/ /*&& auth.user.jobs.length > 0*/) {
+    //if (auth?.user?.jobsData /*&& Array.isArray(auth.user.jobsData.jobs)*/ /*&& auth.user.jobs.length > 0*/) {
+    if (auth?.user?.jobsData && Array.isArray(auth.user.jobsData.jobs) && auth.user.jobsData.jobs.length > 0) {
       setJobs(auth.user.jobsData.jobs);
       setCurrentJobId(auth.user.jobsData.currentJobId);
-
-      // // Optionally: figure out a currentJobId policy (e.g. 0, first, or last job's id)
-      // // Here: try to use initialJobsState.currentJobId if that id exists in user.jobs, otherwise use the first job's id
-      // const defaultJobId = auth.user.jobs.find(j => j.id === initialJobsState.currentJobId)?.id
-      //   ?? auth.user.jobs[0].id
-      //   ?? 0;
-      // setCurrentJobId(defaultJobId);
+     } else {
+      // Reset to initial state on logout
+      setJobs(initialJobsState.jobs);
+      setCurrentJobId(initialJobsState.currentJobId);
     }
   }, [auth?.user?.jobsData]); // rerun if the jobs array changes
   
-  const setJob = useCallback(
+  const setJob = useCallback( // TODO: updatedJobOrUpdater => updatedJob
     (updatedJobOrUpdater, id = currentJobId) => {
       setJobs((prevJobs) => {
         const newJobs = [...prevJobs];
@@ -53,10 +52,6 @@ export const JobProvider = ({ children }) => {
           typeof updatedJobOrUpdater === "function"
             ? updatedJobOrUpdater(prevJob)
             : updatedJobOrUpdater;
-        /*
-        newJobs[id] = newJob;
-        return newJobs;
-        */
         const index = newJobs.findIndex(j => j.id === id);
         if (index !== -1) {
           newJobs[index] = newJob;
@@ -75,137 +70,34 @@ export const JobProvider = ({ children }) => {
       setJobError({ type: "auth", message: "User not logged in" });
       return false;
     }
-    // Mark job as confirmed
-    setJob({ ...job, isConfirmed: true }, job.id);
-    // TODO: check jobsDataToConfirm is updated with current job ...
+
     try {
       // POST job data to server API - server encrypts & stores
       const response = await apiCall("post", "/user/updateUserJobsData", {
         userId: auth.user.id,
-        jobsData: {
-          jobs,
-          currentJobId
-        },
+        jobsData: { jobs, currentJobId },
       });
       if (response.err) {
         // Mark job as unconfirmed
-        setJob({ ...job, isConfirmed: false }, job.id);
+        //setJob({ ...job, isActive: false, isConfirmed: false }, job.id);
         setJobError({ type: "auth", message: response.message || t("Error saving job on server") });
         return false;
       }
-      // Optionally update local state if needed
+
+      // Update user's local state
+      // const updatedUser = auth.user;
+      // updatedUser.jobsData = { jobs, currentJobId };
+      const updatedUser = { ...auth.user, jobsData: { jobs, currentJobId } };
+      updateSignedInUserLocally(updatedUser);
+      
       setJobError(null);
-      // // Mark job as confirmed
-      // setJob({ ...job, isConfirmed: true }, job.id);
       return true;
     } catch (err) {
       setJobError({ type: "server", message: err.message || t("Failed to save job on server") });
       return false;
     }
   };
-
-  // useEffect(() => {
-  //   console.log("*** jobs:", jobs);
-  //   console.log("*** currentJobId:", currentJobId);
-  //   console.log("*** auth?.user?.id:", auth?.user?.id);
-  // }, [jobs, currentJobId, auth?.user?.id]),
-    
-  // // Initialize debounced save function when storage is ready
-  // useEffect(() => {
-  //   if (secureStorageStatus.status === "ready") {
-  //     debouncedSaveRef.current = debounce(async (newState) => {
-  //       try {
-  //         await secureStorageSet(auth?.user?.id ?? "0"/*config.ui.jobs.storageKey*/, newState);
-  //         lastSavedStateRef.current = newState;
-  //         console.log(">>> secureStorageSet (debounced & changed)");
-  //       } catch (err) {
-  //         console.error("Failed to set jobs state to secure storage:", err);
-  //         setJobError({
-  //           type: "store",
-  //           message: err.message,
-  //           code: err.code || null,
-  //         });
-  //       }
-  //     }, 500); // Debounce by half a second
-
-  //     return () => {
-  //       debouncedSaveRef.current.cancel();
-  //     };
-  //   }
-  // }, [secureStorageStatus, secureStorageSet, auth?.user?.id]);
-
-  // // Load jobs data on mount
-  // useEffect(() => {
-  //   if (secureStorageStatus.status === "ready") {
-  //     (async () => {
-  //       try {
-  //         const savedState = await secureStorageGet(auth?.user?.id ?? "0"/*config.ui.jobs.storageKey*/);
-  //         console.log("<<< secureStorageGet called");
-
-  //         if (
-  //           savedState &&
-  //           Array.isArray(savedState.jobs) &&
-  //           savedState.jobs.length > 0 //&&
-  //           //typeof savedState.currentJobId === "number" // it should ALWAYS be a number
-  //         ) {
-  //           setJobs(savedState.jobs);
-  //           setCurrentJobId(savedState.currentJobId);
-  //           lastSavedStateRef.current = savedState;
-  //         } else {
-  //           console.info("Jobs not set yet");
-  //           // throw (new Error("Error setting jobs!"));
-  //         }
-  //       } catch (err) {
-  //         console.error("Failed to get jobs state from secure storage:", err.message);
-  //         setJobError({
-  //           type: "store",
-  //           message: err.message,
-  //           code: err.code || null,
-  //         });
-  //       } finally {
-  //         //setisJobHydrating(false);
-  //       }
-  //     })();
-  //   }
-  // }, [secureStorageStatus, secureStorageGet, auth?.user?.id]);
-
-  // // Save jobs state on change (debounced + deduplicated)
-  // useEffect(() => {
-  //   if (secureStorageStatus.status === "ready") {
-  //     const newState = { jobs, currentJobId };
-  //     if (!isEqual(newState, lastSavedStateRef.current)) {
-  //       debouncedSaveRef.current(newState);
-  //     }
-  //   }
-  // }, [jobs, currentJobId, secureStorageStatus]);
-
-  // // Set jobError when it becomes "error"
-  // useEffect(() => {
-  //   if (secureStorageStatus.status === "error") {
-  //     if (secureStorageStatus.code !== 403) { // a code of 403 means the user is not logged in, so we don't want to show an error
-  //       setJobError({
-  //         type: "init",
-  //         message: secureStorageStatus.error || "SecureStorage initialization failed",
-  //         code: secureStorageStatus.code || null,
-  //       });
-  //     }
-  //     //setisJobHydrating(false); // stop hydration even on failure
-  //   }
-  // }, [secureStorageStatus]);
   
-  // // A function to dectect "empty" jobs
-  // const isJobEmpty = (job) => {
-  //   if (!job) {
-  //     return true;
-  //   }
-  //   return (
-  //     job.id !== 0 && // first job must never be deleted, it's a placeholder
-  //     Object.keys(job.patient || {}).length === 0 &&
-  //     Object.keys(job.doctor || {}).length === 0 &&
-  //     Array.isArray(job.medicines) && (job.medicines.length === 0)
-  //   );
-  // };
-
   // Add a new job
   const addJob = (newJob = null) => {
     setJobs((prevJobs) => {
@@ -227,10 +119,25 @@ export const JobProvider = ({ children }) => {
     });
   };
 
+  const playPauseJob = (id) => { // Switch active status for jobId
+    setJobs((prevJobs) => {
+      return prevJobs.map((job) =>
+        job.id === id
+          ? { ...job, isActive: !job.isActive }
+          : job
+      );
+    });
+  }
+
   const removeJob = (idToRemove) => {
     setJobs((prevJobs) => {
       // Filter out the job to remove
       const filteredJobs = prevJobs.filter(job => job.id !== idToRemove);
+
+      // if no job left, set at least initialJob
+      if (filteredJobs.length === 0) {
+        return initialJobsState.jobs;
+      }
 
       // Reassign IDs to avoid holes: create new jobs array with sequential IDs starting from 0
       const reindexedJobs = filteredJobs.map((job, index) => ({
@@ -258,9 +165,42 @@ export const JobProvider = ({ children }) => {
   };
   
   // Reset all jobs and current index to initial state
-  const resetJobs = () => {
+  const resetJobs = async () => {
     setJobs(initialJobsState.jobs);
     setCurrentJobId(initialJobsState.currentJobId);
+
+    if (auth?.user) {
+      const updatedUser = { ...auth.user, jobsData: initialJobsState };
+      updateSignedInUserLocally(updatedUser); // updates AuthContext + localStorage
+
+      try {
+        await apiCall("post", "/user/updateUserJobsData", {
+          userId: auth.user.id,
+          jobsData: initialJobsState,
+        });
+      } catch (err) {
+        setJobError({ type: "server", message: err.message || t("Failed to reset jobs on server") });
+      }
+    }
+  };
+
+  const jobsConfirmedCount = () => {
+    //if (!Array.isArray(jobs)) return 0;
+    console.log("💡 jobsConfirmedCount:", jobs ? jobs.filter(job => job.isConfirmed).length : 0);
+    return jobs ? jobs.filter(job => job.isConfirmed).length : 0;
+  };
+
+  const jobIsValid = (id) => {
+    // Check if all required fields are valid
+    return jobs[id].stepsCompleted.every(Boolean);
+
+    // const job = jobs[id];
+    // return job && (
+    //   // validateAllFields(fieldsPatient, job.patient) &&
+    //   // validateAllFields(fieldsDoctor, job.doctor) &&
+    //   job.isConfirmed ||
+    //   job.medicines.some(med => med.name)
+    // );
   };
 
   return (
@@ -270,13 +210,16 @@ export const JobProvider = ({ children }) => {
         //setJobs,
         currentJobId,
         setCurrentJobId,
-        job,
+        //job,
         setJob,
         addJob,
+        playPauseJob,
         removeJob,
         resetJobs,
         jobError,
         confirmJobsOnServer,
+        jobsConfirmedCount,
+        jobIsValid,
       }}
     >
       {children}

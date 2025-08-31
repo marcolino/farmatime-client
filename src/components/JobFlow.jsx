@@ -24,6 +24,7 @@ import {
   validateJobDoctorName, validateJobDoctorEmail,
   validateAllFields,
 } from '../libs/Validation';
+import { AuthContext } from '../providers/AuthContext';
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import JobPatient from './JobPatient';
 import JobDoctor from './JobDoctor';
@@ -32,23 +33,22 @@ import JobMedicines from './JobMedicines';
 import JobConfirmationReview from './JobConfirmationReview';
 
 const JobFlow = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
+  const { isLoggedIn } = useContext(AuthContext);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { t } = useTranslation();
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
-  const { jobs, currentJobId, job, setJob, jobError, confirmJobsOnServer } = useContext(JobContext);
+  const { jobs, currentJobId, setJob, jobError, confirmJobsOnServer } = useContext(JobContext);
+  const job = jobs.find(j => j.id === currentJobId);
+  const [shouldConfirm, setShouldConfirm] = useState(false);
+  const [hasNavigatedAway, setHasNavigatedAway] = useState(false);
 
-  // Navigation state
-  //const currentStep = job.currentStep; // TODO: always use job.currentStep ?
-
-  // TODO: job. currentStep => job.currentStep
- 
   const steps = [
     { id: 0, label: isMobile ? t('Patient & Doctor') : t('Patient & Doctor Info') },
     { id: 1, label: t('Medicines') },
-    //{ id: 2, label: t('Email Template') }, // TODO: remove this step from main steps, it is moved to advanced tools
+    //{ id: 2, label: t('Email Template') }, // removing this step from main steps, it is moved to advanced tools
     { id: 2, label: t('Confirmation') }
   ];
   const maxSteps = steps.length;
@@ -101,12 +101,21 @@ const JobFlow = () => {
     },
   ];
 
-  // we need these because both patient and doctor are in step 0
+  // We need these because both patient and doctor are in step 0
   const [patientValid, setPatientValid] = useState(() => validateAllFields(fieldsPatient, job.patient));
   const [doctorValid, setDoctorValid] = useState(() => validateAllFields(fieldsDoctor, job.doctor));
 
+  // State to track if medicines are being edited
   const [isMedicinesEditing, setIsMedicinesEditing] = useState(false);
 
+  // Check user is logged in (TODO: implement for all authenticated routes, possibly using a higher-order component)
+  useEffect(() => {
+    if (!isLoggedIn) {
+      console.warn('User must be logged in');
+      navigate("/", {replace: true})
+    }
+  }, [isLoggedIn]);
+  
   // Watch both validation states and update step completion accordingly
   useEffect(() => {
     handleStepCompleted(0, patientValid && doctorValid);
@@ -146,62 +155,104 @@ const JobFlow = () => {
     }
   }, [job.stepsCompleted, setJob]);
 
+  // Confirm job changes
+  useEffect(() => {
+    if (shouldConfirm) {
+      (async () => {
+        if (!await confirmJobsOnServer()) {
+          return;
+        }
+      })();
+      setShouldConfirm(false);
+    }
+  }, [shouldConfirm]);
+
   // Navigation handlers
+  const goToJobsList = () => {
+    setHasNavigatedAway(true); // To force validation errors to be shown
+    if (!allCompleted()) {
+      return showSnackbar(t("Please complete all steps"), "warning");
+    }
+    // if (isMedicinesEditing) {
+    //   return showSnackbar(t("Please finish editing medicines before proceeding"), "warning");
+    // }
+    navigate('/jobs-handle', { replace: false });
+  };
   const handleNext = () => {
     // If jobMedicines is editing, spit a warning and return immediately
     if (isMedicinesEditing) {
-      alert(t('Please finish editing medicines before proceeding...')); //TODO: use Snackbar
-      return;
+      return showSnackbar(t("Please finish editing medicines before proceeding"), "warning");
     }
     setJob(prev => ({
       ...prev,
       currentStep: Math.min(prev.currentStep + 1, maxSteps - 1)
     }));
+    setHasNavigatedAway(true);
   };
 
   const handleBack = () => {
     // If jobMedicines is editing, spit a warning and return immediately
     if (isMedicinesEditing) {
-      alert(t('Please finish editing medicines before proceeding...')); //TODO: use Snackbar
-      return;
+      return showSnackbar(t("Please finish editing medicines before proceeding"), "warning");
     }
     setJob(prev => ({
       ...prev,
       currentStep: Math.max(prev.currentStep - 1, 0)
     }));
+    setHasNavigatedAway(true);
   };
 
   const handleGoto = (index) => {
     // If jobMedicines is editing, spit a warning and return immediately
     if (isMedicinesEditing) {
-      alert(t('Please finish editing medicines before proceeding...')); //TODO: use Snackbar
-      return;
+      return showSnackbar(t("Please finish editing medicines before proceeding"), "warning");
     }
     if (index < 0 || index > maxSteps - 1) {
       console.error(`Cannot goto index ${index}, it's out of range [0-${maxSteps - 1}]`);
       return;
     }
     setJob(prev => ({
-    ...prev,
-    currentStep: index
-  }));
+      ...prev,
+      currentStep: index
+    }));
+    setHasNavigatedAway(true);
   };
 
-  const handleUpdate = (key, value) => {
-    const updatedJob = { // Create updated job object by spreading current job and updating key
-      ...job,
-      [key]: value,
-    };
-    setJob(updatedJob); // Pass updated job object directly to setJob
+  // const handleUpdateOLD = (key, value) => {
+  //   const updatedJob = { // Create updated job object by spreading current job and updating key
+  //     ...job,
+  //     [key]: value,
+  //   };
+  //   setJob(updatedJob); // Pass updated job object directly to setJob
+  // };
+
+  const handleUpdate = (keyOrObject, value) => {
+    setJob(prevJob => {
+      if (typeof keyOrObject === "string") {
+        // Single key/value
+        return {
+          ...prevJob,
+          [keyOrObject]: value,
+        };
+      } else if (typeof keyOrObject === "object" && keyOrObject !== null) {
+        // Multiple updates at once
+        return {
+          ...prevJob,
+          ...keyOrObject,
+        };
+      }
+      return prevJob; // Fallback (no change)
+    });
   };
 
   const handleStepCompleted = (stepIndex, result) => {
     console.log("JobFlow - handleStepCompleted - step index:", stepIndex, "result:", result);
     setJob(prev => ({
       ...prev,
-      stepsCompleted: prev.stepsCompleted.map((val, idx) =>
-        idx === stepIndex ? result : val
-      )
+      stepsCompleted:
+        prev.stepsCompleted ?
+          (prev.stepsCompleted.map((val, idx) => idx === stepIndex ? result : val)) :
+          []
     }));
   };
 
@@ -210,56 +261,81 @@ const JobFlow = () => {
   //   return job.stepsCompleted.every(Boolean);
   // }
 
-  const handleConfirm = async () => {
-    // if not all previous steps are completed, show a warning and return...
+  const allCompleted = () => { // Check if all previous steps are completed
     const lastIndex = job.stepsCompleted.length - 1;
-    const allPreviousCompleted = job.stepsCompleted
+    return job.stepsCompleted
       .slice(0, lastIndex)
       .every(Boolean)
     ;
-    if (!allPreviousCompleted) {
-      showSnackbar(t("Please complete all steps"), "warning");
-      return;
+  }
+  const handleConfirm = async () => {
+    // if not all previous steps are completed, show a warning and return...
+    const lastIndex = job.stepsCompleted.length - 1;
+    // const allPreviousCompleted = job.stepsCompleted
+    //   .slice(0, lastIndex)
+    //   .every(Boolean)
+    // ;
+    //if (!allPreviousCompleted) {
+    if (!allCompleted()) {
+      return showSnackbar(t("Please complete all steps"), "warning");
     }
 
-    if (!await confirmJobsOnServer()) {
-      return; // useEffect automatically will show error
-    }
+    // if (!job.isConfirmed) {
+    //   handleUpdate('isActive', true); // Confirming unconfirmed job: mark job as active
+    // }
+    // handleUpdate('isConfirmed', true); // Mark job as confirmed
+    handleUpdate({
+      isActive: job.isActive || !job.isConfirmed, // mark job as active if job was active or unconfirmed
+      isConfirmed: true, // Mark job as confirmed
+    });
+    handleStepCompleted(lastIndex, true); // Mark this last step as completed
+    setShouldConfirm(true); // Trigger confirmation on server
 
-    handleUpdate('isConfirmed', true);
-    handleStepCompleted(lastIndex, true); // mark this last step as completed
-    const forTheMedicine = t("for the medicine");
-    const forTheMedicines = t("for each of the {{num}} medicines", { num: job.medicines.length });
-    showDialog({
-      title:
-        <Box>
-          <Typography variant="h4" align="center" color="primary" sx={{ fontWeight: "bold", mt: 2 }}>
-            {t("Well done!")}
-          </Typography>
-          <Typography variant="h3" align="center" sx={{ mt: 3 }}>
-            🏁
-          </Typography>
-        </Box>,
-      message:
-        <Box>
-          <Typography variant="body2" sx={{ mt: 3 }}>
-            {t("\
-You have completed the setup for this job: {{oneOrMany}} you configured, \
+    if (!job.isConfirmed) {
+      const forTheMedicine = t("the medicine");
+      const forTheMedicines = t("each of the {{num}} medicines", { num: job.medicines.length });
+      showDialog({
+        title:
+          <Box>
+            <Typography variant="h4" align="center" color="primary" sx={{ fontWeight: "bold", mt: 2 }}>
+              {t("Well done!")}
+            </Typography>
+            <Typography variant="h3" align="center" sx={{ mt: 3 }}>
+              🏁
+            </Typography>
+          </Box>,
+        message:
+          <Box>
+            <Typography variant="body2" sx={{ mt: 3 }}>
+              {t("\
+You have completed the setup for this job: for {{oneOrManyMedicines}} you configured, \
 a request will be sent via email to the doctor \
 just in time when the medicine is needed.",
-              { oneOrMany: job.medicines.length === 1 ? forTheMedicine : forTheMedicines })
-            }
-          </Typography>
-          <Typography variant="body2" sx={{ mt: 2 }}>
-            {t("\
+                { oneOrManyMedicines: job.medicines.length === 1 ? forTheMedicine : forTheMedicines })
+              }
+            </Typography>
+            <Typography variant="body2" sx={{ mt: 2 }}>
+              {t("\
 Now, you will be able to see the job in your jobs list, where you can manage it by suspending, editing, or deleting it.")}
-          </Typography>
-        </Box>,
-      confirmText: t("Ok"),
-      onConfirm: () => {
-        navigate('/jobs-handle');
-      }
-    });
+            </Typography>
+          </Box>,
+        confirmText: t("Ok"),
+        onConfirm: () => {
+          setHasNavigatedAway(true);
+          navigate('/jobs-handle');
+        }
+      });
+    } else {
+      showDialog({
+        title: t("Job confirmed"),
+        message: t("You can now see this job in your jobs list."),
+        confirmText: t("Ok"),
+        onConfirm: () => {
+          setHasNavigatedAway(true);
+          navigate('/jobs-handle');
+        }
+      });
+    }
   };
 
   const isLastStep = job.currentStep === maxSteps - 1;
@@ -275,12 +351,14 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
               fields={fieldsPatient}
               onChange={(val) => handleUpdate('patient', val)}
               onValid={setPatientValid}
+              hasNavigatedAway={hasNavigatedAway} 
             />
             <JobDoctor
               data={job.doctor}
               fields={fieldsDoctor}
               onChange={(val) => handleUpdate('doctor', val)}
               onValid={setDoctorValid}
+              hasNavigatedAway={hasNavigatedAway} 
             />
           </>
         );
@@ -291,6 +369,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
             onChange={(val) => handleUpdate('medicines', val)}
             onEditingChange={setIsMedicinesEditing}
             onCompleted={(res) => handleStepCompleted(job.currentStep, res)}
+            hasNavigatedAway={hasNavigatedAway} 
           />
         );
       // case 2:
@@ -307,6 +386,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
           <JobConfirmationReview
             data={job}
             onCompleted={(res) => handleStepCompleted(job.currentStep, res)}
+            hasNavigatedAway={hasNavigatedAway} 
           />
         );
       default:
@@ -331,9 +411,9 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
         >
           {/* Menu icon, anchored left */}
           <Box sx={{ position: 'absolute', left: 0, display: 'flex', alignItems: 'center' }}>
-            <Tooltip title="Go to jobs list" arrow>
+            <Tooltip title={t('Go to jobs list')} arrow>
               <IconButton
-                onClick={() => navigate('/jobs-handle', { replace: false })}
+                onClick={goToJobsList}
                 sx={{ color: 'background.default' }}
               >
                 <Menu />
@@ -343,37 +423,21 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
 
           {/* Centered header text */}
           <Box sx={{ ml: 4 }}>
-            {t('Configure Job')} {/*currentJobId > 0 &&*/ (1 + currentJobId)}
+            {
+              (isMobile ?
+                t('Config. Job') :
+                t('Configure Job')
+              ) + ' ' + (1 + currentJobId)
+            }
           </Box>
         </Box>
       </SectionHeader1>
 
       <Stepper
-        activeStep={job.isConfirmed ? maxSteps : job.currentStep}
+        activeStep={job.isConfirmed ? maxSteps : job.currentStep} // if job is confirmed, set last step as active
         sx={{ mb: 4 }} 
         alternativeLabel={isMobile}
       >
-        {/*
-          <Step
-            key={step.id}
-            completed={job.stepsCompleted[index]}
-            onClick={() => handleGoto(index)}
-          >
-            <StepLabel 
-              StepIconComponent={(iconProps) => (
-                <CustomStepIcon
-                  {...iconProps}
-                  current={index === job.currentStep}
-                />
-              )}
-              onClick={() => {
-                handleGoto(index);
-              }}
-            >
-              {step.label}
-            </StepLabel>
-          </Step>
-        */}
         {steps.map((step, index) => (
           <Step
             key={step.id}
@@ -391,7 +455,9 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
               }
               onClick={() => handleGoto(index)}
             >
-              {step.label}
+              <Typography variant="body2" sx={{ fontWeight: index === job.currentStep ? 'bold' : 'normal' }}>
+                {step.label}
+              </Typography>
             </StepLabel>
           </Step>
         ))}
@@ -407,9 +473,9 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Button
             onClick={handleBack}
-            disabled={job. currentStep === 0}
             startIcon={<ArrowBack />}
             variant="contained"//"outlined"
+            disabled={(job. currentStep === 0) || isMedicinesEditing}
             //size="small"
             size="medium"
             sx={{ 
@@ -432,10 +498,19 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
             onClick={isLastStep ? handleConfirm : handleNext}
             endIcon={isLastStep ? <Check /> : <ArrowForward />}
             variant="contained"
-            //disabled={isConfirmed}
+            disabled={isMedicinesEditing}
             size={isLastStep ? "large" : "medium" }
           >
-            {isLastStep ? (isMobile ? t('Activate!') : t('Confirm and activate!')) : t('Next')} {/* TODO... */}
+            {
+              isLastStep ?
+                (
+                  job.isActive ?
+                    t('Confirm!')
+                  :
+                    (isMobile ? t('Confirm!') : t('Confirm and activate!'))
+                )
+              :
+                t('Next')}
           </Button>
         </Box>
       </Paper>

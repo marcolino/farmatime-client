@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Avatar, Box, Link, Checkbox, FormControlLabel, Typography, Tooltip } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -15,7 +15,7 @@ import { TextField, TextFieldPassword, Button} from "../custom";
 import { AuthContext } from "../../providers/AuthContext";
 import { validateEmail } from "../../libs/Validation";
 import { apiCall } from "../../libs/Network";
-import { secondsToHumanDuration } from "../../libs/Misc";
+import { secondsToHumanDuration, isPWA } from "../../libs/Misc";
 import config from "../../config";
 
 
@@ -28,39 +28,22 @@ function SignIn() {
   const { showDialog } = useDialog();
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
-  // const [openDialog, setOpenDialog] = useState(false);
-  // const [dialogTitle, setDialogTitle] = useState(null);
-  // const [dialogContent, setDialogContent] = useState(null);
-  //const [dialogCallback, setDialogCallback] = useState(null);
-  // const { redirectTo: redirectToFromParams } = useParams();
-  // const [redirectTo,] = useState(redirectToFromParams || null);
-  // const { redirectToParams: redirectToParamsFromParams } = useParams();
-  // const [redirectToParams,] = useState(redirectToParamsFromParams || null);
   const [dontRememberMe, setDontRememberMe] = useState(false);
   
   const location = useLocation();
-  // access the state passed during navigation
-  const state = location.state;
-  //console.log("££££££££££££££££ state is:", state);
 
   const handleSocialLogin = (event, provider) => {
     event.preventDefault(); // redirect fails without preventing default behaviour!
-    //window.open(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`, "_self"); // use "_self" to open social login page in this same window
-    window.location.replace(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`);
+    const flow = isPWA() ? "pwa" : "web";
+    const redirectUrl = `${config.siteUrl}/api/auth/${provider.toLowerCase()}/${flow}`;
+    console.log("redirecting to:", redirectUrl);
+    window.location.href = redirectUrl;
   };
 
-  // const handleCloseDialog = () => {
-  //   setOpenDialog(false);
-  //   if (dialogCallback) {
-  //     setDialogCallback(null);
-  //     dialogCallback();
-  //   }
-  // };
   const handleDontRememberMeChange = (event) => {
     setDontRememberMe(event.target.checked);
   };
 
-  
   const validateForm = () => {
     // validate email formally
     const response = validateEmail(email);
@@ -102,9 +85,9 @@ function SignIn() {
       rememberMe: !dontRememberMe,
     });
     if (result.err) {
+      const codeDeliveryMedium = result.data?.codeDeliveryMedium;
       switch (result.data?.code) {
         case "ACCOUNT_WAITING_FOR_VERIFICATION":
-          const codeDeliveryMedium = result.data?.codeDeliveryMedium;
           setError({ email: true });
           //showSnackbar(result.message, "warning");
           showDialog({
@@ -140,7 +123,28 @@ function SignIn() {
       navigate(location.state?.returnUrl ?? "/", { replace: true });
     }  
   };
-  
+
+  useEffect(() => {
+    if (location.state?.reason) {
+      switch (location.state.reason) {
+        case "expired":
+          showDialog({
+            title: t("Session expired"),
+            message: t("Session has expired. Please sign in again."),
+            confirmText: t("Ok"),
+          });
+          break;
+        default: // should not happen
+          showDialog({
+            title: t("Need to sign in again"),
+            message: location.state?.reason,
+            confirmText: t("Ok"),
+          });
+        //alert("REASON: " + location.state.reason);
+      }
+    }
+  }, [location.state]);
+
   return (
     <form noValidate autoComplete="on">
       <Box

@@ -4,7 +4,7 @@
 # Source png image size should be at least 512x512 pixels.
 # Imagemagick (http://www.imagemagick.org) is required.
 
-sourceImage="${1:-Logo.png}"
+sourceImage="${1:-base-assets/LogoMain.png}"
 minSize=512
 publicFavicon="public/favicon.ico"
 publicFavicon16x16="public/favicon-16x16.png"
@@ -14,7 +14,7 @@ publicAppleTouchIcon="public/apple-touch-icon.png"
 publicMsTileImage="public/ms-tile.png"
 publicLogoMailHeader="public/logo-main-header.png"
 #srcLogoMain="src/assets/images/LogoMain.png"
-srcLogoMain="base-assets/LogoMain.png"
+#srcLogoMain="base-assets/LogoMain.png"
 
 if [ ! -f "$sourceImage" ]; then
   echo "Source image \"$sourceImage\" not found"
@@ -46,6 +46,6 @@ convert "$sourceImage" -resize 512x512 "$publicAppleTouchIcon"
 convert "$publicFavicon64x64" -define icon:auto-resize=64,48,32,16 "$publicFavicon"
 convert "$sourceImage" -resize 144x144 "$publicMsTileImage"
 cp "$sourceImage" "$publicLogoMailHeader"
-cp "$sourceImage" "$srcLogoMain"
+#cp "$sourceImage" "$srcLogoMain"
 
 exit 0

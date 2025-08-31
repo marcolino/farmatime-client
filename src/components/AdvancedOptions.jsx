@@ -12,8 +12,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import {
-  Upload as UploadIcon,
-  Download as DownloadIcon,
+  //Upload as UploadIcon,
+  //Download as DownloadIcon,
   AccountCircle as ProfileIcon,
   DeleteForever as DeleteIcon,
   PersonOff as PersonOffIcon,
@@ -22,6 +22,7 @@ import {
 } from "@mui/icons-material";
 import { AuthContext } from "../providers/AuthContext";
 import { CartContext } from "../providers/CartContext";
+import { JobContext } from "../providers/JobContext";
 import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 //import { cancelAllRequests } from "../middlewares/Interceptors";
@@ -36,6 +37,7 @@ const AdvancedOptions = () => {
   const navigate = useNavigate();
   const { auth, /*signOut,*/ revoke } = useContext(AuthContext);
   const { resetCart } = useContext(CartContext);
+  const { resetJobs } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
   const theme = useTheme();
@@ -53,18 +55,20 @@ const AdvancedOptions = () => {
       },
     ],
     System: [
-      {
-        label: t("Export Data"),
-        subtitle: t("Export your jobs data to QCode"),
-        icon: <DownloadIcon fontSize="large" />,
-        action: "/job-data-export",
-      },
-      {
-        label: t("Import Data"),
-        subtitle: t("Import job data from QRCode"),
-        icon: <UploadIcon fontSize="large" />,
-        action: "/job-data-import",
-      },
+      // disabling export data, it is not needed anymore, jobs data is now on server
+      // {
+      //   label: t("Export Data"),
+      //   subtitle: t("Export your jobs data to QCode"),
+      //   icon: <DownloadIcon fontSize="large" />,
+      //   action: "/job-data-export",
+      // },
+      // disabling import data, it is not needed anymore, jobs data is now on server
+      // {
+      //   label: t("Import Data"),
+      //   subtitle: t("Import job data from QRCode"),
+      //   icon: <UploadIcon fontSize="large" />,
+      //   action: "/job-data-import",
+      // },
       {
         label: t("Edit Email Template"),
         subtitle: t("Modify the default email template to be sent to the doctor"),
@@ -121,7 +125,7 @@ const AdvancedOptions = () => {
     "Danger Zone": t("Danger Zone"),
   };
 
-   useEffect(() => { // read build info from file on disk
+  useEffect(() => { // read build info from file on disk
     if (!buildInfo) {
       fetch("/build-info.json")
         .then((response) => response.json())
@@ -173,6 +177,8 @@ const AdvancedOptions = () => {
           console.log("revoke result:", ok);
           ok = await resetCart();
           console.log("resetCart result:", ok);
+          // ok = await resetJobs();
+          // console.log("resetJobs result:", ok);
         } catch (err) {
           console.error("revoke/resetCart error:", err);
         }
@@ -282,7 +288,7 @@ const AdvancedOptions = () => {
         onClose={() => setShowDialogConfirm(false)}
         onCancel={() => setShowDialogConfirm(false)}
         onConfirm={handleRevoke}
-        title={t("Confirm complete revocation of your account")}
+        title={t("Confirm complete removal of your account")}
         message={t("Are you sure you want to completely remove your account? This action cannot be undone.")}
         confirmText={t("REVOKE YOUR ACCOUNT")}
         confirmColor={"error"}

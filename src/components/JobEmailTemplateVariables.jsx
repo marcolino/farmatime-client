@@ -7,15 +7,15 @@ const variableTokens = {
     job?.patient?.firstName || job?.patient?.lastName
       ? `${job?.patient?.firstName} ${job?.patient?.lastName}` : '',
   [i18n.t('[MEDICINE NAME]')]: (job) => job?.medicines?.[0]?.name ?? '',
-  [i18n.t('[USER NAME]')]: (_, auth) =>
-    auth?.user?.firstName && auth.user.lastName
-      ? `${auth.user.firstName} ${auth.user.lastName}` : '',
-  [i18n.t('[USER EMAIL]')]: (_, auth) => auth?.user?.email ?? '',
+  [i18n.t('[USER NAME]')]: (_, user) =>
+    user?.firstName && user.lastName
+      ? `${user.firstName} ${user.lastName}` : '',
+  [i18n.t('[USER EMAIL]')]: (_, user) => user?.email ?? '',
 };
 
-function variablesExpand(html, job, auth) {
+function variablesExpand(html, job, user) {
   Object.entries(variableTokens).forEach((token) => {
-    let replacement = variableTokens[token[0]](job, auth);
+    let replacement = variableTokens[token[0]](job, user);
     html = html.replaceAll(token[0], replacement);
   });
   return html;

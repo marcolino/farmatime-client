@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef, useContext, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   DndContext,
   closestCenter,
@@ -62,32 +63,33 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
+const JobMedicines = ({ data, onChange, onEditingChange, onCompleted/*, hasNavigatedAway*/}) => {
   const { t } = useTranslation();
+  //const navigate = useNavigate();
   const theme = useTheme();
-  const { isLoggedIn } = useContext(AuthContext);
+  //const { isLoggedIn } = useContext(AuthContext);
   const [option, setOption] = useState(null); // Initialize with null for clarity
   const [editingItemId, setEditingItemId] = useState(null);
   const [fieldMedicine, setFieldMedicine] = useState('');
   const [fieldFrequency, setFieldFrequency] = useState(1);
-  const [fieldDate, setFieldDate] = useState(new Date());
+  const [fieldSinceDate, setfieldSinceDate] = useState(new Date());
   const [mode, setMode] = useState('add');
   const [fieldToFocus, setFieldToFocus] = useState(null);
 
   const { showSnackbar } = useSnackbarContext();
-  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+  //const isXs = useMediaQuery(theme.breakpoints.down('sm'));
   const isSm = useMediaQuery(theme.breakpoints.down('md'));
 
   // References to input fields
   const fieldMedicineRef = useRef(null);
   const fieldFrequencyRef = useRef(null);
-  const fieldDateRef = useRef(null);
+  const fieldSinceDateRef = useRef(null);
 
   const [dataAnagrafica, setDataAnagrafica] = useState([]);
   const [dataPrincipiAttivi, setDataPrincipiAttivi] = useState([]);
   const [dataATC, setDataATC] = useState([]);
 
-  const fieldFrequencMinimum = 1;
+  //const fieldFrequencMinimum = 1;
 
   // dynamically load AIFA data for medicines
   useEffect(() => {
@@ -101,16 +103,9 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
   console.log("MEDICINES:", data);
   console.log("dataAnagrafica:", dataAnagrafica);
 
-  // Check user is logged in
-  useEffect(() => {
-    if (!isLoggedIn) {
-      showSnackbar(t('User must be logged in'), 'error');
-    }
-  }, [isLoggedIn, showSnackbar, t]);
-
   // Reset date when locale changes
   useEffect(() => {
-    setFieldDate(new Date());
+    setfieldSinceDate(new Date());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.language]);
 
@@ -119,7 +114,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
     const inputRefs = {
       name: fieldMedicineRef,
       frequency: fieldFrequencyRef,
-      date: fieldDateRef,
+      date: fieldSinceDateRef,
     };
 
     if (fieldToFocus && inputRefs[fieldToFocus]?.current) {
@@ -219,7 +214,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
   const resetItems = useCallback(() => {
     setFieldMedicine('');
     setFieldFrequency(1);
-    setFieldDate(new Date());
+    setfieldSinceDate(new Date());
     setOption(null); // Reset option to null
     onEditingChange(false); // inform caller we are done editing
     setFieldToFocus(null); // Clear focus
@@ -233,7 +228,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
       showSnackbar(t('Please enter a medicine name'), 'warning');
       return;
     }
-    if (!fieldDate) {
+    if (!fieldSinceDate) {
       showSnackbar(t('Please enter a valid date'), 'warning');
       return;
     }
@@ -254,13 +249,13 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
         id: newItemId, // Use the new unique ID or existing option ID
         name,
         fieldFrequency,
-        fieldDate,
+        fieldSinceDate,
         option: option // Store the full option object for re-editing
       }]);
     } else { // mode === 'update'
       onChange(data.map(item =>
         item.id === editingItemId
-          ? { ...item, option, name, fieldFrequency, fieldDate } // Update option as well
+          ? { ...item, option, name, fieldFrequency, fieldSinceDate } // Update option as well
           : item
       ));
       handleEditEnd();
@@ -268,7 +263,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
     }
     resetItems();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fieldMedicine, fieldDate, fieldFrequency, option, mode, data, editingItemId, onChange, resetItems, showSnackbar, t]);
+  }, [fieldMedicine, fieldSinceDate, fieldFrequency, option, mode, data, editingItemId, onChange, resetItems, showSnackbar, t]);
 
 
   const startEdit = useCallback((id, field) => {
@@ -282,7 +277,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
     setFieldToFocus(field); // e.g. 'name', 'frequency', or 'date'
     setOption(item.option || null); // Restore the full option object
     setFieldFrequency(item.fieldFrequency);
-    setFieldDate(new Date(item.fieldDate));
+    setfieldSinceDate(new Date(item.fieldSinceDate));
     setFieldMedicine(item.name);
     onEditingChange(true); // inform caller we are editing
   }, [data, onEditingChange, showSnackbar, t]);
@@ -332,11 +327,6 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
     // Default fallback
     return 'dd MMM';
   }/*, [i18n.language]*/);
-
-  if (!isLoggedIn) { // Check if user is logged in - TODO: use a common guard upper level component to check for login
-    console.log(t('User must be logged in to use this component'));
-    return null;
-  }
 
   const isDataLoaded =
     dataAnagrafica.length > 0 &&
@@ -415,14 +405,14 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                     <DatePicker
                       key={i18n.language} // This forces a complete remount when locale changes
                       label={t('Since day')}
-                      value={fieldDate}
-                      onChange={setFieldDate}
+                      value={fieldSinceDate}
+                      onChange={setfieldSinceDate}
                       format={getLocaleBasedFormat()}
                       sx={{ width: 132 }}
                       PopperProps={{ placement: 'bottom-start' }}
                       minDate={new Date()} // Today onwards: only dates in the future
                       formatDensity="spacious"
-                      inputRef={fieldDateRef}
+                      inputRef={fieldSinceDateRef}
                     />
                   </ContextualHelp>
                 </Box>
@@ -503,14 +493,14 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                   <DatePicker
                     key={i18n.language} // This forces a complete remount when locale changes
                     label={t('Since day')}
-                    value={fieldDate}
-                    onChange={setFieldDate}
+                    value={fieldSinceDate}
+                    onChange={setfieldSinceDate}
                     format={getLocaleBasedFormat()}
                     sx={{ width: 132 }}
                     PopperProps={{ placement: 'bottom-start' }}
                     minDate={new Date()} // Today onwards: only dates in the future
                     formatDensity="spacious"
-                    inputRef={fieldDateRef}
+                    inputRef={fieldSinceDateRef}
                   />
                 </ContextualHelp>
 
@@ -592,7 +582,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                   <ItemContainer>
                     {data.length === 0 ? (
                       <Typography variant="body1" color="text.secondary" textAlign="center" py={3}>
-                        {t("No items present yet")}
+                        {t("No medicines present yet")}
                       </Typography>
                     ) : (
                       <Box component="ul" sx={{ p: 0, m: 0 }}>
@@ -602,7 +592,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted }) => {
                             id={item.id}
                             name={item.name}
                             frequency={item.fieldFrequency}
-                            date={item.fieldDate}
+                            date={item.fieldSinceDate}
                             formatDate={formatDate}
                             onEdit={startEdit}
                             onRemove={removeItem}

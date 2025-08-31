@@ -13,7 +13,7 @@ const LocalStorage = {
     }
   },
 
-  set: (key, value, options = {}) => {
+  set: (key, value = {}) => {
     if (localStorage) {
       try {
         const val = JSON.stringify(value);

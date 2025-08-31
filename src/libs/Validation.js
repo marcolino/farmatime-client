@@ -37,23 +37,25 @@ export const isOperator = (user) => {
   return user.roles.some(role => role.priority >= 20);
 };
 
-export const validateFirstName = (firstName) => {
+export const validateFirstName = (value) => {
   const re = /.{2,}/;
-  if (!String(firstName)) {
+  // if (!String(value)) {
+  if (value == null) {
     return "ERROR_PLEASE_SUPPLY_A_FIRSTNAME";
   }
-  if (!re.test(String(firstName).toLowerCase())) {
+  if (!re.test(String(value).toLowerCase())) {
     return "ERROR_PLEASE_SUPPLY_A_VALID_FIRSTNAME";
   }
   return true;
 };
 
-export const validateLastName = (lastName) => {
+export const validateLastName = (value) => {
   const re = /.{2,}/;
-  if (!String(lastName)) {
+  // if (!String(value)) {
+  if (value == null) {
     return "ERROR_PLEASE_SUPPLY_A_LASTNAME";
   }
-  if (!re.test(String(lastName).toLowerCase())) {
+  if (!re.test(String(value).toLowerCase())) {
     return "ERROR_PLEASE_SUPPLY_A_VALID_LASTNAME";
   }
   return true;
@@ -146,7 +148,8 @@ The password must contain at least:
 
 export const validateJobPatientFirstName = (value) => {
   const re = /.{2,}/;
-  if (!String(value)) {
+  // if (!String(value)) {
+  if (value == null) {
     return "ERROR_PLEASE_SUPPLY_A_FIRSTNAME";
   }
   if (!re.test(String(value).toLowerCase())) {
@@ -169,7 +172,8 @@ export const validateJobPatientFirstName = (value) => {
 
 export const validateJobPatientLastName = (value) => {
   const re = /.{2,}/;
-  if (!String(value)) {
+  //if (!String(value)) {
+  if (value == null) {
     return "ERROR_PLEASE_SUPPLY_A_LASTNAME";
   }
   if (!re.test(String(value).toLowerCase())) {
@@ -179,13 +183,13 @@ export const validateJobPatientLastName = (value) => {
 }
 
 export const validateJobPatientEmail = (value) => {
-  const validity = validateEmail(value);
-  return (validity === true);
+  return validateEmail(value);
 }
 
 export const validateJobDoctorName = (value) => {
   const re = /.{2,}/;
-  if (!String(value)) {
+  //if (!String(value)) {
+  if (value == null) {
     return "ERROR_PLEASE_SUPPLY_A_NAME";
   }
   if (!re.test(String(value).toLowerCase())) {
@@ -195,8 +199,7 @@ export const validateJobDoctorName = (value) => {
 }
 
 export const validateJobDoctorEmail = (value) => {
-  const validity = validateEmail(value);
-  return (validity === true);
+  return validateEmail(value);
 }
 
 export const validateAllFields = (fields, data) => {
@@ -208,4 +211,36 @@ export const validateAllFields = (fields, data) => {
     }
   });
   return valid;
+};
+
+// Helper to turn error codes into messages
+export const mapErrorCodeToMessage = (code) => {
+  switch (code) {
+    case "ERROR_PLEASE_SUPPLY_A_FIRSTNAME":
+      return i18n.t("Please supply a first name");
+    case "ERROR_PLEASE_SUPPLY_A_VALID_FIRSTNAME":
+      return i18n.t("Please supply a valid first name");
+    case "ERROR_PLEASE_SUPPLY_A_LASTNAME":
+      return i18n.t("Please supply a last name");
+    case "ERROR_PLEASE_SUPPLY_A_VALID_LASTNAME":
+      return i18n.t("Please supply a valid last name");
+    case "ERROR_PLEASE_SUPPLY_AN_EMAIL":
+      return i18n.t("Please supply an email");
+    case "ERROR_PLEASE_SUPPLY_A_VALID_EMAIL":
+      return i18n.t("Please supply a valid email");
+    case "ERROR_PLEASE_SUPPLY_A_NAME":
+      return i18n.t("Please supply a name");
+    case "ERROR_PLEASE_SUPPLY_A_VALID_NAME":
+      return i18n.t("Please supply a valid name");
+    case "ERROR_PLEASE_SUPPLY_A_PHONE_NUMBER":
+      return i18n.t("Please supply a phone number");
+    case "ERROR_PLEASE_SUPPLY_A_VALID_PHONE":
+      return i18n.t("Please supply a valid phone number");
+    case "WARNING_NO_INTERNATIONAL_PREFIX":
+      return true;
+    case "WARNING_ZERO_INTERNATIONAL_PREFIX":
+      return true;
+    default:
+      return i18n.t("Invalid input");
+  }
 };

@@ -1,4 +1,6 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
+// TODO: do not use this handler anymore
+
+import { useState, useRef, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DialogConfirm from "./DialogConfirm";
 import { AuthContext } from "../providers/AuthContext";

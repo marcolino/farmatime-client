@@ -33,6 +33,7 @@ async function buildSitemap() {
         if (!path.startsWith("/")) { // skip paths not starting with slash ("*", ...)
           return;
         }
+        //const matchElement = /element=\{(?:<Req\w+>)?<(.*?)\s.*\/>.*\}/.exec(matchRoute.input);
         const matchElement = /element=\{<(.*?)\s.*\/>.*\}/.exec(matchRoute.input);
         if (!matchElement || !matchElement[1]) {
           console.warn("No element match for route", matchRoute.input);

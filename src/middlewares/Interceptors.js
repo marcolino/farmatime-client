@@ -1,5 +1,7 @@
 import axios from "axios";
 import LocalStorage from "../libs/LocalStorage";
+//import { AuthProvider } from "../providers/AuthProvider";
+import { getGlobalSignOut } from "../providers/AuthProvider";
 import { i18n } from "../i18n";
 import cfg from "../config";
 
@@ -25,7 +27,7 @@ import cfg from "../config";
  */
 
 // global flag to track sign-out status, to avoid retrying requests after sign-out
-let isSignedOut = false;
+//let isSignedOut = false;
 const abortControllers = new Map(); // define an abortControllers map
 
 // create axios instance
@@ -88,7 +90,27 @@ instance.interceptors.response.use(
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const { config, response } = error;
+    const { response } = error;
+
+    // // handle unauthorized (refresh token expired)
+    // if (response?.status === 401) {
+    //   //alert(401);
+    //   console.warn("Session expired. Redirecting to /signin...");
+    //   // Clear local auth state
+    //   const signOut = getGlobalSignOut();
+    //   if (signOut) {
+    //     signOut("expired");
+    //   }
+
+    //   // Redirect to login page
+    //   window.location.href = "/signin";
+
+    //   // Cancel all ongoing requests
+    //   cancelAllRequests();
+
+    //   // Prevent the rejected request from bubbling with 401
+    //   return Promise.reject(new axios.Cancel("Session expired (401)"));
+    // }
 
     // handle server maintenance status
     if (response?.status === 503) {
@@ -112,7 +134,7 @@ instance.interceptors.response.use(
 
 // cancel all pending requests when the user signs out
 export const cancelAllRequests = () => {
-  isSignedOut = true; // mark the user as signed out
+  //isSignedOut = true; // mark the user as signed out
   abortControllers.forEach((controller) => controller.abort());
   abortControllers.clear();
 };

@@ -145,6 +145,8 @@ export const encodeEmail = (email) => {
       encodedEmail += "&#" + charNum + ";";
     }
   }
+
+  // TODO: return encodedEmail, let caller create element...
   return React.createElement("span", { dangerouslySetInnerHTML: { __html: encodedEmail } });
 };
 
@@ -295,4 +297,12 @@ export const bestFitQrPayload = async (jobsArray, maxBytes, encryptFn) => {
       error: e.message,
     };
   }
+};
+
+export const isPWA = () => {
+  //return window.matchMedia("(display-mode: standalone)").matches;
+  return (
+    (window.matchMedia('(display-mode: standalone)').matches) ||
+    (window.navigator.standalone === true)
+  );
 };

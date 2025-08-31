@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import {
   Container,
@@ -7,82 +7,45 @@ import {
   TextField,
 } from 'mui-material-custom';
 import { ContextualHelp } from './ContextualHelp';
-import { validateAllFields } from '../libs/Validation';
+import { validateAllFields, mapErrorCodeToMessage } from '../libs/Validation';
 import { StyledPaper, StyledBox } from './JobStyles';
 
-const JobPatient = ({ data, fields, onChange, onValid }) => {
+const JobPatient = ({ data, fields, onChange, onValid, hasNavigatedAway }) => {
   const { t } = useTranslation();
 
+  const [errors, setErrors] = useState({});
+  
   const handleFieldChange = (field, value) => {
     onChange({ ...data, [field]: value });
+    setErrors((prev) => ({ ...prev, [field]: false })); // Clear error on change
   };
+
+  // useEffect(() => {
+  //   if (onValid) {
+  //     onValid(validateAllFields(fields, data));
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [data]);
 
   useEffect(() => {
     if (onValid) {
-      onValid(validateAllFields(fields, data));
+      const valid = validateAllFields(fields, data);
+      onValid(valid);
+
+      // collect errors into state
+      const newErrors = {};
+      fields.forEach((field) => {
+        const result = field.isValid(data[field.key]);
+        if (result !== true) {
+          // result might be an error code, map it to translated text
+          newErrors[field.key] = mapErrorCodeToMessage(result);
+        }
+      });
+      setErrors(newErrors);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
-  
-  /*
-  const isValidFirstName = (value) => {
-    const validity = validateFirstName(value);
-    switch (validity) {
-      case "ERROR_PLEASE_SUPPLY_A_FIRSTNAME":
-        return t("Please supply a valid first name");
-      case "ERROR_PLEASE_SUPPLY_A_VALID_FIRSTNAME":
-        return t("Please supply a valid first name");
-      case true:
-        return true;
-      default:
-        console.error("Unforeseen first name validation error:", validity)
-        return t("First name is wrong");
-    }
-  }
 
-  const isValidLastName = (value) => {
-    const validity = validateLastName(value);
-    switch (validity) {
-      case "ERROR_PLEASE_SUPPLY_A_LASTNAME":
-        return t("Please supply a valid last name");
-      case "ERROR_PLEASE_SUPPLY_A_VALID_LASTNAME":
-        return t("Please supply a valid last name");
-      case true:
-        return true;
-      default:
-        console.error("Unforeseen last name validation error:", validity)
-        return t("Last name is wrong");
-    }
-  }
-
-  const isValidEmail = (value) => {
-    const validity = validateEmail(value);
-    switch (validity) {
-      case "ERROR_PLEASE_SUPPLY_AN_EMAIL":
-        return t("Please supply an email");
-      case "ERROR_PLEASE_SUPPLY_A_VALID_EMAIL":
-        return t("Please supply a valid email");
-      case true:
-        return true;
-      default:
-        console.error("Unforeseen email validation error:", validity)
-        return t("Email is wrong");
-    }
-  }
-
-  const validateAllFields = (fields) => {
-    let valid = true;
-    fields.forEach(field => {
-      if (field.isValid(data[field.key]) !== true) {
-        valid = false;
-        return; // break forEach loop
-      }
-    });
-    console.log("JobPatient - isValid:", valid);
-    return valid;
-  };
-  */
-  
   return (
     <Container maxWidth="lg" sx={{ py: 0 }}>
       <StyledPaper>
@@ -127,6 +90,8 @@ const JobPatient = ({ data, fields, onChange, onValid }) => {
                     value={data[key] || ''}
                     onChange={(e) => handleFieldChange(key, e.target.value)}
                     placeholder={placeholder}
+                    error={hasNavigatedAway && !!errors[key]}
+                    helperText={hasNavigatedAway ? (errors[key] || "") : ""}
                   />
                 </ContextualHelp>
               </Box>

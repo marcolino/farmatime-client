@@ -2,6 +2,9 @@ import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import AnimationLayout from "./AnimationLayout";
 import Loader from "./Loader";
+// import { RequireAuth as ReqAuth } from "./guards/AuthGuard";
+// import { RequireAdmin as ReqAdmin } from "./guards/RoleGuard";
+import ProtectedRoute from "./RoutingProtection";
 
 const Home = lazy(() => import("./Home"));
 const SignUp = lazy(() => import("./auth/SignUp")); 
@@ -27,6 +30,8 @@ const JobsImport = lazy(() => import("./JobsImport"));
 const JobsEmailTemplateEdit = lazy(() => import("./JobEmailTemplate"));
 const JobsRemove = lazy(() => import("./JobsRemove"));
 const JobFlow = lazy(() => import("./JobFlow"));
+const DataRemoval = lazy(() => import("./DataRemoval"));
+const Landing = lazy(() => import("./Landing"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
 
@@ -37,56 +42,53 @@ const Routing = () => {
     <Suspense fallback={<Loader lazyloading={true} />}>
       <Routes>
         <Route element={<AnimationLayout />}>
+          {/* Public routes */}
+          <Route path="/landing" element={<Landing />} />
           <Route path="/" exact element={<Home />} />
-          {/* TODO: for signup: instead of this static routing, use
-                const location = useLocation();
-              and
-                const state = location.state;
-          */}
           <Route path="/signup/:waitingForCode?/:codeDeliveryMedium?" element={<SignUp />} />
-          {/* <Route path="/signin/:redirectTo?/:redirectToParams?" element={<SignIn />} /> */}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/social-signin-success" element={<SocialSignInSuccess />} />
           <Route path="/social-signin-error" element={<SocialSignInError />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/products/:productId?" element={<Products />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/edit-user/:userId/:origin" element={<UserEdit />} />
-          <Route path="/edit-product/:productId" element={<ProductEdit />} />
           <Route path="/terms-of-use" element={<Legal doc="termsOfUse" />} />
           <Route path="/privacy-policy" element={<Legal doc="privacyPolicy" />} />
           <Route path="/cookie-preferences" element={<CookiePreferences />} />
+          <Route path="/data-removal" element={<DataRemoval />} />
           <Route path="/contacts" element={<Contacts />} />
-          <Route path="/handle-users" element={<UsersHandle />} />
-          <Route path="/handle-products" element={<ProductsHandle />} />
-          {/* <Route path="/cart/:productIdToAdd?" element={<Cart />} /> */}
-          <Route path="/cart/" element={<Cart />} />
           <Route path="/payment-success" element={<Cart payment="success" />} />
           <Route path="/payment-cancel" element={<Cart payment="cancel" />} />
-          {/* TODO: for the folloging routes: instead of this static routing, use
-                const location = useLocation();
-              and
-                const state = location.state;
-            */}
-          <Route path="/notification-preferences/:token?/:language?" element={<NotificationPreferences section="all" />} />
-          <Route path="/email-preferences/:token?/:language?" element={<NotificationPreferences section="email" action="preferences" />} />
-          <Route path="/email-unsubscribe/:token?/:language?" element={<NotificationPreferences section="email" action="unsubscribe" />} />
-          <Route path="/push-preferences/:token?/:language?" element={<NotificationPreferences section="push" action="preferences" />} />
-          <Route path="/push-unsubscribe/:token?/:language?" element={<NotificationPreferences section="push" action="unsubscribe" />} />
-          <Route path="/sms-preferences/:token?/:language?" element={<NotificationPreferences section="sms" action="preferences" />} />
-          <Route path="/sms-unsubscribe/:token?/:language?" element={<NotificationPreferences section="sms" action="unsubscribe" />} />
+
+          {/* Public routes, with internal logic for protection */}
+          <Route path="/edit-user/:userId/:origin" element={<UserEdit />} />
+          <Route path="/products/:productId?" element={<Products />} />
+
+          {/* Protected routes (accept only logged users, any role) */}
+          <Route element={<ProtectedRoute acceptGuest={false} acceptedRoles={"TUTTI"} />}>
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/edit-product/:productId" element={<ProductEdit />} />
+            <Route path="/handle-users" element={<UsersHandle />} />
+            <Route path="/handle-products" element={<ProductsHandle />} />
+            <Route path="/cart/" element={<Cart />} />
+            <Route path="/notification-preferences/:token?/:language?" element={<NotificationPreferences section="all" />} />
+            <Route path="/email-preferences/:token?/:language?" element={<NotificationPreferences section="email" action="preferences" />} />
+            <Route path="/email-unsubscribe/:token?/:language?" element={<NotificationPreferences section="email" action="unsubscribe" />} />
+            <Route path="/push-preferences/:token?/:language?" element={<NotificationPreferences section="push" action="preferences" />} />
+            <Route path="/push-unsubscribe/:token?/:language?" element={<NotificationPreferences section="push" action="unsubscribe" />} />
+            <Route path="/sms-preferences/:token?/:language?" element={<NotificationPreferences section="sms" action="preferences" />} />
+            <Route path="/sms-unsubscribe/:token?/:language?" element={<NotificationPreferences section="sms" action="unsubscribe" />} />
+            <Route path="/advanced-options" element={<AdvancedOptions />} />
+            <Route path="/jobs-handle" element={<JobsHandle />} />
+            <Route path="/job" element={<JobFlow />} />
+            <Route path="/job-new" element={<JobFlow />} />
+            <Route path="/job-email-template-edit" element={<JobsEmailTemplateEdit /* onCompleted={(data) => alert("COMPLETED:" + JSON.stringify(data))} */ />} />
+            {/* <Route path="/job-data-export" element={<JobsExport />} /> */}
+            {/* <Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} /> */}
+            <Route path="/job-data-remove" element={<JobsRemove />} /> { /* TODO: remove me, do all in dialog... */ }
+          </Route>
+
+          {/* Fallback routes */}
           <Route path="/page-not-found" element={<PageNotFound />} />
           <Route path="/work-in-progress" element={<WorkInProgress />} />
-          <Route path="/email-preferences" element={<NotificationPreferences section="email" action="preferences" />} />
-          <Route path="/advanced-options" element={<AdvancedOptions />} />
-          <Route path="/jobs-handle" element={<JobsHandle />} />
-          <Route path="/job" element={<JobFlow />} />
-          <Route path="/job-new" element={<JobFlow />} />
-          <Route path="/job-email-template-edit" element={<JobsEmailTemplateEdit /* onCompleted={(data) => alert("COMPLETED:" + JSON.stringify(data))} */ />} />
-          <Route path="/job-data-export" element={<JobsExport />} />
-          <Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} />
-          <Route path="/job-data-remove" element={<JobsRemove />} />
-          {/* <Route path="/api/*" element={null} /> */}
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>

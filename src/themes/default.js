@@ -92,6 +92,7 @@ const customThemeLightProps = {
     background: {
       default: "#f8fcff",
       paper: "#ebf2f6",
+      cookies: "#f1e1d1",
     },
     text: {
       primary: "rgba(0, 0, 0, 0.87)",
@@ -188,6 +189,7 @@ const customThemeDarkProps = {
     background: {
       default: "#303030",
       paper: "#424242",
+      cookies: "#1f2f3f",
     },
     text: {
       primary: "rgb(255, 255, 255)",

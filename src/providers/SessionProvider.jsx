@@ -1,3 +1,5 @@
+// TODO: do not use this handler anymore
+
 import { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../providers/AuthContext";

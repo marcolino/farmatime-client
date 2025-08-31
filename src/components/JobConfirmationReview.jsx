@@ -10,7 +10,7 @@ import { formatDate } from '../libs/Misc';
 import { variablesExpand } from './JobEmailTemplateVariables';
 import { StyledPaper, StyledBox, StyledPaperSmall, StyledBoxSmall } from './JobStyles';
 
-const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
+const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
   const { t } = useTranslation();
 
   const { auth } = useContext(AuthContext);
@@ -28,7 +28,7 @@ const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
   useEffect(() => {
     console.log("******* data.emailTemplate.subject:", data?.emailTemplate?.subject || "undefined");
     console.log("******* data.emailTemplate.body:", data?.emailTemplate?.body || "undefined");
-    setBodyExpanded(variablesExpand(data.emailTemplate.body, data, auth));
+    setBodyExpanded(variablesExpand(data.emailTemplate.body, data, auth.user));
   }, [data, auth]);
 
   // on every bodyExpanded change, convert it to HTML
@@ -39,9 +39,9 @@ const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
     }
   }, [bodyExpanded/*, data.emailTemplate.signature*/]);
 
-  const isValid = () => {
-    return (data.emailTemplate.subject && data.emailTemplate.body /* && data.emailTemplate.signature*/); // all 3 emailTemplate items must be present) 
-  };
+  // const isValid = () => {
+  //   return (data.emailTemplate.subject && data.emailTemplate.body /* && data.emailTemplate.signature*/); // all 3 emailTemplate items must be present) 
+  // };
   
   return (
     <Container maxWidth="lg" sx={{ py: 0 }}>
@@ -94,7 +94,7 @@ const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
             {data.medicines.map((medicine, index) => (
               <Typography key={index} variant="body2" component="li" sx={{ pl: 2 }}>
                 {t('Medicine')}: <b>{medicine.name}</b>{', '}
-                {t('since day')} <b>{formatDate(medicine.fieldDate)}</b>{', '}
+                {t('since day')} <b>{formatDate(medicine.fieldSinceDate)}</b>{', '}
                 {t('every')} <b>{t('{{count}} days', {count: medicine.fieldFrequency})}</b>
               </Typography>
             ))}
@@ -103,7 +103,7 @@ const JobConfirmationReview = ({ data/*, onCompleted*/ }) => {
           <Box sx={{ mb: 3 }}>
             <StyledPaperSmall>
               <StyledBoxSmall>
-                <Typography variant="body2">{t("Email Template")}</Typography>
+                <Typography variant="body2">{t("Email Template") + ' ' + '(' + t("example of the first request") + ')'}</Typography>
               </StyledBoxSmall>
             </StyledPaperSmall>
             <Typography variant="body2" component="li" sx={{ pl: 2 }}>

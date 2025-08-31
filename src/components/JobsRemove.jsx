@@ -40,7 +40,6 @@ const JobsRemove = () => {
 
   const handleRemoveJobs = () => {
     // simulate job data removal logic
-    //secureStorageRemove(auth.user?.id); // TODO: add to jobs storageKey the user's id...
     resetJobs();
     setShowDialog(false);
     showSnackbar(t('All your jobs data has been removed') + '.', 'info');
@@ -48,7 +47,6 @@ const JobsRemove = () => {
     setTimeout(() => {
       navigate("/", { replace: true }); // navigate back to the previous page
     }, ((config.ui.snacks.autoHideDurationSeconds + 0.5) * 1000));
-    //navigate(-1); // navigate back to the previous page
   };
 
   console.log("JobsRemove - jobs: ", jobs, typeof jobs);

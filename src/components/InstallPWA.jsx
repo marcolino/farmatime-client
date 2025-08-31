@@ -1,31 +1,42 @@
-import React, { useState, useEffect } from "react";
-import Snackbar from '@mui/material/Snackbar';
-import Button from '@mui/material/Button';
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import Button from "@mui/material/Button";
+import { AuthContext } from "../providers/AuthContext";
+import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { JobContext } from "../providers/JobContext";
 
-export default function InstallPWA() {
+const InstallPWA = () => {
+  const { isLoggedIn, isPWAInstalled, setPWAInstalled } = useContext(AuthContext);
+  const { showSnackbar, closeSnackbar } = useSnackbarContext();
+
   const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [isInstalled, setIsInstalled] = useState(false);
   const [isIosSafari, setIsIosSafari] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const { t } = useTranslation();
+  const hasAskedThisSession = useRef(false);
+
+  const { jobsConfirmedCount } = useContext(JobContext);
+  
+  const timeToPromptUserToInstallApp = () => {
+    const atLeastOneActivityConfirmed = (jobsConfirmedCount() >= 1); // condition: at least one job confirmed
+    return isLoggedIn && atLeastOneActivityConfirmed && !isPWAInstalled;
+  };
 
   useEffect(() => {
-    // Detect iOS Safari
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    const isIos = /iphone|ipad|ipod/.test(userAgent);
-    const isSafari = isIos && /safari/.test(userAgent) && !/crios|fxios|android/.test(userAgent);
+    const ua = navigator.userAgent.toLowerCase();
+    const isIos = /iphone|ipad|ipod/.test(ua);
+    const isSafari = isIos && /safari/.test(ua) && !/crios|fxios|android/.test(ua);
     setIsIosSafari(isSafari);
 
-    function beforeInstallPromptHandler(e) {
+    const beforeInstallPromptHandler = (e) => {
+      console.log("💡 beforeinstallprompt event fired");
       e.preventDefault();
       setDeferredPrompt(e);
-      setSnackbarOpen(true);
-    }
+    };
 
-    function appInstalledHandler() {
-      setIsInstalled(true);
-      setDeferredPrompt(null);
-      setSnackbarOpen(false);
-    }
+    const appInstalledHandler = () => {
+      console.log("💡 appinstalled event fired");
+      markInstalled();
+    };
 
     window.addEventListener("beforeinstallprompt", beforeInstallPromptHandler);
     window.addEventListener("appinstalled", appInstalledHandler);
@@ -34,70 +45,73 @@ export default function InstallPWA() {
       window.removeEventListener("beforeinstallprompt", beforeInstallPromptHandler);
       window.removeEventListener("appinstalled", appInstalledHandler);
     };
-  }, []);
+  }, [isPWAInstalled]);
+
+  const showInstallSnackbar = () => {
+    if (hasAskedThisSession.current) return; // <── prevent repeats
+    hasAskedThisSession.current = true;
+
+    showSnackbar(
+      t("Install this app for a better experience!"),
+      "default",
+      (key) => (
+        <>
+          <Button
+            color="primary"
+            size="small"
+            onClick={() => {
+              handleInstallClick();
+              closeSnackbar(key);
+            }}
+          >
+            {t("Install")}
+          </Button>
+          <Button
+            color="secondary"
+            size="small"
+            onClick={() => closeSnackbar(key)}
+          >
+            {t("Cancel")}
+          </Button>
+        </>
+      )
+    );
+  };
+
+  const markInstalled = () => {
+    setPWAInstalled(true);
+    setDeferredPrompt(null);
+    showSnackbar(t("Thank you for choosing to install our app!"), "success");
+  };
 
   async function handleInstallClick() {
-    if (!deferredPrompt) return;
-
+    if (!deferredPrompt) {
+      console.warn("⚠️ No deferredPrompt available");
+      return;
+    }
     deferredPrompt.prompt();
     const choiceResult = await deferredPrompt.userChoice;
-    if (choiceResult.outcome === "accepted") setIsInstalled(true);
-    setDeferredPrompt(null);
-    setSnackbarOpen(false);
+    setDeferredPrompt(null); // clear after use
+    console.log("💡 choiceResult.outcome:", choiceResult.outcome);
+    // Do not call markInstalled() here — wait for appinstalled
   }
 
-  function handleCloseSnackbar(_, reason) {
-    if (reason === 'clickaway') return;
-    setSnackbarOpen(false);
-  }
+  useEffect(() => {
+    if (deferredPrompt && timeToPromptUserToInstallApp()) {
+      showInstallSnackbar();
+    }
+  }, [deferredPrompt, isPWAInstalled]);
 
-  // Snackbar for installable PWA
-  if (deferredPrompt && !isInstalled) {
-    return (
-      <Snackbar
-        open={snackbarOpen}
-        message="Install this app for a better experience!"
-        action={
-          <>
-            <Button color="primary" size="small" onClick={handleInstallClick}>
-              Install
-            </Button>
-            <Button color="secondary" size="small" onClick={handleCloseSnackbar}>
-              Cancel
-            </Button>
-          </>
-        }
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      />
-    );
-  }
+  useEffect(() => {
+    if (isIosSafari && !isPWAInstalled) {
+      showSnackbar(
+        t('To install this app, tap the Share button and then "Add to Home Screen".'),
+        "info"
+      );
+    }
+  }, [isIosSafari, isPWAInstalled]);
 
-  // Fallback for iOS Safari
-  if (isIosSafari && !isInstalled) {
-    return (
-      <Snackbar
-        open={true}
-        message='To install this app, tap the Share button and then "Add to Home Screen".'
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      />
-    );
-  }
-
-  // Optionally, show a thank you after install
-  if (isInstalled) {
-    return (
-      <Snackbar
-        open={true}
-        message="Thank you for installing our app!"
-        onClose={handleCloseSnackbar}
-        autoHideDuration={4000}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      />
-    );
-  }
-
-  // If nothing to show, return null
   return null;
-}
+};
+
+export default React.memo(InstallPWA);

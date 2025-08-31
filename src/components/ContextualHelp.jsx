@@ -34,7 +34,7 @@ export function ContextualHelpWrapper({
           <p>{t('Enter the name of the medicine, its active ingredient, or its ATC code')}.</p>
           <p>
             {t('You can use the autocomplete feature to help you find the correct medicine:\
- it is sufficent to start typing the medicine name. If you don\'t find your medicine in the list, digit one more letter: all Italian medicines are present.')}.
+ it is sufficent to start typing the medicine name. If you don\'t find your medicine in the list, digit one more letter: all Italian medicines are present.')}
           </p>
         </>
       ),
@@ -153,6 +153,19 @@ export function ContextualHelpWrapper({
         </>
       ),
     },
+    EmailTemplateVariables: {
+      title: t("Email variables"),
+      content: (
+        <>
+          <p>{t('Use the email variables...')}.</p>
+          <p>
+            {
+              t('...')
+            }
+          </p>
+        </>
+      ),
+    },
     EmailTemplateBody: {
       title: t("Email body"),
       content: (
@@ -160,7 +173,7 @@ export function ContextualHelpWrapper({
           <p>{t('Edit the email body...')}.</p>
           <p>
             {
-              t('Use variables...')
+              t('...')
             }
           </p>
         </>

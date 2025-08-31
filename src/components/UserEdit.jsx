@@ -11,7 +11,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { SectionHeader, TextField, TextFieldPhone, Select, Button } from "./custom";
+import { TextField, TextFieldPhone, Select, Button } from "./custom";
+import { SectionHeader1 } from "mui-material-custom";
 import { apiCall } from "../libs/Network";
 import { objectsAreEqual } from "../libs/Misc";
 import { AuthContext } from "../providers/AuthContext";
@@ -21,7 +22,7 @@ import CookiePreferences from "./CookiePreferences";
 import NotificationPreferences from "./NotificationPreferences";
 import {
   Person, Email, SupervisedUserCircle, PlaylistAddCheck,
-  Payment, Business, LocationOn as LocationOnIcon
+  Payment, Business, PermIdentity, LocationOn as LocationOnIcon
 } from "@mui/icons-material";
 import {
   isAdmin,
@@ -260,10 +261,10 @@ function UserEdit() {
     setIsChanged({ ...isChanged, businessName: value != userOriginal.businessName });
   };
 
-  // const setProfileImage = (value) => {
-  //   setUser({ ...user, profileImage: value });
-  //   setIsChanged({ ...isChanged, profileImage: value != userOriginal.profileImage });
-  // };
+  const setProfileImage = (value) => {
+    setUser({ ...user, profileImage: value });
+    setIsChanged({ ...isChanged, profileImage: value != userOriginal.profileImage });
+  };
 
   const handleOpenDialog = (title, content, callbackOnClose) => {
     setDialogTitle(title);
@@ -350,9 +351,9 @@ function UserEdit() {
     console.log("### auth.user.roles ###", auth.user?.roles);
     return (
       <>
-        <SectionHeader text={t("Users handling")}>
+        <SectionHeader1 text={t("Users handling")}>
           {origin === "userEdit" ? t("Edit user") : t("Edit profile")}
-        </SectionHeader>
+        </SectionHeader1>
         
         <Container maxWidth="xs">
           <Box display="flex" flexDirection="column" gap={2}>
@@ -407,7 +408,13 @@ function UserEdit() {
                 value={user.roles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
                 label={t("Roles")}
                 options={allRoles.sort((a, b) => b["priority"] - a["priority"]).map(role => (role.name ?? ""))}
-                optionsDisabled={auth.user ? allRoles.map(role => role.priority > Math.max(...auth.user.roles?.map(r => r.priority))) : true}
+                optionsDisabled={
+                  auth.user
+                    ? allRoles.map(role =>
+                        role.priority > Math.max(...(auth.user.roles?.map(r => r.priority) ?? []))
+                      )
+                    : true
+                }
                 multiple={true}
                 onChange={(e) => setRoles(e.target.value)}
                 placeholder={t("Roles")}
@@ -433,51 +440,60 @@ function UserEdit() {
                 />
               )}
               
-              <TextField
-                id={"address"}
-                value={user.address ?? ""}
-                label={t("Address")}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder={t("Address")}
-                startIcon={<LocationOnIcon />}
-                error={error.address}
-                sx={styleForChangedFields("address")}
-              />
+              {config.ui.useAddress && (
+                <TextField
+                  id={"address"}
+                  value={user.address ?? ""}
+                  label={t("Address")}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder={t("Address")}
+                  startIcon={<LocationOnIcon />}
+                  error={error.address}
+                  sx={styleForChangedFields("address")}
+                />
+              )}
+
               {/* <PlacesAutocomplete /> */}
               
-              <TextField
-                id={"fiscalCode"}
-                value={user.fiscalCode ?? ""}
-                label={t("Fiscal code")}
-                onChange={(e) => setFiscalCode(e.target.value)}
-                placeholder={t("Tax Code or VAT Number")}
-                startIcon={<Payment />}
-                error={error.address}
-                inputProps={{ style: { textTransform: "uppercase" } }}
-                sx={styleForChangedFields("fiscalCode")}
-              />
+              {config.ui.useFiscalCode && (
+                <TextField
+                  id={"fiscalCode"}
+                  value={user.fiscalCode ?? ""}
+                  label={t("Fiscal code")}
+                  onChange={(e) => setFiscalCode(e.target.value)}
+                  placeholder={t("Tax Code or VAT Number")}
+                  startIcon={<Payment />}
+                  error={error.address}
+                  inputProps={{ style: { textTransform: "uppercase" } }}
+                  sx={styleForChangedFields("fiscalCode")}
+                />
+              )}
 
-              <TextField
-                id={"businessName"}
-                value={user.businessName ?? ""}
-                label={t("Business name")}
-                onChange={(e) => setBusinessName(e.target.value)}
-                placeholder={t("Business name")}
-                startIcon={<Business />}
-                error={error.businessName}
-                sx={styleForChangedFields("businessName")}
-              />
+              {config.ui.useBusinessName && (
+                <TextField
+                  id={"businessName"}
+                  value={user.businessName ?? ""}
+                  label={t("Business name")}
+                  onChange={(e) => setBusinessName(e.target.value)}
+                  placeholder={t("Business name")}
+                  startIcon={<Business />}
+                  error={error.businessName}
+                  sx={styleForChangedFields("businessName")}
+                />
+              )}
 
-              {/* <TextField
-                id={"profileImage"}
-                value={user.profileImage ?? ""}
-                label={t("Profile image")}
-                onChange={(e) => setProfileImage(e.target.value)}
-                placeholder={t("Profile image")}
-                startIcon={<PermIdentity />}
-                error={error.profileImage}
-                sx={styleForChangedFields("profileImage")}
-              /> */}
+              {config.ui.useProfileImage && (
+                <TextField
+                  id={"profileImage"}
+                  value={user.profileImage ?? ""}
+                  label={t("Profile image")}
+                  onChange={(e) => setProfileImage(e.target.value)}
+                  placeholder={t("Profile image")}
+                  startIcon={<PermIdentity />}
+                  error={error.profileImage}
+                  sx={styleForChangedFields("profileImage")}
+                />
+              )}
 
               {profile &&
                 <Button

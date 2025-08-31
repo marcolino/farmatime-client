@@ -5,7 +5,7 @@ const emailTemplate = {
   subject: i18n.t('Medicines prescription request'),
   body: i18n.t("Good morning, [DOCTOR NAME].<br />\
 We require the prescription of this medicine for <i>[NAME OF THE PATIENT]</i>:<br />\
-<br /><b>[MEDICINE]</b><br /><br />\
+<br /> <b>[MEDICINE]</b><br /><br />\
 Best regards.<br />\
 --<br />\
 <i>[NAME OF THE USER] &lt;[EMAIL OF THE USER]&gt;</i>\
@@ -18,6 +18,7 @@ export const initialJob = {
   doctor: {},
   medicines: [],
   emailTemplate: emailTemplate,
+  isActive: false,
   isConfirmed: false,
   currentStep: 0,
   stepsCompleted: [false, false, false],
@@ -34,12 +35,13 @@ export const initialJobContext = {
   ...initialJobsState,
   job: initialJobsState.jobs[initialJobsState.currentJobId],
   stepsCompleted: initialJob.stepsCompleted,
-  setJobs: () => {},
-  setCurrentJobId: () => {},
-  setJob: () => {},
-  resetJobs: () => {},
+  setJobs: () => { },
+  setCurrentJobId: () => { },
+  setJob: () => { },
+  resetJobs: () => { },
   jobError: null,
-  confirmJobsOnServer: () => {},
+  confirmJobsOnServer: () => { },
+  jobsConfirmedCount: () => { },
 };
 
 export const JobContext = createContext(initialJobContext);

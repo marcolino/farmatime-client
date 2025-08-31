@@ -23,26 +23,24 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
   const [error, setError] = useState({});
   const { showDialog } = useDialog();
   // const [openHelp, setOpenHelp] = React.useState(false);
-  // const onOpenHelp = () => setOpenHelp(true);
-  // const onCloseHelp = () => setOpenHelp(false);
+  // const onOpenHelp = () => setOpenHelp(true);
+  // const onCloseHelp = () => setOpenHelp(false);
   const helpTitle = t("Email composition");
   const helpContents =
     t("In the email subject and in the email body you can use these \"strings\", enclosed among \"$\" signs, which will be replaced with the values for each user, before sending each email") +
     ": \n\n" +
-    t("\
-     • $NAME$ => The name of the user\n\
-     • $SURNAME$ => The surname of the user\n\
-     • $EMAIL$ => The email of the user\n\
-     • $PHONE$ => The phone of the user\n\
-     • $ADDRESS$ => The address of the user\n\
-     • $FISCALCODE$ => The fiscal code/VAT of the user\n\
-     • $ROLES$ => The role or roles of the user\n\
-     • $PLAN$ => The plan of the user\n\
-     • $COMPANY$ => The company of the user\n"
-    );
-  // TODO: translate only text strings... ("The name of the user", ...)
-
-  const validateForm = () => {
+    " • $NAME$ => " + t("The name of the user") + "\n" +
+    " • $SURNAME$ => " + t("The surname of the user") + "\n" +
+    " • $EMAIL$ => " + t("The email of the user") + "\n" +
+    " • $PHONE$ => " + t("The phone of the user") + "\n" +
+    " • $ADDRESS$ => " + t("The address of the user") + "\n" +
+    " • $FISCALCODE$ => " + t("The fiscal code/VAT of the user") + "\n" +
+    " • $ROLES$ => " + t("The role or roles of the user") + "\n" +
+    " • $PLAN$ => " + t("The plan of the user") + "\n" +
+    " • $COMPANY$ => " + t("The company of the user") + "\n"
+  ;
+  
+  const validateForm = () => {
     if (!subject) {
       let err = t("Please supply an email subject");
       setError({ subject: err });

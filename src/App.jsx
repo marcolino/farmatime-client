@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { SnackbarProviderWrapper } from "./providers/SnackbarProvider"; 
@@ -10,10 +10,11 @@ import { AuthContext } from "./providers/AuthContext";
 import { CartProvider } from "./providers/CartProvider";
 import { OnlineStatusProvider } from "./providers/OnlineStatusProvider";
 import { LoaderProvider} from "./providers/LoaderProvider";
-import SessionProvider from "./providers/SessionProvider";
+// import SessionProvider from "./providers/SessionProvider";
 import { JobProvider } from "./providers/JobProvider"; 
 import { MediaQueryProvider } from "./providers/MediaQueryProvider";
-import SessionExpirationHandler from "./components/SessionExpirationHandler";
+//import SessionExpirationHandler from "./components/SessionExpirationHandler";
+import InstallPWA from "./components/InstallPWA";
 import ServiceWorkerMessages from "./components/ServiceWorkerMessages";
 import Contents from "./components/Contents";
 import Routing from "./components/Routing";
@@ -31,9 +32,18 @@ import config from "./config";
  */
 const App = () => {
   return (
-    <AuthProvider>
-      <AppStructure />
-    </AuthProvider>
+    <BrowserRouter
+      future={{ /* avoid v7 start transition warnings */ 
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
+      <SnackbarProviderWrapper>
+        <AuthProvider>
+          <AppStructure />
+        </AuthProvider>
+      </SnackbarProviderWrapper>
+    </BrowserRouter>
   );
 };
 
@@ -57,50 +67,51 @@ const AppStructure = () => {
   }, [preferences]);
 
   const themeToggle = () => {
-    setTheme((prevTheme) => (prevTheme.palette.mode));
+    //setTheme((prevTheme) => (prevTheme.palette.mode));
     toggleTheme();
   };
 
   return (
-    <ThemeProvider theme={theme}>
-                    {/* <Router future={{ /* avoid v7 start transition warnings * / 
-                      v7_startTransition: true,
-                      v7_relativeSplatPath: true,
-                    }}> */}
-      <CartProvider>
-        <DialogProvider>
-          <SnackbarProviderWrapper>
-            <ServiceWorkerMessages />
-            <ServiceWorkerProvider>
-              <OnlineStatusProvider>
-                <MediaQueryProvider>
-                  <CssBaseline />
-                  <LoaderProvider>
-                    <Loader loading={loading} />
-                    {/* <Router future={{ /* avoid v7 start transition warnings * / 
-                      v7_startTransition: true,
-                      v7_relativeSplatPath: true,
-                    }}> */}
+    // <BrowserRouter
+    //   future={{ /* avoid v7 start transition warnings */ 
+    //     v7_startTransition: true,
+    //     v7_relativeSplatPath: true,
+    //   }}
+    // >
+    // <SnackbarProviderWrapper>
+    //   <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <CartProvider>
+            <DialogProvider>
+              <ServiceWorkerMessages />
+              <ServiceWorkerProvider>
+                <OnlineStatusProvider>
+                  <MediaQueryProvider>
+                    <CssBaseline />
+                    <LoaderProvider>
+                      <Loader loading={loading} />
                       {/* <SessionExpirationHandler> */}
-                        {/* <BackgroundVideo /> */}
-                        <SessionProvider />
-                        <JobProvider>
-                          <CookiePreferences />
-                          {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
-                          <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
-                            <Routing />
-                          </Contents>
-                        </JobProvider>
+                      {/* <BackgroundVideo /> */}
+                      {/* <SessionProvider /> */}
+                      <JobProvider>
+                        <InstallPWA />
+                        <CookiePreferences />
+                        {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                        <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
+                          <Routing />
+                        </Contents>
+                      </JobProvider>
                       {/* </SessionExpirationHandler> */}
-                  </LoaderProvider>
-                </MediaQueryProvider>
-              </OnlineStatusProvider>
-            </ServiceWorkerProvider>
-          </SnackbarProviderWrapper>
-        </DialogProvider>
-      </CartProvider>
-                    {/* </Router> */}
-    </ThemeProvider>
+                    </LoaderProvider>
+                  </MediaQueryProvider>
+                </OnlineStatusProvider>
+              </ServiceWorkerProvider>
+            </DialogProvider>
+          </CartProvider>
+        </ThemeProvider>
+      //     </AuthProvider>
+      //   </SnackbarProviderWrapper>
+      // </BrowserRouter> */}
   );
 };
 

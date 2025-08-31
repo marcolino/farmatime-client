@@ -7,7 +7,7 @@ import {
   Button,
   Typography,
   TextField,
-  Chip,
+  // Chip,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -41,17 +41,9 @@ import { $generateNodesFromDOM } from '@lexical/html';
 import { ContextualHelp } from './ContextualHelp';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { useSnackbarContext } from '../providers/SnackbarProvider';
-import { JobContext } from '../providers/JobContext';
+import { JobContext, initialJob } from '../providers/JobContext';
 import { AuthContext } from '../providers/AuthContext';
 import { variablesExpand, variableTokens } from './JobEmailTemplateVariables';
-
-// Text snippets to insert
-const INSERTABLE_TEXTS = [ // TODO: get it from variableTokens
-  { value: '[NAME OF THE DOCTOR]', label: '[NAME OF THE DOCTOR]' },
-  { value: '[DATE]', label: 'Current Date' },
-  { value: '[COMPANY_NAME]', label: 'Company Name' },
-  { value: '\n\nBest regards,\n', label: 'Closing' },
-];
 
 // Lexical Editor Configuration
 const editorConfig = {
@@ -297,7 +289,8 @@ const HtmlPreviewDialog = ({ open, onClose, subject, htmlContent }) => {
 const JobEmailTemplate = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { job, setJob, jobError } = useContext(JobContext);
+  const { jobs, currentJobId, setJob, jobError } = useContext(JobContext);
+  const job = jobs.find(j => j.id === currentJobId);
   const { auth } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
 
@@ -369,6 +362,8 @@ const JobEmailTemplate = () => {
             </Box>
           </ContextualHelp> */}
 
+          <Box mt={3}></Box>
+
           <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
             <Box mt={2} label={t('Email body')}>
               <LexicalComposer initialConfig={editorConfig}>
@@ -425,7 +420,7 @@ const JobEmailTemplate = () => {
             open={isPreviewOpen}
             onClose={() => setIsPreviewOpen(false)}
             subject={subject}
-            htmlContent={variablesExpand(editorHtml, job, auth)}
+            htmlContent={variablesExpand(editorHtml, job, auth.user)}
           />
         </Box>
       </StyledPaper>

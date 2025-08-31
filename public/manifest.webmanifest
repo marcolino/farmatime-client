@@ -1,6 +1,6 @@
 {
   "short_name": "MediCare",
-  "name": "medicare by sistemisolarirossi.it",
+  "name": "medicare by medicare.it",
   "theme_color": "#a5dc6f",
   "start_url": "./",
   "display": "standalone",
@@ -34,14 +34,14 @@
   "screenshots": [
     {
       "src": "screenshot-narrow.png",
-      "sizes": "360x636",
+      "sizes": "420x683",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Mobile application"
     },
     {
       "src": "screenshot-wide.png",
-      "sizes": "1024x1574",
+      "sizes": "1856x882",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Desktop application"

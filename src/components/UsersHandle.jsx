@@ -5,6 +5,7 @@ import { Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { DateTime } from "luxon";
 import {
+  Container,
   Box,
   Button,
   Checkbox,
@@ -19,13 +20,14 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import { TextFieldSearch, SectionHeader } from "./custom";
-import { Search, Edit, BuildCircle, Delete } from "@mui/icons-material";
+import { TextFieldSearch } from "./custom";
+import { SectionHeader1 } from "mui-material-custom";
+import { Search, Edit, Delete } from "@mui/icons-material";
 import DialogEmailCreation from "./DialogEmailCreation";
 import { AuthContext } from "../providers/AuthContext";
 import { apiCall } from "../libs/Network";
 import LocalStorage from "../libs/LocalStorage";
-import { isAdmin } from "../libs/Validation";
+// import { isAdmin } from "../libs/Validation";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
@@ -46,12 +48,21 @@ const UserTable = () => {
   const [refresh, setRefresh] = useState(false); // to force a refresh, for example when doing promoteToDealer
 
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
+  const rowsPerPageInitial = 10;
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const [sortColumn, setSortColumn] = useState("lastName");
   const [sortDirection, setSortDirection] = useState("asc");
   
+  const [page, setPage] = useState(0);
+  //const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(() => {
+    return parseInt(LocalStorage.get("usersRowsPerPage")) || rowsPerPageInitial; // persist to local storage
+  });
+  const [selected, setSelected] = useState([]);
+  const [toBeRemoved, setToBeRemoved] = useState(null);
+
 
   // to use localized dates
   const localizedDate = DateTime.fromJSDate(new Date())
@@ -60,7 +71,7 @@ const UserTable = () => {
   ;
   
   useEffect(() => { // get all users on mount
-    // if (!auth.user || !isAdmin(auth.user)) { // possibly user did revoke his own admin role...
+    // if (!isLoggedIn() || !isAdmin(auth.user)) { // possibly user did revoke his own admin role...
     //   navigate("/"); // force redirect to a page for sure accessible to non-admin users
     // }
     (async () => {
@@ -73,10 +84,17 @@ const UserTable = () => {
       }
     })();
     return () => {
-      //console.log("UserTable unmounted");
+      //console.log("Users table unmounted");
     };
-  }, [auth.user, refresh]); // empty dependency array: this effect runs once when the component mounts
+  }, [auth.user, refresh]);
 
+  // Check if current page is still valid (for example after a row deletion); otherwise go back one page
+  useEffect(() => {
+    if (page > 0 && page * rowsPerPage >= users.length) {
+      setPage(page - 1);
+    }
+  }, [users, page, rowsPerPage]);
+    
   const removeUser = async (params) => {
     const result = await apiCall("post", "/user/removeUser", params);
     if (result.err) {
@@ -136,14 +154,6 @@ const UserTable = () => {
       showSnackbar(t("Removed {{count}} users", { count: userIds.length }), "success");
     }
   };
-
-  const [page, setPage] = useState(0);
-  //const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [rowsPerPage, setRowsPerPage] = useState(() => {
-    return parseInt(LocalStorage.get("usersRowsPerPage")) || 10; // persist to local storage
-  });
-  const [selected, setSelected] = useState([]);
-  const [toBeRemoved, setToBeRemoved] = useState(null);
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -333,10 +343,10 @@ const UserTable = () => {
   };
 
   return (
-    <>
-      <SectionHeader>
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      <SectionHeader1>
         {t("Users handling")}
-      </SectionHeader>
+      </SectionHeader1>
 
       <Box sx={{
         my: theme.spacing(2),
@@ -397,12 +407,12 @@ const UserTable = () => {
                 <TableCell onClick={handleSort("roles")}>
                   {t("Roles")} {sortButton({ column: "roles" })}
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   {t("Fiscal code")}
-                </TableCell>
-                <TableCell onClick={handleSort("businessName")}>
+                </TableCell> */}
+                {/* <TableCell onClick={handleSort("businessName")}>
                   {t("Business name")} {sortButton({ column: "businessName" })}
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   {t("Actions")}
                 </TableCell>
@@ -440,19 +450,19 @@ const UserTable = () => {
                       <TableCell>{user.email}</TableCell>
                       <TableCell>{user.phone}</TableCell>
                       <TableCell>{user.roles.sort((a, b) => a["priority"] < b["priority"]).map(role => role["name"]).join(", ")}</TableCell>
-                      <TableCell>{user.fiscalCode}</TableCell>
-                      <TableCell>{user.businessName}</TableCell>
+                      {/* <TableCell>{user.fiscalCode}</TableCell> */}
+                      {/* <TableCell>{user.businessName}</TableCell> */}
                       <TableCell>
                         <Tooltip title={t("Edit user")}>
                           <IconButton size="small" onClick={() => onEdit(user._id)}>
                             <Edit fontSize="small" />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip title={t("Promote to {{role}}", {role: "dealer"})}>
+                        {/* <Tooltip title={t("Promote to {{role}}", {role: "dealer"})}>
                           <IconButton size="small" onClick={() => onPromoteToDealer(user._id)}>
                             <BuildCircle fontSize="small" />
                           </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
                         <Tooltip title={t("Remove user")}>
                           {/* <IconButton size="small" onClick={() => onRemove(user._id)}> */}
                           <IconButton size="small"
@@ -541,7 +551,7 @@ const UserTable = () => {
         confirmText={t("Send email to {{count}} selected users", { count: selected.length })}
         cancelText={t("Cancel")}
       />
-    </>
+    </Container>
   );
 };
 

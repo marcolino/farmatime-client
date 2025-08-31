@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /
 
-Sitemap: https://medicare-staging.fly.dev/sitemap.xml
+Sitemap: https://medicare-prod.fly.dev/sitemap.xml
