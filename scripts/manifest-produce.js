@@ -1,13 +1,7 @@
-#!/usr/bin/env yarn node
+// (note: use yarn node)
 
-// #!/usr/bin/env node
-// // (note: use yarn node)
-
-//import dotenv from "dotenv";
 import fs from "fs/promises";
 import config from "../src/config.json" with { type: "json" };
-
-//dotenv.config({ path: "./.env" });
 
 const manifestJson = {
   "short_name": config.title,
@@ -105,6 +99,6 @@ async function buildManifest() {
 }
 
 // Run the manifest builder
-buildManifest();
-    
+await buildManifest();
+
 process.exit(0);

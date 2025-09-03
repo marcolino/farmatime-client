@@ -160,8 +160,10 @@ const JobFlow = () => {
     if (shouldConfirm) {
       (async () => {
         if (!await confirmJobsOnServer()) {
+          alert(1);
           return;
         }
+        //alert(0);
       })();
       setShouldConfirm(false);
     }
@@ -280,17 +282,20 @@ const JobFlow = () => {
       return showSnackbar(t("Please complete all steps"), "warning");
     }
 
-    // if (!job.isConfirmed) {
-    //   handleUpdate('isActive', true); // Confirming unconfirmed job: mark job as active
-    // }
-    // handleUpdate('isConfirmed', true); // Mark job as confirmed
     handleUpdate({
       isActive: job.isActive || !job.isConfirmed, // mark job as active if job was active or unconfirmed
       isConfirmed: true, // Mark job as confirmed
     });
     handleStepCompleted(lastIndex, true); // Mark this last step as completed
-    setShouldConfirm(true); // Trigger confirmation on server
 
+    setShouldConfirm(true); // Trigger confirmation on server
+    // // Save to server BEFORE navigating
+    // const success = await confirmJobsOnServer();
+    // if (!success) {
+    //   showSnackbar(t("Failed to save job"), "error");
+    //   return;
+    // }
+    
     if (!job.isConfirmed) {
       const forTheMedicine = t("the medicine");
       const forTheMedicines = t("each of the {{num}} medicines", { num: job.medicines.length });
@@ -322,7 +327,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
         confirmText: t("Ok"),
         onConfirm: () => {
           setHasNavigatedAway(true);
-          navigate('/jobs-handle');
+          navigate('/jobs-handle', { replace: true });
         }
       });
     } else {
@@ -332,7 +337,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
         confirmText: t("Ok"),
         onConfirm: () => {
           setHasNavigatedAway(true);
-          navigate('/jobs-handle');
+          navigate('/jobs-handle', { replace: true });
         }
       });
     }

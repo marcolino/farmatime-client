@@ -1,28 +1,29 @@
 /**
  * Strings for translations: they are listed here for i18next-parse to find them
  */
+import i18n from "i18next";
 
 // roles names, untranslatable tags from server
-t("user");
-t("dealer");
-t("operator");
-t("admin");
+i18n.t("user");
+i18n.t("dealer");
+i18n.t("operator");
+i18n.t("admin");
 
 // payment types
-t("unlimited");
-t("standard");
-t("free");
+i18n.t("unlimited");
+i18n.t("standard");
+i18n.t("free");
 
 // products
-t("MDA code");
-t("OEM code");
-t("Type");
-t("Make");
-t("Application");
-t("kW");
-t("Volt");
-t("Ampere");
-t("Teeth");
-t("Rotation");
-t("Regulator");
-t("Notes");
+i18n.t("MDA code");
+i18n.t("OEM code");
+i18n.t("Type");
+i18n.t("Make");
+i18n.t("Application");
+i18n.t("kW");
+i18n.t("Volt");
+i18n.t("Ampere");
+i18n.t("Teeth");
+i18n.t("Rotation");
+i18n.t("Regulator");
+i18n.t("Notes");

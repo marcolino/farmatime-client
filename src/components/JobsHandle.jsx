@@ -87,6 +87,12 @@ const JobsTable = () => {
   const [selected, setSelected] = useState([]);
   //const [toBeRemoved, setToBeRemoved] = useState(null);
   
+  // Add this useEffect to force refresh when component mounts
+  useEffect(() => {
+    // This will trigger a re-render with fresh data from context
+    console.log("JobsTable mounted, jobs count:", jobs.length);
+  }, []); // Empty dependency array means this runs once when component mounts
+
   // Check user is logged in (TODO: implement for all authenticated routes, possibly using a higher-order component)
   useEffect(() => {
     if (!isLoggedIn) {

@@ -1,23 +1,40 @@
-#!//usr/bin/env bash
+#!/usr/bin/env bash
 #
 # Generate checksum of relevant files
 
 # TODO: differentiate ".build-hash" on $NODE_ENV!
 
-# src scripts public base-assets index*.html i18next-parser.config.cjs vite.config.js package.json yarn.lock \
+case "$NODE_ENV" in
+  "production")
+    build_file_name=".build-hash.production"
+    ;;
+  "staging")
+    build_file_name=".build-hash.staging"
+    ;;
+  *)
+    # The asterisk (*) is a wildcard that catches any other value
+    build_file_name=".build-hash.development"
+    ;;
+esac
+
+# src scripts base-assets index-template.html i18next-parser.config.cjs vite.config.js package.json yarn.lock \
+#     scripts
 find \
-  src \
+  src scripts base-assets index-template.html i18next-parser.config.cjs vite.config.js package.json yarn.lock \
+  public/flags public/videos public/logo-email-header.png \
   -type f -print0 \
 | sort -z \
 | xargs -0 sha256sum \
-> .build-hash
+> "$build_file_name"
 
 # Check if hash changed
-if cmp -s .build-hash .build-hash-last; then
-  echo "✅ No changes, skipping build"
+if cmp -s "$build_file_name" "$build_file_name.last"; then
+  echo "✅ No changes in $NODE_ENV mode, skipping build"
   exit 0
 else
-  echo "🔨 Changes detected, building..."
+  echo "🔨 Changes detected in $NODE_ENV mode, building..."
   yarn build-force
-  mv .build-hash .build-hash-last
+  exitval=$?
+  mv "$build_file_name" "$build_file_name.last"
+  exit $exitval
 fi

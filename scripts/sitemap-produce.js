@@ -86,8 +86,7 @@ async function buildSitemap() {
     const sitemapXml = generateXmlSitemap(routes);
     
     await fs.writeFile(sitemapFileName, sitemapXml, "utf8");
-    console.log(`Sitemap generated successfully at ${sitemapFileName}`);
-    
+    console.log(`Sitemap file ${sitemapFileName} created successfully.`);
   } catch (err) {
     console.error("Error building sitemap:", err);
     process.exit(1);

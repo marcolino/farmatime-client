@@ -6,8 +6,8 @@
   "scripts": {
     "start-dev": "vite --host",
     "start": "vite preview",
-    "NEW_build": "scripts/build-if-changes.sh",
-    "build": "yarn build-force",
+    "build": "scripts/build-if-changes.sh",
+    "ORIG_build": "yarn build-force",
     "build-force": "echo \"Mode is $NODE_ENV\" && yarn build-prepare && yarn build-execute && yarn build-finalize",
     "build:production": "NODE_ENV=production yarn build",
     "build:dev": "NODE_ENV=development yarn build",

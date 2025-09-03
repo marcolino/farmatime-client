@@ -158,9 +158,11 @@ const AuthProvider = (props) => {
       console.warn("already signed out");
     }
 
-    if (reason === "expired") {
-      showSnackbar("Your session has expired. Please sign in again.", "info");
-    }
+    /** TODO: why this check here ???
+      if (reason === "expired") {
+        showSnackbar("Your session has expired. Please sign in again.", "info");
+      }
+    */
     return ok;
   }, [auth.user, setAuth, guest.preferences, showSnackbar]);
 

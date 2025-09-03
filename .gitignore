@@ -16,6 +16,7 @@ dev-dist
 .yarn
 .env
 .env.dev
+.build-hash.*
 
 # logs
 logs

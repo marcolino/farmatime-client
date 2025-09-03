@@ -2,7 +2,8 @@
   "short_name": "MediCare",
   "name": "medicare by medicare.it",
   "theme_color": "#a5dc6f",
-  "start_url": "./",
+  "start_url": "/pwa/",
+  "scope": "/pwa",
   "display": "standalone",
   "icons": [
     {

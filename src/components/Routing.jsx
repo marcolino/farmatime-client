@@ -11,6 +11,7 @@ const SignUp = lazy(() => import("./auth/SignUp"));
 const SignIn = lazy(() => import("./auth/SignIn"));
 const SocialSignInSuccess = lazy(() => import("./auth/SocialSignInSuccess"));
 const SocialSignInError = lazy(() => import("./auth/SocialSignInError"));
+const SocialRevoke = lazy(() => import("./auth/SocialRevoke"));
 const ForgotPassword = lazy(() => import("./auth/ForgotPassword"));
 const Products = lazy(() => import("./Products"));
 const Notifications = lazy(() => import("./Notifications"));
@@ -25,8 +26,8 @@ const Cart = lazy(() => import("./Cart"));
 const NotificationPreferences = lazy(() => import("./NotificationPreferences"));
 const AdvancedOptions = lazy(() => import("./AdvancedOptions"));
 const JobsHandle = lazy(() => import("./JobsHandle"));
-const JobsExport = lazy(() => import("./JobsExport"));
-const JobsImport = lazy(() => import("./JobsImport"));
+// const JobsExport = lazy(() => import("./JobsExport"));
+// const JobsImport = lazy(() => import("./JobsImport"));
 const JobsEmailTemplateEdit = lazy(() => import("./JobEmailTemplate"));
 const JobsRemove = lazy(() => import("./JobsRemove"));
 const JobFlow = lazy(() => import("./JobFlow"));
@@ -49,6 +50,7 @@ const Routing = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/social-signin-success" element={<SocialSignInSuccess />} />
           <Route path="/social-signin-error" element={<SocialSignInError />} />
+          <Route path="/social-revoke" element={<SocialRevoke />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/terms-of-use" element={<Legal doc="termsOfUse" />} />
           <Route path="/privacy-policy" element={<Legal doc="privacyPolicy" />} />
