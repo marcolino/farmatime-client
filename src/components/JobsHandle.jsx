@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
@@ -43,7 +43,7 @@ const JobsTable = () => {
   const [filter, setFilter] = useState("");
   //const [action, setAction] = useState("");
   //const { job, setJob, jobError } = useContext(JobContext);
-  const { jobs, /*currentJobId, */setCurrentJobId, setJob, addJob, removeJob, playPauseJob, /*jobError, */ confirmJobsOnServer, jobIsValid} = useContext(JobContext);
+  const { jobs, /*currentJobId, */setCurrentJobId, setJob, addJob, removeJob, playPauseJob, /*jobError, */ confirmJobsOnServer, jobIsValid } = useContext(JobContext);
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
   const rowsPerPageInitial = 10;
 
@@ -54,6 +54,9 @@ const JobsTable = () => {
   
   const [shouldConfirm, setShouldConfirm] = useState(false);
 
+  const clickTimeoutRef = useRef(null);
+
+
   const newJob = () => {
     addJob();
     navigate(`/job-new`);
@@ -63,22 +66,6 @@ const JobsTable = () => {
     removeJob(jobId);
     setShouldConfirm(true); // Trigger confirmation on server
   }
-
-  const onEdit = (jobId) => {
-    setCurrentJobId(jobId);
-    if (jobs[jobId].isConfirmed) { // if job is confirmed, reset current step to be the first one
-      setJob(prev => ({
-        ...prev,
-        currentStep: 0,
-      }));
-    }
-    navigate(`/job`);
-  };
-  
-  const onSwitchActiveStatus = (jobId) => {
-    playPauseJob(jobId);
-    setShouldConfirm(true); // Trigger confirmation on server
-  };
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(() => {
@@ -97,7 +84,7 @@ const JobsTable = () => {
   useEffect(() => {
     if (!isLoggedIn) {
       console.warn('User must be logged in');
-      navigate("/", {replace: true})
+      navigate("/", { replace: true })
     }
   }, [isLoggedIn]);
 
@@ -122,22 +109,22 @@ const JobsTable = () => {
     }
   }, [jobs, page, rowsPerPage]);
   
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (e, newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    const newRowsPerPage = parseInt(event.target.value);
+  const handleChangeRowsPerPage = (e) => {
+    const newRowsPerPage = parseInt(e.target.value);
     setRowsPerPage(newRowsPerPage);
     LocalStorage.set("jobsRowsPerPage", newRowsPerPage);
   };
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+  const handleSelectAllClick = (e) => {
+    if (e.target.checked) {
       const newSelected = jobs.map(job => job.id);
       setSelected(newSelected);
     } else {
@@ -145,7 +132,45 @@ const JobsTable = () => {
     }
   };
 
-  const handleClick = (event, id) => {
+  const clickTimeoutSet = (e, callback) => {
+    const delayDuration = 500; // milliseconds (ususally O.S. use this value to distinguish among click and double click)
+    if (clickTimeoutRef.current) return; // ignore if timer already set
+    clickTimeoutRef.current = setTimeout(() => {
+      clickTimeoutRef.current = null;
+      callback(); // Single click action delayed
+    }, delayDuration);
+  };
+
+  const clickTimeoutReset = (e, callback) => {
+    if (clickTimeoutRef.current) { // reset timer if set
+      clearTimeout(clickTimeoutRef.current);
+      clickTimeoutRef.current = null;
+    }
+    callback(); // Double click action immediate
+  };
+
+  const handleClick = (e, id) => {
+    clickTimeoutSet(e, () => onSelectRow(e, id)); // Handle single click, debouncing for a possible double click
+  };
+
+  const handleDoubleClick = (e, id) => {
+    clickTimeoutReset(e, () => onEdit(e, id)); // Handle double click
+  };
+
+  const onEdit = (e, jobId) => {
+    e.stopPropagation(); // Prevents bubbling to TableRow and select the row
+    setCurrentJobId(jobId);
+    if (jobs[jobId].isConfirmed) { // if job is confirmed, reset current step to be the first one
+      setJob(prev => ({
+        ...prev,
+        currentStep: 0,
+      }));
+    }
+    navigate(`/job`);
+  };
+  
+  const onSelectRow = (e, id) => {
+    e.stopPropagation(); // Prevents bubbling to TableRow and select the row
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
@@ -163,6 +188,11 @@ const JobsTable = () => {
     }
 
     setSelected(newSelected);
+  };
+
+  const onSwitchActiveStatus = (jobId) => {
+    playPauseJob(jobId);
+    setShouldConfirm(true); // Trigger confirmation on server
   };
 
   const handleSort = (columnId) => () => {
@@ -429,7 +459,8 @@ const JobsTable = () => {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, job.id)}
+                      onClick={(e) => handleClick(e, job.id)}
+                      onDoubleClick={(e) => handleDoubleClick(e, job.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -466,10 +497,7 @@ const JobsTable = () => {
                       <TableCell>{job.medicines?.length === 0 ? '' : `(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
                       <TableCell>
                         <Tooltip title={t("Edit job")} arrow>
-                          <IconButton size="small" onClick={(e) => {
-                            e.stopPropagation(); // Prevents bubbling to TableRow and select the row
-                            onEdit(job.id);
-                          }}>
+                          <IconButton size="small" onClick={(e) => onEdit(e, job.id)}>
                             <Edit fontSize="small" />
                           </IconButton>
                         </Tooltip>

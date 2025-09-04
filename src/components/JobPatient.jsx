@@ -20,13 +20,6 @@ const JobPatient = ({ data, fields, onChange, onValid, hasNavigatedAway }) => {
     setErrors((prev) => ({ ...prev, [field]: false })); // Clear error on change
   };
 
-  // useEffect(() => {
-  //   if (onValid) {
-  //     onValid(validateAllFields(fields, data));
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [data]);
-
   useEffect(() => {
     if (onValid) {
       const valid = validateAllFields(fields, data);

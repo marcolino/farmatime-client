@@ -16,14 +16,6 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
   const { auth } = useContext(AuthContext);
   const [bodyExpanded, setBodyExpanded] = useState(null);
 
-  // inform caller a valid medicines list (at least one item is present) is available
-  // useEffect(() => {
-  //   if (isValid()) {
-  //     onCompleted(true);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [data]);
-
   // on every data change, if necessary, expand emailTemplate variables
   useEffect(() => {
     console.log("******* data.emailTemplate.subject:", data?.emailTemplate?.subject || "undefined");
@@ -112,14 +104,6 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
             <Typography variant="body2" component="li" sx={{ pl: 2 }}
               dangerouslySetInnerHTML={{ __html: `${t("Email message")}:<br /><br />${bodyExpanded}` }}
             />
-            {/* <Typography variant="body2" component="li" sx={{ pl: 2 }}
-              dangerouslySetInnerHTML={{ __html: `${t("Body")}:<br /><br />${data.emailTemplate.bodyExpanded ? data.emailTemplate.bodyExpanded.replace(/(?:\r\n|\r|\n)/g, "<br />") : ''}<br /><br />${data.emailTemplate.signature ? data.emailTemplate.signature: ''}` }}
-            /> */}
-            {/* </Typography>
-            <Typography variant="body2" sx={{ pl: 2 }}
-              dangerouslySetInnerHTML={{ __html: data.emailTemplate.signature }}
-            >
-            </Typography> */}
           </Box>
 
         </Box>
