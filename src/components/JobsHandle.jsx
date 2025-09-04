@@ -80,13 +80,13 @@ const JobsTable = () => {
     console.log("JobsTable mounted, jobs count:", jobs.length);
   }, []); // Empty dependency array means this runs once when component mounts
 
-  // Check user is logged in (TODO: implement for all authenticated routes, possibly using a higher-order component)
-  useEffect(() => {
-    if (!isLoggedIn) {
-      console.warn('User must be logged in');
-      navigate("/", { replace: true })
-    }
-  }, [isLoggedIn]);
+  // // Check user is logged in (T O D O: implement for all authenticated routes, possibly using a higher-order component)
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     console.warn('User must be logged in');
+  //     navigate("/", { replace: true })
+  //   }
+  // }, [isLoggedIn]);
 
   // Confirm job changes
   useEffect(() => {
