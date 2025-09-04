@@ -2,8 +2,6 @@
 #
 # Generate checksum of relevant files
 
-# TODO: differentiate ".build-hash" on $NODE_ENV!
-
 case "$NODE_ENV" in
   "production")
     build_file_name=".build-hash.production"

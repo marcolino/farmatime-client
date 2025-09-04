@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 //import config from "../config";
 
 
-const DataRemoval = () => { // TODO...
+const DataRemoval = () => {
   const { t } = useTranslation();
 
   return (

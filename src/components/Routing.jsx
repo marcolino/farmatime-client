@@ -31,7 +31,7 @@ const JobsHandle = lazy(() => import("./JobsHandle"));
 const JobsEmailTemplateEdit = lazy(() => import("./JobEmailTemplate"));
 const JobsRemove = lazy(() => import("./JobsRemove"));
 const JobFlow = lazy(() => import("./JobFlow"));
-const DataRemoval = lazy(() => import("./DataRemoval"));
+//const DataRemoval = lazy(() => import("./DataRemoval"));
 const Landing = lazy(() => import("./Landing"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
@@ -55,7 +55,7 @@ const Routing = () => {
           <Route path="/terms-of-use" element={<Legal doc="termsOfUse" />} />
           <Route path="/privacy-policy" element={<Legal doc="privacyPolicy" />} />
           <Route path="/cookie-preferences" element={<CookiePreferences />} />
-          <Route path="/data-removal" element={<DataRemoval />} />
+          {/* <Route path="/data-removal" element={<DataRemoval />} /> */}
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/payment-success" element={<Cart payment="success" />} />
           <Route path="/payment-cancel" element={<Cart payment="cancel" />} />
