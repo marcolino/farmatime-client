@@ -287,3 +287,14 @@ NEWFEATURE:
   e forse usare un servizio tipo logRocket per loggare anche gli errori sui client
 - gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi (quando saranno usati)
 - test components/InstallPWA.jsx on iOS
+- log when user leaves our web app:
+
+    window.addEventListener('beforeunload', () => {
+      const url = '/log-user-leave';
+      const data = JSON.stringify({
+        userId: auth.user.id,
+        event: 'user_leaves',
+        timestamp: Date.now()
+      });
+      navigator.sendBeacon(url, data);
+    });

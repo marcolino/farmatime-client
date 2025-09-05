@@ -51,7 +51,7 @@
   "Are you sure you want to delete {{count}} selected product?_other": "Sei sicuro di voler eliminare i {{count}} prodotti selezionati?",
   "Are you sure you want to delete selected {{count}} user?_one": "Sei sicuro di voler eliminare l'utente selezionato?",
   "Are you sure you want to delete selected {{count}} user?_many": "Sei sicuro di voler eliminare i {{count}} utenti selezionati?",
-  "Are you sure you want to delete selected {{count}} user?_other": "Sei sicuro di voler eliminare l'utente selezionato?",
+  "Are you sure you want to delete selected {{count}} user?_other": "Sei sicuro di voler eliminare i {{count}} utenti selezionati?",
   "Are you sure you want to remove all your jobs data? This action cannot be undone.": "Sei sicuro di voler rimuovere tutti i dati relativi alle tue attività? Questa azione non può essere annullata.",
   "Are you sure you want to revoke the access to your {{provider}} social account for this app?": "Sei sicuro di voler revocare l'accesso al tuo account social {{provider}} per questa app?",
   "Are you sure you want to send this email to {{count}} selected user?_one": "Sei sicuro di voler inviare questa email all'utente selezionato?",
