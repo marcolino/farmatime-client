@@ -35,7 +35,7 @@ function Home() {
         return navigate("/jobs-handle", { replace: true });
       } else {
         console.log("user is logged in but no job is present and completed, show job component");
-        return navigate("/job", { replace: true });
+        return navigate("/job/new", { replace: true });
       }
     } else { // user is not logged in
       if (didSignInBefore) { // user is not logged in but did log in before

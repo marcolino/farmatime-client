@@ -261,6 +261,7 @@
 - evitare di notificare inizialmente "l'app è pronta per funzionare offline" troppe volte
 - always use in useEffect in components, when needed (to avoid using useCallback()): // eslint-disable-next-line react-hooks/exhaustive-deps
 - move custom/* to mui-material-custom/ and always import from 'mui-material-custom'
+- on signOut, clear cart-USERID...
 
 NEWFEATURE:
 - periodicamente eseguire `yarn update-medicines`

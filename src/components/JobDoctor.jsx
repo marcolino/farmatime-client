@@ -14,11 +14,15 @@ const JobDoctor = ({ data, fields, onChange, onValid, hasNavigatedAway }) => {
   const { t } = useTranslation();
   const [errors, setErrors] = useState({});
 
+  // set default data object
+  if (!data) data = { name: '', email: '' };
+
   const handleFieldChange = (field, value) => {
     onChange({ ...data, [field]: value });
     setErrors((prev) => ({ ...prev, [field]: "" })); // clear error when editing
   };
 
+  /*
   useEffect(() => {
     if (onValid) {
       const valid = validateAllFields(fields, data);
@@ -35,6 +39,27 @@ const JobDoctor = ({ data, fields, onChange, onValid, hasNavigatedAway }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
+  */
+  useEffect(() => {
+    if (!onValid) return;
+
+    const handle = setTimeout(() => {
+      const valid = validateAllFields(fields, data);
+      onValid(valid);
+
+      const newErrors = {};
+      fields.forEach((field) => {
+        const result = field.isValid(data[field.key]);
+        if (result !== true) {
+          newErrors[field.key] = mapErrorCodeToMessage(result);
+        }
+      });
+
+      setErrors(newErrors);
+    }, 360); // wait 360ms after typing stops
+
+    return () => clearTimeout(handle); // cleanup on next keystroke
+  }, [data, fields, onValid]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 0 }}>

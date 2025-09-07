@@ -41,7 +41,7 @@ import { $generateNodesFromDOM } from '@lexical/html';
 import { ContextualHelp } from './ContextualHelp';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { useSnackbarContext } from '../providers/SnackbarProvider';
-import { JobContext, initialJob } from '../providers/JobContext';
+import { JobContext } from '../providers/JobContext';
 import { AuthContext } from '../providers/AuthContext';
 import { variablesExpand, variableTokens } from './JobEmailTemplateVariables';
 
@@ -289,15 +289,17 @@ const HtmlPreviewDialog = ({ open, onClose, subject, htmlContent }) => {
 const JobEmailTemplate = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { jobs, currentJobId, setJob, jobError } = useContext(JobContext);
+  // TODO: use job from context, like in JobFlow
+  const { jobs, currentJobId, setJob, jobsError } = useContext(JobContext);
   const job = jobs.find(j => j.id === currentJobId);
+  
   const { auth } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
 
   const [subject, setSubject] = useState(job?.emailTemplate?.subject || '');
   const [editorHtml, setEditorHtml] = useState(job?.emailTemplate?.body || '');
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [textToInsert, setTextToInsert] = useState(null);
+  const [textToInsert, setTextToInsert] = useState(null); // TODO: probabnly unused
 
   const handleEditorChange = useCallback((editorState, editor) => {
     editorState.read(() => {
@@ -306,13 +308,13 @@ const JobEmailTemplate = () => {
     });
   }, []);
 
-  const insertToken = (token) => {
-    setTextToInsert(token);
-  };
+  // const insertToken = (token) => {
+  //   setTextToInsert(token);
+  // };
 
   const handleConfirm = () => {
-    setJob((j) => ({
-      ...j,
+    setJob(prev => ({
+      ...prev,
       emailTemplate: { subject, body: editorHtml },
     }));
     showSnackbar(t('Email template updated successfully'), 'success');
@@ -321,7 +323,7 @@ const JobEmailTemplate = () => {
 
   const handlePreview = () => setIsPreviewOpen(true);
 
-  if (jobError) {
+  if (jobsError) {
     return <Container><Typography color="error">{t('Error loading job')}</Typography></Container>;
   }
   if (!job) {

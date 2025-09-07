@@ -17,6 +17,7 @@ const JobsExport = () => {
   const canvasRef = useRef();
   const [qrValue, setQrValue] = useState("");
   const [warning, setWarning] = useState("");
+  // TODO: use job from context, like in JobFlow
   //const [jobsData, setJobsData] = useState(null);
   const { jobs, currentJobId } = useContext(JobContext);
 

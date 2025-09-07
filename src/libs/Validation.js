@@ -203,6 +203,7 @@ export const validateJobDoctorEmail = (value) => {
 }
 
 export const validateAllFields = (fields, data) => {
+  if (!data) return false;
   let valid = true;
   fields.forEach(field => {
     if (field.isValid(data[field.key]) !== true) {

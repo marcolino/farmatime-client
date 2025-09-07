@@ -26,7 +26,7 @@ import { SectionHeader1 } from "mui-material-custom";
 import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 //import { apiCall } from "../libs/Network";
-import { AuthContext } from '../providers/AuthContext';
+//import { AuthContext } from '../providers/AuthContext';
 import LocalStorage from "../libs/LocalStorage";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
@@ -36,14 +36,14 @@ import { useSnackbarContext } from "../providers/SnackbarProvider";
 const JobsTable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { isLoggedIn } = useContext(AuthContext);
+  //const { isLoggedIn } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
   const { t } = useTranslation();
   const [filter, setFilter] = useState("");
   //const [action, setAction] = useState("");
-  //const { job, setJob, jobError } = useContext(JobContext);
-  const { jobs, /*currentJobId, */setCurrentJobId, setJob, addJob, removeJob, playPauseJob, /*jobError, */ confirmJobsOnServer, jobIsValid } = useContext(JobContext);
+  //const { job, setJob, jobsError } = useContext(JobContext);
+  const { jobs, /*currentJobId, setCurrentJobId, setJob, addJob,*/ removeJob, playPauseJob, /*jobsError, */ confirmJobsOnServer, jobIsCompleted } = useContext(JobContext);
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
   const rowsPerPageInitial = 10;
 
@@ -58,8 +58,8 @@ const JobsTable = () => {
 
 
   const newJob = () => {
-    addJob();
-    navigate(`/job-new`);
+    //addJob();
+    navigate(`/job/new`);
   };
 
   const _removeJob = (jobId) => {
@@ -159,14 +159,17 @@ const JobsTable = () => {
 
   const onEdit = (e, jobId) => {
     e.stopPropagation(); // Prevents bubbling to TableRow and select the row
-    setCurrentJobId(jobId);
-    if (jobs[jobId].isConfirmed) { // if job is confirmed, reset current step to be the first one
-      setJob(prev => ({
-        ...prev,
-        currentStep: 0,
-      }));
-    }
-    navigate(`/job`);
+    //setCurrentJobId(jobId);
+
+    // const job = jobs.find(j => j.id === jobId);
+
+    // if (job?.isConfirmed) { // if job is confirmed, reset current step to be the first one
+    //   setJob(prev => ({
+    //     ...prev,
+    //     currentStep: 0,
+    //   }));
+    // }
+    navigate(`/job/${jobId}`);
   };
   
   const onSelectRow = (e, id) => {
@@ -238,7 +241,7 @@ const JobsTable = () => {
           console.warn(`sort of "object" field type for column ${sortColumn} is not implemented yet!`);
           return 0;
         }
-        console.error(`sort of unknown field type for column ${sortColumn} is not implemented yet!`);
+        console.error(`sort of unknown field type for column ${sortColumn} is not implemented yet!`, isNull(a[sortColumn]), isNull(b[sortColumn]), typeof a[sortColumn], b[sortColumn]); // TODO: understand whi id === null arrives here...
         return 0;
       });
     }
@@ -348,6 +351,8 @@ const JobsTable = () => {
 
   const sortedFilteredPaginatedJobs = getSortedFilteredPaginatedJobs(/*jobs, sortColumn, sortDirection*/);
 
+  console.log("+++++++++++ JobsHandle - sortedFilteredPaginatedJobs:", sortedFilteredPaginatedJobs);
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <SectionHeader1>
@@ -454,102 +459,102 @@ const JobsTable = () => {
             </TableHead>
             <TableBody>
               {sortedFilteredPaginatedJobs.map(job => {
-                  const isItemSelected = isSelected(job.id);
-                  //console.log("ID:", job.id);
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(e) => handleClick(e, job.id)}
-                      onDoubleClick={(e) => handleDoubleClick(e, job.id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={job.id}
-                      selected={isItemSelected}
-                      sx={(theme) => ({
-                        "& td": {
-                          bgColor: theme.palette.ochre.light,
-                          color: theme.palette.common.text,
-                          py: 0,
-                        }
-                      })}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isItemSelected} />
-                      </TableCell>
-                      <TableCell>{1 + job.id}</TableCell>
-                      <TableCell>
-                        <Tooltip title={job.isActive ? t("Job is active") : t("Job is paused")} arrow>
-                          <Chip
-                            label={<IconButton size="small">
-                              {job.isActive ? <PlayArrow fontSize="small" /> : <Pause fontSize="small" />}
-                            </IconButton>}
-                            color={job.isActive ? "primary" : "warning"}
-                            variant="filled"
-                            size="small"
-                          />
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell>{job.patient?.firstName} {job.patient?.lastName}</TableCell>
-                      <TableCell>{job.patient?.email}</TableCell>
-                      <TableCell>{job.doctor?.name}</TableCell>
-                      <TableCell>{job.doctor?.email}</TableCell>
-                      <TableCell>{job.medicines?.length === 0 ? '' : `(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
-                      <TableCell>
-                        <Tooltip title={t("Edit job")} arrow>
-                          <IconButton size="small" onClick={(e) => onEdit(e, job.id)}>
-                            <Edit fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title={job.isActive ? t("Pause job") : t("Activate job")} arrow>
-                          <IconButton size="small" onClick={(e) => {
-                            e.stopPropagation(); // Prevents bubbling to TableRow and select the row
-                            if (!jobIsValid(job.id)) {
-                              return showSnackbar(t("Job is not complete, can't be activated. Please edit the job and complete all requested fields"), "warning");
-                            }
-                            const title = job.isActive ? t("Pause job") : t("Activate job");
-                            const what = job.isActive ? t("pause") : t("activate");
-                            const explanation = job.isActive ?
-                              t("Requests for this activity will not be sent anymore until it is reactivated") :
-                              t("Requests for this activity will be sent again");
+                const isItemSelected = isSelected(job.id);
+                //console.log("ID:", job.id);
+                return (
+                  <TableRow
+                    hover
+                    onClick={(e) => handleClick(e, job.id)}
+                    onDoubleClick={(e) => handleDoubleClick(e, job.id)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={job.id}
+                    selected={isItemSelected}
+                    sx={(theme) => ({
+                      "& td": {
+                        bgColor: theme.palette.ochre.light,
+                        color: theme.palette.common.text,
+                        py: 0,
+                      }
+                    })}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox checked={isItemSelected} />
+                    </TableCell>
+                    <TableCell>{1 + job.id}</TableCell>
+                    <TableCell>
+                      <Tooltip title={job.isActive ? t("Job is active") : t("Job is paused")} arrow>
+                        <Chip
+                          label={<IconButton size="small">
+                            {job.isActive ? <PlayArrow fontSize="small" /> : <Pause fontSize="small" />}
+                          </IconButton>}
+                          color={job.isActive ? "primary" : "warning"}
+                          variant="filled"
+                          size="small"
+                        />
+                      </Tooltip>
+                    </TableCell>
+                    <TableCell>{job.patient?.firstName} {job.patient?.lastName}</TableCell>
+                    <TableCell>{job.patient?.email}</TableCell>
+                    <TableCell>{job.doctor?.name}</TableCell>
+                    <TableCell>{job.doctor?.email}</TableCell>
+                    <TableCell>{(job.medicines?.length ?? 0 === 0) ? '' : `(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
+                    <TableCell>
+                      <Tooltip title={t("Edit job")} arrow>
+                        <IconButton size="small" onClick={(e) => onEdit(e, job.id)}>
+                          <Edit fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={job.isActive ? t("Pause job") : t("Activate job")} arrow>
+                        <IconButton size="small" onClick={(e) => {
+                          e.stopPropagation(); // Prevents bubbling to TableRow and select the row
+                          if (!jobIsCompleted(job.id)) {
+                            return showSnackbar(t("Job is not complete, can't be activated. Please edit the job and complete all requested fields"), "warning");
+                          }
+                          const title = job.isActive ? t("Pause job") : t("Activate job");
+                          const what = job.isActive ? t("pause") : t("activate");
+                          const explanation = job.isActive ?
+                            t("Requests for this activity will not be sent anymore until it is reactivated") :
+                            t("Requests for this activity will be sent again");
+                          showDialog({
+                            onConfirm: () => {
+                              onSwitchActiveStatus(job.id);
+                            },
+                            title,
+                            message:
+                              t("Are you sure you want to {{what}} this job?", { what }) +
+                              "\n\n" +
+                              explanation + "."
+                            ,
+                            confirmText: t("Confirm"),
+                            cancelText: t("Cancel"),
+                          });
+                        }}>
+                          {job.isActive ? <Pause fontSize="small" /> : <PlayArrow fontSize="small" />}
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={t("Delete job")} arrow>
+                        <IconButton
+                          size="small"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Stop row selection immediately
                             showDialog({
-                              onConfirm: () => {
-                                onSwitchActiveStatus(job.id);
-                              },
-                              title,
-                              message:
-                                t("Are you sure you want to {{what}} this job?", { what }) +
-                                "\n\n" +
-                                explanation + "."
-                              ,
+                              onConfirm: () => _removeJob(job.id),
+                              title: t("Confirm Delete"),
+                              message: t("Are you sure you want to delete {{count}} selected job?", { count: 1 }),
                               confirmText: t("Confirm"),
                               cancelText: t("Cancel"),
                             });
-                          }}>
-                            {job.isActive ? <Pause fontSize="small" /> : <PlayArrow fontSize="small" />}
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title={t("Delete job")} arrow>
-                          <IconButton
-                            size="small"
-                            onClick={(e) => {
-                              e.stopPropagation(); // Stop row selection immediately
-                              showDialog({
-                                onConfirm: () => _removeJob(job.id),
-                                title: t("Confirm Delete"),
-                                message: t("Are you sure you want to delete {{count}} selected job?", { count: 1 }),
-                                confirmText: t("Confirm"),
-                                cancelText: t("Cancel"),
-                              });
-                            }}
-                          >
-                            <Delete fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                          }}
+                        >
+                          <Delete fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
@@ -583,7 +588,16 @@ const JobsTable = () => {
             {t("Remove selected jobs")}
           </Button>
         </Box> */}
+
       </Paper>
+
+      <Box sx={{ padding: theme.spacing(2) }}>
+        {sortedFilteredPaginatedJobs.length === 0 && (
+          <Typography variant="body1" color="text.secondary" textAlign="center" py={3}>
+            {t("No jobs present yet")}
+          </Typography>
+        )}
+      </Box>
 
     </Container>
   );

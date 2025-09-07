@@ -80,8 +80,8 @@ const Routing = () => {
             <Route path="/sms-unsubscribe/:token?/:language?" element={<NotificationPreferences section="sms" action="unsubscribe" />} />
             <Route path="/advanced-options" element={<AdvancedOptions />} />
             <Route path="/jobs-handle" element={<JobsHandle />} />
-            <Route path="/job" element={<JobFlow />} />
-            <Route path="/job-new" element={<JobFlow />} />
+            <Route path="/job/:jobId" element={<JobFlow />} />
+            {/* <Route path="/job/new" element={<JobFlow />} /> */}
             <Route path="/job-email-template-edit" element={<JobsEmailTemplateEdit /* onCompleted={(data) => alert("COMPLETED:" + JSON.stringify(data))} */ />} />
             {/* <Route path="/job-data-export" element={<JobsExport />} /> */}
             {/* <Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} /> */}

@@ -28,8 +28,17 @@ export const MedicineInputAutocomplete = forwardRef(({
       inputValue={inputValue}
       onChange={onChange}
       onInputChange={onInputChange}
-      getOptionLabel={(option) => option.label ?? ""}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
+      //getOptionLabel={(option) => option.label ?? ""}
+      getOptionLabel={(option) =>
+        typeof option === "string" ? option : option?.label ?? ""
+      }
+      //isOptionEqualToValue={(option, value) => option.id === value.id}
+      isOptionEqualToValue={(option, value) => {
+        if (!option || !value) return false;
+        if (typeof value === "string") return option.label === value;
+        if (typeof option === "string") return option === value.label;
+        return option.id === value.id;
+      }}
       freeSolo // Allows input values outside the options list
       slotProps={{
         listbox: {

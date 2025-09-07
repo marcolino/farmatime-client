@@ -9,12 +9,17 @@ import { AuthContext } from "../providers/AuthContext";
 import { formatDate } from '../libs/Misc';
 import { variablesExpand } from './JobEmailTemplateVariables';
 import { StyledPaper, StyledBox, StyledPaperSmall, StyledBoxSmall } from './JobStyles';
+import { emailTemplate } from '../providers/JobContext';
 
 const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
   const { t } = useTranslation();
 
   const { auth } = useContext(AuthContext);
   const [bodyExpanded, setBodyExpanded] = useState(null);
+
+  if (!data.emailTemplate) {
+    data.emailTemplate = emailTemplate;
+  }
 
   // on every data change, if necessary, expand emailTemplate variables
   useEffect(() => {

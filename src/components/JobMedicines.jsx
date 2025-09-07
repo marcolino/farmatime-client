@@ -34,7 +34,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { ContextualHelp } from './ContextualHelp';
 import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
-import { AuthContext } from '../providers/AuthContext';
+//import { AuthContext } from '../providers/AuthContext';
 import { useSnackbarContext } from '../providers/SnackbarProvider';
 //import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { StyledPaper, StyledBox } from './JobStyles';
@@ -63,7 +63,7 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const JobMedicines = ({ data, onChange, onEditingChange, onCompleted/*, hasNavigatedAway*/}) => {
+const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted/*, hasNavigatedAway*/}) => {
   const { t } = useTranslation();
   //const navigate = useNavigate();
   const theme = useTheme();
@@ -131,13 +131,13 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted/*, hasNavig
     if (!fieldMedicine) {
       onEditingChange(false);
     }
-  }, [fieldMedicine, onEditingChange]);
+  }, [fieldMedicine]);
 
   // inform caller a valid medicines list (at least one item is present) is available
   useEffect(() => {
     onCompleted(isValid());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, []); // do not depend on data, to avoid infinite loops
 
   const isValid = () => {
     return (data.length >= 1);  // at least one item is present)
@@ -305,7 +305,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted/*, hasNavig
     }
   }, [data, onChange]);
 
-  const getLocaleBasedFormat = useCallback(() => {
+  const getLocaleBasedFormat = () => {
     const locale = i18n.language;
     //console.log('getLocaleBasedFormat called with locale:', locale);
 
@@ -326,7 +326,7 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted/*, hasNavig
 
     // Default fallback
     return 'dd MMM';
-  }/*, [i18n.language]*/);
+  };
 
   const isDataLoaded =
     dataAnagrafica.length > 0 &&
@@ -343,6 +343,46 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted/*, hasNavig
               {t("Medicines List")}
             </Typography>
           </StyledBox>
+
+          <Box mt={4} p={4}>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+              modifiers={[restrictToVerticalAxis]}
+            >
+              <SortableContext
+                items={data}
+                strategy={verticalListSortingStrategy}
+              >
+                <ItemContainer>
+                  {data.length === 0 ? (
+                    <Typography variant="body1" color="text.secondary" textAlign="center" py={3}>
+                      {t("No medicines present yet")}
+                    </Typography>
+                  ) : (
+                    <Box component="ul" sx={{ p: 0, m: 0 }}>
+                      {data.map((item) => (
+                        <SortableItem
+                          key={item.id}
+                          id={item.id}
+                          name={item.name}
+                          frequency={item.fieldFrequency}
+                          date={item.fieldSinceDate}
+                          formatDate={formatDate}
+                          onEdit={startEdit}
+                          onRemove={removeItem}
+                          isEditing={item.id === editingItemId}
+                        />
+                      ))}
+                    </Box>
+                  )}
+                </ItemContainer>
+              </SortableContext>
+            </DndContext>
+          </Box>
+          
+          <Divider sx={{ margin: -1 }} />
 
           <Box p={4}>
             <Box
@@ -375,25 +415,38 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted/*, hasNavig
                     {!isDataLoaded ? (
                       null //<Typography>{t('loading medicines data...')}</Typography>
                     ) : (
+                    
                       <MedicineInputAutocomplete
+                        value={option ?? null}
+                        inputValue={fieldMedicine ?? ""}
+                        options={getFilteredOptions(fieldMedicine) ?? []}
                         autoFocus
-                        fullWidth
-                        variant="outlined"
-                        value={option}
-                        inputValue={fieldMedicine ?? ''}
                         onChange={(_event, newValue) => {
-                          setOption(newValue);
-                          setFieldMedicine(newValue ? newValue.label : '');
-                        }}
-                        onInputChange={(_event, newFieldMedicine, reason) => {
-                          if (reason === 'input' || reason === 'clear') {
-                            setFieldMedicine(newFieldMedicine);
+                          if (typeof newValue === "string") {
+                            // User typed and pressed Enter → treat as free text
+                            setOption(null);
+                            setFieldMedicine(newValue);
+                          } else if (newValue && newValue.inputValue) {
+                            // (Only if you later add "create new option" pattern)
+                            setOption(null);
+                            setFieldMedicine(newValue.inputValue);
+                          } else {
+                            // User picked an existing option
+                            setOption(newValue);
+                            setFieldMedicine(newValue ? newValue.label : "");
                           }
-                          onEditingChange(true); // inform caller we are editing
+
+                          onEditingChange(true);
                         }}
-                        options={getFilteredOptions(fieldMedicine)}
-                        placeholder={t("Enter full name of the medicine")}
-                        ref={fieldMedicineRef}
+                        onInputChange={(_event, newInputValue, reason) => {
+                          if (reason === "input" || reason === "clear") {
+                            setFieldMedicine(newInputValue);
+                            if (!newInputValue) {
+                              setOption(null);
+                            }
+                          }
+                          onEditingChange(true);
+                        }}
                       />
                     )}
                   </ContextualHelp>
@@ -566,45 +619,6 @@ const JobMedicines = ({ data, onChange, onEditingChange, onCompleted/*, hasNavig
               </Box>
             </Box>
 
-            <Divider sx={{ margin: -1 }} />
-
-            <Box mt={4}>
-              <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-                modifiers={[restrictToVerticalAxis]}
-              >
-                <SortableContext
-                  items={data}
-                  strategy={verticalListSortingStrategy}
-                >
-                  <ItemContainer>
-                    {data.length === 0 ? (
-                      <Typography variant="body1" color="text.secondary" textAlign="center" py={3}>
-                        {t("No medicines present yet")}
-                      </Typography>
-                    ) : (
-                      <Box component="ul" sx={{ p: 0, m: 0 }}>
-                        {data.map((item) => (
-                          <SortableItem
-                            key={item.id}
-                            id={item.id}
-                            name={item.name}
-                            frequency={item.fieldFrequency}
-                            date={item.fieldSinceDate}
-                            formatDate={formatDate}
-                            onEdit={startEdit}
-                            onRemove={removeItem}
-                            isEditing={item.id === editingItemId}
-                          />
-                        ))}
-                      </Box>
-                    )}
-                  </ItemContainer>
-                </SortableContext>
-              </DndContext>
-            </Box>
           </Box>
         </StyledPaper>
       </Container>
