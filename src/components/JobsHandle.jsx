@@ -19,11 +19,11 @@ import {
   TablePagination,
   Typography,
   Tooltip,
-  Chip,
+  //Chip,
 } from "@mui/material";
 import { TextFieldSearch, Button } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause } from "@mui/icons-material";
+import { Search, Edit, Delete, History, AddCircleOutline, PlayArrow, Pause } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 //import { apiCall } from "../libs/Network";
 //import { AuthContext } from '../providers/AuthContext';
@@ -43,7 +43,7 @@ const JobsTable = () => {
   const [filter, setFilter] = useState("");
   //const [action, setAction] = useState("");
   //const { job, setJob, jobsError } = useContext(JobContext);
-  const { jobs, /*currentJobId, setCurrentJobId, setJob, addJob,*/ removeJob, playPauseJob, /*jobsError, */ confirmJobsOnServer, jobIsCompleted } = useContext(JobContext);
+  const { jobs, /*currentJobId, setCurrentJobId, setJob, addJob,*/ setJobs, removeJob, playPauseJob, jobsError, confirmJobsOnServer, jobIsCompleted, normalizeJobs } = useContext(JobContext);
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
   const rowsPerPageInitial = 10;
 
@@ -52,7 +52,7 @@ const JobsTable = () => {
   const [sortColumn, setSortColumn] = useState("id");
   const [sortDirection, setSortDirection] = useState("asc");
   
-  const [shouldConfirm, setShouldConfirm] = useState(false);
+  //const [shouldConfirm, setShouldConfirm] = useState(false);
 
   const clickTimeoutRef = useRef(null);
 
@@ -61,11 +61,6 @@ const JobsTable = () => {
     //addJob();
     navigate(`/job/new`);
   };
-
-  const _removeJob = (jobId) => {
-    removeJob(jobId);
-    setShouldConfirm(true); // Trigger confirmation on server
-  }
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(() => {
@@ -80,6 +75,21 @@ const JobsTable = () => {
     console.log("JobsTable mounted, jobs count:", jobs.length);
   }, []); // Empty dependency array means this runs once when component mounts
 
+  // Show job errors to the user
+  useEffect(() => {
+    if (jobsError) {
+      let message;
+      if (jobsError.type === "load") {
+        message = `${t("Failed to load jobs")}. ${t("Please try again")}.`;
+      } else if (jobsError.type === "store") {
+        message = `${t("Failed to store jobs")}. ${t("Please try again")}.`;
+      } else {
+        message = jobsError.message ?? "An unexpected error occurred.";
+      }
+      showSnackbar(message, "error");
+    }
+  }, [jobsError, showSnackbar, t]);
+
   // // Check user is logged in (T O D O: implement for all authenticated routes, possibly using a higher-order component)
   // useEffect(() => {
   //   if (!isLoggedIn) {
@@ -89,18 +99,18 @@ const JobsTable = () => {
   // }, [isLoggedIn]);
 
   // Confirm job changes
-  useEffect(() => {
-    if (shouldConfirm) {
-      (async () => {
-        console.log("Confirming jobs on server...", jobs);
-        if (!await confirmJobsOnServer()) {
-          return;
-        }
-      })();
-      setShouldConfirm(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldConfirm]);
+  // useEffect(() => {
+  //   if (shouldConfirm) {
+  //     (async () => {
+  //       console.log("Confirming jobs on server...", jobs);
+  //       if (!await confirmJobsOnServer()) {
+  //         return;
+  //       }
+  //     })();
+  //     setShouldConfirm(false);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [shouldConfirm]);
 
   // Check if current page is still valid (for example after a row deletion); otherwise go back one page
   useEffect(() => {
@@ -133,7 +143,7 @@ const JobsTable = () => {
   };
 
   const clickTimeoutSet = (e, callback) => {
-    const delayDuration = 500; // milliseconds (ususally O.S. use this value to distinguish among click and double click)
+    const delayDuration = 400; // milliseconds (usually O.S. use this value to distinguish among click and double click)
     if (clickTimeoutRef.current) return; // ignore if timer already set
     clickTimeoutRef.current = setTimeout(() => {
       clickTimeoutRef.current = null;
@@ -193,9 +203,32 @@ const JobsTable = () => {
     setSelected(newSelected);
   };
 
-  const onSwitchActiveStatus = (jobId) => {
-    playPauseJob(jobId);
-    setShouldConfirm(true); // Trigger confirmation on server
+  const onSwitchActiveStatus = async (jobId) => {
+    const jobsSwitched = playPauseJob(jobId);
+    //setShouldConfirm(true); // Trigger confirmation on server
+    //const jobsConfirmed = confirmJob(jobDraftConfirmed);
+    if (await confirmJobsOnServer(jobsSwitched)) {
+      setJobs(jobsSwitched);
+    } else { // errors are handled with jobsError
+      return;
+    }
+  };
+
+  // const _removeJob = (jobId) => {
+  //   removeJob(jobId);
+  //   //setShouldConfirm(true); // Trigger confirmation on server
+  // }
+
+  // TODO: use onRemoveJob instead of _removeJob, and change removeJob to return jobsAfterRemove and not set jobs directly; then test with a server error
+  const onRemoveJob = async (jobId) => {
+    const jobsAfterRemove = removeJob(jobId);
+    //setShouldConfirm(true); // Trigger confirmation on server
+    //const jobsConfirmed = confirmJob(jobDraftConfirmed);
+    if (await confirmJobsOnServer(jobsAfterRemove)) {
+      setJobs(jobsAfterRemove);
+    } else { // errors are handled with jobsError
+      return;
+    }
   };
 
   const handleSort = (columnId) => () => {
@@ -351,6 +384,12 @@ const JobsTable = () => {
 
   const sortedFilteredPaginatedJobs = getSortedFilteredPaginatedJobs(/*jobs, sortColumn, sortDirection*/);
 
+
+  // const jobActiveStateColorMap = { // TODO: put on top, or in config, or in theme
+  //   false: "#FFEB3B",
+  //   true: "#4CAF50",
+  // };
+
   console.log("+++++++++++ JobsHandle - sortedFilteredPaginatedJobs:", sortedFilteredPaginatedJobs);
 
   return (
@@ -432,11 +471,15 @@ const JobsTable = () => {
                   />
                 </TableCell>
                 <TableCell onClick={handleSort("id")}>
-                  {t("Id")} {sortButton({ column: "id" })}
+                  {/* We name this column "N." ("Number") since these values are positive integers starting from 1,
+                      that do not identify each row univocally, but just number the rows (it is more useful to the user);
+                      when some row is moved around or deleted, this column values are recalculated, to mantain
+                      natural progressivity; historically we use 'id' as an internal name */}
+                  {t("N.")} {sortButton({ column: "id" })}
                 </TableCell>
-                <TableCell onClick={handleSort("isActive")}>
+                {/* <TableCell onClick={handleSort("isActive")}>
                   {t("Status")} {sortButton({ column: "isActive" })}
-                </TableCell>
+                </TableCell> */}
                 <TableCell onClick={handleSort("patientName")}>
                   {t("Patient name")} {sortButton({ column: "patientName" })}
                 </TableCell>
@@ -458,7 +501,7 @@ const JobsTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedFilteredPaginatedJobs.map(job => {
+              {sortedFilteredPaginatedJobs.map((job) => {
                 const isItemSelected = isSelected(job.id);
                 //console.log("ID:", job.id);
                 return (
@@ -482,8 +525,24 @@ const JobsTable = () => {
                     <TableCell padding="checkbox">
                       <Checkbox checked={isItemSelected} />
                     </TableCell>
-                    <TableCell>{1 + job.id}</TableCell>
                     <TableCell>
+                      <Tooltip title={job.isActive ? t("Job is active") : t("Job is paused")} arrow>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <Box component="span">{1 + job.id}</Box>
+                          <Box
+                            component="span"
+                            sx={{
+                              ml: 1,
+                              width: 10,
+                              height: 10,
+                              borderRadius: "50%",
+                              bgcolor: job.isActive ? "success.light" : "warning.light",
+                            }}
+                          />
+                        </Box>
+                      </Tooltip>
+                    </TableCell>
+                    {/* <TableCell>
                       <Tooltip title={job.isActive ? t("Job is active") : t("Job is paused")} arrow>
                         <Chip
                           label={<IconButton size="small">
@@ -494,7 +553,7 @@ const JobsTable = () => {
                           size="small"
                         />
                       </Tooltip>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>{job.patient?.firstName} {job.patient?.lastName}</TableCell>
                     <TableCell>{job.patient?.email}</TableCell>
                     <TableCell>{job.doctor?.name}</TableCell>
@@ -502,12 +561,12 @@ const JobsTable = () => {
                     <TableCell>{(job.medicines?.length ?? 0 === 0) ? '' : `(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
                     <TableCell>
                       <Tooltip title={t("Edit job")} arrow>
-                        <IconButton size="small" onClick={(e) => onEdit(e, job.id)}>
+                        <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onEdit(e, job.id)}>
                           <Edit fontSize="small" />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title={job.isActive ? t("Pause job") : t("Activate job")} arrow>
-                        <IconButton size="small" onClick={(e) => {
+                        <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => {
                           e.stopPropagation(); // Prevents bubbling to TableRow and select the row
                           if (!jobIsCompleted(job.id)) {
                             return showSnackbar(t("Job is not complete, can't be activated. Please edit the job and complete all requested fields"), "warning");
@@ -537,10 +596,11 @@ const JobsTable = () => {
                       <Tooltip title={t("Delete job")} arrow>
                         <IconButton
                           size="small"
+                          sx={{ mr: 1 }} 
                           onClick={(e) => {
                             e.stopPropagation(); // Stop row selection immediately
                             showDialog({
-                              onConfirm: () => _removeJob(job.id),
+                              onConfirm: () => onRemoveJob(job.id)/*_removeJob(job.id)*/,
                               title: t("Confirm Delete"),
                               message: t("Are you sure you want to delete {{count}} selected job?", { count: 1 }),
                               confirmText: t("Confirm"),
@@ -549,6 +609,15 @@ const JobsTable = () => {
                           }}
                         >
                           <Delete fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={t("Job history")} arrow>
+                        <IconButton
+                          size="small"
+                          sx={{ mr: 0 /* last button */ }} 
+                          onClick={() => alert("work in progress...")}
+                        >
+                          <History fontSize="small" />
                         </IconButton>
                       </Tooltip>
                     </TableCell>
@@ -593,7 +662,7 @@ const JobsTable = () => {
 
       <Box sx={{ padding: theme.spacing(2) }}>
         {sortedFilteredPaginatedJobs.length === 0 && (
-          <Typography variant="body1" color="text.secondary" textAlign="center" py={3}>
+          <Typography variant="body1" color="text.secondary" textAlign="center" fontStyle="italic" py={3}>
             {t("No jobs present yet")}
           </Typography>
         )}

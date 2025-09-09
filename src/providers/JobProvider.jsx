@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, useContext } from "react";
-import { JobContext/*, initialJob, initialJobsState*/ } from "./JobContext";
+import { JobContext, jobSkeleton } from "./JobContext";
 import { useTranslation } from "react-i18next";
 import { apiCall } from "../libs/Network";
 import { AuthContext } from "../providers/AuthContext";
+import { isEmptyObject } from '../libs/Misc';
 //import config from "../config";
 
 export const JobProvider = ({ children }) => {
@@ -19,7 +20,7 @@ export const JobProvider = ({ children }) => {
       // Load jobsData from auth.user if available
       setJobs(auth.user.jobs);
       //setCurrentJobId(auth.user.jobsData.currentJobId);
-     } else {
+    } else {
       // Reset to initial state otherwises
       setJobs([]);
       //setCurrentJobId(initialJobsState.currentJobId);
@@ -48,7 +49,8 @@ export const JobProvider = ({ children }) => {
   // );
 
   const getJobById = (id) => {
-    jobs.find(j => j.id === id);
+    if (id === 'new') return jobSkeleton;
+    return jobs.find(j => j.id === parseInt(id, 10)) || null;
   };
 
   const getJobNumberById = (id) => {
@@ -61,6 +63,8 @@ export const JobProvider = ({ children }) => {
     return -1; // Not found
   };
 
+  const normalizeJobs = (jobs) => jobs.map((job, index) => ({ ...job, id: index }));
+  
   // // update job by id in jobs array
   // const setJob = useCallback(
   //   (jobDraft, id = currentJobId) => {
@@ -86,6 +90,7 @@ export const JobProvider = ({ children }) => {
    *  - if it is new: assign it a new unique id
    *  - if it has an existing id: update the existing job in jobs array
    */
+  /*
   const confirmJob = useCallback(
     (jobDraft) => {
       const isConfirmed = true;
@@ -109,7 +114,34 @@ export const JobProvider = ({ children }) => {
         );
       }
     },
-    []
+    [jobs]
+  );
+  */
+  const confirmJob = useCallback(
+    (jobDraft) => {
+      const isConfirmed = true;
+      if (jobDraft.id === "new") {
+        // new job, assign new unique id
+        const maxId = jobs.reduce((max, job) => Math.max(max, job.id), -1);
+        const id = maxId + 1;
+        const confirmedJob = { ...jobDraft, id, isConfirmed };
+        return [...jobs, confirmedJob];
+      } else {
+        // existing job, update it in jobs array
+        if (!jobs.find(job => job.id === jobDraft.id)) { // safety check (TODO: REMOVE-ME ...)
+          console.warn(
+            `Warning: confirmJob() tried to update job id ${jobDraft.id}, but no job with such id is present!`
+          );
+          return jobs; // return unchanged jobs on safety check fail
+        }
+        return jobs.map(job =>
+          job.id === jobDraft.id
+            ? { ...jobDraft, isConfirmed }
+            : job
+        );
+      }
+    },
+    [jobs]
   );
 
   // Add a new draft job to jobs array
@@ -134,7 +166,7 @@ export const JobProvider = ({ children }) => {
   // };
 
   // Send current job to server for encryption & storage
-  const confirmJobsOnServer = async () => {
+  const confirmJobsOnServer = async (jobsConfirmed) => {
     if (!auth?.user?.id) {
       setJobsError({ type: "auth", message: "User not logged in" });
       return false;
@@ -144,7 +176,7 @@ export const JobProvider = ({ children }) => {
       // POST job data to server API - server encrypts & stores
       const response = await apiCall("post", "/user/updateUserJobs", {
         //userId: auth.user.id, // not needed, it is in auth token
-        jobs,
+        jobs: jobsConfirmed,
       });
       if (response.err) {
         // Mark job as unconfirmed
@@ -154,7 +186,7 @@ export const JobProvider = ({ children }) => {
       }
 
       // Update user's local state
-      const updatedUser = { ...auth.user, jobs };
+      const updatedUser = { ...auth.user, jobs: jobsConfirmed };
       updateSignedInUserLocally(updatedUser);
       
       setJobsError(null);
@@ -165,6 +197,7 @@ export const JobProvider = ({ children }) => {
     }
   };
 
+  /*
   const playPauseJob = (id) => { // Switch active status for job id
     setJobs((prevJobs) => {
       return prevJobs.map((job) =>
@@ -174,44 +207,33 @@ export const JobProvider = ({ children }) => {
       );
     });
   }
-
-  const removeJob = (idToRemove) => {
-    setJobs((prevJobs) => {
-      // Filter out the job to remove
-      const filteredJobs = prevJobs.filter(job => job.id !== idToRemove);
-
-      // // if no job left, set at least initialJob
-      // if (filteredJobs.length === 0) {
-      //   return initialJobsState.jobs;
-      // }
-
-      // // Reassign IDs to avoid holes: create new jobs array with sequential IDs starting from 0
-      // const reindexedJobs = filteredJobs.map((job, index) => ({
-      //   ...job,
-      //   id: index,
-      // }));
-
-      // // Update currentJobId accordingly
-      // setCurrentJobId((prevCurrentJobId) => {
-      //   if (prevCurrentJobId === idToRemove) {
-      //     // If the removed job was the current one, set to first job's id or 0 if none left
-      //     return reindexedJobs.length > 0 ? 0 : 0;
-      //   } else {
-      //     // If currentJobId was after the removed id, shift it down by 1
-      //     if (prevCurrentJobId > idToRemove) {
-      //       return prevCurrentJobId - 1;
-      //     }
-      //     // Otherwise, keep it unchanged
-      //     return prevCurrentJobId;
-      //   }
-      // });
-
-      //return reindexedJobs;
-
-      return filteredJobs;
-    });
-  };
+  */
   
+  const playPauseJob = useCallback(
+    (id) => { // Switch active status for job id
+      return jobs.map(job =>
+        job.id === id
+          ? { ...job, isActive: !job.isActive }
+          : job
+      );
+    },
+    [jobs]
+  );
+
+  // const removeJob = (idToRemove) => {
+  //   setJobs((prevJobs) => {
+  //     // Filter out the job to remove
+  //     const filteredJobs = prevJobs.filter(job => job.id !== idToRemove);
+
+  //     return filteredJobs;
+  //   });
+  // };
+  
+  const removeJob = useCallback(
+    (idToRemove) => normalizeJobs(jobs.filter((job) => job.id !== idToRemove)),
+    [jobs]
+  );
+
   // Reset all jobs
   const resetJobs = async () => {
     // setJobs(initialJobsState.jobs);
@@ -244,13 +266,38 @@ export const JobProvider = ({ children }) => {
     return jobs[id].stepsCompleted.every(Boolean);
   };
 
+  const jobIsEmpty = (job) => {
+    // console.log("jobIsEmpty - job:", job);
+    if (!job) return true;
+    // console.log("jobIsEmpty - job.id:", job.id);
+    //if (job.id !== null) return false; 
+    // console.log("jobIsEmpty - job.patient:", job.patient);
+    if (!isEmptyObject(job.patient)) return false;
+    // console.log("jobIsEmpty - job.doctor:", job.doctor);
+    if (!isEmptyObject(job.doctor)) return false;
+    // console.log("jobIsEmpty - job.isActive:", job.isActive);  
+    if (job.isActive !== false) return false;
+    // console.log("jobIsEmpty - job.isConfirmed:", job.isConfirmed);
+    if (job.isConfirmed !== false) return false;
+    // console.log("jobIsEmpty - job.medicines:", job.medicines);
+    if (!Array.isArray(job.medicines) || job.medicines.length > 0) return false;
+    // console.log("jobIsEmpty - anyStepCompleted():", anyStepCompleted());
+    //if (anyStepCompleted()) return false;
+    // console.log("jobIsEmpty - job.timestampCreation:", job.timestampCreation);
+    if (job.timestampCreation !== 0) return false;
+    // console.log("jobIsEmpty - job.timestampLastModification:", job.timestampLastModification);
+    if (job.timestampLastModification !== 0) return false;
+    return true;
+  };
+
   return (
     <JobContext.Provider
       value={{
         jobs,
         getJobById,
         getJobNumberById,
-        //setJobs,
+        //normalizeJobs,
+        setJobs,
         //currentJobId,
         //setCurrentJobId,
         //job,
@@ -264,6 +311,7 @@ export const JobProvider = ({ children }) => {
         confirmJobsOnServer,
         jobsConfirmedCount,
         jobIsCompleted,
+        jobIsEmpty,
       }}
     >
       {children}

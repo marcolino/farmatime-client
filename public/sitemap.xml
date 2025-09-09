@@ -6,7 +6,7 @@
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/</loc>
-    <lastmod>2025-08-31</lastmod>
+    <lastmod>2025-09-06</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
@@ -42,10 +42,6 @@
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/cookie-preferences</loc>
-    <lastmod>2025-08-31</lastmod>
-  </url>
-  <url>
-    <loc>https://medicare-prod.fly.dev/data-removal</loc>
     <lastmod>2025-08-31</lastmod>
   </url>
   <url>
@@ -122,23 +118,19 @@
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/jobs-handle</loc>
-    <lastmod>2025-08-31</lastmod>
+    <lastmod>2025-09-09</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/job</loc>
-    <lastmod>2025-08-31</lastmod>
-  </url>
-  <url>
-    <loc>https://medicare-prod.fly.dev/job-new</loc>
-    <lastmod>2025-08-31</lastmod>
+    <loc>https://medicare-prod.fly.dev/job/:jobId</loc>
+    <lastmod>2025-09-09</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/job-email-template-edit</loc>
-    <lastmod>2025-08-31</lastmod>
+    <lastmod>2025-09-07</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/job-data-remove</loc>
-    <lastmod>2025-08-31</lastmod>
+    <lastmod>2025-09-04</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/page-not-found</loc>

@@ -16,6 +16,15 @@ export const isEmptyObject = (obj) => {
   );
 };
 
+export const objectIsEmpty = (obj) => {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+  return true;
+};
+
 export const isNull = (v) => {
   return (v == null);
 };

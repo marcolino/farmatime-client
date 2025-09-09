@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-//import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useMemo, useRef, useContext, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   DndContext,
   closestCenter,
@@ -26,7 +26,6 @@ import {
   useTheme,
   styled
 } from '@mui/material'; // Changed to @mui/material
-import { Add, Check} from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTranslation } from 'react-i18next';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -37,7 +36,7 @@ import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
 //import { AuthContext } from '../providers/AuthContext';
 import { useSnackbarContext } from '../providers/SnackbarProvider';
-import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
+//import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { i18n } from '../i18n';
 import { localeMap, formatDate } from '../libs/Misc';
@@ -86,20 +85,20 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted/*, has
   const fieldFrequencyRef = useRef(null);
   const fieldSinceDateRef = useRef(null);
 
-  // const [dataAnagrafica, seùtDataAnagrafica] = useState([]);
-  // const [dataPrincipiAttivi, setDataPrincipiAttivi] = useState([]);
-  // const [dataATC, setDataATC] = useState([]);
+  const [dataAnagrafica, setDataAnagrafica] = useState([]);
+  const [dataPrincipiAttivi, setDataPrincipiAttivi] = useState([]);
+  const [dataATC, setDataATC] = useState([]);
 
   //const fieldFrequencMinimum = 1;
 
   // dynamically load AIFA data for medicines
-  // useEffect(() => {
-  //   import('../data/AIFA').then(module => {
-  //     setDataAnagrafica(module.dataAnagrafica);
-  //     setDataPrincipiAttivi(module.dataPrincipiAttivi);
-  //     setDataATC(module.dataATC);
-  //   });
-  // }, []);
+  useEffect(() => {
+    import('../data/AIFA').then(module => {
+      setDataAnagrafica(module.dataAnagrafica);
+      setDataPrincipiAttivi(module.dataPrincipiAttivi);
+      setDataATC(module.dataATC);
+    });
+  }, []);
   
   console.log("MEDICINES:", data);
   console.log("dataAnagrafica:", dataAnagrafica);
@@ -383,7 +382,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted/*, has
             </DndContext>
           </Box>
           
-          <Divider sx={{ margin: -1, mb: 2 }} />
+          <Divider sx={{ margin: -1 }} />
 
           <Box p={4}>
             <Box
@@ -506,7 +505,6 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted/*, has
                     variant="contained"
                     color="primary"
                     size="large"
-                    startIcon={<Add />}
                     sx={{
                       height: 56,
                       mb: 0.2,
@@ -522,7 +520,6 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted/*, has
                       variant="contained"
                       color="default"
                       size="large"
-                      startIcon={<Check />}
                       sx={{
                         height: 56,
                         mb: 0.2,
@@ -594,9 +591,8 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted/*, has
                   variant="contained"
                   color="primary"
                   size="large"
-                  startIcon={<Add />}
                   sx={{
-                    height: 36,
+                    height: mode === 'update' ? 36 : 56,
                     px: 0,
                     width: mode === 'update' ? '100%' : 'auto',
                     flexGrow: mode === 'update' ? 0 : 1,
