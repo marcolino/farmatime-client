@@ -14,9 +14,7 @@ case "$NODE_ENV" in
     build_file_name=".build-hash.development"
     ;;
 esac
-
-# src scripts base-assets index-template.html i18next-parser.config.cjs vite.config.js package.json yarn.lock \
-#     scripts
+ 
 find \
   src scripts base-assets index-template.html i18next-parser.config.cjs vite.config.js package.json yarn.lock \
   public/flags public/videos public/logo-email-header.png \
