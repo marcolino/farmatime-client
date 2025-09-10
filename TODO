@@ -241,14 +241,14 @@
 - disable cart saving to localstorage if cart is not used - OK
 - add `"dedupe": "npm dedupe",` to package.json, and try `npm ls react` (?) ...  NO
 
-- JobsHandle: use normalizeJobs when changing jobs
-- JobProvider: handle errors from server down
-- in about dialog, add company info, app description and bot client and server version ad last build timestamp
+- JobsHandle: use normalizeJobs when changing jobs - OK
+- JobProvider: handle errors from server down - OK
+- in about dialog, add company info, app description and both client and server version and last build timestamp
 - add an auth.user attribute (lastAskedToInstallPWA) with the timestamp of when she was last asked to install PWA.
   logic to show PWA install dialog will take it into consideration, to ask only once per 3 days... More, add some
   explanation about the advantages of installing it as an app...
 - add remove-data-info url for FB
-- add beforeunload to avoid loosing woork in JobFlow
+- add beforeunload to avoid loosing work in JobFlow
 - update index.language, index.dir, index.charset when user changes locale
 - migliorare il tema scuro
 - risolvere i TODO's nel codice
@@ -256,7 +256,6 @@
 - reinstall from scratch (possibly on a fresh system), and compile README file
 - better cookie popup: see unisalute.it
 - PushNotificationsStatusProvider => NotificationPushNotificationsStatusProvider
-- move components from custom/ to mui-material-custom/
 - In JobFlow.jsx, use lazy import to reduce chunk size, then we can lower
   chunkSizeWarningLimit (currently at 1536) in .vite.config.js
 - clean up eslint warnings/errors
