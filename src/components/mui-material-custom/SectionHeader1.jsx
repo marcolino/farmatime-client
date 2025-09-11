@@ -66,7 +66,10 @@ export function SectionHeader1({
         color: 'info.contrastText',
       }}
     >
-      <Typography variant="h4" align="center" contentEditable={false} sx={{ fontWeight: 'bold' }}>
+      <Typography variant="h4" align="center" sx={{
+        fontWeight: 'bold',
+        userSelect: 'none', // prevents text cursor and selection
+      }}>
         {props.children}
       </Typography>
     </Paper>

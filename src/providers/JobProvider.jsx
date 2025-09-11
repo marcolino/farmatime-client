@@ -209,7 +209,7 @@ export const JobProvider = ({ children }) => {
   }
   */
   
-  const playPauseJob = useCallback(
+  const getPlayPauseJob = useCallback(
     (id) => { // Switch active status for job id
       return jobs.map(job =>
         job.id === id
@@ -255,6 +255,7 @@ export const JobProvider = ({ children }) => {
     }
   };
 
+  // TODO: when return `jobs...` rename function as `get...` ...
   const jobsConfirmedCount = () => {
     //if (!Array.isArray(jobs)) return 0;
     console.log("💡 jobsConfirmedCount:", jobs ? jobs.filter(job => job.isConfirmed).length : 0);
@@ -290,6 +291,28 @@ export const JobProvider = ({ children }) => {
     return true;
   };
 
+  // const markJobAsCreatedNow = useCallback(
+  //   (id) => { // Mark job as created now
+  //     return jobs.map(job =>
+  //       job.id === id
+  //         ? { ...job, timestampCreation: Date.now() } // milliseconds since epoch
+  //         : job
+  //     );
+  //   },
+  //   [jobs]
+  // );
+
+  // const markJobAsModifiedNow = useCallback(
+  //   (id) => { // Mark job as modified now
+  //     return jobs.map(job =>
+  //       job.id === id
+  //         ? { ...job, timestampLastModification: Date.now() } // milliseconds since epoch
+  //         : job
+  //     );
+  //   },
+  //   [jobs]
+  // );
+  
   return (
     <JobContext.Provider
       value={{
@@ -304,7 +327,7 @@ export const JobProvider = ({ children }) => {
         //setJob,
         confirmJob,
         //addJob,
-        playPauseJob,
+        getPlayPauseJob,
         removeJob,
         resetJobs,
         jobsError,
@@ -312,6 +335,8 @@ export const JobProvider = ({ children }) => {
         jobsConfirmedCount,
         jobIsCompleted,
         jobIsEmpty,
+        // markJobAsCreatedNow,
+        // markJobAsModifiedNow,
       }}
     >
       {children}

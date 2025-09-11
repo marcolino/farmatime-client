@@ -39,7 +39,18 @@ function DialogConfirm({
         },
       }}
     >
-      <DialogTitle>{title}</DialogTitle>
+      {/* <DialogTitle>{title}</DialogTitle> */}
+      <DialogTitle
+        sx={{
+          bgcolor: "primary.main",   // theme color
+          color: "primary.contrastText", // ensures text is readable
+          fontWeight: "bold",
+          _fontSize: "1.25rem",
+          mb: 2,
+        }}
+      >
+        {title}
+      </DialogTitle>
 
       <DialogContent
         sx={{

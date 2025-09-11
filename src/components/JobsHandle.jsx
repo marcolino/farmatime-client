@@ -43,7 +43,7 @@ const JobsTable = () => {
   const [filter, setFilter] = useState("");
   //const [action, setAction] = useState("");
   //const { job, setJob, jobsError } = useContext(JobContext);
-  const { jobs, /*currentJobId, setCurrentJobId, setJob, addJob,*/ setJobs, removeJob, playPauseJob, jobsError, confirmJobsOnServer, jobIsCompleted, normalizeJobs } = useContext(JobContext);
+  const { jobs, /*currentJobId, setCurrentJobId, setJob, addJob,*/ setJobs, removeJob, getPlayPauseJob, jobsError, confirmJobsOnServer, jobIsCompleted/*, markJobAsCreatedNow, markJobAsModifiedNow*/ } = useContext(JobContext);
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
   const rowsPerPageInitial = 10;
 
@@ -204,7 +204,7 @@ const JobsTable = () => {
   };
 
   const onSwitchActiveStatus = async (jobId) => {
-    const jobsSwitched = playPauseJob(jobId);
+    const jobsSwitched = getPlayPauseJob(jobId);
     //setShouldConfirm(true); // Trigger confirmation on server
     //const jobsConfirmed = confirmJob(jobDraftConfirmed);
     if (await confirmJobsOnServer(jobsSwitched)) {
@@ -226,6 +226,13 @@ const JobsTable = () => {
     //const jobsConfirmed = confirmJob(jobDraftConfirmed);
     if (await confirmJobsOnServer(jobsAfterRemove)) {
       setJobs(jobsAfterRemove);
+
+      /**
+       * unselect all selections, because we use "id"'s as counters,
+       * they are not linked to the job, but they jus number rows,
+       * and are reset after a removal...
+       */
+      setSelected([]);
     } else { // errors are handled with jobsError
       return;
     }
@@ -391,7 +398,6 @@ const JobsTable = () => {
   // };
 
   console.log("+++++++++++ JobsHandle - sortedFilteredPaginatedJobs:", sortedFilteredPaginatedJobs);
-
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <SectionHeader1>
@@ -504,6 +510,9 @@ const JobsTable = () => {
               {sortedFilteredPaginatedJobs.map((job) => {
                 const isItemSelected = isSelected(job.id);
                 //console.log("ID:", job.id);
+                console.log("MEDICINES 1:", job.medicines);
+                console.log("MEDICINES 2:", job.medicines.length);
+                console.log("MEDICINES 9:", (job.medicines?.length === 0) ? '' : `CCC(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`);
                 return (
                   <TableRow
                     hover
@@ -558,7 +567,7 @@ const JobsTable = () => {
                     <TableCell>{job.patient?.email}</TableCell>
                     <TableCell>{job.doctor?.name}</TableCell>
                     <TableCell>{job.doctor?.email}</TableCell>
-                    <TableCell>{(job.medicines?.length ?? 0 === 0) ? '' : `(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
+                    <TableCell>{(job.medicines?.length === 0) ? '' : `(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
                     <TableCell>
                       <Tooltip title={t("Edit job")} arrow>
                         <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onEdit(e, job.id)}>

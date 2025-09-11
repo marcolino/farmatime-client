@@ -5,7 +5,7 @@
     "production": false,
     "staging": false,
     "development": true,
-    "test": true
+    "test": false
   },
   "name": "medicare",
   "title": "MediCare",

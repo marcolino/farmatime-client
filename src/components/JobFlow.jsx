@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -17,14 +17,14 @@ import {
   SectionHeader1
 } from 'mui-material-custom';
 import { ArrowBack, ArrowForward, Check, Menu, Clear } from '@mui/icons-material';
-import { JobContext, jobSkeleton, steps, fieldsPatient, fieldsDoctor } from '../providers/JobContext';
+import { JobContext, steps, fieldsPatient, fieldsDoctor } from '../providers/JobContext';
 import { useDialog } from "../providers/DialogContext";
 import {
   // validateJobPatientFirstName, validateJobPatientLastName, validateJobPatientEmail,
   // validateJobDoctorName, validateJobDoctorEmail,
   validateAllFields,
 } from '../libs/Validation';
-//import { isEmptyObject } from '../libs/Misc';
+import { objectsAreDeepEqual } from '../libs/Misc';
 //import { AuthContext } from '../providers/AuthContext';
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import JobPatient from './JobPatient';
@@ -34,83 +34,27 @@ import JobMedicines from './JobMedicines';
 import JobConfirmationReview from './JobConfirmationReview';
 
 const JobFlow = () => {
+  const { jobId } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
-  //const { isLoggedIn } = useContext(AuthContext);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
   const { getJobById, getJobNumberById, confirmJob, setJobs, confirmJobsOnServer, jobIsEmpty, jobsError } = useContext(JobContext);
-  const { jobId } = useParams();
+
+  // The job draft we edit in this component
   const [jobDraft, setJobDraft] = useState(getJobById(jobId));
-  //const [shouldConfirm, setShouldConfirm] = useState(false);
+
+  // Keep an immutable reference to the original job draft
+  //const jobDraftOriginalRef = useRef(structuredClone(jobDraft));
+  const jobDraftOriginalRef = useRef(null);
+
+  // Detect unsaved changes
+  const jobDraftWasChanged = !objectsAreDeepEqual(jobDraft, jobDraftOriginalRef.current);
+
+  // Avoid showing field consistency errors before user has navigated away from a step (the first one only, currently)
   const [hasNavigatedAway, setHasNavigatedAway] = useState(false);
-
-  // useEffect(() => {
-  //   if (jobId !== 'new') { // force first step as current step when editing a job
-  //     setJobDraft(prev => ({
-  //       ...prev,
-  //       currentStep: 0,
-  //     }));
-  //   }
-  // }, [jobId]);
-  
-  // const steps = [
-  //   { id: 0, label: isMobile ? t('Patient & Doctor') : t('Patient & Doctor Info') },
-  //   { id: 1, label: t('Medicines') },
-  //   //{ id: 2, label: t('Email Template') }, // removing this step from main steps, it is moved to advanced tools
-  //   { id: 2, label: t('Confirmation') }
-  // ];
-  // const maxSteps = steps.length;
-
-  // const fieldsPatient = [
-  //   {
-  //     label: t("Patient first name"),
-  //     key: 'firstName',
-  //     helpKey: 'PatientFirstName',
-  //     placeholder: '',
-  //     //isValid: isValidFirstName,
-  //     isValid: validateJobPatientFirstName,
-  //   },
-  //   {
-  //     label: t("Patient last name"),
-  //     key: 'lastName',
-  //     helpKey: 'PatientLastName',
-  //     placeholder: '',
-  //     //isValid: isValidLastName,
-  //     isValid: validateJobPatientLastName,
-  //   },
-  //   {
-  //     label: t("Patient email"),
-  //     key: 'email',
-  //     helpKey: 'PatientEmail',
-  //     type: 'email',
-  //     placeholder: 'info@mail.it',
-  //     //isValid: isValidEmail,
-  //     isValid: validateJobPatientEmail,
-  //   },
-  // ];
-
-  // const fieldsDoctor = [
-  //   {
-  //     label: t("Doctor name"),
-  //     key: 'name',
-  //     helpKey: 'DoctorName',
-  //     placeholder: t("Dr. ..."),
-  //     //isValid: isValidName,
-  //     isValid: validateJobDoctorName,
-  //   },
-  //   {
-  //     label: t("Doctor email"),
-  //     key: 'email',
-  //     helpKey: 'DoctorEmail',
-  //     placeholder: t("doc@studio-medico.it"),
-  //     type: 'email',
-  //     //isValid: isValidEmail,
-  //     isValid: validateJobDoctorEmail,
-  //   },
-  // ];
 
   // We need these because both patient and doctor are in step 0
   const [patientValid, setPatientValid] = useState(() => validateAllFields(fieldsPatient, jobDraft.patient));
@@ -124,6 +68,44 @@ const JobFlow = () => {
     handleStepCompleted(0, patientValid && doctorValid);
   }, [patientValid, doctorValid]);
   
+  // When entering component, if editing a new job set date of creation to now, otherwise set currentStep to 0
+  useEffect(() => {
+    setJobDraft(prev => {
+      let updated;
+      if (prev.id !== 'new') {
+        updated = { ...prev, currentStep: 0 };
+      } else {
+        updated = { ...prev, timestampCreation: Date.now() };
+      }
+
+      if (!jobDraftOriginalRef.current) {
+        jobDraftOriginalRef.current = structuredClone(updated);
+      }
+
+      return updated;
+    });
+  }, []);
+  // When entering component, if editing an existing job, set currentStep to 0
+  // useEffect(() => {
+  //   if (jobDraft.id !== 'new') { // Creating a new job
+  //     const now = Date.now();
+  //     setJobDraft(prev => ({
+  //       ...prev,
+  //       timestampCreation: now, // Set timestamp of last modification to now
+  //     }));
+  //     jobDraftOriginalRef.current.timestampCreation = now;
+  //   } else { // editing an existing job
+  //     const initialStep = 0;
+  //     setJobDraft(prev => ({
+  //       ...prev,
+  //       currentStep: initialStep,
+  //     }));
+  //     // change also jobDraftOriginalRef currentstep, to ignore this value when comparing them
+  //     jobDraftOriginalRef.current.currentStep = initialStep;
+  //   }
+  // }, []);
+
+
   // Show job errors to the user
   useEffect(() => {
    if (jobsError) {
@@ -139,14 +121,37 @@ const JobFlow = () => {
     }
   }, [jobsError, showSnackbar, t]);
 
-  // If not all previous are completed, set last step completion to false
-  useEffect(() => {
-    // if (!jobDraft.stepsCompleted) { // safety check, should not happen (TODO)
-    //   jobDraft.stepsCompleted = [];
-    //   // alert("jobDraft.stepsCompleted is undefined!");
-    //   return;
-    // }
+  // Warn user before closing this page/tab if job draft was changed and not saved (confirmed)
+  // useEffect(() => {
+  //   if (jobDraftWasChanged) {
 
+  //   }
+  // }, [jobDraftWasChanged]);
+
+  // useEffect(() => {
+  //   console.log("Current path:", location.pathname);
+  //   return () => {
+  //     console.log("Leaving path:", location.pathname);
+  //     if (jobDraftWasChanged) {
+  //       alert("confirm before going");
+  //     }
+  //   };
+  // }, [jobDraftWasChanged]);
+
+  // Warn user before unloading this page/tab if job draft was changed and not saved (confirmed)
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (jobDraftWasChanged) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [jobDraftWasChanged]);
+  
+  // If not all previous steps are completed, then set last step completion to false
+  useEffect(() => {
     const lastIndex = jobDraft.stepsCompleted.length - 1;
     const allPreviousCompleted = jobDraft.stepsCompleted
       .slice(0, lastIndex)
@@ -163,31 +168,55 @@ const JobFlow = () => {
     }
   }, [jobDraft]);
 
-  // // Confirm job changes
-  // useEffect(() => {
-  //   if (shouldConfirm) {
-  //     (async () => {
-  //       await confirmJobsOnServer(); // errors are handled with jobsError
-  //     })();
-  //     setShouldConfirm(false);
-  //   }
-  // }, [shouldConfirm]); // eslint-disable-line react-hooks/exhaustive-deps
-
+    
+  // If any change when editing job, then set last step completion to false
+  useEffect(() => {
+    const lastIndex = jobDraft.stepsCompleted.length - 1;
+    const allPreviousCompleted = jobDraft.stepsCompleted
+      .slice(0, lastIndex)
+      .every(Boolean)
+    ;
+    if (!allPreviousCompleted && jobDraft.stepsCompleted[lastIndex]) {
+      // Set last step completion to false
+      setJobDraft(prev => ({
+        ...prev,
+        stepsCompleted: prev.stepsCompleted.map((val, idx) =>
+          idx === lastIndex ? false : val
+        ),
+      }));
+    }
+  }, [jobDraft]);
+  
+  // Check if current step is the final one
   const isLastStep = () => {
     return jobDraft.currentStep === steps().length - 1;
   };
 
-
   // Navigation handlers
   const goToJobsList = () => {
     setHasNavigatedAway(true); // To force validation errors to be shown
-    if (!allStepsCompleted()) {
-      return showSnackbar(t("Please complete all steps before proceeding"), "warning");
+    if (!jobIsEmpty(jobDraft)) { // if job is empty, do never ask to complete all steps...
+      if (!allStepsCompleted()) {
+        return showSnackbar(t("Please complete all steps before proceeding"), "warning");
+      }
     }
-    // if (isMedicinesEditing) {
-    //   return showSnackbar(t("Please finish editing medicines before proceeding"), "warning");
-    // }
-    navigate('/jobs-handle', { replace: false });
+    if (jobDraftWasChanged) {
+      console.log("jobDraft:", jobDraft);
+      console.log("jobDraftOriginalRef.current:", jobDraftOriginalRef.current);
+      //return alert("confirm before going");
+      showDialog({
+        title: t("Unsaved changes"),
+        message: t("Are you sure you want to leave this job without confirming changes?"),
+        confirmText: t("Yes, leave"),
+        cancelText: t("No, stay"),
+        onConfirm: () => {
+          setHasNavigatedAway(true);
+          navigate('/jobs-handle', { replace: true });
+        }
+      });
+    } else {
+      navigate('/jobs-handle', { replace: true });
+    }
   };
 
   const handleNext = () => {
@@ -309,6 +338,7 @@ const JobFlow = () => {
       stepsCompleted: (jobDraft.stepsCompleted.map((val, idx) => idx === steps().length - 1 ? true : val)),
       isActive: jobDraft.isActive || !jobDraft.isConfirmed, // Mark job as active if job was active or unconfirmed
       isConfirmed: true, // Mark job as confirmed
+      timestampLastModification: Date.now(), // Set timestamp of last modification to now
     };
 
     // setJobDraft(prevJob => {
@@ -327,7 +357,7 @@ const JobFlow = () => {
 
     //confirmJob(jobDraft);
 
-    // TODO: rebove all shouldConfirm ...
+    // TODO: remove all shouldConfirm ...
     // setShouldConfirm(true); // Trigger confirmation on server
 
     // const updatedJob = { ...job, confirmed: true };
@@ -354,10 +384,10 @@ const JobFlow = () => {
       showDialog({
         title:
           <Box>
-            <Typography variant="h4" align="center" color="primary" sx={{ fontWeight: "bold", mt: 2 }}>
+            <Typography variant="h4" align="center" color="info.contrastText" sx={{ fontWeight: "bold", mt: 2 }}>
               {t("Well done!")}
             </Typography>
-            <Typography variant="h3" align="center" sx={{ mt: 3 }}>
+            <Typography variant="h3" align="center" sx={{ my: 2 }}>
               🏁
             </Typography>
           </Box>,
@@ -383,15 +413,18 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
         }
       });
     } else {
-      showDialog({
-        title: t("Job confirmed"),
-        message: t("You can now see this job in your jobs list."),
-        confirmText: t("Ok"),
-        onConfirm: () => {
-          setHasNavigatedAway(true);
-          navigate('/jobs-handle', { replace: true });
-        }
-      });
+      showSnackbar(t("Job confirmed"), 'info');
+      setHasNavigatedAway(true);
+      navigate('/jobs-handle', { replace: true });
+      // showDialog({
+      //   title: t("Job confirmed"),
+      //   message: t("You can now see this job in your jobs list."),
+      //   confirmText: t("Ok"),
+      //   onConfirm: () => {
+      //     setHasNavigatedAway(true);
+      //     navigate('/jobs-handle', { replace: true });
+      //   }
+      // });
     }
   };
 
@@ -612,6 +645,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
   );
 };
 
+// TODO: move to mui-material-custom
 const CustomStepIcon = (props) => {
   const { stepIndex, completed, current, } = props;
 

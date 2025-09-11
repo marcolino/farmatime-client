@@ -82,8 +82,8 @@ export const jobSkeleton = {
   isConfirmed: false,
   currentStep: 0,
   stepsCompleted: new Array(steps().length).fill(false),
-  timestampCreation: 0, // TODO
-  timestampLastModification: 0, // TODO
+  timestampCreation: 0,
+  timestampLastModification: 0,
 };
 
 // export const initialJobsState = {
@@ -91,7 +91,7 @@ export const jobSkeleton = {
 //   currentJobId: null, // no job selected
 // };
 
-export const jobContext = { // TODO: ask AI what to include here in JobContext: why not jobs?
+export const jobContext = { // TODO: what to include and not include here in JobContext?
   //...initialJobsState,
   jobs: [],
   getJobById: () => {},

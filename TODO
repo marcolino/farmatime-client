@@ -240,9 +240,10 @@
 - npm uninstall draft-js draft-convert react-draft-wysiwyg html-to-draftjs, and ask AI to refactor emailTemplateEditor with modern alternative: @react-editor-js, or @tiptap/react, or lexical from Meta - OK
 - disable cart saving to localstorage if cart is not used - OK
 - add `"dedupe": "npm dedupe",` to package.json, and try `npm ls react` (?) ...  NO
-
 - JobsHandle: use normalizeJobs when changing jobs - OK
 - JobProvider: handle errors from server down - OK
+
+- handle job timestamps
 - in about dialog, add company info, app description and both client and server version and last build timestamp
 - add an auth.user attribute (lastAskedToInstallPWA) with the timestamp of when she was last asked to install PWA.
   logic to show PWA install dialog will take it into consideration, to ask only once per 3 days... More, add some

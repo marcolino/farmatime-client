@@ -506,7 +506,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted/*, has
                     variant="contained"
                     color="primary"
                     size="large"
-                    startIcon={<Add />}
+                    startIcon={mode === 'add' ? <Add /> : <Check />}
                     sx={{
                       height: 56,
                       mb: 0.2,
@@ -594,7 +594,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted/*, has
                   variant="contained"
                   color="primary"
                   size="large"
-                  startIcon={<Add />}
+                  startIcon={mode === 'add' ? <Add /> : <Check />}
                   sx={{
                     height: 36,
                     px: 0,

@@ -53,8 +53,36 @@ export const isObject = (v) => {
 export const objectsAreEqual = (o1, o2) => {
   const retval = Object.keys(o1).length === Object.keys(o2).length &&
     Object.keys(o1).every(p => o1[p] === o2[p])
-    ;
+  ;
   return retval;
+};
+
+export const objectsAreDeepEqual = (a, b) => {
+  if (a === b) return true;
+
+  //if (typeof a !== typeof b) return false;
+  if (typeof a !== typeof b) {
+    console.log("objectsAreDeepEqual FALSE 1:", a, b, typeof a, typeof b);
+    return false;
+  }
+
+  if (typeof a !== "object" || a === null || b === null) {
+    //return a === b;
+    if (!(a === b)) {
+      console.log("objectsAreDeepEqual FALSE 2:", a, b, typeof a, typeof b);
+    }
+    return a === b;
+  }
+
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+  //if (keysA.length !== keysB.length) return false;
+  if (keysA.length !== keysB.length) {
+    console.log("objectsAreDeepEqual FALSE 3:", keysA.length, keysB.length);
+    return false;
+  }
+
+  return keysA.every(key => { console.log("KEY:", key); return objectsAreDeepEqual(a[key], b[key]) });
 };
 
 // deeply merge objects with precedence to the source one
