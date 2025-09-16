@@ -1,4 +1,4 @@
-import { encodeEmail } from "../../../libs/Misc";
+import { encodeEmailToElement } from "../../../libs/Misc";
 import config from "../../../config";
 
 export default function PrivacyPolicy() {
@@ -108,7 +108,7 @@ export default function PrivacyPolicy() {
         <li>Address: <span id="address">{config.company.owner.streetAddress}</span></li>
         <li>City: <span id="zip">{config.company.owner.zipCode}</span> - <span id="city">{config.company.owner.city}</span> (<span id="province">{ config.company.owner.province }</span>) - <span id="country">{config.company.owner.country}</span></li>
         <li>Tel / Fax: <span id="telephone">{config.company.owner.phone}</span></li>
-        <li>E-mail: <span id="email">{encodeEmail(config.company.owner.email)}</span></li>
+        <li>E-mail: <span id="email">{encodeEmailToElement(config.company.owner.email)}</span></li>
       </ul>
       <p>To exercise the rights provided for in art. 7 of the Privacy Code or for the cancellation of your data from the archive, simply contact us through one of the channels made available.</p>
       <p>All data is protected through the use of antivirus, firewall and password protection.</p>

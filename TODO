@@ -242,15 +242,18 @@
 - add `"dedupe": "npm dedupe",` to package.json, and try `npm ls react` (?) ...  NO
 - JobsHandle: use normalizeJobs when changing jobs - OK
 - JobProvider: handle errors from server down - OK
-
-- handle job timestamps
-- in about dialog, add company info, app description and both client and server version and last build timestamp
+- handle job timestamps - OK
+- in about dialog, add company info, app description and both client and server version and last build timestamp - OK
 - add an auth.user attribute (lastAskedToInstallPWA) with the timestamp of when she was last asked to install PWA.
   logic to show PWA install dialog will take it into consideration, to ask only once per 3 days... More, add some
-  explanation about the advantages of installing it as an app...
-- add remove-data-info url for FB
-- add beforeunload to avoid loosing work in JobFlow
-- update index.language, index.dir, index.charset when user changes locale
+  explanation about the advantages of installing it as an app... - OK
+- add beforeunload to avoid loosing work in JobFlow - OK
+- clean up eslint warnings/errors - OK
+- ignore case when replacing variables in email templates - OK
+- add confirmation snackbar after email send - OK
+- update index.language, index.dir, index.charset when user changes locale - OK
+- gestire tags opengraph / twitter in index.html - OK
+
 - migliorare il tema scuro
 - risolvere i TODO's nel codice
 - make tests (also use AI for this...)
@@ -259,11 +262,9 @@
 - PushNotificationsStatusProvider => NotificationPushNotificationsStatusProvider
 - In JobFlow.jsx, use lazy import to reduce chunk size, then we can lower
   chunkSizeWarningLimit (currently at 1536) in .vite.config.js
-- clean up eslint warnings/errors
 - evitare di notificare inizialmente "l'app è pronta per funzionare offline" troppe volte
 - always use in useEffect in components, when needed (to avoid using useCallback()): // eslint-disable-next-line react-hooks/exhaustive-deps
 - move custom/* to mui-material-custom/ and always import from 'mui-material-custom'
-- on signOut, clear cart-USERID...
 
 NEWFEATURE:
 - periodicamente eseguire `yarn update-medicines`
@@ -276,7 +277,6 @@ NEWFEATURE:
 - aggiungere tests
 - aggiungere coverage
 - seguire i suggerimenti di chrome lighthouse per il profiling
-- gestire tags opengraph / twitter in index.html
 - completare il README.md, copiando lo stile di uno "nice"
 - rimuovere tutti i `console.*` non necessari
 - definire un dominio (sistemisolari.com ?)
@@ -284,14 +284,14 @@ NEWFEATURE:
 - gestire URL di callback per la rimozione dell'autorizzazione (Google e Facebook)
 - gestire URL di callback per la richiesta di eliminazione dei dati (Google e Facebook)
 - ripulire Google e Facebook console dalle impostazioni inutili per i login federati nel cloud
+- add remove-data-info url for Facebook
 - usare error boundaries (see docs/ERROR-BOUNDARIES/*),
   per uniformare la gestione degli errori lato client,
   visualizzare all'utente una pagina d'errore anziché rimanere in una condizione d'errore,
   e forse usare un servizio tipo logRocket per loggare anche gli errori sui client
 - gestire il downgrade del piano: chiedere conferma, e specificare che non ci saranno rimborsi (quando saranno usati)
 - test components/InstallPWA.jsx on iOS
-- log when user leaves our web app:
-
+- log when user leaves our web app, with navigator.sendBeacon():
     window.addEventListener('beforeunload', () => {
       const url = '/log-user-leave';
       const data = JSON.stringify({
@@ -301,3 +301,4 @@ NEWFEATURE:
       });
       navigator.sendBeacon(url, data);
     });
+- on signOut, clear cart-USERID (when using cart...)

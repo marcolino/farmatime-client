@@ -320,7 +320,8 @@ function UserEdit() {
           updatedUser.lastName = result.user.lastName;
           updatedUser.roles = result.user.roles;
           updatedUser.plan = result.user.plan;
-          updateSignedInUserLocally(updatedUser);
+          //updateSignedInUserLocally(updatedUser);
+          updateSignedInUserLocally({ user: updatedUser });
         }
         navigate(-1);
       }
@@ -341,11 +342,6 @@ function UserEdit() {
     };
   }
   
-  // TODO: we don't need it, logout already navigates to home???
-  // if (!auth.user) { // navigate to home page if user did log out - TODO: always do it for all authenticated controllers
-  //   navigate("/");
-  // }
-
   if (user && allRoles && allPlans) {
     console.log("### allRoles ###", allRoles);
     console.log("### auth.user.roles ###", auth.user?.roles);

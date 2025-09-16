@@ -158,11 +158,6 @@ const AuthProvider = (props) => {
       console.warn("already signed out");
     }
 
-    /** TODO: why this check here ???
-      if (reason === "expired") {
-        showSnackbar("Your session has expired. Please sign in again.", "info");
-      }
-    */
     return ok;
   }, [auth.user, setAuth, guest.preferences, showSnackbar]);
 
@@ -190,10 +185,18 @@ const AuthProvider = (props) => {
     }
   }, [auth.user, setAuth]);
 
-  const updateSignedInUserLocally = useCallback(async (updatedUser) => {
-    setAuth({ user: updatedUser });
+  // const updateSignedInUserLocally = useCallback(async (updatedUser) => {
+  //   setAuth({ user: updatedUser });
+  // }, [setAuth]);
+  const updateSignedInUserLocally = useCallback((updatedFields) => {
+    setAuth(prevAuth => ({
+      user: { 
+        ...prevAuth.user, 
+        ...updatedFields 
+      }
+    }));
   }, [setAuth]);
-
+  
     // Clear and reset session timer
   const clearSessionTimer = () => {
     if (sessionTimerRef.current) {

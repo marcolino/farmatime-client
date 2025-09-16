@@ -1,13 +1,12 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Box,
   Button,
   Typography,
   TextField,
-  // Chip,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -44,6 +43,7 @@ import { useSnackbarContext } from '../providers/SnackbarProvider';
 import { JobContext } from '../providers/JobContext';
 import { AuthContext } from '../providers/AuthContext';
 import { variablesExpand, variableTokens } from './JobEmailTemplateVariables';
+
 
 // Lexical Editor Configuration
 const editorConfig = {
@@ -180,7 +180,6 @@ const ToolbarPlugin = () => {
               display: 'flex',
               alignItems: 'center'
             },
-            // ... rest of your select styles
           }}
         >
           <MenuItem value="" disabled><em>{t('select a variable to insert in the message...')}</em></MenuItem>
@@ -289,17 +288,13 @@ const HtmlPreviewDialog = ({ open, onClose, subject, htmlContent }) => {
 const JobEmailTemplate = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  // TODO: use job from context, like in JobFlow
-  const { jobs, currentJobId, setJob, jobsError } = useContext(JobContext);
-  const job = jobs.find(j => j.id === currentJobId);
-  
+  const { jobs, emailTemplate, setEmailTemplate, confirmEmailTemplateOnServer, jobsError } = useContext(JobContext);
+  const firstJob = jobs.length ? jobs[0] : null;
   const { auth } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
-
-  const [subject, setSubject] = useState(job?.emailTemplate?.subject || '');
-  const [editorHtml, setEditorHtml] = useState(job?.emailTemplate?.body || '');
+  const [subject, setSubject] = useState(emailTemplate.subject || '');
+  const [editorHtml, setEditorHtml] = useState(emailTemplate.body || '');
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [textToInsert, setTextToInsert] = useState(null); // TODO: probabnly unused
 
   const handleEditorChange = useCallback((editorState, editor) => {
     editorState.read(() => {
@@ -308,26 +303,22 @@ const JobEmailTemplate = () => {
     });
   }, []);
 
-  // const insertToken = (token) => {
-  //   setTextToInsert(token);
-  // };
+  const handleConfirm = async () => {
+    const emailTemplateConfirmed = { subject, body: editorHtml };
+    if (await confirmEmailTemplateOnServer(emailTemplateConfirmed)) {
+      setEmailTemplate(emailTemplateConfirmed);
+    } else { // errors are handled with jobsError
+      return;
+    }
 
-  const handleConfirm = () => {
-    setJob(prev => ({
-      ...prev,
-      emailTemplate: { subject, body: editorHtml },
-    }));
     showSnackbar(t('Email template updated successfully'), 'success');
-    setTimeout(() => navigate(-1), 1500);
+    navigate(-1, { replace: true });
   };
 
   const handlePreview = () => setIsPreviewOpen(true);
 
   if (jobsError) {
     return <Container><Typography color="error">{t('Error loading job')}</Typography></Container>;
-  }
-  if (!job) {
-    return <Container><Typography>{t('Loading...')}</Typography></Container>;
   }
 
   return (
@@ -350,30 +341,17 @@ const JobEmailTemplate = () => {
               />
             </ContextualHelp>
           </Box>
-    
-          {/* <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
-            <Box mt={4} label={t('Variables')}>
-              {Object.keys(variableTokens).map((token) => (
-                <Chip
-                  key={token}
-                  label={t(token)}
-                  onClick={() => insertToken(variableTokens[token])}
-                  sx={{ mr: 1, mb: 1 }}
-                />
-              ))}
-            </Box>
-          </ContextualHelp> */}
-
+  
           <Box mt={3}></Box>
 
           <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
             <Box mt={2} label={t('Email body')}>
               <LexicalComposer initialConfig={editorConfig}>
                 <ToolbarPlugin />
-                <InitialHtmlPlugin initialHtml={job?.emailTemplate?.body} />
-                {textToInsert && (
+                <InitialHtmlPlugin initialHtml={emailTemplate?.body} />
+                {/* {textToInsert && (
                   <TextInsertionPlugin textToInsert={textToInsert} />
-                )}
+                )} */}
                 
                 <Box sx={{ 
                   p: 2, 
@@ -422,7 +400,7 @@ const JobEmailTemplate = () => {
             open={isPreviewOpen}
             onClose={() => setIsPreviewOpen(false)}
             subject={subject}
-            htmlContent={variablesExpand(editorHtml, job, auth.user)}
+            htmlContent={variablesExpand(editorHtml, firstJob, auth.user)}
           />
         </Box>
       </StyledPaper>

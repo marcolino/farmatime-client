@@ -32,7 +32,10 @@ import { fetchBuildInfoData } from "../libs/Misc";
 import DialogConfirm from './DialogConfirm';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { SectionHeader1, useTheme } from 'mui-material-custom';
-import packageJson from "../../package.json";
+import clientPackageJson from "../../package.json";
+import serverPackageJson from "../../../medicare-server/package.json"; // WARNING: this depends on folders structure...
+import config from "../config";
+
 
 const AdvancedOptions = () => {
   const navigate = useNavigate();
@@ -152,10 +155,29 @@ const AdvancedOptions = () => {
     }
   }, []);
   
-  const infoTitle = packageJson.name; 
+  const infoTitle = t('Informations about this app');
+  const mode =
+    config.mode.production ? "production" :
+      config.mode.staging ? "staging" :
+        config.mode.development ? "development" :
+          config.mode.test ? "test" :
+            config.mode.testInCI ? "testInCI" :
+              "?"
+    ;
   const infoContents = `\
-    v${packageJson.version} © ${new Date().getFullYear()}, \
-    ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\
+    ${config.name.replace(/^./, c => c.toUpperCase())}: ${config.index.description}.\n\
+    \n\
+    ${t("This app is produced by company")} ${config.company.name}\n\
+    ${t("Phone is")}: ${config.company.phone}\n\
+    ${t("Street address is")}: ${config.company.address}\n\
+    ${t("Email address is")}: ${config.company.email}\n\
+    ${t("App mode is")}: ${mode}\n\
+    \n\
+    ${t("Client")}:\n v${clientPackageJson.version} © ${new Date().getFullYear()},\
+    ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\n\
+    \n\
+    ${t("Server")}:\n v${serverPackageJson.version} © ${new Date().getFullYear()}\
+    \n\
   `;
 
   const info = () => {
@@ -198,7 +220,7 @@ const AdvancedOptions = () => {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <SectionHeader1>
-        {t("Advanced Tools")}
+        {t("Advanced Options")}
       </SectionHeader1>
 
       {Object.entries(groupedTools).map(([section, tools], idx) => {

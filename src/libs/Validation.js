@@ -148,7 +148,6 @@ The password must contain at least:
 
 export const validateJobPatientFirstName = (value) => {
   const re = /.{2,}/;
-  // if (!String(value)) {
   if (value == null) {
     return "ERROR_PLEASE_SUPPLY_A_FIRSTNAME";
   }
@@ -156,23 +155,10 @@ export const validateJobPatientFirstName = (value) => {
     return "ERROR_PLEASE_SUPPLY_A_VALID_FIRSTNAME";
   }
   return true;
-  // const validity = validateFirstName(value);
-  // switch (validity) {
-  //   case "ERROR_PLEASE_SUPPLY_A_FIRSTNAME":
-  //     return i18n.t("Please supply a valid first name");
-  //   case "ERROR_PLEASE_SUPPLY_A_VALID_FIRSTNAME":
-  //     return i18n.t("Please supply a valid first name");
-  //   case true:
-  //     return true;
-  //   default:
-  //     console.error("Unforeseen first name validation error:", validity)
-  //     return i18n.t("First name is wrong");
-  // }
 }
 
 export const validateJobPatientLastName = (value) => {
   const re = /.{2,}/;
-  //if (!String(value)) {
   if (value == null) {
     return "ERROR_PLEASE_SUPPLY_A_LASTNAME";
   }
@@ -182,13 +168,17 @@ export const validateJobPatientLastName = (value) => {
   return true;
 }
 
-export const validateJobPatientEmail = (value) => {
-  return validateEmail(value);
+export const validateJobPatientEmail = (jobDraft, value) => {
+  const retval = validateEmail(value);
+  // Check patient email is not the same as doctor's
+  if (value && retval && (jobDraft.doctor?.email?.toLowerCase() === value?.toLowerCase())) {
+    return "ERROR_PATIENT_AND_DOCTOR_EMAILS_CANNOT_BE_THE_SAME";
+  }
+  return retval;
 }
 
 export const validateJobDoctorName = (value) => {
   const re = /.{2,}/;
-  //if (!String(value)) {
   if (value == null) {
     return "ERROR_PLEASE_SUPPLY_A_NAME";
   }
@@ -198,15 +188,20 @@ export const validateJobDoctorName = (value) => {
   return true;
 }
 
-export const validateJobDoctorEmail = (value) => {
-  return validateEmail(value);
+export const validateJobDoctorEmail = (jobDraft, value) => {
+  const retval = validateEmail(value);
+  // Check patient email is not the same as doctor's
+  if (value && retval && (jobDraft.patient?.email?.toLowerCase() === value?.toLowerCase())) {
+    return "ERROR_PATIENT_AND_DOCTOR_EMAILS_CANNOT_BE_THE_SAME";
+  }
+  return retval;
 }
 
-export const validateAllFields = (fields, data) => {
+export const validateAllFields = (jobDraft, fields, data) => {
   if (!data) return false;
   let valid = true;
   fields.forEach(field => {
-    if (field.isValid(data[field.key]) !== true) {
+    if (field.isValid(jobDraft, data[field.key]) !== true) {
       valid = false;
       return; // break forEach loop
     }
@@ -237,6 +232,8 @@ export const mapErrorCodeToMessage = (code) => {
       return i18n.t("Please supply a phone number");
     case "ERROR_PLEASE_SUPPLY_A_VALID_PHONE":
       return i18n.t("Please supply a valid phone number");
+    case "ERROR_PATIENT_AND_DOCTOR_EMAILS_CANNOT_BE_THE_SAME":
+      return i18n.t("Patient and doctor emails cannot be the same");
     case "WARNING_NO_INTERNATIONAL_PREFIX":
       return true;
     case "WARNING_ZERO_INTERNATIONAL_PREFIX":

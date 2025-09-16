@@ -110,9 +110,11 @@ const UserTable = () => {
       showSnackbar(result.message, "error");
       return false;
     }
+    showSnackbar(t("Email sent to {{count}} users", { count: params?.filter?.length }), "info");
     return true;
   }
 
+  /*
   const onPromoteToDealer = async (userId) => {
     const result = await apiCall("post", "/user/promoteToDealer", { userId });
     if (result.err) {
@@ -128,6 +130,7 @@ const UserTable = () => {
     }
     return true;
   };
+  */
 
   const onEdit = (userId) => {
     navigate(`/edit-user/${userId}/userEdit`);
@@ -204,6 +207,7 @@ const UserTable = () => {
   };
 
   const onAction = (/*selectedIds, */action, params) => {
+    console.log("onAction, selected:", selected);
     switch (action) {
       case "remove":
         onRemove(toBeRemoved);
@@ -241,7 +245,7 @@ const UserTable = () => {
   const handleEmailCreationOpen = (action) => { setAction(action); setEmailCreationOpen(true); }
   const handleEmailCreationClose = () => { setEmailCreationOpen(false); setAction(""); }
   const handleEmailCreation = (params) => { // perform the action on email creation complete
-    onAction(selected, action, params);
+    onAction(/*selected, */action, params);
     handleEmailCreationClose();
   };
 

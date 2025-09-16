@@ -78,7 +78,7 @@ const AdvancedOptions = () => {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Typography variant="h4" gutterBottom>
-        Advanced Tools
+        Advanced Options
       </Typography>
       <Typography variant="subtitle1" color="text.secondary" gutterBottom>
         These tools are intended for experienced users. Use with caution!

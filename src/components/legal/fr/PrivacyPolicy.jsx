@@ -1,4 +1,4 @@
-import { encodeEmail } from "../../../libs/Misc";
+import { encodeEmailToElement } from "../../../libs/Misc";
 import config from "../../../config";
 
 export default function PrivacyPolicy() {
@@ -108,7 +108,7 @@ export default function PrivacyPolicy() {
         <li>Adresse : <span id="address">{config.company.owner.streetAddress}</span></li>
         <li>Ville : <span id="zip">{config.company.owner.zipCode}</span> - <span id="city">{config.company.owner.city}</span> (<span id="province">{ config.company.owner.province }</span>) - <span id="country">{config.company.owner.country}</span></li>
         <li>Tél / Fax : <span id="telephone">{config.company.owner.phone}</span></li>
-        <li>E-mail : <span id="email">{encodeEmail(config.company.owner.email)}</span></li>
+        <li>E-mail : <span id="email">{encodeEmailToElement(config.company.owner.email)}</span></li>
       </ul>
       <p>Pour exercer les droits prévus à l'art. 7 du Code de la Vie Privée ou pour la suppression de vos données de l'archive, il suffit de nous contacter via l'un des canaux mis à disposition.</p>
       <p>Toutes les données sont protégées par l'utilisation d'antivirus, de pare-feu et de protection par mot de passe.</p>

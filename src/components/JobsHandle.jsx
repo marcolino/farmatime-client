@@ -23,7 +23,7 @@ import {
 } from "@mui/material";
 import { TextFieldSearch, Button } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { Search, Edit, Delete, History, AddCircleOutline, PlayArrow, Pause } from "@mui/icons-material";
+import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 //import { apiCall } from "../libs/Network";
 //import { AuthContext } from '../providers/AuthContext';
@@ -169,16 +169,6 @@ const JobsTable = () => {
 
   const onEdit = (e, jobId) => {
     e.stopPropagation(); // Prevents bubbling to TableRow and select the row
-    //setCurrentJobId(jobId);
-
-    // const job = jobs.find(j => j.id === jobId);
-
-    // if (job?.isConfirmed) { // if job is confirmed, reset current step to be the first one
-    //   setJob(prev => ({
-    //     ...prev,
-    //     currentStep: 0,
-    //   }));
-    // }
     navigate(`/job/${jobId}`);
   };
   
@@ -214,24 +204,10 @@ const JobsTable = () => {
     }
   };
 
-  // const _removeJob = (jobId) => {
-  //   removeJob(jobId);
-  //   //setShouldConfirm(true); // Trigger confirmation on server
-  // }
-
-  // TODO: use onRemoveJob instead of _removeJob, and change removeJob to return jobsAfterRemove and not set jobs directly; then test with a server error
   const onRemoveJob = async (jobId) => {
     const jobsAfterRemove = removeJob(jobId);
-    //setShouldConfirm(true); // Trigger confirmation on server
-    //const jobsConfirmed = confirmJob(jobDraftConfirmed);
     if (await confirmJobsOnServer(jobsAfterRemove)) {
       setJobs(jobsAfterRemove);
-
-      /**
-       * unselect all selections, because we use "id"'s as counters,
-       * they are not linked to the job, but they jus number rows,
-       * and are reset after a removal...
-       */
       setSelected([]);
     } else { // errors are handled with jobsError
       return;
@@ -281,7 +257,7 @@ const JobsTable = () => {
           console.warn(`sort of "object" field type for column ${sortColumn} is not implemented yet!`);
           return 0;
         }
-        console.error(`sort of unknown field type for column ${sortColumn} is not implemented yet!`, isNull(a[sortColumn]), isNull(b[sortColumn]), typeof a[sortColumn], b[sortColumn]); // TODO: understand whi id === null arrives here...
+        console.error(`sort of unknown field type for column ${sortColumn} is not implemented yet!`, isNull(a[sortColumn]), isNull(b[sortColumn]), typeof a[sortColumn], b[sortColumn]);
         return 0;
       });
     }
@@ -391,13 +367,8 @@ const JobsTable = () => {
 
   const sortedFilteredPaginatedJobs = getSortedFilteredPaginatedJobs(/*jobs, sortColumn, sortDirection*/);
 
+  //console.log("JobsHandle - sortedFilteredPaginatedJobs:", sortedFilteredPaginatedJobs);
 
-  // const jobActiveStateColorMap = { // TODO: put on top, or in config, or in theme
-  //   false: "#FFEB3B",
-  //   true: "#4CAF50",
-  // };
-
-  console.log("+++++++++++ JobsHandle - sortedFilteredPaginatedJobs:", sortedFilteredPaginatedJobs);
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <SectionHeader1>
@@ -481,7 +452,7 @@ const JobsTable = () => {
                       that do not identify each row univocally, but just number the rows (it is more useful to the user);
                       when some row is moved around or deleted, this column values are recalculated, to mantain
                       natural progressivity; historically we use 'id' as an internal name */}
-                  {t("N.")} {sortButton({ column: "id" })}
+                  {t("Id")} {sortButton({ column: "id" })}
                 </TableCell>
                 {/* <TableCell onClick={handleSort("isActive")}>
                   {t("Status")} {sortButton({ column: "isActive" })}
@@ -605,7 +576,7 @@ const JobsTable = () => {
                       <Tooltip title={t("Delete job")} arrow>
                         <IconButton
                           size="small"
-                          sx={{ mr: 1 }} 
+                          sx={{ mr: 0 /* (last button has no right margin) */ }} 
                           onClick={(e) => {
                             e.stopPropagation(); // Stop row selection immediately
                             showDialog({
@@ -620,15 +591,15 @@ const JobsTable = () => {
                           <Delete fontSize="small" />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title={t("Job history")} arrow>
+                      {/* <Tooltip title={t("Job history")} arrow>
                         <IconButton
                           size="small"
-                          sx={{ mr: 0 /* last button */ }} 
+                          sx={{ mr: 0 }} 
                           onClick={() => alert("work in progress...")}
                         >
                           <History fontSize="small" />
                         </IconButton>
-                      </Tooltip>
+                      </Tooltip> */}
                     </TableCell>
                   </TableRow>
                 );

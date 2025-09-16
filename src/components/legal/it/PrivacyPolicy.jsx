@@ -1,5 +1,4 @@
-import React from "react";
-import { encodeEmail } from "../../../libs/Misc";
+import { encodeEmailToElement } from "../../../libs/Misc";
 import config from "../../../config";
 
 function PrivacyPolicy() {
@@ -109,7 +108,7 @@ function PrivacyPolicy() {
         <li>Indirizzo: <span id="address">{config.company.owner.streetAddress}</span></li>
         <li>Città: <span id="zip">{config.company.owner.zipCode}</span> - <span id="city">{config.company.owner.city}</span> (<span id="provincia">{config.company.owner.province}</span>) - <span id="country">{config.company.owner.country}</span></li>
         <li>Tel / Fax: <span id="phone">{config.company.owner.phone}</span></li>
-        <li>E-mail: <span id="email">{encodeEmail(config.company.owner.email)}</span></li>
+        <li>E-mail: <span id="email">{encodeEmailToElement(config.company.owner.email)}</span></li>
       </ul>
       <p>Per esercitare i diritti previsti all'art. 7 del Codice della Privacy ovvero per la cancellazione dei vostri dati dall'archivio, è sufficiente contattarci attraverso uno dei canali messi a disposizione.</p>
       <p>Tutti i dati sono protetti attraverso l'uso di antivirus, firewall e protezione attraverso password.</p>

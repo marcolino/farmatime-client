@@ -14,10 +14,10 @@ const InstallPWA = () => {
   const { t } = useTranslation();
   const hasAskedThisSession = useRef(false);
 
-  const { jobsConfirmedCount } = useContext(JobContext);
+  const { jobs } = useContext(JobContext);
   
   const timeToPromptUserToInstallApp = () => {
-    const atLeastOneActivityConfirmed = (jobsConfirmedCount() >= 1); // condition: at least one job confirmed
+    const atLeastOneActivityConfirmed = (jobs.length >= 1); // condition: at least one job confirmed
     return isLoggedIn && atLeastOneActivityConfirmed && !isPWAInstalled;
   };
 
@@ -52,11 +52,18 @@ const InstallPWA = () => {
     hasAskedThisSession.current = true;
 
     showSnackbar(
-      t("Install this app for a better experience!"),
-      "default",
+      t(`\
+For the best experience, install this app on your device.\n\
+It will open instantly from your home screen or desktop,\n\
+work even when you're offline, and feel just like a regular app,\n\
+with faster access and a cleaner interface.\
+`),
+      "info",
       (key) => (
         <>
           <Button
+            sx={{ mx: 0.5 }}
+            variant="contained" 
             color="primary"
             size="small"
             onClick={() => {
@@ -67,6 +74,8 @@ const InstallPWA = () => {
             {t("Install")}
           </Button>
           <Button
+            sx={{ mx: 0.5 }}
+            variant="contained" 
             color="secondary"
             size="small"
             onClick={() => closeSnackbar(key)}

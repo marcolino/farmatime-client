@@ -204,7 +204,7 @@ export default defineConfig(({ mode }) => {
       //     }
       //   }
       // },
-      chunkSizeWarningLimit: 1536,
+      chunkSizeWarningLimit: 1792,
       sourcemap: true,
     },
     publicDir: publicDir,

@@ -1,4 +1,3 @@
-//import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -28,11 +27,11 @@ export function SortableItem({
     isDragging,
   } = useSortable({ id });
   const { t } = useTranslation();
-  const { isMobile, isXs, isSm } = useMediaQueryContext();
+  const { isMobile } = useMediaQueryContext();
 
   const isDragEnabled = (
-    (isMobile && config.ui.jobs.dragAndDrop.mobile.enabled) ||
-    (!isMobile && config.ui.jobs.dragAndDrop.desktop.enabled)
+    (isMobile && config.ui.jobs.medicines.dragAndDrop.mobile.enabled) ||
+    (!isMobile && config.ui.jobs.medicines.dragAndDrop.desktop.enabled)
   );
 
   const style = {

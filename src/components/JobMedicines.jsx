@@ -64,7 +64,7 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted/*, hasNavigatedAway*/}) => {
+const JobMedicines = ({ /*jobDraft = {},*/ data = [], onChange, onEditingChange, onCompleted/*, hasNavigatedAway*/}) => {
   const { t } = useTranslation();
   //const navigate = useNavigate();
   const theme = useTheme();
@@ -238,11 +238,13 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted/*, has
       return;
     }
 
-    // Use a unique ID for new items, if not already existing (for manual input)
+    // // Use a unique ID for new items, if not already existing (for manual input)
     const newItemId = option?.id || name;
+    const newItemName = option?.name || name;
 
     if (mode === 'add') {
-      if (data.some(item => item.id === newItemId)) {
+      //if (data.some(item => item.id === newItemId)) {
+      if (data.some(item => item.name === newItemName)) {
         showSnackbar(t('This item already exists in the list'), 'warning');
         return;
       }

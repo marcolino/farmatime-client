@@ -6,11 +6,11 @@
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/</loc>
-    <lastmod>2025-09-06</lastmod>
+    <lastmod>2025-09-15</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
-    <lastmod>2025-08-31</lastmod>
+    <lastmod>2025-09-15</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/signin</loc>
@@ -46,7 +46,7 @@
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/contacts</loc>
-    <lastmod>2024-12-14</lastmod>
+    <lastmod>2025-09-11</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/payment-success</loc>
@@ -58,7 +58,7 @@
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/edit-user/:userId/:origin</loc>
-    <lastmod>2025-08-31</lastmod>
+    <lastmod>2025-09-15</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/products/:productId?</loc>
@@ -74,7 +74,7 @@
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/handle-users</loc>
-    <lastmod>2025-08-31</lastmod>
+    <lastmod>2025-09-12</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/handle-products</loc>
@@ -114,23 +114,27 @@
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/advanced-options</loc>
-    <lastmod>2025-08-31</lastmod>
+    <lastmod>2025-09-14</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/jobs-handle</loc>
-    <lastmod>2025-09-09</lastmod>
+    <lastmod>2025-09-15</lastmod>
+  </url>
+  <url>
+    <loc>https://medicare-prod.fly.dev/jobs-history</loc>
+    <lastmod>2025-09-15</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/job/:jobId</loc>
-    <lastmod>2025-09-09</lastmod>
+    <lastmod>2025-09-15</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/job-email-template-edit</loc>
-    <lastmod>2025-09-07</lastmod>
+    <lastmod>2025-09-15</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/job-data-remove</loc>
-    <lastmod>2025-09-04</lastmod>
+    <lastmod>2025-09-15</lastmod>
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/page-not-found</loc>
@@ -138,6 +142,6 @@
   </url>
   <url>
     <loc>https://medicare-prod.fly.dev/work-in-progress</loc>
-    <lastmod>2025-01-29</lastmod>
+    <lastmod>2025-09-11</lastmod>
   </url>
 </urlset>

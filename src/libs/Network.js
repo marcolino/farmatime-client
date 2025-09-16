@@ -1,12 +1,6 @@
-//import axios from "axios";
 import instance from "../middlewares/Interceptors";
-//import LocalStorage from "./LocalStorage";
 import { i18n } from "../i18n";
 
-
-// const isUserLogged = () => {
-//   return !!LocalStorage.get("auth")?.user;
-// }
 
 const apiCall = async(method, url, data = {}) => {
   try {
@@ -36,11 +30,6 @@ const apiCall = async(method, url, data = {}) => {
     if (err.response) {
       // the request was made and the server responded with a status code out of the range of 2xx
       console.error(`⇒ ${url} error response`, err.response);
-      // const message = err.response.data?.message ?? err.message ?? err.response.toString();
-      // if (!message) {
-      //   message = err.response.toString();
-      // }
-      //const code = err.response.data?.code;
       return {
         err: true,
         message: err.response.data?.message ?? err.message ?? err.response.toString(),
@@ -67,33 +56,8 @@ const apiCall = async(method, url, data = {}) => {
     console.error(`⇒ ${url} request error:`, err.message);
     return {
       err: true,
-      //message: i18n.t("Failed to send request")
-      message: i18n.t(err.message) // TODO: translate these messages in labels-to-be-translated
+      message: i18n.t(err.message)
     };
-
-    // AI /////////////////////////////////////////////////////////////////////////////////////
-    // console.log("ERR:", err);
-    // if (err.response) {
-    //   // Axios received a response but with a status code outside the 2xx range
-    //   console.error(`API error: ${err.response.status} - ${err.response.data.message}`);
-    //   return Promise.reject({
-    //     status: err.response.status,
-    //     data: err.response.data,
-    //   });
-    // } else if (err.request) {
-    //   // Axios made a request but did not receive a response
-    //   console.error("No response received:", err.request);
-    //   return Promise.reject({
-    //     message: "No response received from the server.",
-    //   });
-    // } else {
-    //   // Other errors
-    //   console.error("API call failed:", err.message);
-    //   return Promise.reject({
-    //     message: err.message,
-    //   });
-    // }
-    ///////////////////////////////////////////////////////////////////////////////////////////////
   }
 };
 

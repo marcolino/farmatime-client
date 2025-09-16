@@ -22,10 +22,9 @@
     [
       "../config",
       [
-        "src/providers/SnackbarProvider.jsx",
+        "src/providers/SnackbarProvider.jsxWHYWHYWHY",
         "src/middlewares/Interceptors.js",
         "src/providers/AuthProvider.jsx",
-        "src/providers/SessionProvider.jsx",
         "src/components/Header.jsx",
         "src/components/Footer.jsx",
         "src/components/Loader.jsx",

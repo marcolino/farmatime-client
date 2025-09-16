@@ -14,7 +14,6 @@ const JobsRemove = () => {
   const { jobs, resetJobs } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
  
-
   const handleRemoveJobs = () => {
     resetJobs();
     setShowDialog(false);

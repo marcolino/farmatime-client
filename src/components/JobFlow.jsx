@@ -41,7 +41,10 @@ const JobFlow = () => {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
-  const { getJobById, getJobNumberById, confirmJob, setJobs, confirmJobsOnServer, jobIsEmpty, jobsError } = useContext(JobContext);
+  const {
+    getJobById, confirmJob, setJobs, confirmJobsOnServer, jobIsEmpty, jobsError, clearJobsError,
+    jobDraftIsChanged, setJobDraftChanged, emailTemplate, setEmailTemplate, confirmEmailTemplateOnServer,
+  } = useContext(JobContext);
 
   // The job draft we edit in this component
   const [jobDraft, setJobDraft] = useState(getJobById(jobId));
@@ -51,14 +54,14 @@ const JobFlow = () => {
   const jobDraftOriginalRef = useRef(null);
 
   // Detect unsaved changes
-  const jobDraftWasChanged = !objectsAreDeepEqual(jobDraft, jobDraftOriginalRef.current);
+  //const jobDraftWasChanged = !objectsAreDeepEqual(jobDraft, jobDraftOriginalRef.current);
 
   // Avoid showing field consistency errors before user has navigated away from a step (the first one only, currently)
   const [hasNavigatedAway, setHasNavigatedAway] = useState(false);
 
   // We need these because both patient and doctor are in step 0
-  const [patientValid, setPatientValid] = useState(() => validateAllFields(fieldsPatient, jobDraft.patient));
-  const [doctorValid, setDoctorValid] = useState(() => validateAllFields(fieldsDoctor, jobDraft.doctor));
+  const [patientValid, setPatientValid] = useState(() => validateAllFields(jobDraft, fieldsPatient, jobDraft.patient));
+  const [doctorValid, setDoctorValid] = useState(() => validateAllFields(jobDraft, fieldsDoctor, jobDraft.doctor));
 
   // State to track if medicines are being edited
   const [isMedicinesEditing, setIsMedicinesEditing] = useState(false);
@@ -85,39 +88,26 @@ const JobFlow = () => {
       return updated;
     });
   }, []);
-  // When entering component, if editing an existing job, set currentStep to 0
-  // useEffect(() => {
-  //   if (jobDraft.id !== 'new') { // Creating a new job
-  //     const now = Date.now();
-  //     setJobDraft(prev => ({
-  //       ...prev,
-  //       timestampCreation: now, // Set timestamp of last modification to now
-  //     }));
-  //     jobDraftOriginalRef.current.timestampCreation = now;
-  //   } else { // editing an existing job
-  //     const initialStep = 0;
-  //     setJobDraft(prev => ({
-  //       ...prev,
-  //       currentStep: initialStep,
-  //     }));
-  //     // change also jobDraftOriginalRef currentstep, to ignore this value when comparing them
-  //     jobDraftOriginalRef.current.currentStep = initialStep;
-  //   }
-  // }, []);
 
-
+  // When a change is made to jobDraft, call setJobDraftChanged in context, so anyone will be able to detect unsaved job changes
+  useEffect(() => {
+    const changed = !objectsAreDeepEqual(jobDraft, jobDraftOriginalRef.current);
+    setJobDraftChanged(jobId, changed);
+  }, [jobDraft, jobId, /*setJobDraftChanged*/]);
+  
   // Show job errors to the user
   useEffect(() => {
-   if (jobsError) {
+    if (jobsError) {
       let message;
       if (jobsError.type === "load") {
         message = `${t("Failed to load jobs")}. ${t("Please try again")}.`;
       } else if (jobsError.type === "store") {
         message = `${t("Failed to store jobs")}. ${t("Please try again")}.`;
-     } else {
+      } else {
         message = jobsError.message ?? "An unexpected error occurred.";
       }
       showSnackbar(message, "error");
+      clearJobsError(); // Reset error so it doesn't retrigger
     }
   }, [jobsError, showSnackbar, t]);
 
@@ -141,14 +131,16 @@ const JobFlow = () => {
   // Warn user before unloading this page/tab if job draft was changed and not saved (confirmed)
   useEffect(() => {
     const handleBeforeUnload = (e) => {
-      if (jobDraftWasChanged) {
+      //if (jobDraftWasChanged) {
+      if (jobDraftIsChanged(jobId)) {
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [jobDraftWasChanged]);
+  //}, [jobDraftWasChanged]);
+  }, [jobDraftIsChanged, jobId]);
   
   // If not all previous steps are completed, then set last step completion to false
   useEffect(() => {
@@ -194,29 +186,16 @@ const JobFlow = () => {
 
   // Navigation handlers
   const goToJobsList = () => {
-    setHasNavigatedAway(true); // To force validation errors to be shown
-    if (!jobIsEmpty(jobDraft)) { // if job is empty, do never ask to complete all steps...
-      if (!allStepsCompleted()) {
-        return showSnackbar(t("Please complete all steps before proceeding"), "warning");
-      }
-    }
-    if (jobDraftWasChanged) {
-      console.log("jobDraft:", jobDraft);
-      console.log("jobDraftOriginalRef.current:", jobDraftOriginalRef.current);
-      //return alert("confirm before going");
-      showDialog({
-        title: t("Unsaved changes"),
-        message: t("Are you sure you want to leave this job without confirming changes?"),
-        confirmText: t("Yes, leave"),
-        cancelText: t("No, stay"),
-        onConfirm: () => {
-          setHasNavigatedAway(true);
-          navigate('/jobs-handle', { replace: true });
-        }
-      });
+    cancelJobDraft();
+    /*
+    //if (jobDraftWasChanged) {
+    if (jobDraftIsChanged(jobId)) {
+      cancelJobDraft();
     } else {
       navigate('/jobs-handle', { replace: true });
+      setHasNavigatedAway(true); // To force validation errors to be shown
     }
+    */
   };
 
   const handleNext = () => {
@@ -327,47 +306,15 @@ const JobFlow = () => {
       return showSnackbar(t("Please complete all steps"), "warning");
     }
 
-    //console.log("*** handleConfirm jobDraft:", jobDraft);
     const wasNew = jobDraft.id === 'new';
-    // const wasUnconfirmed = !jobDraft.isConfirmed;
-    // console.log("*** handleConfirm wasNew:", wasNew);
-    // console.log("*** handleConfirm wasUnconfirmed:", wasUnconfirmed);
 
     const jobDraftConfirmed = {
       ...jobDraft,
       stepsCompleted: (jobDraft.stepsCompleted.map((val, idx) => idx === steps().length - 1 ? true : val)),
-      isActive: jobDraft.isActive || !jobDraft.isConfirmed, // Mark job as active if job was active or unconfirmed
-      isConfirmed: true, // Mark job as confirmed
+      isActive: jobDraft.isActive || wasNew/*!jobDraft.isConfirmed*/, // Mark job as active if job was active or unconfirmed
+      //isConfirmed: true, // Mark job as confirmed
       timestampLastModification: Date.now(), // Set timestamp of last modification to now
     };
-
-    // setJobDraft(prevJob => {
-    //   return {
-    //     ...prevJob,
-    //     isActive: jobDraft.isActive || !jobDraft.isConfirmed, // Mark job as active if job was active or unconfirmed
-    //     isConfirmed: true, // Mark job as confirmed
-    //   };
-    // });
-    // setJobDraftByObject({
-    //   isActive: jobDraft.isActive || !jobDraft.isConfirmed, // Mark job as active if job was active or unconfirmed
-    //   isConfirmed: true, // Mark job as confirmed
-    // });
-
-    //handleStepCompleted(jobDraft.stepsCompleted.length - 1, true); // Mark this last step as completed
-
-    //confirmJob(jobDraft);
-
-    // TODO: remove all shouldConfirm ...
-    // setShouldConfirm(true); // Trigger confirmation on server
-
-    // const updatedJob = { ...job, confirmed: true };
-    // setJob(updatedJob);
-
-    // confirmJob(jobDraftConfirmed); // TODO: should not confirm jobs before server says ok...
-    // if (await confirmJobsOnServer()) { // errors are handled with jobsError
-    //   setJobDraft(jobDraftConfirmed);
-    //   //confirmJob(jobDraftConfirmed);
-    // }
 
     const jobsConfirmed = confirmJob(jobDraftConfirmed);
     if (await confirmJobsOnServer(jobsConfirmed)) {
@@ -377,6 +324,12 @@ const JobFlow = () => {
       return;
     }
     
+    if (await confirmEmailTemplateOnServer(emailTemplate)) {
+      setEmailTemplate(emailTemplate);
+    } else { // errors are handled with jobsError
+      return;
+    }
+
     // jobs are confirmed on server: show dialog to the user
     if (wasNew) {
       const forTheMedicine = t("the medicine");
@@ -429,25 +382,22 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
   };
 
   const cancelJobDraft = () => {
-    if (isMedicinesEditing) {
-      // TODO: test this use case... canceling when editing medicines...
-    }
-
-    const confirm = () => {
+    const proceed = () => {
       setHasNavigatedAway(true);
       navigate('/jobs-handle', { replace: true });
     };
 
-    if (jobIsEmpty(jobDraft)) {
-      return confirm(); // do not ask for confirmation if job is empty
+    //if (jobIsEmpty(jobDraft) || !jobDraftWasChanged) {
+    if (jobIsEmpty(jobDraft) || !jobDraftIsChanged(jobId)) {
+      return proceed(); // do not ask for confirmation if job is empty or not changed
     }
 
     showDialog({
       title: t("Job canceled"),
-      message: t("Are you sure you want to cancel this job? All unconfirmed changes will be lost."),
-      confirmText: t("Yes, cancel job"),
+      message: t("Are you sure you want to cancel the edits you have just done? All changes will be lost."),
+      confirmText: t("Yes, cancel changes"),
       cancelText: t("No, continue"),
-      onConfirm: () => confirm()
+      onConfirm: () => proceed(),
     });
       
   };
@@ -462,6 +412,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
         return (
           <>
             <JobPatient
+              jobDraft={jobDraft}
               data={jobDraft.patient}
               fields={fieldsPatient}
               onChange={(val) => setJobDraftByKey('patient', val)}
@@ -469,6 +420,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
               hasNavigatedAway={hasNavigatedAway} 
             />
             <JobDoctor
+              jobDraft={jobDraft}
               data={jobDraft.doctor}
               fields={fieldsDoctor}
               onChange={(val) => setJobDraftByKey('doctor', val)}
@@ -480,6 +432,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
       case 1:
         return (
           <JobMedicines
+            jobDraft={jobDraft}
             data={jobDraft.medicines}
             onChange={(val) => setJobDraftByKey('medicines', val)}
             onEditingChange={setIsMedicinesEditing}
@@ -510,6 +463,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
   };
 
   console.log("JOB DRAFT:", jobDraft, jobId);
+  console.log("JOB DRAFT stepsCompleted:", jobDraft.stepsCompleted);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -542,15 +496,14 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
               (isMobile ?
                 t('Config. Job') :
                 t('Configure Job')
-              //) + ' ' + (id ? 1 + id : 1) // TODO: use job index, not ID ...
-              ) + ` ${1 + getJobNumberById(jobId)}`
+              ) + ` ${jobId === 'new' ? 1 : jobId ? 1 + parseInt(jobId) : 1}`
             }
           </Box>
         </Box>
       </SectionHeader1>
 
       <Stepper
-        activeStep={jobDraft.isConfirmed ? steps().length : jobDraft.currentStep} // if job is confirmed, set last step as active
+        activeStep={/*jobDraft.isConfirmed ? steps().length : */jobDraft.currentStep} // if job is confirmed, set last step as active
         sx={{ mb: 4 }} 
         alternativeLabel={isMobile}
       >
@@ -585,62 +538,69 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
       </Box>
 
       {/* Navigation Buttons */}
-      <Paper sx={{ p: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Button
-            onClick={handleBack}
-            startIcon={<ArrowBack />}
-            variant="contained"//"outlined"
-            disabled={(jobDraft.currentStep === 0) || isMedicinesEditing}
-            //size="small"
-            size="medium"
-            sx={{ 
-              opacity: jobDraft.currentStep === 0 ? 0 : 0.75,
-              '&:hover': {
-                opacity: jobDraft.currentStep === 0 ? 0 : 0.90,
+      <Container maxWidth="lg" sx={{ py: 0 }}>
+        <Paper sx={{ p: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Button
+              onClick={handleBack}
+              startIcon={<ArrowBack />}
+              variant="contained"//"outlined"
+              disabled={(jobDraft.currentStep === 0) || isMedicinesEditing}
+              //size="small"
+              size="medium"
+              sx={{ 
+                opacity: jobDraft.currentStep === 0 ? 0 : 0.75,
+                '&:hover': {
+                  opacity: jobDraft.currentStep === 0 ? 0 : 0.90,
+                }
+              }}
+            >
+              {isMobile ?
+                t('Prev.') :
+                t('Previous')
               }
-            }}
-          >
-            {t("Previous")}
-          </Button>
+            </Button>
+            
 
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <Typography variant="body2" color="text.secondary">
-              {t("Step")} {(jobDraft.currentStep ?? 0)+ 1} {t("of")} {steps().length}
-            </Typography>
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              <Typography variant="body2" color="text.secondary">
+                {t("Step")} {(jobDraft.currentStep ?? 0)+ 1} {t("of")} {steps().length}
+              </Typography>
+            </Box>
+
+            <Button
+              onClick={isLastStep() ? handleConfirm : handleNext}
+              endIcon={isLastStep() ? <Check /> : <ArrowForward />}
+              variant="contained"
+              disabled={isMedicinesEditing}
+              size={isLastStep ? "large" : "medium" }
+            >
+              {
+                isLastStep() ?
+                  (
+                    jobDraft.isActive ?
+                      t('Confirm!')
+                    :
+                      (isMobile ? t('Confirm!') : t('Confirm and activate!'))
+                  )
+                :
+                  t('Next')}
+            </Button>
           </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+            <Button
+              onClick={cancelJobDraft}
+              endIcon={<Clear />}
+              variant="outlined"
+              size={"medium"}
+            >
+              {t('Cancel')}
+            </Button>
 
-          <Button
-            onClick={isLastStep() ? handleConfirm : handleNext}
-            endIcon={isLastStep() ? <Check /> : <ArrowForward />}
-            variant="contained"
-            disabled={isMedicinesEditing}
-            size={isLastStep ? "large" : "medium" }
-          >
-            {
-              isLastStep() ?
-                (
-                  jobDraft.isActive ?
-                    t('Confirm!')
-                  :
-                    (isMobile ? t('Confirm!') : t('Confirm and activate!'))
-                )
-              :
-                t('Next')}
-          </Button>
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-          <Button
-            onClick={cancelJobDraft}
-            endIcon={<Clear />}
-            variant="outlined"
-            size={"medium"}
-          >
-            {t('Cancel')}
-          </Button>
-
-        </Box>
-      </Paper>
+          </Box>
+        </Paper>
+      </Container>
+      
     </Container>
   );
 };

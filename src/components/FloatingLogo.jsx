@@ -1,7 +1,9 @@
-import React from "react";
 import { Typography } from "@mui/material";
+import { useTheme } from 'mui-material-custom';
 
 const FloatingLogo = ({ text }) => {
+  const theme = useTheme();
+  
   return (
     <Typography
       sx={{
@@ -12,10 +14,8 @@ const FloatingLogo = ({ text }) => {
         fontSize: "clamp(24px, 30vw, 380px) !important",
         lineHeight: "clamp(24px, 30vw, 380px)",
         fontWeight: "bold",
-        fontFamily: "Open+Sans",
+        fontFamily: theme.typography.fontFamily,
         letterSpacing: "-0.5rem",
-        // padding: 0,
-        // margin: 0,
         textShadow: "1px 1px 4px rgba(0, 0, 0, 0.5)",
         pointerEvents: "none",
         whiteSpace: "nowrap",

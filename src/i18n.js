@@ -37,6 +37,7 @@ i18n
       checkWhitelist: true, // only detect languages that are in the whitelist
       caches: [], // avoid `i18nextLng` in local storage
     },
+    saveMissing: false, // do not save missing translations in translation_untranslated.json
   //}).then(() => {
     //i18n.locale = (i18n.language || i18n.options.fallbackLng[0]).slice(0, 2).toLowerCase();
     //console.log("LLL i18n - current locale from i18n is", i18n.locale);

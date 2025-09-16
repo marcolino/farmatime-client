@@ -15,7 +15,7 @@
     "title": "Sistemi Solari Rossi",
     "phone": "+39 333 6480983",
     "address": "Via Felisio, 19 - 10098 Rivoli (TO)",
-    "mailto": "mailto:marcosolari@gmail.com",
+    "email": "marcosolari@gmail.com",
     "copyright": "© 2025 Sistemi Solari Rossi. All rights reserved.",
     "homeSite": {
       "name": "medicare.it",
@@ -59,9 +59,7 @@
     "refreshTokenExpirationDontRememberMeSeconds": 3600,
     "notificationTokenExpirationSeconds": 3600,
     "verificationCodeExpirationSeconds": 3600,
-    "codeDeliveryMedium": "email",
-    "clientSessionExpirationSeconds": 0,
-    "clientSessionExpirationResponseMaximumSeconds": 900
+    "codeDeliveryMedium": "email"
   },
   "images": {
     "publicPath": "/assets/products/images",
@@ -176,13 +174,16 @@
     },
     "backgroundVideo": "wind-turbines",
     "jobs": {
-      "storageKey": "jobs",
-      "dragAndDrop": {
-        "desktop": {
-          "enabled": true
-        },
-        "mobile": {
-          "enabled": false
+      "unifyRequests": true,
+      "maxRequestsPerUser": 32,
+      "medicines": {
+        "dragAndDrop": {
+          "desktop": {
+            "enabled": true
+          },
+          "mobile": {
+            "enabled": false
+          }
         }
       },
       "qrcode": {
@@ -239,12 +240,12 @@
     "language": "it",
     "dir": "ltr",
     "charset": "UTF-8",
-    "description": "A powerful web app, easily customizable",
+    "description": "A powerful web app to automate medicine prescription requests",
     "themeColor": "#4e4f4c",
     "cacheControl": "mag-age=1440",
     "og": {
       "title": "MediCare",
-      "description": "A powerful web app, easily customizable",
+      "description": "A powerful web app to automate medicine prescription requests",
       "url": "http://localhost:5000",
       "type": "website",
       "image": {
@@ -257,7 +258,7 @@
     "twitter": {
       "card": "http://localhost:5000/apple-touch-icon.png",
       "title": "MediCare",
-      "description": "A powerful web app, easily customizable",
+      "description": "A powerful web app to automate medicine prescription requests",
       "image": "http://localhost:5000/favicon-64x64.png"
     },
     "apple": {

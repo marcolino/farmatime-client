@@ -202,7 +202,6 @@ function SignUp() {
           setDialogContent(result.data.message);
           setDialogCallback(() => { // navigate to signup, asking for mode "waitingForCode"
             setWaitingForCode(true);
-            //navigate("/signup/true", { replace: true }); // TODO: change routing for signup ("/signup/:waitingForCode?")
           });
           setOpenDialog(true);
           break;

@@ -22,14 +22,14 @@ import PhoneNumber from "./PhoneNumber";
 import config from "../config";
 
 const ProductsDetails = (props) => {
-  const theme = useTheme();
+  //const theme = useTheme();
   const { auth, isLoggedIn } = useContext(AuthContext);
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbarContext();
   const { height } = useWindowDimensions();
-  const [firstRender, setFirstRender] = useState(true);
+  //const [firstRender, setFirstRender] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { showDialog } = useDialog();
+  //const { showDialog } = useDialog();
   const navigate = useNavigate();
   const { addItemToCart } = useCart();
   const { isMobile } = useMediaQueryContext();

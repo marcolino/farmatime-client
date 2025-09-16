@@ -1,5 +1,3 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { Drawer } from "@mui/material";
 import {
@@ -11,8 +9,6 @@ import {
 import config from "../../config";
 
 const CustomDrawer = ({ theme, sections, drawerOpen, toggleDrawer }) => {
-  const { t } = useTranslation();
-
   return (
     <Drawer
       anchor="left"
@@ -37,7 +33,7 @@ const CustomDrawer = ({ theme, sections, drawerOpen, toggleDrawer }) => {
               key={section.key}
               component={RouterLink}
               to={section.to}
-              sx={{ borderBottom: 1, borderColor: "grey.400" }} // TODO: use theme....
+              sx={{ borderBottom: 1, borderColor: theme.palette.promary.secondary }}
             >
               <Box sx={{ display: "flex", alignItems: "center", color: "text.primary" }}>
                 {section.icon} &emsp; <ListItemText primary={section.text} />

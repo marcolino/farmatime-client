@@ -10,7 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import {
   AccountCircle, ExitToApp,
   ShoppingCart, Category, Brightness4, Brightness7,
-  ContactPhone, /*ImportExport,*/ SettingsSuggest,
+  ContactPhone, /*ImportExport,*/ SettingsSuggest, History,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
@@ -18,6 +18,8 @@ import { cancelAllRequests } from "../middlewares/Interceptors";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { AuthContext } from "../providers/AuthContext";
+import { JobContext } from '../providers/JobContext';
+import { useDialog } from "../providers/DialogContext";
 import { useCart } from "../providers/CartProvider";
 import { isAdmin } from "../libs/Validation";
 import logoMain from "../assets/images/LogoMain.png";
@@ -26,7 +28,9 @@ import config from "../config";
 
 const Header = ({ theme, toggleTheme }) => {
   const { auth, isLoggedIn, signOut, didSignInBefore } = useContext(AuthContext);
+  const { jobDraftIsChanged } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
+  const { showDialog } = useDialog();
   //console.log("Snackbar Context in Header:", showSnackbar); // Debugging line
   const navigate = useNavigate();
   const location = useLocation();
@@ -104,11 +108,17 @@ const Header = ({ theme, toggleTheme }) => {
           href: `/edit-user/${auth?.user?.id}/editProfile`,
         },
         {
-          label: t("Advanced Tools"),
+          label: t("Advanced Options"),
           icon: <SettingsSuggest />,
           href: false,
           onClick: () => handleAdvancedOptions(),
           shortcutKey: "", //"Ctrl-O"
+        },
+        {
+          label: `${t("Requests History")}`,
+          icon: <History />,
+          href: false,
+          onClick: () => handleHistory(),
         },
         // {
         //   label: t("Sign out"),
@@ -183,23 +193,62 @@ const Header = ({ theme, toggleTheme }) => {
   const handleSignOut = async () => {
     console.log("handleSignOut");
     //navigate("/", { replace: true });
-    let ok;
-    try {
-      cancelAllRequests(); // cancel all ongoing requests, to avoid "You must be authenticated for this action" warnings
-      ok = await signOut();
-      console.log("signout result:", ok);
-      //navigate("/"); // navigate to home page, because guest user could not be entitled to stay on current page
-    } catch (err) {
-      console.error("signout error:", err);
+
+    const proceed = async () => {
+      let ok;
+      try {
+        cancelAllRequests(); // cancel all ongoing requests, to avoid "You must be authenticated for this action" warnings
+        ok = await signOut();
+        console.log("signout result:", ok);
+        //navigate("/"); // navigate to home page, because guest user could not be entitled to stay on current page
+      } catch (err) {
+        console.error("signout error:", err);
+      }
+      navigate("/", { replace: true });
+      showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
+    };
+
+    checkJobDraftIsChanged(t("Signout"), proceed);
+    /*
+    if (!jobDraftIsChanged) {
+      proceed();
+    } else {
+      showDialog({
+        title: t("Signout"),
+        message: t("Are you sure you want to cancel the edits you have just done? All changes will be lost."),
+        confirmText: t("Yes, cancel changes"),
+        cancelText: t("No, continue"),
+        onConfirm: () => proceed(),
+      });
     }
-    navigate("/", { replace: true });
-    showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
+    */
+  };
+
+  const checkJobDraftIsChanged = (title, proceed) => {
+    if (!jobDraftIsChanged()) {
+      proceed();
+    } else {
+      showDialog({
+        title,
+        message: t("Are you sure you want to cancel the edits you have just done? All changes will be lost."),
+        confirmText: t("Yes, cancel changes"),
+        cancelText: t("No, continue"),
+        onConfirm: () => proceed(),
+      });
+    }
   };
 
   const handleAdvancedOptions = () => {
-    navigate("/advanced-options", { replace: true });
+    const proceed = () => navigate("/advanced-options", { replace: true });
+    checkJobDraftIsChanged(t("Advanced options"), proceed);
   };
 
+  const handleHistory = () => {
+    const proceed = () => navigate("/requests-history", { replace: true });
+    checkJobDraftIsChanged(t("Requests history "), proceed);
+  };
+
+  ``
   // const handlejobsExport = () => {
   //   navigate("/job-data-export", { replace: true });
   // };
@@ -211,6 +260,11 @@ const Header = ({ theme, toggleTheme }) => {
   //console.log("sections:", sections);
   //console.log("+++++++++++++++ isAuthRoute:", isAuthRoute(), location, location.pathname);
   
+  const handleCart = () => {
+    const proceed = () => navigate("cart", { replace: true });
+    checkJobDraftIsChanged(t("Cart"), proceed);
+  };
+
   return (
     <AppBar
       position="sticky"
@@ -271,7 +325,7 @@ const Header = ({ theme, toggleTheme }) => {
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                onClick={() => navigate("cart")}
+                onClick={() => handleCart}
                 sx={{ mr: 2 }}
               >
                 {cartItemsQuantity() ?

@@ -28,13 +28,14 @@ const AdvancedOptions = lazy(() => import("./AdvancedOptions"));
 const JobsHandle = lazy(() => import("./JobsHandle"));
 // const JobsExport = lazy(() => import("./JobsExport"));
 // const JobsImport = lazy(() => import("./JobsImport"));
-const JobsEmailTemplateEdit = lazy(() => import("./JobEmailTemplate"));
+const JobEmailTemplate = lazy(() => import("./JobEmailTemplate"));
 const JobsRemove = lazy(() => import("./JobsRemove"));
 const JobFlow = lazy(() => import("./JobFlow"));
 //const DataRemoval = lazy(() => import("./DataRemoval"));
 const Landing = lazy(() => import("./Landing"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
+const ToBeDone = lazy(() => import("./ToBeDone"));
 
 //const jobsExport = () => <div>Export Page</div>;
 
@@ -82,10 +83,11 @@ const Routing = () => {
             <Route path="/jobs-handle" element={<JobsHandle />} />
             <Route path="/job/:jobId" element={<JobFlow />} />
             {/* <Route path="/job/new" element={<JobFlow />} /> */}
-            <Route path="/job-email-template-edit" element={<JobsEmailTemplateEdit /* onCompleted={(data) => alert("COMPLETED:" + JSON.stringify(data))} */ />} />
+            <Route path="/job-email-template-edit" element={<JobEmailTemplate /* onCompleted={(data) => alert("COMPLETED:" + JSON.stringify(data))} */ />} />
             {/* <Route path="/job-data-export" element={<JobsExport />} /> */}
             {/* <Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} /> */}
-            <Route path="/job-data-remove" element={<JobsRemove />} /> { /* TODO: remove me, do all in dialog... */ }
+            <Route path="/job-data-remove" element={<JobsRemove />} />
+            <Route path="/requests-history" element={<ToBeDone />} />
           </Route>
 
           {/* Fallback routes */}

@@ -22,14 +22,14 @@ const StyledPaperSmall = styled(Paper)(({ theme }) => ({
 
 const StyledBox = styled(Box)(({ theme }) => ({
   background: theme.palette.primary.dark,
-  color: theme.palette.common.white, // TODO: check common.white reflects theme
+  color: theme.palette.common.white,
   padding: theme.spacing(1.5),
   textAlign: 'center',
 }));
 
 const StyledBoxSmall = styled(Box)(({ theme }) => ({
   background: theme.palette.primary.light,
-  color: theme.palette.common.black, // TODO: check common.black reflects theme
+  color: theme.palette.common.black,
   padding: theme.spacing(1.3),
   paddingLeft: theme.spacing(3),
   paddingRight: theme.spacing(3),

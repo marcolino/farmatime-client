@@ -69,7 +69,7 @@ const Contacts = () => {
           </Typography>
           <List>
             <ListItem>
-              <ListItemText primary={t("Email")} secondary={config.company.mailto} />
+              <ListItemText primary={t("Email")} secondary={`mailto:${config.company.email}`} />
             </ListItem>
             <ListItem>
               <ListItemText primary={t("Phone")} secondary={config.company.phone} />

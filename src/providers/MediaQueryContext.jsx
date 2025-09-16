@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-export const MediaQueryContext = createContext(); // TODO: no need to export MediaQueryContext
+export const MediaQueryContext = createContext();
 
 export const useMediaQueryContext = () => {
   const context = useContext(MediaQueryContext);

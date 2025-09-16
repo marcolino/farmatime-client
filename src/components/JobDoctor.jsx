@@ -10,7 +10,7 @@ import { ContextualHelp } from "./ContextualHelp";
 import { validateAllFields, mapErrorCodeToMessage } from "../libs/Validation";
 import { StyledPaper, StyledBox } from "./JobStyles";
 
-const JobDoctor = ({ data, fields, onChange, onValid, hasNavigatedAway }) => {
+const JobDoctor = ({ jobDraft, data, fields, onChange, onValid, hasNavigatedAway }) => {
   const { t } = useTranslation();
   const [errors, setErrors] = useState({});
 
@@ -44,22 +44,22 @@ const JobDoctor = ({ data, fields, onChange, onValid, hasNavigatedAway }) => {
     if (!onValid) return;
 
     const handle = setTimeout(() => {
-      const valid = validateAllFields(fields, data);
+      const valid = validateAllFields(jobDraft, fields, data);
       onValid(valid);
 
       const newErrors = {};
       fields.forEach((field) => {
-        const result = field.isValid(data[field.key]);
+        const result = field.isValid(jobDraft, data[field.key]);
         if (result !== true) {
           newErrors[field.key] = mapErrorCodeToMessage(result);
         }
       });
 
       setErrors(newErrors);
-    }, 360); // wait 360ms after typing stops
+    }, 360); // wait 360ms after typing stops, to avoid setting errors too quickly
 
     return () => clearTimeout(handle); // cleanup on next keystroke
-  }, [data, fields, onValid]);
+  }, [jobDraft, data, fields, onValid]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 0 }}>

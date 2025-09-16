@@ -158,10 +158,10 @@ export const isValidRegex = (regexString) => {
 };
 
 export const escapeRegex = (string) => {
-  return string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+  return string.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&");
 };
 
-export const encodeEmail = (email) => {
+const encodeEmail = (email) => {
   let encodedEmail = "";
   
   if (!email) {
@@ -183,8 +183,11 @@ export const encodeEmail = (email) => {
     }
   }
 
-  // TODO: return encodedEmail, let caller create element...
-  return React.createElement("span", { dangerouslySetInnerHTML: { __html: encodedEmail } });
+  return encodedEmail;
+};
+
+export const encodeEmailToElement = (email) => {
+  return React.createElement("span", { dangerouslySetInnerHTML: { __html: encodeEmail(email) } });
 };
 
 /**
