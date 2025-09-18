@@ -57,20 +57,19 @@ export const objectsAreEqual = (o1, o2) => {
   return retval;
 };
 
-export const objectsAreDeepEqual = (a, b) => {
+export const objectsAreDeepEqual = (a, b, options) => {
   if (a === b) return true;
 
-  //if (typeof a !== typeof b) return false;
-  if (typeof a !== typeof b) {
-    console.log("objectsAreDeepEqual FALSE 1:", a, b, typeof a, typeof b);
-    return false;
-  }
+  if (typeof a !== typeof b) return false;
+  //if (typeof a !== typeof b) {
+    //console.log("objectsAreDeepEqual FALSE 1:", a, b, typeof a, typeof b);
+    //return false;
+  //}
 
   if (typeof a !== "object" || a === null || b === null) {
-    //return a === b;
-    if (!(a === b)) {
-      console.log("objectsAreDeepEqual FALSE 2:", a, b, typeof a, typeof b);
-    }
+    //if (!(a === b)) {
+      //console.log("objectsAreDeepEqual FALSE 2:", a, b, typeof a, typeof b);
+    //}
     return a === b;
   }
 
@@ -78,11 +77,13 @@ export const objectsAreDeepEqual = (a, b) => {
   const keysB = Object.keys(b);
   //if (keysA.length !== keysB.length) return false;
   if (keysA.length !== keysB.length) {
-    console.log("objectsAreDeepEqual FALSE 3:", keysA.length, keysB.length);
+    //console.log("objectsAreDeepEqual FALSE 3:", keysA.length, keysB.length);
     return false;
   }
 
-  return keysA.every(key => { console.log("KEY:", key); return objectsAreDeepEqual(a[key], b[key]) });
+  return keysA.every(key => {
+    return (options.exclude.includes(key)) ? true: objectsAreDeepEqual(a[key], b[key], options)
+  });
 };
 
 // deeply merge objects with precedence to the source one
@@ -215,7 +216,7 @@ export const secondsToHumanDuration = (seconds) => {
     { unit: t("year"), units: t("years"), seconds: 60 * 60 * 24 * 365.25 },
     { unit: t("month"), units: t("months"), seconds: 60 * 60 * 24 * 30.44 },
     { unit: t("week"), units: t("weeks"), seconds: 60 * 60 * 24 * 7 },
-    { unit: t("day"), units: t("days"), seconds: 60 * 60 * 24 },
+    { unit: t("day_one"), units: t("day_other"), seconds: 60 * 60 * 24 },
     { unit: t("hour"), units: t("hours"), seconds: 60 * 60 },
     { unit: t("minute"), units: t("minutes"), seconds: 60 },
     { unit: t("second"), units: t("seconds"), seconds: 1 },

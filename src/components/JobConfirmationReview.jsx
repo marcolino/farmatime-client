@@ -43,7 +43,7 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
   }, [bodyExpanded/*, data.emailTemplate.signature*/]);
 
   // const isValid = () => {
-  //   return (data.emailTemplate.subject && data.emailTemplate.body /* && data.emailTemplate.signature*/); // all 3 emailTemplate items must be present) 
+  //   return (data.emailTemplate.subject && data.emailTemplate.body /* && data.emailTemplate.signature*/); // all 3 emailTemplate items must be present)
   // };
   
   return (
@@ -98,7 +98,7 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
               <Typography key={index} variant="body2" component="li" sx={{ pl: 2 }}>
                 {t('Medicine')}: <b>{medicine.name}</b>{', '}
                 {t('since day')} <b>{formatDate(medicine.fieldSinceDate)}</b>{', '}
-                {t('every')} <b>{t('{{count}} day', {count: medicine.fieldFrequency})}</b>
+                {t('every')} <b>{t('day', {count: parseInt(medicine.fieldFrequency)})}</b>
               </Typography>
             ))}
           </Box>

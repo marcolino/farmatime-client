@@ -15,11 +15,12 @@ export const JobProvider = ({ children }) => {
   const [emailTemplate, setEmailTemplate] = useState(emailTemplateSkeleton);
   const [jobsError, setJobsError] = useState(null);
 
-  const [draftChanges, setDraftChanges] = useState({}); // { jobId: boolean }
-  const jobDraftIsChanged = (jobId) => jobId && !!draftChanges[jobId];
-  const setJobDraftChanged = (jobId, changed) => {
-    setDraftChanges((prev) => ({ ...prev, [jobId]: changed }));
-  };
+  // const [draftChanges, setDraftChanges] = useState({}); // { jobId: boolean }
+  // const jobDraftIsChanged = (jobId) => jobId && !!draftChanges[jobId];
+  // const setJobDraftChanged = (jobId, changed) => {
+  //   setDraftChanges((prev) => ({ ...prev, [jobId]: changed }));
+  // };
+  const [jobDraftIsDirty, setJobDraftDirty] = useState(false);
 
   useEffect(() => {
     if (auth?.user?.jobs) {
@@ -240,8 +241,10 @@ export const JobProvider = ({ children }) => {
         emailTemplate,
         setEmailTemplate,
         confirmEmailTemplateOnServer,
-        jobDraftIsChanged,
-        setJobDraftChanged,
+        // jobDraftIsChanged,
+        // setJobDraftChanged,
+        jobDraftIsDirty,
+        setJobDraftDirty,
       }}
     >
       {children}

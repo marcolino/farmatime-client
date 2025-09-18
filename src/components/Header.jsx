@@ -28,7 +28,7 @@ import config from "../config";
 
 const Header = ({ theme, toggleTheme }) => {
   const { auth, isLoggedIn, signOut, didSignInBefore } = useContext(AuthContext);
-  const { jobDraftIsChanged } = useContext(JobContext);
+  const { jobDraftIsDirty, setJobDraftDirty } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
   //console.log("Snackbar Context in Header:", showSnackbar); // Debugging line
@@ -208,44 +208,39 @@ const Header = ({ theme, toggleTheme }) => {
       showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
     };
 
-    checkJobDraftIsChanged(t("Signout"), proceed);
-    /*
-    if (!jobDraftIsChanged) {
-      proceed();
-    } else {
-      showDialog({
-        title: t("Signout"),
-        message: t("Are you sure you want to cancel the edits you have just done? All changes will be lost."),
-        confirmText: t("Yes, cancel changes"),
-        cancelText: t("No, continue"),
-        onConfirm: () => proceed(),
-      });
-    }
-    */
+    checkJobDraftIsDirty(t("Signout"), proceed);
   };
 
-  const checkJobDraftIsChanged = (title, proceed) => {
-    if (!jobDraftIsChanged()) {
+  const checkJobDraftIsDirty = (title, proceed) => {
+    if (!jobDraftIsDirty) {
       proceed();
     } else {
       showDialog({
         title,
-        message: t("Are you sure you want to cancel the edits you have just done? All changes will be lost."),
+        message: t("Are you sure you want to cancel the job edits you have just done? All changes will be lost."),
         confirmText: t("Yes, cancel changes"),
         cancelText: t("No, continue"),
-        onConfirm: () => proceed(),
+        onConfirm: () => {
+          setJobDraftDirty(false);
+          proceed();
+        },
       });
     }
   };
 
+  const handleHomeLink = () => {
+    const proceed = () => navigate("/", { replace: true });
+    checkJobDraftIsDirty(t("Home"), proceed);
+  };
+
   const handleAdvancedOptions = () => {
     const proceed = () => navigate("/advanced-options", { replace: true });
-    checkJobDraftIsChanged(t("Advanced options"), proceed);
+    checkJobDraftIsDirty(t("Advanced options"), proceed);
   };
 
   const handleHistory = () => {
     const proceed = () => navigate("/requests-history", { replace: true });
-    checkJobDraftIsChanged(t("Requests history "), proceed);
+    checkJobDraftIsDirty(t("Requests history"), proceed);
   };
 
   ``
@@ -262,7 +257,7 @@ const Header = ({ theme, toggleTheme }) => {
   
   const handleCart = () => {
     const proceed = () => navigate("cart", { replace: true });
-    checkJobDraftIsChanged(t("Cart"), proceed);
+    checkJobDraftIsDirty(t("Cart"), proceed);
   };
 
   return (
@@ -271,9 +266,10 @@ const Header = ({ theme, toggleTheme }) => {
       elevation={1}
       sx={{ bgColor: theme.palette.ochre.light }}>
       <Toolbar>
-        <Box
-          component={Link}
-          href="/"
+        <Box /* TODO: do not use LINK, but navigate, and check jobDraftIsDirt before... */
+          //component={Link}
+          //href="/"
+          onClick={handleHomeLink}
           display="flex"
           alignItems="center"
           sx={{

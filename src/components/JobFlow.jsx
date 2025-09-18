@@ -43,7 +43,7 @@ const JobFlow = () => {
   const { showDialog } = useDialog();
   const {
     getJobById, confirmJob, setJobs, confirmJobsOnServer, jobIsEmpty, jobsError, clearJobsError,
-    jobDraftIsChanged, setJobDraftChanged, emailTemplate, setEmailTemplate, confirmEmailTemplateOnServer,
+    jobDraftIsDirty, setJobDraftDirty, emailTemplate, setEmailTemplate, confirmEmailTemplateOnServer,
   } = useContext(JobContext);
 
   // The job draft we edit in this component
@@ -53,8 +53,6 @@ const JobFlow = () => {
   //const jobDraftOriginalRef = useRef(structuredClone(jobDraft));
   const jobDraftOriginalRef = useRef(null);
 
-  // Detect unsaved changes
-  //const jobDraftWasChanged = !objectsAreDeepEqual(jobDraft, jobDraftOriginalRef.current);
 
   // Avoid showing field consistency errors before user has navigated away from a step (the first one only, currently)
   const [hasNavigatedAway, setHasNavigatedAway] = useState(false);
@@ -89,12 +87,13 @@ const JobFlow = () => {
     });
   }, []);
 
-  // When a change is made to jobDraft, call setJobDraftChanged in context, so anyone will be able to detect unsaved job changes
+  // When a change is made to jobDraft, call setJobDraftDirty in context, so anyone will be able to detect unsaved job changes
   useEffect(() => {
-    const changed = !objectsAreDeepEqual(jobDraft, jobDraftOriginalRef.current);
-    setJobDraftChanged(jobId, changed);
-  }, [jobDraft, jobId, /*setJobDraftChanged*/]);
-  
+    const changed = jobDraftOriginalRef.current && !objectsAreDeepEqual(jobDraft, jobDraftOriginalRef.current, { exclude: ['currentStep'] });
+    if (changed) console.warn("DDDDDDDDDDDDDDIIIIIIIIIIIIIIRRRRRRRRRRRRRTTTTTTTTTYYYYYYYYYYYY");
+    setJobDraftDirty(!!changed);
+  }, [jobDraft, setJobDraftDirty]);
+
   // Show job errors to the user
   useEffect(() => {
     if (jobsError) {
@@ -131,16 +130,15 @@ const JobFlow = () => {
   // Warn user before unloading this page/tab if job draft was changed and not saved (confirmed)
   useEffect(() => {
     const handleBeforeUnload = (e) => {
-      //if (jobDraftWasChanged) {
-      if (jobDraftIsChanged(jobId)) {
+      if (jobDraftIsDirty) {
+        alert(jobDraftIsDirty);
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  //}, [jobDraftWasChanged]);
-  }, [jobDraftIsChanged, jobId]);
+  }, [jobDraftIsDirty, jobId]);
   
   // If not all previous steps are completed, then set last step completion to false
   useEffect(() => {
@@ -187,15 +185,6 @@ const JobFlow = () => {
   // Navigation handlers
   const goToJobsList = () => {
     cancelJobDraft();
-    /*
-    //if (jobDraftWasChanged) {
-    if (jobDraftIsChanged(jobId)) {
-      cancelJobDraft();
-    } else {
-      navigate('/jobs-handle', { replace: true });
-      setHasNavigatedAway(true); // To force validation errors to be shown
-    }
-    */
   };
 
   const handleNext = () => {
@@ -362,12 +351,14 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
         confirmText: t("Ok"),
         onConfirm: () => {
           setHasNavigatedAway(true);
+          setJobDraftDirty(false);
           navigate('/jobs-handle', { replace: true });
         }
       });
     } else {
       showSnackbar(t("Job confirmed"), 'info');
       setHasNavigatedAway(true);
+      setJobDraftDirty(false);
       navigate('/jobs-handle', { replace: true });
       // showDialog({
       //   title: t("Job confirmed"),
@@ -384,17 +375,18 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
   const cancelJobDraft = () => {
     const proceed = () => {
       setHasNavigatedAway(true);
+      setJobDraftDirty(false);
       navigate('/jobs-handle', { replace: true });
     };
 
     //if (jobIsEmpty(jobDraft) || !jobDraftWasChanged) {
-    if (jobIsEmpty(jobDraft) || !jobDraftIsChanged(jobId)) {
+    if (jobIsEmpty(jobDraft) || !jobDraftIsDirty) {
       return proceed(); // do not ask for confirmation if job is empty or not changed
     }
 
     showDialog({
       title: t("Job canceled"),
-      message: t("Are you sure you want to cancel the edits you have just done? All changes will be lost."),
+      message: t("Are you sure you want to cancel the job edits you have just done? All changes will be lost."),
       confirmText: t("Yes, cancel changes"),
       cancelText: t("No, continue"),
       onConfirm: () => proceed(),
@@ -464,7 +456,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
 
   console.log("JOB DRAFT:", jobDraft, jobId);
   console.log("JOB DRAFT stepsCompleted:", jobDraft.stepsCompleted);
-
+  
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
 

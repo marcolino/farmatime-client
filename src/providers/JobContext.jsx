@@ -79,7 +79,7 @@ export const emailTemplateSkeleton = {
   subject: i18n.t("Medicines prescription request"),
   body: i18n.t(
     "Good morning, [DOCTOR NAME].<br />\
-We require the prescription of this medicine for <i>[NAME OF THE PATIENT]</i>:<br />\
+We require the prescription of these medicines for <i>[NAME OF THE PATIENT]</i>:<br />\
 <br /> <b>[MEDICINE]</b><br /><br />\
 Best regards.<br />\
 --<br />\

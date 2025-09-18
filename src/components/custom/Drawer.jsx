@@ -31,7 +31,7 @@ const CustomDrawer = ({ theme, sections, drawerOpen, toggleDrawer }) => {
           {sections.map(section => (
             <ListItem
               key={section.key}
-              component={RouterLink}
+              component={RouterLink} /* TODO: change with onclick, navigate, and check jobDraftIsDirty ...*/
               to={section.to}
               sx={{ borderBottom: 1, borderColor: theme.palette.promary.secondary }}
             >
