@@ -127,8 +127,7 @@ function ProductEdit() {
   }, [updateReady]);
 
   const validateForm = () => {
-    let response;
-
+    //let response;
     // validate fields formally // TODO: validate fields according application needs
 
     return true;

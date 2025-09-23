@@ -5,6 +5,7 @@ import Loader from "./Loader";
 // import { RequireAuth as ReqAuth } from "./guards/AuthGuard";
 // import { RequireAdmin as ReqAdmin } from "./guards/RoleGuard";
 import ProtectedRoute from "./RoutingProtection";
+import config from "../config";
 
 const Home = lazy(() => import("./Home"));
 const SignUp = lazy(() => import("./auth/SignUp")); 
@@ -32,6 +33,7 @@ const JobEmailTemplate = lazy(() => import("./JobEmailTemplate"));
 const JobsRemove = lazy(() => import("./JobsRemove"));
 const JobFlow = lazy(() => import("./JobFlow"));
 //const DataRemoval = lazy(() => import("./DataRemoval"));
+const RequestsHandle = lazy(() => import("./RequestsHandle"));
 const Landing = lazy(() => import("./Landing"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
@@ -87,7 +89,8 @@ const Routing = () => {
             {/* <Route path="/job-data-export" element={<JobsExport />} /> */}
             {/* <Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} /> */}
             <Route path="/job-data-remove" element={<JobsRemove />} />
-            <Route path="/requests-history" element={<ToBeDone />} />
+            <Route path="/requests-history" element={config.mode.development ? <RequestsHandle /> : <ToBeDone />} />
+            <Route path="/todo" element={<ToBeDone />} />{/* just to show the fish! */}
           </Route>
 
           {/* Fallback routes */}

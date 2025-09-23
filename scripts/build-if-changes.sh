@@ -4,14 +4,14 @@
 
 case "$NODE_ENV" in
   "production")
-    build_file_name=".build-hash.production"
+    build_file_name="dev/build-hash/production"
     ;;
   "staging")
-    build_file_name=".build-hash.staging"
+    build_file_name="dev/build-hash/staging"
     ;;
   *)
     # The asterisk (*) is a wildcard that catches any other value
-    build_file_name=".build-hash.development"
+    build_file_name="dev/build-hash/development"
     ;;
 esac
  

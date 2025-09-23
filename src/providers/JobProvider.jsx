@@ -150,6 +150,25 @@ export const JobProvider = ({ children }) => {
 
   };
 
+  // Check if user job requests are full
+  const checkUserJobRequests = async (medicines) => {
+    if (!auth?.user?.id) {
+      setJobsError({ type: "auth", message: "User not logged in" });
+      return false;
+    }
+    try {
+      const response = await apiCall("post", "/request/checkUserJobRequests", {
+        medicines,
+      });
+      if (response.err) {
+        setJobsError({ type: "auth", message: response.message || t("Error checking user job requests on server") });
+      }
+      return response;
+    } catch (err) {
+      setJobsError({ type: "server", message: err.message || t("Failed checking user job requests on server") });
+    }
+  };
+
   // Reset all jobs on server
   const resetJobs = async () => {
     if (!auth?.user?.id) {
@@ -190,18 +209,17 @@ export const JobProvider = ({ children }) => {
     [jobs]
   );
 
-  // TODO: when return `jobs...` rename function as `get...` ...
-
   const removeJob = useCallback(
     (idToRemove) => {
-      return jobs.filter((job) => job.id !== idToRemove);
+      return jobs.filter(job => job.id !== idToRemove);
     },
     [jobs]
   );
 
   const jobIsCompleted = (id) => {
     // Check if all required fields are valid
-    return jobs[id].stepsCompleted.every(Boolean);
+    return jobs.find(job => job.id === id).stepsCompleted.every(Boolean);
+    //return jobs[id].stepsCompleted.every(Boolean);
   };
 
   const jobIsEmpty = (job) => {
@@ -223,28 +241,27 @@ export const JobProvider = ({ children }) => {
 
   return (
     <JobContext.Provider
-      // TODO: sort as in JobContext, and sort functions definitions above too
+
       value={{
         jobs,
+        setJobs,
+        jobsError,
         getJobById,
         getJobNumberById,
-        setJobs,
-        confirmJob,
         getPlayPauseJob,
+        confirmJob,
+        confirmJobsOnServer,
+        jobDraftIsDirty,
+        setJobDraftDirty,
         removeJob,
         resetJobs,
-        jobsError,
         clearJobsError,
-        confirmJobsOnServer,
         jobIsCompleted,
         jobIsEmpty,
+        checkUserJobRequests,
         emailTemplate,
         setEmailTemplate,
         confirmEmailTemplateOnServer,
-        // jobDraftIsChanged,
-        // setJobDraftChanged,
-        jobDraftIsDirty,
-        setJobDraftDirty,
       }}
     >
       {children}

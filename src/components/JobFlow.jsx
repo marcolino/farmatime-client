@@ -90,7 +90,7 @@ const JobFlow = () => {
   // When a change is made to jobDraft, call setJobDraftDirty in context, so anyone will be able to detect unsaved job changes
   useEffect(() => {
     const changed = jobDraftOriginalRef.current && !objectsAreDeepEqual(jobDraft, jobDraftOriginalRef.current, { exclude: ['currentStep'] });
-    if (changed) console.warn("DDDDDDDDDDDDDDIIIIIIIIIIIIIIRRRRRRRRRRRRRTTTTTTTTTYYYYYYYYYYYY");
+    //if (changed) console.warn("DIRTY");
     setJobDraftDirty(!!changed);
   }, [jobDraft, setJobDraftDirty]);
 
@@ -424,7 +424,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
       case 1:
         return (
           <JobMedicines
-            jobDraft={jobDraft}
+            //jobDraft={jobDraft}
             data={jobDraft.medicines}
             onChange={(val) => setJobDraftByKey('medicines', val)}
             onEditingChange={setIsMedicinesEditing}

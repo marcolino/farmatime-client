@@ -253,19 +253,19 @@
 - add confirmation snackbar after email send - OK
 - update index.language, index.dir, index.charset when user changes locale - OK
 - gestire tags opengraph / twitter in index.html - OK
+- search job[id] to be replaced with job.find... - OK
 
 - migliorare il tema scuro
-- risolvere i TODO's nel codice
 - make tests (also use AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
 - better cookie popup: see unisalute.it
 - PushNotificationsStatusProvider => NotificationPushNotificationsStatusProvider
 - In JobFlow.jsx, use lazy import to reduce chunk size, then we can lower
-  chunkSizeWarningLimit (currently at 1536) in .vite.config.js
+  chunkSizeWarningLimit (currently at 1792) in vite.config.js
 - evitare di notificare inizialmente "l'app è pronta per funzionare offline" troppe volte
 - always use in useEffect in components, when needed (to avoid using useCallback()): // eslint-disable-next-line react-hooks/exhaustive-deps
 - move custom/* to mui-material-custom/ and always import from 'mui-material-custom'
-- search job[id] to be replaced with job.find...
+- on signOut, clear cart-USERID (when using cart...)
 
 NEWFEATURE:
 - periodicamente eseguire `yarn update-medicines`
@@ -302,4 +302,3 @@ NEWFEATURE:
       });
       navigator.sendBeacon(url, data);
     });
-- on signOut, clear cart-USERID (when using cart...)

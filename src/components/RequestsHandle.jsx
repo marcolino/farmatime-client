@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
 import { JobContext } from "../providers/JobContext";
+import { apiCall } from "../libs/Network";
 import {
   Container,
   Box,
@@ -19,91 +20,73 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
-import { TextFieldSearch, Button } from "./custom";
+import { TextFieldSearch } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause } from "@mui/icons-material";
+import { Search, MenuOpen } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
-import { useDialog } from "../providers/DialogContext";
+//import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 
-const JobsTable = () => {
+const RequestsTable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbarContext();
-  const { showDialog } = useDialog();
+  //const { showDialog } = useDialog();
   const { t } = useTranslation();
   const [filter, setFilter] = useState("");
-  //const [action, setAction] = useState("");
-  //const { job, setJob, jobsError } = useContext(JobContext);
-  const { jobs, /*currentJobId, setCurrentJobId, setJob, addJob,*/ setJobs, removeJob, getPlayPauseJob, jobsError, confirmJobsOnServer, jobIsCompleted/*, markJobAsCreatedNow, markJobAsModifiedNow*/ } = useContext(JobContext);
+  const [requests, setRequests] = useState([]);
+  const { jobs/*, jobsError*/ } = useContext(JobContext);
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
   const rowsPerPageInitial = 10;
-
-  const isSelected = (id) => selected.indexOf(id) !== -1;
-
   const [sortColumn, setSortColumn] = useState("id");
   const [sortDirection, setSortDirection] = useState("asc");
-  
-  //const [shouldConfirm, setShouldConfirm] = useState(false);
-
   const clickTimeoutRef = useRef(null);
 
-
-  const newJob = () => {
-    //addJob();
-    navigate(`/job/new`);
-  };
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(() => {
     return parseInt(LocalStorage.get("jobsRowsPerPage")) || rowsPerPageInitial; // persist to local storage
   });
   const [selected, setSelected] = useState([]);
-  //const [toBeRemoved, setToBeRemoved] = useState(null);
   
   // Add this useEffect to force refresh when component mounts
   useEffect(() => {
     // This will trigger a re-render with fresh data from context
-    console.log("JobsTable mounted, jobs count:", jobs.length);
+    console.log("RequestsTable mounted, jobs count:", jobs.length);
   }, [jobs.length]); // Empty dependency array means this runs once when component mounts
 
-  // Show job errors to the user
+  // Get all requests on mount
   useEffect(() => {
-    if (jobsError) {
-      let message;
-      if (jobsError.type === "load") {
-        message = `${t("Failed to load jobs")}. ${t("Please try again")}.`;
-      } else if (jobsError.type === "store") {
-        message = `${t("Failed to store jobs")}. ${t("Please try again")}.`;
+    (async () => {
+      const result = await apiCall("get", "/request/getRequests");
+      if (result.err) {
+        showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
-        message = jobsError.message ?? "An unexpected error occurred.";
+        //showSnackbar("ok", "info");
+        setRequests(result.requests);
       }
-      showSnackbar(message, "error");
-    }
-  }, [jobsError, showSnackbar, t]);
-
-  // // Check user is logged in (T O D O: implement for all authenticated routes, possibly using a higher-order component)
+    })();
+    return () => {
+      //console.log("RequestsTable unmounted");
+    };
+  }, []);
+  
+  // // Show job errors to the user
   // useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     console.warn('User must be logged in');
-  //     navigate("/", { replace: true })
+  //   if (jobsError) {
+  //     let message;
+  //     if (jobsError.type === "load") {
+  //       message = `${t("Failed to load jobs")}. ${t("Please try again")}.`;
+  //     } else if (jobsError.type === "store") {
+  //       message = `${t("Failed to store jobs")}. ${t("Please try again")}.`;
+  //     } else {
+  //       message = jobsError.message ?? "An unexpected error occurred.";
+  //     }
+  //     showSnackbar(message, "error");
   //   }
-  // }, [isLoggedIn]);
-
-  // Confirm job changes
-  // useEffect(() => {
-  //   if (shouldConfirm) {
-  //     (async () => {
-  //       console.log("Confirming jobs on server...", jobs);
-  //       if (!await confirmJobsOnServer()) {
-  //         return;
-  //       }
-  //     })();
-  //     setShouldConfirm(false);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [shouldConfirm]);
+  // }, [jobsError, showSnackbar, t]);
 
   // Check if current page is still valid (for example after a row deletion); otherwise go back one page
   useEffect(() => {
@@ -157,12 +140,12 @@ const JobsTable = () => {
   };
 
   const handleDoubleClick = (e, id) => {
-    clickTimeoutReset(e, () => onEdit(e, id)); // Handle double click
+    clickTimeoutReset(e, () => onMenuOpen(e, id)); // Handle double click
   };
 
-  const onEdit = (e, jobId) => {
+  const onMenuOpen = (e, requestId) => {
     e.stopPropagation(); // Prevents bubbling to TableRow and select the row
-    navigate(`/job/${jobId}`);
+    alert("showing details...");
   };
   
   const onSelectRow = (e, id) => {
@@ -186,26 +169,24 @@ const JobsTable = () => {
     setSelected(newSelected);
   };
 
-  const onSwitchActiveStatus = async (jobId) => {
-    const jobsSwitched = getPlayPauseJob(jobId);
-    //setShouldConfirm(true); // Trigger confirmation on server
-    //const jobsConfirmed = confirmJob(jobDraftConfirmed);
-    if (await confirmJobsOnServer(jobsSwitched)) {
-      setJobs(jobsSwitched);
-    } else { // errors are handled with jobsError
-      return;
-    }
-  };
+  // const onSwitchActiveStatus = async (jobId) => {
+  //   const jobsSwitched = getPlayPauseJob(jobId);
+  //   if (await confirmJobsOnServer(jobsSwitched)) {
+  //     setJobs(jobsSwitched);
+  //   } else { // errors are handled with jobsError
+  //     return;
+  //   }
+  // };
 
-  const onRemoveJob = async (jobId) => {
-    const jobsAfterRemove = removeJob(jobId);
-    if (await confirmJobsOnServer(jobsAfterRemove)) {
-      setJobs(jobsAfterRemove);
-      setSelected([]);
-    } else { // errors are handled with jobsError
-      return;
-    }
-  };
+  // const onRemoveJob = async (jobId) => {
+  //   const jobsAfterRemove = removeJob(jobId);
+  //   if (await confirmJobsOnServer(jobsAfterRemove)) {
+  //     setJobs(jobsAfterRemove);
+  //     setSelected([]);
+  //   } else { // errors are handled with jobsError
+  //     return;
+  //   }
+  // };
 
   const handleSort = (columnId) => () => {
     let newDirection = "asc";
@@ -216,39 +197,39 @@ const JobsTable = () => {
     setSortDirection(newDirection);
   };
 
-  const getColumnValue = (job, column) => {
-    if (!job || !column) return undefined;
+  const getColumnValue = (request, column) => {
+    if (!request || !column) return undefined;
 
     switch (column) {
       case "patientName":
         return [
-          job.patient?.firstName || "",
-          job.patient?.lastName || ""
+          request.patient?.firstName || "",
+          request.patient?.lastName || ""
         ].join(" ").trim();
 
       case "patientEmail":
-        return job.patient?.email;
+        return request.patient?.email;
 
       case "doctorName":
-        return job.doctor?.name;
+        return request.doctor?.name;
 
       case "doctorEmail":
-        return job.doctor?.email;
+        return request.doctor?.email;
       
       // direct props (id, status, etc.)
       default:
-        return job[column];
+        return request[column];
     }
   };
 
-  // sort jobs
-  const sortedJobs = React.useMemo(() => {
-    if (!sortColumn) return [...jobs];
+  // sort requests
+  const sortedRequests = React.useMemo(() => {
+    if (!sortColumn) return [...requests];
 
-    const valueFor = (job) => getColumnValue(job, sortColumn);
+    const valueFor = (request) => getColumnValue(request, sortColumn);
 
-    const definedValues = jobs.filter(j => valueFor(j) !== undefined && valueFor(j) !== null);
-    const undefinedValues = jobs.filter(j => valueFor(j) === undefined || valueFor(j) === null);
+    const definedValues = requests.filter(j => valueFor(j) !== undefined && valueFor(j) !== null);
+    const undefinedValues = requests.filter(j => valueFor(j) === undefined || valueFor(j) === null);
 
     definedValues.sort((a, b) => {
       const va = valueFor(a);
@@ -286,28 +267,28 @@ const JobsTable = () => {
     return sortDirection === "asc"
       ? [...definedValues, ...undefinedValues]
       : [...undefinedValues, ...definedValues];
-  }, [jobs, sortColumn, sortDirection]);
+  }, [requests, sortColumn, sortDirection]);
 
   // sort, filter and paginate jobs
-  const getSortedFilteredPaginatedJobs = () => {
-    console.log("JOBS:", jobs);
+  const getSortedFilteredPaginatedRequests = () => {
+    console.log("REQUESTS:", requests);
     
-    if (!jobs || !jobs.length) {
+    if (!requests || !requests.length) {
       return [];
     }
 
-    const filterJob = (job) => {
+    const filterRequest = (request) => {
       if (!filter) {
         return true;
       }
       return (
-        matches(job, "id", filter) ||
-        matches(job, "patient.firstName", filter) ||
-        matches(job, "patient.lastName", filter) ||
-        matches(job, "patient.email", filter) ||
-        matches(job, "doctor.name", filter) ||
-        matches(job, "doctor.email", filter) ||
-        matches(job, "medicines[].name", filter) ||
+        matches(request, "id", filter) ||
+        matches(request, "provider", filter) ||
+        matches(request, "patient.firstName", filter) ||
+        matches(request, "patient.lastName", filter) ||
+        matches(request, "doctor.name", filter) ||
+        matches(request, "doctor.email", filter) ||
+        matches(request, "medicines[].name", filter) ||
         false
       );
     };
@@ -376,27 +357,27 @@ const JobsTable = () => {
       return currentValue.toString().toLowerCase().includes(search);
     };
     
-    return sortedJobs.
-      filter(job => filterJob(job))
+    return sortedRequests.
+      filter(request => filterRequest(request))
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   };
     
   const sortButton = (props) => {
-    return sortedFilteredPaginatedJobs.length > 1 ? (
+    return sortedFilteredPaginatedRequests.length > 1 ? (
       <Typography component="span">
         {(sortColumn === props.column) ? (sortDirection === "asc" ? "▼" : "▲") : <StackedArrowsGlyph opacity={0.4 } />}
       </Typography>
     ) : null;
   };
 
-  const sortedFilteredPaginatedJobs = getSortedFilteredPaginatedJobs(/*jobs, sortColumn, sortDirection*/);
+  const sortedFilteredPaginatedRequests = getSortedFilteredPaginatedRequests();
 
-  //console.log("JobsHandle - sortedFilteredPaginatedJobs:", sortedFilteredPaginatedJobs);
+  //console.log("RequestsHandle - sortedFilteredPaginatedRequests:", sortedFilteredPaginatedRequests);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <SectionHeader1>
-        {t("Jobs list")}
+        {t("Requests history")}
       </SectionHeader1>
 
       <Box sx={{
@@ -416,33 +397,6 @@ const JobsTable = () => {
           fullWidth={false}
           sx={{ color: theme.palette.text.primary }}
         />
-        <Button
-          onClick={newJob}
-          fullWidth={false}
-          variant="contained"
-          color="primary"
-          size="small"
-          startIcon={<AddCircleOutline />}
-          //hideChildrenUpToBreakpoint="sm" // for mobile, hide text children
-          sx={{
-            width: "auto",
-            minWidth: "auto",
-            maxWidth: 200,
-            flexShrink: 0,
-            // whiteSpace: "nowrap",
-            // flexShrink: 1,
-            // minWidth: 136,
-            // maxWidth: 150,
-            // overflow: "hidden",
-            // textOverflow: "ellipsis",
-            mt: theme.spacing(0.3),
-            px: theme.spacing(1),
-            py: theme.spacing(0.8),
-            ml: theme.spacing(2),
-          }}
-        >
-          {t("New job")}
-        </Button>
       </Box>
 
       <Paper sx={{
@@ -481,17 +435,20 @@ const JobsTable = () => {
                 {/* <TableCell onClick={handleSort("isActive")}>
                   {t("Status")} {sortButton({ column: "isActive" })}
                 </TableCell> */}
+                <TableCell onClick={handleSort("doctorName")}>
+                  {t("Doctor name")} {sortButton({ column: "doctorName" })}
+                </TableCell>
+                <TableCell onClick={handleSort("doctorEmail")}>
+                  {t("Doctor email")} {sortButton({ column: "doctorEmail" })}
+                </TableCell>
                 <TableCell onClick={handleSort("patientName")}>
                   {t("Patient name")} {sortButton({ column: "patientName" })}
                 </TableCell>
                 <TableCell onClick={handleSort("patientEmail")}>
                   {t("Patient email")} {sortButton({ column: "patientEmail" })}
                 </TableCell>
-                <TableCell onClick={handleSort("doctorName")}>
-                  {t("Doctor name")} {sortButton({ column: "doctorName" })}
-                </TableCell>
-                <TableCell onClick={handleSort("doctorEmail")}>
-                  {t("Doctor email")} {sortButton({ column: "doctorEmail" })}
+                <TableCell onClick={handleSort("provider")}>
+                  {t("Provider")} {sortButton({ column: "provider" })}
                 </TableCell>
                 <TableCell /*onClick={handleSort("medicines")}*/>
                   {t("Medicines")} {/*sortButton({ column: "medicines" })*/}
@@ -502,21 +459,17 @@ const JobsTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedFilteredPaginatedJobs.map((job) => {
-                const isItemSelected = isSelected(job.id);
-                //console.log("ID:", job.id);
-                console.log("MEDICINES 1:", job.medicines);
-                console.log("MEDICINES 2:", job.medicines.length);
-                console.log("MEDICINES 9:", (job.medicines?.length === 0) ? '' : `CCC(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`);
+              {sortedFilteredPaginatedRequests.map((request, index) => {
+                const isItemSelected = isSelected(request.id);
                 return (
                   <TableRow
                     hover
-                    onClick={(e) => handleClick(e, job.id)}
-                    onDoubleClick={(e) => handleDoubleClick(e, job.id)}
+                    onClick={(e) => handleClick(e, request.id)}
+                    onDoubleClick={(e) => handleDoubleClick(e, request.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={job.id}
+                    key={request.id}
                     selected={isItemSelected}
                     sx={(theme) => ({
                       "& td": {
@@ -530,9 +483,9 @@ const JobsTable = () => {
                       <Checkbox checked={isItemSelected} />
                     </TableCell>
                     <TableCell>
-                      <Tooltip title={job.isActive ? t("Job is active") : t("Job is paused")} arrow>
+                      <Tooltip title={request.isActive ? t("Job is active") : t("Request is paused")} arrow>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box component="span">{1 + job.id}</Box>
+                          <Box component="span">{1 + index}</Box>
                           <Box
                             component="span"
                             sx={{
@@ -540,90 +493,25 @@ const JobsTable = () => {
                               width: 10,
                               height: 10,
                               borderRadius: "50%",
-                              bgcolor: job.isActive ? "success.light" : "warning.light",
+                              bgcolor: request.lastStatus === "created" ? "info.light" : "warning.light",
                             }}
                           />
+                          &nbsp;{request.lastStatus}
                         </Box>
                       </Tooltip>
                     </TableCell>
-                    {/* <TableCell>
-                      <Tooltip title={job.isActive ? t("Job is active") : t("Job is paused")} arrow>
-                        <Chip
-                          label={<IconButton size="small">
-                            {job.isActive ? <PlayArrow fontSize="small" /> : <Pause fontSize="small" />}
-                          </IconButton>}
-                          color={job.isActive ? "primary" : "warning"}
-                          variant="filled"
-                          size="small"
-                        />
-                      </Tooltip>
-                    </TableCell> */}
-                    <TableCell>{job.patient?.firstName} {job.patient?.lastName}</TableCell>
-                    <TableCell>{job.patient?.email}</TableCell>
-                    <TableCell>{job.doctor?.name}</TableCell>
-                    <TableCell>{job.doctor?.email}</TableCell>
-                    <TableCell>{(job.medicines?.length === 0) ? '' : `(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
+                    <TableCell>{request.doctorName}</TableCell>
+                    <TableCell>{request.doctorEmail}</TableCell>
+                    <TableCell>{request.patientFirstName} {request.patientLastName}</TableCell>
+                    <TableCell>{request.patientEmail}</TableCell>
+                    <TableCell>{request.provider}</TableCell>
+                    <TableCell>{(request.medicines?.length === 0) ? '' : `(${request.medicines?.length}) ${request.medicines[0]?.name}${request.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
                     <TableCell>
-                      <Tooltip title={t("Edit job")} arrow>
-                        <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onEdit(e, job.id)}>
-                          <Edit fontSize="small" />
+                      <Tooltip title={t("Show request details")} arrow>
+                        <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onMenuOpen(e, request.id)}>
+                          <MenuOpen fontSize="small" />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title={job.isActive ? t("Pause job") : t("Activate job")} arrow>
-                        <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => {
-                          e.stopPropagation(); // Prevents bubbling to TableRow and select the row
-                          if (!jobIsCompleted(job.id)) {
-                            return showSnackbar(t("Job is not complete, can't be activated. Please edit the job and complete all requested fields"), "warning");
-                          }
-                          const title = job.isActive ? t("Pause job") : t("Activate job");
-                          const what = job.isActive ? t("pause") : t("activate");
-                          const explanation = job.isActive ?
-                            t("Requests for this activity will not be sent anymore until it is reactivated") :
-                            t("Requests for this activity will be sent again");
-                          showDialog({
-                            onConfirm: () => {
-                              onSwitchActiveStatus(job.id);
-                            },
-                            title,
-                            message:
-                              t("Are you sure you want to {{what}} this job?", { what }) +
-                              "\n\n" +
-                              explanation + "."
-                            ,
-                            confirmText: t("Confirm"),
-                            cancelText: t("Cancel"),
-                          });
-                        }}>
-                          {job.isActive ? <Pause fontSize="small" /> : <PlayArrow fontSize="small" />}
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title={t("Delete job")} arrow>
-                        <IconButton
-                          size="small"
-                          sx={{ mr: 0 /* (last button has no right margin) */ }} 
-                          onClick={(e) => {
-                            e.stopPropagation(); // Stop row selection immediately
-                            showDialog({
-                              onConfirm: () => onRemoveJob(job.id)/*_removeJob(job.id)*/,
-                              title: t("Confirm Delete"),
-                              message: t("Are you sure you want to delete {{count}} selected job?", { count: 1 }),
-                              confirmText: t("Confirm"),
-                              cancelText: t("Cancel"),
-                            });
-                          }}
-                        >
-                          <Delete fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                      {/* <Tooltip title={t("Job history")} arrow>
-                        <IconButton
-                          size="small"
-                          sx={{ mr: 0 }} 
-                          onClick={() => alert("work in progress...")}
-                        >
-                          <History fontSize="small" />
-                        </IconButton>
-                      </Tooltip> */}
                     </TableCell>
                   </TableRow>
                 );
@@ -631,11 +519,11 @@ const JobsTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        {(jobs.length > rowsPerPageOptions[0]) && ( // do not show pagination stuff if a few rows are present
+        {(requests.length > rowsPerPageOptions[0]) && ( // do not show pagination stuff if a few rows are present
           <TablePagination
             rowsPerPageOptions={rowsPerPageOptions}
             component="div"
-            count={jobs.length}
+            count={requests.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -665,7 +553,7 @@ const JobsTable = () => {
       </Paper>
 
       <Box sx={{ padding: theme.spacing(2) }}>
-        {sortedFilteredPaginatedJobs.length === 0 && (
+        {sortedFilteredPaginatedRequests.length === 0 && (
           <Typography variant="body1" color="text.secondary" textAlign="center" fontStyle="italic" py={3}>
             {t("No jobs present yet")}
           </Typography>
@@ -676,4 +564,4 @@ const JobsTable = () => {
   );
 };
 
-export default React.memo(JobsTable);
+export default React.memo(RequestsTable);

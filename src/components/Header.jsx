@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import {
-  AppBar, Toolbar, Box, Typography, Button, IconButton, Link, Badge,
+  AppBar, Toolbar, Box, Typography, Button, IconButton, Badge,
   ListItemText, ListItemIcon, Menu, MenuItem, Tooltip
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -39,19 +39,19 @@ const Header = ({ theme, toggleTheme }) => {
   const { isMobile } = useMediaQueryContext();
 
   const sections = React.useMemo(() => [
-    ...(config.ui.cart.enabled && config.ecommerce.enabled? [{ // add cart to sections only if ui.cart and ecommerce is enabled
+    ...(config.ui.cart.enabled && config.ecommerce.enabled ? [{ // add cart to sections only if ui.cart and ecommerce is enabled
       key: "cart",
       to: "/cart",
       icon:
         cartItemsQuantity() ?
           <Badge badgeContent={cartItemsQuantity()} color="primary"><ShoppingCart /></Badge>
-        :
+          :
           <ShoppingCart />
       ,
       text:
         cartItemsQuantity() && !isMobile ?
           <Badge badgeContent={cartItemsQuantity()} color="primary">{t("Cart")}</Badge>
-        :
+          :
           t("Cart")
     }] : []),
     ...(config.ui.products.enabled ? [{
@@ -89,44 +89,39 @@ const Header = ({ theme, toggleTheme }) => {
         //   icon: <ManageAccounts />,
         //   href: "/handle-users",
         // },
-         ...(config.ui.products.enabled ?
+        ...(config.ui.products.enabled ?
           [
             {
               label: t("Handle products"),
               icon: <Category />,
-              href: "/handle-products",
+              //href: "/handle-products",
+              onClick: handleProducts,
             },
           ]
-        : []),
+          : []),
       ]
-    : []),
+      : []),
     ...(isLoggedIn ?
       [
         {
           label: `${t("Profile")} (${roleNameHighestPriority})`,
           icon: <AccountCircle />,
-          href: `/edit-user/${auth?.user?.id}/editProfile`,
+          //href: `/edit-user/${auth?.user?.id}/editProfile`,
+          onClick: () => handleEditProfile(auth?.user?.id),
         },
         {
           label: t("Advanced Options"),
           icon: <SettingsSuggest />,
-          href: false,
+          //href: false,
           onClick: () => handleAdvancedOptions(),
           shortcutKey: "", //"Ctrl-O"
         },
         {
           label: `${t("Requests History")}`,
           icon: <History />,
-          href: false,
+          //href: false,
           onClick: () => handleHistory(),
         },
-        // {
-        //   label: t("Sign out"),
-        //   icon: <ExitToApp />,
-        //   href: false,
-        //   onClick: () => handleSignOut(),
-        //   shortcutKey: "", //"Ctrl-Q"
-        // },
         // {
         //   label: t("Export data"),
         //   icon: <ImportExport />,
@@ -141,7 +136,7 @@ const Header = ({ theme, toggleTheme }) => {
         //   onClick: () => handlejobsImport({ onDataImported: (data) => alert(data) }),
         //   shortcutKey: "", //"Ctrl-E"
         // },
-      ] : [ ]
+      ] : []
     ),
     {
       label: t("Change theme"),
@@ -150,7 +145,7 @@ const Header = ({ theme, toggleTheme }) => {
           {theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
       ),
-      href: null,
+      //href: null,
       onClick: toggleTheme
     },
     ...(isLoggedIn ?
@@ -158,12 +153,12 @@ const Header = ({ theme, toggleTheme }) => {
         {
           label: t("Sign out"),
           icon: <ExitToApp />,
-          href: false,
+          //href: false,
           onClick: () => handleSignOut(),
           shortcutKey: "", //"Ctrl-Q"
         },
       ]
-    : []),
+      : []),
   ];
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -174,7 +169,7 @@ const Header = ({ theme, toggleTheme }) => {
 
   const [anchorUserMenuEl, setAnchorUserMenuEl] = React.useState(null);
   const userMenuIsOpen = Boolean(anchorUserMenuEl);
-  
+
   const handleUserMenuOpen = (event) => {
     setAnchorUserMenuEl(event.currentTarget);
   };
@@ -233,6 +228,22 @@ const Header = ({ theme, toggleTheme }) => {
     checkJobDraftIsDirty(t("Home"), proceed);
   };
 
+  
+  const handleSectionLink = (destination) => {
+    const proceed = () => navigate(destination.to ?? '/', { replace: true });
+    checkJobDraftIsDirty(destination.text, proceed);
+  };
+
+  const handleProducts = () => {
+    const proceed = () => navigate('/handle-products', { replace: true });
+    checkJobDraftIsDirty(t("Handle Products"), proceed);
+  };
+  
+  const handleEditProfile = (id) => {
+    const proceed = () => navigate(`/edit-user/${id}/editProfile`, { replace: true });
+    checkJobDraftIsDirty(t("Edit Profile"), proceed);
+  };
+
   const handleAdvancedOptions = () => {
     const proceed = () => navigate("/advanced-options", { replace: true });
     checkJobDraftIsDirty(t("Advanced options"), proceed);
@@ -243,7 +254,6 @@ const Header = ({ theme, toggleTheme }) => {
     checkJobDraftIsDirty(t("Requests history"), proceed);
   };
 
-  ``
   // const handlejobsExport = () => {
   //   navigate("/job-data-export", { replace: true });
   // };
@@ -266,7 +276,7 @@ const Header = ({ theme, toggleTheme }) => {
       elevation={1}
       sx={{ bgColor: theme.palette.ochre.light }}>
       <Toolbar>
-        <Box /* TODO: do not use LINK, but navigate, and check jobDraftIsDirt before... */
+        <Box
           //component={Link}
           //href="/"
           onClick={handleHomeLink}
@@ -346,7 +356,15 @@ const Header = ({ theme, toggleTheme }) => {
         :
           <Box sx={{ display: "flex", alignItems: "center" }}>
             {sections.map(section => (
-              <Button key={section.key} color="inherit" component={RouterLink} to={section.to}>{section.text}</Button>
+              <Button
+                key={section.key}
+                color="inherit"
+                // component={RouterLink}
+                // to={section.to}
+                onClick={() => handleSectionLink(section)}
+              >
+                {section.text}
+              </Button>
             ))}
           </Box>
         }
@@ -423,7 +441,11 @@ const Header = ({ theme, toggleTheme }) => {
             {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
               href
                 ? (
-                  <MenuItem key={label} component={RouterLink} to={href}>
+                  <MenuItem
+                    key={label}
+                    component={RouterLink}
+                    to={href}
+                  >
                     <ListItemIcon>
                       {icon}
                     </ListItemIcon>

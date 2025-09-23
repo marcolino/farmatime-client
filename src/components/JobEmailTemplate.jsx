@@ -40,6 +40,7 @@ import { $generateNodesFromDOM } from '@lexical/html';
 import { ContextualHelp } from './ContextualHelp';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { useSnackbarContext } from '../providers/SnackbarProvider';
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { JobContext } from '../providers/JobContext';
 import { AuthContext } from '../providers/AuthContext';
 import { variablesExpand, variableTokens } from './JobEmailTemplateVariables';
@@ -63,6 +64,7 @@ const editorConfig = {
 // Toolbar Component with Text Insertion Select
 const ToolbarPlugin = () => {
   const { t } = useTranslation();
+  const { isMobile } = useMediaQueryContext();
   const [editor] = useLexicalComposerContext();
   const [activeFormats, setActiveFormats] = useState({
     bold: false,
@@ -120,45 +122,46 @@ const ToolbarPlugin = () => {
   return (
     <Box sx={{
       display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row', // force column on mobile
       gap: 1,
       p: 1,
       borderBottom: '1px solid #ccc',
       bgcolor: '#f5f5f5',
-      alignItems: 'center',
+      alignItems: isMobile ? 'flex-start' : 'center', // align items nicely in column
     }}>
-      <Button
-        variant={activeFormats.bold ? 'contained' : 'outlined'}
-        size="small"
-        onClick={() => applyFormat('bold')}
-        sx={{ minWidth: 'auto', px: 1 }}
-      >
-        <FormatBoldIcon fontSize="small" />
-      </Button>
-      <Button
-        variant={activeFormats.italic ? 'contained' : 'outlined'}
-        size="small"
-        onClick={() => applyFormat('italic')}
-        sx={{ minWidth: 'auto', px: 1 }}
-      >
-        <FormatItalicIcon fontSize="small" />
-      </Button>
-      <Button
-        variant={activeFormats.underline ? 'contained' : 'outlined'}
-        size="small"
-        onClick={() => applyFormat('underline')}
-        sx={{ minWidth: 'auto', px: 1 }}
-      >
-        <FormatUnderlinedIcon fontSize="small" />
-      </Button>
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <Button
+          variant={activeFormats.bold ? 'contained' : 'outlined'}
+          size="small"
+          onClick={() => applyFormat('bold')}
+          sx={{ minWidth: 'auto', px: 1 }}
+        >
+          <FormatBoldIcon fontSize="small" />
+        </Button>
+        <Button
+          variant={activeFormats.italic ? 'contained' : 'outlined'}
+          size="small"
+          onClick={() => applyFormat('italic')}
+          sx={{ minWidth: 'auto', px: 1 }}
+        >
+          <FormatItalicIcon fontSize="small" />
+        </Button>
+        <Button
+          variant={activeFormats.underline ? 'contained' : 'outlined'}
+          size="small"
+          onClick={() => applyFormat('underline')}
+          sx={{ minWidth: 'auto', px: 1 }}
+        >
+          <FormatUnderlinedIcon fontSize="small" />
+        </Button>
+      </Box>
 
-      <FormControl size="small" sx={{ minWidth: 140, ml: 1 }}>
-        <InputLabel 
+      <FormControl size="small" sx={{ minWidth: 140, ml: isMobile ? 0 : 1, mt: isMobile ? 1 : 0 }}>
+        <InputLabel
           sx={{
-            // Position when closed (matches dropdown icon)
             transform: 'translateY(-50%) scale(0.9)',
             top: '50%',
             left: 10,
-            // Position when open (floats above)
             '&.MuiInputLabel-shrink': {
               transform: 'translate(14px, -9px) scale(0.75)',
               top: 0,
@@ -183,7 +186,6 @@ const ToolbarPlugin = () => {
           }}
         >
           <MenuItem value="" disabled><em>{t('select a variable to insert in the message...')}</em></MenuItem>
-          {console.log("variableTokens:", variableTokens)}
           {Object.keys(variableTokens).map((token, index) => (
             <MenuItem key={index} value={token}>
               {token}
@@ -288,6 +290,7 @@ const HtmlPreviewDialog = ({ open, onClose, subject, htmlContent }) => {
 const JobEmailTemplate = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { isMobile } = useMediaQueryContext();
   const { jobs, emailTemplate, setEmailTemplate, confirmEmailTemplateOnServer, jobsError } = useContext(JobContext);
   const firstJob = jobs.length ? jobs[0] : null;
   const { auth } = useContext(AuthContext);
@@ -384,17 +387,46 @@ const JobEmailTemplate = () => {
             </Box>
           </ContextualHelp>
 
-          <Box m={3} display="flex" justifyContent="flex-end" gap={2}>
-            <Button variant="contained" onClick={() => navigate(-1)}>
-              {t('Cancel')}
-            </Button>
-            <Button variant="contained" startIcon={<PreviewIcon />} onClick={handlePreview}>
-              {t('Preview')}
-            </Button>
-            <Button variant="contained" color="primary" endIcon={<EditIcon />} onClick={handleConfirm}>
-              {t('Save')}
-            </Button>
-          </Box>
+          {!isMobile && (
+            <Box m={3} display="flex" justifyContent="flex-end" gap={2}>
+              <Button variant="contained" onClick={() => navigate(-1)}>
+                {t('Cancel')}
+              </Button>
+              <Button variant="contained" startIcon={<PreviewIcon />} onClick={handlePreview}>
+                {t('Preview')}
+              </Button>
+              <Button variant="contained" color="primary" endIcon={<EditIcon />} onClick={handleConfirm}>
+                {t('Save')}
+              </Button>
+            </Box>
+          )}
+          {isMobile && (
+            <Box m={3} display="flex" justifyContent="flex-end" gap={1} flexWrap="wrap">
+              <Button
+                variant="contained"
+                startIcon={<PreviewIcon />}
+                onClick={handlePreview}
+              >
+                {t('Preview.abbreviated')}
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                endIcon={<EditIcon />}
+                onClick={handleConfirm}
+              >
+                {t('Save')}
+              </Button>
+              <Box flexBasis="100%" display="flex" justifyContent="flex-end">
+                <Button
+                  variant="outlined"
+                  onClick={() => navigate(-1)}
+                >
+                  {t('Cancel')}
+                </Button>
+              </Box>
+            </Box>
+          )}
 
           <HtmlPreviewDialog
             open={isPreviewOpen}

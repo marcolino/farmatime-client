@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useContext, useCallback } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import {
   DndContext,
@@ -35,7 +35,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { ContextualHelp } from './ContextualHelp';
 import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
-//import { AuthContext } from '../providers/AuthContext';
+import { JobContext } from '../providers/JobContext';
 import { useSnackbarContext } from '../providers/SnackbarProvider';
 import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { StyledPaper, StyledBox } from './JobStyles';
@@ -64,11 +64,12 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const JobMedicines = ({ /*jobDraft = {},*/ data = [], onChange, onEditingChange, onCompleted/*, hasNavigatedAway*/}) => {
+const JobMedicines = ({ /*jobDraft = {},*/ jobs = [], data = [], onChange, onEditingChange, onCompleted/*, hasNavigatedAway*/}) => {
   const { t } = useTranslation();
   //const navigate = useNavigate();
   const theme = useTheme();
   //const { isLoggedIn } = useContext(AuthContext);
+  const { checkUserJobRequests } = useContext(JobContext);
   const [option, setOption] = useState(null); // Initialize with null for clarity
   const [editingItemId, setEditingItemId] = useState(null);
   const [fieldMedicine, setFieldMedicine] = useState('');
@@ -221,7 +222,7 @@ const JobMedicines = ({ /*jobDraft = {},*/ data = [], onChange, onEditingChange,
     setFieldToFocus(null); // Clear focus
   }, [onEditingChange]);
 
-  const addItem = useCallback((e) => {
+  const addItem = useCallback(async (e) => {
     e.preventDefault();
 
     const name = fieldMedicine?.trim(); // Use state variable directly
@@ -248,6 +249,13 @@ const JobMedicines = ({ /*jobDraft = {},*/ data = [], onChange, onEditingChange,
         showSnackbar(t('This item already exists in the list'), 'warning');
         return;
       }
+
+      const userJobRequestsStatus = await checkUserJobRequests(data);
+      if (userJobRequestsStatus.check === false) {
+        showSnackbar(userJobRequestsStatus.message, 'warning');
+        return;
+      }
+
       onChange([...data, {
         id: newItemId, // Use the new unique ID or existing option ID
         name,
@@ -509,6 +517,7 @@ const JobMedicines = ({ /*jobDraft = {},*/ data = [], onChange, onEditingChange,
                     color="primary"
                     size="large"
                     startIcon={mode === 'add' ? <Add /> : <Check />}
+                    disabled={!fieldMedicine} /* enable only when something is present in fieldMedicine, for a better UI clarity */
                     sx={{
                       height: 56,
                       mb: 0.2,
@@ -597,6 +606,7 @@ const JobMedicines = ({ /*jobDraft = {},*/ data = [], onChange, onEditingChange,
                   color="primary"
                   size="large"
                   startIcon={mode === 'add' ? <Add /> : <Check />}
+                  disabled={!fieldMedicine} /* enable only when something is present in fieldMedicine, for a better UI clarity */
                   sx={{
                     height: 36,
                     px: 0,
