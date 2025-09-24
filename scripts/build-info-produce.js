@@ -7,7 +7,7 @@ import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const fileName = "build-info.json";
+const fileName = "build-info-client.json";
 
 const buildInfoPath = path.resolve(__dirname, "../public", fileName);
 

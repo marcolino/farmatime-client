@@ -42,7 +42,7 @@ const JobFlow = () => {
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
   const {
-    getJobById, confirmJob, setJobs, confirmJobsOnServer, jobIsEmpty, jobsError, clearJobsError,
+    getJobById, getJobNumberById, confirmJob, setJobs, confirmJobsOnServer, jobIsEmpty, jobsError, clearJobsError,
     jobDraftIsDirty, setJobDraftDirty, emailTemplate, setEmailTemplate, confirmEmailTemplateOnServer,
   } = useContext(JobContext);
 
@@ -488,7 +488,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
               (isMobile ?
                 t('Config. Job') :
                 t('Configure Job')
-              ) + ` ${jobId === 'new' ? 1 : jobId ? 1 + parseInt(jobId) : 1}`
+              ) + ` ${getJobNumberById(jobId)}`
             }
           </Box>
         </Box>

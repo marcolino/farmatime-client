@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import { TextFieldSearch } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { Search, Edit, Delete } from "@mui/icons-material";
+import { Search, Edit, Delete, AccountCircle as ProfileIcon, } from "@mui/icons-material";
 import DialogEmailCreation from "./DialogEmailCreation";
 import { AuthContext } from "../providers/AuthContext";
 import { apiCall } from "../libs/Network";
@@ -349,7 +349,7 @@ const UserTable = () => {
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
       <SectionHeader1>
-        {t("Users handling")}
+        <ProfileIcon fontSize="large" /> {t("Users handling")}
       </SectionHeader1>
 
       <Box sx={{

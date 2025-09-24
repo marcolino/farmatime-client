@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import { TextFieldSearch } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { Search, MenuOpen } from "@mui/icons-material";
+import { History, Search, MenuOpen } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 //import { useDialog } from "../providers/DialogContext";
@@ -201,24 +201,52 @@ const RequestsTable = () => {
     if (!request || !column) return undefined;
 
     switch (column) {
-      case "patientName":
-        return [
-          request.patient?.firstName || "",
-          request.patient?.lastName || ""
-        ].join(" ").trim();
-
-      case "patientEmail":
-        return request.patient?.email;
-
-      case "doctorName":
-        return request.doctor?.name;
-
-      case "doctorEmail":
-        return request.doctor?.email;
-      
-      // direct props (id, status, etc.)
+    case "status":
+      switch (request.lastStatus) {
+      case "created":
+        return "status-00";
+      case "request":
+        return "status-01";
+      case "delivered":
+        return "status-02";
+      case "click":
+        return "status-03";
+      case "opened":
+        return "status-04";
+      case "invalid_email":
+        return "status-05";
+      case "blocked":
+        return "status-06";
+      case "spam":
+        return "status-07";
+      case "unsubscribed":
+        return "status-08";
+      case "error":
+        return "status-09";
+      case "unforeseen":
+        return "status-10";
       default:
-        return request[column];
+        return "status-999";
+      }
+    
+    case "patientName":
+      return [
+        request.patientFirstName || "",
+        request.patientLastName || ""
+      ].join(" ").trim();
+
+    case "patientEmail":
+      return request.patientEmail;
+
+    case "doctorName":
+      return request.doctorName;
+
+    case "doctorEmail":
+      return request.doctorEmail;
+    
+    // direct props (id, status, etc.)
+    default:
+      return request[column];
     }
   };
 
@@ -282,12 +310,13 @@ const RequestsTable = () => {
         return true;
       }
       return (
-        matches(request, "id", filter) ||
+        //matches(request, "id", filter) ||
+        matches(request, "status", filter) ||
         matches(request, "provider", filter) ||
-        matches(request, "patient.firstName", filter) ||
-        matches(request, "patient.lastName", filter) ||
+        matches(request, "patientFirstName", filter) ||
+        matches(request, "patientLastName", filter) ||
         matches(request, "doctor.name", filter) ||
-        matches(request, "doctor.email", filter) ||
+        matches(request, "doctorEmail", filter) ||
         matches(request, "medicines[].name", filter) ||
         false
       );
@@ -377,7 +406,7 @@ const RequestsTable = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <SectionHeader1>
-        {t("Requests history")}
+        <History fontSize="large" /> {t("Requests history")}
       </SectionHeader1>
 
       <Box sx={{
@@ -425,16 +454,12 @@ const RequestsTable = () => {
                     onChange={handleSelectAllClick}
                   />
                 </TableCell>
-                <TableCell onClick={handleSort("id")}>
-                  {/* We name this column "N." ("Number") since these values are positive integers starting from 1,
-                      that do not identify each row univocally, but just number the rows (it is more useful to the user);
-                      when some row is moved around or deleted, this column values are recalculated, to mantain
-                      natural progressivity; historically we use 'id' as an internal name */}
-                  {t("Id")} {sortButton({ column: "id" })}
+                <TableCell>
+                  {t("#")}
                 </TableCell>
-                {/* <TableCell onClick={handleSort("isActive")}>
-                  {t("Status")} {sortButton({ column: "isActive" })}
-                </TableCell> */}
+                <TableCell onClick={handleSort("status")}>
+                  {t("Status")} {sortButton({ column: "status" })}
+                </TableCell>
                 <TableCell onClick={handleSort("doctorName")}>
                   {t("Doctor name")} {sortButton({ column: "doctorName" })}
                 </TableCell>
@@ -460,16 +485,16 @@ const RequestsTable = () => {
             </TableHead>
             <TableBody>
               {sortedFilteredPaginatedRequests.map((request, index) => {
-                const isItemSelected = isSelected(request.id);
+                const isItemSelected = isSelected(request._id);
                 return (
                   <TableRow
                     hover
-                    onClick={(e) => handleClick(e, request.id)}
-                    onDoubleClick={(e) => handleDoubleClick(e, request.id)}
+                    onClick={(e) => handleClick(e, request._id)}
+                    onDoubleClick={(e) => handleDoubleClick(e, request._id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={request.id}
+                    key={request._id}
                     selected={isItemSelected}
                     sx={(theme) => ({
                       "& td": {
@@ -483,9 +508,15 @@ const RequestsTable = () => {
                       <Checkbox checked={isItemSelected} />
                     </TableCell>
                     <TableCell>
-                      <Tooltip title={request.isActive ? t("Job is active") : t("Request is paused")} arrow>
+                      <Tooltip title={t("Progressive number")} arrow>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                           <Box component="span">{1 + index}</Box>
+                        </Box>
+                      </Tooltip>
+                    </TableCell>
+                    <TableCell>
+                      <Tooltip title={t("Status of the request")} arrow>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
                           <Box
                             component="span"
                             sx={{
@@ -496,7 +527,7 @@ const RequestsTable = () => {
                               bgcolor: request.lastStatus === "created" ? "info.light" : "warning.light",
                             }}
                           />
-                          &nbsp;{request.lastStatus}
+                          {/* &nbsp;{request.lastStatus} */}
                         </Box>
                       </Tooltip>
                     </TableCell>

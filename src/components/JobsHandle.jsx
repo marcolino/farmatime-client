@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import { TextFieldSearch, Button } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause } from "@mui/icons-material";
+import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause, Menu } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 import { useDialog } from "../providers/DialogContext";
@@ -396,7 +396,7 @@ const JobsTable = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <SectionHeader1>
-        {t("Jobs list")}
+        <Menu fontSize="large" /> {t("Jobs list")}
       </SectionHeader1>
 
       <Box sx={{
@@ -471,12 +471,11 @@ const JobsTable = () => {
                     onChange={handleSelectAllClick}
                   />
                 </TableCell>
-                <TableCell onClick={handleSort("id")}>
-                  {/* We name this column "N." ("Number") since these values are positive integers starting from 1,
-                      that do not identify each row univocally, but just number the rows (it is more useful to the user);
-                      when some row is moved around or deleted, this column values are recalculated, to mantain
-                      natural progressivity; historically we use 'id' as an internal name */}
-                  {t("Id")} {sortButton({ column: "id" })}
+                <TableCell
+                  // onClick={handleSort("id")}
+                  //sx={{ color: "grey!important" }}
+                >
+                  {t("#")}{/*sortButton({ column: "id" })*/}
                 </TableCell>
                 {/* <TableCell onClick={handleSort("isActive")}>
                   {t("Status")} {sortButton({ column: "isActive" })}
@@ -502,7 +501,7 @@ const JobsTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedFilteredPaginatedJobs.map((job) => {
+              {sortedFilteredPaginatedJobs.map((job, index) => {
                 const isItemSelected = isSelected(job.id);
                 //console.log("ID:", job.id);
                 console.log("MEDICINES 1:", job.medicines);
@@ -532,7 +531,7 @@ const JobsTable = () => {
                     <TableCell>
                       <Tooltip title={job.isActive ? t("Job is active") : t("Job is paused")} arrow>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box component="span">{1 + job.id}</Box>
+                          <Box component="span">{1 + index/*job.id*/}</Box>
                           <Box
                             component="span"
                             sx={{

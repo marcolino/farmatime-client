@@ -89,7 +89,12 @@ const Routing = () => {
             {/* <Route path="/job-data-export" element={<JobsExport />} /> */}
             {/* <Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} /> */}
             <Route path="/job-data-remove" element={<JobsRemove />} />
-            <Route path="/requests-history" element={config.mode.development ? <RequestsHandle /> : <ToBeDone />} />
+            {config.mode.development && (
+              <Route path="/requests-history" element={<RequestsHandle />} />
+            )}
+            {!config.mode.development && (
+              <Route path="/requests-history" element={<ToBeDone />} />
+            )}
             <Route path="/todo" element={<ToBeDone />} />{/* just to show the fish! */}
           </Route>
 

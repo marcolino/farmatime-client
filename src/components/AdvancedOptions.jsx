@@ -18,7 +18,7 @@ import {
   DeleteForever as DeleteIcon,
   PersonOff as PersonOffIcon,
   Drafts as DraftsIcon,
-  Info as InfoIcon,
+  //Info as InfoIcon,
 } from "@mui/icons-material";
 import { AuthContext } from "../providers/AuthContext";
 import { CartContext } from "../providers/CartContext";
@@ -28,13 +28,13 @@ import { useSnackbarContext } from "../providers/SnackbarProvider";
 //import { cancelAllRequests } from "../middlewares/Interceptors";
 import { apiCall } from "../libs/Network";
 import { isAdmin } from "../libs/Validation";
-import { fetchBuildInfoData } from "../libs/Misc";
+// import { fetchBuildInfoData } from "../libs/Misc";
 import DialogConfirm from './DialogConfirm';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { SectionHeader1, useTheme } from 'mui-material-custom';
-import clientPackageJson from "../../package.json";
-import serverPackageJson from "../../../medicare-server/package.json"; // WARNING: this depends on folders structure...
-import config from "../config";
+// import clientPackageJson from "../../package.json";
+// import serverPackageJson from "../../../medicare-server/package.json"; // WARNING: this depends on folders structure...
+// import config from "../config";
 
 
 const AdvancedOptions = () => {
@@ -47,7 +47,7 @@ const AdvancedOptions = () => {
   const theme = useTheme();
   const { showDialog } = useDialog();
   const [showDialogConfirm, setShowDialogConfirm] = useState(false);
-  const [buildInfo, setBuildInfo] = useState(null);
+  // const [buildInfo, setBuildInfo] = useState(null);
 
   const groupedTools = {
     Administration: [
@@ -79,12 +79,12 @@ const AdvancedOptions = () => {
         icon: <DraftsIcon fontSize="large" />,
         action: "/job-email-template-edit",
       },
-      {
-        label: t("About"),
-        subtitle: t("Web app information"),
-        icon: <InfoIcon fontSize="large" />,
-        action: () => info(),
-      }
+      // {
+      //   label: t("About"),
+      //   subtitle: t("Web app information"),
+      //   icon: <InfoIcon fontSize="large" />,
+      //   action: () => info(),
+      // }
     ],
     // User: [
     //   {
@@ -129,64 +129,47 @@ const AdvancedOptions = () => {
     "Danger Zone": t("Danger Zone"),
   };
 
-  useEffect(() => { // read build info from file on disk
-    if (!buildInfo) {
-      (async function () {
-        const data = await fetchBuildInfoData();
-        setBuildInfo(data);
-      })();
-      // fetch("/build-info.json")
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     let d = new Date(data.buildTimestamp);
-      //     data.buildDateTime = // convert timestamp to human readable compact date
-      //       d.getFullYear() + "-" +
-      //       ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
-      //       ("00" + d.getDate()).slice(-2) + " " +
-      //       ("00" + d.getHours()).slice(-2) + ":" +
-      //       ("00" + d.getMinutes()).slice(-2) + ":" +
-      //       ("00" + d.getSeconds()).slice(-2)
-      //       ;
-      //     setBuildInfo(data);
-      //     //console.log("data:", data);
-      //   })
-      //   .catch((error) => console.error("Failed to fetch build info:", error))
-      // ;
-    }
-  }, []);
+  // useEffect(() => { // read build info from file on disk
+  //   if (!buildInfo) {
+  //     (async function () {
+  //       const data = await fetchBuildInfoData();
+  //       setBuildInfo(data);
+  //     })();
+  //   }
+  // }, []);
   
-  const infoTitle = t('Informations about this app');
-  const mode =
-    config.mode.production ? "production" :
-      config.mode.staging ? "staging" :
-        config.mode.development ? "development" :
-          config.mode.test ? "test" :
-            config.mode.testInCI ? "testInCI" :
-              "?"
-    ;
-  const infoContents = `\
-    ${config.name.replace(/^./, c => c.toUpperCase())}: ${config.index.description}.\n\
-    \n\
-    ${t("This app is produced by company")} ${config.company.name}\n\
-    ${t("Phone is")}: ${config.company.phone}\n\
-    ${t("Street address is")}: ${config.company.address}\n\
-    ${t("Email address is")}: ${config.company.email}\n\
-    ${t("App mode is")}: ${mode}\n\
-    \n\
-    ${t("Client")}:\n v${clientPackageJson.version} © ${new Date().getFullYear()},\
-    ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\n\
-    \n\
-    ${t("Server")}:\n v${serverPackageJson.version} © ${new Date().getFullYear()}\
-    \n\
-  `;
+  // const infoTitle = t('Informations about this app');
+  // const mode =
+  //   config.mode.production ? "production" :
+  //     config.mode.staging ? "staging" :
+  //       config.mode.development ? "development" :
+  //         config.mode.test ? "test" :
+  //           config.mode.testInCI ? "testInCI" :
+  //             "?"
+  //   ;
+  // const infoContents = `\
+  //   ${config.name.replace(/^./, c => c.toUpperCase())}: ${config.index.description}.\n\
+  //   \n\
+  //   ${t("This app is produced by company")} ${config.company.name}\n\
+  //   ${t("Phone is")}: ${config.company.phone}\n\
+  //   ${t("Street address is")}: ${config.company.address}\n\
+  //   ${t("Email address is")}: ${config.company.email}\n\
+  //   ${t("App mode is")}: ${mode}\n\
+  //   \n\
+  //   ${t("Client")}:\n v${clientPackageJson.version} © ${new Date().getFullYear()},\
+  //   ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\n\
+  //   \n\
+  //   ${t("Server")}:\n v${serverPackageJson.version} © ${new Date().getFullYear()}\
+  //   \n\
+  // `;
 
-  const info = () => {
-    showDialog({
-      title: infoTitle,
-      message: infoContents,
-      confirmText: t("Ok"),
-    })
-  };
+  // const info = () => {
+  //   showDialog({
+  //     title: infoTitle,
+  //     message: infoContents,
+  //     confirmText: t("Ok"),
+  //   })
+  // };
 
   const handleRevoke = async () => {
     if (auth.user) {

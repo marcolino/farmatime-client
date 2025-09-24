@@ -44,17 +44,18 @@ export const JobProvider = ({ children }) => {
 
   const getJobById = (id) => {
     if (id === 'new') return jobSkeleton;
-    return jobs.find(j => j.id === parseInt(id, 10)) || null;
+    //return jobs.find(j => j.id === parseInt(id, 10)) || null;
+    return jobs.find(j => j.id === id) || null;
   };
 
   const getJobNumberById = (id) => {
     if (id === 'new') return 0; // new job being created, not yet in jobs array
     for (let i = 0; i < jobs.length; i++) {
-      if (jobs[i].id === parseInt(id)) {
-        return i;
+      if (jobs[i].id === id) {
+        return 1 + i;
       }
     }
-    return -1; // Not found
+    return 0; // Not found
   };
 
   const clearJobsError = () => setJobsError(null);
@@ -63,10 +64,12 @@ export const JobProvider = ({ children }) => {
     (jobDraft) => {
       //const isConfirmed = true;
       if (jobDraft.id === "new") {
-        // new job, assign new unique id
-        const maxId = jobs.reduce((max, job) => Math.max(max, job.id), -1);
-        const id = maxId + 1;
-        const confirmedJob = { ...jobDraft, id, /*isConfirmed*/ };
+        // // new job, assign new unique id
+        // const maxId = jobs.reduce((max, job) => Math.max(max, job.id), -1);
+        // const id = maxId + 1;
+        // new job, assign new unique random UUID
+        const id = crypto.randomUUID(); 
+        const confirmedJob = { ...jobDraft, id };
         return [...jobs, confirmedJob];
       } else {
         // existing job, update it in jobs array
@@ -78,10 +81,9 @@ export const JobProvider = ({ children }) => {
         }
         return jobs.map(job =>
           job.id === jobDraft.id
-            ? { ...jobDraft/*, isConfirmed*/ }
+            ? { ...jobDraft }
             : job
         );
-        //return jobs;
       }
     },
     [jobs]

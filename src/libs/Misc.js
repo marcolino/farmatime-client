@@ -349,25 +349,64 @@ export const isPWA = () => {
 };
 
 export const fetchBuildInfoData = async () => {
-  return fetch("/build-info.json")
-    .then((response) => response.json())
-    .then((data) => {
-      let d = new Date(data.buildTimestamp);
-      data.buildDateTime = // convert timestamp to human readable compact date
+  try {
+    const [clientResp, serverResp] = await Promise.all([
+      fetch("/build-info-client.json"),
+      fetch("/build-info-server.json"),
+    ]);
+
+    const [clientData, serverData] = await Promise.all([
+      clientResp.json(),
+      serverResp.json(),
+    ]);
+
+    const formatDate = (ts) => {
+      const d = new Date(ts);
+      return (
         d.getFullYear() + "-" +
         ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
         ("00" + d.getDate()).slice(-2) + " " +
         ("00" + d.getHours()).slice(-2) + ":" +
         ("00" + d.getMinutes()).slice(-2) + ":" +
         ("00" + d.getSeconds()).slice(-2)
-        ;
-      //setBuildInfo(data);
-      //console.log("data:", data);
-      return data;
-    })
-    .catch((error) => {
-      console.error("Failed to fetch build info:", error);
-      return {};
-    })
-  ;
+      );
+    };
+
+    if (clientData.buildTimestamp) {
+      clientData.buildDateTime = formatDate(clientData.buildTimestamp);
+    }
+    if (serverData.buildTimestamp) {
+      serverData.buildDateTime = formatDate(serverData.buildTimestamp);
+    }
+
+    return {
+      client: clientData,
+      server: serverData,
+    };
+  } catch (error) {
+    console.error("Failed to fetch build info:", error);
+    return {};
+  }
 };
+
+// export const fetchBuildInfoData = async () => {
+//   return fetch("/build-info-client.json")
+//     .then((response) => response.json())
+//     .then((data) => {
+//       let d = new Date(data.buildTimestamp);
+//       data.buildDateTime = // convert timestamp to human readable compact date
+//         d.getFullYear() + "-" +
+//           ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
+//           ("00" + d.getDate()).slice(-2) + " " +
+//           ("00" + d.getHours()).slice(-2) + ":" +
+//           ("00" + d.getMinutes()).slice(-2) + ":" +
+//           ("00" + d.getSeconds()).slice(-2)
+//         ;
+//       return data;
+//     })
+//     .catch((error) => {
+//       console.error("Failed to fetch build info:", error);
+//       return {};
+//     })
+//   ;
+// };

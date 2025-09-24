@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   AppBar, Toolbar, Box, Typography, Button, IconButton, Badge,
   ListItemText, ListItemIcon, Menu, MenuItem, Tooltip
@@ -11,6 +11,7 @@ import {
   AccountCircle, ExitToApp,
   ShoppingCart, Category, Brightness4, Brightness7,
   ContactPhone, /*ImportExport,*/ SettingsSuggest, History,
+  InfoOutline as InfoIcon,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
@@ -22,8 +23,11 @@ import { JobContext } from '../providers/JobContext';
 import { useDialog } from "../providers/DialogContext";
 import { useCart } from "../providers/CartProvider";
 import { isAdmin } from "../libs/Validation";
+import { fetchBuildInfoData } from "../libs/Misc";
 import logoMain from "../assets/images/LogoMain.png";
 import logoMainText from "../assets/images/LogoText.png";
+import clientPackageJson from "../../package.json";
+import serverPackageJson from "../../../medicare-server/package.json"; // WARNING: this depends on folders structure...
 import config from "../config";
 
 const Header = ({ theme, toggleTheme }) => {
@@ -37,6 +41,7 @@ const Header = ({ theme, toggleTheme }) => {
   const { t } = useTranslation();
   const { cartItemsQuantity } = useCart();
   const { isMobile } = useMediaQueryContext();
+  const [buildInfo, setBuildInfo] = useState(null);
 
   const sections = React.useMemo(() => [
     ...(config.ui.cart.enabled && config.ecommerce.enabled ? [{ // add cart to sections only if ui.cart and ecommerce is enabled
@@ -80,6 +85,41 @@ const Header = ({ theme, toggleTheme }) => {
   // alert(location.pathname);
   // const isAuthRoute = () => (false);  //location.pathname === "/signin");
   const isAuthRoute = () => (location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/forgot-password" || location.pathname === "/social-signin-success" || location.pathname === "/social-signin-error");
+
+  const infoTitle = t('Informations about this app');
+    const mode =
+      config.mode.production ? "production" :
+        config.mode.staging ? "staging" :
+          config.mode.development ? "development" :
+            config.mode.test ? "test" :
+              config.mode.testInCI ? "testInCI" :
+                "?"
+    ;
+  const infoContents = `\
+    ${config.name.replace(/^./, c => c.toUpperCase())}: ${config.index.description}.\n\
+    \n\
+    ${t("This app is produced by company")} ${config.company.name}.\n\
+    ${t("You can reach us at email")} <${config.company.email}>.\n\
+    ${t("App mode is")}: ${mode}.\n\
+    \n\
+    ${t("Versions:")}\n\
+     • ${t("Client")}: v${clientPackageJson.version} © ${new Date().getFullYear()},\
+    ${t("build n.")} ${buildInfo?.client ? buildInfo.client.buildNumber : "?"} ${t("on date")} ${buildInfo?.client ? buildInfo.client.buildDateTime : "?"}\n\
+     • ${t("Server")}: v${serverPackageJson.version} © ${new Date().getFullYear()},\
+    ${t("build n.")} ${buildInfo?.server ? buildInfo.server.buildNumber : "?"} ${t("on date")} ${buildInfo?.server ? buildInfo.server.buildDateTime : "?"}\n\
+    \n\
+  `;
+    // ${t("Phone is")}: ${config.company.phone}\n\
+    // ${t("Street address is")}: ${config.company.address}\n\
+    // ${t("Email address is")}: ${config.company.email}\n\
+
+  const info = () => {
+    showDialog({
+      title: infoTitle,
+      message: infoContents,
+      confirmText: t("Ok"),
+    })
+  };
 
   const userItems = [
     ...(isLoggedIn && isAdmin(auth.user) ?
@@ -148,6 +188,16 @@ const Header = ({ theme, toggleTheme }) => {
       //href: null,
       onClick: toggleTheme
     },
+    {
+      label: t("Info"),
+      icon: (
+        <IconButton onClick={info} sx={{ padding: 0 }}>
+          <InfoIcon />
+        </IconButton>
+      ),
+      //href: null,
+      onClick: info
+    },
     ...(isLoggedIn ?
       [
         {
@@ -161,6 +211,15 @@ const Header = ({ theme, toggleTheme }) => {
       : []),
   ];
 
+   useEffect(() => { // read build info from file on disk
+    if (!buildInfo) {
+      (async function () {
+        const data = await fetchBuildInfoData();
+        setBuildInfo(data);
+      })();
+    }
+   }, [buildInfo]);
+  
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = (open) => () => {

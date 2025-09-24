@@ -20,7 +20,7 @@ const publicAssets = [
   "robots.txt",
   "sitemap.xml",
   "manifest.webmanifest",
-  "build-info.json",
+  "build-info-client.json",
   "screenshot-narrow.png",
   "screenshot-wide.png",
 ];

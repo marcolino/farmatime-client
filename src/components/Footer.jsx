@@ -33,26 +33,7 @@ const Footer = ({ changeLocale }) => {
         setBuildInfo(data);
       })();
     }
-    // if (!buildInfo) {
-    //   fetch("/build-info.json")
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       let d = new Date(data.buildTimestamp);
-    //       data.buildDateTime = // convert timestamp to human readable compact date
-    //         d.getFullYear() + "-" +
-    //         ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
-    //         ("00" + d.getDate()).slice(-2) + " " +
-    //         ("00" + d.getHours()).slice(-2) + ":" +
-    //         ("00" + d.getMinutes()).slice(-2) + ":" +
-    //         ("00" + d.getSeconds()).slice(-2)
-    //         ;
-    //       setBuildInfo(data);
-    //       //console.log("data:", data);
-    //     })
-    //     .catch((error) => console.error("Failed to fetch build info:", error))
-    //     ;
-    // }
-  }, []);
+  }, [buildInfo]);
 
   useEffect(() => { // update language depending on user propertis change
     // get the current user's language preference or fall back to the default
@@ -133,7 +114,7 @@ const Footer = ({ changeLocale }) => {
           sx={{ lineHeight: 1, mr: 2 }}
         >
           {`
-            ${packageJson.name.replace(/-.*$/, '')} v${packageJson.version}.${buildInfo ? buildInfo.buildNumber : "?"}
+            ${packageJson.name.replace(/-.*$/, '')} c. v${packageJson.version}.${buildInfo ? buildInfo.client.buildNumber : "?"}
             © ${new Date().getFullYear()}
           `}
         </Box>
