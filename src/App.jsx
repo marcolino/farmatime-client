@@ -18,7 +18,7 @@ import InstallPWA from "./components/InstallPWA";
 import ServiceWorkerMessages from "./components/ServiceWorkerMessages";
 import Contents from "./components/Contents";
 import Routing from "./components/Routing";
-import CookiePreferences  from "./components/CookiePreferences";
+import PreferencesCookie  from "./components/PreferencesCookie";
 //import BackgroundVideo from "./components/BackgroundVideo";
 import ClientInfoDisplay from "./components/ClientInfoDisplay";
 import Loader from "./components/Loader";
@@ -28,7 +28,6 @@ import config from "./config";
 
 const isPWA = window.location.pathname.startsWith("/pwa");
 
-console.log(" ********************* isPWA:", isPWA);
 
 /**
  * We need to separate the logic into App and AppStructure, because otherwise we access
@@ -92,7 +91,7 @@ const AppStructure = () => {
                   {/* <SessionProvider /> */}
                   <JobProvider>
                     <InstallPWA />
-                    <CookiePreferences />
+                    <PreferencesCookie />
                     {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
                     <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
                       <Routing />

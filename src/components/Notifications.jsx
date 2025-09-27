@@ -69,7 +69,7 @@ const /*function*/ Notifications = (props) => {
             </CardContent>
 
             <CardContent>
-              <Typography variant="body2" color="textSecondary" component="p">
+              <Typography variant="body2" color="textSecondary" component="div" /* "p" */>
                 {state.notification.body}
               </Typography>
             </CardContent>

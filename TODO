@@ -236,7 +236,7 @@
     build/assets/hero-small.jpg                296.71 kB
     build/assets/hero-medium.jpg               739.83 kB
     build/assets/hero-large.jpg              1,310.94 kB
-    build/assets/LogoMain.png                1,950.59 kB - OK
+    build/assets/LogoMainText.png                1,950.59 kB - OK
 - npm uninstall draft-js draft-convert react-draft-wysiwyg html-to-draftjs, and ask AI to refactor emailTemplateEditor with modern alternative: @react-editor-js, or @tiptap/react, or lexical from Meta - OK
 - disable cart saving to localstorage if cart is not used - OK
 - add `"dedupe": "npm dedupe",` to package.json, and try `npm ls react` (?) ...  NO

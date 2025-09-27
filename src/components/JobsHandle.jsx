@@ -26,6 +26,8 @@ import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
+import config from "../config";
+
 
 const JobsTable = () => {
   const theme = useTheme();
@@ -49,9 +51,7 @@ const JobsTable = () => {
 
   const clickTimeoutRef = useRef(null);
 
-
   const newJob = () => {
-    //addJob();
     navigate(`/job/new`);
   };
 

@@ -146,9 +146,9 @@ The password must contain at least:
 `);
 };
 
-export const validateJobPatientFirstName = (value) => {
+export const validateJobPatientFirstName = (jobDraft, value) => {
   const re = /.{2,}/;
-  if (value == null) {
+  if (value == null || value === "") {
     return "ERROR_PLEASE_SUPPLY_A_FIRSTNAME";
   }
   if (!re.test(String(value).toLowerCase())) {
@@ -157,7 +157,7 @@ export const validateJobPatientFirstName = (value) => {
   return true;
 }
 
-export const validateJobPatientLastName = (value) => {
+export const validateJobPatientLastName = (jobDraft, value) => {
   const re = /.{2,}/;
   if (value == null) {
     return "ERROR_PLEASE_SUPPLY_A_LASTNAME";
@@ -177,7 +177,7 @@ export const validateJobPatientEmail = (jobDraft, value) => {
   return retval;
 }
 
-export const validateJobDoctorName = (value) => {
+export const validateJobDoctorName = (jobDraft, value) => {
   const re = /.{2,}/;
   if (value == null) {
     return "ERROR_PLEASE_SUPPLY_A_NAME";

@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { apiCall } from "../../libs/Network";
 import { useDialog } from "../../providers/DialogContext";
 import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
-import { AuthContext } from "../../providers/AuthContext";
+//import { AuthContext } from "../../providers/AuthContext";
 
 
 function SocialSignInSuccess() {

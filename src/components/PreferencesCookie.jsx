@@ -18,7 +18,7 @@ import { cookiesConsentLoad, cookiesConsentSave } from "../libs/Misc";
 import config from "../config";
 
 
-const CookiePreferences = (props) => {
+const PreferencesCookie = (props) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { showSnackbar } = useSnackbarContext();
@@ -174,13 +174,13 @@ const CookiePreferences = (props) => {
 
           <Box sx={{ my: 4 }}></Box>
 
-          <Box sx={{ textAlign: "end", mx: 2 }}>
+          <Box sx={{ textAlign: "end" }}>
             <Button
               color="success"
               variant="contained"
               onClick={handleAcceptAll}
               sx={{
-                mx: 1,
+                m: 0.5,
                 textTransform: "uppercase",
               }}
             >
@@ -189,12 +189,13 @@ const CookiePreferences = (props) => {
             {!(showCustomization || props.customizeOnly) && (
               <Button
                 variant="contained"
-                size="small"
+                _size="small"
                 color="default"
                 onClick={handleCustomization}
                 sx={{
-                  my: 0.5,
+                  m: 0.5,
                   opacity: "66%",
+                  //textTransform: "uppercase",
                 }}
               >
                 {t("Customize")}
@@ -205,7 +206,7 @@ const CookiePreferences = (props) => {
                 color="primary"
                 variant="contained"
                 onClick={savePreferences}
-                sx={{mx: 1}}
+                sx={{m: 0.5}}
               >
                 {t("Save preferences")}
               </Button>
@@ -215,7 +216,7 @@ const CookiePreferences = (props) => {
                 color="secondary"
                 variant="contained"
                 onClick={close}
-                sx={{mx: 1}}
+                sx={{m: 0.5}}
               >
                 {t("Cancel")}
               </Button>
@@ -228,4 +229,4 @@ const CookiePreferences = (props) => {
   );
 };
 
-export default React.memo(CookiePreferences);
+export default React.memo(PreferencesCookie);

@@ -15,8 +15,8 @@ publicMsTileImage="public/ms-tile.png"
 publicLogoMailHeader="public/logo-main-header.png"
 publicLogoForGoogle="public/logo-for-google.png"
 publicLogoForFacebook="public/logo-for-facebook.png"
-#srcLogoMain="src/assets/images/LogoMain.png"
-#srcLogoMain="base-assets/LogoMain.png"
+#srcLogoMain="src/assets/images/LogoMainText.png"
+#srcLogoMain="base-assets/LogoMainText.png"
 
 if [ ! -f "$sourceImage" ]; then
   echo "Source image \"$sourceImage\" not found"
@@ -50,6 +50,6 @@ convert "$sourceImage" -resize 1024x1024 "$publicLogoForFacebook"
 convert "$publicFavicon64x64" -define icon:auto-resize=64,48,32,16 "$publicFavicon"
 convert "$sourceImage" -resize 144x144 "$publicMsTileImage"
 cp "$sourceImage" "$publicLogoMailHeader"
-#cp "$sourceImage" "$srcLogoMain"
+#cp "$sourceImage" "$srcLogoMainText"
 
 exit 0

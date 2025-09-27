@@ -147,8 +147,7 @@ const Footer = ({ changeLocale }) => {
             title: networkTitle,
             message: networkContents,
             confirmText: t("Ok"),
-          })
-        }
+          })}
           sx={{ mr: 1.5, cursor: "pointer" }}
         >
           {isOnline ?

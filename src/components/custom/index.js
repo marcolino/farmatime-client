@@ -6,3 +6,4 @@ export { default as TextField } from "./TextField";
 export { default as TextFieldPassword } from "./TextFieldPassword";
 export { default as TextFieldPhone } from "./TextFieldPhone";
 export { default as TextFieldSearch } from "./TextFieldSearch";
+export { default as Legenda } from "./Legenda";

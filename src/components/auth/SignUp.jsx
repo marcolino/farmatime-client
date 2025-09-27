@@ -24,6 +24,7 @@ import {
 //import { useSnackbar } from "../../providers/SnackbarManager";
 import { AuthContext } from "../../providers/AuthContext";
 import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
+import { useDialog } from "../../providers/DialogContext";
 import { apiCall } from "../../libs/Network";
 import { validateFirstName, validateLastName, validateEmail, validatePassword } from "../../libs/Validation";
 import config from "../../config";
@@ -41,10 +42,11 @@ function SignUp() {
   const [codeDeliveryMedium, setCodeDeliveryMedium] = useState(codeDeliveryMediumFromParams || "");
   const [code, setCode] = useState("");
   const [error, setError] = useState({});
-  const [openDialog, setOpenDialog] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState(null);
-  const [dialogContent, setDialogContent] = useState(null);
-  const [dialogCallback, setDialogCallback] = useState(null);
+  const { showDialog } = useDialog();
+  // const [openDialog, setOpenDialog] = useState(false);
+  // const [dialogTitle, setDialogTitle] = useState(null);
+  // const [dialogContent, setDialogContent] = useState(null);
+  // const [dialogCallback, setDialogCallback] = useState(null);
   const { cloneGuestUserPreferencesToAuthUserOnSignup } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
@@ -63,20 +65,20 @@ function SignUp() {
     window.location.replace(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`);
   };
   
-  const handleOpenDialog = (title, content, callbackOnClose) => {
-    setDialogTitle(title);
-    setDialogContent(content);
-    setDialogCallback(() => callbackOnClose);
-    setOpenDialog(true);
-  };
+  // const handleOpenDialog = (title, content, callbackOnClose) => {
+  //   setDialogTitle(title);
+  //   setDialogContent(content);
+  //   setDialogCallback(() => callbackOnClose);
+  //   setOpenDialog(true);
+  // };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    if (dialogCallback) {
-      setDialogCallback(null);
-      dialogCallback();
-    }
-  };
+  // const handleCloseDialog = () => {
+  //   setOpenDialog(false);
+  //   if (dialogCallback) {
+  //     setDialogCallback(null);
+  //     dialogCallback();
+  //   }
+  // };
 
   const validateForm = (params) => {
     let validation;
@@ -198,12 +200,20 @@ function SignUp() {
         case "ACCOUNT_WAITING_FOR_VERIFICATION":
           setError({ email: true });
           //showSnackbar(result.message, "warning");
-          setDialogTitle(t("Account is waiting for verification"));
-          setDialogContent(result.data.message);
-          setDialogCallback(() => { // navigate to signup, asking for mode "waitingForCode"
-            setWaitingForCode(true);
+          showDialog({
+            title: t("Account is waiting for verification"),
+            message: result.data.message,
+            confirmText: t("Ok"),
+            onConfirm: () => {
+              setWaitingForCode(true);
+            },
           });
-          setOpenDialog(true);
+          // setDialogTitle(t("Account is waiting for verification"));
+          // setDialogContent(result.data.message);
+          // setDialogCallback(() => { // navigate to signup, asking for mode "waitingForCode"
+          //   setWaitingForCode(true);
+          // });
+          // setOpenDialog(true);
           break;
         case "EMAIL_EXISTS_ALREADY":
         case "ACCOUNT_DELETED":
@@ -223,11 +233,16 @@ function SignUp() {
       setPassword("");
       const medium = result.codeDeliveryMedium;
       setCodeDeliveryMedium(medium);
-      handleOpenDialog(
-        t("Confirmation code sent by {{medium}}", { medium }),
-        result.message,
-        () => {},
-      );
+      // handleOpenDialog(
+      //   t("Confirmation code sent by {{medium}}", { medium }),
+      //   result.message,
+      //   () => {},
+      // );
+      showDialog({
+        title: t("Confirmation code sent by {{medium}}", { medium }),
+        message: result.message,
+        confirmText: t("Ok"),
+      });
     }
   };
     
@@ -247,11 +262,17 @@ function SignUp() {
       setEmail("");
       setCode("");
       cloneGuestUserPreferencesToAuthUserOnSignup();
-      handleOpenDialog(
-        t("Registered successfully"),
-        result.message,
-        () => { navigate("/signin", { replace: true }) }
-      );
+      // handleOpenDialog(
+      //   t("Registered successfully"),
+      //   result.message,
+      //   () => { navigate("/signin", { replace: true }) }
+      // );
+      showDialog({
+        title: t("Registered successfully"),
+        message: result.message,
+        confirmText: t("Ok"),
+        onConfirm: () => { navigate("/signin", { replace: true }) },
+      });
     }
   };
   
@@ -270,11 +291,17 @@ function SignUp() {
       console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
       const medium = result.codeDeliveryMedium;
       setCodeDeliveryMedium(medium);
-      handleOpenDialog(
-        t("Confirmation code resent by {{medium}}", { medium }),
-        result.message,
-        () => { },
-      );
+      // handleOpenDialog(
+      //   t("Confirmation code resent by {{medium}}", { medium }),
+      //   result.message,
+      //   () => { },
+      // );
+      showDialog({
+        title: t("Confirmation code resent by {{medium}}", { medium }),
+        message: result.message,
+        confirmText: t("Ok"),
+        //onConfirm: () => { navigate("/signin", { replace: true }) },
+      });
     }
   };
 
@@ -493,6 +520,7 @@ function SignUp() {
           )}
         </Box>
       </Box>
+      {/*
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
@@ -517,6 +545,7 @@ function SignUp() {
           </Button>
         </DialogActions>
       </Dialog>
+    */}
     </form>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@mui/material";
-import Forward from "@mui/icons-material/Forward";
+import { ChevronLeft } from "@mui/icons-material";
 import privacyPolicy_en from "./en/PrivacyPolicy";
 import privacyPolicy_fr from "./fr/PrivacyPolicy";
 import privacyPolicy_it from "./it/PrivacyPolicy";
@@ -43,13 +43,10 @@ function Legal(props) {
     <>
       <Button
         variant="contained"
-        color="default"
+        color="secondary"
         onClick={() => navigate(-1)}
-        sx={{
-          alignSelf: "center"
-        }}
       >
-        <Forward sx={{ transform: "rotate(180deg)" }} />
+        <ChevronLeft />
       </Button>
       {contents}
     </>

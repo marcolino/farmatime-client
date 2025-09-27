@@ -88,6 +88,7 @@ const customThemeLightProps = {
     },
     tertiary: {
       main: "#6a9052", // #499f13
+      dark: "#2e7d32",
     },
     background: {
       default: "#f8fcff",

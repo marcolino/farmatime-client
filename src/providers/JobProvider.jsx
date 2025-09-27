@@ -49,7 +49,7 @@ export const JobProvider = ({ children }) => {
   };
 
   const getJobNumberById = (id) => {
-    if (id === 'new') return 0; // new job being created, not yet in jobs array
+    if (id === 'new') return 1; // new job being created, not yet in jobs array
     for (let i = 0; i < jobs.length; i++) {
       if (jobs[i].id === id) {
         return 1 + i;

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+// import Dialog from "@mui/material/Dialog";
+// import DialogActions from "@mui/material/DialogActions";
+// import DialogContent from "@mui/material/DialogContent";
+// import DialogTitle from "@mui/material/DialogTitle";
 import LockOpenOutlined from "@mui/icons-material/LockOpenOutlined";
 import ConfirmationNumber from "@mui/icons-material/ConfirmationNumber";
 import Lock from "@mui/icons-material/Lock";
@@ -17,6 +17,7 @@ import TextFieldPassword from "../custom/TextFieldPassword";
 import Button from "../custom/Button";
 import { apiCall }  from "../../libs/Network";
 //import { useSnackbar } from "../../providers/SnackbarManager";
+import { useDialog } from "../../providers/DialogContext";
 import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { validateEmail, validatePassword } from "../../libs/Validation";
 //import config from "../../config";
@@ -31,27 +32,28 @@ function ForgotPassword() {
   const [codeDeliveryMedium, setCodeDeliveryMedium] = useState("");
   const [code, setCode] = useState("");
   const navigate = useNavigate();
-  const [openDialog, setOpenDialog] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState(null);
-  const [dialogContent, setDialogContent] = useState(null);
-  const [dialogCallback, setDialogCallback] = useState(null);
+  const { showDialog } = useDialog();
+  // const [openDialog, setOpenDialog] = useState(false);
+  // const [dialogTitle, setDialogTitle] = useState(null);
+  // const [dialogContent, setDialogContent] = useState(null);
+  // const [dialogCallback, setDialogCallback] = useState(null);
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
 
-  const handleOpenDialog = (title, content, callbackOnClose) => {
-    setDialogTitle(title);
-    setDialogContent(content);
-    setDialogCallback(() => callbackOnClose);
-    setOpenDialog(true);
-  };
+  // const handleOpenDialog = (title, content, callbackOnClose) => {
+  //   setDialogTitle(title);
+  //   setDialogContent(content);
+  //   setDialogCallback(() => callbackOnClose);
+  //   setOpenDialog(true);
+  // };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    if (dialogCallback) {
-      setDialogCallback(null);
-      dialogCallback();
-    }
-  };
+  // const handleCloseDialog = () => {
+  //   setOpenDialog(false);
+  //   if (dialogCallback) {
+  //     setDialogCallback(null);
+  //     dialogCallback();
+  //   }
+  // };
 
   const validateForm = () => { // validate email formally
     if (!waitingForCode) {
@@ -119,11 +121,16 @@ function ForgotPassword() {
       setPassword("");
       const medium = result.codeDeliveryMedium;
       setCodeDeliveryMedium(medium);
-      handleOpenDialog(
-        t("Confirmation code sent"),
-        result.message,
-        () => {},
-      );
+      // handleOpenDialog(
+      //   t("Confirmation code sent"),
+      //   result.message,
+      //   () => {},
+      // );
+      showDialog({
+        title: t("Confirmation code sent"),
+        message: result.message,
+        confirmText: t("Ok"),
+      });
     }
   };
   
@@ -156,11 +163,17 @@ function ForgotPassword() {
       setPassword("");
       setPasswordConfirmed("");
       setCode("");
-      handleOpenDialog(
-        t(`Password reset success`),
-        t(`You can sign in with your new password`),
-        () => { navigate("/signin", { replace: true }) }
-      );
+      // handleOpenDialog(
+      //   t(`Password reset success`),
+      //   t(`You can sign in with your new password`),
+      //   () => { navigate("/signin", { replace: true }) }
+      // );
+      showDialog({
+        title: t(`Password reset success`),
+        message: t(`You can sign in with your new password`),
+        confirmText: t("Ok"),
+        onConfirm: () => { navigate("/signin", { replace: true }) }
+      });
     }
   };
 
@@ -190,11 +203,16 @@ function ForgotPassword() {
       setPassword("");
       setPasswordConfirmed("");
       setCode("");
-      handleOpenDialog(
-        t(`Reset code resent`),
-        result.message,
-        () => { }
-      );
+      // handleOpenDialog(
+      //   t(`Reset code resent`),
+      //   result.message,
+      //   () => { }
+      // );
+      showDialog({
+        title: t(`Reset code resent`),
+        message:result.message,
+        confirmText: t("Ok"),
+      });
     }
   };
 
@@ -321,6 +339,7 @@ function ForgotPassword() {
         </Box>
       </Box>
 
+      {/*
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
@@ -345,6 +364,7 @@ function ForgotPassword() {
           </Button>
         </DialogActions>
       </Dialog>
+      */}
       
     </form>
   );

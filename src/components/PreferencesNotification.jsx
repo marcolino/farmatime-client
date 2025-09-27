@@ -21,7 +21,7 @@ import { SectionHeader } from "./custom";
 import config from "../config";
 
 
-const NotificationPreferences = (props) => {
+const PreferencesNotification = (props) => {
   const { auth, updateSignedInUserPreferences } = useContext(AuthContext);
   const [userId, setUserId] = useState(null);
   //const [error, setError] = useState(null);
@@ -36,7 +36,7 @@ const NotificationPreferences = (props) => {
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
 
-  //console.log("NotificationPreferences props:", props);
+  //console.log("PreferencesNotification props:", props);
   //console.log("token from params:", token);
 
   useEffect(() => { // internal routing
@@ -147,19 +147,19 @@ const NotificationPreferences = (props) => {
     }
   };
 
-  const notificationsPreferencesSave = async (userId, newNotificationPreferences) => {
+  const notificationsPreferencesSave = async (userId, newPreferencesNotification) => {
     const result = await apiCall("post",
       (props.internalRouting) ?
-        "/auth/notificationPreferencesSaveInternal"
+        "/auth/PreferencesNotificationSaveInternal"
       :
-        "/auth/notificationPreferencesSaveExternal"
-      , { token, userId, notificationPreferences: newNotificationPreferences }
+        "/auth/PreferencesNotificationSaveExternal"
+      , { token, userId, PreferencesNotification: newPreferencesNotification }
     );
     if (result.err) {
       showSnackbar(result.message, "error");
       throw new Error(result.message);
     } else {
-      console.log(`*** notificationPreferencesSave${(props.internalRouting) ? "Internal" : "External"} result:`, result);
+      console.log(`*** PreferencesNotificationSave${(props.internalRouting) ? "Internal" : "External"} result:`, result);
       if (auth.user?.id === result.user._id) { // the user is the logged one
         // update user preferences field in auth
         const updatedUser = auth.user;
@@ -169,7 +169,7 @@ const NotificationPreferences = (props) => {
       navigate(-1);
     }
     
-    console.log("/auth/notificationPreferencesSave result:", result);
+    console.log("/auth/PreferencesNotificationSave result:", result);
   };
 
   const renderSection = (sectionTitle, section, items) => {
@@ -178,9 +178,11 @@ const NotificationPreferences = (props) => {
       <Grid container spacing={1} alignItems="flex-start">
         {/* section title on left */}
         <Grid item xs={12} md={3}>
-          <Typography variant="h6" sx={{px: 2, mr: 2, bgColor: "secondary.main", borderRadius: 1 }}>
+          <Box sx={{ backgroundColor: "secondary.main", borderRadius: 1 }}>
+            <Typography variant="h6" sx={{ px: 4 }}>
             {sectionTitle}
-          </Typography>
+            </Typography>
+            </Box>
         </Grid>
 
         {/* description and switches on right */}
@@ -235,7 +237,7 @@ const NotificationPreferences = (props) => {
 
   return (
     <>
-      <SectionHeader>
+      {/* <SectionHeader>
         {props.section === "all" && t("Notification preferences")}
         {props.section === "email" && props.action === "preferences" && t("Email preferences")}
         {props.section === "email" && props.action === "unsubscribe" && t("Email unsubscribe")}
@@ -243,7 +245,7 @@ const NotificationPreferences = (props) => {
         {props.section === "push" && props.action === "unsubscribe" && t("Push notifications unsubscribe")}
         {props.section === "sms" && props.action === "preferences" && t("SMS preferences")}
         {props.section === "sms" && props.action === "unsubscribe" && t("SMS unsubscribe")}
-      </SectionHeader>
+      </SectionHeader> */}
 
       <Container maxWidth="md">
         <Box>
@@ -327,4 +329,4 @@ const NotificationPreferences = (props) => {
   );
 };
 
-export default React.memo(NotificationPreferences);
+export default React.memo(PreferencesNotification);

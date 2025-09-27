@@ -18,11 +18,12 @@ import { objectsAreEqual } from "../libs/Misc";
 import { AuthContext } from "../providers/AuthContext";
 //import { useSnackbar } from "../providers/SnackbarManager";
 import { useSnackbarContext } from "../providers/SnackbarProvider"; 
-import CookiePreferences from "./CookiePreferences";
-import NotificationPreferences from "./NotificationPreferences";
+import PreferencesCookie from "./PreferencesCookie";
+import PreferencesNotification from "./PreferencesNotification";
 import {
   Person, Email, SupervisedUserCircle, PlaylistAddCheck,
-  Payment, Business, PermIdentity, LocationOn as LocationOnIcon
+  Payment, Business, PermIdentity, LocationOn as LocationOnIcon,
+  AccountCircle
 } from "@mui/icons-material";
 import {
   isAdmin,
@@ -32,6 +33,7 @@ import {
   validatePhone,
 } from "../libs/Validation";
 //import { i18n }  from "../i18n";
+//import { useDialog } from "../providers/DialogContext";
 import config from "../config";
 
 
@@ -42,6 +44,7 @@ function UserEdit() {
   const [error, setError] = useState({});
   const { auth, updateSignedInUserLocally } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
+  //const { showDialog } = useDialog();
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogContent, setDialogContent] = useState(null);
@@ -51,11 +54,6 @@ function UserEdit() {
   const { userId, origin } = useParams();
   console.log("userId:", userId);
   console.log("origin:", origin);
-  if (!userId) {
-    showSnackbar(t("No user id specified", "error"));
-    navigate(-1);
-    return;
-  }
   
   let profile = false;
   console.log("userId, auth.user?.id:", userId, auth.user?.id);
@@ -182,6 +180,8 @@ function UserEdit() {
     response = validatePhone(user.phone);
     if (response !== true) {
       let err, oldPhone, newPhone;
+      const internationalPrefixZeroRegex = /(^00\s?)/;
+      const internationalPrefixPlus = "+";
       switch (response) {
         case "ERROR_PLEASE_SUPPLY_A_PHONE_NUMBER":
           err = t("Please supply a phone");
@@ -195,8 +195,6 @@ function UserEdit() {
           setUser({ ...user, phone: newPhone });
           return true;
         case "WARNING_ZERO_INTERNATIONAL_PREFIX":
-          const internationalPrefixZeroRegex = /(^00\s?)/;
-          const internationalPrefixPlus = "+";
           oldPhone = user.phone;
           newPhone = oldPhone.replace(internationalPrefixZeroRegex, internationalPrefixPlus);
           setUser({ ...user, phone: newPhone });
@@ -283,16 +281,16 @@ function UserEdit() {
   
   const openCookiesConsent = () => {
     handleOpenDialog(
-      "", //t("Cookies preferences"),
-      <CookiePreferences customizeOnly={true} onClose={handleCloseDialog} />,
+      t("Cookies preferences"),
+      <PreferencesCookie customizeOnly={true} onClose={handleCloseDialog} />,
       null,
     );
   };
 
-  const openNotificationPreferences = () => {
+  const openPreferencesNotification = () => {
     handleOpenDialog(
-      "",
-      <NotificationPreferences internalRouting="true" section="all" onClose={handleCloseDialog} />,
+      t("Notification preferences"),
+      <PreferencesNotification internalRouting="true" section="all" onClose={handleCloseDialog} />,
       null,
     );
   };
@@ -342,13 +340,19 @@ function UserEdit() {
     };
   }
   
+  if (!userId) {
+    showSnackbar(t("No user id specified", "error"));
+    navigate(-1);
+    return;
+    }
+  
   if (user && allRoles && allPlans) {
     console.log("### allRoles ###", allRoles);
     console.log("### auth.user.roles ###", auth.user?.roles);
     return (
       <>
         <SectionHeader1 text={t("Users handling")}>
-          {origin === "userEdit" ? t("Edit user") : t("Edit profile")}
+          <AccountCircle fontSize="large" /> {origin === "userEdit" ? t("Edit user") : t("Edit profile")}
         </SectionHeader1>
         
         <Container maxWidth="xs">
@@ -507,7 +511,7 @@ function UserEdit() {
 
               {profile &&
                 <Button
-                  onClick={openNotificationPreferences}
+                  onClick={openPreferencesNotification}
                   fullWidth={true}
                   variant="contained"
                   color="default"
@@ -553,8 +557,16 @@ function UserEdit() {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          {dialogTitle &&
-            <DialogTitle id="alert-dialog-title">
+          {(true||dialogTitle) &&
+            <DialogTitle id="alert-dialog-title"
+              sx={{
+                bgcolor: "primary.main", // theme color
+                color: "primary.contrastText", // ensures text is readable
+                fontWeight: "bold",
+                _fontSize: "1.25rem",
+                mb: 2,
+              }}
+            >
               {dialogTitle}
             </DialogTitle>
           }

@@ -40,7 +40,7 @@ else
   echo "🔨 Changes detected on client in $NODE_ENV mode"
   #echo "differences:"; diff --brief "$build_file_name" "$build_file_name.last"s
   #echo "differences:"; comm -3 <(sort $build_file_name) <(sort $build_file_name.last) | cut -f 2 -d ' ' 
-  echo "🔨"; grep -Fvx -f "$build_file_name" "$build_file_name.last" | tr -s ' ' | cut -d ' ' -f 2; echo
+  grep -Fvx -f "$build_file_name" "$build_file_name.last" | tr -s ' ' | cut -d ' ' -f 2; echo
   echo "Building client..."
   yarn build-force
   exitval=$?

@@ -24,8 +24,8 @@ import { useDialog } from "../providers/DialogContext";
 import { useCart } from "../providers/CartProvider";
 import { isAdmin } from "../libs/Validation";
 import { fetchBuildInfoData } from "../libs/Misc";
-import logoMain from "../assets/images/LogoMain.png";
-import logoMainText from "../assets/images/LogoText.png";
+import logoMainHeader from "../assets/images/LogoMainHeader.png";
+import logoTextHeader from "../assets/images/LogoTextHeader.png";
 import clientPackageJson from "../../package.json";
 import serverPackageJson from "../../../medicare-server/package.json"; // WARNING: this depends on folders structure...
 import config from "../config";
@@ -87,31 +87,47 @@ const Header = ({ theme, toggleTheme }) => {
   const isAuthRoute = () => (location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/forgot-password" || location.pathname === "/social-signin-success" || location.pathname === "/social-signin-error");
 
   const infoTitle = t('Informations about this app');
-    const mode =
-      config.mode.production ? "production" :
-        config.mode.staging ? "staging" :
-          config.mode.development ? "development" :
-            config.mode.test ? "test" :
-              config.mode.testInCI ? "testInCI" :
-                "?"
-    ;
-  const infoContents = `\
-    ${config.name.replace(/^./, c => c.toUpperCase())}: ${config.index.description}.\n\
-    \n\
-    ${t("This app is produced by company")} ${config.company.name}.\n\
-    ${t("You can reach us at email")} <${config.company.email}>.\n\
-    ${t("App mode is")}: ${mode}.\n\
-    \n\
-    ${t("Versions:")}\n\
-     • ${t("Client")}: v${clientPackageJson.version} © ${new Date().getFullYear()},\
-    ${t("build n.")} ${buildInfo?.client ? buildInfo.client.buildNumber : "?"} ${t("on date")} ${buildInfo?.client ? buildInfo.client.buildDateTime : "?"}\n\
-     • ${t("Server")}: v${serverPackageJson.version} © ${new Date().getFullYear()},\
-    ${t("build n.")} ${buildInfo?.server ? buildInfo.server.buildNumber : "?"} ${t("on date")} ${buildInfo?.server ? buildInfo.server.buildDateTime : "?"}\n\
-    \n\
-  `;
-    // ${t("Phone is")}: ${config.company.phone}\n\
-    // ${t("Street address is")}: ${config.company.address}\n\
-    // ${t("Email address is")}: ${config.company.email}\n\
+  const mode =
+    config.mode.production ? "production" :
+      config.mode.staging ? "staging" :
+        config.mode.development ? "development" :
+          config.mode.test ? "test" :
+            config.mode.testInCI ? "testInCI" :
+              "?"
+  ;
+  const infoContents = (
+    <Box>
+      <Box sx={{ display: "flex", alignItems: "center", backgroundColor: "tertiary.dark", borderRadius: 2 }}>
+        <Box
+          component="img"
+          src={logoMainHeader}
+          alt="Main logo"
+          sx={{ width: "auto", maxHeight: 48, ml: 2, my: 1, borderRadius: 2 }}
+        />
+        <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
+          <Typography variant="h3" sx={{ color: "background.default", fontWeight: "bold" }}>
+            {config.name.replace(/^./, (c) => c.toUpperCase())}
+          </Typography>
+        </Box>
+      </Box>
+      <Typography variant="body1" sx={{ mt: 4 }}>
+        {t("This app is produced by")} {config.company.owner.name}.<br />
+        {t("You can reach us at email")} &lt;{config.company.email}&gt;.<br />
+        {t("App mode is")} {t(mode)}.<br />
+        <br />
+        {t("Versions")}:<br />
+        <br />
+        &nbsp;• {t("Client")}: v{clientPackageJson.version} © {new Date().getFullYear()}, {' '}
+        {t("build n.")} {buildInfo?.client ? buildInfo.client.buildNumber : "?"} {t("on date")} {buildInfo?.client ? buildInfo.client.buildDateTime : "?"}<br />
+        <br />
+        &nbsp;• {t("Server")}: v{serverPackageJson.version} © {new Date().getFullYear()}, {' '}
+        {t("build n.")} {buildInfo?.server ? buildInfo.server.buildNumber : "?"} {t("on date")} {buildInfo?.server ? buildInfo.server.buildDateTime : "?"}<br />
+      </Typography>
+    </Box>
+  );
+  // {t("Phone is")}: ${config.company.phone}.<br />
+  // {t("Street address is")}: ${config.company.streetAddress}.<br />
+  // {t("Email address is")}: ${config.company.email}.<br />
 
   const info = () => {
     showDialog({
@@ -161,6 +177,7 @@ const Header = ({ theme, toggleTheme }) => {
           icon: <History />,
           //href: false,
           onClick: () => handleHistory(),
+          shortcutKey: "",
         },
         // {
         //   label: t("Export data"),
@@ -349,11 +366,12 @@ const Header = ({ theme, toggleTheme }) => {
         >
           <Box
             component="img"
-            src={logoMain}
+            src={logoMainHeader}
             alt="Main logo"
             sx={{
-              width: 72,
+              width: 48,
               height: "auto", // let browser calculate height proportionally
+              mt: 0.5,
               mr: 2,
               borderRadius: 2,
               display: "block", // remove inline spacing
@@ -362,7 +380,7 @@ const Header = ({ theme, toggleTheme }) => {
           />
           <Box
             component="img"
-            src={logoMainText}
+            src={logoTextHeader}
             alt="Main text logo"
             sx={{
               width: { xs: 150, sm: 180 },

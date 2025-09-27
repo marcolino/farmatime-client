@@ -19,12 +19,12 @@ const Notifications = lazy(() => import("./Notifications"));
 const UserEdit = lazy(() => import("./UserEdit"));
 const ProductEdit = lazy(() => import("./ProductEdit"));
 const Legal = lazy(() => import("./legal/legal"));
-import CookiePreferences from "./CookiePreferences"; // avoid both dynamic and static import
+import PreferencesCookie from "./PreferencesCookie"; // avoid both dynamic and static import
 const Contacts = lazy(() => import("./Contacts"));
 const UsersHandle = lazy(() => import("./UsersHandle"));
 const ProductsHandle = lazy(() => import("./ProductsHandle"));
 const Cart = lazy(() => import("./Cart"));
-const NotificationPreferences = lazy(() => import("./NotificationPreferences"));
+const PreferencesNotification = lazy(() => import("./PreferencesNotification"));
 const AdvancedOptions = lazy(() => import("./AdvancedOptions"));
 const JobsHandle = lazy(() => import("./JobsHandle"));
 // const JobsExport = lazy(() => import("./JobsExport"));
@@ -57,7 +57,7 @@ const Routing = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/terms-of-use" element={<Legal doc="termsOfUse" />} />
           <Route path="/privacy-policy" element={<Legal doc="privacyPolicy" />} />
-          <Route path="/cookie-preferences" element={<CookiePreferences />} />
+          <Route path="/cookie-preferences" element={<PreferencesCookie />} />
           {/* <Route path="/data-removal" element={<DataRemoval />} /> */}
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/payment-success" element={<Cart payment="success" />} />
@@ -74,13 +74,13 @@ const Routing = () => {
             <Route path="/handle-users" element={<UsersHandle />} />
             <Route path="/handle-products" element={<ProductsHandle />} />
             <Route path="/cart/" element={<Cart />} />
-            <Route path="/notification-preferences/:token?/:language?" element={<NotificationPreferences section="all" />} />
-            <Route path="/email-preferences/:token?/:language?" element={<NotificationPreferences section="email" action="preferences" />} />
-            <Route path="/email-unsubscribe/:token?/:language?" element={<NotificationPreferences section="email" action="unsubscribe" />} />
-            <Route path="/push-preferences/:token?/:language?" element={<NotificationPreferences section="push" action="preferences" />} />
-            <Route path="/push-unsubscribe/:token?/:language?" element={<NotificationPreferences section="push" action="unsubscribe" />} />
-            <Route path="/sms-preferences/:token?/:language?" element={<NotificationPreferences section="sms" action="preferences" />} />
-            <Route path="/sms-unsubscribe/:token?/:language?" element={<NotificationPreferences section="sms" action="unsubscribe" />} />
+            <Route path="/notification-preferences/:token?/:language?" element={<PreferencesNotification section="all" />} />
+            <Route path="/email-preferences/:token?/:language?" element={<PreferencesNotification section="email" action="preferences" />} />
+            <Route path="/email-unsubscribe/:token?/:language?" element={<PreferencesNotification section="email" action="unsubscribe" />} />
+            <Route path="/push-preferences/:token?/:language?" element={<PreferencesNotification section="push" action="preferences" />} />
+            <Route path="/push-unsubscribe/:token?/:language?" element={<PreferencesNotification section="push" action="unsubscribe" />} />
+            <Route path="/sms-preferences/:token?/:language?" element={<PreferencesNotification section="sms" action="preferences" />} />
+            <Route path="/sms-unsubscribe/:token?/:language?" element={<PreferencesNotification section="sms" action="unsubscribe" />} />
             <Route path="/advanced-options" element={<AdvancedOptions />} />
             <Route path="/jobs-handle" element={<JobsHandle />} />
             <Route path="/job/:jobId" element={<JobFlow />} />
@@ -89,12 +89,14 @@ const Routing = () => {
             {/* <Route path="/job-data-export" element={<JobsExport />} /> */}
             {/* <Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} /> */}
             <Route path="/job-data-remove" element={<JobsRemove />} />
-            {config.mode.development && (
+            <Route path="/fish" element={<ToBeDone />} /> {/* TODO: REMOVEME */}
+            {/* {config.mode.development && (
               <Route path="/requests-history" element={<RequestsHandle />} />
             )}
             {!config.mode.development && (
               <Route path="/requests-history" element={<ToBeDone />} />
-            )}
+            )} */}
+            <Route path="/requests-history" element={<RequestsHandle />} />
             <Route path="/todo" element={<ToBeDone />} />{/* just to show the fish! */}
           </Route>
 
