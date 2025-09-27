@@ -323,7 +323,7 @@ function UserEdit() {
           //updateSignedInUserLocally(updatedUser);
           updateSignedInUserLocally({ user: updatedUser });
         }
-        navigate(-1);
+        navigate("/", { replace: true });
       }
     })();
   };
