@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams/*, useNavigate*/ } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   Box,
@@ -17,7 +17,7 @@ import { useDialog } from "../providers/DialogContext";
 import { apiCall } from "../libs/Network";
 //import ErrorMessage from "../components/ErrorMessage";
 import { i18n }  from "../i18n";
-import { SectionHeader } from "./custom";
+//import { SectionHeader } from "./custom";
 import config from "../config";
 
 
@@ -31,7 +31,7 @@ const PreferencesNotification = (props) => {
   const [language,] = useState(languageFromParams || null);
   //const [notificationsOriginal, setNotificationsOriginal] = useState(null);
   const [notifications, setNotifications] = useState(null);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const { showDialog } = useDialog();
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
@@ -129,14 +129,16 @@ const PreferencesNotification = (props) => {
     }
     await notificationsPreferencesSave(userId, notifications);
     // above function throws, if error we will not reach here
-    showDialog({
-      title: t("Preferences saved"),
-      message: (props.action === "unsubscribe") ? t("Unsubscription completed") : t("Changes applied successfully"),
-      confirmText: ("Close"),
-      onConfirm: () => {
-        close();
-      },
-    });
+    // showDialog({
+    //   title: t("Preferences saved"),
+    //   message: (props.action === "unsubscribe") ? t("Unsubscription completed") : t("Changes applied successfully"),
+    //   confirmText: ("Close"),
+    //   onConfirm: () => {
+    //     close();
+    //   },
+    // });
+    showSnackbar((props.action === "unsubscribe") ? t("Unsubscription completed") : t("Notification preferences saved successfully"), "success");
+    close();
   };
 
   const close = () => {
@@ -147,29 +149,29 @@ const PreferencesNotification = (props) => {
     }
   };
 
-  const notificationsPreferencesSave = async (userId, newPreferencesNotification) => {
+  const notificationsPreferencesSave = async (userId, newNotificationPreferences) => {
     const result = await apiCall("post",
       (props.internalRouting) ?
-        "/auth/PreferencesNotificationSaveInternal"
+        "/auth/notificationPreferencesSaveInternal"
       :
-        "/auth/PreferencesNotificationSaveExternal"
-      , { token, userId, PreferencesNotification: newPreferencesNotification }
+        "/auth/notificationPreferencesSaveExternal"
+      , { token, userId, notificationPreferences: newNotificationPreferences }
     );
     if (result.err) {
       showSnackbar(result.message, "error");
       throw new Error(result.message);
     } else {
-      console.log(`*** PreferencesNotificationSave${(props.internalRouting) ? "Internal" : "External"} result:`, result);
+      console.log(`*** notificationPreferencesSave${(props.internalRouting) ? "Internal" : "External"} result:`, result);
       if (auth.user?.id === result.user._id) { // the user is the logged one
         // update user preferences field in auth
         const updatedUser = auth.user;
         updatedUser.preferences = result.user.preferences;
         updateSignedInUserPreferences(updatedUser);
       }
-      navigate(-1);
+      //navigate("/", { replace: true });
     }
     
-    console.log("/auth/PreferencesNotificationSave result:", result);
+    console.log("/auth/notificationsPreferencesSave result:", result);
   };
 
   const renderSection = (sectionTitle, section, items) => {

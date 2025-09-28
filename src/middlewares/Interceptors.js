@@ -1,7 +1,7 @@
 import axios from "axios";
 import LocalStorage from "../libs/LocalStorage";
 //import { AuthProvider } from "../providers/AuthProvider";
-import { getGlobalSignOut } from "../providers/AuthProvider";
+//import { getGlobalSignOut } from "../providers/AuthProvider";
 import { i18n } from "../i18n";
 import cfg from "../config";
 

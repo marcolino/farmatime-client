@@ -37,7 +37,7 @@ const RequestsTable = () => {
   //const { showDialog } = useDialog();
   const { t } = useTranslation();
   const [filter, setFilter] = useState("");
-  const [requests, setRequests] = useState([]);
+  const [requests, setRequests] = useState(null);
   // const { jobs, jobsError } = useContext(JobContext);
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
   const rowsPerPageInitial = 10;
@@ -72,8 +72,12 @@ const RequestsTable = () => {
   // Add this useEffect to force refresh when component mounts
   useEffect(() => {
     // This will trigger a re-render with fresh data from context
-    console.log("RequestsTable mounted, requests count:", requests.length);
-  }, [requests.length]); // Empty dependency array means this runs once when component mounts
+    if (requests) {
+      console.log("RequestsTable mounted, requests count:", requests.length);
+    } else {
+      console.log("RequestsTable mounted, requests is null yet");
+    }
+  }, [requests]); // Empty dependency array means this runs once when component mounts
 
   // Get all requests on mount
   useEffect(() => {
@@ -256,6 +260,7 @@ const RequestsTable = () => {
   );
   // sort requests
   const sortedRequests = useMemo(() => {
+    if (!requests) return [];
     if (!sortColumn) return [...requests];
 
     const valueFor = (request) => getColumnValue(request, sortColumn);
@@ -407,6 +412,10 @@ const RequestsTable = () => {
   const sortedFilteredPaginatedRequests = getSortedFilteredPaginatedRequests();
 
   //console.log("RequestsHandle - sortedFilteredPaginatedRequests:", sortedFilteredPaginatedRequests);
+
+  if (requests === null) {
+    return "loading..."; // still loading, show spinner
+  };
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>

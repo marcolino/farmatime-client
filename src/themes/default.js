@@ -85,6 +85,7 @@ const customThemeLightProps = {
     },
     secondary: {
       main: "#c4e3b1ff", // #8bed4e
+      light: "#e0f2e9",
     },
     tertiary: {
       main: "#6a9052", // #499f13

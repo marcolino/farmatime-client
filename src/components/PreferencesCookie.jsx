@@ -12,7 +12,7 @@ import {
   Paper,
   useTheme,
 } from "@mui/material";
-import { SectionHeader } from "./custom";
+//import { SectionHeader } from "./custom";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { cookiesConsentLoad, cookiesConsentSave } from "../libs/Misc";
 import config from "../config";
@@ -58,7 +58,7 @@ const PreferencesCookie = (props) => {
   // sync state changes to local storage
   const savePreferences = () => {
     cookiesConsentSave(cookies);
-    //showSnackbar(t("Cookie preferences saved successfully"), "info");
+    showSnackbar(t("Cookie preferences saved successfully"), "success");
     close();
   };
 
@@ -134,11 +134,11 @@ const PreferencesCookie = (props) => {
 
   return (
     <ContainerComponent {...containerComponentProps}>
-      {(showCustomization || props.customizeOnly) && (
+      {/* {(showCustomization || props.customizeOnly) && (
         <SectionHeader>
           {t("Cookie preferences")}
         </SectionHeader>
-      )}
+      )} */}
       {!(showCustomization || props.customizeOnly) && (
         <Box sx={{ whiteSpace: "pre-wrap" }}>        
            <Typography component="h1" variant="body2" color="textSecondary" align="center">

@@ -1,14 +1,14 @@
 import React, { useState, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link as RouterLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Avatar from "@mui/material/Avatar";
 import { Box, Grid, Typography, Link } from "@mui/material";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
+// import {
+//   Dialog,
+//   DialogActions,
+//   DialogContent,
+//   DialogTitle,
+// } from "@mui/material";
 import TextField from "../custom/TextField";
 import TextFieldPassword from "../custom/TextFieldPassword";
 import Button from "../custom/Button";
@@ -413,11 +413,14 @@ function SignUp() {
                 <Typography variant="body2" color="textSecondary">
                   {t("Already have an account?")}
                   {" "}
-                  <Link
+                  {/* <Link
                     style={{ cursor: "pointer" }}
                     underline="hover"
-                    onClick={() => navigate("/signin")}
+                    onClick={() => navigate("/signin", { replace: true })}
                   >
+                    {t("Sign in")}!
+                  </Link> */}
+                  <Link component={RouterLink} to="/signin" underline="hover" replace>
                     {t("Sign in")}!
                   </Link>
                 </Typography>

@@ -184,7 +184,7 @@ function UserEdit() {
       const internationalPrefixPlus = "+";
       switch (response) {
         case "ERROR_PLEASE_SUPPLY_A_PHONE_NUMBER":
-          err = t("Please supply a phone");
+          //err = t("Please supply a phone"); // accept empty phone number
           break;
         case "ERROR_PLEASE_SUPPLY_A_VALID_PHONE":
           err = t("Please supply a valid phone");
@@ -202,7 +202,7 @@ function UserEdit() {
         default:
           err = response;
       }
-      setError({ email: true });
+      setError({ phone: true });
       showSnackbar(err, "warning");
       return false;
     }
@@ -496,31 +496,43 @@ function UserEdit() {
               )}
 
               {profile &&
-                <Button
-                  onClick={openCookiesConsent}
-                  fullWidth={true}
-                  variant="contained"
-                  color="default"
+                <Box
                   sx={{
+                    display: "flex",
+                    gap: 1,
                     mt: 1,
                   }}
                 >
-                  {t("Cookies preferences")}
-                </Button>
-              }
+                  <Button
+                    onClick={openCookiesConsent}
+                    fullWidth={true}
+                    variant="contained"
+                    color="default"
+                    sx={{
+                      flex: 1,
+                      px: 1,
+                      mt: 1,
+                      backgroundColor: "secondary.light",
+                    }}
+                  >
+                    {t("Cookies preferences")}
+                  </Button>
 
-              {profile &&
-                <Button
-                  onClick={openPreferencesNotification}
-                  fullWidth={true}
-                  variant="contained"
-                  color="default"
-                  sx={{
-                    mt: 1,
-                  }}
-                >
-                  {t("Notification preferences")}
-                </Button>
+                  <Button
+                    onClick={openPreferencesNotification}
+                    fullWidth={true}
+                    variant="contained"
+                    color="secondary.main"
+                    sx={{
+                      flex: 1,
+                      px: 1,
+                      mt: 1,
+                      backgroundColor: "secondary.light",
+                    }}
+                  >
+                   {t("Notification preferences")}
+                  </Button>
+                </Box>
               }
               
               <Box
@@ -557,7 +569,7 @@ function UserEdit() {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          {(true||dialogTitle) &&
+          {(dialogTitle) &&
             <DialogTitle id="alert-dialog-title"
               sx={{
                 bgcolor: "primary.main", // theme color
