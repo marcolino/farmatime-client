@@ -26,7 +26,8 @@ import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
-import config from "../config";
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
+//import config from "../config";
 
 
 const JobsTable = () => {
@@ -36,6 +37,7 @@ const JobsTable = () => {
   const { showDialog } = useDialog();
   const { t } = useTranslation();
   const [filter, setFilter] = useState("");
+  const { isMobile } = useMediaQueryContext();
   //const [action, setAction] = useState("");
   //const { job, setJob, jobsError } = useContext(JobContext);
   const { jobs, /*currentJobId, setCurrentJobId, setJob, addJob,*/ setJobs, removeJob, getPlayPauseJob, jobsError, confirmJobsOnServer, jobIsCompleted/*, markJobAsCreatedNow, markJobAsModifiedNow*/ } = useContext(JobContext);
@@ -394,7 +396,7 @@ const JobsTable = () => {
   //console.log("JobsHandle - sortedFilteredPaginatedJobs:", sortedFilteredPaginatedJobs);
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: isMobile ? 2 : 4 }}>
       <SectionHeader1>
         <Menu fontSize="large" /> {t("Jobs list")}
       </SectionHeader1>
@@ -450,7 +452,7 @@ const JobsTable = () => {
         bgColor: theme.palette.background.default,
         color: theme.palette.text.secondary,
       }}>
-        <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 26rem))" }}>
+        <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 32rem))" }}>
           {/* 12rem is the minimum vertical space for the table,
               26rem is the extimated vertical space for elements above and below the table */}
           <Table stickyHeader aria-label="sticky table">

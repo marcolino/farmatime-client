@@ -77,7 +77,8 @@ export const validatePhone = (phone) => {
   const internationalPrefixZeroRegex = /(^00\s?)/;
 
   if (!phone) {
-    return "ERROR_PLEASE_SUPPLY_A_PHONE_NUMBER";
+    return true; // accept empty phone number
+    //return "ERROR_PLEASE_SUPPLY_A_PHONE_NUMBER";
   }
   const phoneNumber = parsePhoneNumber(phone);
   if (phoneNumber && phoneNumber.isPossible() !== true) {

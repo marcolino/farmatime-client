@@ -1,163 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
-    <loc>https://medicare-prod.fly.dev/landing</loc>
+    <loc>http://localhost:5000/landing</loc>
     <lastmod>2025-08-31</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/</loc>
+    <loc>http://localhost:5000/</loc>
     <lastmod>2025-09-15</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
+    <loc>http://localhost:5000/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/signin</loc>
+    <loc>http://localhost:5000/signin</loc>
     <lastmod>2025-08-31</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/social-signin-success</loc>
+    <loc>http://localhost:5000/social-signin-success</loc>
     <lastmod>2025-09-24</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/social-signin-error</loc>
+    <loc>http://localhost:5000/social-signin-error</loc>
     <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/social-revoke</loc>
+    <loc>http://localhost:5000/social-revoke</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/forgot-password</loc>
+    <loc>http://localhost:5000/forgot-password</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/terms-of-use</loc>
+    <loc>http://localhost:5000/terms-of-use</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/privacy-policy</loc>
+    <loc>http://localhost:5000/privacy-policy</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/cookie-preferences</loc>
+    <loc>http://localhost:5000/cookie-preferences</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/contacts</loc>
+    <loc>http://localhost:5000/contacts</loc>
     <lastmod>2025-09-11</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/payment-success</loc>
+    <loc>http://localhost:5000/payment-success</loc>
     <lastmod>2025-06-26</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/payment-cancel</loc>
+    <loc>http://localhost:5000/payment-cancel</loc>
     <lastmod>2025-06-26</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/edit-user/:userId/:origin</loc>
+    <loc>http://localhost:5000/edit-user/:userId/:origin</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/products/:productId?</loc>
+    <loc>http://localhost:5000/products/:productId?</loc>
     <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/notifications</loc>
+    <loc>http://localhost:5000/notifications</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/edit-product/:productId</loc>
+    <loc>http://localhost:5000/edit-product/:productId</loc>
     <lastmod>2025-09-23</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/handle-users</loc>
-    <lastmod>2025-09-24</lastmod>
+    <loc>http://localhost:5000/handle-users</loc>
+    <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/handle-products</loc>
-    <lastmod>2025-06-18</lastmod>
+    <loc>http://localhost:5000/handle-products</loc>
+    <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/cart/</loc>
+    <loc>http://localhost:5000/cart/</loc>
     <lastmod>2025-06-26</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/notification-preferences/:token?/:language?</loc>
+    <loc>http://localhost:5000/notification-preferences/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/email-preferences/:token?/:language?</loc>
+    <loc>http://localhost:5000/email-preferences/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/email-unsubscribe/:token?/:language?</loc>
+    <loc>http://localhost:5000/email-unsubscribe/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/push-preferences/:token?/:language?</loc>
+    <loc>http://localhost:5000/push-preferences/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/push-unsubscribe/:token?/:language?</loc>
+    <loc>http://localhost:5000/push-unsubscribe/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/sms-preferences/:token?/:language?</loc>
+    <loc>http://localhost:5000/sms-preferences/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/sms-unsubscribe/:token?/:language?</loc>
+    <loc>http://localhost:5000/sms-unsubscribe/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/advanced-options</loc>
+    <loc>http://localhost:5000/advanced-options</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/jobs-handle</loc>
-    <lastmod>2025-09-27</lastmod>
+    <loc>http://localhost:5000/jobs-handle</loc>
+    <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/job/:jobId</loc>
-    <lastmod>2025-09-24</lastmod>
+    <loc>http://localhost:5000/job/:jobId</loc>
+    <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/job-email-template-edit</loc>
+    <loc>http://localhost:5000/job-email-template-edit</loc>
     <lastmod>2025-09-23</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/job-data-remove</loc>
+    <loc>http://localhost:5000/job-data-remove</loc>
     <lastmod>2025-09-15</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/fish</loc>
+    <loc>http://localhost:5000/fish</loc>
     <lastmod>2025-09-15</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/requests-history</loc>
+    <loc>http://localhost:5000/requests-history</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/requests-history</loc>
+    <loc>http://localhost:5000/requests-history</loc>
     <lastmod>2025-09-15</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/requests-history</loc>
+    <loc>http://localhost:5000/requests-history</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/todo</loc>
+    <loc>http://localhost:5000/todo</loc>
     <lastmod>2025-09-15</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/page-not-found</loc>
+    <loc>http://localhost:5000/page-not-found</loc>
     <lastmod>2025-01-29</lastmod>
   </url>
   <url>
-    <loc>https://medicare-prod.fly.dev/work-in-progress</loc>
+    <loc>http://localhost:5000/work-in-progress</loc>
     <lastmod>2025-09-11</lastmod>
   </url>
 </urlset>

@@ -19,7 +19,7 @@ const JobPatient = ({ jobDraft, data, fields, onChange, onValid, hasNavigatedAwa
   if (!data) data = { firstName: '', lastName: '', email: '' };
   
   const handleFieldChange = (field, value) => {
-    onChange({ ...data, [field]: value });
+    onChange({ ...data, [field]: value.trim() });
     setErrors((prev) => ({ ...prev, [field]: false })); // Clear error on change
   };
 

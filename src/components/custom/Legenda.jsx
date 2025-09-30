@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Paper, Chip, Box, Tooltip } from "@mui/material";
+import { Paper, Chip, Box, Tooltip } from "@mui/material";
 
 const LegendItem = ({ color, label }) => {
   return (
@@ -35,45 +35,20 @@ const Legenda = ({ title, items }) => {
           bgcolor: "background.paper",
         }}
       >
-        {/* <Paper
-          variant="outlined"
+        <Box
           sx={{
-            position: "relative",
-            p: 1.5,
-            display: "inline-block",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 1,
+            alignItems: "center",
           }}
-        > */}
-          {/* {title && (
-            <Typography
-              variant="caption"
-              sx={{
-                position: "absolute",
-                top: -12,
-                left: 12,
-                px: 0.5,
-                bgcolor: "background.paper",
-              }}
-            >
-              {title}
-            </Typography>
-          )} */}
-
-          {/* Wrapable container */}
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
-            {items
-              .filter((item) => item.label)
-              .map((item) => (
-                <LegendItem key={item.label} {...item} />
-              ))}
-          </Box>
-        {/* </Paper> */}
+        >
+          {items
+            .filter((item) => item.showInLegenda && item.label)
+            .map((item) => (
+              <LegendItem key={item.label} {...item} />
+            ))}
+        </Box>
       </Paper>
     </Tooltip>
   );

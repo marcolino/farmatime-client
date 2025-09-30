@@ -55,7 +55,7 @@ export const JobProvider = ({ children }) => {
         return 1 + i;
       }
     }
-    return 0; // Not found
+    return ''; // Not found
   };
 
   const clearJobsError = () => setJobsError(null);

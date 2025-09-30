@@ -266,7 +266,7 @@ const JobMedicines = ({ /*jobDraft = {},*/ jobs = [], data = [], onChange, onEdi
     } else { // mode === 'update'
       onChange(data.map(item =>
         item.id === editingItemId
-          ? { ...item, option, name, fieldFrequency, fieldSinceDate } // Update option as well
+          ? { ...item, option, name: name.trim(), fieldFrequency, fieldSinceDate } // Update option as well
           : item
       ));
       handleEditEnd();

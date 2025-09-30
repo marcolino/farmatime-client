@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef, useCallback, useMemo } 
 //import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
-import { JobContext } from "../providers/JobContext";
+//import { JobContext } from "../providers/JobContext";
 import { apiCall } from "../libs/Network";
 import {
   Container,
@@ -28,6 +28,7 @@ import LocalStorage from "../libs/LocalStorage";
 //import { useDialog } from "../providers/DialogContext";
 import { isAdmin } from "../libs/Validation";
 import { AuthContext } from "../providers/AuthContext";
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 
 const RequestsTable = () => {
@@ -45,6 +46,7 @@ const RequestsTable = () => {
   const [sortDirection, setSortDirection] = useState("desc");
   const clickTimeoutRef = useRef(null);
   const { auth } = useContext(AuthContext);
+  const { isMobile } = useMediaQueryContext();
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
@@ -55,19 +57,51 @@ const RequestsTable = () => {
   const [selected, setSelected] = useState([]);
   
   const statusTable = useMemo(() => [
-    { sortid: "status-00", color: "rgba(33, 144, 255, 1)", status: "created", label: t("created"), },
-    { sortid: "status-01", color: "rgba(0, 15, 150, 1)", status: "request", label: t("sent") },
-    { sortid: "status-02", color: "rgba(21, 139, 0, 1)", status: "delivered", label: t("delivered") },
-    { sortid: "status-03", color: "rgba(56, 225, 19, 1)", status: "opened", label: t("opened") },
-            // TODO: add label to all rows, and add a bool flag "show"
-    { sortid: "status-04", color: "rgba(224, 241, 131, 1)", status: "click" },
-    { sortid: "status-05", color: "rgba(255, 0, 157, 1)", status: "invalid_email" },
-    { sortid: "status-06", color: "rgba(204, 116, 0, 1)", status: "blocked" },
-    { sortid: "status-07", color: "rgba(150, 40, 0, 1)", status: "spam" },
-    { sortid: "status-08", color: "rgba(199, 53, 0, 1)", status: "unsubscribed" },
-    { sortid: "status-09", color: "rgba(249, 0, 0, 1)", status: "error", label: t("error") },
-    { sortid: "status-10", color: "rgba(199, 53, 0, 1)", status: "unforeseen" },
-  ]);
+    {
+      sortid: "status-00", color: "rgba(0, 15, 150, 1)", status: "created", label: t("created"),
+      showInLegenda: true, tooltip: t("The request was just created, no email sent yet"),
+    },
+    {
+      sortid: "status-01", color: "rgba(33, 144, 255, 1)", status: "request", label: t("sent"),
+      showInLegenda: true, tooltip: t("The email was just sent"),
+    },
+    {
+      sortid: "status-02", color: "rgba(21, 139, 0, 1)", status: "delivered", label: t("delivered"),
+      showInLegenda: true, tooltip: t("The email was successfully delivered to the recipient's mail server"),
+    },
+    {
+      sortid: "status-03", color: "rgba(56, 225, 19, 1)", status: "opened", label: t("opened"),
+      showInLegenda: true, tooltip: t("The email was opened by the recipient"),
+    },
+    {
+      sortid: "status-04", color: "rgba(224, 241, 131, 1)", status: "click", label: t("clicked"),
+      showInLegenda: false, tooltip: t("The email was opened and clicked by the recipient"),
+    },
+    {
+      sortid: "status-05", color: "rgba(255, 0, 157, 1)", status: "invalid_email", label: t("invalid email"),
+      showInLegenda: false, tooltip: t("The recipient email address is invalid"),
+    },
+    {
+      sortid: "status-06", color: "rgba(204, 116, 0, 1)", status: "blocked", label: t("blocked"),
+      showInLegenda: true, tooltip: t("The email was blocked by the recipient's mail server"),
+    },
+    {
+      sortid: "status-07", color: "rgba(150, 40, 0, 1)", status: "spam", label: t("spam"),
+      showInLegenda: false, tooltip: t("The email was marked as spam"),
+    },
+    {
+      sortid: "status-08", color: "rgba(199, 53, 0, 1)", status: "unsubscribed", label: t("unsubscribed"),
+      showInLegenda: false, tooltip: t("The recipient has unsubscribed from the mailing list"),
+    },
+    {
+      sortid: "status-09", color: "rgba(249, 0, 0, 1)", status: "error", label: t("error"),
+      showInLegenda: true, tooltip: t("An error occurred while processing the request"),
+    },
+    {
+      sortid: "status-10", color: "rgba(199, 53, 0, 1)", status: "unforeseen", label: t("unforeseen"),
+      showInLegenda: false, tooltip: t("An unforeseen error occurred"),
+    },
+  ], [t]);
 
   // Add this useEffect to force refresh when component mounts
   useEffect(() => {
@@ -83,7 +117,7 @@ const RequestsTable = () => {
   useEffect(() => {
     (async () => {
       // get all users request for admin users, and only her requests for other users
-      const result = await apiCall("get", "/request/getRequests", isAdmin(auth.user) ? {} : {userId: auth.user.id});
+      const result = await apiCall("get", "/request/getRequests", isAdmin(auth.user) ? {} : { userId: auth.user.id });
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
@@ -94,7 +128,7 @@ const RequestsTable = () => {
     return () => {
       //console.log("RequestsTable unmounted");
     };
-  }, []);
+  }, [auth.user, showSnackbar]);
   
   // // Show job errors to the user
   // useEffect(() => {
@@ -413,12 +447,8 @@ const RequestsTable = () => {
 
   //console.log("RequestsHandle - sortedFilteredPaginatedRequests:", sortedFilteredPaginatedRequests);
 
-  if (requests === null) {
-    return "loading..."; // still loading, show spinner
-  };
-
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: isMobile ? 2 : 4 }}>
       <SectionHeader1>
         <History fontSize="large" /> {t("Requests history")}
       </SectionHeader1>
@@ -448,7 +478,7 @@ const RequestsTable = () => {
         bgColor: theme.palette.background.default,
         color: theme.palette.text.secondary,
       }}>
-        <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 26rem))" }}>
+        <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 32rem))" }}>
           {/* 12rem is the minimum vertical space for the table,
               26rem is the extimated vertical space for elements above and below the table */}
           <Table stickyHeader aria-label="sticky table">
@@ -464,8 +494,8 @@ const RequestsTable = () => {
                 })}>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    indeterminate={selected.length > 0 && selected.length < requests.length}
-                    checked={requests.length > 0 && selected.length === requests.length}
+                    indeterminate={requests ? selected.length > 0 && selected.length < requests.length : false}
+                    checked={requests ? selected.length === requests.length : false}
                     onChange={handleSelectAllClick}
                   />
                 </TableCell>
@@ -509,6 +539,7 @@ const RequestsTable = () => {
             <TableBody>
               {sortedFilteredPaginatedRequests.map((request, index) => {
                 const isItemSelected = isSelected(request._id);
+                const status = statusTable.find(s => s.status === request.lastStatus);
                 return (
                   <TableRow
                     hover
@@ -538,7 +569,7 @@ const RequestsTable = () => {
                       </Tooltip>
                     </TableCell>
                     <TableCell>
-                      <Tooltip title={t("Status of the request: {{status}}", { status: t(request.lastStatus) })} arrow>
+                      <Tooltip title={status ? status.tooltip : t("Status of the request: {{status}}", { status: t(request.lastStatus) })} arrow>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                           <Box
                             component="span"
@@ -548,7 +579,7 @@ const RequestsTable = () => {
                               height: 10,
                               borderRadius: "50%",
                               //bgcolor: request.lastStatus === "created" ? "info.light" : "warning.light",
-                              bgcolor: statusTable.find(s => s.status === request.lastStatus)?.color ?? "black"
+                              bgcolor: status ? status.color : "black"
                             }}
                           />
                           {/* &nbsp;{request.lastStatus} */}
@@ -578,11 +609,11 @@ const RequestsTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        {(requests.length > rowsPerPageOptions[0]) && ( // do not show pagination stuff if a few rows are present
+        {(requests && requests.length > rowsPerPageOptions[0]) && ( // do not show pagination stuff if a few rows are present
           <TablePagination
             rowsPerPageOptions={rowsPerPageOptions}
             component="div"
-            count={requests.length}
+            count={requests.length ?? 0}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -630,7 +661,7 @@ const RequestsTable = () => {
       )}
       </Box>
 
-      {sortedFilteredPaginatedRequests.length === 0 && (
+      {requests && sortedFilteredPaginatedRequests.length === 0 && (
         <Box sx={{ padding: theme.spacing(2) }}>
           <Typography variant="body1" color="text.secondary" textAlign="center" fontStyle="italic" py={3}>
             {t("No requests present yet")}

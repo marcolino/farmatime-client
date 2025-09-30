@@ -80,7 +80,7 @@ function UserEdit() {
         }
       })();
     }
-  }, [userId]);
+  }, [auth.user, userId, showSnackbar]);
   // empty dependency array: this effect runs once when the component mounts
   
   useEffect(() => {
@@ -184,7 +184,7 @@ function UserEdit() {
       const internationalPrefixPlus = "+";
       switch (response) {
         case "ERROR_PLEASE_SUPPLY_A_PHONE_NUMBER":
-          //err = t("Please supply a phone"); // accept empty phone number
+          err = t("Please supply a phone"); // accept empty phone number
           break;
         case "ERROR_PLEASE_SUPPLY_A_VALID_PHONE":
           err = t("Please supply a valid phone");

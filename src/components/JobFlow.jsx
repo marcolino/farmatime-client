@@ -58,8 +58,8 @@ const JobFlow = () => {
   const [hasNavigatedAway, setHasNavigatedAway] = useState(false);
 
   // We need these because both patient and doctor are in step 0
-  const [patientValid, setPatientValid] = useState(() => validateAllFields(jobDraft, fieldsPatient, jobDraft.patient));
-  const [doctorValid, setDoctorValid] = useState(() => validateAllFields(jobDraft, fieldsDoctor, jobDraft.doctor));
+  const [patientValid, setPatientValid] = useState(() => validateAllFields(jobDraft, fieldsPatient, jobDraft?.patient));
+  const [doctorValid, setDoctorValid] = useState(() => validateAllFields(jobDraft, fieldsDoctor, jobDraft?.doctor));
 
   // State to track if medicines are being edited
   const [isMedicinesEditing, setIsMedicinesEditing] = useState(false);
@@ -68,6 +68,13 @@ const JobFlow = () => {
   useEffect(() => {
     handleStepCompleted(0, patientValid && doctorValid);
   }, [patientValid, doctorValid]);
+  
+  useEffect(() => {
+    if (!jobDraft?.id) {
+      showSnackbar(t("Job not found!"), "error");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // run once on mount
   
   // When entering component, if editing a new job set date of creation to now, otherwise set currentStep to 0
   useEffect(() => {
@@ -108,7 +115,7 @@ const JobFlow = () => {
       showSnackbar(message, "error");
       clearJobsError(); // Reset error so it doesn't retrigger
     }
-  }, [jobsError, showSnackbar, t]);
+  }, [jobsError, clearJobsError, showSnackbar, t]);
 
   // Warn user before closing this page/tab if job draft was changed and not saved (confirmed)
   // useEffect(() => {
@@ -142,16 +149,16 @@ const JobFlow = () => {
   
   // If not all previous steps are completed, then set last step completion to false
   useEffect(() => {
-    const lastIndex = jobDraft.stepsCompleted.length - 1;
-    const allPreviousCompleted = jobDraft.stepsCompleted
+    const lastIndex = jobDraft?.stepsCompleted.length - 1;
+    const allPreviousCompleted = jobDraft?.stepsCompleted
       .slice(0, lastIndex)
       .every(Boolean)
     ;
-    if (!allPreviousCompleted && jobDraft.stepsCompleted[lastIndex]) {
+    if (!allPreviousCompleted && jobDraft?.stepsCompleted[lastIndex]) {
       // Set last step completion to false
       setJobDraft(prev => ({
         ...prev,
-        stepsCompleted: prev.stepsCompleted.map((val, idx) =>
+        stepsCompleted: prev?.stepsCompleted.map((val, idx) =>
           idx === lastIndex ? false : val
         ),
       }));
@@ -161,16 +168,16 @@ const JobFlow = () => {
     
   // If any change when editing job, then set last step completion to false
   useEffect(() => {
-    const lastIndex = jobDraft.stepsCompleted.length - 1;
-    const allPreviousCompleted = jobDraft.stepsCompleted
+    const lastIndex = jobDraft?.stepsCompleted.length - 1;
+    const allPreviousCompleted = jobDraft?.stepsCompleted
       .slice(0, lastIndex)
       .every(Boolean)
     ;
-    if (!allPreviousCompleted && jobDraft.stepsCompleted[lastIndex]) {
+    if (!allPreviousCompleted && jobDraft?.stepsCompleted[lastIndex]) {
       // Set last step completion to false
       setJobDraft(prev => ({
         ...prev,
-        stepsCompleted: prev.stepsCompleted.map((val, idx) =>
+        stepsCompleted: prev?.stepsCompleted.map((val, idx) =>
           idx === lastIndex ? false : val
         ),
       }));
@@ -179,7 +186,7 @@ const JobFlow = () => {
   
   // Check if current step is the final one
   const isLastStep = () => {
-    return jobDraft.currentStep === steps().length - 1;
+    return jobDraft?.currentStep === steps().length - 1;
   };
 
   // Navigation handlers
@@ -267,8 +274,8 @@ const JobFlow = () => {
     setJobDraft(prev => ({
       ...prev,
       stepsCompleted:
-        prev.stepsCompleted ?
-          (prev.stepsCompleted.map((val, idx) => idx === stepIndex ? result : val)) :
+        prev?.stepsCompleted ?
+          (prev?.stepsCompleted.map((val, idx) => idx === stepIndex ? result : val)) :
           []
     }));
   };
@@ -396,8 +403,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
 
   // Render layout
   const renderStep = () => {
-    
-    console.log("renderStep jobDraft:", jobDraft, jobDraft.currentStep);
+    console.log("renderStep jobDraft:", jobDraft, jobDraft?.currentStep);
 
     switch (jobDraft.currentStep ?? 0) {
       case 0:
@@ -455,10 +461,14 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
   };
 
   console.log("JOB DRAFT:", jobDraft, jobId);
-  console.log("JOB DRAFT stepsCompleted:", jobDraft.stepsCompleted);
+  console.log("JOB DRAFT stepsCompleted:", jobDraft?.stepsCompleted);
+  
+  if (!jobDraft || !jobDraft.id) {
+    return null;
+  }
   
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: isMobile ? 2 : 4 }}>
 
       <SectionHeader1>
         <Box
@@ -495,28 +505,28 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
       </SectionHeader1>
 
       <Stepper
-        activeStep={/*jobDraft.isConfirmed ? steps().length : */jobDraft.currentStep} // if job is confirmed, set last step as active
+        activeStep={/*jobDraft.isConfirmed ? steps().length : */jobDraft?.currentStep} // if job is confirmed, set last step as active
         sx={{ mb: 4 }} 
         alternativeLabel={isMobile}
       >
         {steps(isMobile).map((step, index) => (
           <Step
             key={step.id}
-            completed={jobDraft.stepsCompleted ? jobDraft.stepsCompleted[index] : false}
+            completed={jobDraft?.stepsCompleted ? jobDraft.stepsCompleted[index] : false}
             onClick={() => handleGoto(index)}
           >
             <StepLabel
               icon={
                 <CustomStepIcon
                   stepIndex={index}
-                  completed={jobDraft.stepsCompleted ? jobDraft.stepsCompleted[index] : false}
+                  completed={jobDraft?.stepsCompleted ? jobDraft?.stepsCompleted[index] : false}
                   //active={index === job.currentStep}
-                  current={index === jobDraft.currentStep}
+                  current={index === jobDraft?.currentStep}
                 />
               }
               onClick={() => handleGoto(index)}
             >
-              <Typography variant="body2" sx={{ fontWeight: index === jobDraft.currentStep ? 'bold' : 'normal' }}>
+              <Typography variant="body2" sx={{ fontWeight: index === jobDraft?.currentStep ? 'bold' : 'normal' }}>
                 {step.label}
               </Typography>
             </StepLabel>
@@ -537,13 +547,13 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
               onClick={handleBack}
               startIcon={<ArrowBack />}
               variant="contained"//"outlined"
-              disabled={(jobDraft.currentStep === 0) || isMedicinesEditing}
+              disabled={(jobDraft?.currentStep === 0) || isMedicinesEditing}
               //size="small"
               size="medium"
               sx={{ 
-                opacity: jobDraft.currentStep === 0 ? 0 : 0.75,
+                opacity: jobDraft?.currentStep === 0 ? 0 : 0.75,
                 '&:hover': {
-                  opacity: jobDraft.currentStep === 0 ? 0 : 0.90,
+                  opacity: jobDraft?.currentStep === 0 ? 0 : 0.90,
                 }
               }}
             >
@@ -556,7 +566,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
 
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Typography variant="body2" color="text.secondary">
-                {t("Step")} {(jobDraft.currentStep ?? 0)+ 1} {t("of")} {steps().length}
+                {t("Step")} {(jobDraft?.currentStep ?? 0)+ 1} {t("of")} {steps().length}
               </Typography>
             </Box>
 

@@ -375,7 +375,7 @@ const UserTable = () => {
         bgColor: theme.palette.background.default,
         color: theme.palette.text.secondary,
       }}>
-        <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 26rem))" }}>
+        <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 32rem))" }}>
           {/* 12rem is the minimum vertical space for the table,
               26rem is the extimated vertical space for elements above and below the table */}
           <Table stickyHeader aria-label="sticky table">

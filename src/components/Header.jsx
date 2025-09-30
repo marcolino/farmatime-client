@@ -386,6 +386,7 @@ const Header = ({ theme, toggleTheme }) => {
               width: { xs: 150, sm: 180 },
               height: "auto", // let browser calculate height proportionally
               mr: 2,
+              mt:1,
               userSelect: "none", // avoid user select
               //borderRadius: 2,
               //display: "block" // remove inline spacing
