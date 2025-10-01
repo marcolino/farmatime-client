@@ -262,7 +262,7 @@ const JobFlow = () => {
         }}
       >
         <Typography variant="h4" align="center" sx={{ fontWeight: 'bold' }}>
-          {t('Configure Farmaperte Activity')}
+          {t('Configure farmatime Activity')}
           - All completed: {isAllCompleted() ? "SI" : "NO"}
         </Typography>
       </Paper>

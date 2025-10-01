@@ -27,7 +27,7 @@ import { fetchBuildInfoData } from "../libs/Misc";
 import logoMainHeader from "../assets/images/LogoMainHeader.png";
 import logoTextHeader from "../assets/images/LogoTextHeader.png";
 import clientPackageJson from "../../package.json";
-import serverPackageJson from "../../../farmaperte-server/package.json"; // WARNING: this depends on folders structure...
+import serverPackageJson from "../../../farmatime-server/package.json"; // WARNING: this depends on folders structure...
 import config from "../config";
 
 const Header = ({ theme, toggleTheme }) => {
@@ -111,17 +111,12 @@ const Header = ({ theme, toggleTheme }) => {
         </Box>
       </Box>
       <Typography variant="body1" sx={{ mt: 4 }}>
-        {t("This app is produced by")} {config.company.owner.name}.<br />
-        {t("You can reach us at email")} &lt;{config.company.email}&gt;.<br />
-        {t("App mode is")} {t(mode)}.<br />
-        <br />
-        {t("Versions")}:<br />
-        <br />
-        &nbsp;• {t("Client")}: v{clientPackageJson.version} © {new Date().getFullYear()}, {' '}
-        {t("build n.")} {buildInfo?.client ? buildInfo.client.buildNumber : "?"} {t("on date")} {buildInfo?.client ? buildInfo.client.buildDateTime : "?"}<br />
-        <br />
-        &nbsp;• {t("Server")}: v{serverPackageJson.version} © {new Date().getFullYear()}, {' '}
-        {t("build n.")} {buildInfo?.server ? buildInfo.server.buildNumber : "?"} {t("on date")} {buildInfo?.server ? buildInfo.server.buildDateTime : "?"}<br />
+        {t("This app is produced by")} {config.company.owner.name}<br />
+        {t("You can reach us at email")} &lt;{config.company.email}&gt;<br />
+        {t("App mode")} {t("is")} {t(mode)}<br />
+        {t("Version")} {t("is")} v{serverPackageJson.version} © {new Date().getFullYear()}<br />
+        {t("Client build")} {t("is")}: {buildInfo?.client ? buildInfo.client.buildNumber : "?"} {t("on date")} {buildInfo?.client ? buildInfo.client.buildDateTime : "?"}<br />
+        {t("Server build")} {t("is")}: {buildInfo?.server ? buildInfo.server.buildNumber : "?"} {t("on date")} {buildInfo?.server ? buildInfo.server.buildDateTime : "?"}<br />
       </Typography>
     </Box>
   );
@@ -371,8 +366,8 @@ const Header = ({ theme, toggleTheme }) => {
             sx={{
               width: 48,
               height: "auto", // let browser calculate height proportionally
-              mt: 0.5,
-              mr: 2,
+              _mt: 0.5,
+              mr: 3,
               borderRadius: 2,
               display: "block", // remove inline spacing
               userSelect: "none", // avoid user select
@@ -383,10 +378,10 @@ const Header = ({ theme, toggleTheme }) => {
             src={logoTextHeader}
             alt="Main text logo"
             sx={{
-              width: { xs: 150, sm: 180 },
+              width: { xs: 200, sm: 210 },
               height: "auto", // let browser calculate height proportionally
-              mr: 2,
-              mt:1,
+              _mr: 2,
+              mt: 1,
               userSelect: "none", // avoid user select
               //borderRadius: 2,
               //display: "block" // remove inline spacing

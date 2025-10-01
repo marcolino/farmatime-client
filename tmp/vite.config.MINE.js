@@ -180,7 +180,7 @@ export default defineConfig(({ mode }) => {
             },
             // cache server responses in production mode
             {
-              urlPattern: /^https:\/\/farmaperte-server-lingering-brook-4120\.fly\.dev\/api\/.*$/,
+              urlPattern: /^https:\/\/farmatime-server-lingering-brook-4120\.fly\.dev\/api\/.*$/,
               handler: "NetworkFirst", // use "NetworkFirst" or "CacheFirst" depending on your use case
               options: {
                 cacheName: "public-api-cache",

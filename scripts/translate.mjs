@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import OpenAI from "openai";
 
 // load environment variables
-config({ path: "../farmaperte-server/.env" });
+config({ path: "../farmatime-server/.env" });
 
 const languages = [
   { name: "English", code: "en", source: true },

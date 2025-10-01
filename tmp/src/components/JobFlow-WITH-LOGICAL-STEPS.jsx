@@ -171,7 +171,7 @@ const JobFlow = () => {
         }}
       >
         <Typography variant="h4" align="center" sx={{ fontWeight: 'bold' }}>
-          {t('Farmaperte Service Setup')}
+          {t('farmatime Service Setup')}
         </Typography>
       </Paper>
 

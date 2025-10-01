@@ -152,7 +152,7 @@ export default defineConfig(({ mode }) => {
               },
             },
             {
-              urlPattern: /^https:\/\/farmaperte-server-lingering-brook-4120\.fly\.dev\/api\/.*$/,
+              urlPattern: /^https:\/\/farmatime-server-lingering-brook-4120\.fly\.dev\/api\/.*$/,
               handler: "NetworkFirst",
               options: {
                 cacheName: "public-api-cache",

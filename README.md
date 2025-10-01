@@ -19,7 +19,7 @@ To add a new language locale support:
 This project was bootstrapped with [yarn create vite](https://vitejs.dev/guide/).
 
 To start:
- - yarn create vite farmaperte-client --template react
- - cd farmaperte-client
+ - yarn create vite farmatime-client --template react
+ - cd farmatime-client
  - yarn
  - yarn dev

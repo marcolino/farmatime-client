@@ -1,6 +1,6 @@
 {
-  "short_name": "Farmaperte",
-  "name": "farmaperte by farmaperte.it",
+  "short_name": "farmatime",
+  "name": "farmatime by farmatime.it",
   "theme_color": "#a5dc6f",
   "start_url": "/pwa/",
   "scope": "/pwa",
