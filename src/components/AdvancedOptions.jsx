@@ -33,7 +33,7 @@ import DialogConfirm from './DialogConfirm';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { SectionHeader1, useTheme } from 'mui-material-custom';
 // import clientPackageJson from "../../package.json";
-// import serverPackageJson from "../../../medicare-server/package.json"; // WARNING: this depends on folders structure...
+// import serverPackageJson from "../../../farmaperte-server/package.json"; // WARNING: this depends on folders structure...
 // import config from "../config";
 
 

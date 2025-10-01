@@ -1,5 +1,5 @@
 {
-  "name": "medicare-client",
+  "name": "farmaperte-client",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
@@ -12,8 +12,8 @@
     "build-force": "echo \"Mode is $NODE_ENV\" && yarn build-prepare && yarn build-execute && yarn build-finalize",
     "build-prepare": "yarn i18n-check && yarn inject && yarn build-info-produce && yarn index-produce && yarn sitemap-produce && yarn robots-produce && yarn favicons-produce && yarn manifest-produce && rm -rf build/",
     "build-execute": "vite build --mode $NODE_ENV",
-    "build-finalize": "echo 'Copying build to server' && rm -rf ../medicare-server/client/build; cp -a build ../medicare-server/client/build",
-    "inject": "echo 'Injecting config...' && cd ../medicare-server && yarn inject && cd ../medicare-client",
+    "build-finalize": "echo 'Copying build to server' && rm -rf ../farmaperte-server/client/build; cp -a build ../farmaperte-server/client/build",
+    "inject": "echo 'Injecting config...' && cd ../farmaperte-server && yarn inject && cd ../farmaperte-client",
     "build-info-produce": "/usr/bin/echo -n 'Producing build-info...' && node --no-warnings=ExperimentalWarning scripts/build-info-produce.js",
     "index-produce": "echo 'Producing index...' && node --no-warnings=ExperimentalWarning scripts/index-produce.js",
     "sitemap-produce": "echo 'Producing sitemap...' && node --no-warnings=ExperimentalWarning scripts/sitemap-produce.js",

@@ -27,7 +27,7 @@ import { fetchBuildInfoData } from "../libs/Misc";
 import logoMainHeader from "../assets/images/LogoMainHeader.png";
 import logoTextHeader from "../assets/images/LogoTextHeader.png";
 import clientPackageJson from "../../package.json";
-import serverPackageJson from "../../../medicare-server/package.json"; // WARNING: this depends on folders structure...
+import serverPackageJson from "../../../farmaperte-server/package.json"; // WARNING: this depends on folders structure...
 import config from "../config";
 
 const Header = ({ theme, toggleTheme }) => {

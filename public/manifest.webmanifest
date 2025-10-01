@@ -1,6 +1,6 @@
 {
-  "short_name": "MediCare",
-  "name": "medicare by medicare.it",
+  "short_name": "Farmaperte",
+  "name": "farmaperte by farmaperte.it",
   "theme_color": "#a5dc6f",
   "start_url": "/pwa/",
   "scope": "/pwa",
