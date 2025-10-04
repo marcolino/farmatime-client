@@ -138,7 +138,7 @@ const JobFlow = () => {
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (jobDraftIsDirty) {
-        alert(jobDraftIsDirty);
+        //alert(jobDraftIsDirty);
         e.preventDefault();
         e.returnValue = "";
       }
@@ -320,12 +320,14 @@ const JobFlow = () => {
       return;
     }
     
+    /* THIS SHOULD BE NOT NEEDED ...
     if (await confirmEmailTemplateOnServer(emailTemplate)) {
       setEmailTemplate(emailTemplate);
     } else { // errors are handled with jobsError
       return;
     }
-
+    */
+    
     // jobs are confirmed on server: show dialog to the user
     if (wasNew) {
       const forTheMedicine = t("the medicine");
@@ -358,6 +360,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
         confirmText: t("Ok"),
         onConfirm: () => {
           setHasNavigatedAway(true);
+          jobDraftOriginalRef.current = structuredClone(jobDraftConfirmed);
           setJobDraftDirty(false);
           navigate('/jobs-handle', { replace: true });
         }
@@ -365,6 +368,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
     } else {
       showSnackbar(t("Job confirmed"), 'info');
       setHasNavigatedAway(true);
+      jobDraftOriginalRef.current = structuredClone(jobDraftConfirmed);
       setJobDraftDirty(false);
       navigate('/jobs-handle', { replace: true });
       // showDialog({

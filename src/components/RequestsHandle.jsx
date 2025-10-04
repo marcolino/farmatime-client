@@ -19,10 +19,11 @@ import {
   TablePagination,
   Typography,
   Tooltip,
+  Collapse,
 } from "@mui/material";
 import { TextFieldSearch, Legenda } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { History, Search, MenuOpen } from "@mui/icons-material";
+import { History, Search, KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 //import { useDialog } from "../providers/DialogContext";
@@ -56,6 +57,12 @@ const RequestsTable = () => {
   });
   const [selected, setSelected] = useState([]);
   
+  const [openRowId, setOpenRowId] = useState(null);
+
+  const toggleRow = (id) => {
+    setOpenRowId(openRowId === id ? null : id);
+  };
+
   const statusTable = useMemo(() => [
     {
       sortid: "status-00", color: "rgba(0, 15, 150, 1)", status: "created", label: t("created"),
@@ -78,19 +85,27 @@ const RequestsTable = () => {
       showInLegenda: false, tooltip: t("The email was opened and clicked by the recipient"),
     },
     {
-      sortid: "status-05", color: "rgba(255, 0, 157, 1)", status: "invalid_email", label: t("invalid email"),
+      sortid: "status-05", color: "rgba(249, 0, 0, 1)", status: "hard_bounce", label: t("refused email"),
+      showInLegenda: false, tooltip: t("The recipient email address was refused by the mail server"),
+    },
+    {
+      sortid: "status-05", color: "rgba(249, 0, 0, 1)", status: "soft_bounce", label: t("refused email"),
+      showInLegenda: false, tooltip: t("The recipient email address was refused by the mail server"),
+    },
+    {
+      sortid: "status-05", color: "rgba(249, 0, 0, 1)", status: "invalid_email", label: t("invalid email"),
       showInLegenda: false, tooltip: t("The recipient email address is invalid"),
     },
     {
-      sortid: "status-06", color: "rgba(204, 116, 0, 1)", status: "blocked", label: t("blocked"),
+      sortid: "status-06", color: "rgba(249, 0, 0, 1)", status: "blocked", label: t("blocked"),
       showInLegenda: true, tooltip: t("The email was blocked by the recipient's mail server"),
     },
     {
-      sortid: "status-07", color: "rgba(150, 40, 0, 1)", status: "spam", label: t("spam"),
+      sortid: "status-07", color: "rgba(249, 0, 0, 1)", status: "spam", label: t("spam"),
       showInLegenda: false, tooltip: t("The email was marked as spam"),
     },
     {
-      sortid: "status-08", color: "rgba(199, 53, 0, 1)", status: "unsubscribed", label: t("unsubscribed"),
+      sortid: "status-08", color: "rgba(249, 0, 0, 1)", status: "unsubscribed", label: t("unsubscribed"),
       showInLegenda: false, tooltip: t("The recipient has unsubscribed from the mailing list"),
     },
     {
@@ -202,7 +217,8 @@ const RequestsTable = () => {
 
   const onMenuOpen = (e, requestId) => {
     e.stopPropagation(); // Prevents bubbling to TableRow and select the row
-    alert(`Showing details for request ${requestId} ...`);
+    //alert(`Showing details for request ${requestId} ...`);
+    toggleRow(requestId);
   };
   
   const onSelectRow = (e, id) => {
@@ -540,70 +556,194 @@ const RequestsTable = () => {
               {sortedFilteredPaginatedRequests.map((request, index) => {
                 const isItemSelected = isSelected(request._id);
                 const status = statusTable.find(s => s.status === request.lastStatus);
+                const tooltip = (status ? status.tooltip : t(request.lastStatus)) +
+                  ((request.lastReason && request.lastReason !== 'sent') ? ` (${request.lastReason}` : '')
+                ;
                 return (
-                  <TableRow
-                    hover
-                    onClick={(e) => handleClick(e, request._id)}
-                    onDoubleClick={(e) => handleDoubleClick(e, request._id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={request._id}
-                    selected={isItemSelected}
-                    sx={(theme) => ({
-                      "& td": {
-                        bgColor: theme.palette.ochre.light,
-                        color: theme.palette.common.text,
-                        py: 0,
-                      }
-                    })}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox checked={isItemSelected} />
-                    </TableCell>
-                    <TableCell>
-                      <Tooltip title={t("Progressive number")} arrow>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box component="span">{1 + index}</Box>
-                        </Box>
-                      </Tooltip>
-                    </TableCell>
-                    <TableCell>
-                      <Tooltip title={status ? status.tooltip : t("Status of the request: {{status}}", { status: t(request.lastStatus) })} arrow>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box
-                            component="span"
-                            sx={{
-                              ml: 1,
-                              width: 10,
-                              height: 10,
-                              borderRadius: "50%",
-                              //bgcolor: request.lastStatus === "created" ? "info.light" : "warning.light",
-                              bgcolor: status ? status.color : "black"
-                            }}
-                          />
-                          {/* &nbsp;{request.lastStatus} */}
-                        </Box>
-                      </Tooltip>
-                    </TableCell>
-                    {isAdmin(auth.user) && (
-                      <TableCell>{request.userFirstName} {request.userLastName}</TableCell>
-                    )}
-                    <TableCell>{request.createdAt.split("T")[0]}</TableCell>
-                    <TableCell>{request.doctorName}</TableCell>
-                    {/* <TableCell>{request.doctorEmail}</TableCell> */}
-                    <TableCell>{request.patientFirstName} {request.patientLastName}</TableCell>
-                    {/* <TableCell>{request.patientEmail}</TableCell> */}
-                    {/* <TableCell>{request.provider}</TableCell> */}
-                    <TableCell>{(request.medicines?.length === 0) ? '' : `(${request.medicines?.length}) ${request.medicines[0]?.name}${request.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
-                    <TableCell>
-                      <Tooltip title={t("Show request details")} arrow>
-                        <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onMenuOpen(e, request.id)}>
-                          <MenuOpen fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
+                  <React.Fragment key={request._id}>
+                    <TableRow
+                      hover
+                      onClick={(e) => handleClick(e, request._id)}
+                      onDoubleClick={(e) => handleDoubleClick(e, request._id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={request._id}
+                      selected={isItemSelected}
+                      sx={(theme) => ({
+                        "& td": {
+                          bgColor: theme.palette.ochre.light,
+                          color: theme.palette.common.text,
+                          py: 0,
+                        }
+                      })}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox checked={isItemSelected} />
+                      </TableCell>
+                      <TableCell>
+                        <Tooltip title={t("Progressive number")} arrow>
+                          <Box sx={{ display: "flex", alignItems: "center" }}>
+                            <Box component="span">{1 + index}</Box>
+                          </Box>
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell>
+                        <Tooltip title={tooltip} arrow>
+                          <Box sx={{ display: "flex", alignItems: "center" }}>
+                            <Box
+                              component="span"
+                              sx={{
+                                ml: 1,
+                                width: 10,
+                                height: 10,
+                                borderRadius: "50%",
+                                //bgcolor: request.lastStatus === "created" ? "info.light" : "warning.light",
+                                bgcolor: status ? status.color : "black"
+                              }}
+                            />
+                            {/* &nbsp;{request.lastStatus} */}
+                          </Box>
+                        </Tooltip>
+                      </TableCell>
+                      {isAdmin(auth.user) && (
+                        <TableCell>{request.userFirstName} {request.userLastName}</TableCell>
+                      )}
+                      <TableCell>{request.createdAt.split("T")[0]}</TableCell>
+                      <TableCell>{request.doctorName}</TableCell>
+                      {/* <TableCell>{request.doctorEmail}</TableCell> */}
+                      <TableCell>{request.patientFirstName} {request.patientLastName}</TableCell>
+                      {/* <TableCell>{request.patientEmail}</TableCell> */}
+                      {/* <TableCell>{request.provider}</TableCell> */}
+                      <TableCell>{(request.medicines?.length === 0) ? '' : `(${request.medicines?.length}) ${request.medicines[0]?.name}${request.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
+                      <TableCell>
+                        <Tooltip title={t("Show request details")} arrow>
+                          <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onMenuOpen(e, request.id)}>
+                            {/* <MenuOpen fontSize="small" /> */}
+                            {/* {openRowId === row.id ? <KeyboardArrowUp /> : <KeyboardArrowDown />} */}
+                            {openRowId === request.id ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                    
+                    {/* details row */}
+                    <TableRow>
+                      <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={Object.keys(request).length + 1}>
+                        <Collapse in={openRowId === request.id} timeout="auto" unmountOnExit>
+                          <Box margin={1}>
+                            {t("Request creation date")}: {request.createdAt}
+                            {/*
+                            0
+: 
+createdAt
+: 
+"2025-10-03T10:32:34.696Z"
+doctorEmail
+: 
+"wdsfewrfewrt@ewrewrtert.cqew"
+doctorName
+: 
+"Dott.ssa Yana"
+events
+: 
+Array(1)
+0
+: 
+at
+: 
+"2025-10-03T04:49:12.000Z"
+reason
+: 
+"sentissimo"
+status
+: 
+"delivered"
+_id
+: 
+"68dfa6b5db55b566ce7f3666"
+[[Prototype]]
+: 
+Object
+length
+: 
+1
+[[Prototype]]
+: 
+Array(0)
+jobId
+: 
+"81b5e901-14af-4517-8d0c-e99f1575459f"
+lastReason
+: 
+"sentissimo"
+lastStatus
+: 
+"delivered"
+medicines
+: 
+Array(1)
+0
+: 
+every
+: 
+1
+id
+: 
+"med_003960046"
+name
+: 
+"BALSAMO ITALSTADIUM • Unguento"
+since
+: 
+"2025-10-03T10:32:21.669Z"
+[[Prototype]]
+: 
+Object
+length
+: 
+1
+[[Prototype]]
+: 
+Array(0)
+patientEmail
+: 
+"marcosolari@gmail.com"
+patientFirstName
+: 
+"Marco"
+patientLastName
+: 
+"Solari"
+provider
+: 
+"Brevo"
+providerMessageId
+: 
+"<202510030647.44371816135@smtp-relay.mailin.fr>"
+updatedAt
+: 
+"2025-10-03T10:34:29.577Z"
+userFirstName
+: 
+"Marco"
+userId
+: 
+"68dcdfd7f158e0b07a345b92"
+userLastName
+: 
+"Solari"
+_id
+: 
+"68dfa642db55b566ce7f365c"
+*/}
+                            {JSON.stringify(request)}
+                          </Box>
+                        </Collapse>
+                      </TableCell>
+                    </TableRow>
+                      
+                  </React.Fragment>
                 );
               })}
             </TableBody>

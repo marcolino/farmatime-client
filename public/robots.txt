@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /
 
-Sitemap: https://farmatime-prod.fly.dev/sitemap.xml
+Sitemap: https://www.farmatime.it/sitemap.xml

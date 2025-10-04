@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react"; 
 import {
   AppBar, Toolbar, Box, Typography, Button, IconButton, Badge,
-  ListItemText, ListItemIcon, Menu, MenuItem, Tooltip
+  ListItemText, ListItemIcon, Menu, MenuItem, Tooltip, Grid,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -97,28 +97,60 @@ const Header = ({ theme, toggleTheme }) => {
   ;
   const infoContents = (
     <Box>
-      <Box sx={{ display: "flex", alignItems: "center", backgroundColor: "tertiary.dark", borderRadius: 2 }}>
-        <Box
-          component="img"
-          src={logoMainHeader}
-          alt="Main logo"
-          sx={{ width: "auto", maxHeight: 48, ml: 2, my: 1, borderRadius: 2 }}
-        />
-        <Box sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
-          <Typography variant="h3" sx={{ color: "background.default", fontWeight: "bold" }}>
-            {config.name.replace(/^./, (c) => c.toUpperCase())}
+      <Grid
+        container
+        alignItems="center"
+        sx={{
+          width: "100%",
+          backgroundColor: "tertiary.dark",
+          borderRadius: 2,
+        }}
+      >
+        {/* Left column */}
+        <Grid size={{ xs: 3, md: 1 }} display="flex" alignItems="center">
+          <Box
+            component="img"
+            src={logoMainHeader}
+            alt="Main logo"
+            sx={{
+              width: "auto",
+              maxHeight: 48,
+              my: 1,
+              ml: 1,
+              borderRadius: 2,
+            }}
+          />
+        </Grid>
+
+        {/* Middle column */}
+        <Grid size={{ xs: 6, md: 10 }} textAlign="center">
+          <Typography
+            variant="h4"
+            align="center"
+            sx={{
+              width: "100%",
+              fontWeight: "bold",
+              whiteSpace: "nowrap",
+              color: "background.default",
+            }}
+          >
+            {config.title}
           </Typography>
-        </Box>
-      </Box>
+        </Grid>
+
+        {/* Right column (empty, balances left) */}
+        <Grid size={{ xs: 3, md: 1 }}></Grid>
+      </Grid>
+
       <Typography variant="body1" sx={{ mt: 4 }}>
         {t("This app is produced by")} {config.company.owner.name}<br />
         {t("You can reach us at email")} &lt;{config.company.email}&gt;<br />
         {t("App mode")} {t("is")} {t(mode)}<br />
         {t("Version")} {t("is")} v{serverPackageJson.version} © {new Date().getFullYear()}<br />
-        {t("Client build")} {t("is")}: {buildInfo?.client ? buildInfo.client.buildNumber : "?"} {t("on date")} {buildInfo?.client ? buildInfo.client.buildDateTime : "?"}<br />
-        {t("Server build")} {t("is")}: {buildInfo?.server ? buildInfo.server.buildNumber : "?"} {t("on date")} {buildInfo?.server ? buildInfo.server.buildDateTime : "?"}<br />
+        {t("Client build")} {t("is")} {t("n.")} {buildInfo?.client ? buildInfo.client.buildNumber : "?"} {t("on date")} {buildInfo?.client ? buildInfo.client.buildDateTime : "?"}<br />
+        {t("Server build")} {t("is")} {t("n.")} {buildInfo?.server ? buildInfo.server.buildNumber : "?"} {t("on date")} {buildInfo?.server ? buildInfo.server.buildDateTime : "?"}<br />
       </Typography>
-    </Box>
+    </Box >
   );
   // {t("Phone is")}: ${config.company.phone}.<br />
   // {t("Street address is")}: ${config.company.streetAddress}.<br />

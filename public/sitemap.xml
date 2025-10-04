@@ -1,163 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
-    <loc>https://farmatime-prod.fly.dev/landing</loc>
+    <loc>https://www.farmatime.it/landing</loc>
     <lastmod>2025-08-31</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/</loc>
+    <loc>https://www.farmatime.it/</loc>
     <lastmod>2025-09-15</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
+    <loc>https://www.farmatime.it/signup/:waitingForCode?/:codeDeliveryMedium?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/signin</loc>
+    <loc>https://www.farmatime.it/signin</loc>
     <lastmod>2025-08-31</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/social-signin-success</loc>
+    <loc>https://www.farmatime.it/social-signin-success</loc>
     <lastmod>2025-09-24</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/social-signin-error</loc>
+    <loc>https://www.farmatime.it/social-signin-error</loc>
     <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/social-revoke</loc>
+    <loc>https://www.farmatime.it/social-revoke</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/forgot-password</loc>
+    <loc>https://www.farmatime.it/forgot-password</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/terms-of-use</loc>
+    <loc>https://www.farmatime.it/terms-of-use</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/privacy-policy</loc>
+    <loc>https://www.farmatime.it/privacy-policy</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/cookie-preferences</loc>
+    <loc>https://www.farmatime.it/cookie-preferences</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/contacts</loc>
+    <loc>https://www.farmatime.it/contacts</loc>
     <lastmod>2025-09-11</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/payment-success</loc>
+    <loc>https://www.farmatime.it/payment-success</loc>
     <lastmod>2025-06-26</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/payment-cancel</loc>
+    <loc>https://www.farmatime.it/payment-cancel</loc>
     <lastmod>2025-06-26</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/edit-user/:userId/:origin</loc>
+    <loc>https://www.farmatime.it/edit-user/:userId/:origin</loc>
     <lastmod>2025-09-30</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/products/:productId?</loc>
+    <loc>https://www.farmatime.it/products/:productId?</loc>
     <lastmod>2025-06-18</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/notifications</loc>
+    <loc>https://www.farmatime.it/notifications</loc>
     <lastmod>2025-09-27</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/edit-product/:productId</loc>
+    <loc>https://www.farmatime.it/edit-product/:productId</loc>
     <lastmod>2025-09-23</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/handle-users</loc>
+    <loc>https://www.farmatime.it/handle-users</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/handle-products</loc>
+    <loc>https://www.farmatime.it/handle-products</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/cart/</loc>
+    <loc>https://www.farmatime.it/cart/</loc>
     <lastmod>2025-06-26</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/notification-preferences/:token?/:language?</loc>
+    <loc>https://www.farmatime.it/notification-preferences/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/email-preferences/:token?/:language?</loc>
+    <loc>https://www.farmatime.it/email-preferences/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/email-unsubscribe/:token?/:language?</loc>
+    <loc>https://www.farmatime.it/email-unsubscribe/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/push-preferences/:token?/:language?</loc>
+    <loc>https://www.farmatime.it/push-preferences/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/push-unsubscribe/:token?/:language?</loc>
+    <loc>https://www.farmatime.it/push-unsubscribe/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/sms-preferences/:token?/:language?</loc>
+    <loc>https://www.farmatime.it/sms-preferences/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/sms-unsubscribe/:token?/:language?</loc>
+    <loc>https://www.farmatime.it/sms-unsubscribe/:token?/:language?</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/advanced-options</loc>
-    <lastmod>2025-09-30</lastmod>
+    <loc>https://www.farmatime.it/advanced-options</loc>
+    <lastmod>2025-10-01</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/jobs-handle</loc>
+    <loc>https://www.farmatime.it/jobs-handle</loc>
     <lastmod>2025-09-28</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/job/:jobId</loc>
-    <lastmod>2025-09-30</lastmod>
+    <loc>https://www.farmatime.it/job/:jobId</loc>
+    <lastmod>2025-10-03</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/job-email-template-edit</loc>
+    <loc>https://www.farmatime.it/job-email-template-edit</loc>
     <lastmod>2025-09-23</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/job-data-remove</loc>
+    <loc>https://www.farmatime.it/job-data-remove</loc>
     <lastmod>2025-09-15</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/fish</loc>
+    <loc>https://www.farmatime.it/fish</loc>
     <lastmod>2025-09-15</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/requests-history</loc>
-    <lastmod>2025-09-30</lastmod>
+    <loc>https://www.farmatime.it/requests-history</loc>
+    <lastmod>2025-10-03</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/requests-history</loc>
+    <loc>https://www.farmatime.it/requests-history</loc>
     <lastmod>2025-09-15</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/requests-history</loc>
-    <lastmod>2025-09-30</lastmod>
+    <loc>https://www.farmatime.it/requests-history</loc>
+    <lastmod>2025-10-03</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/todo</loc>
+    <loc>https://www.farmatime.it/todo</loc>
     <lastmod>2025-09-15</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/page-not-found</loc>
+    <loc>https://www.farmatime.it/page-not-found</loc>
     <lastmod>2025-01-29</lastmod>
   </url>
   <url>
-    <loc>https://farmatime-prod.fly.dev/work-in-progress</loc>
+    <loc>https://www.farmatime.it/work-in-progress</loc>
     <lastmod>2025-09-11</lastmod>
   </url>
 </urlset>

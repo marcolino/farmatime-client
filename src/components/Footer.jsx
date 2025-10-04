@@ -52,7 +52,7 @@ const Footer = ({ changeLocale }) => {
   //   ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\
   // `;
 
-  const networkTitle = packageJson.name; 
+  const networkTitle = t("Network status"); 
   const networkContents =
     <>{t("Network is")} {isOnline ? t("online") : t("offline")}</>
   ;
@@ -114,8 +114,7 @@ const Footer = ({ changeLocale }) => {
           sx={{ lineHeight: 1, mr: 2 }}
         >
           {`
-            ${packageJson.name.replace(/-.*$/, '')} c. v${packageJson.version}.${buildInfo ? buildInfo.client.buildNumber : "?"}
-            © ${new Date().getFullYear()}
+            ${config.title} v${packageJson.version} © ${new Date().getFullYear()}
           `}
         </Box>
 
