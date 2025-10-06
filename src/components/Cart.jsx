@@ -46,10 +46,6 @@ const Cart = (props) => {
   const navigate = useNavigate();
   const currency = config.currencies[config.currency];
 
-  console.log("CART PROPS:", props);
-  console.log("CART:", cart);
-  console.log("DELIVERY:", delivery);
-
   const handleChangeDelivery = (event) => {
     setDelivery(config.ecommerce.delivery.methods.find(method => method.code === event.target.value));
     setCartProperty("deliveryCode", event.target.value);
@@ -94,7 +90,6 @@ const Cart = (props) => {
     }
 
     const result = await apiCall("post", "/payment/createCheckoutSession", { cart });
-    console.log("*** createCheckoutSession result:", result);
     if (result.err) {
       showSnackbar(result.message, "error");
       console.error("createCheckoutSession error:", result);
@@ -171,8 +166,6 @@ const Cart = (props) => {
       </Container>
     );
   }
-
-  console.log("delivery:", delivery);
 
   return (
     <Container>

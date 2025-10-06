@@ -185,8 +185,9 @@ const customThemeDarkProps = {
     secondary: {
       main: "rgb(29, 111, 71)",
     },
-     tertiary: {
-      main: "#32541c", // #499f13
+    tertiary: {
+      main: "#92ce6d",
+      dark: "#5feb66ff",
     },
     background: {
       default: "#303030",

@@ -102,14 +102,11 @@ const JobMedicines = ({ /*jobDraft = {},*/ jobs = [], data = [], onChange, onEdi
   //   });
   // }, []);
   
-  console.log("MEDICINES:", data);
-  console.log("dataAnagrafica:", dataAnagrafica);
-
   // Reset date when locale changes
   useEffect(() => {
     setfieldSinceDate(new Date());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [i18n.language]);
+    
+  }, []);
 
   // Focus handling
   useEffect(() => {
@@ -133,20 +130,19 @@ const JobMedicines = ({ /*jobDraft = {},*/ jobs = [], data = [], onChange, onEdi
     if (!fieldMedicine) {
       onEditingChange(false);
     }
-  }, [fieldMedicine]);
+  }, [fieldMedicine]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // inform caller a valid medicines list (at least one item is present) is available
   useEffect(() => {
     onCompleted(isValid());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const isValid = () => {
     return (data.length >= 1);  // at least one item is present)
   };
 
   // Create unified options
-  const unifiedOptions = useMemo(() => {
+  const unifiedOptions = useCallback(() => {
     if (!dataAnagrafica.length || !dataPrincipiAttivi.length || !dataATC.length) return [];
 
     return [
@@ -172,7 +168,7 @@ const JobMedicines = ({ /*jobDraft = {},*/ jobs = [], data = [], onChange, onEdi
         searchTerms: [atc.code.toLowerCase(), atc.description.toLowerCase()]
       }))
     ];
-  }, [dataAnagrafica, dataPrincipiAttivi, dataATC]);
+  });
 
   // Filter function
   const getFilteredOptions = useCallback((inputVal) => {
@@ -316,7 +312,7 @@ const JobMedicines = ({ /*jobDraft = {},*/ jobs = [], data = [], onChange, onEdi
     }
   }, [data, onChange]);
 
-  const getLocaleBasedFormat = () => {
+  const getLocaleBasedFormat = () => { // TODO: use lib function formatDateDDMMM
     const locale = i18n.language;
     //console.log('getLocaleBasedFormat called with locale:', locale);
 

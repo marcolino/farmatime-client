@@ -114,8 +114,9 @@ const Footer = ({ changeLocale }) => {
           sx={{ lineHeight: 1, mr: 2 }}
         >
           {`
-            ${config.title} v${packageJson.version} © ${new Date().getFullYear()}
+            v${packageJson.version} © ${config.copyright.year}, ${config.copyright.holder }
           `}
+            {/* ${config.title} v${packageJson.version} © ${config.copyright.year}, ${config.copyright.holder } */}
         </Box>
 
         {/* company name */}

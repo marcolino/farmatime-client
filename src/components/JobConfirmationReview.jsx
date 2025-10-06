@@ -29,8 +29,6 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
 
   // on every data change, if necessary, expand emailTemplate variables
   useEffect(() => {
-    console.log("******* data.emailTemplate.subject:", emailTemplate?.subject || "undefined");
-    console.log("******* data.emailTemplate.body:", emailTemplate?.body || "undefined");
     setBodyExpanded(variablesExpand(emailTemplate.body, data, auth.user));
   }, [emailTemplate, data, auth]);
 
@@ -42,10 +40,6 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
     }
   }, [bodyExpanded/*, data.emailTemplate.signature*/]);
 
-  // const isValid = () => {
-  //   return (data.emailTemplate.subject && data.emailTemplate.body /* && data.emailTemplate.signature*/); // all 3 emailTemplate items must be present)
-  // };
-  
   return (
     <Container maxWidth="lg" sx={{ py: 0 }}>
       <StyledPaper>
@@ -117,13 +111,12 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
             />
           </Box>
 
-          {/* Edit email tempalte button */}
-          {/* <Box sx={{ mb: 3, p_osition: 'absolute', l_eft: 0, display: 'flex', alignItems: 'center' }}>
+          {/* Edit email template button */}
+          {/* <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
             <Tooltip title={t('Edit Email Template')} arrow>
               <Button
                 variant="contained"
                 size="small" color="primary"
-                sx={{ c_olor: 'background.default' }}
                 onClick={() => navigate(`/job-email-template-edit/${data.id}`, { replace: true })}
               >
                 <Edit fontSize="small" sx={{ mr: 1 }} /> {t("Change the model")}

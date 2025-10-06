@@ -26,29 +26,27 @@ function Home() {
   const navigate = useNavigate();
   
   useEffect(() => {
-    console.log("Home component mounted, jobs:", jobs);
-
+    //console.log("Home component mounted, jobs:", jobs);
     if (isLoggedIn) { // user is logged in
       if (jobs.length > 0/* && jobs[0].isConfirmed*/) {
-        //console.log("job is completed, show JobsHandle component");
-        console.log("user is logged in and at least one job is present and completed, show JobsHandle component");
+        //console.log("user is logged in and at least one job is present and completed, show JobsHandle component");
         return navigate("/jobs-handle", { replace: true });
       } else {
-        console.log("user is logged in but no job is present and completed, show job component");
+        //console.log("user is logged in but no job is present and completed, show job component");
         return navigate("/job/new", { replace: true });
       }
     } else { // user is not logged in
       if (didSignInBefore) { // user is not logged in but did log in before
-        console.log("user is not logged in, but did sign in before: show SignIn component");
+        //console.log("user is not logged in, but did sign in before: show SignIn component");
         return navigate("/signin", { replace: true });
       }
 
       // user is not logged in and never did sign in before
-      console.log("user is not logged in, and never did sign in before: show landing component");
+      //console.log("user is not logged in, and never did sign in before: show landing component");
       return navigate("/landing", { replace: true });
     }
     
-  }, [jobs, isLoggedIn, didSignInBefore]);
+  }, [jobs, isLoggedIn, didSignInBefore, navigate]);
 
   return null;
 }

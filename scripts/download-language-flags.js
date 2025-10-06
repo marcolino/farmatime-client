@@ -271,7 +271,6 @@ if (!fs.existsSync(OUTPUT_DIR)) {
     const outputPath = path.join(OUTPUT_DIR, `${code}.webp`);
     try {
       if (!fs.existsSync(outputPath)) { // if flag is already present locally, skip download
-        //console.log(`downloading ${url}`);
         const response = await axios({
           method: "get",
           url,
@@ -283,7 +282,6 @@ if (!fs.existsSync(OUTPUT_DIR)) {
           writer.on("finish", resolve);
           writer.on("error", reject);
         });
-        //console.log(`downloaded ${code}.webp`);
         flagsDownloadedCount++;
       }
       flagsCount++;
@@ -291,6 +289,5 @@ if (!fs.existsSync(OUTPUT_DIR)) {
       console.error(`failed to download ${url}:`, error.message);
     }
   }
-  console.log(`downloaded ${flagsDownloadedCount} flags`);
-  console.log(`present totally ${flagsCount} flags`);
+  console.log(`downloaded ${flagsDownloadedCount} flags, for a total of ${flagsCount} flags`);
 })();

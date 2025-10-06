@@ -28,13 +28,13 @@ const InstallPWA = () => {
     setIsIosSafari(isSafari);
 
     const beforeInstallPromptHandler = (e) => {
-      console.log("💡 beforeinstallprompt event fired");
+      //console.log("installPWA - beforeinstallprompt event fired");
       e.preventDefault();
       setDeferredPrompt(e);
     };
 
     const appInstalledHandler = () => {
-      console.log("💡 appinstalled event fired");
+      //console.log("installPWA - appinstalled event fired");
       markInstalled();
     };
 
@@ -101,7 +101,7 @@ with faster access and a cleaner interface.\
     deferredPrompt.prompt();
     const choiceResult = await deferredPrompt.userChoice;
     setDeferredPrompt(null); // clear after use
-    console.log("💡 choiceResult.outcome:", choiceResult.outcome);
+    //console.log("installPWA - choiceResult.outcome:", choiceResult.outcome);
     // Do not call markInstalled() here — wait for appinstalled
   }
 
@@ -109,7 +109,7 @@ with faster access and a cleaner interface.\
     if (deferredPrompt && timeToPromptUserToInstallApp()) {
       showInstallSnackbar();
     }
-  }, [deferredPrompt, isPWAInstalled]);
+  }, [deferredPrompt, isPWAInstalled]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (isIosSafari && !isPWAInstalled) {
@@ -118,7 +118,7 @@ with faster access and a cleaner interface.\
         "info"
       );
     }
-  }, [isIosSafari, isPWAInstalled]);
+  }, [isIosSafari, isPWAInstalled]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return null;
 };

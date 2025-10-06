@@ -23,7 +23,7 @@ import {
 import { AuthContext } from "../providers/AuthContext";
 import { CartContext } from "../providers/CartContext";
 //import { JobContext } from "../providers/JobContext";
-import { useDialog } from "../providers/DialogContext";
+//import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 //import { cancelAllRequests } from "../middlewares/Interceptors";
 import { apiCall } from "../libs/Network";
@@ -45,7 +45,7 @@ const AdvancedOptions = () => {
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
   const theme = useTheme();
-  const { showDialog } = useDialog();
+  //const { showDialog } = useDialog();
   const [showDialogConfirm, setShowDialogConfirm] = useState(false);
   // const [buildInfo, setBuildInfo] = useState(null);
 
@@ -174,7 +174,6 @@ const AdvancedOptions = () => {
   const handleRevoke = async () => {
     if (auth.user) {
       const result = await apiCall("post", "/auth/revoke", { userId: auth.user._id });
-      console.log("*** revoke user result:", result);
       if (result.err) {
         showSnackbar(result.message, "error");
         console.error("revoke user error:", result);
@@ -184,11 +183,7 @@ const AdvancedOptions = () => {
         try {
           //cancelAllRequests(); // cancel all ongoing requests, to avoid "You must be authenticated for this action" warnings
           ok = await revoke();
-          console.log("revoke result:", ok);
           ok = await resetCart();
-          console.log("resetCart result:", ok);
-          // ok = await resetJobs();
-          // console.log("resetJobs result:", ok);
         } catch (err) {
           console.error("revoke/resetCart error:", err);
         }

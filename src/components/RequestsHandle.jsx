@@ -28,6 +28,7 @@ import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 //import { useDialog } from "../providers/DialogContext";
 import { isAdmin } from "../libs/Validation";
+import { formatDateYYYYMMDDHHMM } from "../libs/Misc";
 import { AuthContext } from "../providers/AuthContext";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
@@ -98,7 +99,7 @@ const RequestsTable = () => {
     },
     {
       sortid: "status-06", color: "rgba(249, 0, 0, 1)", status: "blocked", label: t("blocked"),
-      showInLegenda: true, tooltip: t("The email was blocked by the recipient's mail server"),
+      showInLegenda: false, tooltip: t("The email was blocked by the recipient's mail server"),
     },
     {
       sortid: "status-07", color: "rgba(249, 0, 0, 1)", status: "spam", label: t("spam"),
@@ -183,7 +184,7 @@ const RequestsTable = () => {
 
   const handleSelectAllClick = (e) => {
     if (e.target.checked) {
-      const newSelected = requests.map(request => request.id);
+      const newSelected = requests.map(request => request._id);
       setSelected(newSelected);
     } else {
       setSelected([]);
@@ -217,7 +218,6 @@ const RequestsTable = () => {
 
   const onMenuOpen = (e, requestId) => {
     e.stopPropagation(); // Prevents bubbling to TableRow and select the row
-    //alert(`Showing details for request ${requestId} ...`);
     toggleRow(requestId);
   };
   
@@ -502,8 +502,8 @@ const RequestsTable = () => {
               <TableRow 
                 sx={(theme) => ({
                   "& th": {
-                    bgColor: theme.palette.secondary.main,
-                    color: theme.palette.common.black,
+                    backgroundColor: theme.palette.secondary.main,
+                    color: theme.palette.text.secondary,
                     py: 0,
                     whiteSpace: "nowrap",
                   }
@@ -557,8 +557,8 @@ const RequestsTable = () => {
                 const isItemSelected = isSelected(request._id);
                 const status = statusTable.find(s => s.status === request.lastStatus);
                 const tooltip = (status ? status.tooltip : t(request.lastStatus)) +
-                  ((request.lastReason && request.lastReason !== 'sent') ? ` (${request.lastReason}` : '')
-                ;
+                  ((request.lastReason && request.lastReason !== 'sent') ? ` (${request.lastReason})` : '')
+                  ;
                 return (
                   <React.Fragment key={request._id}>
                     <TableRow
@@ -591,9 +591,10 @@ const RequestsTable = () => {
                       <TableCell>
                         <Tooltip title={tooltip} arrow>
                           <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box
+                            <Box /* TODO: put in a mini component */
                               component="span"
                               sx={{
+                                display: "inline-block",
                                 ml: 1,
                                 width: 10,
                                 height: 10,
@@ -618,10 +619,10 @@ const RequestsTable = () => {
                       <TableCell>{(request.medicines?.length === 0) ? '' : `(${request.medicines?.length}) ${request.medicines[0]?.name}${request.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
                       <TableCell>
                         <Tooltip title={t("Show request details")} arrow>
-                          <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onMenuOpen(e, request.id)}>
+                          <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onMenuOpen(e, request._id)}>
                             {/* <MenuOpen fontSize="small" /> */}
                             {/* {openRowId === row.id ? <KeyboardArrowUp /> : <KeyboardArrowDown />} */}
-                            {openRowId === request.id ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                            {openRowId === request._id ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                           </IconButton>
                         </Tooltip>
                       </TableCell>
@@ -630,119 +631,64 @@ const RequestsTable = () => {
                     {/* details row */}
                     <TableRow>
                       <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={Object.keys(request).length + 1}>
-                        <Collapse in={openRowId === request.id} timeout="auto" unmountOnExit>
+                        <Collapse in={openRowId === request._id} timeout="auto" unmountOnExit>
                           <Box margin={1}>
-                            {t("Request creation date")}: {request.createdAt}
-                            {/*
-                            0
-: 
-createdAt
-: 
-"2025-10-03T10:32:34.696Z"
-doctorEmail
-: 
-"wdsfewrfewrt@ewrewrtert.cqew"
-doctorName
-: 
-"Dott.ssa Yana"
-events
-: 
-Array(1)
-0
-: 
-at
-: 
-"2025-10-03T04:49:12.000Z"
-reason
-: 
-"sentissimo"
-status
-: 
-"delivered"
-_id
-: 
-"68dfa6b5db55b566ce7f3666"
-[[Prototype]]
-: 
-Object
-length
-: 
-1
-[[Prototype]]
-: 
-Array(0)
-jobId
-: 
-"81b5e901-14af-4517-8d0c-e99f1575459f"
-lastReason
-: 
-"sentissimo"
-lastStatus
-: 
-"delivered"
-medicines
-: 
-Array(1)
-0
-: 
-every
-: 
-1
-id
-: 
-"med_003960046"
-name
-: 
-"BALSAMO ITALSTADIUM • Unguento"
-since
-: 
-"2025-10-03T10:32:21.669Z"
-[[Prototype]]
-: 
-Object
-length
-: 
-1
-[[Prototype]]
-: 
-Array(0)
-patientEmail
-: 
-"marcosolari@gmail.com"
-patientFirstName
-: 
-"Marco"
-patientLastName
-: 
-"Solari"
-provider
-: 
-"Brevo"
-providerMessageId
-: 
-"<202510030647.44371816135@smtp-relay.mailin.fr>"
-updatedAt
-: 
-"2025-10-03T10:34:29.577Z"
-userFirstName
-: 
-"Marco"
-userId
-: 
-"68dcdfd7f158e0b07a345b92"
-userLastName
-: 
-"Solari"
-_id
-: 
-"68dfa642db55b566ce7f365c"
-*/}
-                            {JSON.stringify(request)}
+                            {/* {t("Request ID")}: {request._id} */}
+                            {/* {t("User ID")}: {request.userId} */}
+                            <Box>
+                              {t("Request creation date")}: {formatDateYYYYMMDDHHMM(request.createdAt)}
+                            </Box>
+                            <Box>
+                              {t("User")}: {request.userFirstName} {request.userLastName}
+                            </Box>
+                            <Box>
+                              {t("Patient")}: {request.patientFirstName} {request.patientLastName}, {t("email")}: {request.patientEmail}
+                            </Box>
+                            <Box>
+                              {t("Doctor")}: {request.doctorName}, {t("email")}: {request.doctorEmail}
+                            </Box>
+                            {/* {t("Job ID")}: {request.jobId}*/}
+                            {t("Medicines")}:
+                            <Box component="ul" sx={{ pl: 3, mt: 0, mb: 0.5, listStyleType: 'decimal' }}>
+                              {request.medicines.map((medicine, idx) => (
+                                <Box component="li" key={idx}>
+                                  {medicine.name} {t("since")} {formatDateYYYYMMDDHHMM(medicine.since)}, {t("every")} {t('day', {count: parseInt(medicine.every)})}
+                                </Box>
+                              ))}
+                            </Box>
+                            {/* {t("Email provider")}: {request.provider}, {t("email id")}: {request.providerMessageId} */}
+                            {/* {t("Email id")}: {request.providerMessageId} */}
+                            <Box>
+                              {t("Email message states")}:
+                              <Box component="div" sx={{ pl: 3, mt: 0, mb: 0.5 }}>
+                                {(request.events.length === 0) && (
+                                  <Box component="span">
+                                    {t("none (no email sent yet)")}
+                                  </Box>
+                                )}
+                                {request.events.map((event, idx) => (
+                                  <Box key={idx}>
+                                  <Box
+                                    component="span"
+                                    sx={{
+                                      display: "inline-block",
+                                      mr: 1,
+                                      width: 10,
+                                      height: 10,
+                                      borderRadius: "50%",
+                                      bgcolor: status ? status.color : "black"
+                                    }}
+                                  />
+                                    {formatDateYYYYMMDDHHMM(event.at)} - {t(event.status)} 
+                                    {event.reason && (<span> &nbsp; {event.reason}</span>)}
+                                  </Box>
+                                ))}
+                              </Box>
+                            </Box>
                           </Box>
                         </Collapse>
                       </TableCell>
                     </TableRow>
-                      
                   </React.Fragment>
                 );
               })}

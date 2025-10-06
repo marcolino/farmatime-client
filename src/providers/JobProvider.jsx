@@ -243,7 +243,6 @@ export const JobProvider = ({ children }) => {
 
   return (
     <JobContext.Provider
-
       value={{
         jobs,
         setJobs,

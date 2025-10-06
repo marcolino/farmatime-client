@@ -37,7 +37,7 @@ const /*function*/ Notifications = (props) => {
       {status?.pushNotifications.map((state, index) => {
         console.log("Notifications state:", state);
         const timestamp = state.data["google.c.a.ts"];
-        const when = new Intl.DateTimeFormat(
+        const when = new Intl.DateTimeFormat( // TODO: try to avoid Intl usage...
           i18n.language, // i18n.language is ISO 639-1
           {
             year: "numeric",

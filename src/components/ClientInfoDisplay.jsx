@@ -7,18 +7,6 @@ const ClientInfoDisplay = ({ theme }) => {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [breakpoint, setBreakpoint] = useState("?");
 
-  //console.log("theme.breakpoints.values:", theme.breakpoints.values);
-  // const updateViewportWidth = () => {
-  //   setViewportWidth(window.innerWidth);
-  //   setBreakpoint(
-  //     window.innerWidth >= theme.breakpoints.values.xl ? "xl" :
-  //       window.innerWidth >= theme.breakpoints.values.lg ? "lg" :
-  //         window.innerWidth >= theme.breakpoints.values.md ? "md" :
-  //           window.innerWidth >= theme.breakpoints.values.sm ? "sm" :
-  //             window.innerWidth >= theme.breakpoints.values.xs ? "xs" :
-  //               "?"
-  //   );
-  // };
   const updateViewportWidth = useCallback(() => {
     setViewportWidth(window.innerWidth);
     setBreakpoint(

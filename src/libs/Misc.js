@@ -5,7 +5,7 @@ import LocalStorage from "../libs/LocalStorage";
 import { i18n } from "../i18n";
 import config from "../config";
 
-
+// various type checking/validation functions
 export const isEmptyObject = (obj) => {
   return (
     obj ? // null and undefined check
@@ -152,7 +152,7 @@ export const isValidRegex = (regexString) => {
   try {
     new RegExp(regexString);
     return true;
-  } catch (err) {
+  } catch (err) { // eslint-disable-line no-unused-vars
     //console.warn("Regular expression is not valid:", err);
     return false;
   }
@@ -242,7 +242,7 @@ export const setupCustomConsole = () => {
 };
 
 // date formatting functions
-export const localeMap = {
+export const localeMap = { // TODO: to config
   en: enUS,
   it: it,
   fr: fr,
@@ -250,19 +250,35 @@ export const localeMap = {
   es: es,
 };
 
-export const getLocaleBasedFormat = (locale) => {
-  if (locale.startsWith('en-US')) return 'MMM dd';
-  if (locale.startsWith('en') || locale.startsWith('it') || locale.startsWith('de') || locale.startsWith('fr'))
+export const getLocaleBasedFormat = (language) => { // TODO: rename getLanguageBasedFormatDDMMM
+  if (language.startsWith('en-US')) return 'MMM dd';
+  if (language.startsWith('en') || language.startsWith('it') || language.startsWith('de') || language.startsWith('fr'))
     return 'dd MMM';
   return 'dd MMM'; // Fallback
 };
 
-export const formatDate = (date, locale = i18n.language) => {
-  return format(date, getLocaleBasedFormat(locale), {
-    locale: localeMap[locale] || enUS, // fallback to enUS if locale is unknown
-  });
+export const formatDate = (date, language = i18n.language) => { // TODO: rename formatDateDDMMM
+  const locale = localeMap[language] || enUS; // fallback to enUS if locale is unknown
+  //return format(date, getLocaleBasedFormat(language), { locale });
+  const dateObj = new Date(date); // TODO: use new Date here to be more generic
+  const formatString = getLocaleBasedFormat(language);
+  const formatted = format(dateObj, formatString, { locale });
+  console.log("formatDateDDMMM(" + date + ", " + language + "): " + formatted);
+  return formatted;
 };
 
+export const formatDateYYYYMMDDHHMM = (date, language = i18n.language) => {
+  const locale = localeMap[language] || enUS; // fallback to enUS if locale is unknown
+  const dateObj = new Date(date);
+  const formatString = "P p"; // locale aware format
+  // Format using local time (Date() is automatically local)
+  const formatted = format(dateObj, formatString, { locale });
+  console.log("formatDateYYYYMMDDHHMM(" + date + ", " + language + "): " + formatted);
+  return formatted;
+};
+
+
+// miscellaneous functions
 export const maxRowsWithinLimit = (dataArray, maxBytes) => {
   let cumulativeSize = 0;
   let maxItems = 0;

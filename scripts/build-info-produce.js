@@ -23,5 +23,4 @@ fs.writeFileSync(buildInfoPath, JSON.stringify({
   buildNumber,
   buildTimestamp
 }, null, 2) + "\n");
-//console.log(`Bumped build number to ${buildNumber}`);
 console.log(` (${buildNumber}, ${buildTimestamp})`);

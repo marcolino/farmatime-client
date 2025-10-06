@@ -35,7 +35,6 @@ const Header = ({ theme, toggleTheme }) => {
   const { jobDraftIsDirty, setJobDraftDirty } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
-  //console.log("Snackbar Context in Header:", showSnackbar); // Debugging line
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
@@ -82,8 +81,6 @@ const Header = ({ theme, toggleTheme }) => {
     (previous, current) => previous.priority > current.priority ? previous : current
   ).name : "guest";
 
-  // alert(location.pathname);
-  // const isAuthRoute = () => (false);  //location.pathname === "/signin");
   const isAuthRoute = () => (location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/forgot-password" || location.pathname === "/social-signin-success" || location.pathname === "/social-signin-error");
 
   const infoTitle = t('Informations about this app');
@@ -113,8 +110,8 @@ const Header = ({ theme, toggleTheme }) => {
             src={logoMainHeader}
             alt="Main logo"
             sx={{
-              width: "auto",
-              maxHeight: 48,
+              width: {xs: 40, md: 48},
+              height: "auto",
               my: 1,
               ml: 1,
               borderRadius: 2,
@@ -289,16 +286,11 @@ const Header = ({ theme, toggleTheme }) => {
   };
 
   const handleSignOut = async () => {
-    console.log("handleSignOut");
-    //navigate("/", { replace: true });
-
     const proceed = async () => {
       let ok;
       try {
         cancelAllRequests(); // cancel all ongoing requests, to avoid "You must be authenticated for this action" warnings
         ok = await signOut();
-        console.log("signout result:", ok);
-        //navigate("/"); // navigate to home page, because guest user could not be entitled to stay on current page
       } catch (err) {
         console.error("signout error:", err);
       }
@@ -365,9 +357,6 @@ const Header = ({ theme, toggleTheme }) => {
   //   navigate("/job-data-import", { replace: true });
   // };
 
-  //console.log("sections:", sections);
-  //console.log("+++++++++++++++ isAuthRoute:", isAuthRoute(), location, location.pathname);
-  
   const handleCart = () => {
     const proceed = () => navigate("cart", { replace: true });
     checkJobDraftIsDirty(t("Cart"), proceed);

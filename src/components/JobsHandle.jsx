@@ -460,8 +460,8 @@ const JobsTable = () => {
               <TableRow 
                 sx={(theme) => ({
                   "& th": {
-                    bgColor: theme.palette.secondary.main,
-                    color: theme.palette.common.black,
+                    bgcolor: theme.palette.secondary.main,
+                    color: theme.palette.text.secondary,
                     py: 0,
                     whiteSpace: "nowrap",
                   }
@@ -616,15 +616,6 @@ const JobsTable = () => {
                           <Delete fontSize="small" />
                         </IconButton>
                       </Tooltip>
-                      {/* <Tooltip title={t("Job history")} arrow>
-                        <IconButton
-                          size="small"
-                          sx={{ mr: 0 }} 
-                          onClick={() => alert("work in progress...")}
-                        >
-                          <History fontSize="small" />
-                        </IconButton>
-                      </Tooltip> */}
                     </TableCell>
                   </TableRow>
                 );

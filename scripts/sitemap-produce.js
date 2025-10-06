@@ -22,25 +22,20 @@ async function buildSitemap() {
     data.split(/\r?\n/).forEach(line => {
       const matchRoute = /^\s*<Route (.*)/.exec(line);
       if (matchRoute !== null) {
-        //console.log("matchRoute.input:", matchRoute);
         const matchPath = /path=[\"\'](.*?)[\"\']/.exec(matchRoute);
         if (!matchPath || !matchPath[1]) { // not a route path row
           return;
         }
-        //console.log("matchPath:", matchPath);
         const path = matchPath[1];
-        //console.log("path:", path);
         if (!path.startsWith("/")) { // skip paths not starting with slash ("*", ...)
           return;
         }
-        //const matchElement = /element=\{(?:<Req\w+>)?<(.*?)\s.*\/>.*\}/.exec(matchRoute.input);
         const matchElement = /element=\{<(.*?)\s.*\/>.*\}/.exec(matchRoute.input);
         if (!matchElement || !matchElement[1]) {
           console.warn("No element match for route", matchRoute.input);
           return;
         }
         const element = matchElement[1];
-        //console.log("element:", element);
         const regexpFilename1 = new RegExp(String.raw`const\s*${element}\s*=\s*lazy\(\(\)\s*=>\s*import\("(.*)"\)\)`, "g");
         const regexpFilename2 = new RegExp(String.raw`import ${element} from "(.*)"`, "g");
         const matchFilename1 = regexpFilename1.exec(data);
@@ -73,7 +68,6 @@ async function buildSitemap() {
         }
         
         const lastmod = stats.mtime.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-        //console.log("lastmod:", lastmod);
         if (path && lastmod) {
           routes.push({
             path,

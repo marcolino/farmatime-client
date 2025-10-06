@@ -117,28 +117,10 @@ const JobFlow = () => {
     }
   }, [jobsError, clearJobsError, showSnackbar, t]);
 
-  // Warn user before closing this page/tab if job draft was changed and not saved (confirmed)
-  // useEffect(() => {
-  //   if (jobDraftWasChanged) {
-
-  //   }
-  // }, [jobDraftWasChanged]);
-
-  // useEffect(() => {
-  //   console.log("Current path:", location.pathname);
-  //   return () => {
-  //     console.log("Leaving path:", location.pathname);
-  //     if (jobDraftWasChanged) {
-  //       alert("confirm before going");
-  //     }
-  //   };
-  // }, [jobDraftWasChanged]);
-
   // Warn user before unloading this page/tab if job draft was changed and not saved (confirmed)
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (jobDraftIsDirty) {
-        //alert(jobDraftIsDirty);
         e.preventDefault();
         e.returnValue = "";
       }
@@ -320,13 +302,12 @@ const JobFlow = () => {
       return;
     }
     
-    /* THIS SHOULD BE NOT NEEDED ...
+    // this is needed if email template has never been ssaved for rthis user (as it usually happens)
     if (await confirmEmailTemplateOnServer(emailTemplate)) {
       setEmailTemplate(emailTemplate);
     } else { // errors are handled with jobsError
       return;
     }
-    */
     
     // jobs are confirmed on server: show dialog to the user
     if (wasNew) {

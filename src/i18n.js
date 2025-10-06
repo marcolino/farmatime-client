@@ -38,9 +38,6 @@ i18n
       caches: [], // avoid `i18nextLng` in local storage
     },
     saveMissing: false, // do not save missing translations in translation_untranslated.json
-  //}).then(() => {
-    //i18n.locale = (i18n.language || i18n.options.fallbackLng[0]).slice(0, 2).toLowerCase();
-    //console.log("LLL i18n - current locale from i18n is", i18n.locale);
   })
 ;
 
@@ -71,7 +68,6 @@ const getNextSupportedLanguage = () => {
   const locales = Object.keys(config.locales);
   const currentIndex = locales.indexOf(i18n.language);
   const nextIndex = (currentIndex + 1) % locales.length; // find the next index, looping back to 0 if at the end
-  //console.log("LLL getNextSupportedLanguage locales[nextIndex]:", locales[nextIndex]);
   return locales[nextIndex];
 };
 
