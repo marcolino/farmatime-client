@@ -263,7 +263,6 @@ export const formatDate = (date, language = i18n.language) => { // TODO: rename 
   const dateObj = new Date(date); // TODO: use new Date here to be more generic
   const formatString = getLocaleBasedFormat(language);
   const formatted = format(dateObj, formatString, { locale });
-  console.log("formatDateDDMMM(" + date + ", " + language + "): " + formatted);
   return formatted;
 };
 
@@ -273,7 +272,6 @@ export const formatDateYYYYMMDDHHMM = (date, language = i18n.language) => {
   const formatString = "P p"; // locale aware format
   // Format using local time (Date() is automatically local)
   const formatted = format(dateObj, formatString, { locale });
-  console.log("formatDateYYYYMMDDHHMM(" + date + ", " + language + "): " + formatted);
   return formatted;
 };
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { Paper, Chip, Box, Tooltip } from "@mui/material";
 
 const LegendItem = ({ color, label }) => {
@@ -54,4 +53,4 @@ const Legenda = ({ title, items }) => {
   );
 };
 
-export default React.memo(Legenda);
+export default Legenda;

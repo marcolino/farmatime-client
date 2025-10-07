@@ -6,6 +6,8 @@ import i18n from "i18next";
 // Strings in config.json, that cannot be translated there to avoid circular dependencies hell
 i18n.t("INDEX_DESCRIPTION"); // app description
 
+i18n.t("request");
+
 // app modes
 i18n.t("production");
 i18n.t("staging");

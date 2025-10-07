@@ -7,3 +7,4 @@ export { default as TextFieldPassword } from "./TextFieldPassword";
 export { default as TextFieldPhone } from "./TextFieldPhone";
 export { default as TextFieldSearch } from "./TextFieldSearch";
 export { default as Legenda } from "./Legenda";
+export { default as StatusDot } from "./StatusDot";

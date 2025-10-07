@@ -142,7 +142,7 @@ const JobMedicines = ({ /*jobDraft = {},*/ jobs = [], data = [], onChange, onEdi
   };
 
   // Create unified options
-  const unifiedOptions = useCallback(() => {
+  const unifiedOptions = useMemo(() => {
     if (!dataAnagrafica.length || !dataPrincipiAttivi.length || !dataATC.length) return [];
 
     return [
@@ -168,7 +168,7 @@ const JobMedicines = ({ /*jobDraft = {},*/ jobs = [], data = [], onChange, onEdi
         searchTerms: [atc.code.toLowerCase(), atc.description.toLowerCase()]
       }))
     ];
-  });
+  }, [dataAnagrafica, dataPrincipiAttivi, dataATC]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Filter function
   const getFilteredOptions = useCallback((inputVal) => {

@@ -22,7 +22,7 @@ async function buildSitemap() {
     data.split(/\r?\n/).forEach(line => {
       const matchRoute = /^\s*<Route (.*)/.exec(line);
       if (matchRoute !== null) {
-        const matchPath = /path=[\"\'](.*?)[\"\']/.exec(matchRoute);
+        const matchPath = /sitemapPath=[\"\'](.*?)[\"\']/.exec(matchRoute);
         if (!matchPath || !matchPath[1]) { // not a route path row
           return;
         }

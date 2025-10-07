@@ -21,7 +21,7 @@ import {
   Tooltip,
   Collapse,
 } from "@mui/material";
-import { TextFieldSearch, Legenda } from "./custom";
+import { TextFieldSearch, Legenda, StatusDot } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
 import { History, Search, KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
@@ -66,7 +66,7 @@ const RequestsTable = () => {
 
   const statusTable = useMemo(() => [
     {
-      sortid: "status-00", color: "rgba(0, 15, 150, 1)", status: "created", label: t("created"),
+      sortid: "status-00", color: "rgba(0, 15, 150, 1)", status: "request", label: t("request"),
       showInLegenda: true, tooltip: t("The request was just created, no email sent yet"),
     },
     {
@@ -591,7 +591,8 @@ const RequestsTable = () => {
                       <TableCell>
                         <Tooltip title={tooltip} arrow>
                           <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box /* TODO: put in a mini component */
+                            <StatusDot bgcolor={status?.color} />
+                            {/* <Box
                               component="span"
                               sx={{
                                 display: "inline-block",
@@ -602,8 +603,7 @@ const RequestsTable = () => {
                                 //bgcolor: request.lastStatus === "created" ? "info.light" : "warning.light",
                                 bgcolor: status ? status.color : "black"
                               }}
-                            />
-                            {/* &nbsp;{request.lastStatus} */}
+                            /> */}
                           </Box>
                         </Tooltip>
                       </TableCell>
@@ -661,28 +661,37 @@ const RequestsTable = () => {
                             <Box>
                               {t("Email message states")}:
                               <Box component="div" sx={{ pl: 3, mt: 0, mb: 0.5 }}>
-                                {(request.events.length === 0) && (
-                                  <Box component="span">
-                                    {t("none (no email sent yet)")}
+                                {(request.events.length === 0) && ( // TODO: should not happen...
+                                  <Box component="span">2
+                                    {t("none (no email sent yet)") + "!"}
                                   </Box>
                                 )}
-                                {request.events.map((event, idx) => (
-                                  <Box key={idx}>
-                                  <Box
-                                    component="span"
-                                    sx={{
-                                      display: "inline-block",
-                                      mr: 1,
-                                      width: 10,
-                                      height: 10,
-                                      borderRadius: "50%",
-                                      bgcolor: status ? status.color : "black"
-                                    }}
-                                  />
-                                    {formatDateYYYYMMDDHHMM(event.at)} - {t(event.status)} 
-                                    {event.reason && (<span> &nbsp; {event.reason}</span>)}
-                                  </Box>
-                                ))}
+                                {request.events
+                                  .slice() // avoid mutating original
+                                  .sort((a, b) => {
+                                    const sortA = statusTable.find(s => s.status === a.status)?.sortid || "";
+                                    const sortB = statusTable.find(s => s.status === b.status)?.sortid || "";
+                                    return sortA.localeCompare(sortB);
+                                  })
+                                  .map((event, idx) => (
+                                    <Box key={idx}>
+                                      <StatusDot bgcolor={() => statusTable.find(s => s.status === status.status)?.color} />
+                                      {/* <Box
+                                        component="span"
+                                        sx={{
+                                          display: "inline-block",
+                                          mr: 1,
+                                          width: 10,
+                                          height: 10,
+                                          borderRadius: "50%",
+                                          bgcolor: statusTable.find(s => s.status === status.status)?.color ?? "black"
+                                        }}
+                                      /> */}
+                                      {formatDateYYYYMMDDHHMM(event.at)} - {t(event.status)} 
+                                      {(event.reason && event.reason !== "sent") && (<span> &nbsp; {event.reason}</span>)}
+                                    </Box>
+                                  ))
+                                }
                               </Box>
                             </Box>
                           </Box>
