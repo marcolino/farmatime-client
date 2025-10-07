@@ -347,7 +347,7 @@ const JobEmailTemplate = () => {
   
           <Box mt={3}></Box>
 
-          <ContextualHelp helpPagesKey={'EmailTemplateVariables'} fullWidth showOnHover>
+          <ContextualHelp helpPagesKey={'EmailTemplateToolbar'} fullWidth showOnHover>
             <Box mt={2} label={t('Email body')}>
               <LexicalComposer initialConfig={editorConfig}>
                 <ToolbarPlugin />
@@ -387,46 +387,26 @@ const JobEmailTemplate = () => {
             </Box>
           </ContextualHelp>
 
-          {!isMobile && (
-            <Box m={3} display="flex" justifyContent="flex-end" gap={2}>
-              <Button variant="contained" onClick={() => navigate(-1)}>
+          <Box m={1} display="flex" justifyContent="flex-end" gap={isMobile ? 1 : 2} flexWrap="wrap">
+            {!isMobile && (
+              <Button variant="outlined" onClick={() => navigate(-1)}>
                 {t('Cancel')}
               </Button>
-              <Button variant="contained" startIcon={<PreviewIcon />} onClick={handlePreview}>
-                {t('Preview')}
-              </Button>
-              <Button variant="contained" color="primary" endIcon={<EditIcon />} onClick={handleConfirm}>
-                {t('Save')}
-              </Button>
-            </Box>
-          )}
-          {isMobile && (
-            <Box m={3} display="flex" justifyContent="flex-end" gap={1} flexWrap="wrap">
-              <Button
-                variant="contained"
-                startIcon={<PreviewIcon />}
-                onClick={handlePreview}
-              >
-                {t('Preview.abbreviated')}
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                endIcon={<EditIcon />}
-                onClick={handleConfirm}
-              >
-                {t('Save')}
-              </Button>
+            )}
+            <Button variant="contained" startIcon={<PreviewIcon />} onClick={handlePreview}>
+              {t('Preview')}
+            </Button>
+            <Button variant="contained" color="primary" endIcon={<EditIcon />} onClick={handleConfirm}>
+              {t('Save')}
+            </Button>
+            {isMobile && (
               <Box flexBasis="100%" display="flex" justifyContent="flex-end">
-                <Button
-                  variant="outlined"
-                  onClick={() => navigate(-1)}
-                >
+                <Button variant="outlined" onClick={() => navigate(-1)}>
                   {t('Cancel')}
                 </Button>
               </Box>
-            </Box>
-          )}
+            )}
+          </Box>
 
           <HtmlPreviewDialog
             open={isPreviewOpen}

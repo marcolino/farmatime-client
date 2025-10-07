@@ -64,7 +64,7 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const JobMedicines = ({ /*jobDraft = {},*/ jobs = [], data = [], onChange, onEditingChange, onCompleted/*, hasNavigatedAway*/}) => {
+const JobMedicines = ({ /*jobDraft = {}, jobs = [],*/ data = [], onChange, onEditingChange, onCompleted/*, hasNavigatedAway*/}) => {
   const { t } = useTranslation();
   //const navigate = useNavigate();
   const theme = useTheme();

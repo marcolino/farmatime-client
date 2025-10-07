@@ -254,16 +254,16 @@
 - update index.language, index.dir, index.charset when user changes locale - OK
 - gestire tags opengraph / twitter in index.html - OK
 - search job[id] to be replaced with job.find... - OK
-
-- in UserEdit, make phone number accept an empty value
-- migliorare il tema scuro
+- in UserEdit, make phone number accept an empty value - OK
+- In JobFlow.jsx, use lazy import to reduce chunk size, then we can lower chunkSizeWarningLimit (currently at 1792) in vite.config.js (NO) - OK
+-
+- complete text in ContextualHelp
+- migliorare il tema scuro (UserEdit, table header ...)
 - make tests (also use AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
 - better cookie popup: see unisalute.it
 - PushNotificationsStatusProvider => NotificationPushNotificationsStatusProvider
-- In JobFlow.jsx, use lazy import to reduce chunk size, then we can lower
-  chunkSizeWarningLimit (currently at 1792) in vite.config.js
-- evitare di notificare inizialmente "l'app è pronta per funzionare offline" troppe volte
+ evitare di notificare inizialmente "l'app è pronta per funzionare offline" troppe volte
 - always use in useEffect in components, when needed (to avoid using useCallback()): // eslint-disable-next-line react-hooks/exhaustive-deps
 - move custom/* to mui-material-custom/ and always import from 'mui-material-custom'
 - on signOut, clear cart-USERID (when using cart...)
