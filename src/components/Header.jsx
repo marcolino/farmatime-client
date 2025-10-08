@@ -557,8 +557,10 @@ const Header = ({ theme, toggleTheme }) => {
                   <MenuItem
                     key={label}
                     onClick={() => {
-                      if (onClick) onClick();
                       handleUserMenuClose();
+                      setTimeout(() => onClick?.(), 0); // to prevent any interference with MUI’s Menu/Drawer event handling
+                      // if (onClick) onClick();
+                      // handleUserMenuClose();
                     }}
                   >
                     <ListItemIcon>
