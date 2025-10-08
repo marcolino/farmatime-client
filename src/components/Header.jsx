@@ -221,13 +221,17 @@ const Header = ({ theme, toggleTheme }) => {
     ),
     {
       label: t("Change theme"),
-      icon: (
-        <IconButton onClick={toggleTheme} sx={{ padding: 0 }}>
-          {theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />}
-        </IconButton>
-      ),
-      //href: null,
+      icon: theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />,
+      // icon: (
+      //   <IconButton onClick={toggleTheme} sx={{ padding: 0 }}>
+      //     {theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />}
+      //   </IconButton>
+      // ),
       onClick: toggleTheme
+      // onClick: () => {
+      //   toggleTheme();
+      //   handleUserMenuClose();
+      // }
     },
     {
       label: t("Info"),
@@ -425,7 +429,7 @@ const Header = ({ theme, toggleTheme }) => {
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                onClick={() => handleCart}
+                onClick={handleCart}
                 sx={{ mr: 2 }}
               >
                 {cartItemsQuantity() ?

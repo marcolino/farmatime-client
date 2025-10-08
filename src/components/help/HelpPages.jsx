@@ -51,7 +51,7 @@ you should enter 18 here, to request the medicine every 18 days')
       ),
     },
 
-    _PatientFirstName: { // disabled, too trivial...
+    PatientFirstName: {
       title: t("Patient first name"),
       content: (
         <>
@@ -60,7 +60,7 @@ you should enter 18 here, to request the medicine every 18 days')
         </>
       ),
     },
-    _PatientLastName: { // disabled, too trivial...
+    PatientLastName: {
       title: t("Patient last name"),
       content: (
         <>
@@ -69,18 +69,19 @@ you should enter 18 here, to request the medicine every 18 days')
         </>
       ),
     },
-    _PatientEmail: { // disabled, too trivial...
+    PatientEmail: {
       title: t("Patient email"),
       content: (
         <>
           <p>{t('Enter the email of the patient')}.</p>
+          <p>{t("The doctor will automatically replay to this email")}</p>
           <p></p>
         </>
       ),
     },
     
-    _DoctorFirstName: { // disabled, too trivial...
-      title: t("Doctor first name"),
+    DoctorName: {
+      title: t("Doctor name"),
       content: (
         <>
           <p>{t('Enter the name of the doctor')}.</p>
@@ -88,20 +89,12 @@ you should enter 18 here, to request the medicine every 18 days')
         </>
       ),
     },
-    _DoctorLastName: { // disabled, too trivial...
-      title: t("Doctor last name"),
-      content: (
-        <>
-          <p>{t('Enter the last name of the doctor')}.</p>
-          <p></p>
-        </>
-      ),
-    },
-    _DoctorEmail: { // disabled, too trivial...
+    DoctorEmail: {
       title: t("Doctor email"),
       content: (
         <>
           <p>{t('Enter the email of the doctor')}.</p>
+          <p>{t("The medicines requests will be sent to this email")}</p>
           <p></p>
         </>
       ),
