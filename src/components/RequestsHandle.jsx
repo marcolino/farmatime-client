@@ -555,8 +555,8 @@ const RequestsTable = () => {
             <TableBody>
               {sortedFilteredPaginatedRequests.map((request, index) => {
                 const isItemSelected = isSelected(request._id);
-                const status = statusTable.find(s => s.status === request.lastStatus);
-                const tooltip = (status ? status.tooltip : t(request.lastStatus)) +
+                const lastStatus = statusTable.find(s => s.status === request.lastStatus);
+                const tooltip = (lastStatus ? lastStatus.tooltip : t(request.lastStatus)) +
                   ((request.lastReason && request.lastReason !== 'sent') ? ` (${request.lastReason})` : '')
                   ;
                 return (
@@ -571,8 +571,8 @@ const RequestsTable = () => {
                       key={request._id}
                       selected={isItemSelected}
                       sx={(theme) => ({
-                        "& td": {
-                          bgColor: theme.palette.ochre.light,
+                        "& th": {
+                          backgroundColor: theme.palette.ochre.light,
                           color: theme.palette.common.text,
                           py: 0,
                         }
@@ -591,7 +591,7 @@ const RequestsTable = () => {
                       <TableCell>
                         <Tooltip title={tooltip} arrow>
                           <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <StatusDot bgcolor={status?.color} />
+                            <StatusDot bgcolor={lastStatus?.color} />
                             {/* <Box
                               component="span"
                               sx={{
@@ -601,7 +601,7 @@ const RequestsTable = () => {
                                 height: 10,
                                 borderRadius: "50%",
                                 //bgcolor: request.lastStatus === "created" ? "info.light" : "warning.light",
-                                bgcolor: status ? status.color : "black"
+                                bgcolor: lastStatus ? lastStatus.color : "black"
                               }}
                             /> */}
                           </Box>
@@ -675,7 +675,7 @@ const RequestsTable = () => {
                                   })
                                   .map((event, idx) => (
                                     <Box key={idx}>
-                                      <StatusDot bgcolor={() => statusTable.find(s => s.status === status.status)?.color} />
+                                      <StatusDot bgcolor={() => statusTable.find(s => s.status === event.status)?.color} />
                                       {/* <Box
                                         component="span"
                                         sx={{
@@ -684,7 +684,7 @@ const RequestsTable = () => {
                                           width: 10,
                                           height: 10,
                                           borderRadius: "50%",
-                                          bgcolor: statusTable.find(s => s.status === status.status)?.color ?? "black"
+                                          bgcolor: statusTable.find(s => s.status === lastStatus.status)?.color ?? "black"
                                         }}
                                       /> */}
                                       {formatDateYYYYMMDDHHMM(event.at)} - {t(event.status)} 

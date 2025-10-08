@@ -256,9 +256,9 @@
 - search job[id] to be replaced with job.find... - OK
 - in UserEdit, make phone number accept an empty value - OK
 - In JobFlow.jsx, use lazy import to reduce chunk size, then we can lower chunkSizeWarningLimit (currently at 1792) in vite.config.js (NO) - OK
--
-- complete text in ContextualHelp
-- migliorare il tema scuro (UserEdit, table header ...)
+- complete text in ContextualHelp - OK
+- migliorare il tema scuro (UserEdit, table header ...) - OK
+
 - make tests (also use AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
 - better cookie popup: see unisalute.it

@@ -26,7 +26,7 @@ import { isAdmin } from "../libs/Validation";
 import { fetchBuildInfoData } from "../libs/Misc";
 import logoMainHeader from "../assets/images/LogoMainHeader.png";
 import logoTextHeader from "../assets/images/LogoTextHeader.png";
-import clientPackageJson from "../../package.json";
+//import clientPackageJson from "../../package.json";
 import serverPackageJson from "../../../farmatime-server/package.json"; // WARNING: this depends on folders structure...
 import config from "../config";
 

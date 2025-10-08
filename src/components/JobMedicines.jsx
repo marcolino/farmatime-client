@@ -19,15 +19,17 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
   Box,
   Button,
+  IconButton,
   Container,
   TextField,
   Typography,
+  Tooltip,
   Divider,
   useTheme,
   styled
 } from '@mui/material'; // Changed to @mui/material
 import { Add, Check} from '@mui/icons-material';
-import useMediaQuery from '@mui/material/useMediaQuery';
+//import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTranslation } from 'react-i18next';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -37,18 +39,33 @@ import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
 import { JobContext } from '../providers/JobContext';
 import { useSnackbarContext } from '../providers/SnackbarProvider';
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { i18n } from '../i18n';
 import { localeMap, formatDate } from '../libs/Misc';
 import config from '../config';
 
-const ItemContainer = styled(Box)(({ theme }) => ({
-  // 100% of viewport height, minus header and footer, minus this component header and footer
-  maxHeight: `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 400px - 120px)`,
-  minHeight: 80,
+const ItemContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isMobile",
+})(({ theme, isMobile }) => ({
+  /**
+   * 100% of viewport height, minus header and footer, minus this component header and footer
+   * Sets a higher limit to  the visible height
+   * on mobile we set a higher limit since the whole page scrolls anyway;
+   * this way more than one item is always (if present) visible,
+   * resulting in a clearer interface for the user:
+   * it is clear that in this container there can be more than one item.
+   * otherwise we limit maxHeight so that the whole page is visible,
+   * including the footer, and the scroll is limited to this container.
+   */
+  maxHeight: isMobile ?
+    `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 450px - 120px)` :
+    `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 500px - 120px)`
+  ,
   overflowY: 'auto',
   marginBottom: theme.spacing(2),
+  paddingLeft: theme.spacing(1),
   paddingRight: theme.spacing(1),
   //touchAction: 'none',
   '&::-webkit-scrollbar': {
@@ -64,7 +81,7 @@ const ItemContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const JobMedicines = ({ /*jobDraft = {}, jobs = [],*/ data = [], onChange, onEditingChange, onCompleted/*, hasNavigatedAway*/}) => {
+const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => {
   const { t } = useTranslation();
   //const navigate = useNavigate();
   const theme = useTheme();
@@ -75,12 +92,13 @@ const JobMedicines = ({ /*jobDraft = {}, jobs = [],*/ data = [], onChange, onEdi
   const [fieldMedicine, setFieldMedicine] = useState('');
   const [fieldFrequency, setFieldFrequency] = useState(1);
   const [fieldSinceDate, setfieldSinceDate] = useState(new Date());
+  const [showAddUpdateBlock, setShowAddUpdateBlock] = useState(false);
   const [mode, setMode] = useState('add');
   const [fieldToFocus, setFieldToFocus] = useState(null);
-
   const { showSnackbar } = useSnackbarContext();
   //const isXs = useMediaQuery(theme.breakpoints.down('sm'));
-  const isSm = useMediaQuery(theme.breakpoints.down('md'));
+  //const isSm = useMediaQuery(theme.breakpoints.down('md'));
+  const { isMobile } = useMediaQueryContext();
 
   // References to input fields
   const fieldMedicineRef = useRef(null);
@@ -351,7 +369,7 @@ const JobMedicines = ({ /*jobDraft = {}, jobs = [],*/ data = [], onChange, onEdi
             </Typography>
           </StyledBox>
 
-          <Box p={4}>
+          <Box p={2}>
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
@@ -367,8 +385,11 @@ const JobMedicines = ({ /*jobDraft = {}, jobs = [],*/ data = [], onChange, onEdi
                     {t("No medicines present yet")}
                   </Typography>
                 ) : (
-                  <ItemContainer>
-                    <Box component="ul" sx={{ p: 0, m: 0 }}>
+                  <ItemContainer isMobile={isMobile}>
+                    <Box component="ul" sx={{
+                      p: 0, m: 0,
+                      overflowY: 'auto', // adds scrollbar when content exceeds
+                    }}>
                       {data.map((item) => (
                         <SortableItem
                           key={item.id}
@@ -387,251 +408,280 @@ const JobMedicines = ({ /*jobDraft = {}, jobs = [],*/ data = [], onChange, onEdi
                 )}
               </SortableContext>
             </DndContext>
-          </Box>
           
-          <Divider sx={{ margin: -1, mb: 2 }} />
-
-          <Box p={4}>
-            <Box
-              component="form"
-              onSubmit={addItem}
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-                mb: 4,
-              }}
-            >
-              {/* First row: medicine input (xs: alone, sm+: with date & frequency) */}
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: 2,
-                  alignItems: 'flex-end'
-                }}
-              >
-                {/* Medicine input - takes maximum space */}
-                <Box
-                  sx={{
-                    width: { xs: '100%', sm: 'auto' },
-                    flexGrow: { xs: 1, sm: 1 }, // Take all available space
-                  }}
-                >
-                  <ContextualHelp helpPagesKey="MedicineName" fullWidth showOnHover>
-                    {!isDataLoaded ? (
-                      null //<Typography>{t('loading medicines data...')}</Typography>
-                    ) : (
-                    
-                      <MedicineInputAutocomplete
-                        value={option ?? null}
-                        inputValue={fieldMedicine ?? ""}
-                        options={getFilteredOptions(fieldMedicine) ?? []}
-                        autoFocus
-                        onChange={(_event, newValue) => {
-                          if (typeof newValue === "string") {
-                            // User typed and pressed Enter → treat as free text
-                            setOption(null);
-                            setFieldMedicine(newValue);
-                          } else if (newValue && newValue.inputValue) {
-                            // (Only if you later add "create new option" pattern)
-                            setOption(null);
-                            setFieldMedicine(newValue.inputValue);
-                          } else {
-                            // User picked an existing option
-                            setOption(newValue);
-                            setFieldMedicine(newValue ? newValue.label : "");
-                          }
-
-                          onEditingChange(true);
-                        }}
-                        onInputChange={(_event, newInputValue, reason) => {
-                          if (reason === "input" || reason === "clear") {
-                            setFieldMedicine(newInputValue);
-                            if (!newInputValue) {
-                              setOption(null);
-                            }
-                          }
-                          onEditingChange(true);
-                        }}
-                      />
-                    )}
-                  </ContextualHelp>
-                </Box>
-
-                {/* Date picker - only visible on sm+ screens */}
-                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                  <ContextualHelp helpPagesKey="DateSince">
-                    <DatePicker
-                      key={i18n.language} // This forces a complete remount when locale changes
-                      label={t('Since day')}
-                      value={fieldSinceDate}
-                      onChange={setfieldSinceDate}
-                      format={getLocaleBasedFormat()}
-                      sx={{ width: 132 }}
-                      PopperProps={{ placement: 'bottom-start' }}
-                      minDate={new Date()} // Today onwards: only dates in the future
-                      formatDensity="spacious"
-                      inputRef={fieldSinceDateRef}
-                    />
-                  </ContextualHelp>
-                </Box>
-
-                {/* Frequency input - only visible on sm+ screens */}
-                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                  <ContextualHelp helpPagesKey="Frequency">
-                    <TextField
-                      label={isSm ? t('Freq.') : t('Frequency (days)')}
-                      variant="outlined"
-                      type="number"
-                      value={fieldFrequency}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        // allow empty string or numeric strings only
-                        if (val === "" || /^[0-9\b]+$/.test(val)) {
-                          setFieldFrequency(val);
-                        }
-                      }}
-                      sx={{ width: { sm: 65, md: 145 } }}
-                      inputRef={fieldFrequencyRef}
-                    />
-                  </ContextualHelp>
-                </Box>
-
-                {/* Buttons - only visible on sm+ screens */}
-                <Box
-                  sx={{
-                    display: { xs: 'none', sm: 'flex' },
-                    flexDirection: 'row',
-                    gap: 2,
-                    mt: 0,
-                  }}
-                >
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    startIcon={mode === 'add' ? <Add /> : <Check />}
-                    disabled={!fieldMedicine} /* enable only when something is present in fieldMedicine, for a better UI clarity */
+            {!showAddUpdateBlock && ( /* PLUS button */
+              <Box display="flex" justifyContent="flex-end" width="100%">
+                <Tooltip title={t("Add a new medicine")} arrow>
+                  <IconButton
+                    aria-label={t("Add a new medicine")}
+                    size={"large"}
+                    onClick={() => setShowAddUpdateBlock(true)}
+                    disabled={false}
                     sx={{
-                      height: 56,
-                      mb: 0.2,
-                      px: { sm: 1, md: 4.5 },
+                      backgroundColor: theme.palette.primary.main,
+                      color: theme.palette.primary.contrastText,
+                      '&:hover': {
+                        backgroundColor: theme.palette.primary.dark,
+                      },
+                      mr: isMobile ? '4vw' : '3vw',
                     }}
                   >
-                    {mode === 'add' ? t('Add') : t('Update')}
-                  </Button>
-                  {mode === 'update' && (
-                    <Button
-                      type="button"
-                      onClick={() => { resetItems(); setMode('add'); handleEditEnd(); }}
-                      variant="contained"
-                      color="default"
-                      size="large"
-                      startIcon={<Check />}
-                      sx={{
-                        height: 56,
-                        mb: 0.2,
-                        px: { sm: 1, md: 4.5 },
-                      }}
-                    >
-                      {t('Cancel')}
-                    </Button>
-                  )}
-                </Box>
+                    <Add />
+                  </IconButton>
+                </Tooltip>
               </Box>
+            )}
+          </Box>
 
-              {/* Second row: date + frequency (xs screens only) */}
-              <Box
-                sx={{
-                  display: { xs: 'flex', sm: 'none' },
-                  flexDirection: 'row',
-                  gap: 2,
-                  alignItems: 'flex-end'
-                }}
-              >
-                {/* Date picker */}
-                <ContextualHelp helpPagesKey="DateSince">
-                  <DatePicker
-                    key={i18n.language} // This forces a complete remount when locale changes
-                    label={t('Since day')}
-                    value={fieldSinceDate}
-                    onChange={setfieldSinceDate}
-                    format={getLocaleBasedFormat()}
-                    sx={{ width: 132 }}
-                    PopperProps={{ placement: 'bottom-start' }}
-                    minDate={new Date()} // Today onwards: only dates in the future
-                    formatDensity="spacious"
-                    inputRef={fieldSinceDateRef}
-                  />
-                </ContextualHelp>
+          {showAddUpdateBlock && (
+            <React.Fragment>
 
-                {/* Frequency input */}
-                <ContextualHelp helpPagesKey="Frequency">
-                  <TextField
-                    label={t('Freq.')}
-                    variant="outlined"
-                    type="number"
-                    value={fieldFrequency}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      // allow empty string or numeric strings only
-                      if (val === "" || /^[0-9\b]+$/.test(val)) {
-                        setFieldFrequency(val);
-                      }
-                    }}
-                    sx={{ width: 65 }}
-                    inputRef={fieldFrequencyRef}
-                  />
-                </ContextualHelp>
-              </Box>
+              <Divider sx={{ margin: -1, mb: 0 }} />
 
-              {/* Third row: buttons - only visible on xs screens */}
-              <Box
-                sx={{
-                  display: { xs: 'flex', sm: 'none' },
-                  flexDirection: 'row',
-                  gap: 2,
-                  width: '100%',
-                }}
-              >
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  startIcon={mode === 'add' ? <Add /> : <Check />}
-                  disabled={!fieldMedicine} /* enable only when something is present in fieldMedicine, for a better UI clarity */
+              <Box p={4}>
+                <Box
+                  //component="form"
+                  //onSubmit={addItem}
                   sx={{
-                    height: 36,
-                    px: 0,
-                    width: mode === 'update' ? '100%' : 'auto',
-                    flexGrow: mode === 'update' ? 0 : 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    mb: 4,
                   }}
                 >
-                  {mode === 'add' ? t('Add') : t('Update')}
-                </Button>
-                {mode === 'update' && (
-                  <Button
-                    type="button"
-                    onClick={() => { resetItems(); setMode('add'); handleEditEnd(); }}
-                    variant="contained"
-                    color="default"
-                    size="large"
+                  {/* First row: medicine input (xs: alone, sm+: with date & frequency) */}
+                  <Box
                     sx={{
-                      height: 36,
-                      px: 0,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 2,
+                      alignItems: 'flex-end'
+                    }}
+                  >
+                    {/* Medicine input - takes maximum space */}
+                    <Box
+                      sx={{
+                        width: { xs: '100%', sm: 'auto' },
+                        flexGrow: { xs: 1, sm: 1 }, // Take all available space
+                      }}
+                    >
+                      <ContextualHelp helpPagesKey="MedicineName" fullWidth showOnHover>
+                        {!isDataLoaded ? (
+                          null //<Typography>{t('loading medicines data...')}</Typography>
+                        ) : (
+                        
+                          <MedicineInputAutocomplete
+                            value={option ?? null}
+                            inputValue={fieldMedicine ?? ""}
+                            options={getFilteredOptions(fieldMedicine) ?? []}
+                            autoFocus
+                            onChange={(_event, newValue) => {
+                              if (typeof newValue === "string") {
+                                // User typed and pressed Enter → treat as free text
+                                setOption(null);
+                                setFieldMedicine(newValue);
+                              } else if (newValue && newValue.inputValue) {
+                                // (Only if you later add "create new option" pattern)
+                                setOption(null);
+                                setFieldMedicine(newValue.inputValue);
+                              } else {
+                                // User picked an existing option
+                                setOption(newValue);
+                                setFieldMedicine(newValue ? newValue.label : "");
+                              }
+
+                              onEditingChange(true);
+                            }}
+                            onInputChange={(_event, newInputValue, reason) => {
+                              if (reason === "input" || reason === "clear") {
+                                setFieldMedicine(newInputValue);
+                                if (!newInputValue) {
+                                  setOption(null);
+                                }
+                              }
+                              onEditingChange(true);
+                            }}
+                          />
+                        )}
+                      </ContextualHelp>
+                    </Box>
+
+                    {/* Date picker - only visible on sm+ screens */}
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                      <ContextualHelp helpPagesKey="DateSince">
+                        <DatePicker
+                          key={i18n.language} // This forces a complete remount when locale changes
+                          label={t('Since day')}
+                          value={fieldSinceDate}
+                          onChange={setfieldSinceDate}
+                          format={getLocaleBasedFormat()}
+                          sx={{ width: 132 }}
+                          PopperProps={{ placement: 'bottom-start' }}
+                          minDate={new Date()} // Today onwards: only dates in the future
+                          formatDensity="spacious"
+                          inputRef={fieldSinceDateRef}
+                        />
+                      </ContextualHelp>
+                    </Box>
+
+                    {/* Frequency input - only visible on sm+ screens */}
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                      <ContextualHelp helpPagesKey="Frequency">
+                        <TextField
+                          label={isMobile ? t('Freq.') : t('Frequency (days)')}
+                          variant="outlined"
+                          type="number"
+                          value={fieldFrequency}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            // allow empty string or numeric strings only
+                            if (val === "" || /^[0-9\b]+$/.test(val)) {
+                              setFieldFrequency(val);
+                            }
+                          }}
+                          sx={{ width: { sm: 65, md: 145 } }}
+                          inputRef={fieldFrequencyRef}
+                        />
+                      </ContextualHelp>
+                    </Box>
+
+                    {/* Buttons - only visible on sm+ screens */}
+                    <Box
+                      sx={{
+                        display: { xs: 'none', sm: 'flex' },
+                        flexDirection: 'row',
+                        gap: 2,
+                        mt: 0,
+                      }}
+                    >
+                      <Button
+                        //type="submit"
+                        onClick={addItem}
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        startIcon={mode === 'add' ? <Add /> : <Check />}
+                        disabled={!fieldMedicine} /* enable only when something is present in fieldMedicine, for a better UI clarity */
+                        sx={{
+                          height: 56,
+                          mb: 0.2,
+                          px: { sm: 1, md: 4.5 },
+                        }}
+                      >
+                        {mode === 'add' ? t('Add') : t('Update')}
+                      </Button>
+                      {mode === 'update' && (
+                        <Button
+                          type="button"
+                          onClick={() => { resetItems(); setMode('add'); handleEditEnd(); }}
+                          variant="contained"
+                          color="default"
+                          size="large"
+                          startIcon={<Check />}
+                          sx={{
+                            height: 56,
+                            mb: 0.2,
+                            px: { sm: 1, md: 4.5 },
+                          }}
+                        >
+                          {t('Cancel')}
+                        </Button>
+                      )}
+                    </Box>
+                  </Box>
+
+                  {/* Second row: date + frequency (xs screens only) */}
+                  <Box
+                    sx={{
+                      display: { xs: 'flex', sm: 'none' },
+                      flexDirection: 'row',
+                      gap: 2,
+                      alignItems: 'flex-end'
+                    }}
+                  >
+                    {/* Date picker */}
+                    <ContextualHelp helpPagesKey="DateSince">
+                      <DatePicker
+                        key={i18n.language} // This forces a complete remount when locale changes
+                        label={t('Since day')}
+                        value={fieldSinceDate}
+                        onChange={setfieldSinceDate}
+                        format={getLocaleBasedFormat()}
+                        sx={{ width: 132 }}
+                        PopperProps={{ placement: 'bottom-start' }}
+                        minDate={new Date()} // Today onwards: only dates in the future
+                        formatDensity="spacious"
+                        inputRef={fieldSinceDateRef}
+                      />
+                    </ContextualHelp>
+
+                    {/* Frequency input */}
+                    <ContextualHelp helpPagesKey="Frequency">
+                      <TextField
+                        label={t('Freq.')}
+                        variant="outlined"
+                        type="number"
+                        value={fieldFrequency}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          // allow empty string or numeric strings only
+                          if (val === "" || /^[0-9\b]+$/.test(val)) {
+                            setFieldFrequency(val);
+                          }
+                        }}
+                        sx={{ width: 65 }}
+                        inputRef={fieldFrequencyRef}
+                      />
+                    </ContextualHelp>
+                  </Box>
+
+                  {/* Third row: buttons - only visible on xs screens */}
+                  <Box
+                    sx={{
+                      display: { xs: 'flex', sm: 'none' },
+                      flexDirection: 'row',
+                      gap: 2,
                       width: '100%',
                     }}
                   >
-                    {t('Cancel')}
-                  </Button>
-                )}
+                    <Button
+                      type="submit"
+                      onClick={addItem}
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      startIcon={mode === 'add' ? <Add /> : <Check />}
+                      disabled={!fieldMedicine} /* enable only when something is present in fieldMedicine, for a better UI clarity */
+                      sx={{
+                        height: 36,
+                        px: 0,
+                        width: mode === 'update' ? '100%' : 'auto',
+                        flexGrow: mode === 'update' ? 0 : 1,
+                      }}
+                    >
+                      {mode === 'add' ? t('Add') : t('Update')}
+                    </Button>
+                    {mode === 'update' && (
+                      <Button
+                        type="button"
+                        onClick={() => { resetItems(); setMode('add'); handleEditEnd(); }}
+                        variant="contained"
+                        color="default"
+                        size="large"
+                        sx={{
+                          height: 36,
+                          px: 0,
+                          width: '100%',
+                        }}
+                      >
+                        {t('Cancel')}
+                      </Button>
+                    )}
+                  </Box>
+                </Box>
               </Box>
-            </Box>
-
-          </Box>
+            </React.Fragment>
+          )}
         </StyledPaper>
       </Container>
     </LocalizationProvider>

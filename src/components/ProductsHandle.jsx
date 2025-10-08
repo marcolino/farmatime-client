@@ -341,8 +341,8 @@ const ProductTable = () => {
               <TableRow 
                 sx={(theme) => ({
                   "& th": {
-                    bgColor: theme.palette.secondary.main,
-                    color: theme.palette.common.black,
+                    bgcolor: theme.palette.secondary.main,
+                    color: theme.palette.text.secondary,
                     py: 0,
                     whiteSpace: "nowrap",
                   }

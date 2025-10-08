@@ -81,7 +81,6 @@ export function SortableItem({
           onClick={() => onEdit(id)}
           sx={{ 
             mx: 0,
-            //mx: isXs || isSm ? 0 : 0,
             '&:hover': { bgcolor: 'success.light' }
           }}
           disabled={isEditing}
