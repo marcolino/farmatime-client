@@ -150,11 +150,15 @@ const UserTable = () => {
   };
 
   const onBulkRemove = async (userIds, params) => {
+    const usersCountBeforeRemove = users.length;
     const result = await removeUser({ filter: userIds, ...params });
     if (result) {
-      setUsers(previousUsers => previousUsers.filter(user => !userIds.includes(user._id)));
+      setUsers(previousUsers => {
+        const newUsers = previousUsers.filter(user => !userIds.includes(user._id));
+        showSnackbar(t("Removed {{count}} users", { count: usersCountBeforeRemove - newUsers.length }), "success");
+        return newUsers;
+      });
       setSelected([]);
-      showSnackbar(t("Removed {{count}} users", { count: userIds.length }), "success");
     }
   };
 
@@ -372,7 +376,7 @@ const UserTable = () => {
 
       <Paper sx={{
         overflow: "hidden",
-        bgColor: theme.palette.background.default,
+        //backgroundColor: theme.palette.background.default,
         color: theme.palette.text.secondary,
       }}>
         <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 32rem))" }}>
@@ -440,7 +444,7 @@ const UserTable = () => {
                       selected={isItemSelected}
                       sx={(theme) => ({
                         "& td": {
-                          bgColor: theme.palette.ochre.light,
+                          //backgroundColor: theme.palette.ochre.light,
                           color: theme.palette.common.text,
                           py: 0,
                         }

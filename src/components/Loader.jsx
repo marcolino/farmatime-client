@@ -23,10 +23,12 @@ function Loader({ loading = false, lazyloading = false }) {
       }}>
         <CircularProgress
           variant="indeterminate"
-          color="primary" // set explicitly to ensure visibility
           thickness={config.spinner.thickness}
           size={config.spinner.size}
-          sx={{ opacity: config.spinner.opacity }}
+          sx={{
+            opacity: config.spinner.opacity,
+            color: config.spinner.color,
+          }}
         />
       </Box>
     ) : null

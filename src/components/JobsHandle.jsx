@@ -24,6 +24,7 @@ import { SectionHeader1 } from "mui-material-custom";
 import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause, Menu } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
+import { digitsCount } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
@@ -40,7 +41,7 @@ const JobsTable = () => {
   const { isMobile } = useMediaQueryContext();
   //const [action, setAction] = useState("");
   //const { job, setJob, jobsError } = useContext(JobContext);
-  const { jobs, /*currentJobId, setCurrentJobId, setJob, addJob,*/ setJobs, removeJob, getPlayPauseJob, jobsError, confirmJobsOnServer, jobIsCompleted/*, markJobAsCreatedNow, markJobAsModifiedNow*/ } = useContext(JobContext);
+  const { jobs, /*currentJobId, setCurrentJobId, setJob, addJob,*/ setJobs, removeJob, removeJobs, getPlayPauseJob, jobsError, confirmJobsOnServer, jobIsCompleted/*, markJobAsCreatedNow, markJobAsModifiedNow*/ } = useContext(JobContext);
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
   const rowsPerPageInitial = 10;
 
@@ -113,6 +114,16 @@ const JobsTable = () => {
       setPage(page - 1);
     }
   }, [jobs, page, rowsPerPage]);
+  
+  const onBulkRemove = async (jobIds) => {
+    const jobsCountBeforeRemove = jobs.length;
+    const jobsAfterRemove = removeJobs(jobIds);
+    if (await confirmJobsOnServer(jobsAfterRemove)) {
+      setJobs(jobsAfterRemove);
+      setSelected([]);
+      showSnackbar(t("Removed {{count}} jobs", { count: jobsCountBeforeRemove - jobsAfterRemove.length }), "success");
+    } // errors are handled with jobsError
+  };
   
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
@@ -449,7 +460,7 @@ const JobsTable = () => {
 
       <Paper sx={{
         overflow: "hidden",
-        bgColor: theme.palette.background.default,
+        //backgroundColor: theme.palette.background.default,
         color: theme.palette.text.secondary,
       }}>
         <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 32rem))" }}>
@@ -460,7 +471,7 @@ const JobsTable = () => {
               <TableRow 
                 sx={(theme) => ({
                   "& th": {
-                    bgcolor: theme.palette.secondary.main,
+                    backgroundColor: theme.palette.secondary.main,
                     color: theme.palette.text.secondary,
                     py: 0,
                     whiteSpace: "nowrap",
@@ -474,10 +485,12 @@ const JobsTable = () => {
                   />
                 </TableCell>
                 <TableCell
-                  // onClick={handleSort("id")}
-                  //sx={{ color: "grey!important" }}
+                  sx={{
+                    minWidth: 8 + (16 * (digitsCount(sortedFilteredPaginatedJobs.length))),
+                    whiteSpace: "nowrap",
+                  }}
                 >
-                  {t("#")}{/*sortButton({ column: "id" })*/}
+                  {t("#")}
                 </TableCell>
                 {/* <TableCell onClick={handleSort("isActive")}>
                   {t("Status")} {sortButton({ column: "isActive" })}
@@ -521,7 +534,7 @@ const JobsTable = () => {
                     selected={isItemSelected}
                     sx={(theme) => ({
                       "& td": {
-                        bgColor: theme.palette.ochre.light,
+                        //backgroundColor: theme.palette.ochre.main,
                         color: theme.palette.common.text,
                         py: 0,
                       }
@@ -605,7 +618,7 @@ const JobsTable = () => {
                           onClick={(e) => {
                             e.stopPropagation(); // Stop row selection immediately
                             showDialog({
-                              onConfirm: () => onRemoveJob(job.id)/*_removeJob(job.id)*/,
+                              onConfirm: () => onRemoveJob(job.id),
                               title: t("Confirm Delete"),
                               message: t("Are you sure you want to delete {{count}} selected job?", { count: 1 }),
                               confirmText: t("Confirm"),
@@ -634,7 +647,9 @@ const JobsTable = () => {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         )}
-        {/* <Box sx={{ padding: theme.spacing(2) }}>
+
+        {/* Bulk action buttons*/}
+        <Box sx={{ padding: theme.spacing(2) }}>
           <Button
             variant="contained"
             color="primary"
@@ -652,7 +667,7 @@ const JobsTable = () => {
           >
             {t("Remove selected jobs")}
           </Button>
-        </Box> */}
+        </Box>
 
       </Paper>
 

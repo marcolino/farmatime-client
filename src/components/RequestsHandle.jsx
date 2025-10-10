@@ -7,7 +7,7 @@ import { apiCall } from "../libs/Network";
 import {
   Container,
   Box,
-  Checkbox,
+  //Checkbox,
   IconButton,
   Paper,
   Table,
@@ -28,7 +28,7 @@ import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 //import { useDialog } from "../providers/DialogContext";
 import { isAdmin } from "../libs/Validation";
-import { formatDateYYYYMMDDHHMM } from "../libs/Misc";
+import { formatDateYYYYMMDDHHMM, digitsCount } from "../libs/Misc";
 import { AuthContext } from "../providers/AuthContext";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
@@ -66,7 +66,7 @@ const RequestsTable = () => {
 
   const statusTable = useMemo(() => [
     {
-      sortid: "status-00", color: "rgba(0, 15, 150, 1)", status: "request", label: t("request"),
+      sortid: "status-00", color: "rgba(0, 15, 150, 1)", status: "create", label: t("created"),
       showInLegenda: true, tooltip: t("The request was just created, no email sent yet"),
     },
     {
@@ -137,7 +137,6 @@ const RequestsTable = () => {
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
-        //showSnackbar("ok", "info");
         setRequests(result.requests);
       }
     })();
@@ -192,7 +191,9 @@ const RequestsTable = () => {
   };
 
   const clickTimeoutSet = (e, callback) => {
-    const delayDuration = 400; // milliseconds (usually O.S. use this value to distinguish among click and double click)
+    //const delayDuration = 400; // milliseconds (usually O.S. use this value to distinguish among click and double click)
+    // We currently do not need selecting items in this component
+    const delayDuration = 1; // milliseconds
     if (clickTimeoutRef.current) return; // ignore if timer already set
     clickTimeoutRef.current = setTimeout(() => {
       clickTimeoutRef.current = null;
@@ -221,7 +222,9 @@ const RequestsTable = () => {
     toggleRow(requestId);
   };
   
-  const onSelectRow = (e, id) => {
+  const onSelectRow = (/*e, id*/) => {
+    // We currently do not need selecting items in this component
+    /*
     e.stopPropagation(); // Prevents bubbling to TableRow and select the row
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -240,6 +243,7 @@ const RequestsTable = () => {
     }
 
     setSelected(newSelected);
+    */
   };
 
   // const onSwitchActiveStatus = async (jobId) => {
@@ -489,271 +493,287 @@ const RequestsTable = () => {
       </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <Paper sx={{
-        overflow: "hidden",
-        bgColor: theme.palette.background.default,
-        color: theme.palette.text.secondary,
-      }}>
-        <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 32rem))" }}>
-          {/* 12rem is the minimum vertical space for the table,
-              26rem is the extimated vertical space for elements above and below the table */}
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow 
-                sx={(theme) => ({
-                  "& th": {
-                    backgroundColor: theme.palette.secondary.main,
-                    color: theme.palette.text.secondary,
-                    py: 0,
-                    whiteSpace: "nowrap",
-                  }
-                })}>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    indeterminate={requests ? selected.length > 0 && selected.length < requests.length : false}
-                    checked={requests ? selected.length === requests.length : false}
-                    onChange={handleSelectAllClick}
-                  />
-                </TableCell>
-                <TableCell>
-                  {t("#")}
-                </TableCell>
-                <TableCell onClick={handleSort("status")}>
-                  {t("Status")} {sortButton({ column: "status" })}
-                </TableCell>
-                {isAdmin(auth.user) && (
-                  <TableCell onClick={handleSort("userName")}>
-                    {t("User")} {sortButton({ column: "userName" })}
+        <Paper sx={{
+          overflow: "hidden",
+          //backgroundColor: theme.palette.background.default,
+          color: theme.palette.text.secondary,
+        }}>
+          <TableContainer sx={{ maxHeight: "max(12rem, calc(100vh - 32rem))" }}>
+            {/* 12rem is the minimum vertical space for the table,
+                26rem is the extimated vertical space for elements above and below the table */}
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow 
+                  sx={(theme) => ({
+                    "& th": {
+                      backgroundColor: theme.palette.secondary.main,
+                      color: theme.palette.text.secondary,
+                      py: 0,
+                      height: 48, // fix height for all headers, to compensate for the absence of the checkbox
+                      whiteSpace: "nowrap",
+                    }
+                  })}>
+                  {/* // We currently do not need selecting items in this component
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        indeterminate={requests ? selected.length > 0 && selected.length < requests.length : false}
+                        checked={requests ? selected.length === requests.length : false}
+                        onChange={handleSelectAllClick}
+                      />
+                    </TableCell>
+                  */}
+                  {/* <TableCell>
+                    {t("#")}
+                  </TableCell> */}
+                  <TableCell align="right"
+                    sx={{
+                      minWidth: 8 + (16 * (digitsCount(sortedFilteredPaginatedRequests.length))),
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {t("#")}
                   </TableCell>
-                )}
-                <TableCell onClick={handleSort("createdAt")}>
-                  {t("Creation date")} {sortButton({ column: "createdAt" })}
-                </TableCell>
-                <TableCell onClick={handleSort("doctorName")}>
-                  {t("Doctor name")} {sortButton({ column: "doctorName" })}
-                </TableCell>
-                {/* <TableCell onClick={handleSort("doctorEmail")}>
-                  {t("Doctor email")} {sortButton({ column: "doctorEmail" })}
-                </TableCell> */}
-                <TableCell onClick={handleSort("patientName")}>
-                  {t("Patient name")} {sortButton({ column: "patientName" })}
-                </TableCell>
-                {/* <TableCell onClick={handleSort("patientEmail")}>
-                  {t("Patient email")} {sortButton({ column: "patientEmail" })}
-                </TableCell> */}
-                {/* <TableCell onClick={handleSort("provider")}>
-                  {t("Provider")} {sortButton({ column: "provider" })}
-                </TableCell> */}
-                <TableCell /*onClick={handleSort("medicines")}*/>
-                  {t("Medicines")} {/*sortButton({ column: "medicines" })*/}
-                </TableCell>
-                <TableCell>
-                  {t("Actions")}
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {sortedFilteredPaginatedRequests.map((request, index) => {
-                const isItemSelected = isSelected(request._id);
-                const lastStatus = statusTable.find(s => s.status === request.lastStatus);
-                const tooltip = (lastStatus ? lastStatus.tooltip : t(request.lastStatus)) +
-                  ((request.lastReason && request.lastReason !== 'sent') ? ` (${request.lastReason})` : '')
-                  ;
-                return (
-                  <React.Fragment key={request._id}>
-                    <TableRow
-                      hover
-                      onClick={(e) => handleClick(e, request._id)}
-                      onDoubleClick={(e) => handleDoubleClick(e, request._id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={request._id}
-                      selected={isItemSelected}
-                      sx={(theme) => ({
-                        "& th": {
-                          backgroundColor: theme.palette.ochre.light,
-                          color: theme.palette.common.text,
-                          py: 0,
-                        }
-                      })}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isItemSelected} />
-                      </TableCell>
-                      <TableCell>
-                        <Tooltip title={t("Progressive number")} arrow>
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box component="span">{1 + index}</Box>
-                          </Box>
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell>
-                        <Tooltip title={tooltip} arrow>
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <StatusDot bgcolor={lastStatus?.color} />
-                            {/* <Box
-                              component="span"
-                              sx={{
-                                display: "inline-block",
-                                ml: 1,
-                                width: 10,
-                                height: 10,
-                                borderRadius: "50%",
-                                //bgcolor: request.lastStatus === "created" ? "info.light" : "warning.light",
-                                bgcolor: lastStatus ? lastStatus.color : "black"
-                              }}
-                            /> */}
-                          </Box>
-                        </Tooltip>
-                      </TableCell>
-                      {isAdmin(auth.user) && (
-                        <TableCell>{request.userFirstName} {request.userLastName}</TableCell>
-                      )}
-                      <TableCell>{request.createdAt.split("T")[0]}</TableCell>
-                      <TableCell>{request.doctorName}</TableCell>
-                      {/* <TableCell>{request.doctorEmail}</TableCell> */}
-                      <TableCell>{request.patientFirstName} {request.patientLastName}</TableCell>
-                      {/* <TableCell>{request.patientEmail}</TableCell> */}
-                      {/* <TableCell>{request.provider}</TableCell> */}
-                      <TableCell>{(request.medicines?.length === 0) ? '' : `(${request.medicines?.length}) ${request.medicines[0]?.name}${request.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
-                      <TableCell>
-                        <Tooltip title={t("Show request details")} arrow>
-                          <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onMenuOpen(e, request._id)}>
-                            {/* <MenuOpen fontSize="small" /> */}
-                            {/* {openRowId === row.id ? <KeyboardArrowUp /> : <KeyboardArrowDown />} */}
-                            {openRowId === request._id ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                    
-                    {/* details row */}
-                    <TableRow>
-                      <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={Object.keys(request).length + 1}>
-                        <Collapse in={openRowId === request._id} timeout="auto" unmountOnExit>
-                          <Box margin={1}>
-                            {/* {t("Request ID")}: {request._id} */}
-                            {/* {t("User ID")}: {request.userId} */}
+                  <TableCell onClick={handleSort("status")}>
+                    {t("Status")} {sortButton({ column: "status" })}
+                  </TableCell>
+                  {isAdmin(auth.user) && (
+                    <TableCell onClick={handleSort("userName")}>
+                      {t("User")} {sortButton({ column: "userName" })}
+                    </TableCell>
+                  )}
+                  <TableCell onClick={handleSort("createdAt")}>
+                    {t("Creation date")} {sortButton({ column: "createdAt" })}
+                  </TableCell>
+                  <TableCell onClick={handleSort("doctorName")}>
+                    {t("Doctor name")} {sortButton({ column: "doctorName" })}
+                  </TableCell>
+                  {/* <TableCell onClick={handleSort("doctorEmail")}>
+                    {t("Doctor email")} {sortButton({ column: "doctorEmail" })}
+                  </TableCell> */}
+                  <TableCell onClick={handleSort("patientName")}>
+                    {t("Patient name")} {sortButton({ column: "patientName" })}
+                  </TableCell>
+                  {/* <TableCell onClick={handleSort("patientEmail")}>
+                    {t("Patient email")} {sortButton({ column: "patientEmail" })}
+                  </TableCell> */}
+                  {/* <TableCell onClick={handleSort("provider")}>
+                    {t("Provider")} {sortButton({ column: "provider" })}
+                  </TableCell> */}
+                  <TableCell /*onClick={handleSort("medicines")}*/>
+                    {t("Medicines")} {/*sortButton({ column: "medicines" })*/}
+                  </TableCell>
+                  <TableCell>
+                    {t("Actions")}
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedFilteredPaginatedRequests.map((request, index) => {
+                  const isItemSelected = isSelected(request._id);
+                  const lastStatus = statusTable.find(s => s.status === request.lastStatus);
+                  const tooltip = (lastStatus ? lastStatus.tooltip : t(request.lastStatus)) +
+                    ((request.lastReason && request.lastReason !== 'sent') ? ` (${request.lastReason})` : '')
+                    ;
+                  return (
+                    <React.Fragment key={request._id}>
+                      <TableRow
+                        hover
+                        onClick={(e) => handleClick(e, request._id)}
+                        onDoubleClick={(e) => handleDoubleClick(e, request._id)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={request._id}
+                        selected={isItemSelected}
+                        sx={(theme) => ({
+                          "& td": {
+                            //backgroundColor: theme.palette.ochre.light,
+                            color: theme.palette.common.text,
+                            py: 0,
+                          }
+                        })}
+                      >
+                        {/* // We currently do not need selecting items in this component
+                        <TableCell padding="checkbox">
+                          <Checkbox checked={isItemSelected} />
+                        </TableCell>
+                        */}
+                        <TableCell align="right">
+                          <Tooltip title={t("Progressive number")} arrow>
                             <Box>
-                              {t("Request creation date")}: {formatDateYYYYMMDDHHMM(request.createdAt)}
+                              {1 + index}
                             </Box>
-                            <Box>
-                              {t("User")}: {request.userFirstName} {request.userLastName}
+                            {/* <Box sx={{ display: "flex", alignItems: "center" }}>
+                              <Box component="span">{1 + index}</Box>
+                            </Box> */}
+                          </Tooltip>
+                        </TableCell>
+                        <TableCell>
+                          <Tooltip title={tooltip} arrow>
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                              <StatusDot bgcolor={lastStatus?.color} />
+                              {/* <Box
+                                component="span"
+                                sx={{
+                                  display: "inline-block",
+                                  ml: 1,
+                                  width: 10,
+                                  height: 10,
+                                  borderRadius: "50%",
+                                  //bgcolor: request.lastStatus === "created" ? "info.light" : "warning.light",
+                                  bgcolor: lastStatus ? lastStatus.color : "black"
+                                }}
+                              /> */}
                             </Box>
-                            <Box>
-                              {t("Patient")}: {request.patientFirstName} {request.patientLastName}, {t("email")}: {request.patientEmail}
-                            </Box>
-                            <Box>
-                              {t("Doctor")}: {request.doctorName}, {t("email")}: {request.doctorEmail}
-                            </Box>
-                            {/* {t("Job ID")}: {request.jobId}*/}
-                            {t("Medicines")}:
-                            <Box component="ul" sx={{ pl: 3, mt: 0, mb: 0.5, listStyleType: 'decimal' }}>
-                              {request.medicines.map((medicine, idx) => (
-                                <Box component="li" key={idx}>
-                                  {medicine.name} {t("since")} {formatDateYYYYMMDDHHMM(medicine.since)}, {t("every")} {t('day', {count: parseInt(medicine.every)})}
-                                </Box>
-                              ))}
-                            </Box>
-                            {/* {t("Email provider")}: {request.provider}, {t("email id")}: {request.providerMessageId} */}
-                            {/* {t("Email id")}: {request.providerMessageId} */}
-                            <Box>
-                              {t("Email message states")}:
-                              <Box component="div" sx={{ pl: 3, mt: 0, mb: 0.5 }}>
-                                {(request.events.length === 0) && ( // TODO: should not happen...
-                                  <Box component="span">2
-                                    {t("none (no email sent yet)") + "!"}
+                          </Tooltip>
+                        </TableCell>
+                        {isAdmin(auth.user) && (
+                          <TableCell>{request.userFirstName} {request.userLastName}</TableCell>
+                        )}
+                        <TableCell>{request.createdAt.split("T")[0]}</TableCell>
+                        <TableCell>{request.doctorName}</TableCell>
+                        {/* <TableCell>{request.doctorEmail}</TableCell> */}
+                        <TableCell>{request.patientFirstName} {request.patientLastName}</TableCell>
+                        {/* <TableCell>{request.patientEmail}</TableCell> */}
+                        {/* <TableCell>{request.provider}</TableCell> */}
+                        <TableCell>{(request.medicines?.length === 0) ? '' : `(${request.medicines?.length}) ${request.medicines[0]?.name}${request.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
+                        <TableCell>
+                          <Tooltip title={t("Show request details")} arrow>
+                            <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onMenuOpen(e, request._id)}>
+                              {/* <MenuOpen fontSize="small" /> */}
+                              {/* {openRowId === row.id ? <KeyboardArrowUp /> : <KeyboardArrowDown />} */}
+                              {openRowId === request._id ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+                      </TableRow>
+                      
+                      {/* details row */}
+                      <TableRow>
+                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={Object.keys(request).length + 1}>
+                          <Collapse in={openRowId === request._id} timeout="auto" unmountOnExit>
+                            <Box margin={1}>
+                              {/* {t("Request ID")}: {request._id} */}
+                              {/* {t("User ID")}: {request.userId} */}
+                              <Box>
+                                {t("Request creation date")}: {formatDateYYYYMMDDHHMM(request.createdAt)}
+                              </Box>
+                              <Box>
+                                {t("User")}: {request.userFirstName} {request.userLastName}
+                              </Box>
+                              <Box>
+                                {t("Patient")}: {request.patientFirstName} {request.patientLastName}, {t("email")}: {request.patientEmail}
+                              </Box>
+                              <Box>
+                                {t("Doctor")}: {request.doctorName}, {t("email")}: {request.doctorEmail}
+                              </Box>
+                              {/* {t("Job ID")}: {request.jobId}*/}
+                              {t("Medicines")}:
+                              <Box component="ul" sx={{ pl: 3, mt: 0, mb: 0.5, listStyleType: 'decimal' }}>
+                                {request.medicines.map((medicine, idx) => (
+                                  <Box component="li" key={idx}>
+                                    {medicine.name} {t("since")} {formatDateYYYYMMDDHHMM(medicine.since)}, {t("every")} {t('day', {count: parseInt(medicine.every)})}
                                   </Box>
-                                )}
-                                {request.events
-                                  .slice() // avoid mutating original
-                                  .sort((a, b) => {
-                                    const sortA = statusTable.find(s => s.status === a.status)?.sortid || "";
-                                    const sortB = statusTable.find(s => s.status === b.status)?.sortid || "";
-                                    return sortA.localeCompare(sortB);
-                                  })
-                                  .map((event, idx) => (
-                                    <Box key={idx}>
-                                      <StatusDot bgcolor={() => statusTable.find(s => s.status === event.status)?.color} />
-                                      {/* <Box
-                                        component="span"
-                                        sx={{
-                                          display: "inline-block",
-                                          mr: 1,
-                                          width: 10,
-                                          height: 10,
-                                          borderRadius: "50%",
-                                          bgcolor: statusTable.find(s => s.status === lastStatus.status)?.color ?? "black"
-                                        }}
-                                      /> */}
-                                      {formatDateYYYYMMDDHHMM(event.at)} - {t(event.status)} 
-                                      {(event.reason && event.reason !== "sent") && (<span> &nbsp; {event.reason}</span>)}
+                                ))}
+                              </Box>
+                              {/* {t("Email provider")}: {request.provider}, {t("email id")}: {request.providerMessageId} */}
+                              {/* {t("Email id")}: {request.providerMessageId} */}
+                              <Box>
+                                {t("Email message states")}:
+                                <Box component="div" sx={{ pl: 3, mt: 0, mb: 0.5 }}>
+                                  {(request.events.length === 0) && ( // TODO: should not happen...
+                                    <Box component="span">2
+                                      {t("none (no email sent yet)") + "!"}
                                     </Box>
-                                  ))
-                                }
+                                  )}
+                                  {request.events
+                                    .slice() // avoid mutating original
+                                    .sort((a, b) => {
+                                      const sortA = statusTable.find(s => s.status === a.status)?.sortid || "";
+                                      const sortB = statusTable.find(s => s.status === b.status)?.sortid || "";
+                                      return sortA.localeCompare(sortB);
+                                    })
+                                    .map((event, idx) => (
+                                      <Box key={idx}>
+                                        <StatusDot bgcolor={() => statusTable.find(s => s.status === event.status)?.color} />
+                                        {/* <Box
+                                          component="span"
+                                          sx={{
+                                            display: "inline-block",
+                                            mr: 1,
+                                            width: 10,
+                                            height: 10,
+                                            borderRadius: "50%",
+                                            bgcolor: statusTable.find(s => s.status === lastStatus.status)?.color ?? "black"
+                                          }}
+                                        /> */}
+                                        {formatDateYYYYMMDDHHMM(event.at)} - {t(event.status)} 
+                                        {(event.reason && event.reason !== "sent") && (<span> &nbsp; {event.reason}</span>)}
+                                      </Box>
+                                    ))
+                                  }
+                                </Box>
                               </Box>
                             </Box>
-                          </Box>
-                        </Collapse>
-                      </TableCell>
-                    </TableRow>
-                  </React.Fragment>
-                );
+                          </Collapse>
+                        </TableCell>
+                      </TableRow>
+                    </React.Fragment>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {(requests && requests.length > rowsPerPageOptions[0]) && ( // do not show pagination stuff if a few rows are present
+            <TablePagination
+              rowsPerPageOptions={rowsPerPageOptions}
+              component="div"
+              count={requests.length ?? 0}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          )}
+          {/* <Box sx={{ padding: theme.spacing(2) }}>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth={false}
+              //onClick={() => handleConfirmOpen("removeBulk")}
+              onClick={() => showDialog({
+                onConfirm: () => onBulkRemove(selected),
+                title: t("Confirm Delete"),
+                message: t("Are you sure you want to delete {{count}} selected job?", { count: selected.length }),
+                confirmText: t("Confirm"),
+                cancelText: t("Cancel"),
               })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        {(requests && requests.length > rowsPerPageOptions[0]) && ( // do not show pagination stuff if a few rows are present
-          <TablePagination
-            rowsPerPageOptions={rowsPerPageOptions}
-            component="div"
-            count={requests.length ?? 0}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        )}
-        {/* <Box sx={{ padding: theme.spacing(2) }}>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth={false}
-            //onClick={() => handleConfirmOpen("removeBulk")}
-            onClick={() => showDialog({
-              onConfirm: () => onBulkRemove(selected),
-              title: t("Confirm Delete"),
-              message: t("Are you sure you want to delete {{count}} selected job?", { count: selected.length }),
-              confirmText: t("Confirm"),
-              cancelText: t("Cancel"),
-            })}
-            disabled={selected.length === 0}
-            sx={{mr: theme.spacing(2)}}
-          >
-            {t("Remove selected jobs")}
-          </Button>
-        </Box> */}
+              disabled={selected.length === 0}
+              sx={{mr: theme.spacing(2)}}
+            >
+              {t("Remove selected jobs")}
+            </Button>
+          </Box> */}
 
         </Paper>
         
-      {sortedFilteredPaginatedRequests.length > 0 && (
-        // <Box
-        //   sx={{
-        //     display: "flex",
-        //     flexDirection: "column",
-        //     justifyContent: "flex-end",
-        //     height: "100%",
-        //     mt: 2,
-        //   }}
-        // >
-        //   <Legenda title={t("Status legenda")} items={statusTable} />
-        // </Box>
-      
-        <Box sx={{ mt: 2 }}>
-          <Legenda title={t("Status legenda")} items={statusTable} />
-        </Box>
-      )}
+        {sortedFilteredPaginatedRequests.length > 0 && (
+          // <Box
+          //   sx={{
+          //     display: "flex",
+          //     flexDirection: "column",
+          //     justifyContent: "flex-end",
+          //     height: "100%",
+          //     mt: 2,
+          //   }}
+          // >
+          //   <Legenda title={t("Status legenda")} items={statusTable} />
+          // </Box>
+        
+          <Box sx={{ mt: 2 }}>
+            <Legenda title={t("Status legenda")} items={statusTable} />
+          </Box>
+        )}
       </Box>
 
       {requests && sortedFilteredPaginatedRequests.length === 0 && (

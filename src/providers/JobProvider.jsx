@@ -218,6 +218,13 @@ export const JobProvider = ({ children }) => {
     [jobs]
   );
 
+  const removeJobs = useCallback(
+    (idsToRemove) => {
+      return jobs.filter(job => !idsToRemove.includes(job.id));
+    },
+    [jobs]
+  );
+
   const jobIsCompleted = (id) => {
     // Check if all required fields are valid
     return jobs.find(job => job.id === id).stepsCompleted.every(Boolean);
@@ -255,6 +262,7 @@ export const JobProvider = ({ children }) => {
         jobDraftIsDirty,
         setJobDraftDirty,
         removeJob,
+        removeJobs,
         resetJobs,
         clearJobsError,
         jobIsCompleted,

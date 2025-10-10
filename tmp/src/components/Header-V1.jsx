@@ -26,6 +26,7 @@ import { isAdmin } from "../libs/Validation";
 import { fetchBuildInfoData } from "../libs/Misc";
 import logoMainHeader from "../assets/images/LogoMainHeader.png";
 import logoTextHeader from "../assets/images/LogoTextHeader.png";
+//import clientPackageJson from "../../package.json";
 import serverPackageJson from "../../../farmatime-server/package.json"; // WARNING: this depends on folders structure...
 import config from "../config";
 
@@ -163,11 +164,17 @@ const Header = ({ theme, toggleTheme }) => {
   const userItems = [
     ...(isLoggedIn && isAdmin(auth.user) ?
       [
+        // {
+        //   label: t("Handle users"),
+        //   icon: <ManageAccounts />,
+        //   href: "/handle-users",
+        // },
         ...(config.ui.products.enabled ?
           [
             {
               label: t("Handle products"),
               icon: <Category />,
+              //href: "/handle-products",
               onClick: handleProducts,
             },
           ]
@@ -179,42 +186,52 @@ const Header = ({ theme, toggleTheme }) => {
         {
           label: `${t("Profile")} (${roleNameHighestPriority})`,
           icon: <AccountCircle />,
+          //href: `/edit-user/${auth?.user?.id}/editProfile`,
           onClick: () => handleEditProfile(auth?.user?.id),
         },
         {
           label: t("Advanced Options"),
           icon: <SettingsSuggest />,
+          //href: false,
           onClick: () => handleAdvancedOptions(),
           shortcutKey: "", //"Ctrl-O"
         },
         {
           label: `${t("Requests History")}`,
           icon: <History />,
+          //href: false,
           onClick: () => handleHistory(),
           shortcutKey: "",
         },
-        /*
-        {
-          label: t("Export data"),
-          icon: <ImportExport />,
-          href: false,
-          onClick: () => handlejobsExport(),
-          shortcutKey: "", //"Ctrl-I"
-        },
-        {
-          label: t("Import data"),
-          icon: <ImportExport />,
-          href: false,
-          onClick: () => handlejobsImport({ onDataImported: (data) => alert(data) }),
-          shortcutKey: "", //"Ctrl-E"
-        },
-        */
+        // {
+        //   label: t("Export data"),
+        //   icon: <ImportExport />,
+        //   href: false,
+        //   onClick: () => handlejobsExport(),
+        //   shortcutKey: "", //"Ctrl-I"
+        // },
+        // {
+        //   label: t("Import data"),
+        //   icon: <ImportExport />,
+        //   href: false,
+        //   onClick: () => handlejobsImport({ onDataImported: (data) => alert(data) }),
+        //   shortcutKey: "", //"Ctrl-E"
+        // },
       ] : []
     ),
     {
       label: t("Change theme"),
       icon: theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />,
-      onClick: () => toggleTheme()
+      // icon: (
+      //   <IconButton onClick={toggleTheme} sx={{ padding: 0 }}>
+      //     {theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />}
+      //   </IconButton>
+      // ),
+      onClick: toggleTheme
+      // onClick: () => {
+      //   toggleTheme();
+      //   handleUserMenuClose();
+      // }
     },
     {
       label: t("Info"),
@@ -223,13 +240,15 @@ const Header = ({ theme, toggleTheme }) => {
           <InfoIcon />
         </IconButton>
       ),
-      onClick: () => info()
+      //href: null,
+      onClick: info
     },
     ...(isLoggedIn ?
       [
         {
           label: t("Sign out"),
           icon: <ExitToApp />,
+          //href: false,
           onClick: () => handleSignOut(),
           shortcutKey: "", //"Ctrl-Q"
         },
@@ -351,9 +370,11 @@ const Header = ({ theme, toggleTheme }) => {
     <AppBar
       position="sticky"
       elevation={1}
-    >
+      sx={{ bgColor: theme.palette.ochre.light }}>
       <Toolbar>
         <Box
+          //component={Link}
+          //href="/"
           onClick={handleHomeLink}
           display="flex"
           alignItems="center"
@@ -369,12 +390,12 @@ const Header = ({ theme, toggleTheme }) => {
             alt="Main logo"
             sx={{
               width: 48,
-              height: "auto", // Let browser calculate height proportionally
+              height: "auto", // let browser calculate height proportionally
               _mt: 0.5,
               mr: 3,
               borderRadius: 2,
-              display: "block", // Remove inline spacing
-              userSelect: "none", // Avoid user select
+              display: "block", // remove inline spacing
+              userSelect: "none", // avoid user select
             }}
           />
           <Box
@@ -383,9 +404,12 @@ const Header = ({ theme, toggleTheme }) => {
             alt="Main text logo"
             sx={{
               width: { xs: 200, sm: 210 },
-              height: "auto", // Let browser calculate height proportionally
+              height: "auto", // let browser calculate height proportionally
+              _mr: 2,
               mt: 1,
-              userSelect: "none", // Avoid user select
+              userSelect: "none", // avoid user select
+              //borderRadius: 2,
+              //display: "block" // remove inline spacing
             }}
           />
         </Box>
@@ -433,6 +457,8 @@ const Header = ({ theme, toggleTheme }) => {
               <Button
                 key={section.key}
                 color="inherit"
+                // component={RouterLink}
+                // to={section.to}
                 onClick={() => handleSectionLink(section)}
               >
                 {section.text}
@@ -476,12 +502,76 @@ const Header = ({ theme, toggleTheme }) => {
             </Button>
           }
 
+          {/* <Menu
+            id="menu-appbar"
+            anchorEl={anchorUserMenuEl}
+            open={userMenuIsOpen}
+            onClose={handleUserMenuClose}
+            onClick={handleUserMenuClose} // to close on click everywhere
+          >
+            {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
+              <MenuItem
+                key={label}
+                component={RouterLink}
+                to={href}
+                {...(href ?
+                  { component: RouterLink, to: href } :
+                  { onClick: () => { onClick(); handleUserMenuClose(); } })
+                }
+              >
+                <ListItemIcon>
+                  {icon}
+                </ListItemIcon>
+                <ListItemText onClick={onClick}>{label}</ListItemText>
+                {shortcutKey && <Typography variant="body2" sx={{ color: "text.secondary", fontStyle: "italic" }}>
+                  &nbsp; {shortcutKey}
+                </Typography>}
+              </MenuItem>
+            ))}
+          </Menu> */}
+
           <Menu
             id="menu-appbar"
             anchorEl={anchorUserMenuEl}
             open={userMenuIsOpen}
             onClose={handleUserMenuClose}
-            onClick={handleUserMenuClose} // To close on click everywhere
+          >
+            {userItems.map(({ label, icon, href, onClick, shortcutKey }) =>
+              href ? (
+                <MenuItem
+                  key={label}
+                  component={RouterLink}
+                  to={href}
+                  onClick={setTimeout(() => { handleUserMenuClose }, 1000)}
+                >
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText>{label}</ListItemText>
+                </MenuItem>
+              ) : (
+                <MenuItem
+                    key={label}
+                    onClick={() => {
+                      setTimeout(() => {
+                        alert('.');
+                        if (onClick) onClick();
+                      }, 100); // then run action safely
+                      //handleUserMenuClose(); // close first
+                    }}
+                >
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText>{label}</ListItemText>
+                </MenuItem>
+              )
+            )}
+          </Menu>
+          
+          {/*
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorUserMenuEl}
+            open={userMenuIsOpen}
+            onClose={handleUserMenuClose}
+            onClick={handleUserMenuClose} // to close on click everywhere
           >
             {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
               href
@@ -504,8 +594,10 @@ const Header = ({ theme, toggleTheme }) => {
                   <MenuItem
                     key={label}
                     onClick={() => {
-                      if (onClick) onClick();
                       handleUserMenuClose();
+                      setTimeout(() => onClick?.(), 0); // to prevent any interference with MUI’s Menu/Drawer event handling
+                      // if (onClick) onClick();
+                      // handleUserMenuClose();
                     }}
                   >
                     <ListItemIcon>
@@ -519,6 +611,7 @@ const Header = ({ theme, toggleTheme }) => {
                 )
             ))}
           </Menu>
+          */}
         </>
         
       </Toolbar>

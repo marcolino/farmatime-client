@@ -63,6 +63,7 @@ const ItemContainer = styled(Box, {
     `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 450px - 120px)` :
     `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 500px - 120px)`
   ,
+  minHeight: 100, // to let the medicines container always visible
   overflowY: 'auto',
   marginBottom: theme.spacing(2),
   paddingLeft: theme.spacing(1),
@@ -123,7 +124,6 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   // Reset date when locale changes
   useEffect(() => {
     setfieldSinceDate(new Date());
-    
   }, []);
 
   // Focus handling

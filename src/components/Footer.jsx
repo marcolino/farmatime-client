@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Box, Typography } from "@mui/material";
-//import DialogConfirm from "./DialogConfirm";
 import SignalWifi3BarOutlinedIcon from "@mui/icons-material/SignalWifi3BarOutlined";
 import SignalWifiBadOutlinedIcon from "@mui/icons-material/SignalWifiBadOutlined";
-//import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { AuthContext } from "../providers/AuthContext";
 import { useDialog } from "../providers/DialogContext";
 import { OnlineStatusContext } from "../providers/OnlineStatusContext";
@@ -18,10 +16,6 @@ const Footer = ({ changeLocale }) => {
   const [buildInfo, setBuildInfo] = useState(null);
   const [languageFlag, setLanguageFlag] = useState(config.locales[i18n.language].flag);
   const { showDialog } = useDialog();
-  // const [openDialog, setOpenDialog] = useState(false);
-  // const [dialogTitle, setDialogTitle] = useState(null);
-  // const [dialogContent, setDialogContent] = useState(null);
-  // const [dialogCallback, setDialogCallback] = useState(null);
   const isOnline = useContext(OnlineStatusContext);
   const { auth, guest } = useContext(AuthContext);
 

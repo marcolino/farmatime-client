@@ -403,6 +403,10 @@ export const fetchBuildInfoData = async () => {
   }
 };
 
+export const digitsCount = (n) => {
+  return n === 0 ? 1 : Math.floor(Math.log10(Math.abs(n))) + 1;
+}
+
 // export const fetchBuildInfoData = async () => {
 //   return fetch("/build-info-client.json")
 //     .then((response) => response.json())
