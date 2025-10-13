@@ -6,7 +6,19 @@ import i18n from "i18next";
 // Strings in config.json, that cannot be translated there to avoid circular dependencies hell
 i18n.t("INDEX_DESCRIPTION"); // app description
 
-//i18n.t_("request");
+// States from Brevo web hooks
+i18n.t("create");
+i18n.t("request");
+i18n.t("delivered");
+i18n.t("click");
+i18n.t("opened");
+i18n.t("hard_bounce");
+i18n.t("soft_bounce");
+i18n.t("invalid_email");
+i18n.t("blocked");
+i18n.t("spam");
+i18n.t("unsubscribed");
+i18n.t("error");
 
 // app modes
 i18n.t("production");

@@ -707,7 +707,7 @@ const RequestsTable = () => {
                                             bgcolor: statusTable.find(s => s.status === lastStatus.status)?.color ?? "black"
                                           }}
                                         /> */}
-                                        {formatDateYYYYMMDDHHMM(event.at)} - {t(event.status)} 
+                                        {formatDateYYYYMMDDHHMM(event.at)} - {t(event.status)} ({event.status})
                                         {(event.reason && event.reason !== "sent") && (<span> &nbsp; {event.reason}</span>)}
                                       </Box>
                                     ))

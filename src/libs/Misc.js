@@ -1,6 +1,6 @@
 import React from "react";
-import { format } from 'date-fns';
-import { enUS, it, fr, de, es } from 'date-fns/locale';
+import { format } from "date-fns";
+import { enUS, it, fr, de, es } from "date-fns/locale";
 import LocalStorage from "../libs/LocalStorage";
 import { i18n } from "../i18n";
 import config from "../config";
@@ -242,7 +242,7 @@ export const setupCustomConsole = () => {
 };
 
 // date formatting functions
-export const localeMap = { // TODO: to config
+export const localeMap = {
   en: enUS,
   it: it,
   fr: fr,

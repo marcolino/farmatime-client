@@ -20,7 +20,7 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
   const { t } = useTranslation();
   //const navigate = useNavigate();
   const { auth } = useContext(AuthContext);
-  const { emailTemplate } = useContext(JobContext);
+  const { emailTemplate } = useContext(JobContext) || {};
   const [bodyExpanded, setBodyExpanded] = useState(null);
 
   // if (!data.emailTemplate) {

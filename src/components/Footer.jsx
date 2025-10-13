@@ -7,6 +7,7 @@ import { AuthContext } from "../providers/AuthContext";
 import { useDialog } from "../providers/DialogContext";
 import { OnlineStatusContext } from "../providers/OnlineStatusContext";
 import { fetchBuildInfoData } from "../libs/Misc";
+import { useInfo } from "../hooks/useInfo";
 import { i18n, getNextSupportedLanguage }  from "../i18n";
 import packageJson from "../../package.json";
 import config from "../config";
@@ -18,6 +19,7 @@ const Footer = ({ changeLocale }) => {
   const { showDialog } = useDialog();
   const isOnline = useContext(OnlineStatusContext);
   const { auth, guest } = useContext(AuthContext);
+  const { info } = useInfo();
 
   useEffect(() => { // read build info from file on disk
     if (import.meta.env.MODE === "test") return; // skip in vitest
@@ -105,6 +107,7 @@ const Footer = ({ changeLocale }) => {
       >
         {/* app name, version and copyright */}
         <Box
+          onClick={info}
           sx={{ lineHeight: 1, mr: 2 }}
         >
           {`

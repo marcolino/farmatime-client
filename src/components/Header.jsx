@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react"; 
 import {
   AppBar, Toolbar, Box, Typography, Button, IconButton, Badge,
-  ListItemText, ListItemIcon, Menu, MenuItem, Tooltip, Grid,
+  ListItemText, ListItemIcon, Menu, MenuItem, Tooltip,
+  Fab,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -12,6 +13,7 @@ import {
   ShoppingCart, Category, Brightness4, Brightness7,
   ContactPhone, /*ImportExport,*/ SettingsSuggest, History,
   InfoOutline as InfoIcon,
+  NotificationsActive,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
@@ -24,13 +26,14 @@ import { useDialog } from "../providers/DialogContext";
 import { useCart } from "../providers/CartProvider";
 import { isAdmin } from "../libs/Validation";
 import { fetchBuildInfoData } from "../libs/Misc";
+import { useInfo } from "../hooks/useInfo";
 import logoMainHeader from "../assets/images/LogoMainHeader.png";
 import logoTextHeader from "../assets/images/LogoTextHeader.png";
-import serverPackageJson from "../../../farmatime-server/package.json"; // WARNING: this depends on folders structure...
+//import serverPackageJson from "../../../farmatime-server/package.json"; // WARNING: this depends on folders structure...
 import config from "../config";
 
 const Header = ({ theme, toggleTheme }) => {
-  const { auth, isLoggedIn, signOut, didSignInBefore } = useContext(AuthContext);
+  const { auth, isLoggedIn, signOut, didSignInBefore, requestErrors, setRequestErrors } = useContext(AuthContext);
   const { jobDraftIsDirty, setJobDraftDirty } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
@@ -40,6 +43,8 @@ const Header = ({ theme, toggleTheme }) => {
   const { cartItemsQuantity } = useCart();
   const { isMobile } = useMediaQueryContext();
   const [buildInfo, setBuildInfo] = useState(null);
+  const { info } = useInfo();
+
 
   const sections = React.useMemo(() => [
     ...(config.ui.cart.enabled && config.ecommerce.enabled ? [{ // add cart to sections only if ui.cart and ecommerce is enabled
@@ -82,6 +87,8 @@ const Header = ({ theme, toggleTheme }) => {
 
   const isAuthRoute = () => (location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/forgot-password" || location.pathname === "/social-signin-success" || location.pathname === "/social-signin-error");
 
+  // TODO: put info in a component, to be used also from Footer ...
+  /*
   const infoTitle = t('Informations about this app');
   const mode =
     config.mode.production ? "production" :
@@ -102,7 +109,7 @@ const Header = ({ theme, toggleTheme }) => {
           borderRadius: 2,
         }}
       >
-        {/* Left column */}
+        {/* Left column * /}
         <Grid size={{ xs: 3, md: 1 }} display="flex" alignItems="center">
           <Box
             component="img"
@@ -118,7 +125,7 @@ const Header = ({ theme, toggleTheme }) => {
           />
         </Grid>
 
-        {/* Middle column */}
+        {/* Middle column * /}
         <Grid size={{ xs: 6, md: 10 }} textAlign="center">
           <Typography
             variant="h4"
@@ -134,7 +141,7 @@ const Header = ({ theme, toggleTheme }) => {
           </Typography>
         </Grid>
 
-        {/* Right column (empty, balances left) */}
+        {/* Right column (empty, balances left) * /}
         <Grid size={{ xs: 3, md: 1 }}></Grid>
       </Grid>
 
@@ -159,7 +166,8 @@ const Header = ({ theme, toggleTheme }) => {
       confirmText: t("Ok"),
     })
   };
-
+*/
+  
   const userItems = [
     ...(isLoggedIn && isAdmin(auth.user) ?
       [
@@ -237,14 +245,14 @@ const Header = ({ theme, toggleTheme }) => {
       : []),
   ];
 
-   useEffect(() => { // read build info from file on disk
+  useEffect(() => { // read build info from file on disk
     if (!buildInfo) {
       (async function () {
         const data = await fetchBuildInfoData();
         setBuildInfo(data);
       })();
     }
-   }, [buildInfo]);
+  }, [buildInfo]);
   
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -346,6 +354,20 @@ const Header = ({ theme, toggleTheme }) => {
     const proceed = () => navigate("cart", { replace: true });
     checkJobDraftIsDirty(t("Cart"), proceed);
   };
+
+  const handleRequestsErrorsNotification = () => {
+    showDialog({
+      title: t("Some errors in email requests"),
+      message: t("Some email requests could not be completed: it is possible some doctor email address is incorrect, or there was some network error") + ".",
+      confirmText: t("Show last requests"),
+      onConfirm: () => {
+        setRequestErrors(false);
+        navigate("/requests-history");
+      },
+      cancelText: t("Cancel"),
+    });
+  };
+
 
   return (
     <AppBar
@@ -529,6 +551,21 @@ const Header = ({ theme, toggleTheme }) => {
         drawerOpen={drawerOpen}
         toggleDrawer={toggleDrawer}
       />
+      
+      {requestErrors && ( // TODO: handle auth.user.requestsErrors set / reset
+        <Fab
+          onClick={handleRequestsErrorsNotification}
+          color="error"
+          aria-label="notification icon"
+          sx={{
+            position: "fixed",
+            bottom: "3em", // distance from bottom
+            right: "3em", // distance from right
+          }}
+        >
+          <NotificationsActive />
+        </Fab>
+      )}
       
     </AppBar>
   );

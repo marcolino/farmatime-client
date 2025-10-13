@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, lazy } from "react";
+import React, { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 // import { Paper, Typography } from "@mui/material";
 //import { useTranslation } from "react-i18next";
@@ -22,7 +22,7 @@ import { JobContext } from "../providers/JobContext";
 
 function Home() {
   const { isLoggedIn, didSignInBefore } = useContext(AuthContext);
-  const { jobs  } = useContext(JobContext);
+  const { jobs } = useContext(JobContext) || {};
   const navigate = useNavigate();
   
   useEffect(() => {

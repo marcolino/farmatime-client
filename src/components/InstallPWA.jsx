@@ -14,7 +14,7 @@ const InstallPWA = () => {
   const { t } = useTranslation();
   const hasAskedThisSession = useRef(false);
 
-  const { jobs } = useContext(JobContext);
+  const { jobs } = useContext(JobContext) || {};
   
   const timeToPromptUserToInstallApp = () => {
     const atLeastOneActivityConfirmed = (jobs.length >= 1); // condition: at least one job confirmed
