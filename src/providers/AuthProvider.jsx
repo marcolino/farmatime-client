@@ -24,7 +24,7 @@ const AuthProvider = (props) => {
   const didSignInBefore = (auth.user !== null);
   const [preferences, setPreferences] = useState(isLoggedIn ? auth.user?.preferences : initialStatePreferences);
   const isPWAInstalled = isLoggedIn ? (auth.user.isPWAInstalled === true) : false;
-  const requestErrors = useState(isLoggedIn ? auth.user?.requestErrors : false);
+  const requestErrors = isLoggedIn ? (auth.user.requestErrors === true) : false;
   //const { resetJobs } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const sessionTimerRef = useRef(null);

@@ -28,7 +28,7 @@ function Home() {
   useEffect(() => {
     //console.log("Home component mounted, jobs:", jobs);
     if (isLoggedIn) { // user is logged in
-      if (jobs.length > 0/* && jobs[0].isConfirmed*/) {
+      if (jobs && jobs.length > 0/* && jobs[0].isConfirmed*/) {
         //console.log("user is logged in and at least one job is present and completed, show JobsHandle component");
         return navigate("/jobs-handle", { replace: true });
       } else {

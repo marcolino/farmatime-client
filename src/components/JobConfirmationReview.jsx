@@ -9,7 +9,7 @@ import {
   //Tooltip,
 } from '@mui/material';
 import { AuthContext } from "../providers/AuthContext";
-import { formatDate } from '../libs/Misc';
+import { formatDateDDMMMYYYY } from '../libs/Misc';
 import { variablesExpand } from './JobEmailTemplateVariables';
 //import { Edit } from "@mui/icons-material";
 import { StyledPaper, StyledBox, StyledPaperSmall, StyledBoxSmall } from './JobStyles';
@@ -91,7 +91,7 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
             {data.medicines.map((medicine, index) => (
               <Typography key={index} variant="body2" component="li" sx={{ pl: 2 }}>
                 {t('Medicine')}: <b>{medicine.name}</b>{', '}
-                {t('since day')} <b>{formatDate(medicine.fieldSinceDate)}</b>{', '}
+                {t('since day')} <b>{formatDateDDMMMYYYY(medicine.fieldSinceDate)}</b>{', '}
                 {t('every')} <b>{t('day', {count: parseInt(medicine.fieldFrequency)})}</b>
               </Typography>
             ))}

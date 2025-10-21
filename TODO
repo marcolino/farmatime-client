@@ -258,7 +258,17 @@
 - In JobFlow.jsx, use lazy import to reduce chunk size, then we can lower chunkSizeWarningLimit (currently at 1792) in vite.config.js (NO) - OK
 - complete text in ContextualHelp - OK
 - migliorare il tema scuro (UserEdit, table header ...) - OK
+- info email del paziente: add: "Se il paziente non ha una email, specificare l'email di chi riceverà le prescrizioni" - OK
+- info: Ci puoi contattare all'email: posta@farmatime.it - OK
+- immagine Hero della landing: togliere scarabocchio blu ... - OK
+- rimuovere gestione isPWAInstalled, non viene mai salvata nell'utente, probabilmente non serve, la gestione isPWAInstalled sembra funzionare comunque (NO) - OK
 
+- "Alcune richieste via email non sono state completate:" = "Alcune richieste via email non sono andate a buon fine:"
+- showDialog: add mode (Success, Info, Warning, Error, ...); change Title background color based on mode... (default: success)
+- gestire requestErrors come PWAInstalled ...
+- in /base-assets only LogoMain.png (and .xcf) we need...
+- in riepilogo no variables substitution
+- text logo FarmaTime, do be done again with more definition
 - make tests (also use AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
 - better cookie popup: see unisalute.it
@@ -269,7 +279,7 @@
 - on signOut, clear cart-USERID (when using cart...)
 
 NEWFEATURE:
-- periodicamente eseguire `yarn update-medicines`
+- periodicamente eseguire `yarn update-medicines` (automaticamente, magari da .github/workflows/update-medicines.yml sul server, spostando yarn script e scripts/download-AIFA-data.cjs sul server, e poi copiando i nuovi files sul client, e forzando una build e una pub... Complicato, da pensare meglio...)
 - decidere se mantenere ed usare la gestione delle notifiche (libs/Firebase), o capire se c'è un metodo migliore
   (con vite/react16+) per gestire le notifiche in app (vedere /docs/PUSH-NOTIFICATIONS/*)
 - chiedere ad AI di completare le labels aria per tutti i componenti MUI

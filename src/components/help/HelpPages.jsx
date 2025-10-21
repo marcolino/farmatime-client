@@ -74,6 +74,7 @@ you should enter 18 here, to request the medicine every 18 days')
       content: (
         <>
           <p>{t('Enter the email of the patient')}.</p>
+          <p>{t('If the patient does not have an email, please specify the email address that receives the prescriptions')}.</p>
           <p>{t("The doctor will automatically replay to this email")}</p>
           <p></p>
         </>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react"; 
+import React, { useState, useEffect, useContext, useCallback } from "react"; 
 import {
   AppBar, Toolbar, Box, Typography, Button, IconButton, Badge,
   ListItemText, ListItemIcon, Menu, MenuItem, Tooltip,
-  Fab,
+  //Fab,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -13,27 +13,29 @@ import {
   ShoppingCart, Category, Brightness4, Brightness7,
   ContactPhone, /*ImportExport,*/ SettingsSuggest, History,
   InfoOutline as InfoIcon,
-  NotificationsActive,
+  //NotificationsActive,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
 import { cancelAllRequests } from "../middlewares/Interceptors";
+import FloatingBell from "../components/FloatingBell";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useSnackbarContext } from "../providers/SnackbarProvider";
 import { AuthContext } from "../providers/AuthContext";
 import { JobContext } from '../providers/JobContext';
 import { useDialog } from "../providers/DialogContext";
 import { useCart } from "../providers/CartProvider";
+import { apiCall } from "../libs/Network";
+import logoMainHeader from "../assets/images/LogoMainHeader.png";
 import { isAdmin } from "../libs/Validation";
 import { fetchBuildInfoData } from "../libs/Misc";
 import { useInfo } from "../hooks/useInfo";
-import logoMainHeader from "../assets/images/LogoMainHeader.png";
 import logoTextHeader from "../assets/images/LogoTextHeader.png";
 //import serverPackageJson from "../../../farmatime-server/package.json"; // WARNING: this depends on folders structure...
 import config from "../config";
 
 const Header = ({ theme, toggleTheme }) => {
-  const { auth, isLoggedIn, signOut, didSignInBefore, requestErrors, setRequestErrors } = useContext(AuthContext);
+  const { auth, isLoggedIn, signOut, didSignInBefore, /*requestErrors,*/ setRequestErrors } = useContext(AuthContext);
   const { jobDraftIsDirty, setJobDraftDirty } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
@@ -355,6 +357,13 @@ const Header = ({ theme, toggleTheme }) => {
     checkJobDraftIsDirty(t("Cart"), proceed);
   };
 
+  // const handleRequestsErrorsPolling = async () => {
+  //   return await apiCall("post", "/auth/requestErrors", { userId: auth.user._id });
+  // };
+  const handleRequestsErrorsPolling = useCallback(async () => {
+    return await apiCall("post", "/auth/requestErrors"/*, { userId: auth.user._id }*/);
+  }, [/*auth.user._id*/]);
+
   const handleRequestsErrorsNotification = () => {
     showDialog({
       title: t("Some errors in email requests"),
@@ -552,20 +561,35 @@ const Header = ({ theme, toggleTheme }) => {
         toggleDrawer={toggleDrawer}
       />
       
-      {requestErrors && ( // TODO: handle auth.user.requestsErrors set / reset
+      {/*
+          TODO: To avoid unwanted scrolls in home page:
+            - Move the FAB outside of any scrollable container (ideally near the root).
+            - Use bottom: 24, right: 24 instead of "3em".
+            - Add zIndex: 9999 for safety.
+            - Optionally, disable scroll bounce with "overscroll-behavior: none" in the outermost container.
+      */}
+      
+      {/* TODO: put in a new component */}
+      <FloatingBell
+        warning={auth.user.requestErrors}
+        pollingCallback={handleRequestsErrorsPolling}
+        onOkCallback={handleRequestsErrorsNotification}
+      />
+      {/* {requestErrors && (
         <Fab
           onClick={handleRequestsErrorsNotification}
           color="error"
           aria-label="notification icon"
           sx={{
             position: "fixed",
-            bottom: "3em", // distance from bottom
-            right: "3em", // distance from right
+            bottom: 32, // distance from bottom
+            right: 32, // distance from right
+            zIndex: 9999, // on top of everything else, but should not be necessary...
           }}
         >
           <NotificationsActive />
         </Fab>
-      )}
+      )} */}
       
     </AppBar>
   );

@@ -43,7 +43,7 @@ import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { i18n } from '../i18n';
-import { localeMap, formatDate } from '../libs/Misc';
+import { localeMap, formatDateDDMMM, getLanguageBasedFormatDDMMM } from '../libs/Misc';
 import config from '../config';
 
 const ItemContainer = styled(Box, {
@@ -299,6 +299,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     }
     setEditingItemId(id); // Use item.id for editingItemId
     setMode('update');
+    setShowAddUpdateBlock(true);
     setFieldToFocus(field); // e.g. 'name', 'frequency', or 'date'
     setOption(item.option || null); // Restore the full option object
     setFieldFrequency(item.fieldFrequency);
@@ -309,6 +310,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
 
   const handleEditEnd = useCallback(() => {
     setEditingItemId(null);
+    setShowAddUpdateBlock(false);
     onEditingChange(false); // Ensure parent knows editing has ended
   }, [onEditingChange]);
 
@@ -330,6 +332,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     }
   }, [data, onChange]);
 
+  /*
   const getLocaleBasedFormat = () => { // TODO: use lib function formatDateDDMMM
     const locale = i18n.language;
     //console.log('getLocaleBasedFormat called with locale:', locale);
@@ -352,7 +355,8 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     // Default fallback
     return 'dd MMM';
   };
-
+  */
+  
   const isDataLoaded =
     dataAnagrafica.length > 0 &&
     dataPrincipiAttivi.length > 0 &&
@@ -397,7 +401,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                           name={item.name}
                           frequency={item.fieldFrequency}
                           date={item.fieldSinceDate}
-                          formatDate={formatDate}
+                          formatDate={formatDateDDMMM}
                           onEdit={startEdit}
                           onRemove={removeItem}
                           isEditing={item.id === editingItemId}
@@ -514,7 +518,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                           label={t('Since day')}
                           value={fieldSinceDate}
                           onChange={setfieldSinceDate}
-                          format={getLocaleBasedFormat()}
+                          format={getLanguageBasedFormatDDMMM(i18n.language)}
                           sx={{ width: 132 }}
                           PopperProps={{ placement: 'bottom-start' }}
                           minDate={new Date()} // Today onwards: only dates in the future
@@ -536,7 +540,8 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                             const val = e.target.value;
                             // allow empty string or numeric strings only
                             if (val === "" || /^[0-9\b]+$/.test(val)) {
-                              setFieldFrequency(val);
+                              //setFieldFrequency(val);
+                              setFieldFrequency(val === "" ? "" : parseInt(val, 10));
                             }
                           }}
                           sx={{ width: { sm: 65, md: 145 } }}
@@ -606,7 +611,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                         label={t('Since day')}
                         value={fieldSinceDate}
                         onChange={setfieldSinceDate}
-                        format={getLocaleBasedFormat()}
+                        format={getLanguageBasedFormatDDMMM(i18n.language)}
                         sx={{ width: 132 }}
                         PopperProps={{ placement: 'bottom-start' }}
                         minDate={new Date()} // Today onwards: only dates in the future
@@ -626,7 +631,8 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                           const val = e.target.value;
                           // allow empty string or numeric strings only
                           if (val === "" || /^[0-9\b]+$/.test(val)) {
-                            setFieldFrequency(val);
+                            //setFieldFrequency(val);
+                            setFieldFrequency(val === "" ? "" : parseInt(val, 10));
                           }
                         }}
                         sx={{ width: 65 }}

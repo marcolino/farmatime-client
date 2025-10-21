@@ -250,18 +250,39 @@ export const localeMap = {
   es: es,
 };
 
-export const getLocaleBasedFormat = (language) => { // TODO: rename getLanguageBasedFormatDDMMM
-  if (language.startsWith('en-US')) return 'MMM dd';
-  if (language.startsWith('en') || language.startsWith('it') || language.startsWith('de') || language.startsWith('fr'))
+export const getLanguageBasedFormatDDMMM = (language) => {
+  if (language && language.startsWith('en-US')) return 'MMM dd';
+  if (language && (language.startsWith('en') || language.startsWith('it') || language.startsWith('de') || language.startsWith('fr')))
     return 'dd MMM';
   return 'dd MMM'; // Fallback
 };
 
-export const formatDate = (date, language = i18n.language) => { // TODO: rename formatDateDDMMM
+export const getLanguageBasedFormatDDMMMYYYY = (language) => {
+  if (language && language.startsWith('en-US')) return 'MMM dd yyyy';
+  if (language && (language.startsWith('en') || language.startsWith('it') || language.startsWith('de') || language.startsWith('fr')))
+    return 'dd MMM yyyy';
+  return 'dd MMM yyyy'; // Fallback
+};
+
+export const formatDate = (date, formatString, language = i18n.language) => { // TODO: rename formatDateDDMMM
   const locale = localeMap[language] || enUS; // fallback to enUS if locale is unknown
-  //return format(date, getLocaleBasedFormat(language), { locale });
-  const dateObj = new Date(date); // TODO: use new Date here to be more generic
-  const formatString = getLocaleBasedFormat(language);
+  const dateObj = new Date(date); // use new Date here to be more generic
+  const formatted = format(dateObj, formatString, { locale });
+  return formatted;
+};
+
+export const formatDateDDMMM = (date, language = i18n.language) => { // TODO: rename formatDateDDMMM
+  const locale = localeMap[language] || enUS; // fallback to enUS if locale is unknown
+  const dateObj = new Date(date); // use new Date here to be more generic
+  const formatString = getLanguageBasedFormatDDMMM(language);
+  const formatted = format(dateObj, formatString, { locale });
+  return formatted;
+};
+
+export const formatDateDDMMMYYYY = (date, language = i18n.language) => { // TODO: rename formatDateDDMMM
+  const locale = localeMap[language] || enUS; // fallback to enUS if locale is unknown
+  const dateObj = new Date(date); // use new Date here to be more generic
+  const formatString = getLanguageBasedFormatDDMMMYYYY(language);
   const formatted = format(dateObj, formatString, { locale });
   return formatted;
 };
