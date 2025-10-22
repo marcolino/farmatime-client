@@ -5,11 +5,12 @@ import {
 } from "@mui/material";
 import { useMediaQueryContext } from "../../providers/MediaQueryContext";
 
+
 export function SectionHeader1({
   ...props
 }) {
   const { isMobile } = useMediaQueryContext();
-  
+
   return (
     <Paper
       elevation={2}

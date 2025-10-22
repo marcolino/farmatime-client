@@ -24,7 +24,7 @@ const AuthProvider = (props) => {
   const didSignInBefore = (auth.user !== null);
   const [preferences, setPreferences] = useState(isLoggedIn ? auth.user?.preferences : initialStatePreferences);
   const isPWAInstalled = isLoggedIn ? (auth.user.isPWAInstalled === true) : false;
-  const requestErrors = isLoggedIn ? (auth.user.requestErrors === true) : false;
+  //const requestErrors = isLoggedIn ? (auth.user.requestErrors === true) : false;
   //const { resetJobs } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const sessionTimerRef = useRef(null);
@@ -186,15 +186,15 @@ const AuthProvider = (props) => {
     }
   }, [auth.user, setAuth]);
 
-  const setRequestErrors = useCallback(async (how) => {
-    console.log("AuthProvider setRequestErrors, user:", auth.user);
-    if (auth.user) {
-      setAuth({ user: {
-        ...auth.user,
-        requestErrors: how, // how is a boolean
-      }});
-    }
-  }, [auth.user, setAuth]);
+  // const setRequestErrors = useCallback(async (how) => {
+  //   console.log("AuthProvider setRequestErrors, user:", auth.user);
+  //   if (auth.user) {
+  //     setAuth({ user: {
+  //       ...auth.user,
+  //       requestErrors: how, // how is a boolean
+  //     }});
+  //   }
+  // }, [auth.user, setAuth]);
 
   // const updateSignedInUserLocally = useCallback(async (updatedUser) => {
   //   setAuth({ user: updatedUser });
@@ -238,7 +238,7 @@ const AuthProvider = (props) => {
       isLoggedIn, didSignInBefore, signIn, updateSignedInUserPreferences,
       cloneGuestUserPreferencesToAuthUserOnSignup, signOut, revoke, changeLocale,
       toggleTheme, isPWAInstalled, setPWAInstalled, updateSignedInUserLocally,
-      requestErrors, setRequestErrors,
+      //requestErrors, setRequestErrors,
     }}>
       {props.children}
     </AuthContext.Provider>

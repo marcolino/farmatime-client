@@ -29,7 +29,6 @@ import {
   styled
 } from '@mui/material'; // Changed to @mui/material
 import { Add, Check} from '@mui/icons-material';
-//import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTranslation } from 'react-i18next';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -97,8 +96,6 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   const [mode, setMode] = useState('add');
   const [fieldToFocus, setFieldToFocus] = useState(null);
   const { showSnackbar } = useSnackbarContext();
-  //const isXs = useMediaQuery(theme.breakpoints.down('sm'));
-  //const isSm = useMediaQuery(theme.breakpoints.down('md'));
   const { isMobile } = useMediaQueryContext();
 
   // References to input fields
@@ -331,31 +328,6 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
       onChange(arrayMove(data, oldIndex, newIndex));
     }
   }, [data, onChange]);
-
-  /*
-  const getLocaleBasedFormat = () => { // TODO: use lib function formatDateDDMMM
-    const locale = i18n.language;
-    //console.log('getLocaleBasedFormat called with locale:', locale);
-
-    // US format: MMM dd (Jun 02)
-    if (locale.startsWith('en')) {
-      return 'MMM dd';
-    }
-
-    // Most other locales: dd MMM (02 Jun)
-    if (
-      locale.startsWith('en') ||
-      locale.startsWith('it') ||
-      locale.startsWith('de') ||
-      locale.startsWith('fr')
-    ) {
-      return 'dd MMM';
-    }
-
-    // Default fallback
-    return 'dd MMM';
-  };
-  */
   
   const isDataLoaded =
     dataAnagrafica.length > 0 &&

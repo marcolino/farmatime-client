@@ -52,7 +52,11 @@ function SocialSignInSuccess() {
       cancelText: t("No, keep access"),
       onConfirm: async () => {
         // Call the API to revoke social access
-        const result = await apiCall("post", `/auth/${provider}/revoke`, { userId: user.id, provider, issuedAt: null }); // TODO: issuedAt ...
+        const result = await apiCall("post", `/auth/${provider}/revoke`, {
+          userId: user.id,
+          provider,
+          issuedAt: null
+        });
         console.log("*** revokeSocialAccess result:", result);
         showSnackbar(t("{{provider} social access revoked", { provider }), "success");
         navigate("/", { replace: true });

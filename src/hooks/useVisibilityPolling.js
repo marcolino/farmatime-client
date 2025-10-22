@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
+import config from "../config";
 
 /**
  * useVisibilityPolling(callback, interval)
@@ -9,24 +10,16 @@ import { useEffect, useRef, useCallback } from "react";
  * @param {Function} callback - async or sync function to call periodically
  * @param {number} interval - delay in ms (default 60000 = 1 min)
  */
-export function useVisibilityPolling(callback, interval = 60 * 1000) { // TODO: move to config
+export function useVisibilityPolling(callback, interval = config.api.serverPollingIntervalSeconds * 1000) {
   const intervalRef = useRef(null);
 
   const stopPolling = useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
-      console.log("@@@ Polling stopped 🛑"); // TODO: DEBUG ONLY
+      //console.log("polling stopped 🛑");
     }
   }, []);
-
-  // const startPolling = useCallback(() => {
-  //   if (!intervalRef.current) {
-  //     callback(); // run immediately once
-  //     intervalRef.current = setInterval(callback, interval);
-  //     console.log("@@@ Polling started ✅"); // TODO: DEBUG ONLY
-  //   }
-  // }, [callback, interval]);
 
   const startPolling = useCallback(() => {
     if (!intervalRef.current) {
@@ -39,12 +32,11 @@ export function useVisibilityPolling(callback, interval = 60 * 1000) { // TODO: 
       };
       run(); // run immediately
       intervalRef.current = setInterval(run, interval);
-      console.log("@@@ Polling started ✅"); // TODO: DEBUG ONLY
+      //console.log("polling started ✅");
     }
   }, [callback, interval]);
   
   useEffect(() => {
-    console.log("***** useEffect re-run");
     const handleFocus = () => startPolling();
     const handleBlur = () => stopPolling();
     const handleVisibility = () => {

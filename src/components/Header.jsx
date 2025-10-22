@@ -35,7 +35,7 @@ import logoTextHeader from "../assets/images/LogoTextHeader.png";
 import config from "../config";
 
 const Header = ({ theme, toggleTheme }) => {
-  const { auth, isLoggedIn, signOut, didSignInBefore, /*requestErrors,*/ setRequestErrors } = useContext(AuthContext);
+  const { auth, isLoggedIn, signOut, didSignInBefore } = useContext(AuthContext);
   const { jobDraftIsDirty, setJobDraftDirty } = useContext(JobContext);
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
@@ -45,6 +45,7 @@ const Header = ({ theme, toggleTheme }) => {
   const { cartItemsQuantity } = useCart();
   const { isMobile } = useMediaQueryContext();
   const [buildInfo, setBuildInfo] = useState(null);
+  const [pollingRefreshKey, setPollingRefreshKey] = useState(0);
   const { info } = useInfo();
 
 
@@ -88,87 +89,6 @@ const Header = ({ theme, toggleTheme }) => {
   ).name : "guest";
 
   const isAuthRoute = () => (location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/forgot-password" || location.pathname === "/social-signin-success" || location.pathname === "/social-signin-error");
-
-  // TODO: put info in a component, to be used also from Footer ...
-  /*
-  const infoTitle = t('Informations about this app');
-  const mode =
-    config.mode.production ? "production" :
-      config.mode.staging ? "staging" :
-        config.mode.development ? "development" :
-          config.mode.test ? "test" :
-            config.mode.testInCI ? "testInCI" :
-              "?"
-  ;
-  const infoContents = (
-    <Box>
-      <Grid
-        container
-        alignItems="center"
-        sx={{
-          width: "100%",
-          backgroundColor: "tertiary.dark",
-          borderRadius: 2,
-        }}
-      >
-        {/* Left column * /}
-        <Grid size={{ xs: 3, md: 1 }} display="flex" alignItems="center">
-          <Box
-            component="img"
-            src={logoMainHeader}
-            alt="Main logo"
-            sx={{
-              width: {xs: 40, md: 48},
-              height: "auto",
-              my: 1,
-              ml: 1,
-              borderRadius: 2,
-            }}
-          />
-        </Grid>
-
-        {/* Middle column * /}
-        <Grid size={{ xs: 6, md: 10 }} textAlign="center">
-          <Typography
-            variant="h4"
-            align="center"
-            sx={{
-              width: "100%",
-              fontWeight: "bold",
-              whiteSpace: "nowrap",
-              color: "background.default",
-            }}
-          >
-            {config.title}
-          </Typography>
-        </Grid>
-
-        {/* Right column (empty, balances left) * /}
-        <Grid size={{ xs: 3, md: 1 }}></Grid>
-      </Grid>
-
-      <Typography variant="body1" sx={{ mt: 4 }}>
-        {t("This app is produced by")} {config.company.owner.name}<br />
-        {t("You can reach us at email")} &lt;{config.company.email}&gt;<br />
-        {t("App mode")} {t("is")} {t(mode)}<br />
-        {t("Version")} {t("is")} v{serverPackageJson.version} © {new Date().getFullYear()}<br />
-        {t("Client build")} {t("is")} {t("n.")} {buildInfo?.client ? buildInfo.client.buildNumber : "?"} {t("on date")} {buildInfo?.client ? buildInfo.client.buildDateTime : "?"}<br />
-        {t("Server build")} {t("is")} {t("n.")} {buildInfo?.server ? buildInfo.server.buildNumber : "?"} {t("on date")} {buildInfo?.server ? buildInfo.server.buildDateTime : "?"}<br />
-      </Typography>
-    </Box >
-  );
-  // {t("Phone is")}: ${config.company.phone}.<br />
-  // {t("Street address is")}: ${config.company.streetAddress}.<br />
-  // {t("Email address is")}: ${config.company.email}.<br />
-
-  const info = () => {
-    showDialog({
-      title: infoTitle,
-      message: infoContents,
-      confirmText: t("Ok"),
-    })
-  };
-*/
   
   const userItems = [
     ...(isLoggedIn && isAdmin(auth.user) ?
@@ -357,20 +277,18 @@ const Header = ({ theme, toggleTheme }) => {
     checkJobDraftIsDirty(t("Cart"), proceed);
   };
 
-  // const handleRequestsErrorsPolling = async () => {
-  //   return await apiCall("post", "/auth/requestErrors", { userId: auth.user._id });
-  // };
-  const handleRequestsErrorsPolling = useCallback(async () => {
-    return await apiCall("post", "/auth/requestErrors"/*, { userId: auth.user._id }*/);
-  }, [/*auth.user._id*/]);
+  const getRequestErrors = useCallback(async () => {
+    return await apiCall("get", "/request/getRequestErrors");
+  }, []);
 
-  const handleRequestsErrorsNotification = () => {
+  const handleRequestsErrors = async () => {
     showDialog({
       title: t("Some errors in email requests"),
       message: t("Some email requests could not be completed: it is possible some doctor email address is incorrect, or there was some network error") + ".",
       confirmText: t("Show last requests"),
-      onConfirm: () => {
-        setRequestErrors(false);
+      onConfirm: async () => {
+        await apiCall("post", "/request/setRequestErrorsSeen");
+        setPollingRefreshKey(prev => prev + 1); // trigger re-poll
         navigate("/requests-history");
       },
       cancelText: t("Cancel"),
@@ -561,35 +479,11 @@ const Header = ({ theme, toggleTheme }) => {
         toggleDrawer={toggleDrawer}
       />
       
-      {/*
-          TODO: To avoid unwanted scrolls in home page:
-            - Move the FAB outside of any scrollable container (ideally near the root).
-            - Use bottom: 24, right: 24 instead of "3em".
-            - Add zIndex: 9999 for safety.
-            - Optionally, disable scroll bounce with "overscroll-behavior: none" in the outermost container.
-      */}
-      
-      {/* TODO: put in a new component */}
       <FloatingBell
-        warning={auth.user.requestErrors}
-        pollingCallback={handleRequestsErrorsPolling}
-        onOkCallback={handleRequestsErrorsNotification}
+        pollingCallback={getRequestErrors}
+        onOkCallback={handleRequestsErrors}
+        pollingRefreshKey={pollingRefreshKey}
       />
-      {/* {requestErrors && (
-        <Fab
-          onClick={handleRequestsErrorsNotification}
-          color="error"
-          aria-label="notification icon"
-          sx={{
-            position: "fixed",
-            bottom: 32, // distance from bottom
-            right: 32, // distance from right
-            zIndex: 9999, // on top of everything else, but should not be necessary...
-          }}
-        >
-          <NotificationsActive />
-        </Fab>
-      )} */}
       
     </AppBar>
   );

@@ -264,14 +264,14 @@ export const getLanguageBasedFormatDDMMMYYYY = (language) => {
   return 'dd MMM yyyy'; // Fallback
 };
 
-export const formatDate = (date, formatString, language = i18n.language) => { // TODO: rename formatDateDDMMM
+export const formatDate = (date, formatString, language = i18n.language) => {
   const locale = localeMap[language] || enUS; // fallback to enUS if locale is unknown
   const dateObj = new Date(date); // use new Date here to be more generic
   const formatted = format(dateObj, formatString, { locale });
   return formatted;
 };
 
-export const formatDateDDMMM = (date, language = i18n.language) => { // TODO: rename formatDateDDMMM
+export const formatDateDDMMM = (date, language = i18n.language) => {
   const locale = localeMap[language] || enUS; // fallback to enUS if locale is unknown
   const dateObj = new Date(date); // use new Date here to be more generic
   const formatString = getLanguageBasedFormatDDMMM(language);
@@ -279,7 +279,7 @@ export const formatDateDDMMM = (date, language = i18n.language) => { // TODO: re
   return formatted;
 };
 
-export const formatDateDDMMMYYYY = (date, language = i18n.language) => { // TODO: rename formatDateDDMMM
+export const formatDateDDMMMYYYY = (date, language = i18n.language) => {
   const locale = localeMap[language] || enUS; // fallback to enUS if locale is unknown
   const dateObj = new Date(date); // use new Date here to be more generic
   const formatString = getLanguageBasedFormatDDMMMYYYY(language);

@@ -1,63 +1,72 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Fab } from "@mui/material";
 import { NotificationsActive } from "@mui/icons-material";
 import { useVisibilityPolling } from "../hooks/useVisibilityPolling";
 
 
-const FloatingBell = ({ warning, pollingCallback, onOkCallback }) => {
+const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
+  const requestErrorsRef = useRef([]);
   const memoizedPoll = useCallback(async () => {
     try {
       const response = await pollingCallback();
       if (response.err) {
         console.error("Error while polling server:", response.err);
       }
+      requestErrorsRef.current = response.requestErrors || [];
     } catch (err) {
       console.error("Polling server failed:", err);
     }
   }, [pollingCallback]);
 
+  // Visibility-based polling
   useVisibilityPolling(memoizedPoll);
 
-  if (!warning) { // Do nothing
+  // Force polling when pollingRefreshKey changes
+  useEffect(() => {
+    if (pollingRefreshKey !== undefined) {
+      memoizedPoll();
+    }
+  }, [pollingRefreshKey, memoizedPoll]);
+
+  if (!requestErrorsRef.current.length) { // No requestErrors: do not show floating bell
     return null;
   }
+    
+  const show = requestErrorsRef.current.some(req => {
+    // if seenAt is null, undefined, or falsy
+    console.log("req.seenAt:", req.seenAt);
+    if (!req.seenAt) return true;
+
+    // make sure at and seenAt are Date objects
+    const at = new Date(req.at);
+    const seenAt = new Date(req.seenAt);
+
+    // return true if if at > seenAt
+    console.log("at > seenAt:", at, seenAt, at > seenAt);
+    return at > seenAt;
+  });
+  if (!show) { // All request errors already seen: do not show floating bell
+    console.log("HIDING BELL");
+    return null;
+  }
+  else {
+    console.log("SHOWING BELL");
+  }
   
-  return ( // set / reset
+  return (
     <Fab
       onClick={onOkCallback}
       color="error"
       aria-label="notification icon"
       sx={{
         position: "fixed",
-        bottom: 32, // distance from bottom
-        right: 32, // distance from right
-        //zIndex: 9999, // on top of everything else
+        bottom: 36, // distance from bottom
+        right: 36, // distance from right
       }}
     >
       <NotificationsActive />
     </Fab>
   );
-
-//   return (
-//     <>
-//       {warning && (
-//         <div
-//           style={{
-//             position: "fixed",
-//             bottom: "20px",
-//             right: "20px",
-//             background: "#ffcc00",
-//             padding: "12px",
-//             borderRadius: "50%",
-//             fontSize: "24px",
-//             boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-//           }}
-//         >
-//           🔔
-//         </div>
-//       )}
-//     </>
-//   );
 };
 
 export default FloatingBell;

@@ -27,8 +27,7 @@ export function SortableItem({
     isDragging,
   } = useSortable({ id });
   //const { t } = useTranslation();
-  const { t, i18n } = useTranslation();
-  console.log('TODO: DEBUG ONLY - SortableItem render', { lang: i18n.language, ready: i18n.isInitialized });
+  const { t } = useTranslation();
   const { isMobile } = useMediaQueryContext();
 
   const isDragEnabled = (

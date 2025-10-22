@@ -9,7 +9,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   useTheme,
-  useMediaQuery,
   Slide,
   Container,
   Stack,
@@ -34,6 +33,7 @@ import heroMediumJpg from '../assets/images/Health/Hero-medium.jpg';
 import heroMediumWebp from '../assets/images/Health/Hero-medium.webp';
 import heroLargeJpg from '../assets/images/Health/Hero-large.jpg';
 import heroLargeWebp from '../assets/images/Health/Hero-large.webp';
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 //import SignIn from "./auth/SignIn";
 
 
@@ -41,7 +41,7 @@ export default function Landing() {
   const theme = useTheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const isXs = useMediaQuery(theme.breakpoints.down("sm"));
+  const { isMobile } = useMediaQueryContext();
 
   const features = [
     {
@@ -136,7 +136,7 @@ export default function Landing() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         {/* Hero section */}
-        <Box sx={{ position: "relative", height: isXs ? 500 : 600, overflow: "hidden" }}>
+        <Box sx={{ position: "relative", height: isMobile ? 500 : 600, overflow: "hidden" }}>
           <Slide in direction="left" timeout={{ enter: 1200 }} easing={{ enter: theme.transitions.easing.easeOut }}>
           <Box>
             <picture>
@@ -189,7 +189,7 @@ export default function Landing() {
             }}
           >
             <Box>
-              <Typography variant={isXs ? "h3" : "h3"} sx={{ fontWeight: 700, color: "common.white" }}>
+              <Typography variant={isMobile ? "h3" : "h3"} sx={{ fontWeight: 700, color: "common.white" }}>
                 {t("Simplify Your Prescription Requests")}
               </Typography>
               <Typography variant="h6" sx={{ mt: 2, color: "common.white" }}>

@@ -681,7 +681,7 @@ const RequestsTable = () => {
                               <Box>
                                 {t("Email message states")}:
                                 <Box component="div" sx={{ pl: 3, mt: 0, mb: 0.5 }}>
-                                  {(request.events.length === 0) && ( // TODO: should not happen...
+                                  {(request.events.length === 0) && ( // should not happen
                                     <Box component="span">2
                                       {t("none (no email sent yet)") + "!"}
                                     </Box>

@@ -12,8 +12,6 @@ import {
   Step,
   StepLabel,
   Typography,
-  useTheme,
-  useMediaQuery,
   SectionHeader1
 } from 'mui-material-custom';
 import { ArrowBack, ArrowForward, Check, Menu, Clear } from '@mui/icons-material';
@@ -36,8 +34,7 @@ import JobConfirmationReview from './JobConfirmationReview';
 const JobFlow = () => {
   const { jobId } = useParams();
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { isMobile } = useMediaQueryContext();
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();

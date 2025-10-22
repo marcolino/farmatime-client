@@ -7,9 +7,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import useMediaQuery from '@mui/material/useMediaQuery';
 import InfoIcon from "@mui/icons-material/Info";
 import CloseIcon from "@mui/icons-material/Close";
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import HelpPages from "./help/HelpPages";
 
 export function ContextualHelpWrapper({
@@ -23,8 +23,8 @@ export function ContextualHelpWrapper({
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const iconButtonRef = useRef(null);
-  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
-  
+  const { isMobile } = useMediaQueryContext();
+
   const placementOffsets = {
     "top-left": { top: -28, left: -28 },
     "top-right": { top: -28, right: 28 },
@@ -49,7 +49,7 @@ export function ContextualHelpWrapper({
       ...(fullWidth && { width: "100%" }),
     }}>
       <Box>{children}</Box>
-      {!isXs && (
+      {!isMobile && (
         <>
         <Box
           sx={{

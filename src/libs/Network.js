@@ -2,7 +2,7 @@ import instance from "../middlewares/Interceptors";
 import { i18n } from "../i18n";
 import config from "../config";
 
-const PROD_DOMAINS = ["farmatime.it", "www.farmatime.it", "staging.farmatime.it"]; // TODO: DEBUG ONLY, REMOVE-ME
+//const PROD_DOMAINS = ["farmatime.it", "www.farmatime.it", "staging.farmatime.it"];
 
 const isLocalEnv = () => {
   try {
@@ -16,14 +16,15 @@ const isLocalEnv = () => {
   }
 };
 
-const isProdUrl = (url) => {
-  return PROD_DOMAINS.some(domain => url.includes(domain));
-};
+// const isProdUrl = (url) => {
+//   return PROD_DOMAINS.some(domain => url.includes(domain));
+// };
 
 const apiCall = async (method, url, data = {}) => {
-  console.log("+++++++++++++++++++ config.api.productionDomains:", config.api.productionDomains); // TODO: DEBUG ONLY !!!
-  console.log("+++++++++++++++++++ OLD PROD_DOMAINS:", PROD_DOMAINS); // TODO: DEBUG ONLY !!!
+  //console.log("+++++++++++++++++++ config.api.productionDomains:", config.api.productionDomains);
+  //console.log("+++++++++++++++++++ OLD PROD_DOMAINS:", PROD_DOMAINS);
   try {
+    /*
     // Check for environment mismatch
     if (isLocalEnv() && isProdUrl(url)) {
       const message = `API CALL BLOCKED: Attempted to call production url ${url} from ${window?.location?.hostname}`;
@@ -40,6 +41,7 @@ const apiCall = async (method, url, data = {}) => {
         message: i18n.t("Development environment attempted to contact production API"),
       };
     }
+    */
 
     // Handle FormData header setup
     const cfg = {};
