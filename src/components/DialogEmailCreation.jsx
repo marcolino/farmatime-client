@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -12,7 +12,7 @@ import {
 import TextField from "./custom/TextField";
 import { useDialog } from "../providers/DialogContext";
 import { Subject } from "@mui/icons-material";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 
 
 function DialogEmailCreation({ open, onClose, onConfirm }) {
@@ -56,17 +56,17 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
     return true;
   };
 
-  const cleanForm = () => {
+  const cleanForm = () => {
     setSubject("");
     setBody("");
   }
 
-  const onCloseWithValidation = (e) => {
+  const onCloseWithValidation = () => {
     onClose();
     cleanForm();
   }
 
-  const onConfirmWithValidation = (e) => {
+  const onConfirmWithValidation = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     setError({});
@@ -88,7 +88,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
             autoFocus
             id={"subject"}
             value={subject}
-            onChange={e => setSubject(e.target.value)}
+            onChange={e => setSubject(e.target.value)}
             placeholder={t("Email subject")}
             //startAdornmentIcon={<Subject />}
             InputProps={{
@@ -105,7 +105,7 @@ function DialogEmailCreation({ open, onClose, onConfirm }) {
           <TextField
             id={"body"}
             value={body}
-            onChange={e => setBody(e.target.value)}
+            onChange={e => setBody(e.target.value)}
             placeholder={t("Email body")}
             error={error.body}
             multiline

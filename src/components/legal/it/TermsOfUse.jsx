@@ -1,7 +1,7 @@
-import React from "react";
 import config from "../../../config";
 
 function TermsOfUse() {
+  /* eslint-disable react/no-unescaped-entities */
   const contents = (
     <>
       <h2>Termini e condizioni d'uso</h2>

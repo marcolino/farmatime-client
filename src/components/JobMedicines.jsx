@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useMemo, useRef, useContext, useCallback } from 'react';
-//import { useNavigate } from 'react-router-dom';
 import {
   DndContext,
   closestCenter,
   KeyboardSensor,
-  MouseSensor, // Import MouseSensor
-  TouchSensor, // Import TouchSensor
+  MouseSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -27,7 +26,7 @@ import {
   Divider,
   useTheme,
   styled
-} from '@mui/material'; // Changed to @mui/material
+} from '@mui/material';
 import { Add, Check} from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -37,7 +36,7 @@ import { ContextualHelp } from './ContextualHelp';
 import { SortableItem } from './SortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
 import { JobContext } from '../providers/JobContext';
-import { useSnackbarContext } from '../providers/SnackbarProvider';
+import { useSnackbarContext } from '../hooks/useSnackbarContext';
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { StyledPaper, StyledBox } from './JobStyles';

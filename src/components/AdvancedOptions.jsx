@@ -24,7 +24,7 @@ import { AuthContext } from "../providers/AuthContext";
 import { CartContext } from "../providers/CartContext";
 //import { JobContext } from "../providers/JobContext";
 //import { useDialog } from "../providers/DialogContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 //import { cancelAllRequests } from "../middlewares/Interceptors";
 import { apiCall } from "../libs/Network";
 import { isAdmin } from "../libs/Validation";
@@ -156,10 +156,10 @@ const AdvancedOptions = () => {
   //   ${t("Email address is")}: ${config.company.email}\n\
   //   ${t("App mode is")}: ${mode}\n\
   //   \n\
-  //   ${t("Client")}:\n v${clientPackageJson.version} © ${new Date().getFullYear()},\
+  //   ${t("Client")}:\n v${clientPackageJson.version} © ${new Date().getFullYear()},\
   //   ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\n\
   //   \n\
-  //   ${t("Server")}:\n v${serverPackageJson.version} © ${new Date().getFullYear()}\
+  //   ${t("Server")}:\n v${serverPackageJson.version} © ${new Date().getFullYear()}\
   //   \n\
   // `;
 

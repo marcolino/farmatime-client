@@ -2,7 +2,7 @@ import { styled, useTheme } from "@mui/material/styles";
 import { Typography } from "@mui/material";
 import PowerIcon from "@mui/icons-material/Power";
 
-const Root = styled("div")(({ theme }) => ({
+const Root = styled("div")(() => ({
   position: "relative",
   display: "inline-flex",
   justifyContent: "center",

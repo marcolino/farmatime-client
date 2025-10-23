@@ -1,6 +1,7 @@
 import config from "../../../config";
 
 export default function TermsOfUse() {
+  /* eslint-disable react/no-unescaped-entities */
   const contents = (
     <>
       <h2>Conditions générales</h2>

@@ -2,6 +2,7 @@
  * Default MUI v5 base theme.
  * For full theme values, see https://mui.com/material-ui/customization/default-theme/
  */
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {

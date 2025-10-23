@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { Box, FormLabel } from "@mui/material";
 
 import fallbackImage from "../assets/images/ImageNotFound.jpg";
 
 
-const ImageContainer = ({ _src, alt, borderColor = "transparent", bgColor = "transparent", label, ...props }) => {
+const ImageContainer = ({ alt, borderColor = "transparent", label, ...props }) => {
   const [imgSrc, setImgSrc] = useState(props.src);
 
   if (!imgSrc) {

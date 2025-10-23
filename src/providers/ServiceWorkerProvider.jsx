@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { useSnackbarContext } from "./SnackbarProvider";
+//import { useSnackbarContext } from "./SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 
 const ServiceWorkerProvider = ({ children }) => {
   const { showSnackbar } = useSnackbarContext();

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { DateTime } from "luxon";
+//import { DateTime } from "luxon";
 import {
   Container,
   Box,
@@ -30,9 +30,9 @@ import LocalStorage from "../libs/LocalStorage";
 // import { isAdmin } from "../libs/Validation";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../hooks/useSnackbarContext"; 
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
-import { i18n } from "../i18n";
+//import { i18n } from "../i18n";
 
 
 const UserTable = () => {
@@ -63,12 +63,13 @@ const UserTable = () => {
   const [selected, setSelected] = useState([]);
   const [toBeRemoved, setToBeRemoved] = useState(null);
 
-
+  /*
   // to use localized dates
   const localizedDate = DateTime.fromJSDate(new Date())
     .setLocale(i18n.language)
     .toLocaleString(DateTime.DATETIME_FULL)
   ;
+  */
   
   useEffect(() => { // get all users on mount
     // if (!isLoggedIn() || !isAdmin(auth.user)) { // possibly user did revoke his own admin role...
@@ -86,7 +87,7 @@ const UserTable = () => {
     return () => {
       //console.log("Users table unmounted");
     };
-  }, [auth.user, refresh]);
+  }, [auth.user, refresh, showSnackbar]);
 
   // Check if current page is still valid (for example after a row deletion); otherwise go back one page
   useEffect(() => {
@@ -290,7 +291,7 @@ const UserTable = () => {
         }
         if (isObject(a[sortColumn])) {
           // to be implemented if we will have object fields
-          console.warn(`sort of \"object\" field type for column ${sortColumn} is not implemented yet!`);
+          console.warn(`sort of "object" field type for column ${sortColumn} is not implemented yet!`);
           return 0;
         }
         console.error(`sort of unknown field type for column ${sortColumn} is not implemented yet!`);

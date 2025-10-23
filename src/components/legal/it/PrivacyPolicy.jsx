@@ -2,6 +2,7 @@ import { encodeEmailToElement } from "../../../libs/Misc";
 import config from "../../../config";
 
 function PrivacyPolicy() {
+  /* eslint-disable react/no-unescaped-entities */
  	return (
     <>
       <h2>Politica sulla Riservatezza</h2>

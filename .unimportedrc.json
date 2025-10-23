@@ -22,7 +22,6 @@
     [
       "../config",
       [
-        "src/providers/SnackbarProvider.jsxWHYWHYWHY",
         "src/middlewares/Interceptors.js",
         "src/providers/AuthProvider.jsx",
         "src/components/Header.jsx",

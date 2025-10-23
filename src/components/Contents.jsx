@@ -1,16 +1,16 @@
 import React from "react";
 //import { useLocation } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+//import { useTranslation } from "react-i18next";
 import { Box, Container } from "@mui/material";
 import Header from "./Header";
 import Footer from "./Footer";
-//import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+//import { useSnackbarContext } from "../hooks/useSnackbarContext"; 
 
 
 function Contents({ theme, changeLocale, toggleTheme, children }) {
   //const location = useLocation();
   //const { showSnackbar } = useSnackbarContext(); 
-  const { i18n } = useTranslation();
+  //const { i18n } = useTranslation();
 
   
   return (

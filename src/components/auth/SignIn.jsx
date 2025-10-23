@@ -10,7 +10,7 @@ import Person from "@mui/icons-material/Person";
 import Lock from "@mui/icons-material/Lock";
 //import DialogConfirm from "../DialogConfirm";
 import { useDialog } from "../../providers/DialogContext";
-import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../../hooks/useSnackbarContext"; 
 import { TextField, TextFieldPassword, Button} from "../custom";
 import { AuthContext } from "../../providers/AuthContext";
 import { validateEmail } from "../../libs/Validation";
@@ -143,7 +143,7 @@ function SignIn() {
         //alert("REASON: " + location.state.reason);
       }
     }
-  }, [location.state]);
+  }, [location.state, showDialog, t]);
 
   return (
     <form noValidate autoComplete="on">

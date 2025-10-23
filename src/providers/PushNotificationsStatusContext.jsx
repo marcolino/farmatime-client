@@ -1,9 +1,7 @@
 import { createContext } from "react";
 
-const initialState = {
+export const initialState = {
   pushNotifications: [],
 };
 
-const PushNotificationsStatusContext = createContext(initialState);
-
-export { PushNotificationsStatusContext, initialState };
+export const PushNotificationsStatusContext = createContext(initialState);

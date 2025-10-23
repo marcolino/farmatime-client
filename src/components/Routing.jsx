@@ -5,7 +5,7 @@ import Loader from "./Loader";
 // import { RequireAuth as ReqAuth } from "./guards/AuthGuard";
 // import { RequireAdmin as ReqAdmin } from "./guards/RoleGuard";
 import ProtectedRoute from "./RoutingProtection";
-import config from "../config";
+//import config from "../config";
 
 const Home = lazy(() => import("./Home"));
 const SignUp = lazy(() => import("./auth/SignUp")); 

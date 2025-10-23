@@ -42,6 +42,10 @@ export const DialogProvider = ({ children }) => {
     };
   }, [dialogState]);
 
+  const closeDialog = useCallback(() => {
+    setDialogState((prevState) => ({ ...prevState, open: false }));
+  }, []);
+
   const showDialog = useCallback(({ 
     title = "",
     message = "", 
@@ -69,11 +73,7 @@ export const DialogProvider = ({ children }) => {
         closeDialog();
       },
     });
-  }, []);
-
-  const closeDialog = useCallback(() => {
-    setDialogState((prevState) => ({ ...prevState, open: false }));
-  }, []);
+  }, [closeDialog]);
 
   return (
     <DialogContext.Provider value={{ showDialog }}>

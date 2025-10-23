@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDialog } from "../../providers/DialogContext";
-//import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
 import { AuthContext } from "../../providers/AuthContext";
 
 
@@ -38,7 +37,7 @@ function SocialSignInError() {
       signIn(null); // reset auth
       navigate("/", { replace: true }); // redirect to home
     }
-  }, [location]);
+  }, [location, navigate, showDialog, signIn, t]);
   
   return null;
 }

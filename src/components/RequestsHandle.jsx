@@ -31,7 +31,7 @@ import { isAdmin } from "../libs/Validation";
 import { formatDateYYYYMMDDHHMM, digitsCount } from "../libs/Misc";
 import { AuthContext } from "../providers/AuthContext";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 
 const RequestsTable = () => {
   const theme = useTheme();
@@ -56,7 +56,8 @@ const RequestsTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(() => {
     return parseInt(LocalStorage.get("jobsRowsPerPage")) || rowsPerPageInitial; // persist to local storage
   });
-  const [selected, setSelected] = useState([]);
+  //const [selected, setSelected] = useState([]);
+  const selected = [];
   
   const [openRowId, setOpenRowId] = useState(null);
 
@@ -181,14 +182,14 @@ const RequestsTable = () => {
     LocalStorage.set("jobsRowsPerPage", newRowsPerPage);
   };
 
-  const handleSelectAllClick = (e) => {
-    if (e.target.checked) {
-      const newSelected = requests.map(request => request._id);
-      setSelected(newSelected);
-    } else {
-      setSelected([]);
-    }
-  };
+  // const handleSelectAllClick = (e) => {
+  //   if (e.target.checked) {
+  //     const newSelected = requests.map(request => request._id);
+  //     setSelected(newSelected);
+  //   } else {
+  //     setSelected([]);
+  //   }
+  // };
 
   const clickTimeoutSet = (e, callback) => {
     //const delayDuration = 400; // milliseconds (usually O.S. use this value to distinguish among click and double click)

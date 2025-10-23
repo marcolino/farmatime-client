@@ -39,7 +39,7 @@ import { $generateNodesFromDOM } from '@lexical/html';
 
 import { ContextualHelp } from './ContextualHelp';
 import { StyledPaper, StyledBox } from './JobStyles';
-import { useSnackbarContext } from '../providers/SnackbarProvider';
+import { useSnackbarContext } from '../hooks/useSnackbarContext';
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { JobContext } from '../providers/JobContext';
 import { AuthContext } from '../providers/AuthContext';

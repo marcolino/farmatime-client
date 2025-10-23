@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "@mui/material/Button";
 import { AuthContext } from "../providers/AuthContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import { JobContext } from "../providers/JobContext";
 
 const InstallPWA = () => {
@@ -20,6 +20,12 @@ const InstallPWA = () => {
     const atLeastOneActivityConfirmed = (jobs.length >= 1); // condition: at least one job confirmed
     return isLoggedIn && atLeastOneActivityConfirmed && !isPWAInstalled;
   };
+
+  const markInstalled = useCallback(() => {
+    setPWAInstalled(true);
+    setDeferredPrompt(null);
+    showSnackbar(t("Thank you for choosing to install our app!"), "success");
+  }, [setPWAInstalled, setDeferredPrompt, showSnackbar, t]);
 
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase();
@@ -45,7 +51,7 @@ const InstallPWA = () => {
       window.removeEventListener("beforeinstallprompt", beforeInstallPromptHandler);
       window.removeEventListener("appinstalled", appInstalledHandler);
     };
-  }, [isPWAInstalled]);
+  }, [isPWAInstalled, markInstalled]);
 
   const showInstallSnackbar = () => {
     if (hasAskedThisSession.current) return; // <── prevent repeats
@@ -87,21 +93,14 @@ with faster access and a cleaner interface.\
     );
   };
 
-  const markInstalled = () => {
-    setPWAInstalled(true);
-    setDeferredPrompt(null);
-    showSnackbar(t("Thank you for choosing to install our app!"), "success");
-  };
-
   async function handleInstallClick() {
     if (!deferredPrompt) {
       console.warn("⚠️ No deferredPrompt available");
       return;
     }
     deferredPrompt.prompt();
-    const choiceResult = await deferredPrompt.userChoice;
+    //const choiceResult = await deferredPrompt.userChoice;
     setDeferredPrompt(null); // clear after use
-    //console.log("installPWA - choiceResult.outcome:", choiceResult.outcome);
     // Do not call markInstalled() here — wait for appinstalled
   }
 

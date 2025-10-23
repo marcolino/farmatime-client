@@ -1,4 +1,3 @@
-import React from "react";
 import { MuiTelInput } from "mui-tel-input";
 import { i18n, getProbableCountryFromLanguage } from "../../i18n";
 //import config from "../../config";
@@ -8,7 +7,7 @@ const CustomTextFieldPhone = ({
   fullWidth = true,
   size = "small",
   margin = "dense",
-  placeholder = "Search...",
+  //placeholder = "Search...",
   ...props
 }) => {
   const flagsBaseUrl = "/flags";
@@ -31,7 +30,7 @@ const CustomTextFieldPhone = ({
     //preferredCountries={["IT", "FR", "CH", "DE", "GB", "US"]}
     preferredCountries={["it"]}
     disableFormatting // can't enable formatting since there is a bug which moves the cursor at the end when editing a number...
-    getFlagElement={(isoCode, { imgProps, countryName, isSelected }) => {
+    getFlagElement={(isoCode, { countryName }) => {
       console.log("FLAGS", isoCode.toLowerCase(), countryName);
       const src = `${flagsBaseUrl}/${isoCode.toLowerCase()}.webp`;
       return <img src={src} width="32" />; // use flags locally (see scripts/download-language-flags.js) to avoid service-worker caching issues

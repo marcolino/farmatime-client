@@ -21,9 +21,8 @@ import {
   Facebook,
   Google,
 } from "@mui/icons-material";
-//import { useSnackbar } from "../../providers/SnackbarManager";
 import { AuthContext } from "../../providers/AuthContext";
-import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../../hooks/useSnackbarContext"; 
 import { useDialog } from "../../providers/DialogContext";
 import { apiCall } from "../../libs/Network";
 import { validateFirstName, validateLastName, validateEmail, validatePassword } from "../../libs/Validation";
@@ -453,8 +452,8 @@ function SignUp() {
                         startIcon={(
                           provider === "Google" ? <Google sx={{ color: "red" }} /> :
                           provider === "Facebook" ? <Facebook sx={{ color: "blue" }} /> :
-                          <Icon sx={{ bgColor: "white", color: "red" }}>G</Icon>
-                          // <></>
+                          //<Icon sx={{ bgColor: "white", color: "red" }}>G</Icon>
+                          <></>
                         )}
                         sx={{
                           mr: index < (config.oauth.federatedSigninProviders.length - 1) ? 1 : 0,

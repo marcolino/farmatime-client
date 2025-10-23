@@ -1,9 +1,9 @@
 import instance from "../middlewares/Interceptors";
 import { i18n } from "../i18n";
-import config from "../config";
 
 //const PROD_DOMAINS = ["farmatime.it", "www.farmatime.it", "staging.farmatime.it"];
 
+/*
 const isLocalEnv = () => {
   try {
     return (
@@ -15,6 +15,7 @@ const isLocalEnv = () => {
     return false;
   }
 };
+*/
 
 // const isProdUrl = (url) => {
 //   return PROD_DOMAINS.some(domain => url.includes(domain));

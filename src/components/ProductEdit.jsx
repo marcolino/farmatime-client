@@ -1,33 +1,26 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext, useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "@mui/material/styles";
-import { Grid, Box, FormControl, InputLabel } from "@mui/material";
+//import { useTheme } from "@mui/material/styles";
+import { Grid, Box } from "@mui/material";
 import { Button } from "./custom";
 import SectionHeader from "./custom/SectionHeader";
 import ImageContainer from "./ImageContainer";
 import { TextField, Select } from "./custom";
 import { apiCall } from "../libs/Network";
-import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../hooks/useSnackbarContext"; 
 import {
   Api, DriveEta, Commute, EditNote, Apps,
   Sync, Exposure, PhotoCamera, SettingsSuggest, TurnedInNotOutlined,
 } from "@mui/icons-material";
 import PowerWithTextGlyph from "./glyphs/PowerWithText";
-import {
-  isAdmin,
-  validateFirstName,
-  validateLastName,
-  validateEmail,
-  validatePhone,
-} from "../libs/Validation";
 import { AuthContext } from "../providers/AuthContext";
 import config from "../config";
 
 
 function ProductEdit() {
   const navigate = useNavigate();
-  const theme = useTheme();
+  //const theme = useTheme();
   const [product, setProduct] = useState(false);
   const [productOriginal, setProductOriginal] = useState(false);
   const [productAllTypes, setProductAllTypes] = useState([]);
@@ -37,22 +30,14 @@ function ProductEdit() {
   const fileInputRef = useRef(null);
   const { t } = useTranslation();
   const { productId } = useParams();
-
-  if (!productId) {
-    showSnackbar(t("No product id specified"), "error");
-    navigate(-1);
-    return;
-  }
-    
-  const handleImageClick = () => {
-    fileInputRef.current.click();
-  };
-
   const [updateReady, setUpdateReady] = useState(false); // to handle form values changes refresh
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageObjectUrl, setSelectedImageObjectUrl] = useState(null);
   const [isChanged, setIsChanged] = useState({});
 
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
   
   useEffect(() => { // get product all constraints on mount
     if (auth.user) {
@@ -66,7 +51,7 @@ function ProductEdit() {
         }
       })();
     }
-  }, []);
+  }, [auth.user, showSnackbar]);
 
   const handleImageChange = (e) => {
     if (e.target.files.length > 1) { // this shouldn't happen, because <input type="file" /> has no "multiple" attribute
@@ -117,14 +102,14 @@ function ProductEdit() {
         }
       }
     })();
-  }, [productId]);
+  }, [productId, showSnackbar]);
   
   useEffect(() => {
     if (updateReady) {
       setUpdateReady(false);
       formSubmit();
     }
-  }, [updateReady]);
+  }, [updateReady, formSubmit]);
 
   const validateForm = () => {
     //let response;
@@ -210,7 +195,7 @@ function ProductEdit() {
     setError({});
   }
 
-  const formSubmit = async (/*e*/) => {
+  const formSubmit = useCallback(async (/*e*/) => {
     //e.preventDefault();
     try {
       let id, result;
@@ -247,7 +232,7 @@ function ProductEdit() {
       showSnackbar(`An error occurred updating the product: ${error.message}`, "error");
       console.error(error);
     }
-  };
+  }, [navigate, product, productId, selectedImage, showSnackbar, t]);
 
   const formCancel = (e) => {
     e.preventDefault();
@@ -263,6 +248,12 @@ function ProductEdit() {
     };
   }
 
+  if (!productId) {
+    showSnackbar(t("No product id specified"), "error");
+    navigate(-1);
+    return;
+  }
+    
   console.log("product.imageName:", product.imageName);
   
   if (product && productAllTypes.length) {

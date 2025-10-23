@@ -36,8 +36,8 @@ const isPWA = window.location.pathname.startsWith("/pwa");
 const App = () => {
   return (
     <BrowserRouter
-      basename={isPWA ? "/pwa" : "/"} /* differentiate basename to be able to handle oAuth2 for both web and PWA */
-      future={{ /* avoid v7 start transition warnings */ 
+      basename={isPWA ? "/pwa" : "/"} // differentiate basename to be able to handle oAuth2 for both web and PWA
+      future={{ // avoid v7 start transition warnings
         v7_startTransition: true,
         v7_relativeSplatPath: true,
       }}

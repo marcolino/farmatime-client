@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Container, SectionHeader1, Box, Typography, Button } from 'mui-material-custom';
+import { Container, SectionHeader1, Box, Button } from 'mui-material-custom';
 
 // Example data: 5 rows x 8 columns
 const generateSeatMap = (rows = 5, cols = 8) =>

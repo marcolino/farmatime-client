@@ -16,11 +16,9 @@ import TextField from "../custom/TextField";
 import TextFieldPassword from "../custom/TextFieldPassword";
 import Button from "../custom/Button";
 import { apiCall }  from "../../libs/Network";
-//import { useSnackbar } from "../../providers/SnackbarManager";
 import { useDialog } from "../../providers/DialogContext";
-import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../../hooks/useSnackbarContext"; 
 import { validateEmail, validatePassword } from "../../libs/Validation";
-//import config from "../../config";
 
 
 function ForgotPassword() {

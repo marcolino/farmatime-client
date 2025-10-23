@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useParams/*, useNavigate*/ } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -12,7 +12,7 @@ import {
   Grid,
 } from "@mui/material";
 import { AuthContext } from "../providers/AuthContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import { useDialog } from "../providers/DialogContext";
 import { apiCall } from "../libs/Network";
 //import ErrorMessage from "../components/ErrorMessage";
@@ -47,33 +47,23 @@ const PreferencesNotification = (props) => {
       console.log("language from params:", language);
       i18n.changeLanguage(language);
     }
-  }, []); //location, token]);
+  }, [token, language, props.internalRouting]);
 
-  const verifyToken = async (token) => {
+  const verifyToken = useCallback(async (token) => {
     try {
-      if (props.internalRouting) { // routing is internal, use auth user for authentication
-        if (!auth.user) {
-          throw new Error(t("You must be authenticated for this action"));
-        }
+      if (props.internalRouting) {
+        if (!auth.user) throw new Error(t("You must be authenticated for this action"));
         setUserId(auth.user.id);
-        //setNotificationsOriginal(auth.user.preferences.notifications);
         setNotifications(auth.user.preferences.notifications);
-      } else { // routing is external, use token and /auth/notificationVerification call for authentication
+      } else {
         const result = await apiCall("post", "/auth/notificationVerification", { token });
-        if (result.err) {
-          throw new Error(result.message);
-        } else {
-          if (!result.user._id) {
-            throw new Error(t("No user id from token"));
-          } else {
-            setUserId(result.user._id);
-            //setNotificationsOriginal(result.user.preferences.notifications);
-            setNotifications(result.user.preferences.notifications);
-          }
-        }
+        if (result.err) throw new Error(result.message);
+        if (!result.user._id) throw new Error(t("No user id from token"));
+        setUserId(result.user._id);
+        setNotifications(result.user.preferences.notifications);
       }
     } catch (error) {
-      setUserId(false); // false means token error
+      setUserId(false);
       console.error(error.message);
       showDialog({
         title: t("Authentication error"),
@@ -84,20 +74,14 @@ const PreferencesNotification = (props) => {
           t("go to \"Profile\" in user's menu, and use \"Notifications preferences\" to change your notification preferences") + ".",
         confirmText: t("Ok")
       });
-      // setError(
-      //   error.message + ".\n\n" +
-      //   t("Please") + " " +
-      //   (auth?.user ? "" : t("authenticate (pressing the [Enter] button on top) and then")) +
-      //   t("go to \"Profile\" in user's menu, and use \"Notifications preferences\" to change your notification preferences") + "."
-      // );
     }
-  };
+  }, [props.internalRouting, auth, t, showDialog]);
 
   useEffect(() => {
     if (userId === null) { // userId wasn't yet validated
       verifyToken(token);
     }
-  }, []);
+  }, [token, userId, verifyToken]);
 
   const handleToggle = (section, key) => {
     setNotifications((prevState) => ({

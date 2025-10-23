@@ -13,7 +13,7 @@ import {
   useTheme,
 } from "@mui/material";
 //import { SectionHeader } from "./custom";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import { cookiesConsentLoad, cookiesConsentSave } from "../libs/Misc";
 import config from "../config";
 

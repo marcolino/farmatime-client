@@ -26,7 +26,7 @@ import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 import { digitsCount } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 //import config from "../config";
 

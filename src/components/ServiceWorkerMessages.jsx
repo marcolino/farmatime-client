@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@mui/material";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import { useServiceWorker } from "../hooks/useServiceWorker";
 
 const ServiceWorkerMessages = () => {
@@ -36,7 +36,7 @@ const ServiceWorkerMessages = () => {
         )
       );
     }
-  }, [offlineReady, needRefresh, updateServiceWorker, showSnackbar, t]);
+  }, [offlineReady, needRefresh, updateServiceWorker, showSnackbar, closeSnackbar, t]);
 
   return null;
 };

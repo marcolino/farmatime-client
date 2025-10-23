@@ -13,153 +13,153 @@ import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { apiCall } from "../libs/Network";
 import { TextFieldSearch, Button } from "./custom";
 import ProductsDetails from "./ProductsDetails";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import config from "../config";
 
 function Products() {
   const { auth } = useContext(AuthContext);
   const { t } = useTranslation();
   
+  const { showSnackbar } = useSnackbarContext(); 
+  const theme = useTheme();
+  const bottomRef = useRef(null);
+  //const debounceSearchMilliseconds = 2 * 1000;
+  const { isMobile } = useMediaQueryContext();
+  //const { productId } = useParams(); // extract productId from route params
+  const filtersDefault = {
+    mdaCode: "",
+    oemCode: "",
+    make: "",
+    models: "",
+    type: "",
+  };
+  const [filters, setFilters] = useState(filtersDefault);
+  const [products, setProducts] = useState([]);
+  const [productsTotalCount, setProductsTotalCount] = useState(-1); // to test initial status by 0 products found status
+  const [isSearching, setIsSearching] = useState(false);
+  //const [isDebouncing, setIsDebouncing] = useState(false);
+
+  // fetch products from the API
+  const fetchProducts = async (filters) => {
+    //console.log("DBG> fetchProducts");
+    try {
+      setIsSearching(true);
+
+      // filter all props not empty props in filters
+      const filter = Object.fromEntries(Object.entries(filters).filter(([, v]) => v));
+      
+      // get all products for these filters
+      const result = await apiCall("get", "/product/getProducts", { filter });
+      if (result.err) {
+        showSnackbar(result.message, result.status === 401 ? "warning" : "error");
+      } else {
+        setProducts(result.products);
+        setProductsTotalCount(result.count);
+      }
+    } catch (error) {
+      showSnackbar(error.message, "error");
+      console.error("Error getting products:", error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // // debounced products fetch
+  // const debouncedFetchProducts = debounce(async filters => {
+  //   console.log("DBG> debouncedFetchProducts, isDebouncing:", isDebouncing);
+  //   if (hasFilters()) {
+  //     if (/*true||*/isDebouncing) {
+  //       await fetchProducts(filters);
+  //     } else {
+  //       console.log("DBG> not fetchProducts because not isDebouncing!!!");
+  //     }
+  //   } else {
+  //     setProducts([]); // reset products list when filters are empty
+  //   }
+  //   console.log("DBG> setIsDebouncing FALSE (debouncedFetchProducts)");
+  //   setIsDebouncing(false);
+  // }, debounceSearchMilliseconds);
+
+  const hasFilters = () => Object.values(filters).some(value => value !== "");
+
+  // // effect to be run only runs when productId changes
+  // useEffect(() => {
+  //   if (productId) {
+  //     console.log("DBG> productId detected:", productId);
+  //     const filter = { _id: productId };
+  //     fetchProducts(filter);
+  //   }
+  // }, [productId]);
+
+  // // effect to set isDebouncing when filters change, on desktop only
+  // useEffect(() => {
+  //   console.log("DBG> useEffect debouncedFetchProducts");
+  //   if (!isMobile) {
+  //     if (hasFilters()) {
+  //       setIsDebouncing(true);
+  //     }
+  //   }
+  // }, [filters, isMobile]);
+
+  // // effect to call the debounced fetch function when isDebouncing is set
+  // useEffect(() => {
+  //   if (isDebouncing) {
+  //     console.log("DBG> useEffect debouncedFetchProducts");
+  //     debouncedFetchProducts(filters);
+  //     return () => { // cleanup function to cancel debounce on unmount
+  //       debouncedFetchProducts.cancel();
+  //     };
+  //   }
+  // }, [isDebouncing]);
+
+  useEffect(() => {
+    if (isMobile) { // on mobile scroll down to put product into view (on desktop product is on another column, so it is always in to view)
+      if (products.length > 0) {
+        // delay scrolling to allow animations to complete
+        const timeoutId = setTimeout(() => {
+          bottomRef.current?.focus();
+          bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 300); // adjust this duration based on animation/render timing    
+        return () => clearTimeout(timeoutId);
+      }
+    }
+  }, [products, isMobile]);
+
+  // effect to cancel debouncing when isDebouncing turns to false
+  // useEffect(() => {
+  //   if (!isDebouncing) {
+  //     debouncedFetchProducts.cancel();
+  //   }
+  // }, [isDebouncing]);
+  
+  // handle input filters changes
+  const handleFiltersChange = (e) => {
+    // console.log("DBG> handleFiltersChange");
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+  };
+
+  // handle search
+  const handleSearch = () => {
+    // console.log("DBG> handleSearch");
+    //console.log("DBG> setIsDebouncing FALSE (handleSearch)");
+    //setIsDebouncing(false);
+    fetchProducts(filters);
+  };
+
+  // handle reset filters and product list
+  const handleResetFilters = () => {
+    // console.log("DBG> handleResetFilters");
+    setFilters(filtersDefault);
+    // console.log("DBG> setIsDebouncing FALSE (handleResetFilters)");
+    // setIsDebouncing(false);
+    setProducts([]);
+  };
+
   if (config.customization === "mda") {
-    const { showSnackbar } = useSnackbarContext(); 
-    const theme = useTheme();
-    const bottomRef = useRef(null);
-    //const debounceSearchMilliseconds = 2 * 1000;
-    const { isMobile } = useMediaQueryContext();
-    //const { productId } = useParams(); // extract productId from route params
-    const filtersDefault = {
-      mdaCode: "",
-      oemCode: "",
-      make: "",
-      models: "",
-      type: "",
-    };
-    const [filters, setFilters] = useState(filtersDefault);
-    const [products, setProducts] = useState([]);
-    const [productsTotalCount, setProductsTotalCount] = useState(-1); // to test initial status by 0 products found status
-    const [isSearching, setIsSearching] = useState(false);
-    //const [isDebouncing, setIsDebouncing] = useState(false);
-
-    // fetch products from the API
-    const fetchProducts = async (filters) => {
-      //console.log("DBG> fetchProducts");
-      try {
-        setIsSearching(true);
-
-        // filter all props not empty props in filters
-        const filter = Object.fromEntries(Object.entries(filters).filter(([_, v]) => v));
-        
-        // get all products for these filters
-        const result = await apiCall("get", "/product/getProducts", { filter });
-        if (result.err) {
-          showSnackbar(result.message, result.status === 401 ? "warning" : "error");
-        } else {
-          setProducts(result.products);
-          setProductsTotalCount(result.count);
-        }
-      } catch (error) {
-        showSnackbar(error.message, "error");
-        console.error("Error getting products:", error);
-      } finally {
-        setIsSearching(false);
-      }
-    };
-
-    // // debounced products fetch
-    // const debouncedFetchProducts = debounce(async filters => {
-    //   console.log("DBG> debouncedFetchProducts, isDebouncing:", isDebouncing);
-    //   if (hasFilters()) {
-    //     if (/*true||*/isDebouncing) {
-    //       await fetchProducts(filters);
-    //     } else {
-    //       console.log("DBG> not fetchProducts because not isDebouncing!!!");
-    //     }
-    //   } else {
-    //     setProducts([]); // reset products list when filters are empty
-    //   }
-    //   console.log("DBG> setIsDebouncing FALSE (debouncedFetchProducts)");
-    //   setIsDebouncing(false);
-    // }, debounceSearchMilliseconds);
-
-    const hasFilters = () => Object.values(filters).some(value => value !== "");
-
-    // // effect to be run only runs when productId changes
-    // useEffect(() => {
-    //   if (productId) {
-    //     console.log("DBG> productId detected:", productId);
-    //     const filter = { _id: productId };
-    //     fetchProducts(filter);
-    //   }
-    // }, [productId]);
-
-    // // effect to set isDebouncing when filters change, on desktop only
-    // useEffect(() => {
-    //   console.log("DBG> useEffect debouncedFetchProducts");
-    //   if (!isMobile) {
-    //     if (hasFilters()) {
-    //       setIsDebouncing(true);
-    //     }
-    //   }
-    // }, [filters, isMobile]);
-
-    // // effect to call the debounced fetch function when isDebouncing is set
-    // useEffect(() => {
-    //   if (isDebouncing) {
-    //     console.log("DBG> useEffect debouncedFetchProducts");
-    //     debouncedFetchProducts(filters);
-    //     return () => { // cleanup function to cancel debounce on unmount
-    //       debouncedFetchProducts.cancel();
-    //     };
-    //   }
-    // }, [isDebouncing]);
-
-    useEffect(() => {
-      if (isMobile) { // on mobile scroll down to put product into view (on desktop product is on another column, so it is always in to view)
-        if (products.length > 0) {
-          // delay scrolling to allow animations to complete
-          const timeoutId = setTimeout(() => {
-            bottomRef.current?.focus();
-            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-          }, 300); // adjust this duration based on animation/render timing    
-          return () => clearTimeout(timeoutId);
-        }
-      }
-    }, [products]);
-
-    // effect to cancel debouncing when isDebouncing turns to false
-    // useEffect(() => {
-    //   if (!isDebouncing) {
-    //     debouncedFetchProducts.cancel();
-    //   }
-    // }, [isDebouncing]);
-    
-    // handle input filters changes
-    const handleFiltersChange = (e) => {
-      // console.log("DBG> handleFiltersChange");
-      const { name, value } = e.target;
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [name]: value,
-      }));
-    };
-
-    // handle search
-    const handleSearch = () => {
-      // console.log("DBG> handleSearch");
-      //console.log("DBG> setIsDebouncing FALSE (handleSearch)");
-      //setIsDebouncing(false);
-      fetchProducts(filters);
-    };
-
-    // handle reset filters and product list
-    const handleResetFilters = () => {
-      // console.log("DBG> handleResetFilters");
-      setFilters(filtersDefault);
-      // console.log("DBG> setIsDebouncing FALSE (handleResetFilters)");
-      // setIsDebouncing(false);
-      setProducts([]);
-    };
-
     return (
       <Grid container spacing={0}>
         {/* for xs breakpoint, full width */}
@@ -318,7 +318,7 @@ function Products() {
                 <ProductsDetails products={products} productsTotalCount={productsTotalCount}  />
             }
           </Box>
-          <span ref={bottomRef} _sx={{ display: "none" }} />
+          <span ref={bottomRef} />
         </Grid>
       </Grid>
     );

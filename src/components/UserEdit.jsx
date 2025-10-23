@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -16,8 +16,7 @@ import { SectionHeader1 } from "mui-material-custom";
 import { apiCall } from "../libs/Network";
 import { objectsAreEqual } from "../libs/Misc";
 import { AuthContext } from "../providers/AuthContext";
-//import { useSnackbar } from "../providers/SnackbarManager";
-import { useSnackbarContext } from "../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../hooks/useSnackbarContext"; 
 import PreferencesCookie from "./PreferencesCookie";
 import PreferencesNotification from "./PreferencesNotification";
 import {
@@ -26,7 +25,6 @@ import {
   AccountCircle
 } from "@mui/icons-material";
 import {
-  isAdmin,
   validateFirstName,
   validateLastName,
   validateEmail,
@@ -68,6 +66,43 @@ function UserEdit() {
   const [updateReady, setUpdateReady] = useState(false); // to handle form values changes refresh
   //const [sameUserProfile, setSameUserProfile] = useState(false); // to know if profile is the logged user's
   
+  const formSubmitBeforeUpdate = (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    setUpdateReady(true); // set this flag and the updateUser, since we can force some changes on user input fields
+    setError({});
+  }
+
+  const formSubmit = useCallback(() => {
+    (async () => {
+      console.log("*** user for update:", user);
+      const result = await apiCall("post", "/user/updateUser", { userId, ...user });
+      if (result.err) {
+        showSnackbar(result.message, "error");
+      } else {
+        console.log("*** updateUser result:", result);
+        if (auth.user?.id === result.user._id) { // the user is the logged one
+          // update user fields in local auth
+          const updatedUser = auth.user;
+          updatedUser.email = result.user.email;
+          updatedUser.firstName = result.user.firstName;
+          updatedUser.lastName = result.user.lastName;
+          updatedUser.roles = result.user.roles;
+          updatedUser.plan = result.user.plan;
+          //updateSignedInUserLocally(updatedUser);
+          updateSignedInUserLocally({ user: updatedUser });
+        }
+        navigate("/", { replace: true });
+      }
+    })();
+  }, [auth.user, navigate, showSnackbar, updateSignedInUserLocally, user, userId]);
+
+  const formCancel = (e) => {
+    e.preventDefault();
+    setError({});
+    navigate(-1);
+  }
+ 
   useEffect(() => { // get all users on mount
     if (auth.user) {
       (async () => {
@@ -94,7 +129,7 @@ function UserEdit() {
         }
       })();
     }
-  }, [t]);
+  }, [t, auth.user, showSnackbar]);
   
   useEffect(() => {
     if (auth.user) {
@@ -107,14 +142,14 @@ function UserEdit() {
         }
       })();
     }
-  }, [t]);
+  }, [t, auth.user, showSnackbar]);
 
   useEffect(() => {
     if (updateReady) {
       setUpdateReady(false);
       formSubmit();
     }
-  }, [updateReady]);
+  }, [updateReady, formSubmit]);
 
   const validateForm = () => {
     let response;
@@ -295,43 +330,6 @@ function UserEdit() {
     );
   };
 
-  const formSubmitBeforeUpdate = (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    setUpdateReady(true); // set this flag and the updateUser, since we can force some changes on user input fields
-    setError({});
-  }
-
-  const formSubmit = (e) => {
-    (async () => {
-      console.log("*** user for update:", user);
-      const result = await apiCall("post", "/user/updateUser", { userId, ...user });
-      if (result.err) {
-        showSnackbar(result.message, "error");
-      } else {
-        console.log("*** updateUser result:", result);
-        if (auth.user?.id === result.user._id) { // the user is the logged one
-          // update user fields in local auth
-          const updatedUser = auth.user;
-          updatedUser.email = result.user.email;
-          updatedUser.firstName = result.user.firstName;
-          updatedUser.lastName = result.user.lastName;
-          updatedUser.roles = result.user.roles;
-          updatedUser.plan = result.user.plan;
-          //updateSignedInUserLocally(updatedUser);
-          updateSignedInUserLocally({ user: updatedUser });
-        }
-        navigate("/", { replace: true });
-      }
-    })();
-  };
-
-  const formCancel = (e) => {
-    e.preventDefault();
-    setError({});
-    navigate(-1);
-  }
- 
   const styleForChangedFields = (fieldName) => {
     const sx = { fontWeight: isChanged[fieldName] ? "bold" : "normal", };
     return {
@@ -430,7 +428,7 @@ function UserEdit() {
                   value={user.plan.name ?? ""}
                   label={t("Plan")}
                   options={allPlans.map(plan => plan.name)}
-                  optionsDisabled={allPlans.map(role => !isAdmin(auth.user))}
+                  optionsDisabled={[]}
                   multiple={false}
                   onChange={(e) => setPlan(e.target.value)}
                   placeholder={t("Plan")}

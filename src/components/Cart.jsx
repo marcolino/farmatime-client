@@ -23,8 +23,8 @@ import { ShoppingCart, Reorder } from "@mui/icons-material";
 import CartItem from "./CartItem";
 import { apiCall } from "../libs/Network";
 import { AuthContext } from "../providers/AuthContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
-import { useCart } from "../providers/CartProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
+import { useCart } from "../hooks/useCart";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useDialog } from "../providers/DialogContext";
 //import LocalStorage from "../libs/LocalStorage";
@@ -131,7 +131,7 @@ const Cart = (props) => {
       default: // coming from internal routing
         break;
     }
-  }, [props.payment/*, cartItemsQuantity, emptyCartItems, navigate, showDialog, t*/]);
+  }, [props.payment]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!config.ecommerce.enabled) return;
 

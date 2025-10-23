@@ -1,29 +1,28 @@
-import { useCallback, useMemo } from "react";
+import { useContext, useCallback, useMemo } from "react";
 import { SnackbarProvider as NotistackSnackbarProvider, useSnackbar, closeSnackbar } from "notistack";
 import { SnackbarContext } from "./SnackbarContext";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import config from "../config";
 
+//const SnackbarContext = createContext(null);
+
+// internal component to use useSnackbar inside the NotistackSnackbarProvider
 const InnerSnackbarProvider = ({ children }) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const showSnackbar = useCallback(
-    (message = null, variant = "default", action = null) => {
-      if (message) {
-        enqueueSnackbar(message, {
-          variant,
-          action: action ? (key) => action(key) : null,
-        });
-      }
-    },
-    [enqueueSnackbar]
-  );
+  // show a snackbar with a given variant
+  const showSnackbar = useCallback((message = null, variant = "default", action = null) => {
+    if (message) { // ignore empty message snackbars
+      enqueueSnackbar(message, {
+        variant,
+        action: action ? (key) => action(key) : null, // pass snackbarId if action is provided
+      });
+    }
+  }, [enqueueSnackbar]);
 
-  const contextValue = useMemo(
-    () => ({ showSnackbar, closeSnackbar }),
-    [showSnackbar, closeSnackbar]
-  );
+  // memoize the context value to prevent unnecessary renders
+  const contextValue = useMemo(() => ({ showSnackbar, closeSnackbar }), [showSnackbar, closeSnackbar]);
 
   return (
     <SnackbarContext.Provider value={contextValue}>
@@ -32,6 +31,7 @@ const InnerSnackbarProvider = ({ children }) => {
   );
 };
 
+// custom provider component
 export const SnackbarProviderWrapper = ({ children }) => {
   const handleDismiss = (key) => {
     closeSnackbar(key);
@@ -54,7 +54,7 @@ export const SnackbarProviderWrapper = ({ children }) => {
           onClick={() => handleDismiss(key)}
           color="inherit"
           sx={{
-            position: "absolute",
+            position: "absolute", // Position it at the top-right
             top: -4,
             right: -4,
           }}
@@ -76,3 +76,6 @@ export const SnackbarProviderWrapper = ({ children }) => {
     </NotistackSnackbarProvider>
   );
 };
+
+// custom hook to access the snackbar context
+export const useSnackbarContext = () => useContext(SnackbarContext);

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
-import { DateTime } from "luxon";
+//import { DateTime } from "luxon";
 import {
   Box,
   //Button,
@@ -25,8 +25,8 @@ import { apiCall } from "../libs/Network";
 import LocalStorage from "../libs/LocalStorage";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
-import { i18n } from "../i18n";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
+//import { i18n } from "../i18n";
 
 const ProductTable = () => {
   const theme = useTheme();
@@ -45,11 +45,13 @@ const ProductTable = () => {
   const [sortColumn, setSortColumn] = useState("mdaCode");
   const [sortDirection, setSortDirection] = useState("asc");
   
+  /*
   // to use localized dates
   const localizedDate = DateTime.fromJSDate(new Date())
     .setLocale(i18n.language)
     .toLocaleString(DateTime.DATETIME_FULL)
   ;
+  */
   
   useEffect(() => { // get all products on mount
     (async () => {
@@ -64,7 +66,7 @@ const ProductTable = () => {
     return () => {
       //console.log("ProductTable unmounted");
     };
-  }, []);
+  }, [showSnackbar]);
 
   const newProduct = () => {
     navigate(`/edit-product/<new>`);
@@ -227,7 +229,7 @@ const ProductTable = () => {
         }
         if (isObject(a[sortColumn])) {
           // to be implemented if we will have object fields
-          console.warn(`sort of \"object\" field type for column ${sortColumn} is not implemented yet!`);
+          console.warn(`sort of "object" field type for column ${sortColumn} is not implemented yet!`);
           return 0;
         }
         console.error(`sort of unknown field type for column ${sortColumn} is not implemented yet!`);
@@ -248,7 +250,7 @@ const ProductTable = () => {
       if (!filter) {
         return true;
       }
-      return false ||
+      return (
         matches(product, "mdaCode") ||
         matches(product, "oemCode") ||
         matches(product, "make") ||
@@ -259,7 +261,7 @@ const ProductTable = () => {
         matches(product, "teeth") ||
         matches(product, "type") ||
         matches(product, "notes")
-      ;
+      );
     };
 
     const matches = (obj, fieldName) => {

@@ -20,11 +20,11 @@ import Drawer from "./custom/Drawer";
 import { cancelAllRequests } from "../middlewares/Interceptors";
 import FloatingBell from "../components/FloatingBell";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import { AuthContext } from "../providers/AuthContext";
 import { JobContext } from '../providers/JobContext';
 import { useDialog } from "../providers/DialogContext";
-import { useCart } from "../providers/CartProvider";
+import { useCart } from "../hooks/useCart";
 import { apiCall } from "../libs/Network";
 import logoMainHeader from "../assets/images/LogoMainHeader.png";
 import { isAdmin } from "../libs/Validation";
@@ -278,8 +278,8 @@ const Header = ({ theme, toggleTheme }) => {
   };
 
   const getRequestErrors = useCallback(async () => {
-    return await apiCall("get", "/request/getRequestErrors");
-  }, []);
+    return isLoggedIn ? await apiCall("get", "/request/getRequestErrors") : [];
+  }, [isLoggedIn]);
 
   const handleRequestsErrors = async () => {
     showDialog({

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import { Grid, Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
 import { ArrowLeft, ArrowRight, Edit, AddShoppingCart } from "@mui/icons-material";
@@ -11,10 +10,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import { AuthContext } from "../providers/AuthContext";
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
-import { useCart } from "../providers/CartProvider";
-import { useDialog } from "../providers/DialogContext";
+import { useCart } from "../hooks/useCart";
 import { isDealer, isOperator } from "../libs/Validation";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import ImageContainer from "./ImageContainer";
@@ -38,10 +36,10 @@ const ProductsDetails = (props) => {
 
   const swiperRef = useRef(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setFirstRender(false), 200);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => setFirstRender(false), 200);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   // Add limit product if total count > loaded products
   if (props.products.length > 0 && props.productsTotalCount > props.products.length) {
@@ -195,9 +193,9 @@ const ProductsDetails = (props) => {
 
 const ProductDetailsCard = ({ product, imageHeight }) => {
   const { t } = useTranslation();
-  const theme = useTheme();
+  //const theme = useTheme();
   const navigate = useNavigate();
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const { auth, isLoggedIn } = useContext(AuthContext);
 
   const imageUrl = `${config.siteUrl}${config.images.publicPathWaterMark}/${product.imageName}`;

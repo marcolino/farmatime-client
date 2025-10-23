@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { apiCall } from "../../libs/Network";
 import { useDialog } from "../../providers/DialogContext";
-import { useSnackbarContext } from "../../providers/SnackbarProvider"; 
+import { useSnackbarContext } from "../../hooks/useSnackbarContext"; 
 //import { AuthContext } from "../../providers/AuthContext";
 
 
@@ -63,7 +63,7 @@ function SocialSignInSuccess() {
       },
     });
     navigate("/", { replace: true }); // redirect to home route
-  }, [user, navigate]);
+  }, [user, navigate, showDialog, showSnackbar, t]);
 }
 
 export default React.memo(SocialSignInSuccess);

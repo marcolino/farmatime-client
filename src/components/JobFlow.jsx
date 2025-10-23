@@ -15,6 +15,7 @@ import {
   SectionHeader1
 } from 'mui-material-custom';
 import { ArrowBack, ArrowForward, Check, Menu, Clear } from '@mui/icons-material';
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { JobContext, steps, fieldsPatient, fieldsDoctor } from '../providers/JobContext';
 import { useDialog } from "../providers/DialogContext";
 import {
@@ -24,7 +25,7 @@ import {
 } from '../libs/Validation';
 import { objectsAreDeepEqual } from '../libs/Misc';
 //import { AuthContext } from '../providers/AuthContext';
-import { useSnackbarContext } from "../providers/SnackbarProvider";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import JobPatient from './JobPatient';
 import JobDoctor from './JobDoctor';
 import JobMedicines from './JobMedicines';
