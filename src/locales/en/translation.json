@@ -212,7 +212,7 @@
   "go to \"Profile\" in user's menu, and use \"Notifications preferences\" to change your notification preferences": "go to \"Profile\" in user's menu, and use \"Notifications preferences\" to change your notification preferences",
   "Go to jobs list": "Go to jobs list",
   "Go to Products": "Go to Products",
-  "Good morning, [DOCTOR NAME].<br />  We require the prescription of these medicines for <i>[NAME OF THE PATIENT]</i>:<br />  <br /> <b>[MEDICINE]</b><br /><br />  Best regards.<br />  --<br />  <i>[NAME OF THE USER] &lt;[EMAIL OF THE USER]&gt;</i>  ": "Good morning, [DOCTOR NAME].<br />  We require the prescription of these medicines for <i>[NAME OF THE PATIENT]</i>:<br />  <br /> <b>[MEDICINE]</b><br /><br />  Best regards.<br />  --<br />  <i>[NAME OF THE USER] &lt;[EMAIL OF THE USER]&gt;</i>  ",
+  "Good morning, [DOCTOR NAME].<br />  We require the prescription of these medicines for <i>[NAME OF THE PATIENT]</i>:<br />  <br /> <b>[MEDICINE]</b><br /><br />  Best regards.<br />  --<br />  <i>[NAME OF THE USER] &lt;[EMAIL OF THE USER]&gt;</i>  ": "Good morning, [DOCTOR NAME].<br />We require the prescription of these medicines for <i>[NAME OF THE PATIENT]</i>:<br /><br /> <b>[MEDICINE]</b><br /><br />Best regards.<br />--<br /><i>[NAME OF THE USER] &lt;[EMAIL OF THE USER]&gt;</i>",
   "guest user": "guest user",
   "Handle products": "Handle products",
   "Handle Products": "Handle Products",

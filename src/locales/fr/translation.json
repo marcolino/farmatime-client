@@ -224,7 +224,7 @@
   "go to \"Profile\" in user's menu, and use \"Notifications preferences\" to change your notification preferences": "Allez dans \"Profil\" dans le menu de l'utilisateur, et utilisez \"Préférences de notification\" pour changer vos préférences de notification",
   "Go to jobs list": "Aller à la liste des activités",
   "Go to Products": "Aller aux produits",
-  "Good morning, [DOCTOR NAME].<br />  We require the prescription of these medicines for <i>[NAME OF THE PATIENT]</i>:<br />  <br /> <b>[MEDICINE]</b><br /><br />  Best regards.<br />  --<br />  <i>[NAME OF THE USER] &lt;[EMAIL OF THE USER]&gt;</i>  ": "Bonjour, {NOM DU MÉDECIN}.\n\nNous avons besoin de l'ordonnance de ce médicament pour <i>[NOM DU PATIENT]</i>:<br />  <br /> <b>[MÉDECINEr /><br />  Cordialement.<br />  --<br />  <i>[NOM DE L'UTILISATEUR]&gt;</i>  ",
+  "Good morning, [DOCTOR NAME].<br />  We require the prescription of these medicines for <i>[NAME OF THE PATIENT]</i>:<br />  <br /> <b>[MEDICINE]</b><br /><br />  Best regards.<br />  --<br />  <i>[NAME OF THE USER] &lt;[EMAIL OF THE USER]&gt;</i>  ": "Bonjour, {NOM DU MÉDECIN}.\n\nNous avons besoin de l'ordonnance de ce médicament pour <i>[NOM DU PATIENT]</i>:<br /><br /> <b>[NOM DU MÉDICAMENT]</b><br />Cordialement.<br />--<br /><i>[NOM D'UTILISATEUR]&lt;[ADRESSE E-MAIL DE L'UTILISATEUR]&gt;</i>",
   "guest user": "utilisateur invité",
   "Handle products": "Gérer les produits",
   "Handle Products": "Gérer les Produits",
