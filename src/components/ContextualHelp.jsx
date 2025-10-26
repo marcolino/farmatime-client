@@ -63,6 +63,7 @@ export function ContextualHelpWrapper({
             size="large"
             sx={{ color: theme.palette.primary.main }}
             ref={iconButtonRef}
+            tabIndex={-1} // Skip focus when tabbing
           >
             {icon}
           </IconButton>
@@ -111,7 +112,10 @@ export function ContextualHelpWrapper({
               }}
             >
               <Typography variant="h6">{help.title}</Typography>
-              <IconButton onClick={handleClose} size="small" sx={{ color: "inherit" }}>
+                <IconButton
+                  onClick={handleClose}
+                  size="small"
+                  sx={{ color: "inherit" }}>
                 <CloseIcon />
               </IconButton>
             </Box>

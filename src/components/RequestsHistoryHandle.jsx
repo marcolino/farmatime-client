@@ -33,7 +33,7 @@ import { AuthContext } from "../providers/AuthContext";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useSnackbarContext } from "../hooks/useSnackbarContext";
 
-const RequestsTable = () => {
+const RequestsHistoryTable = () => {
   const theme = useTheme();
   //const navigate = useNavigate();
   const { showSnackbar } = useSnackbarContext();
@@ -124,9 +124,9 @@ const RequestsTable = () => {
   useEffect(() => {
     // This will trigger a re-render with fresh data from context
     if (requests) {
-      console.log("RequestsTable mounted, requests count:", requests.length);
+      console.log("RequestsHistoryTable mounted, requests count:", requests.length);
     } else {
-      console.log("RequestsTable mounted, requests is null yet");
+      console.log("RequestsHistoryTable mounted, requests is null yet");
     }
   }, [requests]); // Empty dependency array means this runs once when component mounts
 
@@ -138,11 +138,18 @@ const RequestsTable = () => {
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
+  
+        // Status updates could arrive in mixed order, and with some seconds delay...
+        for (const request of result.requests) {
+          [request.lastStatus, request.lastStatusDate, request.lastReason] =
+            getHighestStatus(request.events);
+        }
+
         setRequests(result.requests);
       }
     })();
     return () => {
-      //console.log("RequestsTable unmounted");
+      //console.log("RequestsHistoryTable unmounted");
     };
   }, [auth.user, showSnackbar]);
   
@@ -167,6 +174,44 @@ const RequestsTable = () => {
       setPage(page - 1);
     }
   }, [requests, page, rowsPerPage]);
+  
+  /**
+   * WebHooks do not necessarily arrive in order, so on server we store all events, and
+   * consider the 'last' status the one with the highest priority, not the last arrived.
+   */
+  const getHighestStatus = (events) => {
+    if (!events || events.length === 0) return [null, null, null];
+
+    const statuses = {
+      "request": 1,
+      "delivered": 2,
+      "hard_bounce": 3,
+      "soft_bounce": 4,
+      "invalid_email": 5,
+      "blocked": 6,
+      "spam": 7,
+      "unsubscribed": 8,
+      "error": 9,
+      "deferred": 10,
+      "unforeseen": 99,
+      "click": 101,
+      "opened": 102,
+    };
+
+    return events.reduce((best, current) => {
+      const [bestStatus, bestAt] = best;
+      const bestRank = bestStatus ? statuses[bestStatus] : -1;
+      const currentRank = statuses[current.status];
+
+      if (
+        currentRank > bestRank ||
+        (currentRank === bestRank && new Date(current.at) > new Date(bestAt))
+      ) {
+        return [current.status, current.at, current.reason];
+      }
+      return best;
+    }, [null, null]);
+  };
   
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
@@ -466,7 +511,7 @@ const RequestsTable = () => {
 
   const sortedFilteredPaginatedRequests = getSortedFilteredPaginatedRequests();
 
-  //console.log("RequestsHandle - sortedFilteredPaginatedRequests:", sortedFilteredPaginatedRequests);
+  //console.log("RequestsHistoryHandle - sortedFilteredPaginatedRequests:", sortedFilteredPaginatedRequests);
 
   return (
     <Container maxWidth="lg" sx={{ py: isMobile ? 2 : 4 }}>
@@ -789,4 +834,4 @@ const RequestsTable = () => {
   );
 };
 
-export default React.memo(RequestsTable);
+export default React.memo(RequestsHistoryTable);

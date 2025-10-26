@@ -16,7 +16,7 @@ const InstallPWA = () => {
 
   const { jobs } = useContext(JobContext) || {};
   
-  const timeToPromptUserToInstallApp = () => {
+  const timeToPromptUserToInstallApp = (isPWAInstalled) => {
     const atLeastOneActivityConfirmed = (jobs.length >= 1); // condition: at least one job confirmed
     return isLoggedIn && atLeastOneActivityConfirmed && !isPWAInstalled;
   };
@@ -58,7 +58,10 @@ const InstallPWA = () => {
     hasAskedThisSession.current = true;
 
     showSnackbar(
-      t(`\
+      (isIosSafari) ?
+        t('To install this app, tap the Share button and then "Add to Home Screen".')
+      :
+        t(`\
 For the best experience, install this app on your device.\n\
 It will open instantly from your home screen or desktop,\n\
 work even when you're offline, and feel just like a regular app,\n\
@@ -67,27 +70,31 @@ with faster access and a cleaner interface.\
       "info",
       (key) => (
         <>
-          <Button
-            sx={{ mx: 0.5 }}
-            variant="contained" 
-            color="primary"
-            size="small"
-            onClick={() => {
-              handleInstallClick();
-              closeSnackbar(key);
-            }}
-          >
-            {t("Install")}
-          </Button>
-          <Button
-            sx={{ mx: 0.5 }}
-            variant="contained" 
-            color="secondary"
-            size="small"
-            onClick={() => closeSnackbar(key)}
-          >
-            {t("Cancel")}
-          </Button>
+          {!isIosSafari && (
+            <>
+              <Button
+                sx={{ mx: 0.5 }}
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={() => {
+                  handleInstallClick();
+                  closeSnackbar(key);
+                }}
+              >
+                {t("Install")}
+              </Button>
+              <Button
+                sx={{ mx: 0.5 }}
+                variant="contained" 
+                color="secondary"
+                size="small"
+                onClick={() => closeSnackbar(key)}
+              >
+                {t("Cancel")}
+              </Button>
+            </>
+          )}
         </>
       )
     );
@@ -105,19 +112,19 @@ with faster access and a cleaner interface.\
   }
 
   useEffect(() => {
-    if (deferredPrompt && timeToPromptUserToInstallApp()) {
+    if (deferredPrompt && timeToPromptUserToInstallApp(isPWAInstalled)) {
       showInstallSnackbar();
     }
   }, [deferredPrompt, isPWAInstalled]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (isIosSafari && !isPWAInstalled) {
-      showSnackbar(
-        t('To install this app, tap the Share button and then "Add to Home Screen".'),
-        "info"
-      );
-    }
-  }, [isIosSafari, isPWAInstalled]); // eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   if (isIosSafari && !isPWAInstalled) {
+  //     showSnackbar(
+  //       t('To install this app, tap the Share button and then "Add to Home Screen".'),
+  //       "info"
+  //     );
+  //   }
+  // }, [isIosSafari, isPWAInstalled]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return null;
 };

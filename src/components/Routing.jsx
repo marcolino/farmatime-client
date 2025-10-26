@@ -33,7 +33,8 @@ const JobEmailTemplate = lazy(() => import("./JobEmailTemplate"));
 const JobsRemove = lazy(() => import("./JobsRemove"));
 const JobFlow = lazy(() => import("./JobFlow"));
 //const DataRemoval = lazy(() => import("./DataRemoval"));
-const RequestsHandle = lazy(() => import("./RequestsHandle"));
+const RequestsHistoryHandle = lazy(() => import("./RequestsHistoryHandle"));
+const RequestsScheduledHandle = lazy(() => import("./RequestsScheduledHandle"));
 const Landing = lazy(() => import("./Landing"));
 const PageNotFound = lazy(() => import("./PageNotFound"));
 const WorkInProgress = lazy(() => import("./WorkInProgress"));
@@ -90,7 +91,8 @@ const Routing = () => {
             {/* <DISABLED Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} /> */}
             <Route path="/job-data-remove" element={<JobsRemove />} />
             <Route path="/fish" element={<ToBeDone />} /> {/* TODO: REMOVEME */}
-            <Route path="/requests-history" element={<RequestsHandle />} />
+            <Route path="/requests-history" element={<RequestsHistoryHandle />} />
+            <Route path="/requests-scheduled" element={<RequestsScheduledHandle />} />
             <Route path="/todo" element={<ToBeDone />} />{/* just to show the fish! */}
           </Route>
 

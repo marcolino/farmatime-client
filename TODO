@@ -263,6 +263,7 @@
 - immagine Hero della landing: togliere scarabocchio blu ... - OK
 - rimuovere gestione isPWAInstalled, non viene mai salvata nell'utente, probabilmente non serve, la gestione isPWAInstalled sembra funzionare comunque (NO) - OK
 
+- in job forms, skip info (i) fields when using <tab> to go to next field
 - "Alcune richieste via email non sono state completate:" = "Alcune richieste via email non sono andate a buon fine:"
 - showDialog: add mode (Success, Info, Warning, Error, ...); change Title background color based on mode... (default: success)
 - gestire requestErrors come PWAInstalled ...

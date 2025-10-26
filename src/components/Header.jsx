@@ -11,7 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import {
   AccountCircle, ExitToApp,
   ShoppingCart, Category, Brightness4, Brightness7,
-  ContactPhone, /*ImportExport,*/ SettingsSuggest, History,
+  ContactPhone, /*ImportExport,*/ SettingsSuggest, History, ScheduleSend,
   InfoOutline as InfoIcon,
   //NotificationsActive,
 } from "@mui/icons-material";
@@ -121,6 +121,12 @@ const Header = ({ theme, toggleTheme }) => {
           label: `${t("Requests History")}`,
           icon: <History />,
           onClick: () => handleHistory(),
+          shortcutKey: "",
+        },
+        {
+          label: `${t("Future Requests")}`,
+          icon: <ScheduleSend />,
+          onClick: () => handleScheduled(),
           shortcutKey: "",
         },
         /*
@@ -262,6 +268,11 @@ const Header = ({ theme, toggleTheme }) => {
   const handleHistory = () => {
     const proceed = () => navigate("/requests-history", { replace: true });
     checkJobDraftIsDirty(t("Requests history"), proceed);
+  };
+
+  const handleScheduled = () => {
+    const proceed = () => navigate("/requests-scheduled", { replace: true });
+    checkJobDraftIsDirty(t("Future requests"), proceed);
   };
 
   // const handlejobsExport = () => {

@@ -47,6 +47,8 @@ const JobFlow = () => {
   // The job draft we edit in this component
   const [jobDraft, setJobDraft] = useState(getJobById(jobId));
 
+  const [isCanceling, setIsCanceling] = useState(false);
+
   // Keep an immutable reference to the original job draft
   //const jobDraftOriginalRef = useRef(structuredClone(jobDraft));
   const jobDraftOriginalRef = useRef(null);
@@ -363,6 +365,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
   };
 
   const cancelJobDraft = () => {
+    setIsCanceling(true);
     const proceed = () => {
       setHasNavigatedAway(true);
       setJobDraftDirty(false);
@@ -443,10 +446,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
     }
   };
 
-  console.log("JOB DRAFT:", jobDraft, jobId);
-  console.log("JOB DRAFT stepsCompleted:", jobDraft?.stepsCompleted);
-  
-  if (!jobDraft || !jobDraft.id) {
+  if (!jobDraft || !jobDraft.id || isCanceling) {
     return null;
   }
   
