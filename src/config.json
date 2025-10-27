@@ -195,6 +195,10 @@
           }
         }
       },
+      "requestsScheduled": {
+        "minimumYear": 2025,
+        "maximumYear": 2035
+      },
       "qrcode": {
         "encryption": false,
         "size": 360,

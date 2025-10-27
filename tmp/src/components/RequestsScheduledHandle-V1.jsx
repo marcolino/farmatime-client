@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useContext/* useRef, useCallback, useMemo*/ } from "react";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
 import Calendar from "react-calendar";
@@ -20,8 +20,8 @@ import { useSnackbarContext } from "../hooks/useSnackbarContext";
 const RequestsScheduledCalendar = () => {
   const theme = useTheme();
 
-  const [view, setView] = useState("month"); // 'month' or 'year'
-  const [activeStartDate, setActiveStartDate] = useState(new Date());
+//  const [view, setView] = useState("month"); // 'month' or 'year'
+//  const [activeStartDate, setActiveStartDate] = useState(new Date());
 
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();

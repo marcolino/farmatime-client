@@ -7,22 +7,25 @@ import {
   Typography,
   Button,
   Grid,
-  Select,
-  MenuItem,
-} from "@mui/material";
+  Tooltip,
+} from "mui-material-custom";
 import { TextFieldSearch } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { Search, ScheduleSend } from "@mui/icons-material";
+import { Search, ScheduleSend, NavigateBefore, NavigateNext} from "@mui/icons-material";
 import { JobContext } from "../providers/JobContext";
 import { apiCall } from "../libs/Network";
 import { isAdmin } from "../libs/Validation";
 import { AuthContext } from "../providers/AuthContext";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useSnackbarContext } from "../hooks/useSnackbarContext";
+import { useDialog } from "../providers/DialogContext";
+import config from "../config";
+
 
 const RequestsScheduledCalendar = () => {
   const theme = useTheme();
   const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const { showSnackbar } = useSnackbarContext();
   const { jobs, jobsError } = useContext(JobContext);
   const { auth } = useContext(AuthContext);
@@ -32,15 +35,16 @@ const RequestsScheduledCalendar = () => {
   const [requests, setRequests] = useState(null);
   const [view, setView] = useState("month"); // 'month' or 'year'
   const [activeStartDate, setActiveStartDate] = useState(new Date());
-
-  // ---- Safe date add ----
+  const { showDialog } = useDialog();
+  
+  // Safe date add
   const addDays = (dateString, days) => {
     const [y, m, d] = dateString.split("-").map(Number);
     const date = new Date(Date.UTC(y, m - 1, d + days));
     return date.toISOString().split("T")[0];
   };
 
-  // ---- Build scheduled map ----
+  // Build scheduled map
   const requestsScheduled = useMemo(() => {
     const map = {};
     jobs.forEach((job) => {
@@ -57,7 +61,8 @@ const RequestsScheduledCalendar = () => {
           medicineFrequency: medicine.fieldFrequency,
         };
         let dateKey = schedule.medicineSinceDate.split("T")[0];
-        const endDate = new Date("2030-12-31");
+        // Loop until maximum year end
+        const endDate = new Date(config.ui.jobs.requestsScheduled.maximumYear + "-" + "12" + "-" + "31");
         while (new Date(dateKey) <= endDate) {
           map[dateKey] = map[dateKey] || [];
           map[dateKey].push(schedule);
@@ -70,7 +75,7 @@ const RequestsScheduledCalendar = () => {
 
   const handleFilterChange = (e) => setFilter(e.target.value);
 
-  // ---- Error handling ----
+  // Error handling
   useEffect(() => {
     if (jobsError) {
       let message;
@@ -85,13 +90,13 @@ const RequestsScheduledCalendar = () => {
     }
   }, [jobsError, showSnackbar, t]);
 
-  // ---- Get requests ----
+  // Get requests
   useEffect(() => {
     (async () => {
       const result = await apiCall(
         "get",
         "/request/getRequests",
-        isAdmin(auth.user) ? {} : { userId: auth.user.id }
+        isAdmin(auth.user) ? {} : { userId: auth.user.id } // if admin, get all requests
       );
       if (result.err) {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
@@ -140,49 +145,115 @@ const RequestsScheduledCalendar = () => {
     }, [null, null]);
   };
 
-  // ---- Year Selector ----
-  const renderYearSelector = () => {
-    const years = [];
-    const currentYear = new Date().getFullYear();
-    for (let y = currentYear - 1; y <= 2030; y++) {
-      years.push(y);
+  // Handle day click
+  const handleMonthClickDay = (day) => {
+    const year = activeStartDate.getFullYear();
+    const month = 1 + activeStartDate.getMonth(); // 0-based
+    const title = t("Requests on {{date}}", { date: `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}` });
+    const message = "...";
+    showDialog({ title, message, confirmText: t("Close") });
+  }
+
+  const handleYearClickDay = (day) => {
+    const year = activeStartDate.getFullYear();
+    const month = 1 + activeStartDate.getMonth(); // 0-based
+    const title = t("Requests on {{date}}", { date: `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}` });
+    const message = "...";
+    showDialog({ title, message, confirmText: t("Close") });
+  }
+
+  // Date navigation with limits
+  const setActivePrevMonthDate = (month, year) => { // month is 0-based
+    if (1 + month === 1 && year <= config.ui.jobs.requestsScheduled.minimumYear) { // Prevent going before minimum year
+      showSnackbar(t("Cannot go before year {{year}}", { year: config.ui.jobs.requestsScheduled.minimumYear }), "warning");
+      return;
     }
-    return (
-      <Select
-        size="small"
-        value={activeStartDate.getFullYear()}
-        onChange={(e) =>
-          setActiveStartDate(new Date(`${e.target.value}-01-01`))
-        }
-        sx={{
-          minWidth: 100,
-          fontFamily: theme.typography.fontFamily,
-          fontSize: theme.typography.body2.fontSize,
-        }}
-      >
-        {years.map((year) => (
-          <MenuItem key={year} value={year}>
-            {year}
-          </MenuItem>
-        ))}
-      </Select>
-    );
+    setActiveStartDate(new Date(year, month - 1, 1));
   };
 
-  // ---- Custom Year View ----
+  const setActiveNextMonthDate = (month, year) => { // month is 0-based
+    if (1 + month === 12 && year >= config.ui.jobs.requestsScheduled.maximumYear) { // Prevent going after maximum year
+      showSnackbar(t("Cannot go after year {{year}}", { year: config.ui.jobs.requestsScheduled.maximumYear }), "warning");
+      return;
+    }
+    setActiveStartDate(new Date(year, month + 1, 1));
+  };
+
+  const setActivePrevYearDate = (year) => {
+    if (year <= config.ui.jobs.requestsScheduled.minimumYear) { // Prevent going before minimum year
+      showSnackbar(t("Cannot go before year {{year}}", { year: config.ui.jobs.requestsScheduled.minimumYear }), "warning");
+      return;
+    }
+    setActiveStartDate(new Date(year - 1, 1));
+  };
+
+  const setActiveNextYearDate = (year) => {
+    if (year >= config.ui.jobs.requestsScheduled.maximumYear) { // Prevent going after maximum year
+      showSnackbar(t("Cannot go after year {{year}}", { year: config.ui.jobs.requestsScheduled.maximumYear }), "warning");
+      return;
+    }
+    setActiveStartDate(new Date(year + 1, 1));
+  };
+
+  // Custom Year View
   const renderYearView = () => {
     const year = activeStartDate.getFullYear();
     const months = Array.from({ length: 12 }, (_, i) => i);
 
     return (
       <Box sx={{ borderRadius: 2, p: 2, border: `1px solid ${theme.palette.divider}` }}>
-        <Typography
-          variant="h6"
-          textAlign="center"
-          sx={{ mb: 2, fontFamily: theme.typography.fontFamily }}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            mb: 1,
+            gap: 1,
+            fontFamily: theme.typography.fontFamily,
+          }}
         >
-          {year}
-        </Typography>
+          {/* Previous year button */}
+          <Button
+            size="small"
+            variant={"contained"}
+            onClick={() => {
+              setActivePrevYearDate(year);
+            }}
+            sx={{
+              minWidth: { xs: 'auto', sm: 64 },
+              mx: 0,
+              px: 1,
+            }}
+          >
+            <NavigateBefore />
+          </Button>
+        
+          <Typography variant="subtitle1" sx={{
+            fontWeight: 500,
+            textAlign: "center",
+            width: { xs: 64, sm: 92 },
+          }}>
+            {year}
+          </Typography>
+
+          {/* Next year button */}
+            <Button
+              size="small"
+              variant={"contained"}
+              onClick={() => {
+                setActiveNextYearDate(year);
+              }}
+              sx={{
+                minWidth: { xs: 'auto', sm: 64 },
+                mx: 0,
+                px: 1,
+              }}
+            >
+              <NavigateNext />
+          </Button>
+          
+        </Box>
+
         <Box
           sx={{
             display: "grid",
@@ -197,54 +268,58 @@ const RequestsScheduledCalendar = () => {
             const dayCells = [];
             for (let i = 0; i < startDayOfWeek; i++) dayCells.push(null);
             for (let d = 1; d <= daysInMonth; d++) dayCells.push(d);
+            const tooltipText = `Tooltip text...`; // TODO: customize this text
 
             return (
-              <Box
-                key={month}
-                sx={{
-                  border: `1px solid ${theme.palette.divider}`,
-                  borderRadius: 2,
-                  p: 1,
-                  fontFamily: theme.typography.fontFamily,
-                }}
-              >
-                <Typography
-                  variant="subtitle2"
-                  textAlign="center"
-                  sx={{ mb: 0.5, fontWeight: 600 }}
-                >
-                  {firstDay.toLocaleString("default", { month: "short" })}
-                </Typography>
+              <Tooltip key={month} title={tooltipText} arrow>
                 <Box
+                  //key={month}
                   sx={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(7, 1fr)",
-                    gap: 0.2,
+                    border: `1px solid ${theme.palette.divider}`,
+                    borderRadius: 2,
+                    p: 1,
+                    fontFamily: theme.typography.fontFamily,
                   }}
                 >
-                  {dayCells.map((day, idx) => {
-                    const dateKey =
-                      day === null
-                        ? null
-                        : `${year}-${String(month + 1).padStart(2, "0")}-${String(
-                            day
-                          ).padStart(2, "0")}`;
-                    const hasRequest = dateKey && requestsScheduled[dateKey];
-                    return (
-                      <Box
-                        key={idx}
-                        sx={{
-                          aspectRatio: "1",
-                          borderRadius: 0.5,
-                          bgcolor: hasRequest
-                            ? theme.palette.primary.light
-                            : theme.palette.action.hover,
-                        }}
-                      />
-                    );
-                  })}
+                  <Typography
+                    variant="subtitle2"
+                    textAlign="center"
+                    sx={{ mb: 0.5, fontWeight: 600 }}
+                  >
+                    {firstDay.toLocaleString("default", { month: "short" })}
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(7, 1fr)",
+                      gap: 0.2,
+                    }}
+                  >
+                    {dayCells.map((day, idx) => {
+                      const dateKey =
+                        day === null
+                          ? null
+                          : `${year}-${String(month + 1).padStart(2, "0")}-${String(
+                              day
+                            ).padStart(2, "0")}`;
+                      const hasRequest = dateKey && requestsScheduled[dateKey];
+                      return (
+                        <Box
+                          key={idx}
+                          onClick={() => handleYearClickDay(day)}
+                          sx={{
+                            aspectRatio: "1",
+                            borderRadius: 0.5,
+                            bgcolor: hasRequest
+                              ? theme.palette.primary.light
+                              : theme.palette.action.hover,
+                          }}
+                        />
+                      );
+                    })}
+                  </Box>
                 </Box>
-              </Box>
+              </Tooltip>
             );
           })}
         </Box>
@@ -252,14 +327,14 @@ const RequestsScheduledCalendar = () => {
     );
   };
 
-  // ---- Custom Month View ----
+  // Custom Month View
   const renderMonthView = () => {
     const year = activeStartDate.getFullYear();
-    const month = activeStartDate.getMonth();
+    const month = activeStartDate.getMonth(); // 0-based
     const firstDay = new Date(year, month, 1);
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const startDayOfWeek = firstDay.getDay();
-    const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+    const weekDays = [t("Su"), t("Mo"), t("Tu"), t("We"), t("Th"), t("Fr"), t("Sa")];
     const dayCells = [];
 
     for (let i = 0; i < startDayOfWeek; i++) dayCells.push(null);
@@ -291,33 +366,46 @@ const RequestsScheduledCalendar = () => {
             fontFamily: theme.typography.fontFamily,
           }}
         >
-          {/* Previous month */}
+          {/* Previous month button */}
           <Button
             size="small"
             variant={"contained"}
             onClick={() => {
-              const prev = new Date(year, month - 1, 1);
-              setActiveStartDate(prev);
+              setActivePrevMonthDate(month, year);
             }}
+            sx={{
+              minWidth: { xs: 'auto', sm: 64 },
+              mx: 0,
+              px: 1,
+            }}
+
           >
-            ←
+            <NavigateBefore />
           </Button>
 
           {/* Month name */}
-          <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-            {firstDay.toLocaleString("default", { month: "long", year: "numeric" })}
+          <Typography variant="subtitle1" sx={{
+            fontWeight: 500,
+            textAlign: "center",
+            minWidth: { xs: 150, sm: 200 },
+          }}>
+            {firstDay.toLocaleString(i18n.language, { month: "long", year: "numeric" })}
           </Typography>
 
-          {/* Next month */}
+          {/* Next month button */}
           <Button
             size="small"
             variant={"contained"}
             onClick={() => {
-              const next = new Date(year, month + 1, 1);
-              setActiveStartDate(next);
+              setActiveNextMonthDate(month, year);
+            }}
+            sx={{
+              minWidth: { xs: 'auto', sm: 64 },
+              mx: 0,
+              px: 1,
             }}
           >
-            →
+            <NavigateNext />
           </Button>
         </Box>
         
@@ -355,41 +443,46 @@ const RequestsScheduledCalendar = () => {
                     "0"
                   )}`;
             const hasRequest = dateKey && requestsScheduled[dateKey];
+            const tooltipText = `Tooltip text...`; // TODO: customize this text
+
             return (
-              <Box
-                key={idx}
-                sx={{
-                  // Applies only to xs screens
-                  [theme.breakpoints.only('xs')]: {
-                    aspectRatio: "1"
-                  },
-                  // Applies to sm and up
-                  [theme.breakpoints.up('sm')]: {
-                    display: "flex",
-                    height: 96,
-                    justifyContent: "center"
-                  },
-                  borderRadius: 1,
-                  fontSize: theme.typography.caption.fontSize,
-                  bgcolor: hasRequest
-                    ? theme.palette.primary.light
-                    : theme.palette.action.hover,
-                  "&:hover": {
+              <Tooltip key={idx} title={tooltipText} arrow>
+                <Box
+                  //key={idx}
+                  onClick={() => handleMonthClickDay(day)}
+                  sx={{
+                    // Applies only to xs screens
+                    [theme.breakpoints.only('xs')]: {
+                      aspectRatio: "1"
+                    },
+                    // Applies to sm and up
+                    [theme.breakpoints.up('sm')]: {
+                      display: "flex",
+                      height: 96,
+                      justifyContent: "center"
+                    },
+                    borderRadius: 1,
+                    fontSize: theme.typography.caption.fontSize,
                     bgcolor: hasRequest
-                      ? theme.palette.primary.main
-                      : theme.palette.action.selected,
-                  },
-                }}
-              >
-                <Typography
-                  variant="caption"
-                  display="block"
-                  textAlign="center"
-                  lineHeight={1.8}
+                      ? theme.palette.primary.light
+                      : theme.palette.action.hover,
+                    "&:hover": {
+                      bgcolor: hasRequest
+                        ? theme.palette.primary.main
+                        : theme.palette.action.selected,
+                    },
+                  }}
                 >
-                  {day ?? ""}
-                </Typography>
-              </Box>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    textAlign="center"
+                    lineHeight={1.8}
+                  >
+                    {day ?? ""}
+                  </Typography>
+                </Box>
+              </Tooltip>
             );
           })}
         </Box>
@@ -400,7 +493,7 @@ const RequestsScheduledCalendar = () => {
   return (
     <Container maxWidth="lg" sx={{ py: xs ? 2 : 4 }}>
       <SectionHeader1>
-        <ScheduleSend fontSize="large" /> {t("Future Requests")}
+        <ScheduleSend fontSize="large" /> {xs ? t("Future Req.s") : t("Future Requests")}
       </SectionHeader1>
 
       {/* --- Responsive layout --- */}
@@ -442,7 +535,7 @@ const RequestsScheduledCalendar = () => {
             >
               {t("Year")}
             </Button>
-            {view === "year" && renderYearSelector()}
+            {/* {view === "year" && renderYearSelector()} */}
           </Box>
         </Grid>
       </Grid>
