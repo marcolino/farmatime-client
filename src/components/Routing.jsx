@@ -50,7 +50,7 @@ const Routing = () => {
           {/* Public routes */}
           <Route path="/landing" element={<Landing />} sitemapPath="/landing" />
           <Route path="/" exact element={<Home />} sitemapPath="/" />
-          <Route path="/signup/:waitingForCode?/:codeDeliveryMedium?" element={<SignUp />} sitemapPath="/signup" />
+          <Route path="/signup/:waitingForCode?/:codeDeliveryMedium?/:email?" element={<SignUp />} sitemapPath="/signup" />
           <Route path="/signin" element={<SignIn />} sitemapPath="/signin" />
           <Route path="/social-signin-success" element={<SocialSignInSuccess />} sitemapPath="social-signin-success" />
           <Route path="/social-signin-error" element={<SocialSignInError />} sitemapPath="social-signin-error" />

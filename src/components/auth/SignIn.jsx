@@ -95,7 +95,7 @@ function SignIn() {
             message: result.data.message,
             confirmText: t("Ok"),
             onConfirm: () => {
-              navigate(`/signup/true/${codeDeliveryMedium}`, { replace: true }); // navigate to signup screen in "waitingForCode" mode
+              navigate(`/signup/true/${codeDeliveryMedium}/${email}`, { replace: true }); // navigate to signup screen in "waitingForCode" mode
             },
           });
           // setDialogTitle();

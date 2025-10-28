@@ -32,12 +32,13 @@ function SignUp() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmed, setPasswordConfirmed] = useState("");
   const { waitingForCode: waitingForCodeFromParams } = useParams();
-  const [waitingForCode, setWaitingForCode] = useState(waitingForCodeFromParams || false);
   const { codeDeliveryMedium: codeDeliveryMediumFromParams } = useParams();
+  const { email: emailFromParams } = useParams();
+  const [email, setEmail] = useState(emailFromParams || "");
+  const [waitingForCode, setWaitingForCode] = useState(waitingForCodeFromParams || false);
   const [codeDeliveryMedium, setCodeDeliveryMedium] = useState(codeDeliveryMediumFromParams || "");
   const [code, setCode] = useState("");
   const [error, setError] = useState({});
