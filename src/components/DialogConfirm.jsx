@@ -45,7 +45,6 @@ function DialogConfirm({
           bgcolor: "primary.main",   // theme color
           color: "primary.contrastText", // ensures text is readable
           fontWeight: "bold",
-          _fontSize: "1.25rem",
           mb: 2,
         }}
       >

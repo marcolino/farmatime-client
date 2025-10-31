@@ -1,4 +1,5 @@
 import TextField from "./TextField";
+import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 
 const TextFieldSearch = ({
@@ -21,10 +22,21 @@ const TextFieldSearch = ({
 
   return (
     <TextField
-      startIcon={startIcon}
-      endIcon={<CloseIcon onClick={handleReset} sx={{ fontSize: "1.3rem", cursor: "pointer" }} /> }
       onChange={onChange}
       fullWidth={fullWidth}
+      // Use startIcon prop directly like your working example
+      startIcon={startIcon}
+      InputProps={{
+        endAdornment: (
+          <IconButton
+            onClick={handleReset}
+            size="small"
+            tabIndex={-1}
+          >
+            <CloseIcon sx={{ fontSize: "1.3rem", pointerEvents: "none" }} />
+          </IconButton>
+        ),
+      }}
       {...props}
     />
   );

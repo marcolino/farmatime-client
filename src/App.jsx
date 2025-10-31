@@ -78,11 +78,11 @@ const AppStructure = () => {
   return (
     <ThemeProvider theme={theme}>
       <CartProvider>
-        <DialogProvider>
-          <ServiceWorkerMessages />
-          <ServiceWorkerProvider>
-            <OnlineStatusProvider>
-              <MediaQueryProvider>
+        <MediaQueryProvider>
+          <DialogProvider>
+            <ServiceWorkerMessages />
+            <ServiceWorkerProvider>
+              <OnlineStatusProvider>
                 <CssBaseline />
                 <LoaderProvider>
                   <Loader loading={loading} />
@@ -99,10 +99,10 @@ const AppStructure = () => {
                   </JobProvider>
                   {/* </SessionExpirationHandler> */}
                 </LoaderProvider>
-              </MediaQueryProvider>
-            </OnlineStatusProvider>
-          </ServiceWorkerProvider>
-        </DialogProvider>
+              </OnlineStatusProvider>
+            </ServiceWorkerProvider>
+          </DialogProvider>
+        </MediaQueryProvider>
       </CartProvider>
     </ThemeProvider>
   );

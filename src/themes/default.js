@@ -44,6 +44,14 @@ const getCustomBaseThemeProps = (isXs = false) => ({
     },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        "body:focus": {
+          outline: "none", // Remove fake focus outline
+          caretColor: "transparent", // Only hide caret when body itself is focused
+        },
+      },
+    },
     MuiTableCell: {
       styleOverrides: {
         root: {

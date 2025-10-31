@@ -34,7 +34,7 @@ const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
     
   const show = requestErrorsRef.current.some(req => {
     // if seenAt is null, undefined, or falsy
-    console.log("req.seenAt:", req.seenAt);
+    //console.log("req.seenAt:", req.seenAt);
     if (!req.seenAt) return true;
 
     // make sure at and seenAt are Date objects
@@ -42,15 +42,15 @@ const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
     const seenAt = new Date(req.seenAt);
 
     // return true if if at > seenAt
-    console.log("at > seenAt:", at, seenAt, at > seenAt);
+    //console.log("at > seenAt:", at, seenAt, at > seenAt);
     return at > seenAt;
   });
   if (!show) { // All request errors already seen: do not show floating bell
-    console.log("HIDING BELL");
+    //console.log("HIDING BELL");
     return null;
   }
   else {
-    console.log("SHOWING BELL");
+    //console.log("SHOWING BELL");
   }
   
   return (

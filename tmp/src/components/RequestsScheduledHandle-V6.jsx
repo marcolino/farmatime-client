@@ -192,7 +192,7 @@ const RequestsScheduledCalendar = () => {
         >
           {months.map((month) => {
             const firstDay = new Date(year, month, 1);
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInMonth = new Date(year, 1 + month, 0).getDate();
             const startDayOfWeek = firstDay.getDay();
             const dayCells = [];
             for (let i = 0; i < startDayOfWeek; i++) dayCells.push(null);
@@ -226,7 +226,7 @@ const RequestsScheduledCalendar = () => {
                     const dateKey =
                       day === null
                         ? null
-                        : `${year}-${String(month + 1).padStart(2, "0")}-${String(
+                        : `${year}-${String(1 + month).padStart(2, "0")}-${String(
                             day
                           ).padStart(2, "0")}`;
                     const hasRequest = dateKey && requestsScheduled[dateKey];
@@ -257,7 +257,7 @@ const RequestsScheduledCalendar = () => {
     const year = activeStartDate.getFullYear();
     const month = activeStartDate.getMonth();
     const firstDay = new Date(year, month, 1);
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const daysInMonth = new Date(year, 1 + month, 0).getDate();
     const startDayOfWeek = firstDay.getDay();
     const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
     const dayCells = [];
@@ -311,7 +311,7 @@ const RequestsScheduledCalendar = () => {
             const dateKey =
               day === null
                 ? null
-                : `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(
+                : `${year}-${String(1 + month).padStart(2, "0")}-${String(day).padStart(
                     2,
                     "0"
                   )}`;

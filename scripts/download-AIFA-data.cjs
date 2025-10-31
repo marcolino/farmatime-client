@@ -11,6 +11,8 @@ const urls = {
   atc: 'https://drive.aifa.gov.it/farmaci/atc.csv'
 };
 
+let today = new Date(); today = today.toISOString().split('T')[0];
+  
 // Output file path
 const outputFile = `./src/data/AIFA.js`;
 const backupFile = `./src/data/AIFA-${today}.js`;
@@ -51,8 +53,6 @@ function parseCSV(content) {
 
 // Main function
 async function main() {
-  const today = new Date(); today.toISOString().split('T')[0];
-  
   try {
     // Download and process each data file
     const confezioniContent = await downloadData(urls.confezioni);
@@ -132,7 +132,7 @@ ${jsonStringifyArrayCustom(ATC)}
 ];
 `;
     
-    fs.copyFileSync(outputFile, backupFile, COPYFILE_EXCL); // backup previous file
+    fs.copyFileSync(outputFile, backupFile, fs.constants.COPYFILE_EXCL); // backup previous file
     
     fs.writeFileSync(outputFile, output); // write new output file
 

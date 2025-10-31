@@ -88,4 +88,5 @@
     ),
   };
 
-  export const JobContext = createContext(undefined);
+//export const JobContext = createContext(undefined);
+export const JobContext = createContext({});

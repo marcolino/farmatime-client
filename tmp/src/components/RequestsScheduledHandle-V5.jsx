@@ -152,7 +152,7 @@ const RequestsScheduledCalendar = () => {
         }}
       >
         {Array.from({ length: 12 }, (_, month) => {
-          const daysInMonth = new Date(selectedYear, month + 1, 0).getDate();
+          const daysInMonth = new Date(selectedYear, 1 + month, 0).getDate();
           const monthLabel = new Date(selectedYear, month).toLocaleString("default", {
             month: "short",
           });
@@ -183,7 +183,7 @@ const RequestsScheduledCalendar = () => {
                 }}
               >
                 {Array.from({ length: daysInMonth }, (_, day) => {
-                  const dateKey = `${selectedYear}-${String(month + 1).padStart(2, "0")}-${String(
+                  const dateKey = `${selectedYear}-${String(1 + month).padStart(2, "0")}-${String(
                     day + 1
                   ).padStart(2, "0")}`;
                   const hasRequest = requestsScheduled[dateKey];

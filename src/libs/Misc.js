@@ -264,6 +264,10 @@ export const getLanguageBasedFormatDDMMMYYYY = (language) => {
   return 'dd MMM yyyy'; // Fallback
 };
 
+export const getLanguageBasedFormatMMMMYYYY = () => {
+  return 'MMMM yyyy';
+};
+
 export const formatDate = (date, formatString, language = i18n.language) => {
   const locale = localeMap[language] || enUS; // fallback to enUS if locale is unknown
   const dateObj = new Date(date); // use new Date here to be more generic
@@ -296,6 +300,13 @@ export const formatDateYYYYMMDDHHMM = (date, language = i18n.language) => {
   return formatted;
 };
 
+export const formatDateMMMMYYYY = (date, language = i18n.language) => {
+  const locale = localeMap[language] || enUS; // fallback to enUS if locale is unknown
+  const dateObj = new Date(date); // use new Date here to be more generic
+  const formatString = getLanguageBasedFormatMMMMYYYY();
+  const formatted = format(dateObj, formatString, { locale });
+  return formatted;
+};
 
 // miscellaneous functions
 export const maxRowsWithinLimit = (dataArray, maxBytes) => {

@@ -104,6 +104,14 @@ const AuthProvider = (props) => {
     [setAuth, setPreferences, startSessionTimer]
   );
 
+  const updateSignedInUserPreferences = async (user) => {
+    console.log("AuthProvider updateSignedInUserPreferences, user:", user);
+    setAuth({ user });
+    if (user && user.preferences) {
+      setPreferences(user.preferences);
+    }
+    };
+  
   const revoke = useCallback(async () => {
     let ok = false;
     if (auth.user !== null) {
@@ -244,6 +252,7 @@ const AuthProvider = (props) => {
         isLoggedIn,
         didSignInBefore,
         signIn,
+        updateSignedInUserPreferences,
         signOut,
         revoke,
         changeLocale,

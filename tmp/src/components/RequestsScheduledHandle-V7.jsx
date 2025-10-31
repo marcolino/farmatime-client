@@ -169,7 +169,7 @@ const RequestsScheduledCalendar = () => {
         <Grid container spacing={2}>
           {months.map((month) => {
             const monthDate = new Date(activeYear, month, 1);
-            const daysInMonth = new Date(activeYear, month + 1, 0).getDate();
+            const daysInMonth = new Date(activeYear, 1 + month, 0).getDate();
             const monthName = monthDate.toLocaleString("default", { month: "long" });
 
             return (
@@ -198,7 +198,7 @@ const RequestsScheduledCalendar = () => {
                     }}
                   >
                     {Array.from({ length: daysInMonth }, (_, d) => {
-                      const dateKey = `${activeYear}-${String(month + 1).padStart(2, "0")}-${String(
+                      const dateKey = `${activeYear}-${String(1 + month).padStart(2, "0")}-${String(
                         d + 1
                       ).padStart(2, "0")}`;
                       const items = requestsScheduled[dateKey];
