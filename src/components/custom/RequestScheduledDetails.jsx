@@ -19,7 +19,7 @@ const RequestScheduledDetails = ({items = [], period, allUsersRequests = false }
   if (!items.length) {
     return (
       <Typography color="text.secondary" align="center" sx={{ mt: 1, fontStyle: "italic" }}>
-        {t("No requests for this {{period}}", { period: period === "monthly" ? t("month") : t("day") })}.
+        {t("No requests for this") + " " + (period === "monthly" ? t("month") : t("day"))}.
       </Typography>
     );
   }

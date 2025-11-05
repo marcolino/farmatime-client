@@ -2,7 +2,7 @@ import instance from "../middlewares/Interceptors";
 import { i18n } from "../i18n";
 import config from "../config";
 
-const PROD_DOMAINS = ["farmatime.it", "www.farmatime.it", "staging.farmatime.it"]; // TODO: get these from config
+const PROD_DOMAINS = [config.domain, `www.${config.domain}`, `staging.${config.domain}`];
 
 const isLocalEnv = () => {
   try {
@@ -21,8 +21,6 @@ const isProdUrl = (url) => {
 };
 
 const apiCall = async (method, url, data = {}) => {
-  //console.log("+++++++++++++++++++ config.api.productionDomains:", config.api.productionDomains);
-  //console.log("+++++++++++++++++++ OLD PROD_DOMAINS:", PROD_DOMAINS);
   try {
     // Check for environment mismatch
     if (isLocalEnv() && isProdUrl(url)) {

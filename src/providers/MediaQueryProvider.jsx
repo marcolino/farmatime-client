@@ -4,7 +4,7 @@ import { MediaQueryContext } from "./MediaQueryContext";
 
 //const MediaQueryContext = createContext();
 
-export const MediaQueryProvider = ({ children }) => { // TODO: always use mui-material media query component...
+export const MediaQueryProvider = ({ children }) => {
   const theme = useTheme();
 
   const xs = useMediaQuery(theme.breakpoints.down("sm"));

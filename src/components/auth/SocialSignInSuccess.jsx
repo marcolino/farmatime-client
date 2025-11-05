@@ -31,9 +31,16 @@ function SocialSignInSuccess() {
       navigate("/social-signin-error", { replace: true }); // redirect to home route
     }
     console.log("*** SocialSignInSuccess:", user);
-    signIn(user);
-    showSnackbar(t("Social sign in successful"), "success");
-    navigate("/", { replace: true }); // redirect to home route
+
+    // signIn(user);
+    // showSnackbar(t("Social sign in successful"), "success");
+    // navigate("/", { replace: true }); // redirect to home route
+
+    (async () => {
+      const changed = await signIn(user);
+      if (changed) showSnackbar(t("Social sign in successful"), "success");
+      navigate("/", { replace: true });
+    })();
   }, [user, navigate, showDialog, showSnackbar, signIn, t]);
 }
 

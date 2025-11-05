@@ -47,7 +47,7 @@ function SignUp() {
   // const [dialogTitle, setDialogTitle] = useState(null);
   // const [dialogContent, setDialogContent] = useState(null);
   // const [dialogCallback, setDialogCallback] = useState(null);
-  const { cloneGuestUserPreferencesToAuthUserOnSignup } = useContext(AuthContext);
+  const { cloneGuestUserPreferencesToAuthUser } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
 
@@ -261,7 +261,7 @@ function SignUp() {
     } else {
       setEmail("");
       setCode("");
-      cloneGuestUserPreferencesToAuthUserOnSignup();
+      cloneGuestUserPreferencesToAuthUser();
       // handleOpenDialog(
       //   t("Registered successfully"),
       //   result.message,
@@ -523,32 +523,6 @@ function SignUp() {
           )}
         </Box>
       </Box>
-      {/*
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {dialogTitle}
-        </DialogTitle>
-        <DialogContent id="alert-dialog-description">
-          <Typography variant="body1" sx={{whiteSpace: "pre-line"}}>
-            {dialogContent}
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={handleCloseDialog}
-            fullWidth={false}
-            autoFocus
-          >
-            {t("Ok")}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    */}
     </form>
   );
 }

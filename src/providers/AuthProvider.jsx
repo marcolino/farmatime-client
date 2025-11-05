@@ -94,14 +94,24 @@ const AuthProvider = (props) => {
 
   const signIn = useCallback(
     async (user) => {
-      console.log("AuthProvider signIn, user:", user);
+      if (!user) {
+        console.debug("AuthProvider.signIn: no user, skipping");
+        return false;
+      }
+      if (auth.user && auth.user.id === user.id) {
+        console.debug("AuthProvider.signIn: same user, skipping");
+        return false;
+      }
+      console.log("AuthProvider.signIn, user:", user);
       setAuth({ user });
       if (user?.preferences) setPreferences(user.preferences);
       if (user?.refreshTokenExpiresAt) {
         startSessionTimer(user.refreshTokenExpiresAt);
       }
+
+      return true; // signal a real change
     },
-    [setAuth, setPreferences, startSessionTimer]
+    [auth.user, setAuth, setPreferences, startSessionTimer]
   );
 
   const updateSignedInUserPreferences = async (user) => {
@@ -193,7 +203,7 @@ const AuthProvider = (props) => {
     guest.user
   ]);
 
-  const cloneGuestUserPreferencesToAuthUserOnSignup = useCallback(
+  const cloneGuestUserPreferencesToAuthUser = useCallback(
     (user) => {
       if (guest.user?.preferences) {
         const guestPreferences = guest.user.preferences;
@@ -257,7 +267,7 @@ const AuthProvider = (props) => {
         revoke,
         changeLocale,
         toggleTheme,
-        cloneGuestUserPreferencesToAuthUserOnSignup,
+        cloneGuestUserPreferencesToAuthUser,
         updateSignedInUserLocally,
         isPWAInstalled,
         setPWAInstalled

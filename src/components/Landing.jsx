@@ -166,7 +166,7 @@ export default function Landing() {
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
-                  filter: "brightness(50%)", // 0% is fully black, 100% is original
+                  filter: "brightness(80%)", // 0% is fully black, 100% is original
                   borderRadius: "20px"
                 }}
               />
@@ -189,10 +189,10 @@ export default function Landing() {
             }}
           >
             <Box>
-              <Typography variant={isMobile ? "h3" : "h3"} sx={{ fontWeight: 700, color: "common.white" }}>
+              <Typography variant={isMobile ? "h3" : "h3"} sx={{ fontWeight: 700, color: "common.white", textShadow: "1px 1px 5px #444" }}>
                 {t("Simplify Your Prescription Requests")}
               </Typography>
-              <Typography variant="h6" sx={{ mt: 2, color: "common.white" }}>
+              <Typography variant="h6" sx={{ mt: 2, color: "common.white", textShadow: "2px 2px 2px #000"  }}>
                   {t("Whether you're a patient or a caregiver, our tool makes it easy to request recurring medications from your physician — in just a few taps.")}
               </Typography>
               <Button

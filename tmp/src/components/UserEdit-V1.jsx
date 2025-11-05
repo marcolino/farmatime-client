@@ -5,14 +5,8 @@ import {
   Container,
   Box,
   Typography,
-  Stack,
-  Tooltip,
+  //Button,
 } from "@mui/material";
-import {
-  Person, Email, SupervisedUserCircle, PlaylistAddCheck,
-  Payment, Business, PermIdentity, LocationOn as LocationOnIcon,
-  AccountCircle
-} from "@mui/icons-material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -21,12 +15,15 @@ import { TextField, TextFieldPhone, Select, Button } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
 import { apiCall } from "../libs/Network";
 import { objectsAreEqual } from "../libs/Misc";
-import { useDialog } from "../providers/DialogContext";
 import { AuthContext } from "../providers/AuthContext";
 import { useSnackbarContext } from "../hooks/useSnackbarContext"; 
 import PreferencesCookie from "./PreferencesCookie";
 import PreferencesNotification from "./PreferencesNotification";
-import ChangeEmail from "./auth/ChangeEmail";
+import {
+  Person, Email, SupervisedUserCircle, PlaylistAddCheck,
+  Payment, Business, PermIdentity, LocationOn as LocationOnIcon,
+  AccountCircle
+} from "@mui/icons-material";
 import {
   validateFirstName,
   validateLastName,
@@ -34,6 +31,7 @@ import {
   validatePhone,
 } from "../libs/Validation";
 //import { i18n }  from "../i18n";
+//import { useDialog } from "../providers/DialogContext";
 import config from "../config";
 
 
@@ -41,12 +39,10 @@ function UserEdit() {
   const navigate = useNavigate();
   const [user, setUser] = useState(false);
   const [userOriginal, setUserOriginal] = useState(false);
-  const [error, setError] = useState({})
-  //const [emailChanging, setEmailChanging] = useState(false);
-  //const [emailNew, setEmailNew] = useState("");
+  const [error, setError] = useState({});
   const { auth, updateSignedInUserLocally } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext();
-  const { showDialog } = useDialog();
+  //const { showDialog } = useDialog();
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogContent, setDialogContent] = useState(null);
@@ -88,7 +84,7 @@ function UserEdit() {
         if (auth.user?.id === result.user._id) { // the user is the logged one
           // update user fields in local auth
           const updatedUser = auth.user;
-          //updatedUser.email = result.user.email; // email can be changed in a dedicated component, auth/ChangeEmail
+          updatedUser.email = result.user.email;
           updatedUser.firstName = result.user.firstName;
           updatedUser.lastName = result.user.lastName;
           updatedUser.roles = result.user.roles;
@@ -259,13 +255,11 @@ function UserEdit() {
     setIsChanged({ ...isChanged, lastName: value != userOriginal.lastName });
   };
   
-  /*
   const setEmail = (value) => {
     setUser({ ...user, email: value });
     setIsChanged({ ...isChanged, email: value != userOriginal.email });
   };
-  */
-  
+
   const setPhone = (value) => {
     setUser({ ...user, phone: value });
     setIsChanged({ ...isChanged, phone: value != userOriginal.phone });
@@ -343,44 +337,16 @@ function UserEdit() {
       input: sx, // for multiline fields
     };
   }
-
-  /*
-  const confirmEmailChange = () => {
-    if (user.email === emailNew) {
-      setEmailChanging(false);
-      showSnackbar(t("Email unchanged"), "info");
-    }
-
-    showDialog({
-      title: t("Email Change"),
-      message: <EmailChange />,
-      confirmText: null,
-      // onConfirm: () => {
-      //   emptyCartItems();
-      //   navigate("/products");
-      // },
-      onConfirm: () => setEmailChanging(false),
-      onCancel: () => setEmailChanging(false),
-    });
-    
-    // TODO ...
-
-    // if (ok) {
-    // setEmailChanging(false);
-    // }
-  }
-*/
   
   if (!userId) {
     showSnackbar(t("No user id specified", "error"));
     navigate(-1);
     return;
-  }
+    }
   
   if (user && allRoles && allPlans) {
     console.log("### allRoles ###", allRoles);
     console.log("### auth.user.roles ###", auth.user?.roles);
-
     return (
       <>
         <SectionHeader1 text={t("Users handling")}>
@@ -403,10 +369,6 @@ function UserEdit() {
                 sx={styleForChangedFields("firstName")}
               />
 
-              {/* <Tooltip title={"test"}><span>
-                <TextField />
-              </span></Tooltip> */}
-
               <TextField
                 id={"lastName"}
                 value={user.lastName ?? ""}
@@ -418,98 +380,17 @@ function UserEdit() {
                 sx={styleForChangedFields("lastName")}
               />
 
-              <Stack direction="row" gap={1} alignItems="center">
-                <TextField
-                  id={"email"}
-                  //value={!emailChanging ? (user.email ?? "") : emailNew}
-                  value={user.email ?? ""}
-                  label={t("Email")}
-                  //readOnly={!emailChanging}
-                  readOnly={true}
-                  //disabled={!emailChanging}
-                  disabled={true}
-                  //onChange={(e) => emailChanging ? setEmailNew(e.target.value) : null}
-                  placeholder={t("Email")}
-                  startIcon={<Email />}
-                  error={error.email}
-                  sx={styleForChangedFields("email")}
-                />
-                {/*!emailChanging && ( */}
-                  <Tooltip title={t("Change email, after code confirmation via email")}>
-                    <Box>
-                      <Button
-                        onClick={() => {
-                          showDialog({
-                            title: t("Email Change"),
-                            //message: <ChangeEmail email={user.email ?? ""} />,
-                            message: () => <ChangeEmail email={user.email ?? ""} />,
-                            //confirmText: null,
-                            // onConfirm: () => {
-                            //   emptyCartItems();
-                            //   navigate("/products");
-                            // },
-                            //onConfirm: () => setEmailChanging(false),
-                            //onCancel: () => setEmailChanging(false),
-                          });
-                        }}
-                        variant="contained"
-                        color="primary"
-                        sx={{
-                          flex: 1,
-                          mt: 0.5,
-                          // px: 1,
-                          // pt: 1,
-                          // pb: 1,
-                          //mt: 0,
-                          backgroundColor: "secondary.light",
-                          flexShrink: 0,
-                          whiteSpace: 'nowrap',
-                          minWidth: 'auto'
-                        }}
-                      >
-                        {t("Change")}
-                      </Button>
-                    </Box>
-                  </Tooltip>
-                {/*})}*/}
-                {/*
-                {emailChanging && (
-                  <Tooltip title={t("Confirm new email, after code confirmation via email")}>
-                    <Box>
-                      <Button
-                        onClick={() => {
-                          showDialog({
-                            title: t("Email Change"),
-                            message: <ChangeEmail />,
-                            //confirmText: null,
-                            // onConfirm: () => {
-                            //   emptyCartItems();
-                            //   navigate("/products");
-                            // },
-                            //onConfirm: () => setEmailChanging(false),
-                            //onCancel: () => setEmailChanging(false),
-                          });
-                        }}
-                        //fullWidth={true}
-                        variant="contained"
-                        color="primary"
-                        sx={{
-                          flex: 1,
-                          mt: 0.8,
-                          // px: 1,
-                          // //mt: 0,
-                          backgroundColor: "secondary.main",
-                          flexShrink: 0, whiteSpace: 'nowrap', minWidth: 'auto'
-                        }}
-                      >
-                        {t("Confirm")}
-                      </Button>
-                    </Box>
-                  </Tooltip>
-                )}
-                */}
-              </Stack>
-              
+              <TextField
+                id={"email"}
+                value={user.email ?? ""}
+                label={t("Email")}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t("Email")}
+                startIcon={<Email />}
+                error={error.email}
+                sx={styleForChangedFields("email")}
+              />
+
               <TextFieldPhone
                 id={"phone"}
                 value={user.phone ?? ""}

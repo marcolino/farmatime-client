@@ -29,7 +29,7 @@ const RequestsScheduledCalendar = () => {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const { showSnackbar } = useSnackbarContext();
-  const [jobs, setJobs] = useState([]);
+  const [ jobs, setJobs ] = useState([]);
   const { auth } = useContext(AuthContext);
   const { isMobile, xs, sm, md } = useMediaQueryContext();
   const [filter, setFilter] = useState("");
@@ -144,14 +144,14 @@ const RequestsScheduledCalendar = () => {
     return map;
   }, [jobs, getFilteredJobs, uniqueUsers, uniquePatients, uniqueDoctors, uniqueMedicines]);
 
-  const handleFilterChange = (e) => setFilter(e.target.value);
+  const handleFilterChange = (e) => setFilter(e.target.value); // TODO: implement filtering
   
   // Get jobs
   useEffect(() => {
     (async () => {
       const options = {
         decryptJobs: true,
-        ...(allUsersRequests ? { userId: "*" } : { userId: auth.user.id }), // if admin, get all users, to get all jobs
+        ...(allUsersRequests ? {userId: "*"} : { userId: auth.user.id }), // if admin, get all users, to get all jobs
       };
       const result = await apiCall(
         "get",
@@ -162,6 +162,7 @@ const RequestsScheduledCalendar = () => {
         showSnackbar(result.message, result.status === 401 ? "warning" : "error");
       } else {
         setJobs(result.jobs);
+        // TODO: filter out inactive jobs
       }
     })();
   }, [auth.user, setJobs, allUsersRequests, showSnackbar]);
@@ -256,14 +257,9 @@ const RequestsScheduledCalendar = () => {
     setActiveStartDate(new Date(year + 1, 1));
   };
 
-  // First day of the year (or month, if passed)
-  const firstDay = (year, month = 0) => {
-    return new Date(year, month, 1);
-  };
-
   // Calendar Header
-  const renderCalendarHeader = ({ year, month /*title, onPrev, onNext, onTitleClick*/ }) => {
-    //const firstDay = new Date(year, month ?? 0, 1);
+  const renderCalendarHeader = ({ month, year /*title, onPrev, onNext, onTitleClick*/ }) => {
+    const firstDay = new Date(year, month ?? 0, 1);
 
     return (
       <Box
@@ -302,8 +298,8 @@ const RequestsScheduledCalendar = () => {
         >
           {
             (view === "month") ?
-              firstDay(year, month).toLocaleString(i18n.language, { month: "long", year: "numeric" })
-            :
+              firstDay.toLocaleString(i18n.language, { month: "long", year: "numeric" })
+              :
               year
           }
         </Typography>
@@ -358,19 +354,21 @@ const RequestsScheduledCalendar = () => {
     } else {
       return (
         <Typography
+
           variant="caption"
           textAlign="left"
           sx={{
             position: "absolute",
-            bottom: isMobile ? 2 : 4, // small padding from bottom
-            left: isMobile ? 2 : 4, // small padding from left
+            bottom: 4, // small padding from bottom
+            left: 4,   // small padding from left
           }}
+          
         >
           <Box
             style={{
               display: "flex",
               alignItems: "center",
-              gap: isMobile ? "2px" : "6px",
+              gap: "6px",
             }}
           >
             {data.map((item, i) => {
@@ -387,15 +385,15 @@ const RequestsScheduledCalendar = () => {
                   <Box
                     key={i}
                     style={{
-                      width: isMobile ? "12px" : "24px",
-                      height: isMobile ? "12px" : "24px",
-                      fontSize: isMobile ? "8px" : "14px",
+                      width: "24px",
+                      height: "24px",
                       borderRadius: "50%",
                       backgroundColor: color,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       color: "white",
+                      fontSize: "14px",
                       fontWeight: "bold",
                     }}
                   >
@@ -410,24 +408,18 @@ const RequestsScheduledCalendar = () => {
     }
   }
 
-  // Helper to generate day cells for a month
-  const getDayCells = (year, month) => {
-    //const firstDay = new Date(year, month, 1);
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const dayCells = [];
-
-    for (let i = 0; i < firstDay(year, month).getDay(); i++) dayCells.push(null);
-    for (let d = 1; d <= daysInMonth; d++) dayCells.push(d);
-
-    return dayCells;
-  };
-
   // Calendar Month View
   const renderCalendarMonthView = () => {
     const year = activeStartDate.getFullYear();
     const month = activeStartDate.getMonth(); // 0-based
-    const dayCells = getDayCells(year, month);
+    const firstDay = new Date(year, month, 1);
+    const daysInMonth = new Date(year, 1 + month, 0).getDate();
+    const startDayOfWeek = firstDay.getDay();
     const weekDays = [t("Su"), t("Mo"), t("Tu"), t("We"), t("Th"), t("Fr"), t("Sa")];
+    const dayCells = [];
+
+    for (let i = 0; i < startDayOfWeek; i++) dayCells.push(null);
+    for (let d = 1; d <= daysInMonth; d++) dayCells.push(d);
 
     return (
       <Box
@@ -438,7 +430,7 @@ const RequestsScheduledCalendar = () => {
           fontFamily: theme.typography.fontFamily,
         }}
       >
-        {renderCalendarHeader({ year, month: month ?? 0})}
+        {renderCalendarHeader({ month: month ?? 0, year })}
         
         {/* Weekday header */}
         <Box
@@ -466,6 +458,7 @@ const RequestsScheduledCalendar = () => {
           }}
         >
           {dayCells.map((day, idx) => {
+            console.log("DAY:", day);
             const dateKey =
               day === null
                 ? null
@@ -476,9 +469,11 @@ const RequestsScheduledCalendar = () => {
             const hasRequest = dateKey && requestsScheduled[dateKey];
 
             // Evaluate the date: past/today/future
+            //let border;
             let opacity = 1.0;
             let isToday, isPast; //, isFuture = false;
             if (!day) {
+              //border = '0 solid transparent';
               opacity = 0.2;
             } else {
               const date = new Date(year, month, day);
@@ -492,7 +487,15 @@ const RequestsScheduledCalendar = () => {
                 date.getMonth() === today.getMonth() &&
                 date.getDate() === today.getDate();
               isPast = date < todayMidnight;
+              //isFuture = date > todayMidnight;
+
+              // if (isPast) border = `1px solid green`;
+              // else if (isToday) border = `2px solid red`;
+              // else if (isFuture) border = `1px solid blue`;
+              // else border = "3px dotted black"; // should not happen
               if (isPast) opacity = 0.6;
+              // else if (isToday) opacity = 1.0;
+              // else if (isFuture) opacity = 1.0;
             }
 
             return (
@@ -506,9 +509,8 @@ const RequestsScheduledCalendar = () => {
                     position: "relative", // enable absolute positioning for the bottom text
                     display: "flex",
                     justifyContent: "center", // center day number horizontally
-                    //justifyContent: "flex-start", // align horizontally to the left
-                    alignItems: "flex-start", // align vertically to the top
-                    //flexDirection: "column", // stack content top-down if multiple children
+                    alignItems: "flex-start", // center day number vertically
+
                     // Applies only to xs screens
                     [theme.breakpoints.only('xs')]: {
                       aspectRatio: "1"
@@ -531,25 +533,17 @@ const RequestsScheduledCalendar = () => {
                     },
                   }}
                 >
-                  {/* <Typography
-                    variant="caption"
-                    display="block"
-                    textAlign="center"
-                    lineHeight={2}
-                  >
-                    {day ?? null}
-                  </Typography> */}
                   <Typography
                     variant="caption"
                     display="block"
                     textAlign="center"
                     lineHeight={2}
-                    pl={0.5}
-                    pt={0.1}
                   >
                     {day ?? null}
                   </Typography>
+
                   {renderCalendarCellContents({ mode: "monthly", year, month, day })}
+
                 </Box>
               {/*
               </Tooltip>
@@ -566,12 +560,12 @@ const RequestsScheduledCalendar = () => {
     const year = activeStartDate.getFullYear();
     const months = Array.from({ length: 12 }, (_, i) => i);
 
-    const columns = isMobile ? 1 : 4;
+    const columns = !isMobile ? 4 : 1;
       
     return (
       <Box sx={{ borderRadius: 2, p: 2, border: `1px solid ${theme.palette.divider}` }}>
 
-        {renderCalendarHeader({ year, month: 0 })}
+        {renderCalendarHeader({ month: 0, year })}
         
         <Box
           sx={{
@@ -581,7 +575,12 @@ const RequestsScheduledCalendar = () => {
           }}
         >
           {months.map((month, idx) => {
-            const dayCells = getDayCells(year, month);
+            const firstDay = new Date(year, month, 1);
+            const daysInMonth = new Date(year, 1 + month, 0).getDate();
+            const startDayOfWeek = firstDay.getDay();
+            const dayCells = [];
+            for (let i = 0; i < startDayOfWeek; i++) dayCells.push(null);
+            for (let d = 1; d <= daysInMonth; d++) dayCells.push(d);
 
             return (
               <div
@@ -608,7 +607,7 @@ const RequestsScheduledCalendar = () => {
                     sx={{ mb: 0.5, fontWeight: 600 }}
                     onClick={() => handleClick({ day: null, month, year })}
                   >
-                    {firstDay(year, month).toLocaleString(i18n.language, { month: "short" })}
+                    {firstDay.toLocaleString(i18n.language, { month: "short" })}
                   </Typography>
                   <Box
                     sx={{
@@ -643,18 +642,16 @@ const RequestsScheduledCalendar = () => {
                           date.getMonth() === today.getMonth() &&
                           date.getDate() === today.getDate();
                         isPast = date < todayMidnight;
+                        //isFuture = date > todayMidnight;
+
                         if (isPast) opacity = 0.6;
                       }
 
                       return (
                         <Box
                           key={idx}
-                          onClick={() => dateKey ? handleClick({ day, month, year }) : null}
+                          onClick={() => dateKey ? handleClick({ day/*day: !isMobile ? day : null*/, month, year }) : null}
                           sx={{
-                            display: "flex", // make it a flex container
-                            justifyContent: "flex-start", // align items to the top
-                            alignItems: "center", // center horizontally
-                            flexDirection: "column", // stack children vertically
                             aspectRatio: "1",
                             opacity,
                             borderRadius: 0.5,
@@ -668,16 +665,20 @@ const RequestsScheduledCalendar = () => {
                             },
                           }}
                         >
+                          
                           <Typography
                             variant="caption"
                             display="block"
+                            textAlign="left"
                             lineHeight={1}
                             pl={0.3}
                             pt={0.3}
                           >
                             {day ?? null}
                           </Typography>
+                          
                           {renderCalendarCellContents({ mode: "yearly", year, month, day })}
+
                         </Box>
                       );
                     })}
@@ -699,9 +700,9 @@ const RequestsScheduledCalendar = () => {
         <ScheduleSend fontSize="large" /> {xs ? t("Future Req.s") : t("Future Requests")}
       </SectionHeader1>
 
-      {/* Responsive layout */}
+      {/* --- Responsive layout --- */}
       <Grid container spacing={1} alignItems="center" justifyContent="flex-end">
-        {/* Search input */}
+        {/* --- Search input --- */}
         <Grid grid={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 6 }} sx={{ textAlign: "right" }}>
           <TextFieldSearch
             label={t("Search")}
@@ -715,7 +716,7 @@ const RequestsScheduledCalendar = () => {
           />
         </Grid>
 
-        {/* Month/Year buttons */}
+        {/* --- Month/Year buttons and selector --- */}
         <Grid grid={{xs: 12, sm: 12, md: 12, lg: 6, xl: 6}} sx={{ textAlign: "right" }}>
           <Box sx={{ display: "inline-flex", gap: 1, flexWrap: "wrap" }}>
             <Button
@@ -730,6 +731,7 @@ const RequestsScheduledCalendar = () => {
             >
               {t("Year")}
             </Button>
+            {/* {view === "year" && renderYearSelector()} */}
           </Box>
         </Grid>
       </Grid>

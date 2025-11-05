@@ -27,6 +27,8 @@ const publicAssets = [
 
 export default defineConfig(({ mode }) => {
   const isProduction = mode === "production";
+  const keepConsole = process.env.KEEP_CONSOLE === 'true';
+  const keepDebugger = process.env.KEEP_DEBUGGER === 'true';
 
   return {
     define: {
@@ -206,6 +208,14 @@ export default defineConfig(({ mode }) => {
       // },
       chunkSizeWarningLimit: 1792,
       sourcemap: true,
+      // Disable console.log removal
+      terserOptions: {
+        compress: {
+          drop_console: !keepConsole,
+          drop_debugger: !keepDebugger,
+        }
+      },
+      minify: 'terser', // Optional: make sure minification still happens
     },
     publicDir: publicDir,
     logLevel: "info",

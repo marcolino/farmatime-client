@@ -324,7 +324,7 @@ function SignIn() {
                     }
                     onClick={(e) => handleSocialLogin(e, provider)}
                   >
-                    {provider}
+                    {`${t("Log in with")} ${provider}`}
                   </Button>
                 ))
               }

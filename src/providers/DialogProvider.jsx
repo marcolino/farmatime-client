@@ -1,93 +1,44 @@
-// DialogProvider.js
-import { /*createContext, */useState, /*useContext, */ useCallback, useEffect } from "react";
-//import { useTranslation } from "react-i18next";
+import { useState, useCallback } from "react";
 import { DialogContext } from "./DialogContext";
 import DialogConfirm from "../components/DialogConfirm";
 
 export const DialogProvider = ({ children }) => {
-  //const { t } = useTranslation();
-  const [dialogState, setDialogState] = useState({
-    open: false,
-    title: "",
-    message: "",
-    confirmText: null,
-    cancelText: null,
-    onConfirm: null,
-    onCancel: null,
-    autoCancelAfterSeconds: null,
-    autoConfirmAfterSeconds: null,
-  });
+  const [dialogs, setDialogs] = useState([]); // stack of open dialogs
 
-  useEffect(() => {
-    let autoCancelTimeout;
-    let autoConfirmTimeout;
-
-    if (dialogState.open) {
-      if (dialogState.autoCancelAfterSeconds) {
-        autoCancelTimeout = setTimeout(() => {
-          dialogState.onCancel && dialogState.onCancel();
-        }, dialogState.autoCancelAfterSeconds * 1000);
-      }
-
-      if (dialogState.autoConfirmAfterSeconds) {
-        autoConfirmTimeout = setTimeout(() => {
-          dialogState.onConfirm && dialogState.onConfirm();
-        }, dialogState.autoConfirmAfterSeconds * 1000);
-      }
-    }
-
-    return () => {
-      clearTimeout(autoCancelTimeout);
-      clearTimeout(autoConfirmTimeout);
-    };
-  }, [dialogState]);
-
-  const closeDialog = useCallback(() => {
-    setDialogState((prevState) => ({ ...prevState, open: false }));
+  const showDialog = useCallback((options) => {
+    setDialogs((prev) => [...prev, { ...options, open: true }]);
   }, []);
 
-  const showDialog = useCallback(({ 
-    title = "",
-    message = "", 
-    confirmText = null, 
-    cancelText = null,
-    onConfirm = () => {},
-    onCancel = () => {},
-    autoCancelAfterSeconds = null,
-    autoConfirmAfterSeconds = null,
-  }) => {
-    setDialogState({
-      open: true,
-      title,
-      message,
-      confirmText,
-      cancelText,
-      autoCancelAfterSeconds,
-      autoConfirmAfterSeconds,
-      onConfirm: () => {
-        onConfirm();
-        closeDialog();
-      },
-      onCancel: () => {
-        onCancel();
-        closeDialog();
-      },
-    });
-  }, [closeDialog]);
+  // const closeDialog = useCallback(() => {
+  //   setDialogs((prev) => prev.slice(0, -1)); // remove latest dialog
+  // }, []);
+  const closeDialog = useCallback((count = 1) => {
+    setDialogs((prev) => prev.slice(0, -count));
+  }, []);
 
   return (
-    <DialogContext.Provider value={{ showDialog }}>
+    <DialogContext.Provider value={{ showDialog, closeDialog }}>
       {children}
-      <DialogConfirm 
-        open={dialogState.open}
-        onClose={closeDialog}
-        onCancel={dialogState.onCancel}
-        onConfirm={dialogState.onConfirm}
-        title={dialogState.title}
-        message={dialogState.message}
-        confirmText={dialogState.confirmText}
-        cancelText={dialogState.cancelText}
-      />
+
+      {dialogs.map((dialog, index) => (
+        <DialogConfirm
+          key={index}
+          open={dialog.open}
+          title={dialog.title}
+          message={dialog.message}
+          confirmText={dialog.confirmText}
+          cancelText={dialog.cancelText}
+          onConfirm={() => {
+            dialog.onConfirm?.();
+            closeDialog();
+          }}
+          onCancel={() => {
+            dialog.onCancel?.();
+            closeDialog();
+          }}
+          onClose={closeDialog}
+        />
+      ))}
     </DialogContext.Provider>
   );
 };

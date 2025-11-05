@@ -59,7 +59,15 @@ function DialogConfirm({
           whiteSpace: "pre-line",
         }}
       >
-        <Box>{message}</Box>
+        {/* <Box>{message}</Box> */}
+        {/* <Box>{typeof message === "function" ? message() : message}</Box> */}
+        <Box>
+          {
+            typeof message === "function" ? message() :
+              React.isValidElement(message) ? message :
+                String(message)
+          }
+          </Box>
       </DialogContent>
 
       <DialogActions>

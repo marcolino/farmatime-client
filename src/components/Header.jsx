@@ -295,7 +295,7 @@ const Header = ({ theme, toggleTheme }) => {
   const handleRequestsErrors = async () => {
     showDialog({
       title: t("Some errors in email requests"),
-      message: t("Some email requests could not be completed: it is possible some doctor email address is incorrect, or there was some network error") + ".",
+      message: t("Some email requests were not successful: it is possible some doctor email address is incorrect, or there was some network error") + ".",
       confirmText: t("Show last requests"),
       onConfirm: async () => {
         await apiCall("post", "/request/setRequestErrorsSeen");
@@ -344,7 +344,7 @@ const Header = ({ theme, toggleTheme }) => {
             sx={{
               width: { xs: 200, sm: 210 },
               height: "auto", // Let browser calculate height proportionally
-              mt: 1,
+              //mb: 1,
               userSelect: "none", // Avoid user select
             }}
           />

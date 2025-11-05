@@ -90,7 +90,8 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   const [editingItemId, setEditingItemId] = useState(null);
   const [fieldMedicine, setFieldMedicine] = useState('');
   const [fieldFrequency, setFieldFrequency] = useState(1);
-  const [fieldSinceDate, setfieldSinceDate] = useState(new Date());
+  //const [fieldSinceDate, setfieldSinceDate] = useState(new Date());
+  const [fieldSinceDate, setFieldSinceDate] = useState(tomorrow());
   const [showAddUpdateBlock, setShowAddUpdateBlock] = useState(false);
   const [mode, setMode] = useState('add');
   const [fieldToFocus, setFieldToFocus] = useState(null);
@@ -117,9 +118,21 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   //   });
   // }, []);
   
+  function today() {
+    return new Date();
+  }
+
+  function tomorrow() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    return tomorrow;
+  }
+
   // Reset date when locale changes
   useEffect(() => {
-    setfieldSinceDate(new Date());
+    setFieldSinceDate(tomorrow()/*new Date()*/);
   }, []);
 
   // Focus handling
@@ -226,7 +239,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   const resetItems = useCallback(() => {
     setFieldMedicine('');
     setFieldFrequency(1);
-    setfieldSinceDate(new Date());
+    setFieldSinceDate(tomorrow()/*new Date()*/);
     setOption(null); // Reset option to null
     onEditingChange(false); // inform caller we are done editing
     setFieldToFocus(null); // Clear focus
@@ -299,7 +312,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     setFieldToFocus(field); // e.g. 'name', 'frequency', or 'date'
     setOption(item.option || null); // Restore the full option object
     setFieldFrequency(item.fieldFrequency);
-    setfieldSinceDate(new Date(item.fieldSinceDate));
+    setFieldSinceDate(new Date(item.fieldSinceDate));
     setFieldMedicine(item.name);
     onEditingChange(true); // inform caller we are editing
   }, [data, onEditingChange, showSnackbar, t]);
@@ -488,11 +501,11 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                           key={i18n.language} // This forces a complete remount when locale changes
                           label={t('Since day')}
                           value={fieldSinceDate}
-                          onChange={setfieldSinceDate}
+                          onChange={setFieldSinceDate}
                           format={getLanguageBasedFormatDDMMM(i18n.language)}
                           sx={{ width: 132 }}
                           PopperProps={{ placement: 'bottom-start' }}
-                          minDate={new Date()} // Today onwards: only dates in the future
+                          //minDate={new Date()} // Today onwards: only dates in the future
                           formatDensity="spacious"
                           inputRef={fieldSinceDateRef}
                         />
@@ -581,11 +594,11 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                         key={i18n.language} // This forces a complete remount when locale changes
                         label={t('Since day')}
                         value={fieldSinceDate}
-                        onChange={setfieldSinceDate}
+                        onChange={setFieldSinceDate}
                         format={getLanguageBasedFormatDDMMM(i18n.language)}
                         sx={{ width: 132 }}
                         PopperProps={{ placement: 'bottom-start' }}
-                        minDate={new Date()} // Today onwards: only dates in the future
+                        minDate={today()} // Today onwards: only dates in the future
                         formatDensity="spacious"
                         inputRef={fieldSinceDateRef}
                       />

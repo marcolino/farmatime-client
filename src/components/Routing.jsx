@@ -90,7 +90,6 @@ const Routing = () => {
             {/* <DISABLED Route path="/job-data-export" element={<JobsExport />} /> */}
             {/* <DISABLED Route path="/job-data-import" element={<JobsImport onDataImported={ (data) => alert(JSON.stringify(data)) }/>} /> */}
             <Route path="/job-data-remove" element={<JobsRemove />} />
-            <Route path="/fish" element={<ToBeDone />} /> {/* TODO: REMOVEME */}
             <Route path="/requests-history" element={<RequestsHistoryHandle />} />
             <Route path="/requests-scheduled" element={<RequestsScheduledHandle />} />
             <Route path="/todo" element={<ToBeDone />} />{/* just to show the fish! */}
