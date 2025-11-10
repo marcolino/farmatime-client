@@ -25,7 +25,6 @@ import {
   Tooltip,
   Divider,
   useTheme,
-  CircularProgress,
   styled
 } from '@mui/material';
 import { Add, Check} from '@mui/icons-material';
@@ -102,7 +101,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   const { showSnackbar } = useSnackbarContext();
   const { isMobile } = useMediaQueryContext();
   const [getFilteredOptions, setGetFilteredOptions] = useState(() => {
-    const FilterLoading = () => <CircularProgress size={20} />;
+    const FilterLoading = () => [];
     FilterLoading.displayName = 'FilterLoading';
     return FilterLoading;
   });

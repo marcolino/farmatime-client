@@ -20,10 +20,6 @@ export const MedicineInputAutocomplete = forwardRef(({
 
   const options = inputValue ? getFilteredOptions(inputValue) : [];
 
-  // console.log("XXX options", options);
-  // console.log("XXX AUTOCOMPLETE options:", options);
-  // console.log("XXX aspirina 5:", getFilteredOptions("aspirina 5"));
-
   return (
     <Autocomplete
       {...props}
