@@ -7,11 +7,13 @@ import {
   TextField,
 } from "mui-material-custom";
 import { ContextualHelp } from "./ContextualHelp";
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { validateAllFields, mapErrorCodeToMessage } from "../libs/Validation";
 import { StyledPaper, StyledBox } from "./JobStyles";
 
 const JobDoctor = ({ jobDraft, data, fields, onChange, onValid, hasNavigatedAway }) => {
   const { t } = useTranslation();
+  const { isMobile } = useMediaQueryContext();
   const [errors, setErrors] = useState({});
 
   // set default data object
@@ -63,7 +65,7 @@ const JobDoctor = ({ jobDraft, data, fields, onChange, onValid, hasNavigatedAway
 
   return (
     <Container maxWidth="lg" sx={{ py: 0 }}>
-      <StyledPaper>
+      <StyledPaper sx={{ mt: isMobile ? 2 : 2 }}>
         <StyledBox>
           <Typography variant="h5" fontWeight="bold">
             {t("Doctor Info")}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useContext, useCallback } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -25,6 +25,7 @@ import {
   Tooltip,
   Divider,
   useTheme,
+  CircularProgress,
   styled
 } from '@mui/material';
 import { Add, Check} from '@mui/icons-material';
@@ -38,10 +39,11 @@ import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
 import { JobContext } from '../providers/JobContext';
 import { useSnackbarContext } from '../hooks/useSnackbarContext';
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
-import { dataAnagrafica, dataPrincipiAttivi, dataATC } from '../data/AIFA';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { i18n } from '../i18n';
 import { localeMap, formatDateDDMMM, getLanguageBasedFormatDDMMM } from '../libs/Misc';
+import makeGetFilteredOptions from '../libs/MakeGetFilteredOptions';
+//import medicinesList from '../data/AIFA';
 import config from '../config';
 
 const ItemContainer = styled(Box, {
@@ -58,8 +60,8 @@ const ItemContainer = styled(Box, {
    * including the footer, and the scroll is limited to this container.
    */
   maxHeight: isMobile ?
-    `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 450px - 120px)` :
-    `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 500px - 120px)`
+    `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 290px - 120px)` :
+    `calc(100vh - ${config.ui.headerHeight}px - ${config.ui.footerHeight}px - 380px - 120px)`
   ,
   minHeight: 100, // to let the medicines container always visible
   overflowY: 'auto',
@@ -80,6 +82,8 @@ const ItemContainer = styled(Box, {
   },
 }));
 
+
+
 const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => {
   const { t } = useTranslation();
   //const navigate = useNavigate();
@@ -97,30 +101,20 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   const [fieldToFocus, setFieldToFocus] = useState(null);
   const { showSnackbar } = useSnackbarContext();
   const { isMobile } = useMediaQueryContext();
-
+  const [getFilteredOptions, setGetFilteredOptions] = useState(() => {
+    const FilterLoading = () => <CircularProgress size={20} />;
+    FilterLoading.displayName = 'FilterLoading';
+    return FilterLoading;
+  });
+  
   // References to input fields
   const fieldMedicineRef = useRef(null);
   const fieldFrequencyRef = useRef(null);
   const fieldSinceDateRef = useRef(null);
-
-  // const [dataAnagrafica, seùtDataAnagrafica] = useState([]);
-  // const [dataPrincipiAttivi, setDataPrincipiAttivi] = useState([]);
-  // const [dataATC, setDataATC] = useState([]);
-
-  //const fieldFrequencMinimum = 1;
-
-  // dynamically load AIFA data for medicines
-  // useEffect(() => {
-  //   import('../data/AIFA').then(module => {
-  //     setDataAnagrafica(module.dataAnagrafica);
-  //     setDataPrincipiAttivi(module.dataPrincipiAttivi);
-  //     setDataATC(module.dataATC);
-  //   });
-  // }, []);
   
-  function today() {
-    return new Date();
-  }
+  // function today() {
+  //   return new Date();
+  // }
 
   function tomorrow() {
     const today = new Date();
@@ -164,61 +158,36 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     onCompleted(isValid());
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      const { default: medicinesList } = await import("../data/AIFA.js");
+      if (cancelled) return;
+
+      const factory = makeGetFilteredOptions(medicinesList, { limit: 15 });
+      setGetFilteredOptions(() => factory);
+    })();
+
+    return () => { cancelled = true; };
+   }, []);
+  
   const isValid = () => {
     return (data.length >= 1);  // at least one item is present)
   };
 
-  // Create unified options
-  const unifiedOptions = useMemo(() => {
-    if (!dataAnagrafica.length || !dataPrincipiAttivi.length || !dataATC.length) return [];
-
-    return [
-      ...dataAnagrafica.map(medicine => ({
-        id: `med_${medicine.id}`,
-        label: medicine.name + (medicine.form ? ' • ' : '') + (medicine.form || ''),
-        type: 'medicine',
-        data: medicine,
-        searchTerms: [medicine.name.toLowerCase()]
-      })),
-      ...dataPrincipiAttivi.map(ingredient => ({
-        id: `ing_${ingredient.id}`,
-        label: ingredient.name + (ingredient.description ? ' • ' : '') + (ingredient.description || ''),
-        type: 'ingredient',
-        data: ingredient,
-        searchTerms: [ingredient.name.toLowerCase()]
-      })),
-      ...dataATC.map(atc => ({
-        id: `atc_${atc.code}`,
-        label: `${atc.code} - ${atc.description}`,
-        type: 'atc',
-        data: atc,
-        searchTerms: [atc.code.toLowerCase(), atc.description.toLowerCase()]
-      }))
-    ];
-  }, [dataAnagrafica, dataPrincipiAttivi, dataATC]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Filter function
-  const getFilteredOptions = useCallback((inputVal) => {
-    if (!inputVal) return [];
-    const query = inputVal.toLowerCase();
-
-    const getMatchScore = (terms) => terms.reduce((score, term) =>
-      term.startsWith(query) ? score + 2 : term.includes(query) ? score + 1 : score, 0);
-
-    const sortByMatchQuality = (a, b) => getMatchScore(b.searchTerms) - getMatchScore(a.searchTerms);
-
-    const filterAndSlice = (type, limit) => unifiedOptions
-      .filter(o => o.type === type && o.searchTerms.some(term => term.includes(query)))
-      .sort(sortByMatchQuality)
-      .slice(0, limit);
-
-    const results = filterAndSlice('medicine', 8);
-    if (results.length < 15) results.push(...filterAndSlice('ingredient', 15 - results.length));
-    if (results.length < 15) results.push(...filterAndSlice('atc', 15 - results.length));
-
-    return results;
-  }, [unifiedOptions]);
-
+  // // Build search function only once
+  // const getFilteredOptions = useMemo(() => {
+  //   return makeGetFilteredOptions(medicinesList, { limit: 15 });
+  // }, []);
+  
+// DEBUG ONLY
+// const getFilteredOptions = makeGetFilteredOptions([
+//   "Aspirina - 500 Mg Granulato - 10 Bustine",
+//   "Paracetamolo 1000 Mg Compresse"
+// ]);
+// getFilteredOptions("aspirina 500");
+  
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
@@ -286,6 +255,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
         fieldSinceDate,
         option: option // Store the full option object for re-editing
       }]);
+      handleEditEnd(); // close Edit mode after adding a medicine
     } else { // mode === 'update'
       onChange(data.map(item =>
         item.id === editingItemId
@@ -341,23 +311,30 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     }
   }, [data, onChange]);
   
-  const isDataLoaded =
-    dataAnagrafica.length > 0 &&
-    dataPrincipiAttivi.length > 0 &&
-    dataATC.length > 0
-  ;
+  //const isDataLoaded = medicinesList.length > 0;
+  const isDataLoaded = true;
+  // const isDataLoaded =
+  //   dataAnagrafica.length > 0 &&
+  //   dataPrincipiAttivi.length > 0 &&
+  //   dataATC.length > 0
+  // ;
+
+  // optional: show loading UI until AIFA is loaded
+  // if (true || getFilteredOptions.toString() === "() => []") {
+  //   return <CircularProgress size={20} />;
+  // }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localeMap[i18n.language]}>
-      <Container maxWidth="lg" sx={{ py: 0 }}>
-        <StyledPaper>
+      <Container maxWidth="xl">
+        <StyledPaper sx={{ mt: isMobile ? 1 : 2 }}>
           <StyledBox>
             <Typography variant="h5" fontWeight="bold">
               {t("Medicines List")}
             </Typography>
           </StyledBox>
 
-          <Box p={2}>
+          <Box p={2} sx={{ py: 1 }}>
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
@@ -402,7 +379,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                 <Tooltip title={t("Add a new medicine")} arrow>
                   <IconButton
                     aria-label={t("Add a new medicine")}
-                    size={"large"}
+                    size={isMobile ? "small" : "normal"}
                     onClick={() => setShowAddUpdateBlock(true)}
                     disabled={false}
                     sx={{
@@ -424,7 +401,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
           {showAddUpdateBlock && (
             <React.Fragment>
 
-              <Divider sx={{ margin: -1, mb: 0 }} />
+              <Divider sx={{ m: 0}} />
 
               <Box p={4}>
                 <Box
@@ -453,7 +430,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                         flexGrow: { xs: 1, sm: 1 }, // Take all available space
                       }}
                     >
-                      <ContextualHelp helpPagesKey="MedicineName" fullWidth showOnHover>
+                      <ContextualHelp helpPagesKey="MedicineName" fullWidth showOnHover showOnMobileToo>
                         {!isDataLoaded ? (
                           null //<Typography>{t('loading medicines data...')}</Typography>
                         ) : (
@@ -461,7 +438,8 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                           <MedicineInputAutocomplete
                             value={option ?? null}
                             inputValue={fieldMedicine ?? ""}
-                            options={getFilteredOptions(fieldMedicine) ?? []}
+                            //options={getFilteredOptions(fieldMedicine) ?? []}
+                            getFilteredOptions={getFilteredOptions}
                             autoFocus
                             onChange={(_event, newValue) => {
                               if (typeof newValue === "string") {
@@ -559,7 +537,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                       >
                         {mode === 'add' ? t('Add') : t('Update')}
                       </Button>
-                      {mode === 'update' && (
+                      {(mode === 'update' || mode === 'add') && (
                         <Button
                           type="button"
                           onClick={() => { resetItems(); setMode('add'); handleEditEnd(); }}
@@ -571,6 +549,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                             height: 56,
                             mb: 0.2,
                             px: { sm: 1, md: 4.5 },
+                            width: "auto",
                           }}
                         >
                           {t('Cancel')}
@@ -589,7 +568,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                     }}
                   >
                     {/* Date picker */}
-                    <ContextualHelp helpPagesKey="DateSince">
+                    <ContextualHelp helpPagesKey="DateSince" showOnMobileToo>
                       <DatePicker
                         key={i18n.language} // This forces a complete remount when locale changes
                         label={t('Since day')}
@@ -598,14 +577,15 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                         format={getLanguageBasedFormatDDMMM(i18n.language)}
                         sx={{ width: 132 }}
                         PopperProps={{ placement: 'bottom-start' }}
-                        minDate={today()} // Today onwards: only dates in the future
+                        //minDate={today()} // Today onwards: only dates in the future
+                        minDate={new Date(`${config.ui.jobs.requestsScheduled.minimumYear}-01-01`)}
                         formatDensity="spacious"
                         inputRef={fieldSinceDateRef}
                       />
                     </ContextualHelp>
 
                     {/* Frequency input */}
-                    <ContextualHelp helpPagesKey="Frequency">
+                    <ContextualHelp helpPagesKey="Frequency" showOnMobileToo>
                       <TextField
                         label={t('Freq.')}
                         variant="outlined"
@@ -651,17 +631,17 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                     >
                       {mode === 'add' ? t('Add') : t('Update')}
                     </Button>
-                    {mode === 'update' && (
+                    {(mode === 'update' || mode === 'add') && (
                       <Button
                         type="button"
                         onClick={() => { resetItems(); setMode('add'); handleEditEnd(); }}
                         variant="contained"
                         color="default"
-                        size="large"
+                        //size="large"
                         sx={{
                           height: 36,
                           px: 0,
-                          width: '100%',
+                          width: 'auto',
                         }}
                       >
                         {t('Cancel')}

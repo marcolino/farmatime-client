@@ -68,8 +68,8 @@ const JobsTable = () => {
   // Add this useEffect to force refresh when component mounts
   useEffect(() => {
     // This will trigger a re-render with fresh data from context
-    console.log("JobsTable mounted, jobs count:", jobs.length);
-  }, [jobs.length]); // Empty dependency array means this runs once when component mounts
+    console.log("JobsTable mounted, jobs count:", jobs ? jobs.length : 0);
+  }, [jobs]); // Empty dependency array means this runs once when component mounts
 
   // Show job errors to the user
   useEffect(() => {

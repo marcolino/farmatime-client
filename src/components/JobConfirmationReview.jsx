@@ -4,14 +4,16 @@ import { useTranslation } from 'react-i18next';
 import {
   Container,
   Box,
-  //Button,
+  Button,
   Typography,
-  //Tooltip,
+  Tooltip,
 } from '@mui/material';
 import { AuthContext } from "../providers/AuthContext";
 import { formatDateDDMMMYYYY } from '../libs/Misc';
 import { variablesExpand } from './JobEmailTemplateVariables';
-//import { Edit } from "@mui/icons-material";
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
+import { useDialog } from "../providers/DialogContext";
+import { Edit } from "@mui/icons-material";
 import { StyledPaper, StyledBox, StyledPaperSmall, StyledBoxSmall } from './JobStyles';
 //import { emailTemplate } from '../providers/JobContext';
 import { JobContext } from '../providers/JobContext';
@@ -19,9 +21,11 @@ import { JobContext } from '../providers/JobContext';
 const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
   const { t } = useTranslation();
   //const navigate = useNavigate();
+  const { showDialog } = useDialog();
   const { auth } = useContext(AuthContext);
   const { emailTemplate } = useContext(JobContext) || {};
   const [bodyExpanded, setBodyExpanded] = useState(null);
+  const { isMobile } = useMediaQueryContext();
 
   // if (!data.emailTemplate) {
   //   data.emailTemplate = emailTemplate;
@@ -42,7 +46,7 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 0 }}>
-      <StyledPaper>
+      <StyledPaper sx={{ mt: isMobile ? 1 : 2 }}>
         <StyledBox>
           <Typography variant="h5" fontWeight="bold">
             {t("Confirmation of the job")}
@@ -112,17 +116,22 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
           </Box>
 
           {/* Edit email template button */}
-          {/* <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
             <Tooltip title={t('Edit Email Template')} arrow>
               <Button
                 variant="contained"
-                size="small" color="primary"
-                onClick={() => navigate(`/job-email-template-edit/${data.id}`, { replace: true })}
+                size="small" color="secondary"
+                //onClick={() => navigate(`/job-email-template-edit`/*/${data.id}`§/*/, { replace: true })}
+                onClick={() => showDialog({
+                  title: t("Edit Email Template"),
+                  message: t("To edit email template, please click on user icon on the top right, then \"Advanced Options\" and \"Edit Email Template\"") + ".",
+                  confirmText: t("Ok"),
+                })}
               >
                 <Edit fontSize="small" sx={{ mr: 1 }} /> {t("Change the model")}
               </Button>
             </Tooltip>
-          </Box> */}
+          </Box>
 
         </Box>
       

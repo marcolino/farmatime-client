@@ -13,10 +13,10 @@ export function SectionHeader1({
 
   return (
     <Paper
-      elevation={2}
+      elevation={0}
       sx={{
         p: 3,
-        mb: 4,
+        mb: isMobile ? 2 : 4,
         bgcolor: 'primary.main',
         color: 'info.contrastText',
       }}

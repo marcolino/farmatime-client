@@ -9,11 +9,11 @@ const HelpPages = () => { // Help content map
       title: t("Medicine Name"),
       content: (
         <>
-          <p>{t('Enter the name of the medicine, its active ingredient, or its ATC code')}.</p>
+          <p>{t('Enter the name of the medicine')}.</p>
           <p>
             {t('\
 You can use the autocomplete feature to help you find the correct medicine: \
-it is sufficent to start typing the medicine name. If you don\'t find your medicine in the list, digit one more letter: all Italian medicines are present.')
+it is sufficent to start typing the medicine name. If you don\'t find your medicine in the list, digit one more letter: all Italian medicines are present. You can insert a part of the farm name, and the dosage, i.e.: "Asp 500"')
             }
           </p>
         </>

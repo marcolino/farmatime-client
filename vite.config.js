@@ -186,6 +186,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 5005,
+      //host: true,
     },
     base: "/",
     build: {

@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
-  Typography,
   Button,
   Accordion,
   AccordionSummary,
@@ -12,7 +11,9 @@ import {
   Slide,
   Container,
   Stack,
-  Grid
+  Grid,
+  Typography,
+  styled,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 //import ChildFriendly from "@mui/icons-material/ChildFriendly";
@@ -131,6 +132,17 @@ export default function Landing() {
     mb: 0,
   };
 
+  const TypographyWithShadow = styled(Typography)(({ theme }) => ({
+    textShadow:
+      theme.palette.mode === "dark"
+        ? "1px 1px 3px rgba(255,255,255,0.66)"
+        : "2px 2px 1px rgba(0,0,0,0.66)",
+    color:
+      theme.palette.mode === "dark"
+        ? "black"
+        : "white",
+  }));
+
   return (
     <Box>
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
@@ -189,19 +201,19 @@ export default function Landing() {
             }}
           >
             <Box>
-              <Typography variant={isMobile ? "h3" : "h3"} sx={{ fontWeight: 700, color: "common.white", textShadow: "1px 1px 5px #444" }}>
+              <TypographyWithShadow variant={isMobile ? "h3" : "h3"} sx={{ fontWeight: 700 }}>
                 {t("Simplify Your Prescription Requests")}
-              </Typography>
-              <Typography variant="h6" sx={{ mt: 2, color: "common.white", textShadow: "2px 2px 2px #000"  }}>
+              </TypographyWithShadow>
+              <TypographyWithShadow variant="h6" sx={{ mt: 2 }}>
                   {t("Whether you're a patient or a caregiver, our tool makes it easy to request recurring medications from your physician — in just a few taps.")}
-              </Typography>
+              </TypographyWithShadow>
               <Button
                 variant="contained"
                 color="primary"
-                sx={{ mt: 4, px: 4, py: 1.5, /*fontSize: "1rem"*/ }}
+                sx={{ mt: 4, px: 4, py: 1.5 }}
                 onClick={() => navigate("/signin", { replace: false })}
               >
-                {t("Start now — It's free!")}
+                {t("Start now — It's free!")} {theme.palette.mode}
               </Button>
             </Box>
           </Box>

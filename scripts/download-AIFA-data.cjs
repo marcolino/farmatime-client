@@ -1,161 +1,197 @@
-//#!/usr/bin/env node
+#!/usr/bin/env node
+
+/**
+ * AIFA Medicine Dataset Processor
+ * --------------------------------
+ * Downloads confezioni.csv, filters authorized medicines,
+ * normalizes text, merges by commercial name,
+ * and outputs two JS files:
+ *  - AIFA-full.js: full structured data
+ *  - AIFA.js: flattened display strings for autocomplete
+ */
 
 const fs = require('fs');
 const https = require('https');
 const path = require('path');
 
-// URLs of the CSV files
-const urls = {
-  confezioni: 'https://drive.aifa.gov.it/farmaci/confezioni.csv',
-  pa_confezioni: 'https://drive.aifa.gov.it/farmaci/PA_confezioni.csv',
-  atc: 'https://drive.aifa.gov.it/farmaci/atc.csv'
-};
+// URL of the AIFA CSV
+const url = 'https://drive.aifa.gov.it/farmaci/confezioni.csv';
 
-let today = new Date(); today = today.toISOString().split('T')[0];
-  
-// Output file path
-const outputFile = `./src/data/AIFA.js`;
-const backupFile = `./src/data/AIFA-${today}.js`;
+// Output directories and file paths
+const today = new Date().toISOString().split('T')[0];
+const dataDir = './src/data';
+const fullFile = path.join(dataDir, 'AIFA-full.js');
+const flatFile = path.join(dataDir, 'AIFA.js');
+const flatFileBackup = path.join(dataDir, `AIFA-${today}.js`);
 
-
-// Function to download a data file in memory
+/**
+ * Download file content as text
+ */
 function downloadData(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, (response) => {
-      let data = '';
-      response.setEncoding('utf8'); // ensures we're working with strings
-      response.on('data', (chunk) => data += chunk);
-      response.on('end', () => resolve(data));
-    }).on('error', (err) => {
-      reject(err);
-    });
+    https
+      .get(url, (response) => {
+        let data = '';
+        response.setEncoding('utf8');
+        response.on('data', (chunk) => (data += chunk));
+        response.on('end', () => resolve(data));
+      })
+      .on('error', reject);
   });
 }
 
-// Function to parse CSV
+/**
+ * Parse semicolon-separated CSV (AIFA format)
+ */
 function parseCSV(content) {
-  const lines = content.split('\n');
-  const headers = lines[0].split(';').map(h => h.trim());
+  const lines = content.trim().split('\n');
   const result = [];
-  
-  for (let i = 1; i < lines.length; i++) {
-    if (!lines[i].trim()) continue;
-    const values = lines[i].split(';').map(v => v.trim());
-    const entry = {};
-    headers.forEach((header, index) => {
-      entry[header] = values[index] || '';
+
+  for (let i = 0; i < lines.length; i++) {
+    const cols = lines[i].split(';').map((v) => v.trim());
+    if (cols.length < 12 || !cols[0]) continue;
+
+    result.push({
+      codice_confezione: cols[0],
+      codice_aic_base: cols[1],
+      progressivo: cols[2],
+      nome: cols[3],
+      descrizione: cols[4],
+      codice_azienda: cols[5],
+      azienda: cols[6],
+      stato: cols[7],
+      procedura: cols[8],
+      forma: cols[9],
+      atc: cols[10],
+      principio_attivo: cols[11],
     });
-    result.push(entry);
   }
-  
+
   return result;
 }
 
-// Main function
+/**
+ * Normalize text: trim, fix multiple spaces, capitalize nicely
+ */
+function normalizeText(text) {
+  if (!text) return '';
+  return text
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b([A-ZÀ-Ü])([A-ZÀ-Ü]+)/g, (_, first, rest) => first + rest.toLowerCase());
+}
+
+/**
+ * Create a canonical version of a name for grouping
+ */
+function canonicalName(name) {
+  return normalizeText(name).toLowerCase().replace(/\W+/g, '');
+}
+
+/**
+ * Write output safely with optional backup
+ */
+function writeOutput(file, content, backupPath = null) {
+  if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+
+  if (backupPath && fs.existsSync(file)) {
+    fs.copyFileSync(file, backupPath);
+    console.log(`Backup created: ${backupPath}`);
+  }
+
+  fs.writeFileSync(file, content, 'utf8');
+  console.log(`Wrote: ${file}`);
+}
+
+/**
+ * Main process
+ */
 async function main() {
   try {
-    // Download and process each data file
-    const confezioniContent = await downloadData(urls.confezioni);
-    const paConfezioniContent = await downloadData(urls.pa_confezioni);
-    const atcContent = await downloadData(urls.atc);
+    console.log('Downloading confezioni.csv...');
+    const csvContent = await downloadData(url);
 
-    const confezioniData = parseCSV(confezioniContent);
-    const paConfezioniData = parseCSV(paConfezioniContent);
-    const atcData = parseCSV(atcContent);
-    
-    // Process anagrafica data
-    const Anagrafica = confezioniData
-      .reduce((acc, item) => {
-        // Check if name already exists in accumulator
-        if (!acc.some(x => x.denominazione === item.denominazione)) {
-          acc.push(item);
-        }
-        return acc;
-      }, [])
-      .map(item => ({
-        id: item.codice_aic,
-        name: item.denominazione,
-        //holder: item.ragione_sociale,
-        form: item.forma,
-        //atcCode: item.codice_atc
-      }))
-    ;
-    
-    // Process principi attivi data
-    const PrincipiAttivi = paConfezioniData
-      .reduce((acc, item) => {
-        // Check if name already exists in accumulator
-        if (!acc.some(x => x.principio_attivo === item.principio_attivo)) {
-          acc.push(item);
-        }
-        return acc;
-      }, [])
-      .map((item, index) => ({
-        id: `PA${String(index + 1).padStart(3, '0')}`,
-        name: item.principio_attivo,
-        description: `\
-${item.quantita ? item.quantita : ''}\
-${(item.quantita && item.unita_misura) ? ' ' : ''}\
-${item.unita_misura ? item.unita_misura : ''}\
-`
-      }))
-    ;
-    
-    // Process ATC data
-    const ATC = atcData
-       .reduce((acc, item) => {
-        // Check if name already exists in accumulator
-        if (!acc.some(x => x.descrizione === item.descrizione)) {
-          acc.push(item);
-        }
-        return acc;
-      }, [])
-      .map(item => ({
-        code: item.codice_atc,
-        description: item.descrizione,
-        //level: getATCLevelDescription(item.codice_atc)
-      }))
-    ;
-    
-    // Generate the output file
-    const output = `// Auto-generated data from AIFA sources
-export const dataAnagrafica = [
-${jsonStringifyArrayCustom(Anagrafica)}
-];
+    console.log('Parsing CSV...');
+    const rows = parseCSV(csvContent);
 
-export const dataPrincipiAttivi = [
-${jsonStringifyArrayCustom(PrincipiAttivi)}
-];
+    console.log('Filtering authorized medicines...');
+    const authorized = rows.filter((r) => r.stato?.toLowerCase().includes('autorizzata'));
+    console.log(`${authorized.length} authorized confezioni`);
 
-export const dataATC = [
-${jsonStringifyArrayCustom(ATC)}
-];
+    console.log('Normalizing and grouping...');
+    const grouped = {};
+
+    for (const r of authorized) {
+      const key = canonicalName(r.nome);
+      if (!grouped[key]) {
+        grouped[key] = {
+          name: normalizeText(r.nome),
+          principle: normalizeText(r.principio_attivo),
+          atc: r.atc || '',
+          company: normalizeText(r.azienda),
+          forms: new Set(),
+          confezioni: [],
+        };
+      }
+
+      const desc = normalizeText(r.descrizione);
+      grouped[key].forms.add(normalizeText(r.forma));
+      grouped[key].confezioni.push({
+        codice: r.codice_confezione,
+        descrizione: desc,
+      });
+    }
+
+    const medicines = Object.values(grouped).map((m, i) => ({
+      id: i + 1,
+      name: m.name,
+      principle: m.principle,
+      atc: m.atc,
+      company: m.company,
+      forms: Array.from(m.forms),
+      confezioni: m.confezioni,
+    }));
+
+    console.log(`${medicines.length} unique medicine names`);
+
+    // FULL dataset
+    const fullContent = `// Auto-generated on ${today}
+// Source: AIFA confezioni.csv
+export const medicines = ${JSON.stringify(medicines, null, 2)};
 `;
-    
-    fs.copyFileSync(outputFile, backupFile, fs.constants.COPYFILE_EXCL); // backup previous file
-    
-    fs.writeFileSync(outputFile, output); // write new output file
 
-    console.log(`Data processing complete. Output saved to file ${outputFile}`); 
+    // FLAT dataset (for client autocomplete)
+    const flatArray = [];
+    for (const m of medicines) {
+      for (const c of m.confezioni) {
+        flatArray.push(`${m.name} - ${c.descrizione.replace(/([^\s])-/, '$1 -').replace(/-([^\s])/, '- $1')}`);
+      }
+    }
+
+//     const flatContent = `// Auto-generated on ${today}
+// // Flattened medicine list for fast client-side autocomplete
+// export const medicineList = ${JSON.stringify(flatArray, null, 2)};
+// `;
+    
+    // Remove duplicates and sort alphabetically
+    const flatArrayUnique = Array.from(new Set(flatArray)).sort();
+
+    const flatContent = `// Auto-generated on ${today}
+// Flattened medicine list for fast client-side autocomplete
+export default ${JSON.stringify(flatArrayUnique, null, 2)};
+`;
+
+    if (fs.existsSync(flatFile)) {
+      fs.copyFileSync(flatFile, flatFileBackup); // backup previous flat file
+    }
+
+    writeOutput(flatFile, flatContent);
+    writeOutput(fullFile, fullContent);
+
+    console.log('Done.');
   } catch (error) {
-    console.error('Error:', error);
-  }
-}
-
-// Helper function to stringify array of objects in a custom way
-const jsonStringifyArrayCustom = (arr) => {
-  return arr.map(obj => JSON.stringify(obj)).join(',\n');
-}
-
-// Helper function to determine ATC level
-function getATCLevelDescription(atcCode) {
-  switch (atcCode?.length) {
-    case 1: return 'Anatomico';
-    case 3: return 'Terapeutico';
-    case 4: return 'Farmacologico';
-    case 5: return 'Chimico';
-    case 7: return 'Principio attivo';
-    default: return 'Unknown';
+    console.error('❌ Error:', error);
+    process.exit(1);
   }
 }
 

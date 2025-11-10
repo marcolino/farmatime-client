@@ -10,7 +10,12 @@
 
   // Steps
   export const steps = (isMobile = false) => [
-    { id: 0, label: isMobile ? i18n.t("Patient & Doctor") : i18n.t("Patient & Doctor Info") },
+    // we use NARROW NO-BREAK SPACE to space Patient & Doctor
+    {
+      id: 0, label: isMobile ?
+        i18n.t("Patient") + " " + "&" + " " + i18n.t("Doc.") :
+        i18n.t("Patient") + " " + "&" + " " + i18n.t("Doctor")
+    },
     { id: 1, label: i18n.t("Medicines") },
       //{ id: 2, label: i18n.t('Email Template') }, // removing this step from main steps, it is moved to advanced tools
     { id: 2, label: i18n.t("Confirmation") },
@@ -88,5 +93,4 @@
     ),
   };
 
-//export const JobContext = createContext(undefined);
 export const JobContext = createContext({});

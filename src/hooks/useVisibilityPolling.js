@@ -10,7 +10,7 @@ import config from "../config";
  * @param {Function} callback - async or sync function to call periodically
  * @param {number} interval - delay in ms (default 60000 = 1 min)
  */
-export function useVisibilityPolling(callback, interval = config.api.serverPollingIntervalSeconds * 1000) {
+export const useVisibilityPolling = (callback, interval = config.api.serverPollingIntervalSeconds * 1000) => {
   const intervalRef = useRef(null);
 
   const stopPolling = useCallback(() => {

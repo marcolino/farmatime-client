@@ -451,7 +451,7 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
   }
   
   return (
-    <Container maxWidth="lg" sx={{ py: isMobile ? 2 : 4 }}>
+    <Container maxWidth="lg" disableGutters sx={{ py: isMobile ? 0 : 2 }}>
 
       <SectionHeader1>
         <Box
@@ -489,8 +489,14 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
 
       <Stepper
         activeStep={/*jobDraft.isConfirmed ? steps().length : */jobDraft?.currentStep} // if job is confirmed, set last step as active
-        sx={{ mb: 4 }} 
         alternativeLabel={isMobile}
+        //sx={{ mb: isMobile ? 0 : 4 }}
+        sx={{
+          mb: isMobile ? 0 : 4,
+          '& .MuiStepLabel-label': { // vertically tighter icons and labels (on mobile, otherwise they are on the same line)
+            mt: isMobile ? 0.1 : 0,
+          },
+        }}
       >
         {steps(isMobile).map((step, index) => (
           <Step
@@ -518,14 +524,14 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
       </Stepper>
 
       {/* Content */}
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ my: isMobile ? 2 : 4}}>
         {renderStep()}
       </Box>
 
       {/* Navigation Buttons */}
       <Container maxWidth="lg" sx={{ py: 0 }}>
         <Paper sx={{ p: 2 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
             <Button
               onClick={handleBack}
               startIcon={<ArrowBack />}
@@ -546,7 +552,6 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
               }
             </Button>
             
-
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Typography variant="body2" color="text.secondary">
                 {t("Step")} {(jobDraft?.currentStep ?? 0)+ 1} {t("of")} {steps().length}
@@ -571,18 +576,43 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
                 :
                   t('Next')}
             </Button>
+
+            <Tooltip title={t('Cancel this activity')} arrow>
+              <Button
+                onClick={cancelJobDraft}
+                variant="outlined"
+                size={"large"}
+                sx={{
+                  minWidth: 0, // removes default 64px min width
+                  px: isMobile ? 0.5 : 2, // reduces horizontal padding (default is ~1.5–2)
+                }}
+              >
+                {isMobile ? "" : `${t('Cancel')}`} <Clear /*fontSize="small"*/ />
+              </Button>
+            </Tooltip>
+
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            <Button
+          {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+            {/* <Button
               onClick={cancelJobDraft}
               endIcon={<Clear />}
               variant="outlined"
               size={"medium"}
             >
               {t('Cancel')}
+            </Button> * /}
+            <Button
+              onClick={cancelJobDraft}
+              variant="outlined"
+              size={"medium"}
+              sx={{
+                minWidth: 0, // removes default 64px min width
+                px: isMobile ? 0.5 : 2, // reduces horizontal padding (default is ~1.5–2)
+              }}
+            >
+              {isMobile ? "" : `${t('Cancel')}`} <Clear /*fontSize="small"* / />
             </Button>
-
-          </Box>
+          </Box> */}
         </Paper>
       </Container>
       

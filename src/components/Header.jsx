@@ -12,7 +12,7 @@ import {
   AccountCircle, ExitToApp,
   ShoppingCart, Category, Brightness4, Brightness7,
   ContactPhone, /*ImportExport,*/ SettingsSuggest, History, ScheduleSend,
-  InfoOutline as InfoIcon,
+  Share, InfoOutline as InfoIcon,
   //NotificationsActive,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
@@ -151,6 +151,11 @@ const Header = ({ theme, toggleTheme }) => {
       label: t("Change theme"),
       icon: theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />,
       onClick: () => toggleTheme()
+    },
+    {
+      label: t("Share this app"),
+      icon: <Share />,
+      onClick: () => handleShare()
     },
     {
       label: t("Info"),
@@ -306,6 +311,44 @@ const Header = ({ theme, toggleTheme }) => {
     });
   };
 
+  const handleShare = async () => {
+    const shareData = {
+      title: t("Check out this app!"),
+      text: t("I’ve been using this web app — you should try it, it's really useful!"),
+      url: config.api.productionDomains[0] // app base URL, not naked
+    };
+
+    if (navigator.share) { // current browser support share API
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        const isCancel = err.name === "AbortError" ||
+          /cancel/i.test(err.message)
+        ;
+        if (isCancel) {
+          console.log("User cancelled share");
+          showSnackbar(t("Share canceled"), "info");
+        } else {
+          showSnackbar(t("Share failed: {{err}}", { err: err.message ?? err.name }), "warning");
+        }
+      }
+    } else { // fallback for desktop or unsupported browsers
+      navigator.clipboard.writeText(shareData.url);
+      showSnackbar(t("Link copied to clipboard"), "success");
+    }
+  };
+
+  /*
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<ShareIcon />}
+        onClick={handleShare}
+        sx={{ borderRadius: "2rem", textTransform: "none" }}
+      >
+        Share this app
+      </Button>
+  */
 
   return (
     <AppBar
