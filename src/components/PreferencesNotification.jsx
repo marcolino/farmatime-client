@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { useParams/*, useNavigate*/ } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   Box,
@@ -15,35 +15,23 @@ import { AuthContext } from "../providers/AuthContext";
 import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import { useDialog } from "../providers/DialogContext";
 import { apiCall } from "../libs/Network";
-//import ErrorMessage from "../components/ErrorMessage";
 import { i18n }  from "../i18n";
-//import { SectionHeader } from "./custom";
 import config from "../config";
 
 
 const PreferencesNotification = (props) => {
   const { auth, updateSignedInUserPreferences } = useContext(AuthContext);
   const [userId, setUserId] = useState(null);
-  //const [error, setError] = useState(null);
-  const { token: tokenFromParams } = useParams();
-  const [token,] = useState(tokenFromParams || null);
-  const { language: languageFromParams } = useParams();
-  const [language,] = useState(languageFromParams || null);
-  //const [notificationsOriginal, setNotificationsOriginal] = useState(null);
+  const { token, language } = useParams();
   const [notifications, setNotifications] = useState(null);
-  //const navigate = useNavigate();
   const { showDialog } = useDialog();
   const { showSnackbar } = useSnackbarContext();
   const { t } = useTranslation();
-
-  //console.log("PreferencesNotification props:", props);
-  //console.log("token from params:", token);
 
   useEffect(() => { // internal routing
     if (props.internalRouting) {
       //console.log("navigated here internally");
     } else { // external routing
-      //console.log("navigated here externally or directly via URL");
       console.log("language from params:", language);
       i18n.changeLanguage(language);
     }

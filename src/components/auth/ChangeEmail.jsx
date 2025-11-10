@@ -171,6 +171,8 @@ function ChangeEmail({ email }) {
     }
   };
 
+  console.log("waitingForCodeFromParams, waitingForCode:", waitingForCodeFromParams, waitingForCode);
+
   return (
     <form noValidate autoComplete="on">
       <Box

@@ -15,7 +15,7 @@ import config from "../config";
 const Footer = ({ changeLocale }) => {
   const { t } = useTranslation();
   const [buildInfo, setBuildInfo] = useState(null);
-  const [languageFlag, setLanguageFlag] = useState(config.locales[i18n.language].flag);
+  const [languageFlag, setLanguageFlag] = useState(config.locales[i18n.language]?.flag || config.serverLocale);
   const { showDialog } = useDialog();
   const isOnline = useContext(OnlineStatusContext);
   const { auth, guest } = useContext(AuthContext);
@@ -31,7 +31,7 @@ const Footer = ({ changeLocale }) => {
     }
   }, [buildInfo]);
 
-  useEffect(() => { // update language depending on user propertis change
+  useEffect(() => {
     // get the current user's language preference or fall back to the default
     const userPreferences = auth.user?.preferences || guest.user?.preferences;
     const currentLanguage = userPreferences?.locale || i18n.language;
@@ -41,12 +41,6 @@ const Footer = ({ changeLocale }) => {
 
     i18n.changeLanguage(currentLanguage);
   }, [auth, guest]); // re-run when auth or guest state changes
-
-  // const infoTitle = packageJson.name; 
-  // const infoContents = `\
-  //   v${packageJson.version} © ${new Date().getFullYear()}, \
-  //   ${t("build n.")} ${buildInfo ? buildInfo.buildNumber : "?"} ${t("on date")} ${buildInfo ? buildInfo.buildDateTime : "?"}\
-  // `;
 
   const networkTitle = t("Network status"); 
   const networkContents =
@@ -65,27 +59,11 @@ const Footer = ({ changeLocale }) => {
     document.querySelector("meta[charset]").setAttribute("charset", config.locales[newLanguage].charset); 
   }
   
-  // const handleOpenDialog = (title, content, callbackOnClose) => {
-  //   setDialogTitle(title);
-  //   setDialogContent(content);
-  //   setDialogCallback(() => callbackOnClose);
-  //   setOpenDialog(true);
-  // };
-
-  // const handleCloseDialog = () => {
-  //   setOpenDialog(false);
-  //   if (dialogCallback) {
-  //     setDialogCallback(null);
-  //     dialogCallback();
-  //   }
-  // };
-
   return (
     <Box
       component="footer"
       sx={{
         width: "100%",
-        //bgColor: "transparent",
         bgColor: "rgba(255, 255, 255, 0.33)",
         opacity: 0.8,
         textAlign: "center",
@@ -113,31 +91,8 @@ const Footer = ({ changeLocale }) => {
           {`
             v${packageJson.version} © ${config.copyright.year}, ${config.copyright.holder }
           `}
-            {/* ${config.title} v${packageJson.version} © ${config.copyright.year}, ${config.copyright.holder } */}
         </Box>
 
-        {/* company name */}
-        {/* <Link
-          href="/"
-          color="textSecondary"
-          underline="hover"
-          sx={{ cursor: "pointer", mr: 3 }}
-        >
-          &nbsp; {config.company.name}
-        </Link> */}
-
-        {/* app and build full info */}
-        {/*<Box
-          onClick={() => showDialog({
-            title: infoTitle,
-            message: infoContents,
-            confirmText: t("Ok"),
-          })}
-          sx={{ mr: 1.5, cursor: "pointer" }}
-        >
-          <InfoOutlinedIcon sx={{ fontSize: 22, verticalAlign: "bottom", marginBottom: 0.3  }}/>
-        </Box> */}
-        
         {/* network connection indicator */}
         <Box
           onClick={() => showDialog({
@@ -162,43 +117,6 @@ const Footer = ({ changeLocale }) => {
         </Box>
 
       </Typography>
-
-      {/* <DialogConfirm
-        open={openDialog}
-        onClose={handleCloseDialog}
-        onCancel={handleCloseDialog}
-        title={dialogTitle}
-        message={dialogContent}
-        cancelText={t("Close")}
-      /> */}
-
-      {/* <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {dialogTitle}
-        </DialogTitle>
-        <DialogContent id="alert-dialog-description">
-          <Typography component={"span"} variant="body1" sx={{whiteSpace: "pre-line"}}>
-            {dialogContent}
-          </Typography>
-        </DialogContent>
-        {/* {!React.isValidElement(dialogContent) && ( // show buttons only if dialogContent is not a component * /}
-          <DialogActions>
-            <Button
-              onClick={handleCloseDialog}
-              fullWidth={false}
-              autoFocus
-            >
-              {t("Ok")}
-            </Button>
-          </DialogActions>
-        {/* )} * /}
-      </Dialog> */}
-      
     </Box>
   );
 }
