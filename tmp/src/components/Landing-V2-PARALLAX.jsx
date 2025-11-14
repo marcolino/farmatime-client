@@ -1,3 +1,4 @@
+//import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import {
@@ -16,7 +17,12 @@ import {
   styled,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+//import ChildFriendly from "@mui/icons-material/ChildFriendly";
+// import LocalPharmacyIcon from "@mui/icons-material/LocalPharmacy";
+// import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import ScheduleIcon from "@mui/icons-material/Schedule";
+// import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+//import { MonetizationOnBarredIcon } from 'mui-material-custom';
 import SecurityIcon from "@mui/icons-material/Security";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
@@ -30,7 +36,10 @@ import heroMediumWebp from '../assets/images/Health/Hero-medium.webp';
 import heroLargeJpg from '../assets/images/Health/Hero-large.jpg';
 import heroLargeWebp from '../assets/images/Health/Hero-large.webp';
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
-import useInView from "../hooks/useInView";
+//import SignIn from "./auth/SignIn";
+import ParallaxSection from "./custom/ParallaxSection";
+import parallaxCare from "../assets/images/Health/parallax-care.jpg";
+import parallaxStethoscope from "../assets/images/Health/parallax-stethoscope.jpg";
 
 
 export default function Landing() {
@@ -39,30 +48,9 @@ export default function Landing() {
   const navigate = useNavigate();
   const { isMobile } = useMediaQueryContext();
 
-  /**
-   * Create refs + visibility flags for scroll-based fade-in.
-   * Set rootMargin to avoid flicker at edges.
-   * Set Threshold to (i.e.) 0.2 to trigger when 20% visible.
-   */
-  const [featuresRef, featuresVisible] = useInView({
-    threshold: 0.2,
-    rootMargin: "0px 0px -10%",
-  });
-  const [howRef, howVisible] = useInView({
-    threshold: 0.2,
-    rootMargin: "0px 0px -10%",
-  });
-  const [qaRef, qaVisible] = useInView({
-    threshold: 0.2,
-    rootMargin: "0px 0px -10%",
-  });
-  const [ctaRef, ctaVisible] = useInView({
-    threshold: 0.2,
-    rootMargin: "0px 0px -10%",
-  });
-
   const features = [
     {
+      //icon: <ChildFriendly fontSize="large" color="primary" />, 
       icon: <TouchAppIcon fontSize="large" color="primary" />, 
       label: t("Super Easy"),
       desc: t("It's a super-easy web app that helps you say goodbye to the hassle of remembering to request doctor prescriptions — for yourself, your loved ones, or your assisted patients.")
@@ -72,12 +60,23 @@ export default function Landing() {
       label: t("Get Prescriptions in Your Inbox"),
       desc: t("Get your medicine prescriptions from your doctor in your email inbox, just when it's time to get it.")
     },
+    // { // NEW-FEATURE
+    //   icon: <LocalPharmacyIcon fontSize="large" color="primary" />, 
+    //   label: t("Pharmacy Ready"),
+    //   desc: t("Send prescriptions directly to your preferred pharmacy.")
+    // },
+    // { // NEW-FEATURE
+    //   icon: <DeliveryDiningIcon fontSize="large" color="primary" />, 
+    //   label: t("Get your medicines home"),
+    //   desc: t("Get your medicines to your home from your preferred pharmacy.")
+    // },
     {
       icon: <CheckCircleIcon fontSize="large" color="primary" />, 
       label: t("Never Miss a Refill"),
       desc: t("Keep your medicine cabinet always up-to-date.")
     },
     {
+      //icon: <MonetizationOnBarredIcon fontSize="large" color="primary" />,
       icon: <CardGiftcardIcon fontSize="large" color="primary" />,
       label: t("Free"),
       desc: t("The app is currently in its initial stage and completely free to use — we're covering all provider costs. In the future, we may ask users for a small contribution to help share these costs, but it will always be a very modest amount.")
@@ -90,9 +89,15 @@ export default function Landing() {
   ];
 
   const howItWorksPoints = [
-    { desc: t("Sign up and add your patient(s) and doctor's contacts") },
-    { desc: t("Choose your recurring medicines") },
-    { desc: t("Done! You'll receive the prescriptions in your inbox just in time!") },
+    {
+      desc: t("Sign up and add your patient(s) and physician's contacts")
+    },
+    {
+      desc: t("Choose your recurring medicines")
+    },
+    {
+      desc: t("Done! You'll receive the prescriptions in your inbox just in time!")
+    },
   ];
 
   const qaList = [
@@ -112,9 +117,10 @@ export default function Landing() {
   
   const sectionStyle = {
     py: 8,
+    //bgcolor: "background.paper",
     color: "text.primary",
     textAlign: "center",
-    borderRadius: 2,
+    borderRadius: 2 ,
   };
 
   const titleStyle = {
@@ -125,6 +131,7 @@ export default function Landing() {
 
   const pointstStyle = {
     maxWidth: 700,
+    //mx: "auto",
     color: "text.secondary",
     mb: 0,
   };
@@ -134,7 +141,10 @@ export default function Landing() {
       theme.palette.mode === "dark"
         ? "1px 1px 3px rgba(255,255,255,0.66)"
         : "2px 2px 1px rgba(0,0,0,0.66)",
-    color: theme.palette.mode === "dark" ? "black" : "white",
+    color:
+      theme.palette.mode === "dark"
+        ? "black"
+        : "white",
   }));
 
   return (
@@ -172,7 +182,7 @@ export default function Landing() {
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    filter: "brightness(80%)",
+                    filter: "brightness(80%)", // 0% is fully black, 100% is original
                     borderRadius: "20px"
                   }}
                 />
@@ -199,7 +209,7 @@ export default function Landing() {
                 {t("Simplify Your Prescription Requests")}
               </TypographyWithShadow>
               <TypographyWithShadow variant="h6" sx={{ mt: 2 }}>
-                {t("Whether you're a patient or a caregiver, our tool makes it easy to request recurring medications from your doctor — in just a few taps.")}
+                  {t("Whether you're a patient or a caregiver, our tool makes it easy to request recurring medications from your physician — in just a few taps.")}
               </TypographyWithShadow>
               <Button
                 variant="contained"
@@ -213,19 +223,17 @@ export default function Landing() {
           </Box>
         </Box>
 
+        {/* Parallax divider 1 */}
+        <ParallaxSection
+          image={parallaxCare}
+          height={260}
+          speed={0.3}
+          overlayOpacity={0.3}
+        />
+
         {/* Features section */}
-        <Fade in={featuresVisible} timeout={800}>
-          <Box
-            ref={featuresRef}
-            component="section"
-            sx={{
-              ...sectionStyle,
-              py: { sx: 2, sm: 12 },
-              opacity: featuresVisible ? 1 : 0,
-              transform: featuresVisible ? "translateY(0)" : "translateY(40px)",
-              transition: "all 1s ease",
-            }}
-          >
+        <Fade in timeout={1000}>
+          <Box component="section" sx={{ ...sectionStyle, py: 16 }}>
             <Container maxWidth="lg" sx={{ py: 8 }}>
               <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 700, mb: 6 }}>
                 {t("Why Choose Our Platform?")}
@@ -258,27 +266,36 @@ export default function Landing() {
           </Box>
         </Fade>
 
+        {/* Parallax divider 2 */}
+        <ParallaxSection
+          image={parallaxStethoscope}
+          height={300}
+          speed={0.3}
+          overlayOpacity={0.35}
+        />
+
         {/* How It Works section */}
-        <Fade in={howVisible} timeout={800}>
-          <Box
-            ref={howRef}
-            component="section"
-            sx={{
-              ...sectionStyle,
-              bgcolor: "secondary.main",
-              my: { sx: 3, sm: 12 },
-              opacity: howVisible ? 1 : 0,
-              transform: howVisible ? "translateY(0)" : "translateY(40px)",
-              transition: "all 1s ease",
-            }}
-          >
+        <Fade in timeout={1000}>
+          <Box component="section" sx={{ ...sectionStyle, py: 8, bgcolor: "secondary.main" }}>
             <Container maxWidth="lg">
               <Typography variant="h4" align="center" gutterBottom sx={titleStyle}>
                 {t("How It Works")}
               </Typography>
-              <Box sx={{ maxWidth: 640, mx: "auto" }}>
+              <Box
+                sx={{
+                  maxWidth: 640,
+                  mx: "auto", // horizontally center the list
+                }}
+              >
                 {howItWorksPoints.map((point, index) => (
-                  <Box key={index} sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
+                  <Box
+                    key={index}
+                    sx={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      mb: 2,
+                    }}
+                  >
                     <Box
                       sx={{
                         minWidth: "2ch",
@@ -309,18 +326,8 @@ export default function Landing() {
         </Fade>
 
         {/* Q&A section */}
-        <Fade in={qaVisible} timeout={800}>
-          <Box
-            ref={qaRef}
-            component="section"
-            sx={{
-              ...sectionStyle,
-              py: { xs: 12, sm: 16 },
-              opacity: qaVisible ? 1 : 0,
-              transform: qaVisible ? "translateY(0)" : "translateY(40px)",
-              transition: "all 1s ease",
-            }}
-          >
+        <Fade in timeout={1000}>
+          <Box component="section" sx={{ ...sectionStyle, py: 16 }}>
             <Container maxWidth="lg">
               <Typography variant="h4" sx={{ fontWeight: 700, mb: 4 }}>
                 {t("Questions & Answers")}
@@ -344,7 +351,9 @@ export default function Landing() {
                         paddingX: 0,
                         paddingY: 1,
                         minHeight: "auto",
-                        "& .MuiAccordionSummary-content": { margin: 0 },
+                        "& .MuiAccordionSummary-content": {
+                          margin: 0,
+                        },
                       }}
                     >
                       <Typography variant="h6" sx={{ fontWeight: 600 }}>
@@ -362,18 +371,8 @@ export default function Landing() {
         </Fade>
 
         {/* Final CTA section */}
-        <Fade in={ctaVisible} timeout={800}>
-          <Box
-            ref={ctaRef}
-            component="section"
-            sx={{
-              ...sectionStyle,
-              bgcolor: "primary.main",
-              color: "primary.contrastText",
-              py: { xs: 8, sm: 12 },
-              my: { xs: 8, sm: 16 },
-            }}
-          >
+        <Fade in timeout={1000}>
+          <Box component="section" sx={{ ...sectionStyle, mb: 16, bgcolor: "primary.main", color: "primary.contrastText" }}>
             <Container maxWidth="lg">
               <Typography variant="h5" sx={{ fontWeight: 700 }}>
                 {t("Ready to simplify your medication requests?")}
@@ -389,7 +388,6 @@ export default function Landing() {
             </Container>
           </Box>
         </Fade>
-        
       </Container>
     </Box>
   );

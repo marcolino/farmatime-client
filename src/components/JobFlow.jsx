@@ -252,7 +252,6 @@ const JobFlow = () => {
   // };
 
   const handleStepCompleted = (stepIndex, result) => {
-    console.log("++x JobFlow - handleStepCompleted - step index:", stepIndex, "result:", result);
     setJobDraft(prev => ({
       ...prev,
       stepsCompleted:
@@ -389,8 +388,6 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
 
   // Render layout
   const renderStep = () => {
-    console.log("renderStep jobDraft:", jobDraft, jobDraft?.currentStep);
-
     switch (jobDraft.currentStep ?? 0) {
       case 0:
         return (

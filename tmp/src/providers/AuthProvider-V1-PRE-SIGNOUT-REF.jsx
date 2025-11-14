@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { AuthContext } from "./AuthContext";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { usePersistedState } from "../hooks/usePersistedState";
 import { apiCall } from "../libs/Network";
 import config from "../config";
@@ -14,12 +14,16 @@ const initialStatePreferences = {
 const AuthProvider = (props) => {
   const [auth, setAuth] = usePersistedState("auth", initialStateUser);
   const [guest, setGuest] = usePersistedState("guest", initialStateUser);
+
   const isLoggedIn = !!auth.user;
   const didSignInBefore = auth.user !== null;
-  const [preferences, setPreferences] = useState(isLoggedIn ? auth.user?.preferences : initialStatePreferences);
+  const [preferences, setPreferences] = useState(
+    isLoggedIn ? auth.user?.preferences : initialStatePreferences
+  );
+
   const isPWAInstalled = isLoggedIn ? auth.user?.isPWAInstalled === true : false;
   const sessionTimerRef = useRef(null);
-  const signOutInProgress = useRef(false);
+  const navigate = useNavigate();
 
   const clearSessionTimer = useCallback(() => {
     if (sessionTimerRef.current) {
@@ -28,74 +32,50 @@ const AuthProvider = (props) => {
     }
   }, []);
 
-  const signOut = useCallback(async (reason = "user_action") => {
-     // Prevent multiple simultaneous signouts
-    if (signOutInProgress.current) return true;
-    signOutInProgress.current = true;
-
-    try {
-      console.info("signOut - auth.user.id:", auth.user.id); // TODO: DEBUG ONLY
-
-      clearSessionTimer(); // Clear timer immediately to prevent race conditions
-        
-      if (isLoggedIn) {
-        try {
-          const result = await apiCall("post", "/auth/signout", {
-            userId: auth.user.id
-          });
-          if (result.err && result.code !== "EXPIRED_TOKEN") {
-            console.error("sign out on server error:", result.message);
+  const signOut = useCallback(async () => {
+    let ok = false;
+    if (isLoggedIn) {
+      try {
+        console.info("signOut - auth.user.id:", auth.user.id); // TODO: DEBUG ONLY
+        const result = await apiCall("post", "/auth/signout", {
+          userId: auth.user.id
+        });
+        if (result.err) {
+          if (result.code === "EXPIRED_TOKEN") {
+            console.warn("token is expired, sign out on server ineffective");
           } else {
-            console.info("sign out on server successful", result); // TODO: DEBUG ONLY
+            console.error("sign out error:", result.message);
           }
-        } catch (err) {
-          console.error("sign out on server exception:", err.message);
+        } else {
+          ok = true;
+          // console.log("sign out successful", result);
         }
+      } catch (error) {
+        console.error("sign out error:", error);
       }
-
-      // Clear local state
+      clearSessionTimer();
       setAuth({ user: false });
       setPreferences(guest.preferences);
-
-      localStorage.setItem('session_expired', Date.now()); // Notify other tabs
-
-      console.info(`sign out completed (reason: ${reason})`); // TODO: DEBUG ONLY
-      return true;
-    } catch (err) {
-      console.error("sign out exception:", err.message);
-      return false;
-    } finally {
-      signOutInProgress.current = false;
+    } else {
+      console.warn("already signed out");
     }
+    return ok;
   }, [auth.user, clearSessionTimer, setAuth, isLoggedIn, guest.preferences]);
 
-  // Handle session expiration with events
-  const handleSessionExpired = useCallback(() => {
-    // Dispatch a custom event instead of using localStorage
-    window.dispatchEvent(new CustomEvent('sessionExpiredEvent'));
-  }, []);
-
-  // Starts session expiration timer
   const startSessionTimer = useCallback((expiresAt) => {
     clearSessionTimer();
     if (!expiresAt) return;
 
     const msUntilExpiry = new Date(expiresAt).getTime() - Date.now();
-    
-    if (msUntilExpiry > 0) { // Not expired yet
+    if (msUntilExpiry > 0) {
       sessionTimerRef.current = setTimeout(() => {
-        handleSessionExpired();
+        console.warn("Session expired (timer)");
+        signOut("expired");
+        navigate("/signin", { replace: true, state: { reason: "expired" } });
       }, msUntilExpiry);
-    } else { // Already expired
-      handleSessionExpired();
     }
-  }, [clearSessionTimer, handleSessionExpired]);
+  }, [navigate, clearSessionTimer, signOut]);
 
-  // Clear any stale session flags when app starts
-  useEffect(() => {
-    localStorage.removeItem('session_expired');
-  }, []);
-  
   /**
    * API + user preference helpers
    */
@@ -115,6 +95,8 @@ const AuthProvider = (props) => {
   /**
    *  Auth core actions
    */
+  // Now that signOut exists, we can safely rebind startSessionTimer’s dependency
+  // (React will do this automatically since it's stable via useCallback)
   const signIn = useCallback(
     async (user) => {
       if (!user) {
@@ -127,9 +109,7 @@ const AuthProvider = (props) => {
       }
       // console.log("AuthProvider.signIn, user:", user);
       setAuth({ user });
-      if (user?.preferences) {
-        setPreferences(user.preferences);
-      }
+      if (user?.preferences) setPreferences(user.preferences);
       if (user?.refreshTokenExpiresAt) {
         startSessionTimer(user.refreshTokenExpiresAt);
       }

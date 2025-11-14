@@ -9,9 +9,6 @@ export const DialogProvider = ({ children }) => {
     setDialogs((prev) => [...prev, { ...options, open: true }]);
   }, []);
 
-  // const closeDialog = useCallback(() => {
-  //   setDialogs((prev) => prev.slice(0, -1)); // remove latest dialog
-  // }, []);
   const closeDialog = useCallback((count = 1) => {
     setDialogs((prev) => prev.slice(0, -count));
   }, []);

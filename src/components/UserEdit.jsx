@@ -54,11 +54,7 @@ function UserEdit() {
   const { t } = useTranslation();
 
   const { userId, origin } = useParams();
-  console.log("userId:", userId);
-  console.log("origin:", origin);
-  
   let profile = false;
-  console.log("userId, auth.user?.id:", userId, auth.user?.id);
   if (userId === auth.user?.id) { // requested user id is the same as logged user id, so we are editing our own profile
     profile = true;
   }
@@ -378,9 +374,6 @@ function UserEdit() {
   }
   
   if (user && allRoles && allPlans) {
-    console.log("### allRoles ###", allRoles);
-    console.log("### auth.user.roles ###", auth.user?.roles);
-
     return (
       <>
         <SectionHeader1 text={t("Users handling")}>

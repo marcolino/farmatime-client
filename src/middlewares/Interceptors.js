@@ -43,7 +43,7 @@ const createInstance = () => {
 };
 
 const instance = createInstance();
-console.log(`axios instance base url is ${instance.defaults.baseURL}`);
+// console.log(`axios instance base url is ${instance.defaults.baseURL}`);
 
 // add request interceptor for appending additional headers
 instance.interceptors.request.use(

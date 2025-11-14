@@ -232,19 +232,10 @@ export const JobProvider = ({ children }) => {
   };
 
   const jobIsEmpty = (job) => {
-    console.log("jobIsEmpty - job:", job);
     if (!job) return true;
-    console.log("jobIsEmpty - job.id:", job.id);
-    console.log("jobIsEmpty - job.patient:", job.patient);
     if (!isEmptyObject(job.patient)) return false;
-    console.log("jobIsEmpty - job.doctor:", job.doctor);
     if (!isEmptyObject(job.doctor)) return false;
-    console.log("jobIsEmpty - job.isActive:", job.isActive);  
     if (job.isActive !== false) return false;
-    //console.log("jobIsEmpty - job.isConfirmed:", job.isConfirmed);
-    //if (job.isConfirmed !== false) return false;
-    console.log("jobIsEmpty - job.medicines:", job.medicines);
-    console.log("jobIsEmpty - JOB IS EMPTY");
     return true;
   };
 

@@ -9,7 +9,7 @@ const ServiceWorkerProvider = ({ children }) => {
     const handleServiceWorkerEvents = () => {
       if (navigator.serviceWorker) {
         navigator.serviceWorker.addEventListener("message", event => {
-          console.log("ServiceWorkerProvider - message event received with data:", event.data);
+          // console.log("ServiceWorkerProvider - message event received with data:", event.data);
           showSnackbar("... event.data ..." + event.data.toString(), "info");
         });
       }

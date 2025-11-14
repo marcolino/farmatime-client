@@ -48,7 +48,6 @@ const Header = ({ theme, toggleTheme }) => {
   const [pollingRefreshKey, setPollingRefreshKey] = useState(0);
   const { info } = useInfo();
 
-
   const sections = React.useMemo(() => [
     ...(config.ui.cart.enabled && config.ecommerce.enabled ? [{ // add cart to sections only if ui.cart and ecommerce is enabled
       key: "cart",
@@ -326,7 +325,7 @@ const Header = ({ theme, toggleTheme }) => {
           /cancel/i.test(err.message)
         ;
         if (isCancel) {
-          console.log("User cancelled share");
+          //console.log("User cancelled share");
           showSnackbar(t("Share canceled"), "info");
         } else {
           showSnackbar(t("Share failed: {{err}}", { err: err.message ?? err.name }), "warning");

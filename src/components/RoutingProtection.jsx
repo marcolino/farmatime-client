@@ -17,8 +17,7 @@ const ProtectedRoute = ({ acceptGuest, acceptedRoles = "*", redirectPath = "/sig
     if (!isLoggedIn) { // if not logged in, no roles for this user, so redirect
       return <Navigate to={redirectPath} replace />;
     }
-    console.log("************ auth.user.roles:", auth.user.roles);
-     
+    
     if (acceptedRoles.includes(auth.user.roles)) {
       return <Navigate to={redirectPath} replace />;
     }

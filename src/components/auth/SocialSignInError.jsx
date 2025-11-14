@@ -14,16 +14,12 @@ function SocialSignInError() {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    //const error = params.get("error");
     const data = params.get("data");
     let errorMessage = "";
     if (data) {
       let error = JSON.parse(data);
       errorMessage = error.message;
     }
-    console.log("DATA:", data, typeof data);
-    console.log("errorMessage:", errorMessage, typeof errorMessage);
-    //const errorDescription = params.get("error_description");
 
     if (errorMessage) {
       showDialog({

@@ -62,22 +62,16 @@ export const objectsAreDeepEqual = (a, b, options) => {
 
   if (typeof a !== typeof b) return false;
   if (typeof a !== typeof b) {
-    console.log("objectsAreDeepEqual FALSE 1:", a, b, typeof a, typeof b);
     return false;
   }
 
   if (typeof a !== "object" || a === null || b === null) {
-    if (!(a === b)) {
-      console.log("objectsAreDeepEqual FALSE 2:", a, b, typeof a, typeof b);
-    }
     return a === b;
   }
 
   const keysA = Object.keys(a);
   const keysB = Object.keys(b);
-  //if (keysA.length !== keysB.length) return false;
   if (keysA.length !== keysB.length) {
-    console.log("objectsAreDeepEqual FALSE 3:", keysA.length, keysB.length);
     return false;
   }
 
@@ -231,7 +225,7 @@ export const secondsToHumanDuration = (seconds) => {
   }
 };
 
-export const setupCustomConsole = () => {
+export const setupConsoleDevAlert = () => {
   if (!("devAlert" in console)) {
     console.devAlert = message => {
       if (config.mode.development) {

@@ -3,12 +3,6 @@ import { useNavigate, useParams, Link as RouterLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Avatar from "@mui/material/Avatar";
 import { Box, Grid, Typography, Link } from "@mui/material";
-// import {
-//   Dialog,
-//   DialogActions,
-//   DialogContent,
-//   DialogTitle,
-// } from "@mui/material";
 import TextField from "../custom/TextField";
 import TextFieldPassword from "../custom/TextFieldPassword";
 import Button from "../custom/Button";
@@ -43,16 +37,10 @@ function SignUp() {
   const [code, setCode] = useState("");
   const [error, setError] = useState({});
   const { showDialog } = useDialog();
-  // const [openDialog, setOpenDialog] = useState(false);
-  // const [dialogTitle, setDialogTitle] = useState(null);
-  // const [dialogContent, setDialogContent] = useState(null);
-  // const [dialogCallback, setDialogCallback] = useState(null);
   const { cloneGuestUserPreferencesToAuthUser } = useContext(AuthContext);
   const { showSnackbar } = useSnackbarContext(); 
   const { t } = useTranslation();
 
-  console.log("waitingForCodeFromParams, waitingForCode:", waitingForCodeFromParams, waitingForCode);
-  console.log("codeDeliveryMediumFromParams, codeDeliveryMedium:", codeDeliveryMediumFromParams, codeDeliveryMedium);
   // this should not happen...
   // // update state if the route parameter changes
   // useEffect(() => {
@@ -64,21 +52,6 @@ function SignUp() {
     //window.open(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`, "_self"); // use "_self" to open social login page in this same window
     window.location.replace(`${config.siteUrl}/api/auth/${provider.toLowerCase()}`);
   };
-  
-  // const handleOpenDialog = (title, content, callbackOnClose) => {
-  //   setDialogTitle(title);
-  //   setDialogContent(content);
-  //   setDialogCallback(() => callbackOnClose);
-  //   setOpenDialog(true);
-  // };
-
-  // const handleCloseDialog = () => {
-  //   setOpenDialog(false);
-  //   if (dialogCallback) {
-  //     setDialogCallback(null);
-  //     dialogCallback();
-  //   }
-  // };
 
   const validateForm = (params) => {
     let validation;
@@ -199,7 +172,6 @@ function SignUp() {
       switch (result.data?.code) {
         case "ACCOUNT_WAITING_FOR_VERIFICATION":
           setError({ email: true });
-          //showSnackbar(result.message, "warning");
           showDialog({
             title: t("Account is waiting for verification"),
             message: result.data.message,
@@ -208,12 +180,6 @@ function SignUp() {
               setWaitingForCode(true);
             },
           });
-          // setDialogTitle(t("Account is waiting for verification"));
-          // setDialogContent(result.data.message);
-          // setDialogCallback(() => { // navigate to signup, asking for mode "waitingForCode"
-          //   setWaitingForCode(true);
-          // });
-          // setOpenDialog(true);
           break;
         case "EMAIL_EXISTS_ALREADY":
         case "ACCOUNT_DELETED":
@@ -233,11 +199,6 @@ function SignUp() {
       setPassword("");
       const medium = result.codeDeliveryMedium;
       setCodeDeliveryMedium(medium);
-      // handleOpenDialog(
-      //   t("Confirmation code sent by {{medium}}", { medium }),
-      //   result.message,
-      //   () => {},
-      // );
       showDialog({
         title: t("Confirmation code sent by {{medium}}", { medium }),
         message: result.message,
@@ -262,11 +223,6 @@ function SignUp() {
       setEmail("");
       setCode("");
       cloneGuestUserPreferencesToAuthUser();
-      // handleOpenDialog(
-      //   t("Registered successfully"),
-      //   result.message,
-      //   () => { navigate("/signin", { replace: true }) }
-      // );
       showDialog({
         title: t("Registered successfully"),
         message: result.message,
@@ -291,11 +247,6 @@ function SignUp() {
       console.devAlert(`SIGNUP VERIFICATION CODE: ${result.code}`);
       const medium = result.codeDeliveryMedium;
       setCodeDeliveryMedium(medium);
-      // handleOpenDialog(
-      //   t("Confirmation code resent by {{medium}}", { medium }),
-      //   result.message,
-      //   () => { },
-      // );
       showDialog({
         title: t("Confirmation code resent by {{medium}}", { medium }),
         message: result.message,
@@ -413,13 +364,6 @@ function SignUp() {
                 <Typography variant="body2" color="textSecondary">
                   {t("Already have an account?")}
                   {" "}
-                  {/* <Link
-                    style={{ cursor: "pointer" }}
-                    underline="hover"
-                    onClick={() => navigate("/signin", { replace: true })}
-                  >
-                    {t("Sign in")}!
-                  </Link> */}
                   <Link component={RouterLink} to="/signin" underline="hover" replace>
                     {t("Sign in")}!
                   </Link>

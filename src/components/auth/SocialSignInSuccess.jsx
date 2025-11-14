@@ -30,7 +30,7 @@ function SocialSignInSuccess() {
       });
       navigate("/social-signin-error", { replace: true }); // redirect to home route
     }
-    console.log("*** SocialSignInSuccess:", user);
+    //console.log("*** SocialSignInSuccess:", user);
 
     // signIn(user);
     // showSnackbar(t("Social sign in successful"), "success");

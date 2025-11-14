@@ -1,0 +1,1239 @@
+I think I did implement all your suggestions, with some changes:
+
+On SERVER:
+
+controllers/auth.controller.js:
+...
+const signout = async (req, res, _next) => {
+  await clearCookies(res);
+
+  try {
+    let userId = null;
+    
+    // check if userId was provided in request body, by ad admin
+    if (req.parameters.userId) { // request to signout another user's profile
+      /**
+       * Note: this test should be done in routing middleware,
+       * but doing it here allows for a more specific error message
+       */
+      if (!await isAdministrator(userId)) { // check if request is from admin
+        logger.warn("You must have admin role to signout another user's account");
+        // ignore userId parameter from non-admin users
+      } else {
+        userId = req.parameters.userId; // if admin, accept a specific user id in request
+        logger.debug("Accepted userId from parameters:", userId);
+      }
+    }
+
+    if (!userId) {
+      // Extract user ID from token if available, but don't require valid token
+      const accessToken = req.cookies.accessToken;
+      logger.debug("Access token from cookies:", accessToken);
+      if (accessToken) {
+        try {
+          // Try to decode without verification to get userId from expired token
+          const decoded = jwt.decode(accessToken);
+          if (decoded && decoded.id) {
+            userId = decoded.id;
+            logger.debug("Got user id from access token:", userId);
+          } else {
+            throw new Error("Wrong result fron token decode");
+          }
+        } catch (err) {
+          logger.debug(`Could not decode access token during signout (${err.message}), proceeding`);
+          // Ignore decode errors, we'll proceed without userId
+        }
+      }
+    }
+
+    await clearTokens({ userId });
+
+    return res.status(200).json({ message: req.t("Sign out successful") });
+    
+  } catch (err) {
+    return res.status(200).json({ message: req.t("Sign out completed with error {{err}}", err.message) });
+  }
+};
+...
+
+middlewares/autJwt.js:
+...
+/ Clear cookies for current user
+const clearCookies = async (res) => {
+  // Clear HTTP-only auth cookies on the response object
+  res.clearCookie("accessToken", cookieOptions(false));
+  res.clearCookie("refreshToken", cookieOptions(false));
+  res.clearCookie("encryptionKey", cookieOptions(false));
+  logger.info("Cookies cleared");
+};
+
+// Clear tokens for a given user id or email
+const clearTokens = async ({ userId, userEmail }) => {
+  // Find user and invalidate tokens
+  let filter = null;
+  if (userId) {
+    filter = { _id: userId };
+  } else {
+    if (!userEmail) {
+      logger.warn("clearTokens: no userId nor userEmail passed!");
+      return;
+    }
+    filter = { email: normalizeEmail(userEmail) };
+  }
+
+  const user = await User.findOneAndUpdate(
+    filter,
+    {
+      $set: {
+        accessToken: null,
+        refreshToken: null,
+      },
+    }
+  );
+  if (!user) {
+    throw new Error("User not found");
+  }
+  logger.info(`Tokens cleared for user ${user.email}`);
+};
+
+middlewares/AuthJwt.js:
+...
+const verifyAccessToken = (req, res, next) => {
+  try {
+    // extract the token from the cookies
+    const accessToken = req.cookies.accessToken;
+
+    if (!accessToken) {
+      return res.status(401).json({
+        message: req.t("You must be authenticated for this action"),
+        code: "NO_TOKEN",
+        action: "SIGNOUT",
+      });
+    }
+  
+    // verify the token
+    jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        if (err.name === "TokenExpiredError") {
+          // access token expired, attempt to refresh
+          const refreshToken = req.cookies.refreshToken;
+          if (!refreshToken) {
+            return res.status(401).json({
+              message: req.t("Refresh token is missing"),
+              code: "NO_REFRESH_TOKEN",
+              action: "SIGNOUT",
+            });
+          }
+
+          jwt.verify(
+            refreshToken,
+            process.env.JWT_REFRESH_TOKEN_SECRET,
+            async (err, decoded) => {
+              if (err) {
+                clearCookies(res);
+                if (err.name === "TokenExpiredError") {
+                  // refresh token expired set EXPIRED_TOKEN code
+                  return res.status(401).json({
+                    message: req.t("Refresh token is expired"),
+                    code: "EXPIRED_TOKEN",
+                    action: "SIGNOUT",
+                  });
+                }
+                return res.status(401).json({
+                  message: req.t("Invalid refresh token ({{err}}", { err: err.name }),
+                  code: "INVALID_REFRESH_TOKEN",
+                  action: "SIGNOUT",
+                });
+              }
+
+              // refresh token is valid, issue a new access token
+              const newAccessToken = jwt.sign({ id: decoded.id }, process.env.JWT_ACCESS_TOKEN_SECRET, {
+                expiresIn: config.app.auth.accessTokenExpirationSeconds + "s",
+              });
+
+              // set the new access token in cookies
+              res.cookie("accessToken", newAccessToken, cookieOptions());
+            
+              // attach user ID to request object
+              req.userId = decoded.id;
+              logger.info("access token refresh successful");
+              if (config.mode.development) {
+                logger.info(`                     now is ${localeDateTime(new Date())}`);
+                const { exp } = jwt.decode(accessToken);
+                logger.info(`access token will expire on ${localeDateTime(new Date(exp * 1000))}`);
+              }
+              return next(); // proceed with the request
+            }
+          );
+        } else {
+          return res.status(401).json({
+            message: req.t("Invalid access token ({{err}})", { err: err.name }),
+            code: "INVALID_ACCESS_TOKEN",
+            action: "SIGNOUT",
+          });
+        }
+      } else {
+        // access token is valid
+        req.userId = decoded.id;
+        logger.info("access token verification successful, user id is", req.userId);
+        if (config.mode.development) {
+          logger.info(`                     now is ${localeDateTime(new Date())}`);
+          const { exp } = jwt.decode(accessToken);
+          logger.info(`access token will expire on ${localeDateTime(new Date(exp * 1000))}`);
+        }
+        return next(); // Safe to proceed
+      }
+    });
+  } catch (err) {
+    if (err instanceof TokenExpiredError) {
+      logger.error("verifyAccessToken: token expired:", err.message);
+      return res.status(401).json({
+        message: req.t("Session is expired, please make a new signin request"),
+        code: "EXPIRED_TOKEN",
+        action: "SIGNOUT",
+      });
+    }
+
+    logger.error("verifyAccessToken: token verification failed:", err.message);
+    return res.status(401).json({
+      message:
+        req.t("Session is not valid, please make a new signin request") +
+        (config.mode.development ? ` (${err.message})` : ""),
+      code: "INVALID_TOKEN",
+      action: "SIGNOUT",
+    });
+  }
+};
+...
+
+ON THE CLIENT:
+
+middlewares/Interceptors.js:
+import axios from "axios";
+import LocalStorage from "../libs/LocalStorage";
+//import { AuthProvider } from "../providers/AuthProvider";
+//import { getGlobalSignOut } from "../providers/AuthProvider";
+import { i18n } from "../i18n";
+import cfg from "../config";
+
+/**
+ * Version 2: HTTP-only cookies (handled server side)
+ *  - no more refreshing the accessToken on the client side
+ *  - the client assumes the server manages token lifecycles via cookies
+ *  - enabled withCredentials (ensures cookies are sent with every request)
+ *  - simplified "401 Unauthorized" handling (if the server indicates
+ *    the session is invalid (401), redirect the user to the /signin page without retrying)
+ *  - retained maintenance and error handling (the client still handles scenarios
+ *    like maintenance mode or 404 errors gracefully)
+ *  - request abortion (maintains support for canceling pending requests on user sign-out)
+ * 
+ * Advantages of this new approach:
+ *  - security: tokens are stored securely as HTTP-only cookies, inaccessible to JavaScript;
+ *    reduces exposure to XSS attacks
+ *  - simplicity: eliminates client-side token storage and refresh complexity
+ *  - cross-domain compatibility: the withCredentials flag ensures cookies work seamlessly
+ *    across subdomains or different domains (when configured properly on the server)
+ *  - scalability: by delegating token management to the server, it becomes easier to adapt
+ *    this setup to distributed systems with centralized session stores (like Redis)
+ */
+
+// global flag to track sign-out status, to avoid retrying requests after sign-out
+//let isSignedOut = false;
+const abortControllers = new Map(); // define an abortControllers map
+
+// create axios instance
+const createInstance = () => {
+  return axios.create({
+    baseURL: `${cfg.siteUrl}/api`, // API base URL
+    timeout: cfg.api.timeoutSeconds * 1000,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true, // ensures cookies are sent with requests
+  });
+};
+
+const instance = createInstance();
+// console.log(`axios instance base url is ${instance.defaults.baseURL}`);
+
+// add request interceptor for appending additional headers
+instance.interceptors.request.use(
+  (config) => {
+    // append the current language to request headers
+    const currentLanguage = i18n.language || i18n.options.fallbackLng[0]; // get the current language from i18n
+    config.headers["Accept-Language"] = currentLanguage;
+
+    // append API version
+    if (typeof config.headers["Accept-Version"] === "undefined") {
+      const versionNumber = cfg.api.version;
+      if (typeof versionNumber !== "undefined") {
+        config.headers["Accept-Version"] = versionNumber;
+      }
+    }
+
+    // add an AbortController for request cancellation
+    const controller = new AbortController();
+    config.signal = controller.signal;
+
+    // track the controller for this request
+    abortControllers.set(config.url, controller);
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// clean up the abort controller after the request completes
+instance.interceptors.response.use(
+  (response) => {
+    abortControllers.delete(response.config.url);
+    return response;
+  },
+  (error) => {
+    if (error.config) {
+      abortControllers.delete(error.config.url);
+    }
+    return Promise.reject(error);
+  }
+);
+
+// add response interceptor for error handling
+instance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const { response } = error;
+
+    // // handle unauthorized (refresh token expired)
+    // if (response?.status === 401) {
+    //   //alert(401);
+    //   console.warn("Session expired. Redirecting to /signin...");
+    //   // Clear local auth state
+    //   const signOut = getGlobalSignOut();
+    //   if (signOut) {
+    //     signOut("expired");
+    //   }
+
+    //   // Redirect to login page
+    //   window.location.href = "/signin";
+
+    //   // Cancel all ongoing requests
+    //   cancelAllRequests();
+
+    //   // Prevent the rejected request from bubbling with 401
+    //   return Promise.reject(new axios.Cancel("Session expired (401)"));
+    // }
+
+    // handle server maintenance status
+    if (response?.status === 503) {
+      if (window.location.pathname !== "/work-in-progress") {
+        LocalStorage.set("maintenanceStatus", true); // track maintenance status
+        LocalStorage.set("maintenancePath", window.location.pathname); // track the user's path
+        window.location.href = "/work-in-progress";
+      }
+    } else if (response) {
+      LocalStorage.remove("maintenanceStatus");
+      const maintenancePath = LocalStorage.get("maintenancePath");
+      if (maintenancePath) {
+        window.location.href = maintenancePath; // redirect back to the user's path post-maintenance
+        LocalStorage.remove("maintenancePath");
+      }
+    }
+
+    return Promise.reject(error); // no response from server
+  }
+);
+
+// cancel all pending requests when the user signs out
+export const cancelAllRequests = () => {
+  //isSignedOut = true; // mark the user as signed out
+  abortControllers.forEach((controller) => controller.abort());
+  abortControllers.clear();
+};
+
+export default instance;
+
+providers/AuthProvider.jsx:
+import { useState, useEffect, useCallback, useRef } from "react";
+import { AuthContext } from "./AuthContext";
+//import { useNavigate } from "react-router-dom";
+import { usePersistedState } from "../hooks/usePersistedState";
+import { apiCall } from "../libs/Network";
+import config from "../config";
+
+const initialStateUser = { user: null };
+const initialStatePreferences = {
+  locale: config.serverLocale,
+  theme: config.ui.defaultTheme
+};
+
+const AuthProvider = (props) => {
+  const [auth, setAuth] = usePersistedState("auth", initialStateUser);
+  const [guest, setGuest] = usePersistedState("guest", initialStateUser);
+  const isLoggedIn = !!auth.user;
+  const didSignInBefore = auth.user !== null;
+  const [preferences, setPreferences] = useState(isLoggedIn ? auth.user?.preferences : initialStatePreferences);
+  const isPWAInstalled = isLoggedIn ? auth.user?.isPWAInstalled === true : false;
+  const sessionTimerRef = useRef(null);
+  const signOutInProgress = useRef(false);
+  //const navigate = useNavigate();
+
+  const clearSessionTimer = useCallback(() => {
+    if (sessionTimerRef.current) {
+      clearTimeout(sessionTimerRef.current);
+      sessionTimerRef.current = null;
+    }
+  }, []);
+
+  const signOut = useCallback(async (reason = "user_action") => {
+     // Prevent multiple simultaneous signouts
+    if (signOutInProgress.current) return true;
+    signOutInProgress.current = true;
+
+    try {
+      console.info("signOut - auth.user.id:", auth.user.id); // TODO: DEBUG ONLY
+
+      clearSessionTimer(); // Clear timer immediately to prevent race conditions
+        
+      if (isLoggedIn) {
+        try {
+          const result = await apiCall("post", "/auth/signout", {
+            userId: auth.user.id
+          });
+          if (result.err && result.code !== "EXPIRED_TOKEN") {
+            console.error("sign out on server error:", result.message);
+          } else {
+            console.info("sign out on server successful", result); // TODO: DEBUG ONLY
+          }
+        } catch (err) {
+          console.error("sign out on server exception:", err.message);
+        }
+      }
+
+      // Clear local state
+      setAuth({ user: false });
+      setPreferences(guest.preferences);
+
+      localStorage.setItem('session_expired', Date.now()); // Notify other tabs
+
+      console.info(`sign out completed (reason: ${reason})`); // TODO: DEBUG ONLY
+      return true;
+    } catch (err) {
+      console.error("sign out exception:", err.message);
+      return false;
+    } finally {
+      signOutInProgress.current = false;
+    }
+  }, [auth.user, clearSessionTimer, setAuth, isLoggedIn, guest.preferences]);
+
+  const startSessionTimer = useCallback((expiresAt) => {
+    clearSessionTimer();
+    if (!expiresAt) return;
+
+    const msUntilExpiry = new Date(expiresAt).getTime() - Date.now();
+    if (msUntilExpiry > 0) { // Not expired yet
+      sessionTimerRef.current = setTimeout(() => {
+        console.info("Session expired (timer)");
+        localStorage.setItem('session_expired', Date.now()); // Use the centralized handler instead of direct navigation
+        // signOut("expired");
+        // navigate("/signin", { replace: true, state: { reason: "expired" } });
+      }, msUntilExpiry);
+    } else { // Already expired
+      localStorage.setItem('session_expired', Date.now());
+    }
+  }, [clearSessionTimer]);
+...
+
+App.jsx:
+import { useState, useEffect, useContext } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { CssBaseline } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import { SnackbarProviderWrapper } from "./providers/SnackbarProvider"; 
+import ServiceWorkerProvider from "./providers/ServiceWorkerProvider";
+import { DialogProvider } from "./providers/DialogProvider";
+import { AuthProvider } from "./providers/AuthProvider";
+import { AuthContext } from "./providers/AuthContext";
+import { CartProvider } from "./providers/CartProvider";
+import { OnlineStatusProvider } from "./providers/OnlineStatusProvider";
+import { LoaderProvider} from "./providers/LoaderProvider";
+import { JobProvider } from "./providers/JobProvider"; 
+import { MediaQueryProvider } from "./providers/MediaQueryProvider";
+import SessionExpirationHandler from "./components/SessionExpirationHandler";
+import InstallPWA from "./components/InstallPWA";
+import ServiceWorkerMessages from "./components/ServiceWorkerMessages";
+import Contents from "./components/Contents";
+import Routing from "./components/Routing";
+import PreferencesCookie  from "./components/PreferencesCookie";
+//import BackgroundVideo from "./components/BackgroundVideo";
+import ClientInfoDisplay from "./components/ClientInfoDisplay";
+import Loader from "./components/Loader";
+import { useAxiosLoader } from "./hooks/useAxiosLoader";
+import { useResponsiveTheme } from "./themes/default";
+import config from "./config";
+
+const isPWA = window.location.pathname.startsWith("/pwa");
+
+
+/**
+ * We need to separate the logic into App and AppStructure, because otherwise we access
+ * AuthContext (preferences and toggleTheme) before AuthContext from AuthProvider was setup
+ */
+const App = () => {
+  return (
+    <BrowserRouter
+      basename={isPWA ? "/pwa" : "/"} // differentiate basename to be able to handle oAuth2 for both web and PWA
+      future={{ // avoid v7 start transition warnings
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
+      <SnackbarProviderWrapper>
+        <AuthProvider>
+          <AppStructure />
+        </AuthProvider>
+      </SnackbarProviderWrapper>
+    </BrowserRouter>
+  );
+};
+
+const AppStructure = () => {
+  const [loading] = useAxiosLoader();
+  const { preferences, changeLocale, toggleTheme } = useContext(AuthContext);
+  const [isDarkMode, setIsDarkMode] = useState(config.ui.defaultTheme !== "light");
+  
+  // Get the responsive theme based on current mode and screen size
+  const theme = useResponsiveTheme(isDarkMode);
+
+  // Function to set theme
+  const setTheme = (themeName) => {
+    setIsDarkMode(themeName === "dark");
+  };
+  
+  useEffect(() => {
+    if (preferences && preferences.theme) {
+      setTheme(preferences.theme);
+    }
+  }, [preferences]);
+
+  const themeToggle = () => {
+    //setTheme((prevTheme) => (prevTheme.palette.mode));
+    toggleTheme();
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CartProvider>
+        <MediaQueryProvider>
+          <DialogProvider>
+            <ServiceWorkerMessages />
+            <ServiceWorkerProvider>
+              <OnlineStatusProvider>
+                <CssBaseline />
+                <LoaderProvider>
+                  <Loader loading={loading} />
+                  <SessionExpirationHandler> 
+                    {/* <BackgroundVideo /> */}
+                    <JobProvider>
+                      <InstallPWA />
+                      <PreferencesCookie />
+                      {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                      <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
+                        <Routing />
+                      </Contents>
+                    </JobProvider>
+                  </SessionExpirationHandler>
+                </LoaderProvider>
+              </OnlineStatusProvider>
+            </ServiceWorkerProvider>
+          </DialogProvider>
+        </MediaQueryProvider>
+      </CartProvider>
+    </ThemeProvider>
+  );
+};
+
+export default App;
+
+components/SessionExpirationHandler.jsx:
+import { useContext, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import instance from '../middlewares/Interceptors';
+import { i18n } from "../i18n";
+import { AuthContext } from '../providers/AuthContext';
+import { useDialog } from "../providers/DialogContext";
+
+const SessionExpirationHandler = ({ children }) => {
+  const { signOut, isLoggedIn } = useContext(AuthContext);
+  const { showDialog, closeDialog } = useDialog();
+  const navigate = useNavigate();
+  const expirationDialogRef = useRef(null);
+
+  const handleSessionExpiration = useCallback(async (message = i18n.t("Your session has expired. Please log in again.")) => {
+    // Prevent multiple dialogs
+    if (expirationDialogRef.current) return;
+    
+    try {
+      expirationDialogRef.current = true;
+      
+      await showDialog({
+        title: "Session Expired",
+        message,
+        buttons: [
+          {
+            label: "OK",
+            onClick: async () => {
+              closeDialog();
+              expirationDialogRef.current = null;
+              
+              // Sign out and redirect
+              await signOut();
+              navigate('/signin', { 
+                replace: true, 
+                state: { 
+                  reason: 'session_expired',
+                  message 
+                } 
+              });
+            },
+            primary: true
+          }
+        ],
+        // Prevent closing by clicking outside
+        disableBackdropClick: true,
+        disableEscapeKeyDown: true
+      });
+    } catch (error) {
+      console.error('Error showing session expiration dialog:', error);
+      // Fallback: redirect directly
+      await signOut();
+      navigate('/signin', { replace: true });
+    }
+  }, [showDialog, closeDialog, signOut, navigate]);
+
+  // Handle API responses globally
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    const responseInterceptor = (response) => {
+      return response;
+    };
+
+    const errorInterceptor = async (error) => {
+      const { response } = error;
+      
+      if (response?.status === 401) {
+        const { code, action } = response.data || {};
+        
+        //if (code === 'SESSION_EXPIRED' || action === 'SIGNOUT') {
+        if (
+          code === 'NO_TOKEN' ||
+          code === 'NO_REFRESH_TOKEN' ||
+          code === 'INVALID_REFRESH_TOKEN' ||
+          action === 'SIGNOUT'
+        ) {
+          await handleSessionExpiration(response.data?.message || i18n.t("Your session has expired"));
+        }
+      }
+      
+      return Promise.reject(error);
+    };
+
+    // Add interceptors
+    const reqInterceptor = instance.interceptors.request.use(responseInterceptor);
+    const resInterceptor = instance.interceptors.response.use(
+      responseInterceptor, 
+      errorInterceptor
+    );
+
+    return () => {
+      instance.interceptors.request.eject(reqInterceptor);
+      instance.interceptors.response.eject(resInterceptor);
+    };
+  }, [isLoggedIn, handleSessionExpiration]);
+
+  // Handle token expiration timer
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    const handleTokenExpired = () => {
+      handleSessionExpiration(i18n.t("Your session has expired due to inactivity"));
+    };
+
+    // Listen for storage events (for cross-tab synchronization)
+    const handleStorageChange = (event) => {
+      if (event.key === 'session_expired') {
+        handleTokenExpired();
+        localStorage.removeItem('session_expired'); // clear the flag
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [isLoggedIn, handleSessionExpiration]);
+
+  return children;
+};
+
+export default SessionExpirationHandler;
+
+components/Header.jsx:
+import React, { useState, useEffect, useContext, useCallback } from "react"; 
+import {
+  AppBar, Toolbar, Box, Typography, Button, IconButton, Badge,
+  ListItemText, ListItemIcon, Menu, MenuItem, Tooltip,
+  //Fab,
+} from "@mui/material";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
+import {
+  AccountCircle, ExitToApp,
+  ShoppingCart, Category, Brightness4, Brightness7,
+  ContactPhone, /*ImportExport,*/ SettingsSuggest, History, ScheduleSend,
+  Share, InfoOutline as InfoIcon,
+  //NotificationsActive,
+} from "@mui/icons-material";
+import IconGravatar from "./IconGravatar";
+import Drawer from "./custom/Drawer";
+import { cancelAllRequests } from "../middlewares/Interceptors";
+import FloatingBell from "../components/FloatingBell";
+import { useMediaQueryContext } from "../providers/MediaQueryContext";
+import { useSnackbarContext } from "../hooks/useSnackbarContext";
+import { AuthContext } from "../providers/AuthContext";
+import { JobContext } from '../providers/JobContext';
+import { useDialog } from "../providers/DialogContext";
+import { useCart } from "../hooks/useCart";
+import { apiCall } from "../libs/Network";
+import logoMainHeader from "../assets/images/LogoMainHeader.png";
+import { isAdmin } from "../libs/Validation";
+import { fetchBuildInfoData } from "../libs/Misc";
+import { useInfo } from "../hooks/useInfo";
+import logoTextHeader from "../assets/images/LogoTextHeader.png";
+//import serverPackageJson from "../../../farmatime-server/package.json"; // WARNING: this depends on folders structure...
+import config from "../config";
+
+const Header = ({ theme, toggleTheme }) => {
+  const { auth, isLoggedIn, signOut, didSignInBefore } = useContext(AuthContext);
+  const { jobDraftIsDirty, setJobDraftDirty } = useContext(JobContext);
+  const { showSnackbar } = useSnackbarContext();
+  const { showDialog } = useDialog();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { t } = useTranslation();
+  const { cartItemsQuantity } = useCart();
+  const { isMobile } = useMediaQueryContext();
+  const [buildInfo, setBuildInfo] = useState(null);
+  const [pollingRefreshKey, setPollingRefreshKey] = useState(0);
+  const { info } = useInfo();
+
+
+  const sections = React.useMemo(() => [
+    ...(config.ui.cart.enabled && config.ecommerce.enabled ? [{ // add cart to sections only if ui.cart and ecommerce is enabled
+      key: "cart",
+      to: "/cart",
+      icon:
+        cartItemsQuantity() ?
+          <Badge badgeContent={cartItemsQuantity()} color="primary"><ShoppingCart /></Badge>
+          :
+          <ShoppingCart />
+      ,
+      text:
+        cartItemsQuantity() && !isMobile ?
+          <Badge badgeContent={cartItemsQuantity()} color="primary">{t("Cart")}</Badge>
+          :
+          t("Cart")
+    }] : []),
+    ...(config.ui.products.enabled ? [{
+      key: "products",
+      to: "/products",
+      icon: <Category />,
+      text: t("Products"),
+    }] : []),
+    ...(config.ui.contacts.enabled ? [{
+      key: "contacts",
+      to: "/contacts",
+      icon: <ContactPhone />,
+      text: t("Contacts"),
+    }] : []),
+  ], [
+    cartItemsQuantity,
+    isMobile,
+    t
+  ]);
+
+  // the highest priority role name
+  const roleNameHighestPriority = isLoggedIn ? auth.user.roles.reduce(
+    (previous, current) => previous.priority > current.priority ? previous : current
+  ).name : "guest";
+
+  const isAuthRoute = () => (location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/forgot-password" || location.pathname === "/social-signin-success" || location.pathname === "/social-signin-error");
+  
+  const userItems = [
+    ...(isLoggedIn && isAdmin(auth.user) ?
+      [
+        ...(config.ui.products.enabled ?
+          [
+            {
+              label: t("Handle products"),
+              icon: <Category />,
+              onClick: handleProducts,
+            },
+          ]
+          : []),
+      ]
+      : []),
+    ...(isLoggedIn ?
+      [
+        {
+          label: `${t("Profile")} (${roleNameHighestPriority})`,
+          icon: <AccountCircle />,
+          onClick: () => handleEditProfile(auth?.user?.id),
+        },
+        {
+          label: t("Advanced Options"),
+          icon: <SettingsSuggest />,
+          onClick: () => handleAdvancedOptions(),
+          shortcutKey: "", //"Ctrl-O"
+        },
+        {
+          label: `${t("Requests History")}`,
+          icon: <History />,
+          onClick: () => handleHistory(),
+          shortcutKey: "",
+        },
+        {
+          label: `${t("Future Requests")}`,
+          icon: <ScheduleSend />,
+          onClick: () => handleScheduled(),
+          shortcutKey: "",
+        },
+        /*
+        {
+          label: t("Export data"),
+          icon: <ImportExport />,
+          href: false,
+          onClick: () => handlejobsExport(),
+          shortcutKey: "", //"Ctrl-I"
+        },
+        {
+          label: t("Import data"),
+          icon: <ImportExport />,
+          href: false,
+          onClick: () => handlejobsImport({ onDataImported: (data) => alert(data) }),
+          shortcutKey: "", //"Ctrl-E"
+        },
+        */
+      ] : []
+    ),
+    {
+      label: t("Change theme"),
+      icon: theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />,
+      onClick: () => toggleTheme()
+    },
+    {
+      label: t("Share this app"),
+      icon: <Share />,
+      onClick: () => handleShare()
+    },
+    {
+      label: t("Info"),
+      icon: (
+        <IconButton onClick={info} sx={{ padding: 0 }}>
+          <InfoIcon />
+        </IconButton>
+      ),
+      onClick: () => info()
+    },
+    ...(isLoggedIn ?
+      [
+        {
+          label: t("Sign out"),
+          icon: <ExitToApp />,
+          onClick: () => handleSignOut(),
+          shortcutKey: "", //"Ctrl-Q"
+        },
+      ]
+      : []),
+  ];
+
+  useEffect(() => { // read build info from file on disk
+    if (!buildInfo) {
+      (async function () {
+        const data = await fetchBuildInfoData();
+        setBuildInfo(data);
+      })();
+    }
+  }, [buildInfo]);
+  
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = (open) => () => {
+    setDrawerOpen(open);
+  };
+
+  const [anchorUserMenuEl, setAnchorUserMenuEl] = React.useState(null);
+  const userMenuIsOpen = Boolean(anchorUserMenuEl);
+
+  const handleUserMenuOpen = (event) => {
+    setAnchorUserMenuEl(event.currentTarget);
+  };
+
+  const handleUserMenuClose = () => {
+    setAnchorUserMenuEl(null);
+  };
+  
+  const handleUserJoin = () => {
+    navigate(
+      didSignInBefore ? "/signin" : "/signup",
+      { replace: true }
+    );
+  };
+
+  const handleSignOut = async () => {
+    const proceed = async () => {
+      let ok;
+      try {
+        cancelAllRequests(); // cancel all ongoing requests, to avoid "You must be authenticated for this action" warnings
+        ok = await signOut();
+      } catch (err) {
+        console.error("signout error:", err);
+      }
+      navigate("/", { replace: true });
+      showSnackbar(ok ? t("Sign out successful") : t("Sign out completed"), "success");
+    };
+
+    checkJobDraftIsDirty(t("Signout"), proceed);
+  };
+
+  const checkJobDraftIsDirty = (title, proceed) => {
+    if (!jobDraftIsDirty) {
+      proceed();
+    } else {
+      showDialog({
+        title,
+        message: t("Are you sure you want to cancel the job edits you have just done? All changes will be lost."),
+        confirmText: t("Yes, cancel changes"),
+        cancelText: t("No, continue"),
+        onConfirm: () => {
+          setJobDraftDirty(false);
+          proceed();
+        },
+      });
+    }
+  };
+
+  const handleHomeLink = () => {
+    const proceed = () => navigate("/", { replace: true });
+    checkJobDraftIsDirty(t("Home"), proceed);
+  };
+
+  
+  const handleSectionLink = (destination) => {
+    const proceed = () => navigate(destination.to ?? '/', { replace: true });
+    checkJobDraftIsDirty(destination.text, proceed);
+  };
+
+  const handleProducts = () => {
+    const proceed = () => navigate('/handle-products', { replace: true });
+    checkJobDraftIsDirty(t("Handle Products"), proceed);
+  };
+  
+  const handleEditProfile = (id) => {
+    const proceed = () => navigate(`/edit-user/${id}/editProfile`, { replace: true });
+    checkJobDraftIsDirty(t("Edit Profile"), proceed);
+  };
+
+  const handleAdvancedOptions = () => {
+    const proceed = () => navigate("/advanced-options", { replace: true });
+    checkJobDraftIsDirty(t("Advanced options"), proceed);
+  };
+
+  const handleHistory = () => {
+    const proceed = () => navigate("/requests-history", { replace: true });
+    checkJobDraftIsDirty(t("Requests history"), proceed);
+  };
+
+  const handleScheduled = () => {
+    const proceed = () => navigate("/requests-scheduled", { replace: true });
+    checkJobDraftIsDirty(t("Future requests"), proceed);
+  };
+
+  // const handlejobsExport = () => {
+  //   navigate("/job-data-export", { replace: true });
+  // };
+
+  // const handlejobsImport = () => {
+  //   navigate("/job-data-import", { replace: true });
+  // };
+
+  const handleCart = () => {
+    const proceed = () => navigate("cart", { replace: true });
+    checkJobDraftIsDirty(t("Cart"), proceed);
+  };
+
+  const getRequestErrors = useCallback(async () => {
+    return isLoggedIn ? await apiCall("get", "/request/getRequestErrors") : [];
+  }, [isLoggedIn]);
+
+  const handleRequestsErrors = async () => {
+    showDialog({
+      title: t("Some errors in email requests"),
+      message: t("Some email requests were not successful: it is possible some doctor email address is incorrect, or there was some network error") + ".",
+      confirmText: t("Show last requests"),
+      onConfirm: async () => {
+        await apiCall("post", "/request/setRequestErrorsSeen");
+        setPollingRefreshKey(prev => prev + 1); // trigger re-poll
+        navigate("/requests-history");
+      },
+      cancelText: t("Cancel"),
+    });
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: t("Check out this app!"),
+      text: t("I’ve been using this web app — you should try it, it's really useful!"),
+      url: config.api.productionDomains[0] // app base URL, not naked
+    };
+
+    if (navigator.share) { // current browser support share API
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        const isCancel = err.name === "AbortError" ||
+          /cancel/i.test(err.message)
+        ;
+        if (isCancel) {
+          //console.log("User cancelled share");
+          showSnackbar(t("Share canceled"), "info");
+        } else {
+          showSnackbar(t("Share failed: {{err}}", { err: err.message ?? err.name }), "warning");
+        }
+      }
+    } else { // fallback for desktop or unsupported browsers
+      navigator.clipboard.writeText(shareData.url);
+      showSnackbar(t("Link copied to clipboard"), "success");
+    }
+  };
+
+  /*
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<ShareIcon />}
+        onClick={handleShare}
+        sx={{ borderRadius: "2rem", textTransform: "none" }}
+      >
+        Share this app
+      </Button>
+  */
+
+  return (
+    <AppBar
+      position="sticky"
+      elevation={1}
+    >
+      <Toolbar>
+        <Box
+          onClick={handleHomeLink}
+          display="flex"
+          alignItems="center"
+          sx={{
+            //textDecoration: "none",
+            alignItems: "center", // Vertically centers the child
+            userSelect: "none"
+           }}
+        >
+          <Box
+            component="img"
+            src={logoMainHeader}
+            alt="Main logo"
+            sx={{
+              width: 48,
+              height: "auto", // Let browser calculate height proportionally
+              _mt: 0.5,
+              mr: 3,
+              borderRadius: 2,
+              display: "block", // Remove inline spacing
+              userSelect: "none", // Avoid user select
+            }}
+          />
+          <Box
+            component="img"
+            src={logoTextHeader}
+            alt="Main text logo"
+            sx={{
+              width: { xs: 200, sm: 210 },
+              height: "auto", // Let browser calculate height proportionally
+              //mb: 1,
+              userSelect: "none", // Avoid user select
+            }}
+          />
+        </Box>
+
+        <Box sx={{
+          display: "flex",
+          alignItems: "center",
+          flexGrow: 1,
+          userSelect: "none"
+        }}>
+        </Box>
+
+        {isMobile ?
+          <>
+            {config.ui.cart.enabled && (
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={handleCart}
+                sx={{ mr: 2 }}
+              >
+                {cartItemsQuantity() ?
+                  <Badge badgeContent={cartItemsQuantity()} color="primary"><ShoppingCart /></Badge>
+                  :
+                  <ShoppingCart />
+                }
+              </IconButton>
+            )}
+            {(sections.length > 0) && (
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={toggleDrawer(true)}
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
+          </>
+        :
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {sections.map(section => (
+              <Button
+                key={section.key}
+                color="inherit"
+                onClick={() => handleSectionLink(section)}
+              >
+                {section.text}
+              </Button>
+            ))}
+          </Box>
+        }
+        
+        <> {/* user menu */}
+          {isLoggedIn ?
+            <Tooltip title={`${auth.user.email} (${roleNameHighestPriority})`}>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleUserMenuOpen}
+                color="inherit"
+              >
+                {isLoggedIn ?
+                  auth.user.profileImage ?
+                    <img src={auth.user.profileImage} alt="user's icon" width={30} style={{ borderRadius: "50%" }} />
+                  :
+                  <IconGravatar
+                    email={auth.user.email}
+                    size={30}
+                  />
+                :
+                  <AccountCircle />
+                }
+              </IconButton>
+            </Tooltip>
+          :
+            <Button
+              variant="contained"
+              size="small"
+              color="secondary"
+              onClick={handleUserJoin}
+              disabled={isAuthRoute()} 
+            >
+              {t("Join !")}
+            </Button>
+          }
+
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorUserMenuEl}
+            open={userMenuIsOpen}
+            onClose={handleUserMenuClose}
+            onClick={handleUserMenuClose} // To close on click everywhere
+          >
+            {userItems.map(({ label, icon, href, onClick, shortcutKey }) => (
+              href
+                ? (
+                  <MenuItem
+                    key={label}
+                    component={RouterLink}
+                    to={href}
+                  >
+                    <ListItemIcon>
+                      {icon}
+                    </ListItemIcon>
+                    <ListItemText>{label}</ListItemText>
+                    {shortcutKey && <Typography variant="body2" sx={{ color: "text.secondary", fontStyle: "italic" }}>
+                      &nbsp; {shortcutKey}
+                    </Typography>}
+                  </MenuItem>
+                )
+                : (
+                  <MenuItem
+                    key={label}
+                    onClick={() => {
+                      if (onClick) onClick();
+                      handleUserMenuClose();
+                    }}
+                  >
+                    <ListItemIcon>
+                      {icon}
+                    </ListItemIcon>
+                    <ListItemText>{label}</ListItemText>
+                    {shortcutKey && <Typography variant="body2" sx={{ color: "text.secondary", fontStyle: "italic" }}>
+                      &nbsp; {shortcutKey}
+                    </Typography>}
+                  </MenuItem>
+                )
+            ))}
+          </Menu>
+        </>
+        
+      </Toolbar>
+
+      <Drawer
+        theme={theme}
+        sections={sections}
+        drawerOpen={drawerOpen}
+        toggleDrawer={toggleDrawer}
+      />
+      
+      <FloatingBell
+        pollingCallback={getRequestErrors}
+        onOkCallback={handleRequestsErrors}
+        pollingRefreshKey={pollingRefreshKey}
+      />
+      
+    </AppBar>
+  );
+
+};
+
+export default React.memo(Header);
+
+
+In the logs I get:
+Session expired (timer)
+FloatingBell.jsx?t=1763055067165:30 Token expired while polling server
+
+And Dialog is shown:
+"Refresh token is expired"
+
+But, when dismissing Dialog, user is not redirected to /signin, nor Header acknowledges user is logged out...

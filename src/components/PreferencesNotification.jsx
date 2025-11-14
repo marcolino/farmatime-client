@@ -32,7 +32,6 @@ const PreferencesNotification = (props) => {
     if (props.internalRouting) {
       //console.log("navigated here internally");
     } else { // external routing
-      console.log("language from params:", language);
       i18n.changeLanguage(language);
     }
   }, [token, language, props.internalRouting]);
@@ -133,7 +132,7 @@ const PreferencesNotification = (props) => {
       showSnackbar(result.message, "error");
       throw new Error(result.message);
     } else {
-      console.log(`*** notificationPreferencesSave${(props.internalRouting) ? "Internal" : "External"} result:`, result);
+      //console.log(`*** notificationPreferencesSave${(props.internalRouting) ? "Internal" : "External"} result:`, result);
       if (auth.user?.id === result.user._id) { // the user is the logged one
         // update user preferences field in auth
         const updatedUser = auth.user;
@@ -142,12 +141,10 @@ const PreferencesNotification = (props) => {
       }
       //navigate("/", { replace: true });
     }
-    
-    console.log("/auth/notificationsPreferencesSave result:", result);
+    //console.log("/auth/notificationsPreferencesSave result:", result);
   };
 
   const renderSection = (sectionTitle, section, items) => {
-    console.log("renderSection:", sectionTitle, section, items);
     return (
       <Grid container spacing={1} alignItems="flex-start">
         {/* section title on left */}

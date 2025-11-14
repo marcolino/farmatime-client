@@ -2,8 +2,6 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import { Box } from '@mui/material';
 
 export function MonetizationOnBarredIcon({ sx = {}, ...iconProps }) {
-  console.log('sx:', sx);
-  console.log('iconProps.color:', iconProps.color);
   return (
     <Box sx={{ position: 'relative', display: 'inline-block', ...sx }}>
       <MonetizationOnIcon {...iconProps} />

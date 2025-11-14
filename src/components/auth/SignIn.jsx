@@ -36,7 +36,6 @@ function SignIn() {
     event.preventDefault(); // redirect fails without preventing default behaviour!
     const flow = isPWA() ? "pwa" : "web";
     const redirectUrl = `${config.siteUrl}/api/auth/${provider.toLowerCase()}/${flow}`;
-    console.log("redirecting to:", redirectUrl);
     window.location.href = redirectUrl;
   };
 
@@ -115,7 +114,6 @@ function SignIn() {
       }
     } else {
       showSnackbar(t("Sign in successful"), "success");
-      console.log("Email signin result:", result);
       signIn(result);
       setEmail("");
       setPassword("");
@@ -124,29 +122,41 @@ function SignIn() {
     }  
   };
 
+  /*
+  useEffect(() => {
+    // Clear any stale session storage on app start
+    localStorage.removeItem('session_expired');
+  }, []);
+  */
+  
+  /*
   useEffect(() => {
     if (location.state?.reason) {
       switch (location.state.reason) {
         case "expired":
+        case "session_expired":
           showDialog({
-            title: t("Session expired"),
+            title: t("Session expired") + " (reason: " + location.state.reason + ")", // TODO: DEBUG ONLY
             message: t("Session has expired. Please sign in again."),
             confirmText: t("Ok"),
+            onConfirm: () => delete location.state.reason,
           });
           break;
         default: // should not happen
           showDialog({
-            title: t("Need to sign in again"),
+            title: t("Session expired") + " (reason: " + location.state.reason + ")", // TODO: DEBUG ONLY
             message: location.state?.reason,
             confirmText: t("Ok"),
+            onConfirm: () => delete location.state.reason,
           });
         //alert("REASON: " + location.state.reason);
       }
     }
   }, [location.state, showDialog, t]);
+  */
 
   return (
-    <form noValidate autoComplete="on">
+    <form name="signin" noValidate autoComplete="on">
       <Box
         sx={{
           display: "flex",
@@ -224,6 +234,7 @@ function SignIn() {
               t(`otherwise it will last for ${secondsToHumanDuration(config.auth.refreshTokenExpirationSeconds)}`) + "."}
             >
               <FormControlLabel
+                name="dont_remember_me"
                 checked={dontRememberMe}
                 onChange={handleDontRememberMeChange}
                 labelPlacement="start" 

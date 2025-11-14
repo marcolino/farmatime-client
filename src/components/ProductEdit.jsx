@@ -73,7 +73,6 @@ function ProductEdit() {
   useEffect(() => { // get product on mount
     (async () => {
       if (productId === "<new>") { // a new product
-        console.log("NEW PRODUCT");
         const product = {
           mdaCode: "",
           oemCode: "",
@@ -254,8 +253,6 @@ function ProductEdit() {
     return;
   }
     
-  console.log("product.imageName:", product.imageName);
-  
   if (product && productAllTypes.length) {
     return (
       <>

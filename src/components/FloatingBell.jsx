@@ -1,16 +1,22 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useContext, useRef } from "react";
 import { Fab } from "@mui/material";
+import { AuthContext } from "../providers/AuthContext";
 import { NotificationsActive } from "@mui/icons-material";
 import { useVisibilityPolling } from "../hooks/useVisibilityPolling";
 
 
 const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
+  const { isLoggedIn, auth } = useContext(AuthContext);
   const requestErrorsRef = useRef([]);
   const memoizedPoll = useCallback(async () => {
     try {
       const response = await pollingCallback();
       if (response.err) {
-        console.error("Error while polling server:", response.err);
+        if (response.code === "EXPIRED_TOKEN") {
+          console.info("Token expired while polling server"); // TODO: DEBUG ONLY (ignore this use case)
+        } else {
+          console.error("Error while polling server:", response);
+        }
       }
       requestErrorsRef.current = response.requestErrors || [];
     } catch (err) {
@@ -23,7 +29,7 @@ const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
 
   // Force polling when pollingRefreshKey changes
   useEffect(() => {
-    if (pollingRefreshKey !== undefined) {
+    if (pollingRefreshKey !== 0) {
       memoizedPoll();
     }
   }, [pollingRefreshKey, memoizedPoll]);

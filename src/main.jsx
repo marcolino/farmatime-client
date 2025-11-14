@@ -1,13 +1,11 @@
-//import React from "react";
 import { createRoot } from "react-dom/client";
-// import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
-import { setupCustomConsole } from "./libs/Misc";
+import { setupConsoleDevAlert } from "./libs/Misc";
 import config from "./config";
 
-setupCustomConsole();
+setupConsoleDevAlert();
 
-console.log(
+console.info(
   "mode:",
   config.mode.production ? "production" :
   config.mode.staging ? "staging" :
@@ -16,13 +14,4 @@ console.log(
   "unforeseen"
 );
 
-createRoot(document.getElementById("root")).render(
-  // <BrowserRouter
-  //   future={{ /* avoid v7 start transition warnings */ 
-  //     v7_startTransition: true,
-  //     v7_relativeSplatPath: true,
-  //   }}
-  // >
-  <App />
-  // </BrowserRouter>
-);
+createRoot(document.getElementById("root")).render(<App />);

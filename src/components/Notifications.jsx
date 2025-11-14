@@ -29,13 +29,13 @@ const /*function*/ Notifications = (props) => {
     }
   };
   
-  console.log("Notifications - status.pushNotifications:", status?.pushNotifications);
-  console.log("Notifications - props.location.state:", props?.location?.state);
+  // console.log("Notifications - status.pushNotifications:", status?.pushNotifications);
+  // console.log("Notifications - props.location.state:", props?.location?.state);
 
   return (
     <div className={classes.root}>
       {status?.pushNotifications.map((state, index) => {
-        console.log("Notifications state:", state);
+        //console.log("Notifications state:", state);
         const timestamp = state.data["google.c.a.ts"];
         const when = new Intl.DateTimeFormat( // TODO: try to avoid Intl usage...
           i18n.language, // i18n.language is ISO 639-1

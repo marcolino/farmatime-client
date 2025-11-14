@@ -212,7 +212,6 @@ const UserTable = () => {
   };
 
   const onAction = (/*selectedIds, */action, params) => {
-    console.log("onAction, selected:", selected);
     switch (action) {
       case "remove":
         onRemove(toBeRemoved);
@@ -304,10 +303,10 @@ const UserTable = () => {
     return sortedUsers;
   }, [users, sortColumn, sortDirection]);
 
-  useEffect(() => { // DEBUG ONLY
-    console.log("users:", users);
-    console.log("sortedUsers:", sortedUsers);
-  }, [users, sortedUsers]);
+  // useEffect(() => {
+  //   console.log("users:", users);
+  //   console.log("sortedUsers:", sortedUsers);
+  // }, [users, sortedUsers]);
 
   // sort, filter and paginate users
   const getSortedFilteredPaginatedUsers = () => {
@@ -396,6 +395,7 @@ const UserTable = () => {
                 })}>
                 <TableCell padding="checkbox">
                   <Checkbox
+                    name="check_all"
                     indeterminate={selected.length > 0 && selected.length < users.length}
                     checked={users.length > 0 && selected.length === users.length}
                     onChange={handleSelectAllClick}
@@ -452,7 +452,7 @@ const UserTable = () => {
                       })}
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox checked={isItemSelected} />
+                        <Checkbox name="check_one" checked={isItemSelected} />
                       </TableCell>
                       <TableCell>{user.firstName}</TableCell>
                       <TableCell>{user.lastName}</TableCell>

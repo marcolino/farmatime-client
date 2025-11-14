@@ -10,9 +10,10 @@ import { AuthContext } from "./providers/AuthContext";
 import { CartProvider } from "./providers/CartProvider";
 import { OnlineStatusProvider } from "./providers/OnlineStatusProvider";
 import { LoaderProvider} from "./providers/LoaderProvider";
+// import SessionProvider from "./providers/SessionProvider";
 import { JobProvider } from "./providers/JobProvider"; 
 import { MediaQueryProvider } from "./providers/MediaQueryProvider";
-import SessionExpirationHandler from "./components/SessionExpirationHandler";
+//import SessionExpirationHandler from "./components/SessionExpirationHandler";
 import InstallPWA from "./components/InstallPWA";
 import ServiceWorkerMessages from "./components/ServiceWorkerMessages";
 import Contents from "./components/Contents";
@@ -85,17 +86,18 @@ const AppStructure = () => {
                 <CssBaseline />
                 <LoaderProvider>
                   <Loader loading={loading} />
-                  <SessionExpirationHandler> 
-                    {/* <BackgroundVideo /> */}
-                    <JobProvider>
-                      <InstallPWA />
-                      <PreferencesCookie />
-                      {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
-                      <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
-                        <Routing />
-                      </Contents>
-                    </JobProvider>
-                  </SessionExpirationHandler>
+                  {/* <SessionExpirationHandler> */}
+                  {/* <BackgroundVideo /> */}
+                  {/* <SessionProvider /> */}
+                  <JobProvider>
+                    <InstallPWA />
+                    <PreferencesCookie />
+                    {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                    <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
+                      <Routing />
+                    </Contents>
+                  </JobProvider>
+                  {/* </SessionExpirationHandler> */}
                 </LoaderProvider>
               </OnlineStatusProvider>
             </ServiceWorkerProvider>

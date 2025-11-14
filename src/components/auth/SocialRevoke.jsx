@@ -4,10 +4,9 @@ import { useTranslation } from "react-i18next";
 import { apiCall } from "../../libs/Network";
 import { useDialog } from "../../providers/DialogContext";
 import { useSnackbarContext } from "../../hooks/useSnackbarContext"; 
-//import { AuthContext } from "../../providers/AuthContext";
 
 
-function SocialSignInSuccess() {
+function SocialRevoke() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbarContext();
@@ -31,7 +30,6 @@ function SocialSignInSuccess() {
       //navigate("/social-signin-error", { replace: true }); // redirect to home route
       return;
     }
-    console.log("user:", user);
     if (!user.socialId) {
       console.error("*** SocialRevoke error: no socialId for user!");
       showDialog({
@@ -52,12 +50,12 @@ function SocialSignInSuccess() {
       cancelText: t("No, keep access"),
       onConfirm: async () => {
         // Call the API to revoke social access
-        const result = await apiCall("post", `/auth/${provider}/revoke`, {
+        /*const result = */await apiCall("post", `/auth/${provider}/revoke`, {
           userId: user.id,
           provider,
           issuedAt: null
         });
-        console.log("*** revokeSocialAccess result:", result);
+        //console.log("*** revokeSocialAccess result:", result);
         showSnackbar(t("{{provider} social access revoked", { provider }), "success");
         navigate("/", { replace: true });
       },
@@ -66,4 +64,4 @@ function SocialSignInSuccess() {
   }, [user, navigate, showDialog, showSnackbar, t]);
 }
 
-export default React.memo(SocialSignInSuccess);
+export default React.memo(SocialRevoke);

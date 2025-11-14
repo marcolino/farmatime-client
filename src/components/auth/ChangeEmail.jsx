@@ -35,9 +35,6 @@ function ChangeEmail({ email }) {
 
   const { closeDialog } = useDialog();
 
-  console.log("waitingForCodeFromParams, waitingForCode:", waitingForCodeFromParams, waitingForCode);
-  console.log("codeDeliveryMediumFromParams, codeDeliveryMedium:", codeDeliveryMediumFromParams, codeDeliveryMedium);
-
   const validateForm = (params) => {
     let validation;
 
@@ -170,8 +167,6 @@ function ChangeEmail({ email }) {
       });
     }
   };
-
-  console.log("waitingForCodeFromParams, waitingForCode:", waitingForCodeFromParams, waitingForCode);
 
   return (
     <form noValidate autoComplete="on">

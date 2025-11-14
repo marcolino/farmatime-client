@@ -48,13 +48,13 @@ const RequestsScheduledCalendar = () => {
       const year = activeStartDate.getFullYear();
       const month = activeStartDate.getMonth();
       (view === "month" ? setActiveNextMonthDate(month, year) : setActiveNextYearDate(year));
-      console.log("Swiped left!");
+      // console.log("Swiped left!");
     },
     onSwipedRight: () => {
       const year = activeStartDate.getFullYear();
       const month = activeStartDate.getMonth();
       (view === "month" ? setActivePrevMonthDate(month, year) : setActivePrevYearDate(year));
-      console.log("Swiped right!");
+      // console.log("Swiped right!");
     },
     preventDefaultTouchmoveEvent: true,
     trackMouse: true, // allows desktop drag gestures too

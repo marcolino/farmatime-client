@@ -68,8 +68,8 @@ const JobsTable = () => {
   // Add this useEffect to force refresh when component mounts
   useEffect(() => {
     // This will trigger a re-render with fresh data from context
-    console.log("JobsTable mounted, jobs count:", jobs ? jobs.length : 0);
-  }, [jobs]); // Empty dependency array means this runs once when component mounts
+    //console.info("JobsTable mounted, jobs count:", jobs ? jobs.length : 0);
+  }, []); // Empty dependency array means this runs once when component mounts
 
   // Show job errors to the user
   useEffect(() => {
@@ -303,8 +303,6 @@ const JobsTable = () => {
 
   // sort, filter and paginate jobs
   const getSortedFilteredPaginatedJobs = () => {
-    console.log("JOBS:", jobs);
-    
     if (!jobs || !jobs.length) {
       return [];
     }
@@ -479,6 +477,7 @@ const JobsTable = () => {
                 })}>
                 <TableCell padding="checkbox">
                   <Checkbox
+                    name="check_all"
                     indeterminate={selected.length > 0 && selected.length < jobs.length}
                     checked={jobs.length > 0 && selected.length === jobs.length}
                     onChange={handleSelectAllClick}
@@ -518,10 +517,7 @@ const JobsTable = () => {
             <TableBody>
               {sortedFilteredPaginatedJobs.map((job, index) => {
                 const isItemSelected = isSelected(job.id);
-                //console.log("ID:", job.id);
-                console.log("MEDICINES 1:", job.medicines);
-                console.log("MEDICINES 2:", job.medicines.length);
-                console.log("MEDICINES 9:", (job.medicines?.length === 0) ? '' : `CCC(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`);
+                //console.log("JOB ID:", job.id);
                 return (
                   <TableRow
                     hover
@@ -541,7 +537,7 @@ const JobsTable = () => {
                     })}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox checked={isItemSelected} />
+                      <Checkbox name="check_one" checked={isItemSelected} />
                     </TableCell>
                     <TableCell>
                       <Tooltip title={job.isActive ? t("Job is active") : t("Job is paused")} arrow>

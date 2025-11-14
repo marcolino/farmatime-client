@@ -123,12 +123,12 @@ const RequestsHistoryTable = () => {
   // Add this useEffect to force refresh when component mounts
   useEffect(() => {
     // This will trigger a re-render with fresh data from context
-    if (requests) {
-      console.log("RequestsHistoryTable mounted, requests count:", requests.length);
-    } else {
-      console.log("RequestsHistoryTable mounted, requests is null yet");
-    }
-  }, [requests]); // Empty dependency array means this runs once when component mounts
+    // if (requests) {
+    //   console.log("RequestsHistoryTable mounted, requests count:", requests.length);
+    // } else {
+    //   console.log("RequestsHistoryTable mounted, requests is null yet");
+    // }
+  }, []); // Empty dependency array means this runs once when component mounts
 
   // Get all requests on mount
   useEffect(() => {
@@ -408,8 +408,6 @@ const RequestsHistoryTable = () => {
 
   // sort, filter and paginate jobs
   const getSortedFilteredPaginatedRequests = () => {
-    console.log("REQUESTS:", requests);
-    
     if (!requests || !requests.length) {
       return [];
     }
