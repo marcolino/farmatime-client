@@ -15,7 +15,7 @@ import { PushNotificationsStatusContext } from "../providers/PushNotificationsSt
 import { i18n }  from "../i18n";
 
 
-const /*function*/ Notifications = (props) => {
+const Notifications = () => {
   const { status, setStatus } = useContext(PushNotificationsStatusContext);
   const navigate = useNavigate();
   const classes = {};

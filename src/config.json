@@ -64,9 +64,9 @@
   },
   "auth": {
     "cookiesExpirationSeconds": 1296000,
-    "accessTokenExpirationSeconds": 60,
-    "refreshTokenExpirationSeconds": 120,
-    "refreshTokenExpirationDontRememberMeSeconds": 120,
+    "accessTokenExpirationSeconds": 1800,
+    "refreshTokenExpirationSeconds": 1209600,
+    "refreshTokenExpirationDontRememberMeSeconds": 3600,
     "notificationTokenExpirationSeconds": 3600,
     "verificationCodeExpirationSeconds": 3600,
     "codeDeliveryMedium": "email"

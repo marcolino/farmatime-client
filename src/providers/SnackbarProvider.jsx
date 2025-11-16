@@ -10,6 +10,7 @@ const InnerSnackbarProvider = ({ children }) => {
 
   const showSnackbar = useCallback(
     (message = null, variant = "default", action = null) => {
+      //console.log("*** InnerSnackbarProvider useCallback:", message, variant, action); // to tebug long duration of "logout completed" snackbar ...
       if (message) {
         enqueueSnackbar(message, {
           variant,

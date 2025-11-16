@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import { TextFieldSearch, Button } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause, Menu } from "@mui/icons-material";
+import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause, FormatListBulleted } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 import { digitsCount } from "../libs/Misc";
@@ -407,7 +407,7 @@ const JobsTable = () => {
   return (
     <Container maxWidth="lg" sx={{ py: isMobile ? 2 : 4 }}>
       <SectionHeader1>
-        <Menu fontSize="large" /> {t("Jobs list")}
+        <FormatListBulleted fontSize="large" /> {t("Jobs list")}
       </SectionHeader1>
 
       <Box sx={{

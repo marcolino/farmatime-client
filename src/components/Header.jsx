@@ -7,12 +7,12 @@ import {
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import MenuIcon from "@mui/icons-material/Menu";
+//import MenuIcon from "@mui/icons-material/Menu";
 import {
   AccountCircle, ExitToApp,
   ShoppingCart, Category, Brightness4, Brightness7,
   ContactPhone, /*ImportExport,*/ SettingsSuggest, History, ScheduleSend,
-  Share, InfoOutline as InfoIcon,
+  Menu as MenuIcon, /*LunchDining,*/ FormatListBulleted, Share, InfoOutline as InfoIcon,
   //NotificationsActive,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
@@ -115,6 +115,11 @@ const Header = ({ theme, toggleTheme }) => {
           icon: <SettingsSuggest />,
           onClick: () => handleAdvancedOptions(),
           shortcutKey: "", //"Ctrl-O"
+        },
+        {
+          label: `${t("Activities")}`,
+          icon: <FormatListBulleted />,
+          onClick: () => handleJobs(),
         },
         {
           label: `${t("Requests History")}`,
@@ -267,6 +272,11 @@ const Header = ({ theme, toggleTheme }) => {
   const handleAdvancedOptions = () => {
     const proceed = () => navigate("/advanced-options", { replace: true });
     checkJobDraftIsDirty(t("Advanced options"), proceed);
+  };
+
+  const handleJobs = () => {
+    const proceed = () => navigate("/jobs-handle", { replace: true });
+    checkJobDraftIsDirty(t("Handle jobs"), proceed);
   };
 
   const handleHistory = () => {
@@ -444,13 +454,30 @@ const Header = ({ theme, toggleTheme }) => {
         }
         
         <> {/* user menu */}
+          <Tooltip title={t("Main menu")}>
+            <IconButton
+              aria-label="main menu"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleUserMenuOpen}
+              color="inherit"
+              sx={{ pr: { xs: 0, sm: 2, md: 4 } }}
+            >
+              <MenuIcon /*LunchDining*/ fontSize="small" />
+            </IconButton>
+          </Tooltip>
           {isLoggedIn ?
             <Tooltip title={`${auth.user.email} (${roleNameHighestPriority})`}>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={handleUserMenuOpen}
+                //onClick={handleUserMenuOpen}
+                onClick={() => showDialog({
+                  title: t("Current user"),
+                  message: `${t("Name")}: ${auth.user.firstName} ${auth.user.lastName}\n${t("Role")}: ${t(auth.user.roles[0]?.name)}\n${t("Email")}: ${auth.user.email}`,
+                  cancelText: t("Ok"),
+                })}
                 color="inherit"
               >
                 {isLoggedIn ?

@@ -18,7 +18,7 @@ function SocialRevoke() {
 
   useEffect(() => {
     if (!user) {
-      console.error("*** SocialRevoke error: no user!");
+      console.error("SocialRevoke error: no user!");
       showDialog({
         title: t("Social revoke error"),
         message: t("No user found"),
@@ -31,7 +31,7 @@ function SocialRevoke() {
       return;
     }
     if (!user.socialId) {
-      console.error("*** SocialRevoke error: no socialId for user!");
+      console.error("SocialRevoke error: no socialId for user!");
       showDialog({
         title: t("Social revoke error"),
         message: t("No socialId for user"),
@@ -55,7 +55,7 @@ function SocialRevoke() {
           provider,
           issuedAt: null
         });
-        //console.log("*** revokeSocialAccess result:", result);
+        //console.log("SocialRevoke result:", result);
         showSnackbar(t("{{provider} social access revoked", { provider }), "success");
         navigate("/", { replace: true });
       },

@@ -30,7 +30,7 @@ const SessionExpirationHandler = ({ children }) => {
         message =
           i18n.t("To keep your account secure, we automatically sign you out after a period of inactivity") +
           ".\n\n" +
-          i18n.t("Please sign in again to continue where you left off") +
+          i18n.t("Please sign in again to continue") +
           "."
         ;
       }

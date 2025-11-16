@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useContext, useRef } from "react";
+import { useCallback, useEffect, useRef/*, useContext*/ } from "react";
 import { Fab } from "@mui/material";
-import { AuthContext } from "../providers/AuthContext";
+//import { AuthContext } from "../providers/AuthContext";
 import { NotificationsActive } from "@mui/icons-material";
 import { useVisibilityPolling } from "../hooks/useVisibilityPolling";
 
 
 const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
-  const { isLoggedIn, auth } = useContext(AuthContext);
+  //const { isLoggedIn, auth } = useContext(AuthContext);
   const requestErrorsRef = useRef([]);
   const memoizedPoll = useCallback(async () => {
     try {
