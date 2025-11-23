@@ -282,6 +282,7 @@
 - cambiare colore ("success") all'icona di modifica nelle actions di tutti i componenti con "Table"
 - aggiungere dialog di conferma al pulsante "Annulla" in JobFlow
 - no. usare SelectMulti per admin in tutti i componenti con Table, ma un componente Table semplificato per selezionare uno o più utenti, da mostrare nel message di un Dialog
+- aumentare spazio sopra plus button in JobMedicines
 
 - "devi essere autenticato per questa azione" => force a logout
 - showDialog: add mode (Success, Info, Warning, Error, ...); change Title background color based on mode... (default: success)
