@@ -279,6 +279,7 @@
 - confermare JobPatient, JobDoctor e JobMedicines con "Next", che diventa "Confirm"...
 - aggiungere attributo booleano "main" ad ogni step di JobFlow, e settarlo a true per JobMedicines, ed usarlo per decidere quale step visualizzare quando si entra in modifica.
 - in translations/it: dottore -> medico
+- cambiare colore ("success") all'icona di modifica nelle actions di tutti i componenti con "Table"
 
 - "devi essere autenticato per questa azione" => force a logout
 - showDialog: add mode (Success, Info, Warning, Error, ...); change Title background color based on mode... (default: success)
