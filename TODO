@@ -272,6 +272,13 @@
 - gestire requestErrors come PWAInstalled (NO) - OK
 - move custom/* to mui-material-custom/ and always import from 'mui-material-custom' (NO) - OK
 
+- aggiungere a Help floating icon, which opens a dialog with "do not show this message anymore" checkbox, per spiegare il funzionamento dell'app.
+- aggiungere route /help e "Help" item in header menu
+- bloccare la colonna actions con sx.position: "sticky" in tutti i componenti con Table
+- cambiare "Modifica" in "Conferma" in JobComponent, edit mode
+- confermare JobPatient, JobDoctor e JobMedicines con "Next", che diventa "Confirm"...
+- aggiungere attributo booleano "main" ad ogni step di JobFlow, e settarlo a true per JobMedicines, ed usarlo per decidere quale step visualizzare quando si entra in modifica.
+
 - "devi essere autenticato per questa azione" => force a logout
 - showDialog: add mode (Success, Info, Warning, Error, ...); change Title background color based on mode... (default: success)
 - in /base-assets we need only LogoMain.png (and .xcf)...
