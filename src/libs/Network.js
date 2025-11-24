@@ -16,22 +16,27 @@ const isLocalEnv = () => {
   }
 };
 
-const isProdUrl = (url) => {
-  return PROD_DOMAINS.some(domain => url.includes(domain));
+const isProductionUrl = (hostname) => {
+  return PROD_DOMAINS.some(domain => hostname === domain);
 };
 
-const apiCall = async (method, url, data = {}) => {
+const apiCall = async (method, path, data = {}) => {
   try {
+
     // Check for environment mismatch
-    if (isLocalEnv() && isProdUrl(url)) {
-      const message = `API CALL BLOCKED: Attempted to call production url ${url} from ${window?.location?.hostname}`;
-      if (config.mode.development) {
-        alert(message);
-      }
-      console.error(`%c🚫 ${message}`, "color: red; font-weight: bold;");
-      console.error("→ URL:", url);
-      console.error("→ Window origin:", window.location.origin);
-      console.error("→ This usually means injected config is stale (production API in local build).");
+    const hostname = new URL(instance?.defaults?.baseURL)?.hostname;
+    if (isLocalEnv() && isProductionUrl(hostname)) {
+      const message = `API CALL BLOCKED: Attempted to call production hostname: ${hostname} with path ${path} from ${window?.location?.hostname}`;
+      alert(message);
+      console.log(`\
+%c🚫 ${message}
+Hostname: ${hostname}
+Path: ${path}
+Window origin: ${window.location.origin}
+This usually means injected config is stale (production API in local build).
+Please re-inject development config.
+`, "color: red; font-weight: bold;"
+      );
 
       return {
         err: true,
@@ -51,17 +56,17 @@ const apiCall = async (method, url, data = {}) => {
     }
 
     // Perform the actual API call
-    const response = await instance[method](url, data, cfg);
-    console.info(`⇒ ${url} success:`, response.data);
+    const response = await instance[method](path, data, cfg);
+    console.info(`⇒ ${path} success:`, response.data);
     return { ...response.data };
   } catch (err) {
     // error handling logic
     if (!err) {
-      console.error(`⇒ ${url} undefined error!`);
+      console.error(`⇒ ${path} undefined error!`);
       return { err: true, message: i18n.t("An undefined error occurred") };
     }
     if (err.response) {
-      console.error(`⇒ ${url} error response`, err.response);
+      console.error(`⇒ ${path} error response`, err.response);
       return {
         err: true,
         message: err.response.data?.message ?? err.message ?? err.response.toString(),
@@ -71,13 +76,13 @@ const apiCall = async (method, url, data = {}) => {
       };
     }
     if (err.request) {
-      console.error(`⇒ ${url} no response received, request was:`, err.request);
+      console.error(`⇒ ${path} no response received, request was:`, err.request);
       if (err.code === "ECONNABORTED") {
         return { err: true, message: i18n.t("Request timed out; please try again") };
       }
       return { err: true, message: i18n.t("No response from server; please check your connection") };
     }
-    console.error(`⇒ ${url} request error:`, err.message);
+    console.error(`⇒ ${path} request error:`, err.message);
     return { err: true, message: i18n.t(err.message) };
   }
 };

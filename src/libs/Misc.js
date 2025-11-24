@@ -225,7 +225,7 @@ export const secondsToHumanDuration = (seconds) => {
   }
 };
 
-export const setupConsoleDevAlert = () => {
+export const setupConsoleHelpers = () => {
   if (!("devAlert" in console)) {
     console.devAlert = message => {
       if (config.mode.development) {

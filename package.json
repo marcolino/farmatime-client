@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start-dev": "vite --host",
+    "start-dev": "yarn inject && vite --host",
     "start": "vite preview",
     "build": "scripts/build-if-changes.sh",
     "build:production": "NODE_ENV=production yarn build",
@@ -45,6 +45,7 @@
     "@mui/material": "^7.2.0",
     "@mui/system": "^7.2.0",
     "@mui/x-date-pickers": "^7.2.0",
+    "@tanstack/react-virtual": "^3.13.12",
     "@yudiel/react-qr-scanner": "^2.3.1",
     "axios": "^1.7.7",
     "date-fns": "^3.2.0",

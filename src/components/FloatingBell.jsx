@@ -17,8 +17,11 @@ const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
         } else {
           console.error("Error while polling server:", response);
         }
+        return; // prevent clearing requestErrorsRef
       }
-      requestErrorsRef.current = response.requestErrors || [];
+      // if (!response.err) {
+      //   requestErrorsRef.current = response.requestErrors || [];
+      // }
     } catch (err) {
       console.error("Polling server failed:", err);
     }
@@ -51,13 +54,14 @@ const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
     //console.log("at > seenAt:", at, seenAt, at > seenAt);
     return at > seenAt;
   });
-  if (!show) { // All request errors already seen: do not show floating bell
-    //console.log("HIDING BELL");
-    return null;
-  }
-  else {
-    //console.log("SHOWING BELL");
-  }
+
+  // if (!show) { // All request errors already seen: do not show floating bell
+  //   //console.log("HIDING BELL");
+  //   return null;
+  // }
+  // else {
+  //   //console.log("SHOWING BELL");
+  // }
   
   return (
     <Fab
@@ -65,6 +69,7 @@ const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
       color="error"
       aria-label="notification icon"
       sx={{
+        display: show ? "flex" : "none",
         position: "fixed",
         bottom: 36, // distance from bottom
         right: 36, // distance from right

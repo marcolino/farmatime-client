@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   Container,
@@ -20,10 +20,11 @@ import { JobContext } from '../providers/JobContext';
 
 const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
   const { t } = useTranslation();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const { showDialog } = useDialog();
   const { auth } = useContext(AuthContext);
   const { emailTemplate } = useContext(JobContext) || {};
+  const { jobDraftIsDirty, setJobDraftDirty } = useContext(JobContext);
   const [bodyExpanded, setBodyExpanded] = useState(null);
   const { isMobile } = useMediaQueryContext();
 
@@ -43,6 +44,38 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
       setBodyExpanded(bodyExpandedHtml);
     }
   }, [bodyExpanded/*, data.emailTemplate.signature*/]);
+
+  const checkJobDraftIsDirty = (title, proceed) => {
+    if (!jobDraftIsDirty) {
+      proceed();
+    } else {
+      showDialog({
+        title,
+        message: t("Are you sure you want to cancel the job edits you have just done? All changes will be lost."),
+        confirmText: t("Yes, cancel changes"),
+        cancelText: t("No, continue"),
+        onConfirm: () => {
+          setJobDraftDirty(false);
+          proceed();
+        },
+        onCancel: () => {
+          setTimeout(() => { // we need a timeout to allow closing current dialog and open the next one...
+            showDialog({
+              title,
+              message: t("To edit email template, please click on the menu icon on the top, then \"Advanced Options\" and \"Edit Email Template\"") + ".",
+              confirmText: t("Ok"),
+            });
+          }, 1);
+        },
+      });
+
+    }
+  };
+
+  const handleChangeTemplate = () => {
+    const proceed = () => navigate("/job-email-template-edit", { replace: true });
+    checkJobDraftIsDirty(t("Edit Email Template"), proceed);
+  };
 
   return (
     <Container maxWidth="lg" sx={{ py: 0 }}>
@@ -121,14 +154,9 @@ const JobConfirmationReview = ({ data/*, onCompleted, hasNavigatedAway*/ }) => {
               <Button
                 variant="contained"
                 size="small" color="secondary"
-                //onClick={() => navigate(`/job-email-template-edit`/*/${data.id}`§/*/, { replace: true })}
-                onClick={() => showDialog({
-                  title: t("Edit Email Template"),
-                  message: t("To edit email template, please click on user icon on the top right, then \"Advanced Options\" and \"Edit Email Template\"") + ".",
-                  confirmText: t("Ok"),
-                })}
+                onClick={handleChangeTemplate}
               >
-                <Edit fontSize="small" sx={{ mr: 1 }} /> {t("Change the model")}
+                <Edit fontSize="small" sx={{ mr: 1 }} /> {t("Change the email template")}
               </Button>
             </Tooltip>
           </Box>

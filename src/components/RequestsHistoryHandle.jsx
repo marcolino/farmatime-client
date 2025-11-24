@@ -21,9 +21,9 @@ import {
   Tooltip,
   Collapse,
 } from "@mui/material";
-import { TextFieldSearch, Legenda, StatusDot } from "./custom";
+import { TextFieldSearch, Legenda, StatusDot, /*Select, */ SelectMulti} from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
-import { History, Search, KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
+import { History, Search, KeyboardArrowUp, KeyboardArrowDown/*, Person*/ } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 //import { useDialog } from "../providers/DialogContext";
@@ -41,6 +41,8 @@ const RequestsHistoryTable = () => {
   const { t } = useTranslation();
   const [filter, setFilter] = useState("");
   const [requests, setRequests] = useState(null);
+  const [allUsers, setAllUsers] = useState(null);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   // const { jobs, jobsError } = useContext(JobContext);
   const rowsPerPageOptions = [5, 10, 25, 50, 100];
   const rowsPerPageInitial = 10;
@@ -120,15 +122,15 @@ const RequestsHistoryTable = () => {
     },
   ], [t]);
 
-  // Add this useEffect to force refresh when component mounts
-  useEffect(() => {
-    // This will trigger a re-render with fresh data from context
-    // if (requests) {
-    //   console.log("RequestsHistoryTable mounted, requests count:", requests.length);
-    // } else {
-    //   console.log("RequestsHistoryTable mounted, requests is null yet");
-    // }
-  }, []); // Empty dependency array means this runs once when component mounts
+  // // Add this useEffect to force refresh when component mounts
+  // useEffect(() => {
+  //   // This will trigger a re-render with fresh data from context
+  //   // if (requests) {
+  //   //   console.log("RequestsHistoryTable mounted, requests count:", requests.length);
+  //   // } else {
+  //   //   console.log("RequestsHistoryTable mounted, requests is null yet");
+  //   // }
+  // }, []); // Empty dependency array means this runs once when component mounts
 
   // Get all requests on mount
   useEffect(() => {
@@ -153,6 +155,22 @@ const RequestsHistoryTable = () => {
     };
   }, [auth.user, showSnackbar]);
   
+  // Get all users on mount
+  useEffect(() => {
+    (async () => {
+      if (isAdmin(auth.user)) {
+        // get all users request for admin users, and only her requests for other users
+        const result = await apiCall("get", "/user/getUsers", { userId: auth.user.id });
+        if (result.err) {
+          showSnackbar(result.message, result.status === 401 ? "warning" : "error");
+        } else {
+          setAllUsers(result.users);
+          setSelectedUsers(result.users);
+        }
+      }
+    })();
+  }, [auth.user, showSnackbar]);
+
   // // Show job errors to the user
   // useEffect(() => {
   //   if (jobsError) {
@@ -507,10 +525,13 @@ const RequestsHistoryTable = () => {
     ) : null;
   };
 
+  //const userToString = (user) => `${user.firstName} ${user.lastName} ${user.email}`;
+
   const sortedFilteredPaginatedRequests = getSortedFilteredPaginatedRequests();
 
   //console.log("RequestsHistoryHandle - sortedFilteredPaginatedRequests:", sortedFilteredPaginatedRequests);
-
+  console.log("RequestsHistoryHandle - allUsers:", allUsers);
+  
   return (
     <Container maxWidth="lg" sx={{ py: isMobile ? 2 : 4 }}>
       <SectionHeader1>
@@ -521,9 +542,68 @@ const RequestsHistoryTable = () => {
         my: theme.spacing(2),
         display: "flex",
         alignItems: "center",
-        justifyContent: "flex-end",
+        //justifyContent: "flex-end",
+        justifyContent: "space-between", // push items to opposite ends
         width: "100%",
+        gap: 2, // adds spacing between elements
       }}>
+        {allUsers && (
+          <SelectMulti
+            users={allUsers}
+            selectedUsers={selectedUsers}
+            setSelectedUsers={setSelectedUsers}
+            sx={{
+              minWidth: { xs: 150, sm: 360 },
+              maxWidth: { sm: 240 },
+            }}
+          />
+          // <Select
+          //   id={"users"}
+          //   multiple={true}
+          //   label={t("Users")}
+          //   placeholder={t("Users P.H.")}
+          //   options={allUsers
+          //     .sort((a, b) => a.lastName.localeCompare(b.lastName))
+          //     .map(user => `${user.firstName} ${user.lastName} ${user.email}`)
+          //   }
+          //   value={selectedUsers
+          //     .map(user => `${user.firstName} ${user.lastName} ${user.email}`)
+          //   }
+          //   onChange={(e) => {
+          //     const selectedStrings = e.target.value; // array of option strings
+          //     const selected = allUsers.filter(user =>
+          //       selectedStrings.includes(userToString(user))
+          //     );
+          //     setSelectedUsers(selected);
+          //   }}
+          //   startIcon={<Person />}
+          //   size="small"
+          //   margin="dense"
+          //   renderValue={(selected) => {
+          //     // When selected.length === 0, we return a placeholder, not an empty element,
+          //     // to bypass a MUI Select with multiple={true}, value=[], renderValue returns empty content
+          //     if (!selected || selected.length === 0) {
+          //       return <span style={{ opacity: 0.6 }}>{"..."}</span>;
+          //     }
+          //     // Show only the first item if one item selected
+          //     if (!selected || selected.length === 0) {
+          //       return t("Users");
+          //     }
+          //     console.log(selected, selected.length);
+          //     // Show only the first item if one item selected
+          //     if (selected.length === 1) {
+          //       return selected[0];
+          //     }
+          //      // Show only the first item + an ellipsis if more
+          //     return `${selected.length} users selected`;
+          //   }}
+          //   sx={{
+          //     minWidth: 120,
+          //     maxWidth: { sm: 240 }
+          //   }}
+          // />
+        )}
+        
         <TextFieldSearch
           label={t("Search")}
           value={filter}
@@ -532,7 +612,9 @@ const RequestsHistoryTable = () => {
           onChange={handleFilterChange}
           startIcon={<Search />}
           fullWidth={false}
-          sx={{ color: theme.palette.text.primary }}
+          sx={{
+            color: theme.palette.text.primary,
+          }}
         />
       </Box>
 

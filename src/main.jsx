@@ -1,9 +1,9 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
-import { setupConsoleDevAlert } from "./libs/Misc";
+import { setupConsoleHelpers } from "./libs/Misc";
 import config from "./config";
 
-setupConsoleDevAlert();
+setupConsoleHelpers();
 
 console.info(
   "mode:",

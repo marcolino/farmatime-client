@@ -117,7 +117,7 @@ const Header = ({ theme, toggleTheme }) => {
           shortcutKey: "", //"Ctrl-O"
         },
         {
-          label: `${t("Activities")}`,
+          label: `${t("Activities List")}`,
           icon: <FormatListBulleted />,
           onClick: () => handleJobs(),
         },
@@ -382,8 +382,7 @@ const Header = ({ theme, toggleTheme }) => {
             sx={{
               width: 48,
               height: "auto", // Let browser calculate height proportionally
-              _mt: 0.5,
-              mr: 3,
+              mr: { xs: 1, sm: 2 },
               borderRadius: 2,
               display: "block", // Remove inline spacing
               userSelect: "none", // Avoid user select
@@ -394,9 +393,8 @@ const Header = ({ theme, toggleTheme }) => {
             src={logoTextHeader}
             alt="Main text logo"
             sx={{
-              width: { xs: 200, sm: 210 },
+              width: { xs: 180, sm: 210 },
               height: "auto", // Let browser calculate height proportionally
-              //mb: 1,
               userSelect: "none", // Avoid user select
             }}
           />
@@ -461,7 +459,7 @@ const Header = ({ theme, toggleTheme }) => {
               aria-haspopup="true"
               onClick={handleUserMenuOpen}
               color="inherit"
-              sx={{ pr: { xs: 0, sm: 2, md: 4 } }}
+              sx={{ pr: { xs: 1, sm: 2, md: 4 } }}
             >
               <MenuIcon /*LunchDining*/ fontSize="small" />
             </IconButton>

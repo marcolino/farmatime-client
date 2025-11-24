@@ -47,7 +47,7 @@ const StyledSelect = ({
   return (
     <FormControl
       fullWidth={props.fullWidth}
-      sx={{ mt: 1, mb: 0.7 }}
+      sx={{ my: props.id === "roles" ? 1 : 0 }} // Specific attribute for roles id ...
       variant={variant}
       size={size}
     >
@@ -58,7 +58,8 @@ const StyledSelect = ({
           color:
             props.id === document.activeElement.id
               ? "primary.main"
-              : "text.primary",
+              : "text.primary"
+          ,
         }}
       >
         {props.label}
@@ -81,7 +82,7 @@ const StyledSelect = ({
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {props.multiple ? (
               selected.map((value, index) => (
-                <div style={{ margin: 2 }} key={index}>
+                <div style={{ margin: 0 }} key={index}>
                   {value}
                   {index < selected.length - 1 ? ", " : ""}
                 </div>

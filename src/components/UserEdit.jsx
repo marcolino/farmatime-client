@@ -427,80 +427,31 @@ function UserEdit() {
                   error={error.email}
                   sx={styleForChangedFields("email")}
                 />
-                {/*!emailChanging && ( */}
-                  <Tooltip title={t("Change email, after code confirmation via email")}>
-                    <Box>
-                      <Button
-                        onClick={() => {
-                          showDialog({
-                            title: t("Email Change"),
-                            //message: <ChangeEmail email={user.email ?? ""} />,
-                            message: () => <ChangeEmail email={user.email ?? ""} />,
-                            //confirmText: null,
-                            // onConfirm: () => {
-                            //   emptyCartItems();
-                            //   navigate("/products");
-                            // },
-                            //onConfirm: () => setEmailChanging(false),
-                            //onCancel: () => setEmailChanging(false),
-                          });
-                        }}
-                        variant="contained"
-                        color="primary"
-                        sx={{
-                          flex: 1,
-                          mt: 0.5,
-                          // px: 1,
-                          // pt: 1,
-                          // pb: 1,
-                          //mt: 0,
-                          backgroundColor: "secondary.light",
-                          flexShrink: 0,
-                          whiteSpace: 'nowrap',
-                          minWidth: 'auto'
-                        }}
-                      >
-                        {t("Change")}
-                      </Button>
-                    </Box>
-                  </Tooltip>
-                {/*})}*/}
-                {/*
-                {emailChanging && (
-                  <Tooltip title={t("Confirm new email, after code confirmation via email")}>
-                    <Box>
-                      <Button
-                        onClick={() => {
-                          showDialog({
-                            title: t("Email Change"),
-                            message: <ChangeEmail />,
-                            //confirmText: null,
-                            // onConfirm: () => {
-                            //   emptyCartItems();
-                            //   navigate("/products");
-                            // },
-                            //onConfirm: () => setEmailChanging(false),
-                            //onCancel: () => setEmailChanging(false),
-                          });
-                        }}
-                        //fullWidth={true}
-                        variant="contained"
-                        color="primary"
-                        sx={{
-                          flex: 1,
-                          mt: 0.8,
-                          // px: 1,
-                          // //mt: 0,
-                          backgroundColor: "secondary.main",
-                          flexShrink: 0, whiteSpace: 'nowrap', minWidth: 'auto'
-                        }}
-                      >
-                        {t("Confirm")}
-                      </Button>
-                    </Box>
-                  </Tooltip>
-                )}
-                */}
+
+                <Tooltip title={t("Change email, after code confirmation via email")}>
+                  <Box>
+                    <Button
+                      onClick={() => {
+                        showDialog({
+                          title: t("Email Change"),
+                          message: () => <ChangeEmail email={user.email ?? ""} />,
+                        });
+                      }}
+                      variant="contained"
+                      color="primary"
+                      sx={{
+                        flex: 1,
+                        mt: 0.5,
+                        backgroundColor: "secondary.light",
+                        flexShrink: 0,
+                        whiteSpace: 'nowrap',
+                        minWidth: 'auto'
+                      }}
+                    >
+                      {t("Change")}
+                    </Button>
+                  </Box>
+                </Tooltip>
               </Stack>
               
               <TextFieldPhone
