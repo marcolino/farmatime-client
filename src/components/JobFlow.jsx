@@ -18,18 +18,12 @@ import { ArrowBack, ArrowForward, Check, Menu, Clear } from '@mui/icons-material
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { JobContext, steps, fieldsPatient, fieldsDoctor } from '../providers/JobContext';
 import { useDialog } from "../providers/DialogContext";
-import {
-  // validateJobPatientFirstName, validateJobPatientLastName, validateJobPatientEmail,
-  // validateJobDoctorName, validateJobDoctorEmail,
-  validateAllFields,
-} from '../libs/Validation';
+import { validateAllFields } from '../libs/Validation';
 import { objectsAreDeepEqual } from '../libs/Misc';
-//import { AuthContext } from '../providers/AuthContext';
 import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import JobPatient from './JobPatient';
 import JobDoctor from './JobDoctor';
 import JobMedicines from './JobMedicines';
-//import JobEmailTemplate from './JobEmailTemplate';
 import JobConfirmationReview from './JobConfirmationReview';
 
 const JobFlow = () => {
@@ -81,7 +75,8 @@ const JobFlow = () => {
     setJobDraft(prev => {
       let updated;
       if (prev.id !== 'new') {
-        updated = { ...prev, currentStep: 0 };
+        const mainStepId = steps().find(step => step.main === true)?.id;
+        updated = { ...prev, currentStep: mainStepId };
       } else {
         updated = { ...prev, timestampCreation: Date.now() };
       }

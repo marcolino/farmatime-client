@@ -7,7 +7,6 @@ import {
   Container,
   Box,
   Checkbox,
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -20,7 +19,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { TextFieldSearch, Button } from "./custom";
-import { SectionHeader1 } from "mui-material-custom";
+import { SectionHeader1, TableCellLastSticky } from "mui-material-custom";
 import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause, FormatListBulleted } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
@@ -481,6 +480,7 @@ const JobsTable = () => {
                     indeterminate={selected.length > 0 && selected.length < jobs.length}
                     checked={jobs.length > 0 && selected.length === jobs.length}
                     onChange={handleSelectAllClick}
+                    sx={{ mx: 0 }}
                   />
                 </TableCell>
                 <TableCell
@@ -509,9 +509,9 @@ const JobsTable = () => {
                 <TableCell /*onClick={handleSort("medicines")}*/>
                   {t("Medicines")} {/*sortButton({ column: "medicines" })*/}
                 </TableCell>
-                <TableCell>
+                <TableCellLastSticky>
                   {t("Actions")}
-                </TableCell>
+                </TableCellLastSticky>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -556,61 +556,66 @@ const JobsTable = () => {
                         </Box>
                       </Tooltip>
                     </TableCell>
-                    {/* <TableCell>
-                      <Tooltip title={job.isActive ? t("Job is active") : t("Job is paused")} arrow>
-                        <Chip
-                          label={<IconButton size="small">
-                            {job.isActive ? <PlayArrow fontSize="small" /> : <Pause fontSize="small" />}
-                          </IconButton>}
-                          color={job.isActive ? "primary" : "warning"}
-                          variant="filled"
-                          size="small"
-                        />
-                      </Tooltip>
-                    </TableCell> */}
                     <TableCell>{job.patient?.firstName} {job.patient?.lastName}</TableCell>
                     <TableCell>{job.patient?.email}</TableCell>
                     <TableCell>{job.doctor?.name}</TableCell>
                     <TableCell>{job.doctor?.email}</TableCell>
                     <TableCell>{(job.medicines?.length === 0) ? '' : `(${job.medicines?.length}) ${job.medicines[0]?.name}${job.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
-                    <TableCell>
+                    <TableCellLastSticky>
                       <Tooltip title={t("Edit job")} arrow>
-                        <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onEdit(e, job.id)}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="small"
+                          fullWidth={false}
+                          sx={{ px: 0.5, mr: 1 }}
+                          onClick={(e) => onEdit(e, job.id)}
+                        >
                           <Edit fontSize="small" />
-                        </IconButton>
+                        </Button>
                       </Tooltip>
                       <Tooltip title={job.isActive ? t("Pause job") : t("Activate job")} arrow>
-                        <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => {
-                          e.stopPropagation(); // Prevents bubbling to TableRow and select the row
-                          if (!jobIsCompleted(job.id)) {
-                            return showSnackbar(t("Job is not complete, can't be activated. Please edit the job and complete all requested fields"), "warning");
-                          }
-                          const title = job.isActive ? t("Pause job") : t("Activate job");
-                          const what = job.isActive ? t("pause") : t("activate");
-                          const explanation = job.isActive ?
-                            t("Requests for this activity will not be sent anymore until it is reactivated") :
-                            t("Requests for this activity will be sent again");
-                          showDialog({
-                            onConfirm: () => {
-                              onSwitchActiveStatus(job.id);
-                            },
-                            title,
-                            message:
-                              t("Are you sure you want to {{what}} this job?", { what }) +
-                              "\n\n" +
-                              explanation + "."
-                            ,
-                            confirmText: t("Confirm"),
-                            cancelText: t("Cancel"),
-                          });
-                        }}>
+                        <Button
+                          variant="contained"
+                          color="inherit"
+                          size="small"
+                          fullWidth={false}
+                          sx={{ px: 0.5, mr: 1 }}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevents bubbling to TableRow and select the row
+                            if (!jobIsCompleted(job.id)) {
+                              return showSnackbar(t("Job is not complete, can't be activated. Please edit the job and complete all requested fields"), "warning");
+                            }
+                            const title = job.isActive ? t("Pause job") : t("Activate job");
+                            const what = job.isActive ? t("pause") : t("activate");
+                            const explanation = job.isActive ?
+                              t("Requests for this activity will not be sent anymore until it is reactivated") :
+                              t("Requests for this activity will be sent again");
+                            showDialog({
+                              onConfirm: () => {
+                                onSwitchActiveStatus(job.id);
+                              },
+                              title,
+                              message:
+                                t("Are you sure you want to {{what}} this job?", { what }) +
+                                "\n\n" +
+                                explanation + "."
+                              ,
+                              confirmText: t("Confirm"),
+                              cancelText: t("Cancel"),
+                            });
+                          }}
+                        >
                           {job.isActive ? <Pause fontSize="small" /> : <PlayArrow fontSize="small" />}
-                        </IconButton>
+                        </Button>
                       </Tooltip>
                       <Tooltip title={t("Delete job")} arrow>
-                        <IconButton
+                        <Button
+                          variant="contained"
+                          color="inherit"
                           size="small"
-                          sx={{ mr: 0 /* (last button has no right margin) */ }} 
+                          fullWidth={false}
+                          sx={{ px: 0.5, mr: 0 }} /* (last button has no right margin) */
                           onClick={(e) => {
                             e.stopPropagation(); // Stop row selection immediately
                             showDialog({
@@ -623,9 +628,9 @@ const JobsTable = () => {
                           }}
                         >
                           <Delete fontSize="small" />
-                        </IconButton>
+                        </Button>
                       </Tooltip>
-                    </TableCell>
+                    </TableCellLastSticky>
                   </TableRow>
                 );
               })}

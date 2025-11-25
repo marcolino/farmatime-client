@@ -35,6 +35,51 @@ function ProductEdit() {
   const [selectedImageObjectUrl, setSelectedImageObjectUrl] = useState(null);
   const [isChanged, setIsChanged] = useState({});
 
+    const formSubmit = useCallback(async (/*e*/) => {
+    //e.preventDefault();
+    try {
+      let id, result;
+      if (productId === "<new>") { // insert new product
+        result = await apiCall("post", "/product/insertProduct", { product });
+        id = result.id;
+      } else { // update existing product
+        result = await apiCall("post", "/product/updateProduct", { productId, product });
+        id = productId;
+      }
+      if (result.err) {
+        return showSnackbar(result.message, "error");
+      }
+  
+      // if an image is selected, call uploadProductImage to upload the image
+      if (selectedImage) {
+        const formData = new FormData();
+        formData.append("productId", id);
+        formData.append("image", selectedImage);
+  
+        result = await apiCall("post", "/product/uploadProductImage", formData);
+
+        if (result.err) {
+          if (result.message === "Input buffer contains unsupported image format") {
+            result.message = t("Image format unsupported");
+          }
+          return showSnackbar(result.message, "error");
+        }
+      }
+  
+      // if both operations succeed, navigate back or show success message
+      navigate(-1);
+    } catch (error) {
+      showSnackbar(`An error occurred updating the product: ${error.message}`, "error");
+      console.error(error);
+    }
+  }, [navigate, product, productId, selectedImage, showSnackbar, t]);
+
+  const formCancel = (e) => {
+    e.preventDefault();
+    setError({});
+    navigate(-1);
+  }
+
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
@@ -192,51 +237,6 @@ function ProductEdit() {
     if (!validateForm()) return;
     setUpdateReady(true); // set this flag and the updateProduct, since we can force some changes on product input fields
     setError({});
-  }
-
-  const formSubmit = useCallback(async (/*e*/) => {
-    //e.preventDefault();
-    try {
-      let id, result;
-      if (productId === "<new>") { // insert new product
-        result = await apiCall("post", "/product/insertProduct", { product });
-        id = result.id;
-      } else { // update existing product
-        result = await apiCall("post", "/product/updateProduct", { productId, product });
-        id = productId;
-      }
-      if (result.err) {
-        return showSnackbar(result.message, "error");
-      }
-  
-      // if an image is selected, call uploadProductImage to upload the image
-      if (selectedImage) {
-        const formData = new FormData();
-        formData.append("productId", id);
-        formData.append("image", selectedImage);
-  
-        result = await apiCall("post", "/product/uploadProductImage", formData);
-
-        if (result.err) {
-          if (result.message === "Input buffer contains unsupported image format") {
-            result.message = t("Image format unsupported");
-          }
-          return showSnackbar(result.message, "error");
-        }
-      }
-  
-      // if both operations succeed, navigate back or show success message
-      navigate(-1);
-    } catch (error) {
-      showSnackbar(`An error occurred updating the product: ${error.message}`, "error");
-      console.error(error);
-    }
-  }, [navigate, product, productId, selectedImage, showSnackbar, t]);
-
-  const formCancel = (e) => {
-    e.preventDefault();
-    setError({});
-    navigate(-1);
   }
 
   const styleForChangedFields = (fieldName) => {

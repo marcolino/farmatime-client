@@ -3,13 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-//import { DateTime } from "luxon";
 import {
   Container,
   Box,
-  Button,
   Checkbox,
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -20,19 +17,17 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import { TextFieldSearch } from "./custom";
-import { SectionHeader1 } from "mui-material-custom";
+import { TextFieldSearch, Button } from "./custom";
+import { SectionHeader1, TableCellLastSticky } from "mui-material-custom";
 import { Search, Edit, Delete, AccountCircle as ProfileIcon, } from "@mui/icons-material";
 import DialogEmailCreation from "./DialogEmailCreation";
 import { AuthContext } from "../providers/AuthContext";
 import { apiCall } from "../libs/Network";
 import LocalStorage from "../libs/LocalStorage";
-// import { isAdmin } from "../libs/Validation";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../hooks/useSnackbarContext"; 
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
-//import { i18n } from "../i18n";
 
 
 const UserTable = () => {
@@ -63,18 +58,7 @@ const UserTable = () => {
   const [selected, setSelected] = useState([]);
   const [toBeRemoved, setToBeRemoved] = useState(null);
 
-  /*
-  // to use localized dates
-  const localizedDate = DateTime.fromJSDate(new Date())
-    .setLocale(i18n.language)
-    .toLocaleString(DateTime.DATETIME_FULL)
-  ;
-  */
-  
   useEffect(() => { // get all users on mount
-    // if (!isLoggedIn() || !isAdmin(auth.user)) { // possibly user did revoke his own admin role...
-    //   navigate("/"); // force redirect to a page for sure accessible to non-admin users
-    // }
     (async () => {
       const result = await apiCall("get", "/user/getAllUsersWithTokens");
       if (result.err) {
@@ -177,11 +161,6 @@ const UserTable = () => {
     LocalStorage.set("usersRowsPerPage", newRowsPerPage);
   };
 
-  // const handleChangeRowsPerPageOLD = (event) => {
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  //   setPage(0);
-  // };
-
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelected = users.map((user) => user._id);
@@ -235,15 +214,6 @@ const UserTable = () => {
     setSortColumn(columnId);
     setSortDirection(newDirection);
   };
-
-  // const [confirmOpen, setConfirmOpen] = useState(false);
-  // //const handleConfirmOpen = (action) => { setAction(action); setConfirmOpen(true); }
-  // const handleConfirmOpen = (action, productId) => { setAction(action); setToBeRemoved(productId); setConfirmOpen(true); }
-  // const handleConfirmClose = () => { setConfirmOpen(false); setAction(""); /*setSelected([]);*/ }
-  // const handleConfirm = () => { // perform the action on confirmation
-  //   onAction(selected, action);
-  //   handleConfirmClose();
-  // };
 
   const [emailCreationOpen, setEmailCreationOpen] = useState(false);
   const handleEmailCreationOpen = (action) => { setAction(action); setEmailCreationOpen(true); }
@@ -302,11 +272,6 @@ const UserTable = () => {
     }
     return sortedUsers;
   }, [users, sortColumn, sortDirection]);
-
-  // useEffect(() => {
-  //   console.log("users:", users);
-  //   console.log("sortedUsers:", sortedUsers);
-  // }, [users, sortedUsers]);
 
   // sort, filter and paginate users
   const getSortedFilteredPaginatedUsers = () => {
@@ -422,9 +387,9 @@ const UserTable = () => {
                 {/* <TableCell onClick={handleSort("businessName")}>
                   {t("Business name")} {sortButton({ column: "businessName" })}
                 </TableCell> */}
-                <TableCell>
+                <TableCellLastSticky>
                   {t("Actions")}
-                </TableCell>
+                </TableCellLastSticky>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -461,21 +426,32 @@ const UserTable = () => {
                       <TableCell>{user.roles.sort((a, b) => a["priority"] < b["priority"]).map(role => role["name"]).join(", ")}</TableCell>
                       {/* <TableCell>{user.fiscalCode}</TableCell> */}
                       {/* <TableCell>{user.businessName}</TableCell> */}
-                      <TableCell>
-                        <Tooltip title={t("Edit user")}>
-                          <IconButton size="small" onClick={() => onEdit(user._id)}>
+                      <TableCellLastSticky>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Tooltip title={t("Edit user")} arrow>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            fullWidth={false}
+                            sx={{ px: 0.5, mr: 1 }}
+                            onClick={() => onEdit(user._id)}
+                          >
                             <Edit fontSize="small" />
-                          </IconButton>
+                          </Button>
                         </Tooltip>
                         {/* <Tooltip title={t("Promote to {{role}}", {role: "dealer"})}>
                           <IconButton size="small" onClick={() => onPromoteToDealer(user._id)}>
                             <BuildCircle fontSize="small" />
                           </IconButton>
                         </Tooltip> */}
-                        <Tooltip title={t("Remove user")}>
-                          {/* <IconButton size="small" onClick={() => onRemove(user._id)}> */}
-                          <IconButton size="small"
-                            //onClick={() => { handleConfirmOpen("remove", user._id) }}
+                        <Tooltip title={t("Remove user")} arrow>
+                          <Button
+                            variant="contained"
+                            color="hinerit"
+                            size="small"
+                            fullWidth={false}
+                            sx={{ px: 0.5, mr: 1 }}
                             onClick={() => showDialog({
                               onConfirm: () => onRemove(user._id),
                               title: t("Confirm Delete"),
@@ -485,9 +461,10 @@ const UserTable = () => {
                             })}
                           >
                             <Delete fontSize="small" />
-                          </IconButton>
+                          </Button>
                         </Tooltip>
-                      </TableCell>
+                        </Box>
+                      </TableCellLastSticky>
                     </TableRow>
                   );
                 })}
@@ -508,14 +485,8 @@ const UserTable = () => {
             variant="contained"
             color="primary"
             onClick={() => handleEmailCreationOpen("emailBulk")}
-            // onClick={() => showDialog({
-            //   onConfirm: () => onRemove(user._id),
-            //   title: t("Confirm Delete"),
-            //   message: t("Are you sure you want to delete selected {{count}} user?", { count: 1 }),
-            //   confirmText: t("Confirm"),
-            //   cancelText: t("Cancel"),
-            // })}
             disabled={selected.length === 0}
+            fullWidth={false}
             sx={{ mr: theme.spacing(2), my: 0.3 }}
           >
             {t("Email users")}
@@ -523,7 +494,6 @@ const UserTable = () => {
           <Button
             variant="contained"
             color="primary"
-            //onClick={() => handleConfirmOpen("removeBulk")}
             onClick={() => showDialog({
               onConfirm: () => onBulkRemove(selected),
               title: t("Confirm Delete"),
@@ -532,6 +502,7 @@ const UserTable = () => {
               cancelText: t("Cancel"),
             })}
             disabled={selected.length === 0}
+            fullWidth={false}
             sx={{ mr: theme.spacing(2), my: 0.3 }}
           >
             {t("Remove users")}
@@ -539,24 +510,11 @@ const UserTable = () => {
         </Box>
       </Paper>
 
-      {/* <DialogConfirm
-        open={confirmOpen}
-        onClose={handleConfirmClose}
-        onCancel={handleConfirmClose}
-        onConfirm={handleConfirm}
-        title={t("Confirm Delete")}
-        message={t("Are you sure you want to delete selected user(s)?")}
-        confirmText={t("Confirm")}
-        cancelText={t("Cancel")}
-      /> */}
       <DialogEmailCreation
         open={emailCreationOpen}
         onClose={handleEmailCreationClose}
         onConfirm={handleEmailCreation}
-        //title={t("Create and send email")}
         message={t("Are you sure you want to send this email to {{count}} selected user?", { count: selected.length })}
-        //subjectLabel={t("Subject")}
-        //bodyLabel={t("Body")}
         confirmText={t("Send email to {{count}} selected users", { count: selected.length })}
         cancelText={t("Cancel")}
       />

@@ -33,7 +33,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { ContextualHelp } from './ContextualHelp';
-import { SortableItem } from './SortableItem';
+import { JobMedicinesSortableItem } from './JobMedicinesSortableItem';
 import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
 import { JobContext } from '../providers/JobContext';
 import { useSnackbarContext } from '../hooks/useSnackbarContext';
@@ -94,7 +94,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   const [fieldMedicine, setFieldMedicine] = useState('');
   const [fieldFrequency, setFieldFrequency] = useState(1);
   //const [fieldSinceDate, setfieldSinceDate] = useState(new Date());
-  const [fieldSinceDate, setFieldSinceDate] = useState(tomorrow());
+  const [fieldSinceDate, setFieldSinceDate] = useState(tomorrowAsString());
   const [showAddUpdateBlock, setShowAddUpdateBlock] = useState(false);
   const [mode, setMode] = useState('add');
   const [fieldToFocus, setFieldToFocus] = useState(null);
@@ -115,18 +115,21 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   //   return new Date();
   // }
 
-  function tomorrow() {
-    const today = new Date();
+  function tomorrowAsString() {
+   const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
-    tomorrow.setHours(0, 0, 0, 0);
-    return tomorrow;
+    return tomorrow.toISOString().split('T')[0]; // Returns "2025-11-25"
   }
 
   // Reset date when locale changes
   useEffect(() => {
-    setFieldSinceDate(tomorrow()/*new Date()*/);
+    setFieldSinceDate(tomorrowAsString()/*new Date()*/);
   }, []);
+
+  // useEffect(() => { // TODO: DEBUG ONLY !!!
+  //   console.log("£££ fieldSinceDate changed:", fieldSinceDate);
+  // }, [fieldSinceDate]);
 
   // Focus handling
   useEffect(() => {
@@ -207,7 +210,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   const resetItems = useCallback(() => {
     setFieldMedicine('');
     setFieldFrequency(1);
-    setFieldSinceDate(tomorrow()/*new Date()*/);
+    setFieldSinceDate(tomorrowAsString());
     setOption(null); // Reset option to null
     onEditingChange(false); // inform caller we are done editing
     setFieldToFocus(null); // Clear focus
@@ -281,6 +284,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     setFieldToFocus(field); // e.g. 'name', 'frequency', or 'date'
     setOption(item.option || null); // Restore the full option object
     setFieldFrequency(item.fieldFrequency);
+    console.log("£££ startEdit - calling setFieldSinceDate with date", new Date(item.fieldSinceDate));
     setFieldSinceDate(new Date(item.fieldSinceDate));
     setFieldMedicine(item.name);
     onEditingChange(true); // inform caller we are editing
@@ -345,7 +349,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                 strategy={verticalListSortingStrategy}
               >
                 {data.length === 0 ? (
-                  <Typography variant="body1" color="text.secondary" textAlign="center" fontStyle="italic" pt={2}>
+                  <Typography variant="body1" color="text.secondary" textAlign="center" fontStyle="italic" py={2}>
                     {t("No medicines present yet")}
                   </Typography>
                 ) : (
@@ -355,7 +359,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                       overflowY: 'auto', // adds scrollbar when content exceeds
                     }}>
                       {data.map((item) => (
-                        <SortableItem
+                        <JobMedicinesSortableItem
                           key={item.id}
                           id={item.id}
                           name={item.name}
@@ -477,8 +481,16 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                         <DatePicker
                           key={i18n.language} // This forces a complete remount when locale changes
                           label={t('Since day')}
-                          value={fieldSinceDate}
-                          onChange={setFieldSinceDate}
+                          //value={fieldSinceDate}
+                          value={new Date(fieldSinceDate)} // Convert string back to Date for DatePicker
+                          // onChange={setFieldSinceDate}
+                          onChange={(date) => {
+                            if (date) {
+                              // Convert to YYYY-MM-DD string
+                              const dateString = date.toISOString().split('T')[0];
+                              setFieldSinceDate(dateString);
+                            }
+                          }}
                           format={getLanguageBasedFormatDDMMM(i18n.language)}
                           sx={{ width: 132 }}
                           PopperProps={{ placement: 'bottom-start' }}
@@ -571,8 +583,16 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                       <DatePicker
                         key={i18n.language} // This forces a complete remount when locale changes
                         label={t('Since day')}
-                        value={fieldSinceDate}
-                        onChange={setFieldSinceDate}
+                        //value={fieldSinceDate}
+                        value={new Date(fieldSinceDate)} // Convert string back to Date for DatePicker
+                        //onChange={setFieldSinceDate}
+                        onChange={(date) => {
+                          if (date) {
+                            // Convert to YYYY-MM-DD string
+                            const dateString = date.toISOString().split('T')[0];
+                            setFieldSinceDate(dateString);
+                          }
+                        }}
                         format={getLanguageBasedFormatDDMMM(i18n.language)}
                         sx={{ width: 132 }}
                         PopperProps={{ placement: 'bottom-start' }}

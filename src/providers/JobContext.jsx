@@ -12,13 +12,29 @@
   export const steps = (isMobile = false) => [
     // we use NARROW NO-BREAK SPACE to space Patient & Doctor
     {
-      id: 0, label: isMobile ?
+      id: 0,
+      label: isMobile ?
         i18n.t("Patient") + " " + "&" + " " + i18n.t("Doc.") :
-        i18n.t("Patient") + " " + "&" + " " + i18n.t("Doctor")
+        i18n.t("Patient") + " " + "&" + " " + i18n.t("Doctor"),
+      main: false, // main steps is the default selected when entering steps handling component
     },
-    { id: 1, label: i18n.t("Medicines") },
-      //{ id: 2, label: i18n.t('Email Template') }, // removing this step from main steps, it is moved to advanced tools
-    { id: 2, label: i18n.t("Confirmation") },
+    {
+      id: 1,
+      label: i18n.t("Medicines"),
+      main: true, // main steps is the default selected when entering steps handling component
+    },
+    /*
+    { // removing this step from main steps, it is moved to advanced tools
+      id: 2,
+      label: i18n.t('Email Template') },
+      main: false, // main steps is the default selected when entering steps handling component
+    },
+    */
+    {
+      id: 2,
+      label: i18n.t("Confirmation"),
+      main: false, // main steps is the default selected when entering steps handling component
+    },
   ];
 
   // Patient fields

@@ -5,7 +5,7 @@ import { NotificationsActive } from "@mui/icons-material";
 import { useVisibilityPolling } from "../hooks/useVisibilityPolling";
 
 
-const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
+const FloatingBellRequestErrors = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
   //const { isLoggedIn, auth } = useContext(AuthContext);
   const requestErrorsRef = useRef([]);
   const memoizedPoll = useCallback(async () => {
@@ -54,14 +54,6 @@ const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
     //console.log("at > seenAt:", at, seenAt, at > seenAt);
     return at > seenAt;
   });
-
-  // if (!show) { // All request errors already seen: do not show floating bell
-  //   //console.log("HIDING BELL");
-  //   return null;
-  // }
-  // else {
-  //   //console.log("SHOWING BELL");
-  // }
   
   return (
     <Fab
@@ -80,4 +72,4 @@ const FloatingBell = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
   );
 };
 
-export default FloatingBell;
+export default FloatingBellRequestErrors;

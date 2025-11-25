@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
-//import { DateTime } from "luxon";
 import {
   Box,
-  //Button,
   Checkbox,
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -18,7 +15,8 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import { TextFieldSearch, SectionHeader, Button } from "./custom";
+import { TextFieldSearch, Button } from "./custom";
+import { SectionHeader1, TableCellLastSticky } from "mui-material-custom";
 import { Search, Edit, Delete, AddCircleOutline } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import { apiCall } from "../libs/Network";
@@ -26,7 +24,6 @@ import LocalStorage from "../libs/LocalStorage";
 import { isBoolean, isString, isNumber, isArray, isObject, isNull } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../hooks/useSnackbarContext";
-//import { i18n } from "../i18n";
 
 const ProductTable = () => {
   const theme = useTheme();
@@ -291,9 +288,9 @@ const ProductTable = () => {
   //console.log("*** ProductsTable props:", props);
   return (
     <>
-      <SectionHeader>
+      <SectionHeader1>
         {t("Products handling")}
-      </SectionHeader>
+      </SectionHeader1>
 
       <Box sx={{
         my: theme.spacing(2),
@@ -389,9 +386,9 @@ const ProductTable = () => {
                 <TableCell>
                   {t("Notes")}
                 </TableCell>
-                <TableCell>
+                <TableCellLastSticky>
                   {t("Actions")}
-                </TableCell>
+                </TableCellLastSticky>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -433,11 +430,21 @@ const ProductTable = () => {
                       <TableCell>{product.teeth}</TableCell>
                       <TableCell>{product.type}</TableCell>
                       <TableCell>{product.notes}</TableCell>
-                      <TableCell>
-                        <IconButton size="small" onClick={() => onEdit(product._id)}>
+                      <TableCellLastSticky>
+                        {/* <IconButton size="small" onClick={() => onEdit(product._id)}>
                           <Edit fontSize="small" />
-                        </IconButton>
-                        <IconButton size="small" onClick={() => showDialog({
+                        </IconButton> */}
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="small"
+                          fullWidth={false}
+                          sx={{ px: 0.5, mr: 1 }}
+                          onClick={() => onEdit(product._id)}
+                        >
+                          <Edit fontSize="small" />
+                        </Button>
+                        {/* <IconButton size="small" onClick={() => showDialog({
                           onConfirm: () => onRemove(product._id),
                           title: t("Confirm Delete"),
                           message: t("Are you sure you want to delete {{count}} selected product?", { count: 1 }),
@@ -445,8 +452,24 @@ const ProductTable = () => {
                           cancelText: t("Cancel"),
                         })}>
                           <Delete fontSize="small" />
-                        </IconButton>
-                      </TableCell>
+                        </IconButton> */}
+                         <Button
+                          variant="contained"
+                          color="inherit"
+                          size="small"
+                          fullWidth={false}
+                          sx={{ px: 0.5, mr: 1 }}
+                          onClick={() => showDialog({
+                            onConfirm: () => onRemove(product._id),
+                            title: t("Confirm Delete"),
+                            message: t("Are you sure you want to delete {{count}} selected product?", { count: 1 }),
+                            confirmText: t("Confirm"),
+                            cancelText: t("Cancel"),
+                          })}
+                        >
+                          <Delete fontSize="small" />
+                        </Button>
+                      </TableCellLastSticky>
                     </TableRow>
                   );
                 })}

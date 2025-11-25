@@ -27,6 +27,7 @@ import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import PreferencesCookie from "./PreferencesCookie";
 import PreferencesNotification from "./PreferencesNotification";
 import ChangeEmail from "./auth/ChangeEmail";
+import useNavigateBackSafe from "../hooks/useNavigateBackSafe";
 import {
   validateFirstName,
   validateLastName,
@@ -45,6 +46,7 @@ function UserEdit() {
   //const [emailChanging, setEmailChanging] = useState(false);
   //const [emailNew, setEmailNew] = useState("");
   const { auth, updateSignedInUserLocally } = useContext(AuthContext);
+  const navigateBackSafe = useNavigateBackSafe();
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
   const [openDialog, setOpenDialog] = useState(false);
@@ -92,7 +94,7 @@ function UserEdit() {
           //updateSignedInUserLocally(updatedUser);
           updateSignedInUserLocally({ user: updatedUser });
         }
-        navigate("/", { replace: true });
+        navigate("/");
       }
     })();
   }, [auth.user, navigate, showSnackbar, updateSignedInUserLocally, user, userId]);
@@ -100,7 +102,7 @@ function UserEdit() {
   const formCancel = (e) => {
     e.preventDefault();
     setError({});
-    navigate(-1);
+    navigateBackSafe("/"); // navigate back safely, being sure not to exit domain
   }
  
   useEffect(() => { // get all users on mount
@@ -340,36 +342,9 @@ function UserEdit() {
     };
   }
 
-  /*
-  const confirmEmailChange = () => {
-    if (user.email === emailNew) {
-      setEmailChanging(false);
-      showSnackbar(t("Email unchanged"), "info");
-    }
-
-    showDialog({
-      title: t("Email Change"),
-      message: <EmailChange />,
-      confirmText: null,
-      // onConfirm: () => {
-      //   emptyCartItems();
-      //   navigate("/products");
-      // },
-      onConfirm: () => setEmailChanging(false),
-      onCancel: () => setEmailChanging(false),
-    });
-    
-    // TODO ...
-
-    // if (ok) {
-    // setEmailChanging(false);
-    // }
-  }
-*/
-  
   if (!userId) {
     showSnackbar(t("No user id specified", "error"));
-    navigate(-1);
+    navigate("/signin", { replace: true });
     return;
   }
   

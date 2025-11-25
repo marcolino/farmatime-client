@@ -72,12 +72,12 @@ function DialogConfirm({
 
       <DialogActions>
         {cancelText && (
-          <Button onClick={onCancel} color={cancelColor ?? "secondary"} variant="contained" sx={{ m: 2 }}>
+          <Button onClick={onCancel} color={cancelColor ?? "secondary"} variant="contained" sx={{ m: 2, mt: 0 }}>
             {cancelText}
           </Button>
         )}
         {confirmText && (
-          <Button onClick={onConfirm} color={confirmColor ?? "success"} variant="contained" sx={{ m: 2 }}>
+          <Button onClick={onConfirm} color={confirmColor ?? "success"} variant="contained" sx={{ m: 2, mt: 0 }}>
             {confirmText}
           </Button>
         )}

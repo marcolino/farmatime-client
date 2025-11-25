@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import { useTranslation } from "react-i18next";
 import {
   Box,
   Checkbox,
@@ -30,19 +29,18 @@ const MenuProps = {
   },
 };
 
-const SelectMulti = ({ options, value, onChangeValue, sx, labels }) => {
-  const { t } = useTranslation();
+const SelectMulti = ({ users, selectedUsers, setSelectedUsers, sx }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
 
   // Handle null/undefined arrays and map to generic items
-  const items = useMemo(() => options || [], [options]);
-  const selectedItems = useMemo(() => value || [], [value]);
+  const items = useMemo(() => users || [], [users]);
+  const selectedItems = useMemo(() => selectedUsers || [], [selectedUsers]);
 
   // Filter items based on search term - search in firstName, lastName, businessName, email
   const filteredItems = useMemo(() => {
     if (!searchTerm) return items;
-
+    
     const lowercasedSearch = searchTerm.toLowerCase();
     return items.filter(item =>
       (item.firstName && item.firstName.toLowerCase().includes(lowercasedSearch)) ||
@@ -55,56 +53,68 @@ const SelectMulti = ({ options, value, onChangeValue, sx, labels }) => {
 
   const handleSelectAll = () => {
     if (selectedItems.length === filteredItems.length) {
+      // If all filtered items are already selected, unselect all filtered items
       const remainingItems = selectedItems.filter(
         selectedItem => !filteredItems.some(item => item._id === selectedItem._id)
       );
-      onChangeValue(remainingItems);
+      setSelectedUsers(remainingItems);
     } else {
+      // Select all filtered items that aren't already selected
       const newSelectedItems = [...selectedItems];
       filteredItems.forEach(item => {
         if (!newSelectedItems.some(selected => selected._id === item._id)) {
           newSelectedItems.push(item);
         }
       });
-      onChangeValue(newSelectedItems);
+      setSelectedUsers(newSelectedItems);
     }
   };
 
   const handleUnselectAll = () => {
     if (searchTerm) {
+      // Only unselect filtered items when searching
       const remainingItems = selectedItems.filter(
         selectedItem => !filteredItems.some(item => item._id === selectedItem._id)
       );
-      onChangeValue(remainingItems);
+      setSelectedUsers(remainingItems);
     } else {
-      onChangeValue([]);
+      // Unselect all
+      setSelectedUsers([]);
     }
   };
 
   const handleChange = (event) => {
     const value = event.target.value;
-
+    
+    // Handle select all
     if (value.includes('select-all')) {
       handleSelectAll();
       return;
     }
-
+    
+    // Handle unselect all
     if (value.includes('unselect-all')) {
       handleUnselectAll();
       return;
     }
 
+    // Handle regular selection/deselection
     const selectedIds = new Set(value);
     const newSelectedItems = items.filter(item => selectedIds.has(item._id));
-    onChangeValue(newSelectedItems);
+    setSelectedUsers(newSelectedItems);
   };
+
+  // const handleDeleteChip = (itemToDelete) => {
+  //   const newSelectedItems = selectedItems.filter(item => item._id !== itemToDelete._id);
+  //   setSelectedUsers(newSelectedItems);
+  // };
 
   const getSelectedItemIds = () => {
     return selectedItems.map(item => item._id);
   };
 
-  const isAllFilteredSelected = filteredItems.length > 0 &&
-    filteredItems.every(item =>
+  const isAllFilteredSelected = filteredItems.length > 0 && 
+    filteredItems.every(item => 
       selectedItems.some(selected => selected._id === item._id)
     );
 
@@ -116,6 +126,7 @@ const SelectMulti = ({ options, value, onChangeValue, sx, labels }) => {
     setSearchTerm('');
   };
 
+  // Get display name for an item
   const getItemDisplayName = (item) => {
     if (item.businessName) return item.businessName;
     if (item.firstName && item.lastName) return `${item.firstName} ${item.lastName}`;
@@ -124,6 +135,7 @@ const SelectMulti = ({ options, value, onChangeValue, sx, labels }) => {
     return 'Unknown Item';
   };
 
+  // Get secondary text for an item
   const getItemSecondaryText = (item) => {
     const parts = [];
     if (item.firstName || item.lastName) {
@@ -135,21 +147,23 @@ const SelectMulti = ({ options, value, onChangeValue, sx, labels }) => {
     return parts.join(' • ');
   };
 
+  // Render value with count display when multiple items are selected
   const renderValue = () => {
-    // if (selectedItems.length === 0) { // Should not happen
-    //   return <em>Select items...</em>;
-    // }
+    if (selectedItems.length === 0) {
+      return <em>Select items...</em>;
+    }
 
     if (selectedItems.length === 1) {
       return getItemDisplayName(selectedItems[0]);
     }
 
+    // Show count when multiple items are selected
     return (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
         <Chip
           label={`${selectedItems.length} selected`}
           size="small"
-          onDelete={() => onChangeValue([])}
+          onDelete={() => setSelectedUsers([])}
           onMouseDown={(event) => {
             event.stopPropagation();
           }}
@@ -158,41 +172,43 @@ const SelectMulti = ({ options, value, onChangeValue, sx, labels }) => {
     );
   };
 
+  // Generate unique keys for special menu items
+  //const selectAllKey = `select-all-${searchTerm}-${filteredItems.length}`;
+  //const unselectAllKey = `unselect-all-${selectedItems.length}`;
   const resultsCountKey = `results-count-${filteredItems.length}-${searchTerm}`;
   const noResultsKey = `no-results-${searchTerm}-${filteredItems.length}`;
 
   return (
     <FormControl sx={sx}>
-      <InputLabel id="multi-select-label">{labels["Select Items"] || t("Select Items")}</InputLabel>
+      <InputLabel id="multi-select-label">Select Items</InputLabel>
       <Select
         labelId="multi-select-label"
         multiple
         value={getSelectedItemIds()}
         onChange={handleChange}
-        input={<OutlinedInput label={labels["Select Items"] || t("Select Items")} />}
+        input={<OutlinedInput label="Select Items" />}
         renderValue={renderValue}
         MenuProps={MenuProps}
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => {
           setOpen(false);
-          setSearchTerm('');
+          setSearchTerm(''); // Clear search when closing
         }}
         sx={{
-          mt: 0.5,
           '& .MuiSelect-select': {
             minHeight: '40px !important',
             height: 'auto !important',
             display: 'flex',
             alignItems: 'center',
-            py: { xs: 0.0, sm: 0.3 }, px: 1, pl: 2,
           }
         }}
       >
+        {/* Search Box */}
         <Box sx={{ p: 1 }} key="search-box">
           <TextField
             size="small"
-            placeholder={labels["Search Items"] || t("Search Items")}
+            placeholder="Search items..."
             value={searchTerm}
             onChange={handleSearchChange}
             slotProps={{
@@ -217,60 +233,52 @@ const SelectMulti = ({ options, value, onChangeValue, sx, labels }) => {
 
         <Divider key="divider-1" />
 
+        {/* Select All / Unselect All Buttons */}
         <Box sx={{ p: 1 }} key="action-buttons">
           <Stack direction="row" spacing={1} justifyContent="space-between">
             <Button
               size="small"
-              variant="contained"
               onClick={handleSelectAll}
-              color={"secondary"}
               disabled={filteredItems.length === 0}
             >
-              {isAllFilteredSelected ? t("Unselect All") : t("Select All")}
+              {isAllFilteredSelected ? 'Unselect All' : 'Select All'}
             </Button>
             <Button
               size="small"
-              variant="contained"
-              color={"secondary"}
               onClick={handleUnselectAll}
               disabled={selectedItems.length === 0}
             >
-              {t("Clear All")}
+              Clear All
             </Button>
           </Stack>
         </Box>
 
         <Divider key="divider-2" />
 
+        {/* Results Count */}
         <MenuItem disabled key={resultsCountKey}>
           <Typography variant="body2" color="text.secondary">
-            {searchTerm ?
-              `Found ${filteredItems.length} of ${items.length} items`
+            {searchTerm 
+              ? `Found ${filteredItems.length} of ${items.length} items` 
               : `Total ${items.length} items`
-            }
-            {searchTerm ?
-              t("Found") + " " + filteredItems.length + " " + t("of") + " " + items.length + " " + (labels["items"] || t("items")) :
-              t("Total") + " " + items.length + " " + (labels["items"] || t("items"))
             }
           </Typography>
         </MenuItem>
 
+        {/* Items List */}
         {filteredItems.length === 0 ? (
           <MenuItem disabled key={noResultsKey}>
             <Typography variant="body2" color="text.secondary">
-              {searchTerm ?
-                labels["No items found"] || t("No items found") :
-                labels["No items available"] || t("No items available")
-              }
+              {searchTerm ? 'No items found' : 'No items available'}
             </Typography>
           </MenuItem>
         ) : (
           filteredItems.map((item) => (
             <MenuItem key={item._id} value={item._id}>
               <Checkbox checked={selectedItems.some(selected => selected._id === item._id)} />
-              <ListItemText
-                primary={getItemDisplayName(item)}
-                secondary={getItemSecondaryText(item)}
+              <ListItemText 
+                primary={getItemDisplayName(item)} 
+                secondary={getItemSecondaryText(item)} 
               />
             </MenuItem>
           ))

@@ -271,18 +271,21 @@
 - "Alcune richieste via email non sono state completate:" = "Alcune richieste via email non sono andate a buon fine:" - OK
 - gestire requestErrors come PWAInstalled (NO) - OK
 - move custom/* to mui-material-custom/ and always import from 'mui-material-custom' (NO) - OK
+- in translations/it: dottore -> medico - OK
+- non usare SelectMulti per admin in tutti i componenti con Table, ma un componente Table semplificato per selezionare uno o più utenti, da mostrare nel message di un Dialog (NO) - OK
+- risolvere discrepanza modifica data di una prescrizione in elenco attività e comparsa in richieste programmate 1 giorno prima - OK
+- aumentare spazio sopra plus button in JobMedicines - OK
+- verificare tutti i navigate(), se replace va a true o false... - OK
+- aggiungere dialog di conferma al pulsante "Annulla" in JobFlow (?) - OK
+- richiedere "edit-user/68e23bfea20b8cb826c7ea0b/editProfile" in stato guest produce una pagina bianca, non manda al login - OK
+- cambiare colore ("success") all'icona di modifica nelle actions di tutti i componenti con "Table" - OK
+- bloccare la colonna actions con sx.position: "sticky" in tutti i componenti con Table - OK
+- aggiungere attributo booleano "main" ad ogni step di JobFlow, e settarlo a true per JobMedicines, ed usarlo per decidere quale step visualizzare quando si entra in modifica. - OK
+- aggiungere a Help floating icon, which opens a dialog with "do not show this message anymore" checkbox, per spiegare il funzionamento dell'app. - OK
+- aggiungere route /help e "Help" item in header menu - OK
 
-- aggiungere a Help floating icon, which opens a dialog with "do not show this message anymore" checkbox, per spiegare il funzionamento dell'app.
-- aggiungere route /help e "Help" item in header menu
-- bloccare la colonna actions con sx.position: "sticky" in tutti i componenti con Table
 - cambiare "Modifica" in "Conferma" in JobComponent, edit mode
 - confermare JobPatient, JobDoctor e JobMedicines con "Next", che diventa "Confirm"...
-- aggiungere attributo booleano "main" ad ogni step di JobFlow, e settarlo a true per JobMedicines, ed usarlo per decidere quale step visualizzare quando si entra in modifica.
-- in translations/it: dottore -> medico
-- cambiare colore ("success") all'icona di modifica nelle actions di tutti i componenti con "Table"
-- aggiungere dialog di conferma al pulsante "Annulla" in JobFlow
-- no. usare SelectMulti per admin in tutti i componenti con Table, ma un componente Table semplificato per selezionare uno o più utenti, da mostrare nel message di un Dialog
-- aumentare spazio sopra plus button in JobMedicines
 
 - "devi essere autenticato per questa azione" => force a logout
 - showDialog: add mode (Success, Info, Warning, Error, ...); change Title background color based on mode... (default: success)

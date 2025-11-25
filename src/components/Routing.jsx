@@ -65,11 +65,11 @@ const Routing = () => {
           <Route path="/payment-cancel" element={<Cart payment="cancel" />} sitemapPath="payment-cancel" />
 
           {/* Public routes, with internal logic for protection */}
-          <Route path="/edit-user/:userId/:origin" element={<UserEdit />} />
           <Route path="/products/:productId?" element={<Products />} />
 
           {/* Protected routes (accept only logged users, any role) */}
-          <Route element={<ProtectedRoute acceptGuest={false} acceptedRoles={"TUTTI"} />}>
+          <Route element={<ProtectedRoute acceptGuest={false} acceptedRoles={"*"} />}>
+            <Route path="/edit-user/:userId/:origin" element={<UserEdit />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/edit-product/:productId" element={<ProductEdit />} />
             <Route path="/handle-users" element={<UsersHandle />} />

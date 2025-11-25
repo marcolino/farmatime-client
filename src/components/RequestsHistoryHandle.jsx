@@ -21,8 +21,8 @@ import {
   Tooltip,
   Collapse,
 } from "@mui/material";
-import { TextFieldSearch, Legenda, StatusDot, /*Select, */ SelectMulti} from "./custom";
-import { SectionHeader1 } from "mui-material-custom";
+import { TextFieldSearch, Legenda, StatusDot, SelectMulti} from "./custom";
+import { SectionHeader1, TableCellLastSticky } from "mui-material-custom";
 import { History, Search, KeyboardArrowUp, KeyboardArrowDown/*, Person*/ } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
@@ -431,21 +431,29 @@ const RequestsHistoryTable = () => {
     }
 
     const filterRequest = (request) => {
-      if (!filter) {
-        return true;
+      let matchesFilter = true;
+
+      if (filter && filter.trim() !== "") {
+        matchesFilter =
+          matches(request, "status", filter) ||
+          matches(request, "userName", filter) ||
+          matches(request, "patientFirstName", filter) ||
+          matches(request, "patientLastName", filter) ||
+          matches(request, "doctorName", filter) ||
+          matches(request, "doctorEmail", filter) ||
+          matches(request, "medicines[].name", filter);
       }
-      return (
-        //matches(request, "id", filter) ||
-        matches(request, "status", filter) ||
-        //matches(request, "provider", filter) ||
-        matches(request, "userName", filter) ||
-        matches(request, "patientFirstName", filter) ||
-        matches(request, "patientLastName", filter) ||
-        matches(request, "doctor.name", filter) ||
-        matches(request, "doctorEmail", filter) ||
-        matches(request, "medicines[].name", filter) ||
-        false
-      );
+
+      const matchesUser =
+        !selectedUsers ||
+        selectedUsers.length === 0 ||
+        selectedUsers.some((u) => u.email === request.userEmail)
+      ;
+      
+      // console.log("selectedUsers emails:", selectedUsers.map(su => su.email));
+      // console.log("request.userEmail:", request.userEmail);
+
+      return matchesFilter && matchesUser;
     };
 
     const matches = (obj, fieldName, search) => {
@@ -543,65 +551,24 @@ const RequestsHistoryTable = () => {
         display: "flex",
         alignItems: "center",
         //justifyContent: "flex-end",
-        justifyContent: "space-between", // push items to opposite ends
+        justifyContent: allUsers ? "space-between" : "flex-end", // push items to opposite ends if allItems is set
         width: "100%",
         gap: 2, // adds spacing between elements
       }}>
         {allUsers && (
           <SelectMulti
-            users={allUsers}
-            selectedUsers={selectedUsers}
-            setSelectedUsers={setSelectedUsers}
-            sx={{
-              minWidth: { xs: 150, sm: 360 },
-              maxWidth: { sm: 240 },
+            options={allUsers}
+            value={selectedUsers}
+            onChangeValue={setSelectedUsers}
+            sx={{ minWidth: { xs: 150, sm: 360 } }}
+            labels={{
+              "Select Items": t("Select Users"),
+              "Search Items": t("Search Users"),
+              "items": t("users"),
+              "No items found": t("No users found"),
+              "No items available": t("No users available"),
             }}
           />
-          // <Select
-          //   id={"users"}
-          //   multiple={true}
-          //   label={t("Users")}
-          //   placeholder={t("Users P.H.")}
-          //   options={allUsers
-          //     .sort((a, b) => a.lastName.localeCompare(b.lastName))
-          //     .map(user => `${user.firstName} ${user.lastName} ${user.email}`)
-          //   }
-          //   value={selectedUsers
-          //     .map(user => `${user.firstName} ${user.lastName} ${user.email}`)
-          //   }
-          //   onChange={(e) => {
-          //     const selectedStrings = e.target.value; // array of option strings
-          //     const selected = allUsers.filter(user =>
-          //       selectedStrings.includes(userToString(user))
-          //     );
-          //     setSelectedUsers(selected);
-          //   }}
-          //   startIcon={<Person />}
-          //   size="small"
-          //   margin="dense"
-          //   renderValue={(selected) => {
-          //     // When selected.length === 0, we return a placeholder, not an empty element,
-          //     // to bypass a MUI Select with multiple={true}, value=[], renderValue returns empty content
-          //     if (!selected || selected.length === 0) {
-          //       return <span style={{ opacity: 0.6 }}>{"..."}</span>;
-          //     }
-          //     // Show only the first item if one item selected
-          //     if (!selected || selected.length === 0) {
-          //       return t("Users");
-          //     }
-          //     console.log(selected, selected.length);
-          //     // Show only the first item if one item selected
-          //     if (selected.length === 1) {
-          //       return selected[0];
-          //     }
-          //      // Show only the first item + an ellipsis if more
-          //     return `${selected.length} users selected`;
-          //   }}
-          //   sx={{
-          //     minWidth: 120,
-          //     maxWidth: { sm: 240 }
-          //   }}
-          // />
         )}
         
         <TextFieldSearch
@@ -688,9 +655,9 @@ const RequestsHistoryTable = () => {
                   <TableCell /*onClick={handleSort("medicines")}*/>
                     {t("Medicines")} {/*sortButton({ column: "medicines" })*/}
                   </TableCell>
-                  <TableCell>
+                  <TableCellLastSticky>
                     {t("Actions")}
-                  </TableCell>
+                  </TableCellLastSticky>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -763,15 +730,13 @@ const RequestsHistoryTable = () => {
                         {/* <TableCell>{request.patientEmail}</TableCell> */}
                         {/* <TableCell>{request.provider}</TableCell> */}
                         <TableCell>{(request.medicines?.length === 0) ? '' : `(${request.medicines?.length}) ${request.medicines[0]?.name}${request.medicines?.length > 1 ? ',…' : ''}`}</TableCell>
-                        <TableCell>
+                        <TableCellLastSticky>
                           <Tooltip title={t("Show request details")} arrow>
                             <IconButton size="small" sx={{ mr: 1 }} onClick={(e) => onMenuOpen(e, request._id)}>
-                              {/* <MenuOpen fontSize="small" /> */}
-                              {/* {openRowId === row.id ? <KeyboardArrowUp /> : <KeyboardArrowDown />} */}
                               {openRowId === request._id ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                             </IconButton>
                           </Tooltip>
-                        </TableCell>
+                        </TableCellLastSticky>
                       </TableRow>
                       
                       {/* details row */}
@@ -854,7 +819,8 @@ const RequestsHistoryTable = () => {
             <TablePagination
               rowsPerPageOptions={rowsPerPageOptions}
               component="div"
-              count={requests.length ?? 0}
+              //count={requests.length ?? 0}
+              count={sortedFilteredPaginatedRequests.length ?? 0}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
@@ -905,7 +871,7 @@ const RequestsHistoryTable = () => {
       {requests && sortedFilteredPaginatedRequests.length === 0 && (
         <Box sx={{ padding: theme.spacing(2) }}>
           <Typography variant="body1" color="text.secondary" textAlign="center" fontStyle="italic" py={3}>
-            {t("No requests present yet")}
+            {t("No requests present")}
           </Typography>
         </Box>
       )}

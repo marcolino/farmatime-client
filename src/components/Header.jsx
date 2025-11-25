@@ -13,12 +13,13 @@ import {
   ShoppingCart, Category, Brightness4, Brightness7,
   ContactPhone, /*ImportExport,*/ SettingsSuggest, History, ScheduleSend,
   Menu as MenuIcon, /*LunchDining,*/ FormatListBulleted, Share, InfoOutline as InfoIcon,
-  //NotificationsActive,
+  EmojiObjects,
 } from "@mui/icons-material";
 import IconGravatar from "./IconGravatar";
 import Drawer from "./custom/Drawer";
 import { cancelAllRequests } from "../middlewares/Interceptors";
-import FloatingBell from "../components/FloatingBell";
+import FloatingBellRequestErrors from "./FloatingBellRequestErrors";
+import FloatingBellHelp from "./FloatingBellHelp";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import { AuthContext } from "../providers/AuthContext";
@@ -30,6 +31,7 @@ import logoMainHeader from "../assets/images/LogoMainHeader.png";
 import { isAdmin } from "../libs/Validation";
 import { fetchBuildInfoData } from "../libs/Misc";
 import { useInfo } from "../hooks/useInfo";
+import { useOpenHelpDialog } from "../hooks/useOpenHelpDialog";
 import logoTextHeader from "../assets/images/LogoTextHeader.png";
 //import serverPackageJson from "../../../farmatime-server/package.json"; // WARNING: this depends on folders structure...
 import config from "../config";
@@ -47,6 +49,7 @@ const Header = ({ theme, toggleTheme }) => {
   const [buildInfo, setBuildInfo] = useState(null);
   const [pollingRefreshKey, setPollingRefreshKey] = useState(0);
   const { info } = useInfo();
+  const help = useOpenHelpDialog();
 
   const sections = React.useMemo(() => [
     ...(config.ui.cart.enabled && config.ecommerce.enabled ? [{ // add cart to sections only if ui.cart and ecommerce is enabled
@@ -169,6 +172,15 @@ const Header = ({ theme, toggleTheme }) => {
         </IconButton>
       ),
       onClick: () => info()
+    },
+    {
+      label: t("Help"),
+      icon: (
+        <IconButton onClick={help} sx={{ padding: 0 }}>
+          <EmojiObjects />
+        </IconButton>
+      ),
+      onClick: () => help()
     },
     ...(isLoggedIn ?
       [
@@ -314,7 +326,7 @@ const Header = ({ theme, toggleTheme }) => {
       onConfirm: async () => {
         await apiCall("post", "/request/setRequestErrorsSeen");
         setPollingRefreshKey(prev => prev + 1); // trigger re-poll
-        navigate("/requests-history");
+        navigate("/requests-history", { replace: true });
       },
       cancelText: t("Cancel"),
     });
@@ -557,7 +569,13 @@ const Header = ({ theme, toggleTheme }) => {
         toggleDrawer={toggleDrawer}
       />
       
-      <FloatingBell
+      <FloatingBellRequestErrors
+        pollingCallback={getRequestErrors}
+        onOkCallback={handleRequestsErrors}
+        pollingRefreshKey={pollingRefreshKey}
+      />
+
+      <FloatingBellHelp
         pollingCallback={getRequestErrors}
         onOkCallback={handleRequestsErrors}
         pollingRefreshKey={pollingRefreshKey}

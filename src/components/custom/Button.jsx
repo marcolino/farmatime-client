@@ -2,7 +2,7 @@ import React from "react";
 import { useMediaQuery, useTheme } from "@mui/material";
 import StyledButton from "./StyledButton";
 
-const CustomButton = ({ variant, fullWidth = true, hideChildrenUpToBreakpoint = null, ...props }) => {
+const CustomButton = React.forwardRef(({ variant, fullWidth = true, hideChildrenUpToBreakpoint = null, ...props }, ref) => {
   const theme = useTheme();
 
   const shouldHide = useMediaQuery(
@@ -25,6 +25,7 @@ const CustomButton = ({ variant, fullWidth = true, hideChildrenUpToBreakpoint = 
 
   return (
     <StyledButton
+      ref={ref}
       variant={variant ?? "contained"}
       fullWidth={fullWidth}
       exact="true"
@@ -42,6 +43,8 @@ const CustomButton = ({ variant, fullWidth = true, hideChildrenUpToBreakpoint = 
       {!hideChildren && props.children}
     </StyledButton>
   );
-};
+});
+
+CustomButton.displayName = 'CustomButton';
 
 export default CustomButton;

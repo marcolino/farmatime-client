@@ -8,14 +8,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import config from '../config';
 
-const StyledSortableItem = styled(Paper)(({ theme }) => ({
+const StyledJobMedicinesSortableItem = styled(Paper)(({ theme }) => ({
   marginBottom: theme.spacing(1),
   padding: theme.spacing(1.5),
   display: 'flex',
   alignItems: 'center',
 }));
 
-export function SortableItem({
+export function JobMedicinesSortableItem({
   id, name, frequency, date, formatDate, onEdit, onRemove, isEditing
 }) {
   const {
@@ -48,7 +48,7 @@ export function SortableItem({
       ref={setNodeRef}
       style={style}
       {...attributes}
-      component={StyledSortableItem}
+      component={StyledJobMedicinesSortableItem}
       disableGutters
     >
       {isDragEnabled && (

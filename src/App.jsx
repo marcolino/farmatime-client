@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import { HelpProvider } from "./providers/HelpProvider";
 import { SnackbarProviderWrapper } from "./providers/SnackbarProvider"; 
 import ServiceWorkerProvider from "./providers/ServiceWorkerProvider";
 import { DialogProvider } from "./providers/DialogProvider";
@@ -76,32 +77,34 @@ const AppStructure = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <CartProvider>
-        <MediaQueryProvider>
-          <DialogProvider>
-            <ServiceWorkerMessages />
-            <ServiceWorkerProvider>
-              <OnlineStatusProvider>
-                <CssBaseline />
-                <LoaderProvider>
-                  <Loader loading={loading} />
-                  <SessionExpirationHandler> 
-                    {/* <BackgroundVideo /> */}
-                    <JobProvider>
-                      <InstallPWA />
-                      <PreferencesCookie />
-                      {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
-                      <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
-                        <Routing />
-                      </Contents>
-                    </JobProvider>
-                  </SessionExpirationHandler>
-                </LoaderProvider>
-              </OnlineStatusProvider>
-            </ServiceWorkerProvider>
-          </DialogProvider>
-        </MediaQueryProvider>
-      </CartProvider>
+      <HelpProvider>
+        <CartProvider>
+          <MediaQueryProvider>
+            <DialogProvider>
+              <ServiceWorkerMessages />
+              <ServiceWorkerProvider>
+                <OnlineStatusProvider>
+                  <CssBaseline />
+                  <LoaderProvider>
+                    <Loader loading={loading} />
+                    <SessionExpirationHandler> 
+                      {/* <BackgroundVideo /> */}
+                      <JobProvider>
+                        <InstallPWA />
+                        <PreferencesCookie />
+                        {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
+                        <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
+                          <Routing />
+                        </Contents>
+                      </JobProvider>
+                    </SessionExpirationHandler>
+                  </LoaderProvider>
+                </OnlineStatusProvider>
+              </ServiceWorkerProvider>
+            </DialogProvider>
+          </MediaQueryProvider>
+        </CartProvider>
+      </HelpProvider>
     </ThemeProvider>
   );
 };
