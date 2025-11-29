@@ -264,11 +264,9 @@
   "Handle Products": "Gestione Prodotti",
   "hard_bounce": "rimbalzata definitivamente",
   "Help": "Aiuto",
-  "Hide help button (this text is always accessible from main menu)": "Nascondi il pulsante di aiuto (questo testo è sempre accessibile dal menu principale)",
   "Home": "Home",
   "hour": "ora",
   "hours": "ore",
-  "How does this app work?": "Come funziona questa app?",
   "How It Works": "Come funziona",
   "I’ve been using this web app — you should try it, it's really useful!": "Sto utilizzando questa applicazione web: dovresti provarla, è davvero utile!",
   "I've lost the page you did request! Sorry…": "Mi sono perso la pagina che hai chiesto! Mi dispiace…",
@@ -508,8 +506,8 @@
   "Secure and Private": "Sicuro e privato",
   "select a variable to insert in the message...": "seleziona una variabile da inserire nel messaggio...",
   "Select All": "Seleziona Tutti",
-  "Select Items": "Seleziona Elementi",
-  "Select Users": "Seleziona Utenti",
+  "Select items": "Seleziona elementi",
+  "Select users": "Seleziona utenti",
   "Send email": "Invia mail",
   "Send email to {{count}} selected users_one": "Invia mail all'utente selezionato",
   "Send email to {{count}} selected users_many": "Invia mail ai {{count}} utenti selezionati",
@@ -666,6 +664,5 @@
   "You can sign in with your new password": "Puoi accedere con la tua nuova password",
   "You can use the autocomplete feature to help you find the correct medicine: it is sufficent to start typing the medicine name. If you don't find your medicine in the list, digit one more letter: all Italian medicines are present. You can insert a part of the farm name, and the dosage, i.e.: \"Asp 500\"": "Puoi utilizzare la funzione di completamento automatico per trovare il farmaco corretto: è sufficiente iniziare a digitare il nome del farmaco. Se non trovi la tua farmaco nell'elenco, digita ancora una lettera: tutti i farmaci Italiani sono presenti. Puoi inserire una parte del nome del farmaco, e il dosaggio, es.: \"Asp 500\"",
   "You have completed the configration of this job: for {{oneOrManyMedicines}} you configured, a request will be sent via email to the doctor just in time when the medicine is needed.": "Hai completato la configurazione di questa attività: per {{oneOrManyMedicines}} che hai configurato, verrà inviata una richiesta via e-mail al medico proprio nel momento in cui il farmaco sarà necessario.",
-  "You must be authenticated for this action": "Devi essere autenticato per questa azione",
-  "Your help text goes here...": "Il testo di help... (TODO)"
+  "You must be authenticated for this action": "Devi essere autenticato per questa azione"
 }

@@ -15,7 +15,7 @@
     "build-finalize": "echo 'Copying build to server' && rm -rf ../farmatime-server/client/build; cp -a build ../farmatime-server/client/build",
     "inject": "echo 'Injecting config...' && cd ../farmatime-server && yarn inject && cd ../farmatime-client",
     "build-info-produce": "/usr/bin/echo -n 'Producing build-info...' && node --no-warnings=ExperimentalWarning scripts/build-info-produce.js",
-    "eslint-check": "eslint src/*.js src/*.jsx src/components/ src/hooks src/libs src/middlewares src/providers src/themes 2>&1",
+    "eslint-check": "eslint --max-warnings=0 src/*.js src/*.jsx src/components/ src/hooks src/libs src/middlewares src/providers src/themes 2>&1",
     "index-produce": "echo 'Producing index...' && node --no-warnings=ExperimentalWarning scripts/index-produce.js",
     "sitemap-produce": "echo 'Producing sitemap...' && node --no-warnings=ExperimentalWarning scripts/sitemap-produce.js",
     "robots-produce": "echo 'Producing robots...' && node --no-warnings=ExperimentalWarning scripts/robots-produce.js",

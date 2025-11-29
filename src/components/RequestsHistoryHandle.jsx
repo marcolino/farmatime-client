@@ -562,8 +562,8 @@ const RequestsHistoryTable = () => {
             onChangeValue={setSelectedUsers}
             sx={{ minWidth: { xs: 150, sm: 360 } }}
             labels={{
-              "Select Items": t("Select Users"),
-              "Search Items": t("Search Users"),
+              "Select items": t("Select users"),
+              "Search items": t("Search users"),
               "items": t("users"),
               "No items found": t("No users found"),
               "No items available": t("No users available"),

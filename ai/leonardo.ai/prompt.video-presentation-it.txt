@@ -1,0 +1,13 @@
+A video of a female 25 years old white doctor half-length, with a stethoscope on the shoulders, who reads the following Italian text, with subtitles.The voice should be clear, professional, but also with nice and bright tones.Form factor: 4/3.
+
+Ciao! Provo a spiegarti brevemente a cosa serve e come funziona questa applicazione web!
+
+Con questa app puoi pianificare le richieste di prescrizione di medicinali per uno o più pazienti, in modo che le prescrizioni arrivino nella loro casella di posta al momento giusto.
+E' necessario accedere all'app con il tuo account Google, oppure la tua email.
+Nel primo passo imposterai una "attività", indicando il nome e l'email del paziente e del medico a cui chiedere la prescrizione.
+Nel secondo passo sceglierai uno o più medicinali; digitando i primi caratteri del nome del farmaco, potrai selezionare il farmaco nell'elenco che otterrai. Insieme al medicinale, indicherai la data in cui verrà richiesta la prima prescrizione, e la frequenza delle richieste successive.
+Ad esempio, se hai bisogno di Aspirina e non ne hai quasi più, dovresti scegliere la tipologia che preferisci (ad esempio in compresse o bustine, e i milligrammi); poi scegli - come prima data di richiesta - domani, e, se pensi di consumarla in un mese, una frequenza di 30 giorni.
+Nel terzo e ultimo passo, puoi semplicemente rivedere le tue scelte e confermare l'attività.
+A questo punto hai finito! L'app richiederà al medico i farmaci, al momento giusto!
+
+Buona pianificazione!

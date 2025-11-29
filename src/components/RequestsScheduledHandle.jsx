@@ -8,10 +8,9 @@ import {
   Box,
   Typography,
   Button,
-  Grid,
   Tooltip,
 } from "mui-material-custom";
-import { TextFieldSearch, RequestScheduledDetails } from "./custom";
+import { TextFieldSearch, RequestScheduledDetails, SelectMulti } from "./custom";
 import { SectionHeader1 } from "mui-material-custom";
 import { Search, ScheduleSend, NavigateBefore, NavigateNext} from "@mui/icons-material";
 import { apiCall } from "../libs/Network";
@@ -31,7 +30,7 @@ const RequestsScheduledCalendar = () => {
   const { showSnackbar } = useSnackbarContext();
   const [jobs, setJobs] = useState([]);
   const { auth } = useContext(AuthContext);
-  const { isMobile, xs, sm, md } = useMediaQueryContext();
+  const { isMobile, xs } = useMediaQueryContext();
   const [filter, setFilter] = useState("");
   const [view, setView] = useState("month"); // 'month' or 'year'
   const [activeStartDate, setActiveStartDate] = useState(new Date());
@@ -42,6 +41,8 @@ const RequestsScheduledCalendar = () => {
   const uniqueMedicines = useMemo(() => new Set(), []);
   const scrollContainerRef = useRef(null);
   const scrollMonthRefs = useRef([]);
+  const [allUsers, setAllUsers] = useState(null);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
@@ -70,9 +71,9 @@ const RequestsScheduledCalendar = () => {
 
   // Filter jobs
   const getFilteredJobs = useCallback(jobs => {
-    if (!filter) {
-      return jobs;
-    }
+    // if (!filter) {
+    //   return jobs;
+    // }
     const filterLower = filter?.toLowerCase();
     const matches = (obj, fieldName) => {
       if (Array.isArray(obj)) { // obj is array
@@ -94,17 +95,27 @@ const RequestsScheduledCalendar = () => {
       };
     };
 
-    return jobs.filter(job =>
+    let searchFilter = jobs.filter(job =>
       matches(job, "userFirstName") ||
       matches(job, "userLastName") ||
       matches(job.doctor, "name") ||
       matches(job.doctor, "email") ||
-      matches(job.patient, "firstName") ||
+      matches(job.patient, "firstName") ||  
       matches(job.patient, "lastName") ||
       matches(job.patient, "email") ||
       matches(job.medicines, "name")
     );
-  }, [filter]);
+
+    let usersFilter = searchFilter;
+    if (allUsersRequests) { // filter by selected users only (in case of admin user)
+      usersFilter = !selectedUsers || selectedUsers.length === 0 ?
+        [] : // if no selected users, return no jobs
+        searchFilter.filter(job => selectedUsers.some(user => user.email === job.userEmail))
+      ;
+    }
+    
+    return usersFilter;
+  }, [filter, allUsersRequests, selectedUsers]);
 
   // Build scheduled map
   const requestsScheduled = useMemo(() => {
@@ -121,6 +132,7 @@ const RequestsScheduledCalendar = () => {
         const schedule = {
           userFirstName: job.userFirstName,
           userLastName: job.userLastName,
+          userEmail: job.userEmail,
           jobId: job.id,
           patient: job.patient,
           doctor: job.doctor,
@@ -166,6 +178,22 @@ const RequestsScheduledCalendar = () => {
     })();
   }, [auth.user, setJobs, allUsersRequests, showSnackbar]);
 
+  // Get all users on mount
+  useEffect(() => {
+    (async () => {
+      if (isAdmin(auth.user)) {
+        // get all users request for admin users, and only her requests for other users
+        const result = await apiCall("get", "/user/getUsers", { userId: auth.user.id });
+        if (result.err) {
+          showSnackbar(result.message, result.status === 401 ? "warning" : "error");
+        } else {
+          setAllUsers(result.users);
+          setSelectedUsers(result.users);
+        }
+      }
+    })();
+  }, [auth.user, showSnackbar]);
+  
   // check if we have to scroll to current month
   useEffect(() => {
     const month = activeStartDate.getMonth(); // 0-based
@@ -378,29 +406,33 @@ const RequestsScheduledCalendar = () => {
               const value = data[i].value;
               if (i < 3 && value <= 1) return; // do not show users, patients and doctors if none or just one
               return (
-                <Tooltip key={i} title={
-                  i === 0 ? t("{{count}} users", { count: value }) :
-                    i === 1 ? t("{{count}} patients", { count: value }) :
-                      i === 2 ? t("{{count}} doctors", { count: value }) :
-                        t("{{count}} medicines", { count: value })}
+                <Tooltip
+                  key={i}
+                  title={
+                    i === 0 ? t("{{count}} users", { count: value }) :
+                      i === 1 ? t("{{count}} patients", { count: value }) :
+                        i === 2 ? t("{{count}} doctors", { count: value }) :
+                          t("{{count}} medicines", { count: value })
+                  }
                 >
-                  <Box
-                    key={i}
-                    style={{
-                      width: isMobile ? "12px" : "24px",
-                      height: isMobile ? "12px" : "24px",
-                      fontSize: isMobile ? "8px" : "14px",
-                      borderRadius: "50%",
-                      backgroundColor: color,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "white",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {value}
-                  </Box>
+                  <span>{/* Tooltip children must support ref, and Box does not, while span does */}
+                    <Box
+                      style={{
+                        width: isMobile ? "12px" : "24px",
+                        height: isMobile ? "12px" : "24px",
+                        fontSize: isMobile ? "8px" : "14px",
+                        borderRadius: "50%",
+                        backgroundColor: color,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {value}
+                    </Box>
+                  </span>
                 </Tooltip>
               );
             })}
@@ -699,40 +731,84 @@ const RequestsScheduledCalendar = () => {
         <ScheduleSend fontSize="large" /> {xs ? t("Future Req.s") : t("Future Requests")}
       </SectionHeader1>
 
-      {/* Responsive layout */}
-      <Grid container spacing={1} alignItems="center" justifyContent="flex-end">
-        {/* Search input */}
-        <Grid grid={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 6 }} sx={{ textAlign: "right" }}>
-          <TextFieldSearch
-            label={t("Search")}
-            value={filter}
-            size="small"
-            margin="dense"
-            onChange={handleFilterChange}
-            startIcon={<Search />}
-            fullWidth={xs || sm || md ? false : true}
-            sx={{ color: theme.palette.text.primary }}
-          />
-        </Grid>
+      {/* Row 1: SelectMulti (left) + Search (right) */}
+<Box
+  sx={{
+    my: theme.spacing(2),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",  // ⟵ Search goes to right
+    width: "100%",
+    gap: 2,
+    flexWrap: "nowrap",               // ⟵ ALWAYS same row
+    overflow: "hidden",
+  }}
+>
+  {allUsers && (
+    <SelectMulti
+      options={allUsers}
+      value={selectedUsers}
+      onChangeValue={setSelectedUsers}
+      sx={{
+        minWidth: { xs: 150, sm: 200, md: 260, lg: 300 },
+        maxWidth: "50%", // prevents overflow on small screens
+      }}
+      labels={{
+        "Select items": t("Select users"),
+        "Search items": t("Search users"),
+        "items": t("users"),
+        "No items found": t("No users found"),
+        "No items available": t("No users available"),
+      }}
+    />
+  )}
 
-        {/* Month/Year buttons */}
-        <Grid grid={{xs: 12, sm: 12, md: 12, lg: 6, xl: 6}} sx={{ textAlign: "right" }}>
-          <Box sx={{ display: "inline-flex", gap: 1, flexWrap: "wrap" }}>
-            <Button
-              variant={view === "month" ? "contained" : "outlined"}
-              onClick={() => setView("month")}
-            >
-              {t("Month")}
-            </Button>
-            <Button
-              variant={view === "year" ? "contained" : "outlined"}
-              onClick={() => setView("year")}
-            >
-              {t("Year")}
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
+  <Box
+    sx={{
+      display: "flex",
+      justifyContent: "flex-end",
+      flex: 1,
+    }}
+  >
+    <TextFieldSearch
+      label={t("Search")}
+      value={filter}
+      size="small"
+      margin="dense"
+      onChange={handleFilterChange}
+      startIcon={<Search />}
+      fullWidth={false}
+      sx={{ color: theme.palette.text.primary }}
+    />
+  </Box>
+</Box>
+
+
+{/* Row 2: Buttons (right aligned) */}
+<Box
+  sx={{
+    display: "flex",
+    justifyContent: "flex-end",   // ⟵ right aligned like Grid version
+    gap: 1,
+    flexWrap: "wrap",
+    width: "100%",
+  }}
+>
+  <Button
+    variant={view === "month" ? "contained" : "outlined"}
+    onClick={() => setView("month")}
+  >
+    {t("Month")}
+  </Button>
+
+  <Button
+    variant={view === "year" ? "contained" : "outlined"}
+    onClick={() => setView("year")}
+  >
+    {t("Year")}
+  </Button>
+</Box>
+
 
       <Box sx={{ mt: 2 }}>{view === "month" ? renderCalendarMonthView() : renderCalendarYearView()}</Box>
 

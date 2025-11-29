@@ -25,16 +25,18 @@ import { useSnackbarContext } from "../hooks/useSnackbarContext";
 import { AuthContext } from "../providers/AuthContext";
 import { JobContext } from '../providers/JobContext';
 import { useDialog } from "../providers/DialogContext";
+import { HelpContext } from "../providers/HelpContext";
 import { useCart } from "../hooks/useCart";
 import { apiCall } from "../libs/Network";
 import logoMainHeader from "../assets/images/LogoMainHeader.png";
 import { isAdmin } from "../libs/Validation";
 import { fetchBuildInfoData } from "../libs/Misc";
 import { useInfo } from "../hooks/useInfo";
-import { useOpenHelpDialog } from "../hooks/useOpenHelpDialog";
+//import { useOpenHelpDialog } from "../hooks/useOpenHelpDialog";
 import logoTextHeader from "../assets/images/LogoTextHeader.png";
 //import serverPackageJson from "../../../farmatime-server/package.json"; // WARNING: this depends on folders structure...
 import config from "../config";
+
 
 const Header = ({ theme, toggleTheme }) => {
   const { auth, isLoggedIn, signOut, didSignInBefore } = useContext(AuthContext);
@@ -49,7 +51,8 @@ const Header = ({ theme, toggleTheme }) => {
   const [buildInfo, setBuildInfo] = useState(null);
   const [pollingRefreshKey, setPollingRefreshKey] = useState(0);
   const { info } = useInfo();
-  const help = useOpenHelpDialog();
+  const { openHelp } = useContext(HelpContext);
+  //const help = useOpenHelpDialog();
 
   const sections = React.useMemo(() => [
     ...(config.ui.cart.enabled && config.ecommerce.enabled ? [{ // add cart to sections only if ui.cart and ecommerce is enabled
@@ -176,11 +179,11 @@ const Header = ({ theme, toggleTheme }) => {
     {
       label: t("Help"),
       icon: (
-        <IconButton onClick={help} sx={{ padding: 0 }}>
+        <IconButton onClick={openHelp} sx={{ padding: 0 }}>
           <EmojiObjects />
         </IconButton>
       ),
-      onClick: () => help()
+      onClick: () => openHelp()
     },
     ...(isLoggedIn ?
       [

@@ -264,11 +264,9 @@
   "Handle Products": "Gérer les Produits",
   "hard_bounce": "définitivement rebondi",
   "Help": "Aide",
-  "Hide help button (this text is always accessible from main menu)": "Masquer le bouton d'aide (ce texte est toujours accessible depuis le menu principal)",
   "Home": "page d'accueil",
   "hour": "hour",
   "hours": "hours",
-  "How does this app work?": "Comment fonctionne cette application ?",
   "How It Works": "Comment ça fonctionne",
   "I’ve been using this web app — you should try it, it's really useful!": "J'utilise cette application web — vous devriez l'essayer, elle est vraiment utile !",
   "I've lost the page you did request! Sorry…": "J'ai perdu la page que vous avez demandée ! Désolé…",
@@ -508,8 +506,8 @@
   "Secure and Private": "Sécurisé et privé",
   "select a variable to insert in the message...": "sélectionnez une variable à insérer dans le message...",
   "Select All": "Tout sélectionner",
-  "Select Items": "Sélectionner des Éléments",
-  "Select Users": "Sélectionner les utilisateurs",
+  "Select items": "Sélectionner des éléments",
+  "Select users": "Sélectionner les utilisateurs",
   "Send email": "Envoyer un e-mail",
   "Send email to {{count}} selected users_one": "Envoyer un e-mail à l'utilisateur sélectionné",
   "Send email to {{count}} selected users_many": "Envoyer un e-mail aux {{count}} utilisateurs sélectionnés",
@@ -666,6 +664,5 @@
   "You can sign in with your new password": "Vous pouvez vous connecter avec votre nouveau mot de passe",
   "You can use the autocomplete feature to help you find the correct medicine: it is sufficent to start typing the medicine name. If you don't find your medicine in the list, digit one more letter: all Italian medicines are present. You can insert a part of the farm name, and the dosage, i.e.: \"Asp 500\"": "Vous pouvez utiliser la fonction d'autocomplétion pour vous aider à trouver le médicament correct : il suffit de commencer à taper le nom du médicament. Si vous ne trouvez pas votre médicament dans la liste, saisissez une lettre de plus : tous les médicaments italiens sont présents. Vous pouvez insérer une partie du nom de la ferme et le dosage, par exemple\u00a0: \"Asp 500\"",
   "You have completed the configration of this job: for {{oneOrManyMedicines}} you configured, a request will be sent via email to the doctor just in time when the medicine is needed.": "Vous avez terminé la configuration de ce activité : pour {{oneOrManyMedicines}} que vous avez configuré, une demande sera envoyée par e-mail au médecin juste à temps lorsque le médicament est nécessaire.",
-  "You must be authenticated for this action": "Vous devez être authentifié pour effectuer cette action",
-  "Your help text goes here...": "Votre texte d'aide s'affiche ici..."
+  "You must be authenticated for this action": "Vous devez être authentifié pour effectuer cette action"
 }

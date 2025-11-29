@@ -248,11 +248,9 @@
   "Handle Products": "Handle Products",
   "hard_bounce": "hard_bounce",
   "Help": "Help",
-  "Hide help button (this text is always accessible from main menu)": "Hide help button (this text is always accessible from main menu)",
   "Home": "Home",
   "hour": "hour",
   "hours": "hours",
-  "How does this app work?": "How does this app work?",
   "How It Works": "How It Works",
   "I’ve been using this web app — you should try it, it's really useful!": "I’ve been using this web app — you should try it, it's really useful!",
   "I've lost the page you did request! Sorry…": "I've lost the page you did request! Sorry…",
@@ -488,8 +486,8 @@
   "Secure and Private": "Secure and Private",
   "select a variable to insert in the message...": "select a variable to insert in the message...",
   "Select All": "Select All",
-  "Select Items": "Select Items",
-  "Select Users": "Select Users",
+  "Select items": "Select items",
+  "Select users": "Select users",
   "Send email": "Send email",
   "Send email to {{count}} selected users_one": "Send email to {{count}} selected user",
   "Send email to {{count}} selected users_other": "Send email to {{count}} selected users",
@@ -645,6 +643,5 @@
   "You can sign in with your new password": "You can sign in with your new password",
   "You can use the autocomplete feature to help you find the correct medicine: it is sufficent to start typing the medicine name. If you don't find your medicine in the list, digit one more letter: all Italian medicines are present. You can insert a part of the farm name, and the dosage, i.e.: \"Asp 500\"": "You can use the autocomplete feature to help you find the correct medicine: it is sufficent to start typing the medicine name. If you don't find your medicine in the list, digit one more letter: all Italian medicines are present. You can insert a part of the farm name, and the dosage, i.e. \"Asp 500\"",
   "You have completed the configration of this job: for {{oneOrManyMedicines}} you configured, a request will be sent via email to the doctor just in time when the medicine is needed.": "You have completed the configration of this job: for {{oneOrManyMedicines}} you configured, a request will be sent via email to the doctor just in time when the medicine is needed.",
-  "You must be authenticated for this action": "You must be authenticated for this action",
-  "Your help text goes here...": "Your help text goes here..."
+  "You must be authenticated for this action": "You must be authenticated for this action"
 }
