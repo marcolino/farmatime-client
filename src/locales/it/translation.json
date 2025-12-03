@@ -673,6 +673,10 @@
   "You can retry, or update your cart": "Puoi riprovare, oppure aggiornare il tuo carrello",
   "You can sign in with your new password": "Puoi accedere con la tua nuova password",
   "You can use the autocomplete feature to help you find the correct medicine: it is sufficent to start typing the medicine name. If you don't find your medicine in the list, digit one more letter: all Italian medicines are present. You can insert a part of the farm name, and the dosage, i.e.: \"Asp 500\"": "Puoi utilizzare la funzione di completamento automatico per trovare il farmaco corretto: è sufficiente iniziare a digitare il nome del farmaco. Se non trovi la tua farmaco nell'elenco, digita ancora una lettera: tutti i farmaci Italiani sono presenti. Puoi inserire una parte del nome del farmaco, e il dosaggio, es.: \"Asp 500\"",
+<<<<<<< HEAD
   "You have completed the configuration of this job: for {{oneOrManyMedicines}} you configured, a request will be sent via email to the doctor just in time when the medicine is needed.": "Hai completato la configurazione di questa attività: per {{oneOrManyMedicines}} che hai configurato, una richiesta verrà inviata via email al medico proprio in tempo quando il farmaco sarà necessario.",
+=======
+  "You have completed the configration of this job: for {{oneOrManyMedicines}} you configured, a request will be sent via email to the doctor just in time when the medicine is needed.": "Hai completato la configurazione di questa attività: per {{oneOrManyMedicines}} che hai configurato, verrà inviata una richiesta via e-mail al medico proprio nel momento in cui il farmaco sarà necessario.",
+>>>>>>> 648f52018e27f82308f8885bc1bbbdf43c1115d2
   "You must be authenticated for this action": "Devi essere autenticato per questa azione"
 }

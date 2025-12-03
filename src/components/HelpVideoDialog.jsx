@@ -22,14 +22,20 @@ export default function HelpVideoDialog() {
   const handleVideoState = () => {
     const video = videoRef.current;
     if (!video) return;
+<<<<<<< HEAD
     //console.log("VVV - handleVideoState", video.paused, video.ended, video);
+=======
+>>>>>>> 648f52018e27f82308f8885bc1bbbdf43c1115d2
     setShowOverlay(video.paused || video.ended);
   };
 
   // Autoplay when dialog opens
   useEffect(() => {
     if (open && videoRef.current) {
+<<<<<<< HEAD
       //console.log("VVV - autoplay video", videoRef.current);
+=======
+>>>>>>> 648f52018e27f82308f8885bc1bbbdf43c1115d2
       const v = videoRef.current;
       v.muted = true; // required for autoplay
       const playAttempt = v.play();
@@ -42,6 +48,7 @@ export default function HelpVideoDialog() {
       setShowOverlay(false);
     }
   }, [open]);
+<<<<<<< HEAD
   // useEffect(() => {
   //   console.log("VVV - autoplay video", open, videoRef?.current);
   //   if (open && videoRef.current) {
@@ -71,6 +78,8 @@ export default function HelpVideoDialog() {
   //     };
   //   }
   // }, [open]);
+=======
+>>>>>>> 648f52018e27f82308f8885bc1bbbdf43c1115d2
 
   // ESC closes dialog
   useEffect(() => {
@@ -113,16 +122,25 @@ export default function HelpVideoDialog() {
           controls
           autoPlay
           playsInline
+<<<<<<< HEAD
           preload="auto" // Force full preload instead of metadata only
           onPause={handleVideoState}
           onEnded={handleVideoState}
           onPlay={() => setShowOverlay(false)}
+=======
+>>>>>>> 648f52018e27f82308f8885bc1bbbdf43c1115d2
           style={{
             width: "100%",
             height: "auto",
             maxHeight: "90vh",
             display: "block",
           }}
+<<<<<<< HEAD
+=======
+          onPause={handleVideoState}
+          onEnded={handleVideoState}
+          onPlay={() => setShowOverlay(false)}
+>>>>>>> 648f52018e27f82308f8885bc1bbbdf43c1115d2
         />
 
         {/* Top overlay: Close button right, Checkbox left */}
@@ -161,7 +179,10 @@ export default function HelpVideoDialog() {
                   "& .MuiFormControlLabel-label": {
                     color: "white",
                     fontSize: "0.85rem",
+<<<<<<< HEAD
                     fontStyle: "italic",
+=======
+>>>>>>> 648f52018e27f82308f8885bc1bbbdf43c1115d2
                   },
                 }}
               />

@@ -517,7 +517,11 @@
   "select a variable to insert in the message...": "sélectionnez une variable à insérer dans le message...",
   "Select All": "Tout sélectionner",
   "Select items": "Sélectionner des éléments",
+<<<<<<< HEAD
   "Select users": "Sélectionner des utilisateurs",
+=======
+  "Select users": "Sélectionner les utilisateurs",
+>>>>>>> 648f52018e27f82308f8885bc1bbbdf43c1115d2
   "Send email": "Envoyer un e-mail",
   "Send email to {{count}} selected users_one": "Envoyer un e-mail à l'utilisateur sélectionné",
   "Send email to {{count}} selected users_many": "Envoyer un e-mail aux {{count}} utilisateurs sélectionnés",
@@ -673,6 +677,10 @@
   "You can retry, or update your cart": "Vous pouvez réessayer ou mettre à jour votre panier",
   "You can sign in with your new password": "Vous pouvez vous connecter avec votre nouveau mot de passe",
   "You can use the autocomplete feature to help you find the correct medicine: it is sufficent to start typing the medicine name. If you don't find your medicine in the list, digit one more letter: all Italian medicines are present. You can insert a part of the farm name, and the dosage, i.e.: \"Asp 500\"": "Vous pouvez utiliser la fonction d'autocomplétion pour vous aider à trouver le médicament correct : il suffit de commencer à taper le nom du médicament. Si vous ne trouvez pas votre médicament dans la liste, saisissez une lettre de plus : tous les médicaments italiens sont présents. Vous pouvez insérer une partie du nom de la ferme et le dosage, par exemple\u00a0: \"Asp 500\"",
+<<<<<<< HEAD
   "You have completed the configuration of this job: for {{oneOrManyMedicines}} you configured, a request will be sent via email to the doctor just in time when the medicine is needed.": "Vous avez terminé la configuration de cette tâche : pour {{oneOrManyMedicines}} que vous avez configurés, une demande sera envoyée par e-mail au médecin juste à temps lorsque le médicament sera nécessaire.",
+=======
+  "You have completed the configration of this job: for {{oneOrManyMedicines}} you configured, a request will be sent via email to the doctor just in time when the medicine is needed.": "Vous avez terminé la configuration de ce activité : pour {{oneOrManyMedicines}} que vous avez configuré, une demande sera envoyée par e-mail au médecin juste à temps lorsque le médicament est nécessaire.",
+>>>>>>> 648f52018e27f82308f8885bc1bbbdf43c1115d2
   "You must be authenticated for this action": "Vous devez être authentifié pour effectuer cette action"
 }
