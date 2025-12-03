@@ -14,6 +14,8 @@ export const JobProvider = ({ children }) => {
   const [jobs, setJobs] = useState([]);
   const [emailTemplate, setEmailTemplate] = useState(emailTemplateSkeleton);
   const [jobsError, setJobsError] = useState(null);
+  const [autosaveStatus, setAutosaveStatus] = useState('idle'); // 'idle' | 'saving' | 'saved' | 'error'
+  const [autosaveLastTime, setAutosaveLastTime] = useState(null);
 
   // const [draftChanges, setDraftChanges] = useState({}); // { jobId: boolean }
   // const jobDraftIsChanged = (jobId) => jobId && !!draftChanges[jobId];
@@ -93,17 +95,20 @@ export const JobProvider = ({ children }) => {
   const confirmJobsOnServer = async (jobsConfirmed) => {
     if (!auth?.user?.id) {
       setJobsError({ type: "auth", message: "User not logged in" });
+      setAutosaveStatus('error');
       return false;
     }
+
+    setAutosaveStatus('saving');
 
     try {
       // POST job data to server API - server encrypts & stores
       const response = await apiCall("post", "/user/updateUserJobs", {
-        //userId: auth.user.id, // not needed, it is in auth token
         jobs: jobsConfirmed,
       });
       if (response.err) {
         setJobsError({ type: "auth", message: response.message || t("Error saving jobs on server") });
+        setAutosaveStatus('error');
         return false;
       }
 
@@ -113,9 +118,16 @@ export const JobProvider = ({ children }) => {
       updateSignedInUserLocally({ jobs: jobsConfirmed });
       
       setJobsError(null);
+      setAutosaveStatus('saved');
+      setAutosaveLastTime(new Date());
+    
+      // Reset to idle after 2 seconds
+      setTimeout(() => setAutosaveStatus('idle'), 2000);
+      
       return true;
     } catch (err) {
       setJobsError({ type: "server", message: err.message || t("Failed saving jobs on server") });
+      setAutosaveStatus('error');
       return false;
     }
   };
@@ -245,6 +257,7 @@ export const JobProvider = ({ children }) => {
         jobs,
         setJobs,
         jobsError,
+        setJobsError,
         getJobById,
         getJobNumberById,
         getPlayPauseJob,
@@ -262,6 +275,8 @@ export const JobProvider = ({ children }) => {
         emailTemplate,
         setEmailTemplate,
         confirmEmailTemplateOnServer,
+        autosaveStatus,
+        autosaveLastTime,
       }}
     >
       {children}

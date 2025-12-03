@@ -21,6 +21,8 @@ import Routing from "./components/Routing";
 import PreferencesCookie  from "./components/PreferencesCookie";
 //import BackgroundVideo from "./components/BackgroundVideo";
 import ClientInfoDisplay from "./components/ClientInfoDisplay";
+import HelpVideoDialog from "./components/HelpVideoDialog";
+import FloatingBellHelp from "./components/FloatingBellHelp";
 import Loader from "./components/Loader";
 import { useAxiosLoader } from "./hooks/useAxiosLoader";
 import { useResponsiveTheme } from "./themes/default";
@@ -78,6 +80,7 @@ const AppStructure = () => {
   return (
     <ThemeProvider theme={theme}>
       <HelpProvider>
+        <HelpVideoDialog /> 
         <CartProvider>
           <MediaQueryProvider>
             <DialogProvider>
@@ -95,6 +98,7 @@ const AppStructure = () => {
                         {config.mode.development && <ClientInfoDisplay theme={theme} />}                      
                         <Contents theme={theme} changeLocale={changeLocale} toggleTheme={themeToggle}>
                           <Routing />
+                          <FloatingBellHelp />
                         </Contents>
                       </JobProvider>
                     </SessionExpirationHandler>

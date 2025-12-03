@@ -187,6 +187,9 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 5005,
       //host: true,
+      headers: {
+        'Accept-Ranges': 'bytes',
+      },
     },
     base: "/",
     build: {
@@ -227,7 +230,7 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: {
-        'mui-material-custom': path.resolve(__dirname, 'src/components/mui-material-custom'),
+        //'mui-material-custom': path.resolve(__dirname, 'src/components/mui-material-custom'),
         setimmediate: 'setimmediate/setImmediate.js',
         buffer: 'buffer',
         process: 'process/browser',

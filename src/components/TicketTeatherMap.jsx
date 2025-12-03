@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Container, SectionHeader1, Box, Button } from 'mui-material-custom';
+import {
+  Container,
+  Button
+} from '@mui/material';
+import { Box, SectionHeader } from '../components/custom';
 
 // Example data: 5 rows x 8 columns
 const generateSeatMap = (rows = 5, cols = 8) =>
@@ -44,9 +48,9 @@ const TicketTeatherMap = ({ rows = 5, cols = 8, onReserve }) => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <SectionHeader1>
+      <SectionHeader>
         {t('Teater seats map')}
-      </SectionHeader1>
+      </SectionHeader>
       
       <Box
         display="flex"

@@ -127,10 +127,6 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     setFieldSinceDate(tomorrowAsString()/*new Date()*/);
   }, []);
 
-  // useEffect(() => { // TODO: DEBUG ONLY !!!
-  //   console.log("£££ fieldSinceDate changed:", fieldSinceDate);
-  // }, [fieldSinceDate]);
-
   // Focus handling
   useEffect(() => {
     const inputRefs = {
@@ -284,7 +280,6 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     setFieldToFocus(field); // e.g. 'name', 'frequency', or 'date'
     setOption(item.option || null); // Restore the full option object
     setFieldFrequency(item.fieldFrequency);
-    console.log("£££ startEdit - calling setFieldSinceDate with date", new Date(item.fieldSinceDate));
     setFieldSinceDate(new Date(item.fieldSinceDate));
     setFieldMedicine(item.name);
     onEditingChange(true); // inform caller we are editing
@@ -546,7 +541,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                           px: { sm: 1, md: 4.5 },
                         }}
                       >
-                        {mode === 'add' ? t('Add') : t('Update')}
+                        {mode === 'add' ? t('Add') : t('Confirm')}
                       </Button>
                       {(mode === 'update' || mode === 'add') && (
                         <Button

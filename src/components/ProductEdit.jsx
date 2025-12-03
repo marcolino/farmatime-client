@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 //import { useTheme } from "@mui/material/styles";
 import { Grid, Box } from "@mui/material";
-import { Button } from "./custom";
+import { Button } from "../components/custom";
 import SectionHeader from "./custom/SectionHeader";
 import ImageContainer from "./ImageContainer";
-import { TextField, Select } from "./custom";
+import { TextField, Select } from "../components/custom";
 import { apiCall } from "../libs/Network";
 import { useSnackbarContext } from "../hooks/useSnackbarContext"; 
 import {
@@ -157,7 +157,7 @@ function ProductEdit() {
 
   const validateForm = () => {
     //let response;
-    // validate fields formally // TODO: validate fields according application needs
+    // validate fields formally
 
     return true;
   };

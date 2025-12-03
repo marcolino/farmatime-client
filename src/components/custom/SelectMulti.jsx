@@ -163,13 +163,13 @@ const SelectMulti = ({ options, value, onChangeValue, sx, labels }) => {
 
   return (
     <FormControl sx={sx}>
-      <InputLabel id="multi-select-label">{labels["Select Items"] || t("Select Items")}</InputLabel>
+      <InputLabel id="multi-select-label">{labels["Select items"] || t("Select items")}</InputLabel>
       <Select
         labelId="multi-select-label"
         multiple
         value={getSelectedItemIds()}
         onChange={handleChange}
-        input={<OutlinedInput label={labels["Select Items"] || t("Select Items")} />}
+        input={<OutlinedInput label={labels["Select items"] || t("Select items")} />}
         renderValue={renderValue}
         MenuProps={MenuProps}
         open={open}
@@ -192,7 +192,7 @@ const SelectMulti = ({ options, value, onChangeValue, sx, labels }) => {
         <Box sx={{ p: 1 }} key="search-box">
           <TextField
             size="small"
-            placeholder={labels["Search Items"] || t("Search Items")}
+            placeholder={labels["Search items"] || t("Search items")}
             value={searchTerm}
             onChange={handleSearchChange}
             slotProps={{

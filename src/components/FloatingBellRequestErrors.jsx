@@ -6,22 +6,18 @@ import { useVisibilityPolling } from "../hooks/useVisibilityPolling";
 
 
 const FloatingBellRequestErrors = ({ pollingCallback, onOkCallback, pollingRefreshKey }) => {
-  //const { isLoggedIn, auth } = useContext(AuthContext);
   const requestErrorsRef = useRef([]);
   const memoizedPoll = useCallback(async () => {
     try {
       const response = await pollingCallback();
       if (response.err) {
-        if (response.code === "EXPIRED_TOKEN") {
-          console.info("Token expired while polling server"); // TODO: DEBUG ONLY (ignore this use case)
+        if (response.code === "EXPIRED_TOKEN") { // Token expired while polling server
+          //console.info("Token expired while polling server");
         } else {
           console.error("Error while polling server:", response);
         }
         return; // prevent clearing requestErrorsRef
       }
-      // if (!response.err) {
-      //   requestErrorsRef.current = response.requestErrors || [];
-      // }
     } catch (err) {
       console.error("Polling server failed:", err);
     }

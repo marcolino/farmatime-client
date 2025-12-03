@@ -17,8 +17,7 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import { TextFieldSearch, Button } from "./custom";
-import { SectionHeader1, TableCellLastSticky } from "mui-material-custom";
+import { TextFieldSearch, Button, SectionHeader, TableCellLastSticky } from "../components/custom";
 import { Search, Edit, Delete, AccountCircle as ProfileIcon, } from "@mui/icons-material";
 import DialogEmailCreation from "./DialogEmailCreation";
 import { AuthContext } from "../providers/AuthContext";
@@ -317,9 +316,9 @@ const UserTable = () => {
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
-      <SectionHeader1>
+      <SectionHeader>
         <ProfileIcon fontSize="large" /> {t("Users handling")}
-      </SectionHeader1>
+      </SectionHeader>
 
       <Box sx={{
         my: theme.spacing(2),

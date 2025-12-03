@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { styled } from "@mui/system";
 import config from "../config";
 
-const video = `/videos/${config.ui.backgroundVideo}.mp4`; // files must be in public/videos/
+const video = `/videos/background/${config.ui.backgroundVideo}.mp4`; // files must be in public/videos/background/
 const StyledVideo = styled("video")({
   position: "fixed",
   objectFit: "cover",

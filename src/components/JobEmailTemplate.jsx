@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import {
   Container,
-  Box,
   Button,
   Typography,
   TextField,
@@ -15,7 +14,8 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-} from 'mui-material-custom';
+} from '@mui/material';
+import { Box } from '../components/custom';
 import {
   Edit as EditIcon,
   Preview as PreviewIcon,

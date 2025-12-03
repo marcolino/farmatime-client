@@ -1,8 +1,9 @@
 import {
-  Box,
   Paper,
   styled
-} from 'mui-material-custom';
+} from '@mui/material';
+import { Box } from '../components/custom';
+
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   marginTop: theme.spacing(4),

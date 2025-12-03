@@ -1,15 +1,22 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { HelpContext } from "./HelpContext";
 
 export const HelpProvider = ({ children }) => {
-  const [showHelpIcon, setShowHelpIcon] = useState(() => {
-    // Initialize from localStorage
-    const saved = localStorage.getItem("hideHelpButton");
-    return saved !== "true"; // if hideHelpButton=true, showHelpIcon=false
-  });
+  const [open, setOpen] = useState(false); // dialog open state
+  const [showHelpIcon, setShowHelpIcon] = useState(
+    localStorage.getItem("hideHelpButton") !== "true"
+  );
+
+  const value = useMemo(() => ({
+    showHelpIcon,
+    setShowHelpIcon,
+    openHelp: () => setOpen(true),
+    closeHelp: () => setOpen(false),
+    open
+  }), [showHelpIcon, open]);
 
   return (
-    <HelpContext.Provider value={{ showHelpIcon, setShowHelpIcon }}>
+    <HelpContext.Provider value={value}>
       {children}
     </HelpContext.Provider>
   );

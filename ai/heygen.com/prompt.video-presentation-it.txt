@@ -1,0 +1,29 @@
+Please produce a video of a female 25 years old white doctor (half-length, like a in a TV news program: she should be visible from the head to the belt and a little more), with a stethoscope on the shoulders, who reads the following Italian text, with subtitles.
+The voice should be clear, professional, but also with nice and bright tones.
+No B-roll.
+IMPORTANT: PLEASE DO NOT IMPOSE ADDITIONAL TEXT OVER THE IMAGE. ONLY SUBTITLES.
+If possible the form factor of the video should be 4/3 (portrait mode).
+The text:
+
+Ciao! Provo a spiegarti brevemente a cosa serve e come funziona questa applicazione web!
+
+Con questa app puoi pianificare le richieste di prescrizione di medicinali per uno o più pazienti, in modo che le ricette arrivino nella loro casella di posta al momento giusto.
+
+Inizialmente è necessario accedere, utilizzando il tuo account Google, oppure la tua email.
+
+Come primo passo dovrai impostare una "attività", indicando il nome e l'email del paziente e del medico a cui chiedere la prescrizione.
+
+Nel secondo passo sceglierai uno o più medicinal - digitando i primi caratteri del nome del farmaco, potrai selezionare il farmaco nell'elenco che otterrai. Insieme al medicinale, indicherai la data in cui verrà richiesta la prima prescrizione, e la frequenza delle richieste successive.
+Ad esempio, se hai quasi finito l'Aspirina, dovresti scegliere la tipologia che preferisci, ad esempio in compresse o bustine, e i milligrammi; poi puoi scegliere - come prima data di richiesta - domani, e, se pensi di consumarla in un mese, una frequenza di 30 giorni.
+
+Nel terzo e ultimo passo, puoi semplicemente rivedere le tue scelte e confermare l'attività.
+
+A questo punto hai finito, l'app inizierà a richiedere al medico i farmaci che hai elencato, quando occorre.
+
+È possibile impostare diverse attività, anche per diversi pazienti. Poiché però l'app è completamente gratuita, il numero totale di richieste è attualmente limitato a 32 per utente.
+
+Se lo desideri, puoi personalizzare l'email che verrà inviata al medico, nel menu principale "opzioni avanzate".
+
+L'app è multilingue; puoi cambiare la lingua che preferisci cliccando sulla bandierina in basso. Attualmente supportiamo italiano, inglese e francese.
+
+Buona pianificazione!

@@ -18,8 +18,8 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
-import { TextFieldSearch, Button } from "./custom";
-import { SectionHeader1, TableCellLastSticky } from "mui-material-custom";
+import { TextFieldSearch, Button } from "../components/custom";
+import { SectionHeader, TableCellLastSticky } from "../components/custom";
 import { Search, Edit, Delete, AddCircleOutline, PlayArrow, Pause, FormatListBulleted } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
@@ -84,28 +84,6 @@ const JobsTable = () => {
       showSnackbar(message, "error");
     }
   }, [jobsError, showSnackbar, t]);
-
-  // // Check user is logged in (T O D O: implement for all authenticated routes, possibly using a higher-order component)
-  // useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     console.warn('User must be logged in');
-  //     navigate("/", { replace: true })
-  //   }
-  // }, [isLoggedIn]);
-
-  // Confirm job changes
-  // useEffect(() => {
-  //   if (shouldConfirm) {
-  //     (async () => {
-  //       console.log("Confirming jobs on server...", jobs);
-  //       if (!await confirmJobsOnServer()) {
-  //         return;
-  //       }
-  //     })();
-  //     setShouldConfirm(false);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [shouldConfirm]);
 
   // Check if current page is still valid (for example after a row deletion); otherwise go back one page
   useEffect(() => {
@@ -259,8 +237,8 @@ const JobsTable = () => {
 
     const valueFor = (job) => getColumnValue(job, sortColumn);
 
-    const definedValues = jobs.filter(j => valueFor(j) !== undefined && valueFor(j) !== null);
-    const undefinedValues = jobs.filter(j => valueFor(j) === undefined || valueFor(j) === null);
+    const definedValues = jobs?.filter(j => valueFor(j) !== undefined && valueFor(j) !== null);
+    const undefinedValues = jobs?.filter(j => valueFor(j) === undefined || valueFor(j) === null);
 
     definedValues.sort((a, b) => {
       const va = valueFor(a);
@@ -405,9 +383,9 @@ const JobsTable = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: isMobile ? 2 : 4 }}>
-      <SectionHeader1>
+      <SectionHeader>
         <FormatListBulleted fontSize="large" /> {t("Jobs list")}
-      </SectionHeader1>
+      </SectionHeader>
 
       <Box sx={{
         my: theme.spacing(2),

@@ -208,16 +208,6 @@ const PreferencesNotification = (props) => {
 
   return (
     <>
-      {/* <SectionHeader>
-        {props.section === "all" && t("Notification preferences")}
-        {props.section === "email" && props.action === "preferences" && t("Email preferences")}
-        {props.section === "email" && props.action === "unsubscribe" && t("Email unsubscribe")}
-        {props.section === "push" && props.action === "preferences" && t("Push notifications preferences")}
-        {props.section === "push" && props.action === "unsubscribe" && t("Push notifications unsubscribe")}
-        {props.section === "sms" && props.action === "preferences" && t("SMS preferences")}
-        {props.section === "sms" && props.action === "unsubscribe" && t("SMS unsubscribe")}
-      </SectionHeader> */}
-
       <Container maxWidth="md">
         <Box>
           {/* email notifications */}

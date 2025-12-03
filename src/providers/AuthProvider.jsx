@@ -34,8 +34,6 @@ const AuthProvider = (props) => {
     signOutInProgress.current = true;
 
     try {
-      //console.info("signOut - auth.user.id:", auth.user.id); // TODO: DEBUG ONLY
-
       clearSessionTimer(); // Clear timer immediately to prevent race conditions
         
       if (isLoggedIn) {
@@ -46,7 +44,7 @@ const AuthProvider = (props) => {
           if (result.err && result.code !== "EXPIRED_TOKEN") {
             console.error("sign out on server error:", result.message);
           } else {
-            //console.info("sign out on server successful", result); // TODO: DEBUG ONLY
+            //console.info("sign out on server successful", result);
           }
         } catch (err) {
           console.error("sign out on server exception:", err.message);
@@ -59,7 +57,7 @@ const AuthProvider = (props) => {
 
       localStorage.setItem('session_expired', Date.now()); // Notify other tabs
 
-      //console.info(`sign out completed (reason: ${reason})`); // TODO: DEBUG ONLY
+      //console.info(`sign out completed (reason: ${reason})`);
       return true;
     } catch (err) {
       console.error("sign out exception:", err.message);

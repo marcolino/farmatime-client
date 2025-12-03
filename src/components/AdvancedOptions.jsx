@@ -1,4 +1,3 @@
-//import React from "react";
 import { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -22,19 +21,13 @@ import {
 } from "@mui/icons-material";
 import { AuthContext } from "../providers/AuthContext";
 import { CartContext } from "../providers/CartContext";
-//import { JobContext } from "../providers/JobContext";
-//import { useDialog } from "../providers/DialogContext";
 import { useSnackbarContext } from "../hooks/useSnackbarContext";
-//import { cancelAllRequests } from "../middlewares/Interceptors";
 import { apiCall } from "../libs/Network";
 import { isAdmin } from "../libs/Validation";
-// import { fetchBuildInfoData } from "../libs/Misc";
 import DialogConfirm from './DialogConfirm';
 import { StyledPaper, StyledBox } from './JobStyles';
-import { SectionHeader1, useTheme } from 'mui-material-custom';
-// import clientPackageJson from "../../package.json";
-// import serverPackageJson from "../../../farmatime-server/package.json"; // WARNING: this depends on folders structure...
-// import config from "../config";
+import { SectionHeader } from '../components/custom';
+import { useTheme } from '@mui/material';
 
 
 const AdvancedOptions = () => {
@@ -197,9 +190,9 @@ const AdvancedOptions = () => {
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
-      <SectionHeader1>
+      <SectionHeader>
         {t("Advanced Options")}
-      </SectionHeader1>
+      </SectionHeader>
 
       {Object.entries(groupedTools).map(([section, tools], idx) => {
         if ((section === "Administration") && !isAdmin(auth.user)) {

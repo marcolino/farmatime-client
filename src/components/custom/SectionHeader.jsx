@@ -1,46 +1,75 @@
-import { Paper, Box, Typography } from "@mui/material";
-import { styled } from "@mui/system";
+import {
+  Paper,
+  Typography,
+  Box,
+} from "@mui/material";
+import { useMediaQueryContext } from "../../providers/MediaQueryContext";
 
-const HeaderBar = styled(Box)(({ theme }) => ({
-  bgColor: theme.palette.nature.light,
-  width: "100%",
-  position: "relative",
-  marginTop: theme.spacing(2),
-  marginBottom: theme.spacing(2),
-  borderRadius: 6,
-  padding: theme.spacing(4),
-  overflow: "visible", // Ensure the text can escape the bar
-}));
-
-const HeaderText = styled(Typography)(({ theme }) => ({
-  textAlign: "right",
-  //bgColor: "transparent",
-  color: theme.palette.gun.dark,
-  textTransform: "uppercase",
-  fontWeight: "bold",
-  fontSize: "1.8rem !important",
-  //textShadow: "#fff 1px 1px",
-  //letterSpacing: 0,
-  lineHeight: 1.0,
-  position: "relative",
-  top: 0, 
-  zIndex: 2, // ensure text is above the bar
-  overflow: "visible", // ensure the text can escape the header
-}));
-
-const SectionHeader = ({
+export function SectionHeader({
+  bottomIndicator,
   ...props
-}) => {
+}) {
+  const { isMobile } = useMediaQueryContext();
+
+  // // Calculate fixed heights
+  // const headerHeight = isMobile ? 100 : 120; // Fixed total height
+  // const contentHeight = isMobile ? 60 : 80; // Height for main content
+  // const indicatorAreaHeight = isMobile ? 40 : 40; // Reserved space for indicator
+
   return (
-    <Paper elevation={0} sx={{ position: "relative", overflow: "visible" }}>
-      <HeaderBar>
-        <HeaderText>
+    <Box sx={{ 
+      position: 'relative', 
+      mb: isMobile ? 2 : 4,
+      height: isMobile ? '100px' : '120px',
+    }}>
+      <Paper
+        elevation={0}
+        sx={{
+          p: 3,
+          bgcolor: 'primary.main',
+          color: 'info.contrastText',
+          height: '100%',
+          boxSizing: 'border-box',
+        }}
+      >
+        <Typography 
+          variant="h4" 
+          align="center" 
+          sx={{
+            fontSize: isMobile ? "1.4em!important" : "2.4em!important",
+            fontWeight: 'bold',
+            userSelect: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 2,
+            height: '100%',
+          }}
+        >
           {props.children}
-        </HeaderText>
-      </HeaderBar>
-    </Paper>
+        </Typography>
+      </Paper>
+      
+      {/* Indicator overlay positioned at bottom */}
+      {bottomIndicator && (
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: isMobile ? 4 : 6,
+            right: isMobile ? 8 : 12,
+            left: isMobile ? 8 : 12,
+            display: 'flex',
+            justifyContent: 'flex-end',
+            pointerEvents: 'none', // Allow clicks to pass through
+          }}
+        >
+          <Box sx={{ pointerEvents: 'auto' }}> {/* Re-enable for indicator */}
+            {bottomIndicator}
+          </Box>
+        </Box>
+      )}
+    </Box>
   );
 };
 
 export default SectionHeader;
-

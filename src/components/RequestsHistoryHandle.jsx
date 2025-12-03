@@ -21,9 +21,8 @@ import {
   Tooltip,
   Collapse,
 } from "@mui/material";
-import { TextFieldSearch, Legenda, StatusDot, SelectMulti} from "./custom";
-import { SectionHeader1, TableCellLastSticky } from "mui-material-custom";
-import { History, Search, KeyboardArrowUp, KeyboardArrowDown/*, Person*/ } from "@mui/icons-material";
+import { TextFieldSearch, Legenda, StatusDot, SelectMulti, SectionHeader, TableCellLastSticky } from "../components/custom";
+import { History, Search, KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import LocalStorage from "../libs/LocalStorage";
 //import { useDialog } from "../providers/DialogContext";
@@ -542,9 +541,9 @@ const RequestsHistoryTable = () => {
   
   return (
     <Container maxWidth="lg" sx={{ py: isMobile ? 2 : 4 }}>
-      <SectionHeader1>
+      <SectionHeader>
         <History fontSize="large" /> {t("Requests history")}
-      </SectionHeader1>
+      </SectionHeader>
 
       <Box sx={{
         my: theme.spacing(2),
@@ -562,8 +561,8 @@ const RequestsHistoryTable = () => {
             onChangeValue={setSelectedUsers}
             sx={{ minWidth: { xs: 150, sm: 360 } }}
             labels={{
-              "Select Items": t("Select Users"),
-              "Search Items": t("Search Users"),
+              "Select items": t("Select users"),
+              "Search items": t("Search users"),
               "items": t("users"),
               "No items found": t("No users found"),
               "No items available": t("No users available"),

@@ -1,5 +1,5 @@
-import { Typography } from "@mui/material";
-import { useTheme } from 'mui-material-custom';
+import { Typography, useTheme } from "@mui/material";
+
 
 const FloatingLogo = ({ text }) => {
   const theme = useTheme();

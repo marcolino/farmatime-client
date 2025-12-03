@@ -122,39 +122,6 @@ function SignIn() {
     }  
   };
 
-  /*
-  useEffect(() => {
-    // Clear any stale session storage on app start
-    localStorage.removeItem('session_expired');
-  }, []);
-  */
-  
-  /*
-  useEffect(() => {
-    if (location.state?.reason) {
-      switch (location.state.reason) {
-        case "expired":
-        case "session_expired":
-          showDialog({
-            title: t("Session expired") + " (reason: " + location.state.reason + ")", // TODO: DEBUG ONLY
-            message: t("Session has expired. Please sign in again."),
-            confirmText: t("Ok"),
-            onConfirm: () => delete location.state.reason,
-          });
-          break;
-        default: // should not happen
-          showDialog({
-            title: t("Session expired") + " (reason: " + location.state.reason + ")", // TODO: DEBUG ONLY
-            message: location.state?.reason,
-            confirmText: t("Ok"),
-            onConfirm: () => delete location.state.reason,
-          });
-        //alert("REASON: " + location.state.reason);
-      }
-    }
-  }, [location.state, showDialog, t]);
-  */
-
   return (
     <form name="signin" noValidate autoComplete="on">
       <Box

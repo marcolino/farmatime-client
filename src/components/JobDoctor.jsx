@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Container,
-  Box,
   Typography,
   TextField,
-} from "mui-material-custom";
+} from "@mui/material";
+import { Box } from "../components/custom";
 import { ContextualHelp } from "./ContextualHelp";
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { validateAllFields, mapErrorCodeToMessage } from "../libs/Validation";
@@ -24,24 +24,6 @@ const JobDoctor = ({ jobDraft, data, fields, onChange, onValid, hasNavigatedAway
     setErrors((prev) => ({ ...prev, [field]: "" })); // clear error when editing
   };
 
-  /*
-  useEffect(() => {
-    if (onValid) {
-      const valid = validateAllFields(fields, data);
-      onValid(valid);
-
-      const newErrors = {};
-      fields.forEach((field) => {
-        const result = field.isValid(data[field.key]);
-        if (result !== true) {
-          newErrors[field.key] = mapErrorCodeToMessage(result);
-        }
-      });
-      setErrors(newErrors);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
-  */
   useEffect(() => {
     if (!onValid) return;
 

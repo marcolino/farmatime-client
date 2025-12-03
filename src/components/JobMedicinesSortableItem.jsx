@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Box, ListItem, Typography, IconButton, Tooltip, Paper, styled } from 'mui-material-custom';
+import { ListItem, Typography, IconButton, Tooltip, Paper, styled } from '@mui/material';
+import { Box } from '../components/custom';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';

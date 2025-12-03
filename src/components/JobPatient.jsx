@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import {
   Container,
-  Box,
   Typography,
   TextField,
-} from 'mui-material-custom';
+} from '@mui/material';
+import { Box } from '../components/custom';
 import { ContextualHelp } from './ContextualHelp';
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { validateAllFields, mapErrorCodeToMessage } from '../libs/Validation';

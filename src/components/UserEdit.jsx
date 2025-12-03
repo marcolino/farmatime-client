@@ -17,8 +17,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { TextField, TextFieldPhone, Select, Button } from "./custom";
-import { SectionHeader1 } from "mui-material-custom";
+import { TextField, TextFieldPhone, Select, Button, SectionHeader } from "../components/custom";
 import { apiCall } from "../libs/Network";
 import { objectsAreEqual } from "../libs/Misc";
 import { useDialog } from "../providers/DialogContext";
@@ -351,9 +350,9 @@ function UserEdit() {
   if (user && allRoles && allPlans) {
     return (
       <>
-        <SectionHeader1 text={t("Users handling")}>
+        <SectionHeader text={t("Users handling")}>
           <AccountCircle fontSize="large" /> {origin === "userEdit" ? t("Edit user") : t("Edit profile")}
-        </SectionHeader1>
+        </SectionHeader>
         
         <Container maxWidth="xs">
           <Box display="flex" flexDirection="column" gap={2}>

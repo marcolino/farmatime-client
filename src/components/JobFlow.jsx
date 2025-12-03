@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  Box,
   Button,
   IconButton,
   Tooltip,
@@ -12,8 +11,8 @@ import {
   Step,
   StepLabel,
   Typography,
-  SectionHeader1
-} from 'mui-material-custom';
+} from '@mui/material';
+import { Box, SectionHeader } from '../components/custom';
 import { ArrowBack, ArrowForward, Check, Menu, Clear } from '@mui/icons-material';
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
 import { JobContext, steps, fieldsPatient, fieldsDoctor } from '../providers/JobContext';
@@ -21,10 +20,14 @@ import { useDialog } from "../providers/DialogContext";
 import { validateAllFields } from '../libs/Validation';
 import { objectsAreDeepEqual } from '../libs/Misc';
 import { useSnackbarContext } from "../hooks/useSnackbarContext";
+import { useOnlineStatus } from '../hooks/useOnlineStatus';
+import { useDebounce } from '../hooks/useDebounce';
 import JobPatient from './JobPatient';
 import JobDoctor from './JobDoctor';
 import JobMedicines from './JobMedicines';
 import JobConfirmationReview from './JobConfirmationReview';
+import AutosaveIndicator from './custom/AutosaveIndicator';
+
 
 const JobFlow = () => {
   const { jobId } = useParams();
@@ -34,8 +37,8 @@ const JobFlow = () => {
   const { showSnackbar } = useSnackbarContext();
   const { showDialog } = useDialog();
   const {
-    getJobById, getJobNumberById, confirmJob, setJobs, confirmJobsOnServer, jobIsEmpty, jobsError, clearJobsError,
-    jobDraftIsDirty, setJobDraftDirty, emailTemplate, setEmailTemplate, confirmEmailTemplateOnServer,
+    getJobById, getJobNumberById, confirmJob, jobs, setJobs, confirmJobsOnServer, jobIsEmpty, jobsError, /*setJobsError,*/
+    clearJobsError, jobDraftIsDirty, setJobDraftDirty, emailTemplate, setEmailTemplate, confirmEmailTemplateOnServer,
   } = useContext(JobContext);
 
   // The job draft we edit in this component
@@ -58,6 +61,13 @@ const JobFlow = () => {
   // State to track if medicines are being edited
   const [isMedicinesEditing, setIsMedicinesEditing] = useState(false);
   
+  const isOnline = useOnlineStatus();
+  const debouncedJobDraft = useDebounce(jobDraft, 1000); // 1 second debounce
+  const { autosaveStatus, autosaveLastTime } = useContext(JobContext);
+  const hasShownErrorRef = useRef(false);
+  const [forceRetry, setForceRetry] = useState(false);
+  
+
   // Watch both validation states for first step and update step completion accordingly
   useEffect(() => {
     handleStepCompleted(0, patientValid && doctorValid);
@@ -67,8 +77,8 @@ const JobFlow = () => {
     if (!jobDraft?.id) {
       showSnackbar(t("Job not found!"), "error");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // run once on mount
+    // e_slint-disable-next-line react-hooks/exhaustive-deps
+  }, [jobDraft.id, showSnackbar, t]);
   
   // When entering component, if editing a new job set date of creation to now, otherwise set currentStep to 0
   useEffect(() => {
@@ -98,7 +108,7 @@ const JobFlow = () => {
 
   // Show job errors to the user
   useEffect(() => {
-    if (jobsError) {
+    if (jobsError && !hasShownErrorRef.current) {
       let message;
       if (jobsError.type === "load") {
         message = `${t("Failed to load jobs")}. ${t("Please try again")}.`;
@@ -107,22 +117,29 @@ const JobFlow = () => {
       } else {
         message = jobsError.message ?? "An unexpected error occurred.";
       }
+      
       showSnackbar(message, "error");
-      clearJobsError(); // Reset error so it doesn't retrigger
+      hasShownErrorRef.current = true;
     }
-  }, [jobsError, clearJobsError, showSnackbar, t]);
-
+    
+    // Reset the ref when jobsError becomes null/undefined
+    if (!jobsError) {
+      hasShownErrorRef.current = false;
+    }
+  }, [jobsError, showSnackbar, t]);
+  
   // Warn user before unloading this page/tab if job draft was changed and not saved (confirmed)
   useEffect(() => {
     const handleBeforeUnload = (e) => {
-      if (jobDraftIsDirty) {
+      // Only warn if offline and there are unsaved changes
+      if (!isOnline && jobDraftIsDirty) {
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [jobDraftIsDirty, jobId]);
+  }, [jobDraftIsDirty, isOnline]);
   
   // If not all previous steps are completed, then set last step completion to false
   useEffect(() => {
@@ -161,6 +178,56 @@ const JobFlow = () => {
     }
   }, [jobDraft]);
   
+  // Auto-save effect - saves changes automatically after debounce
+  useEffect(() => {
+    // Skip auto-save if:
+    // - Job hasn't been initialized yet
+    // - It's a brand new job that hasn't been saved once
+    // - There are no changes
+    // - User is offline
+
+    // if (!jobDraftOriginalRef.current) console.log("skipping autosave because job hasn't been initialized yet");
+    // if (jobDraft.id === 'new') console.log("skipping autosave because it's a new job");
+    // if (!jobDraftIsDirty) console.log("skipping autosave because there are no changes");
+    // if (!isOnline) console.log("skipping autosave because user is offline");
+    if (
+      !jobDraftOriginalRef.current || 
+      jobDraft.id === 'new' || 
+      !jobDraftIsDirty || 
+      !isOnline
+    ) {
+      return;
+    }
+
+    (async () => {
+      // Only auto-save if job already exists (not new)
+      const jobsConfirmed = confirmJob(debouncedJobDraft);
+      const success = await confirmJobsOnServer(jobsConfirmed);
+      
+      if (success) {
+        //console.log("autosave finished with success");
+        // Update the original ref to match current state
+        jobDraftOriginalRef.current = structuredClone(debouncedJobDraft);
+        setJobs(jobsConfirmed);
+        setJobDraftDirty(false);
+        clearJobsError(); // Reset error after a successful save
+      }
+      //else console.log("autosave finished with error");
+
+      setForceRetry(false);
+    })();
+  }, [debouncedJobDraft, isOnline, forceRetry]); // eslint-disable-line react-hooks/exhaustive-deps
+  
+  // Warn user if they try to edit while offline
+  useEffect(() => {
+    if (!isOnline && jobDraftIsDirty) {
+      showSnackbar(
+        t("You are offline. Changes cannot be saved until you are back online."),
+        "warning"
+      );
+    }
+  }, [isOnline, jobDraftIsDirty, showSnackbar, t]);
+
   // Check if current step is the final one
   const isLastStep = () => {
     return jobDraft?.currentStep === steps().length - 1;
@@ -273,42 +340,45 @@ const JobFlow = () => {
   };
 
   const handleConfirm = async () => {
-    // if not all previous steps are completed, show a warning and return...
+    // Check if all steps are completed
     if (!allStepsCompleted()) {
       return showSnackbar(t("Please complete all steps"), "warning");
     }
 
     const wasNew = jobDraft.id === 'new';
 
-    const jobDraftConfirmed = {
-      ...jobDraft,
-      stepsCompleted: (jobDraft.stepsCompleted.map((val, idx) => idx === steps().length - 1 ? true : val)),
-      isActive: jobDraft.isActive || wasNew/*!jobDraft.isConfirmed*/, // Mark job as active if job was active or unconfirmed
-      //isConfirmed: true, // Mark job as confirmed
-      timestampLastModification: Date.now(), // Set timestamp of last modification to now
-    };
-
-    const jobsConfirmed = confirmJob(jobDraftConfirmed);
-    if (await confirmJobsOnServer(jobsConfirmed)) {
-      setJobDraft(jobDraftConfirmed);
-      setJobs(jobsConfirmed);
-    } else { // errors are handled with jobsError
-      return;
-    }
-    
-    // this is needed if email template has never been ssaved for rthis user (as it usually happens)
-    if (await confirmEmailTemplateOnServer(emailTemplate)) {
-      setEmailTemplate(emailTemplate);
-    } else { // errors are handled with jobsError
-      return;
-    }
-    
-    // jobs are confirmed on server: show dialog to the user
     if (wasNew) {
+      // For new jobs, this is the first save - create and activate
+      const jobDraftConfirmed = {
+        ...jobDraft,
+        stepsCompleted: jobDraft.stepsCompleted.map((val, idx) => 
+          idx === steps().length - 1 ? true : val
+        ),
+        isActive: true,
+        timestampLastModification: Date.now(),
+      };
+
+      const jobsConfirmed = confirmJob(jobDraftConfirmed);
+      if (await confirmJobsOnServer(jobsConfirmed)) {
+        setJobDraft(jobDraftConfirmed);
+        setJobs(jobsConfirmed);
+      } else {
+        return;
+      }
+      
+      // Save email template if needed
+      if (await confirmEmailTemplateOnServer(emailTemplate)) {
+        setEmailTemplate(emailTemplate);
+      } else {
+        return;
+      }
+      
+      // Show success dialog for new jobs
       const forTheMedicine = t("the medicine");
       const forTheMedicines = t("each of the {{num}} medicines", { num: jobDraft.medicines.length });
+      
       showDialog({
-        title:
+        title: (
           <Box>
             <Typography variant="h4" align="center" color="info.contrastText" sx={{ fontWeight: "bold", mt: 2 }}>
               {t("Well done!")}
@@ -316,71 +386,87 @@ const JobFlow = () => {
             <Typography variant="h3" align="center" sx={{ my: 2 }}>
               🏁
             </Typography>
-          </Box>,
-        message:
+          </Box>
+        ),
+        message: (
           <Box>
             <Typography variant="body2" sx={{ mt: 3 }}>
-              {t("\
-You have completed the configration of this job: for {{oneOrManyMedicines}} you configured, \
+              {t(
+                "You have completed the configuration of this job: for {{oneOrManyMedicines}} you configured, \
 a request will be sent via email to the doctor \
 just in time when the medicine is needed.",
-                { oneOrManyMedicines: jobDraft.medicines.length === 1 ? forTheMedicine : forTheMedicines })
-              }
+                { oneOrManyMedicines: jobDraft.medicines.length === 1 ? forTheMedicine : forTheMedicines }
+              )}
             </Typography>
             <Typography variant="body2" sx={{ mt: 2 }}>
-              {t("\
-Now, you will be able to see the job in your jobs list, where you can manage it by suspending, editing, or deleting it.")}
+              {t("Now, you will be able to see the job in your jobs list, where you can manage it by suspending, editing, or deleting it.")}
             </Typography>
-          </Box>,
+          </Box>
+        ),
         confirmText: t("Ok"),
         onConfirm: () => {
-          setHasNavigatedAway(true);
           jobDraftOriginalRef.current = structuredClone(jobDraftConfirmed);
           setJobDraftDirty(false);
           navigate('/jobs-handle', { replace: true });
         }
       });
     } else {
-      showSnackbar(t("Job confirmed"), 'info');
-      setHasNavigatedAway(true);
-      jobDraftOriginalRef.current = structuredClone(jobDraftConfirmed);
-      setJobDraftDirty(false);
-      navigate('/jobs-handle', { replace: true });
-      // showDialog({
-      //   title: t("Job confirmed"),
-      //   message: t("You can now see this job in your jobs list."),
-      //   confirmText: t("Ok"),
-      //   onConfirm: () => {
-      //     setHasNavigatedAway(true);
-      //     navigate('/jobs-handle', { replace: true });
-      //   }
-      // });
+      // For existing jobs, just mark as activated and navigate back
+      const jobDraftConfirmed = {
+        ...jobDraft,
+        isActive: true,
+        timestampLastModification: Date.now(),
+      };
+
+      const jobsConfirmed = confirmJob(jobDraftConfirmed);
+      if (await confirmJobsOnServer(jobsConfirmed)) {
+        setJobDraft(jobDraftConfirmed);
+        setJobs(jobsConfirmed);
+        jobDraftOriginalRef.current = structuredClone(jobDraftConfirmed);
+        setJobDraftDirty(false);
+        showSnackbar(t("Job activated"), 'success');
+        navigate('/jobs-handle', { replace: true });
+      }
     }
   };
 
   const cancelJobDraft = () => {
     setIsCanceling(true);
+    
     const proceed = () => {
-      setHasNavigatedAway(true);
-      setJobDraftDirty(false);
-      navigate('/jobs-handle', { replace: true });
+      if (jobDraft.id !== 'new' && jobDraftIsDirty) {
+        // Restore original job on server for existing jobs
+        const jobsRestored = jobs.map(job =>
+          job.id === jobDraft.id ? jobDraftOriginalRef.current : job
+        );
+        confirmJobsOnServer(jobsRestored).then((success) => {
+          if (success) {
+            setJobs(jobsRestored);
+          }
+          setJobDraftDirty(false);
+          navigate('/jobs-handle', { replace: true });
+        });
+      } else {
+        // For new jobs or unchanged jobs, just navigate away
+        setJobDraftDirty(false);
+        navigate('/jobs-handle', { replace: true });
+      }
     };
 
-    //if (jobIsEmpty(jobDraft) || !jobDraftWasChanged) {
     if (jobIsEmpty(jobDraft) || !jobDraftIsDirty) {
-      return proceed(); // do not ask for confirmation if job is empty or not changed
+      return proceed();
     }
 
     showDialog({
-      title: t("Job canceled"),
-      message: t("Are you sure you want to cancel the job edits you have just done? All changes will be lost."),
-      confirmText: t("Yes, cancel changes"),
-      cancelText: t("No, continue"),
+      title: t("Cancel changes?"),
+      message: t("Are you sure you want to cancel? All unsaved changes will be discarded and the previous version will be restored."),
+      confirmText: t("Yes, discard changes"),
+      cancelText: t("No, keep editing"),
       onConfirm: () => proceed(),
+      onCancel: () => setIsCanceling(false),
     });
-      
   };
-
+  
   // Render layout
   const renderStep = () => {
     switch (jobDraft.currentStep ?? 0) {
@@ -442,42 +528,60 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
     return null;
   }
   
+  const autosaveRetry = () => {
+    setForceRetry(true);
+  };
+
   return (
     <Container maxWidth="lg" disableGutters sx={{ py: isMobile ? 0 : 2 }}>
 
-      <SectionHeader1>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            width: '100%',
-          }}
-        >
-          {/* Menu icon, anchored left */}
-          <Box sx={{ position: 'absolute', left: 0, display: 'flex', alignItems: 'center' }}>
-            <Tooltip title={t('Go to jobs list')} arrow>
-              <IconButton
-                onClick={goToJobsList}
-                sx={{ color: 'background.default' }}
-              >
-                <Menu />
-              </IconButton>
-            </Tooltip>
-          </Box>
+      <SectionHeader
+        bottomIndicator={
+          <AutosaveIndicator 
+            status={autosaveStatus}
+            lastSaveTime={autosaveLastTime}
+            errorMessage={jobsError?.message}
+            onRetry={autosaveRetry}
+            maxMessageWidth="90%"
+          />
+        }
+      >
+        <Box sx={{ position: 'relative', width: '100%' }}> {/* This wrapper Box handles the positioning context */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              width: '100%',
+            }}
+          >
+            {/* Menu icon, anchored left */}
+            <Box sx={{ position: 'absolute', left: 0, display: 'flex', alignItems: 'center' }}>
+              <Tooltip title={t('Go to jobs list')} arrow>
+                <IconButton
+                  onClick={goToJobsList}
+                  sx={{ color: 'background.default' }}
+                >
+                  <Menu />
+                </IconButton>
+              </Tooltip>
+            </Box>
 
-          {/* Centered header text */}
-          <Box sx={{ ml: 4 }}>
-            {
-              (isMobile ?
-                t('Config. Job') :
-                t('Configure Job')
-              ) + ` ${getJobNumberById(jobId)}`
-            }
+            {/* Centered header text */}
+            <Box sx={{ ml: 4 }}>
+              {
+                (isMobile ?
+                  t('Config. Job') :
+                  t('Configure Job')
+                ) + ` ${getJobNumberById(jobId)}`
+              }
+            </Box>
+
           </Box>
         </Box>
-      </SectionHeader1>
+
+      </SectionHeader>
 
       <Stepper
         activeStep={/*jobDraft.isConfirmed ? steps().length : */jobDraft?.currentStep} // if job is confirmed, set last step as active
@@ -555,18 +659,26 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
               endIcon={isLastStep() ? <Check /> : <ArrowForward />}
               variant="contained"
               disabled={isMedicinesEditing}
-              size={isLastStep ? "large" : "medium" }
+              size={isLastStep() ? "large" : "medium" }
             >
-              {
-                isLastStep() ?
-                  (
-                    jobDraft.isActive ?
-                      t('Confirm!')
-                    :
-                      (isMobile ? t('Confirm!') : t('Confirm and activate!'))
+              {isLastStep() ?
+                (jobDraft.id === 'new' ?
+                  t('Create & Activate') :
+                  (jobDraft.isActive ?
+                    t('Done') :
+                    t('Activate')
                   )
-                :
-                  t('Next')}
+                ) :
+              t('Next')}
+              {/*isLastStep() ?
+                (
+                  jobDraft.isActive ?
+                    t('Confirm!')
+                  :
+                    (isMobile ? t('Confirm!') : t('Confirm and activate!'))
+                ) :
+                t('Next')
+              */}
             </Button>
 
             <Tooltip title={t('Cancel this activity')} arrow>
@@ -584,27 +696,6 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
             </Tooltip>
 
           </Box>
-          {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            {/* <Button
-              onClick={cancelJobDraft}
-              endIcon={<Clear />}
-              variant="outlined"
-              size={"medium"}
-            >
-              {t('Cancel')}
-            </Button> * /}
-            <Button
-              onClick={cancelJobDraft}
-              variant="outlined"
-              size={"medium"}
-              sx={{
-                minWidth: 0, // removes default 64px min width
-                px: isMobile ? 0.5 : 2, // reduces horizontal padding (default is ~1.5–2)
-              }}
-            >
-              {isMobile ? "" : `${t('Cancel')}`} <Clear /*fontSize="small"* / />
-            </Button>
-          </Box> */}
         </Paper>
       </Container>
       
@@ -612,7 +703,6 @@ Now, you will be able to see the job in your jobs list, where you can manage it 
   );
 };
 
-// TODO: move to mui-material-custom
 const CustomStepIcon = (props) => {
   const { stepIndex, completed, current, } = props;
 

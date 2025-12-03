@@ -283,20 +283,20 @@
 - aggiungere attributo booleano "main" ad ogni step di JobFlow, e settarlo a true per JobMedicines, ed usarlo per decidere quale step visualizzare quando si entra in modifica. - OK
 - aggiungere a Help floating icon, which opens a dialog with "do not show this message anymore" checkbox, per spiegare il funzionamento dell'app. - OK
 - aggiungere route /help e "Help" item in header menu - OK
+- cambiare "Modifica" in "Conferma" in JobComponent, edit mode - OK
+- confermare JobPatient, JobDoctor e JobMedicines con "Next", che diventa "Confirm"... - OK
+- "devi essere autenticato per questa azione" => force a logout (NO) - OK
+- text logo FarmaTime, do be done again with more definition - OK
+- always use in useEffect in components, when needed (to avoid using useCallback()): // eslint-disable-next-line react-hooks/exhaustive-deps (NO) - OK
 
-- cambiare "Modifica" in "Conferma" in JobComponent, edit mode
-- confermare JobPatient, JobDoctor e JobMedicines con "Next", che diventa "Confirm"...
-
-- "devi essere autenticato per questa azione" => force a logout
+- remolve all // eslint-disable-next-line react-hooks/exhaustive-deps (use useCallback()))
 - showDialog: add mode (Success, Info, Warning, Error, ...); change Title background color based on mode... (default: success)
 - in /base-assets we need only LogoMain.png (and .xcf)...
-- text logo FarmaTime, do be done again with more definition
 - make tests (also use AI for this...)
 - reinstall from scratch (possibly on a fresh system), and compile README file
 - better cookie popup: see unisalute.it
 - PushNotificationsStatusProvider => NotificationPushNotificationsStatusProvider
  evitare di notificare inizialmente "l'app è pronta per funzionare offline" troppe volte
-- always use in useEffect in components, when needed (to avoid using useCallback()): // eslint-disable-next-line react-hooks/exhaustive-deps
 - on signOut, clear cart-USERID (when using cart...)
 
 NEWFEATURE:

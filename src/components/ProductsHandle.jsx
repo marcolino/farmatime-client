@@ -15,8 +15,7 @@ import {
   TablePagination,
   Typography,
 } from "@mui/material";
-import { TextFieldSearch, Button } from "./custom";
-import { SectionHeader1, TableCellLastSticky } from "mui-material-custom";
+import { TextFieldSearch, Button, SectionHeader, TableCellLastSticky } from "../components/custom";
 import { Search, Edit, Delete, AddCircleOutline } from "@mui/icons-material";
 import StackedArrowsGlyph from "./glyphs/StackedArrows";
 import { apiCall } from "../libs/Network";
@@ -288,9 +287,9 @@ const ProductTable = () => {
   //console.log("*** ProductsTable props:", props);
   return (
     <>
-      <SectionHeader1>
+      <SectionHeader>
         {t("Products handling")}
-      </SectionHeader1>
+      </SectionHeader>
 
       <Box sx={{
         my: theme.spacing(2),
