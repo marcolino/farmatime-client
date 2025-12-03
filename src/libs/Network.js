@@ -83,7 +83,7 @@ Please re-inject development config.
       return { err: true, message: i18n.t("No response from server; please check your connection") };
     }
     console.error(`⇒ ${path} request error:`, err.message);
-    return { err: true, message: i18n.t(err.message) };
+    return { err: true, message: err.message };
   }
 };
 

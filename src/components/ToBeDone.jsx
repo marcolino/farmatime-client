@@ -9,7 +9,7 @@ const ToBeDone = () => {
 
   return <FlexyImageAndText
     image={ToBeDoneImage}
-    imageAlt={t("\"To be done\" image")}
+    imageAlt={t("'To be done' image")}
     title={t("Not yet ready")}
     content={t("This feature is being implemented, but it is not yet ready for lunch time. Please retry soon…")}
   />;

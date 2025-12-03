@@ -50,3 +50,8 @@ i18n.t("Teeth");
 i18n.t("Rotation");
 i18n.t("Regulator");
 i18n.t("Notes");
+
+//Delivery methods
+i18n.t("No delivery")
+i18n.t("Standard delivery, 7 days");
+i18n.t("Express delivery, 3 days");

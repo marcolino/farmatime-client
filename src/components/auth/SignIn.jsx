@@ -196,9 +196,9 @@ function SignIn() {
             justifyContent="flex-end"
           >
             <Tooltip placement="bottom" title={
-              t(`It is recommended to check this flag if you are on a public computer, with low security`) + ".\n" +
-              t(`If checked your session will last only for ${secondsToHumanDuration(config.auth.refreshTokenExpirationDontRememberMeSeconds)}`) + ", " +
-              t(`otherwise it will last for ${secondsToHumanDuration(config.auth.refreshTokenExpirationSeconds)}`) + "."}
+              t("It is recommended to check this flag if you are on a public computer, with low security") + ".\n" +
+              t("If checked your session will last only for {{seconds}}", {seconds: secondsToHumanDuration(config.auth.refreshTokenExpirationDontRememberMeSeconds)}) + ", " +
+              t("otherwise it will last for {{seconds}}", {seconds: secondsToHumanDuration(config.auth.refreshTokenExpirationSeconds)}) + "."}
             >
               <FormControlLabel
                 name="dont_remember_me"

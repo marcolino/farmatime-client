@@ -170,21 +170,6 @@ const RequestsHistoryTable = () => {
     })();
   }, [auth.user, showSnackbar]);
 
-  // // Show job errors to the user
-  // useEffect(() => {
-  //   if (jobsError) {
-  //     let message;
-  //     if (jobsError.type === "load") {
-  //       message = `${t("Failed to load jobs")}. ${t("Please try again")}.`;
-  //     } else if (jobsError.type === "store") {
-  //       message = `${t("Failed to store jobs")}. ${t("Please try again")}.`;
-  //     } else {
-  //       message = jobsError.message ?? "An unexpected error occurred.";
-  //     }
-  //     showSnackbar(message, "error");
-  //   }
-  // }, [jobsError, showSnackbar, t]);
-
   // Check if current page is still valid (for example after a row deletion); otherwise go back one page
   useEffect(() => {
     if (page > 0 && page * rowsPerPage >= requests.length) {
@@ -663,7 +648,7 @@ const RequestsHistoryTable = () => {
                 {sortedFilteredPaginatedRequests.map((request, index) => {
                   const isItemSelected = isSelected(request._id);
                   const lastStatus = statusTable.find(s => s.status === request.lastStatus);
-                  const tooltip = (lastStatus ? lastStatus.tooltip : t(request.lastStatus)) +
+                  const tooltip = (lastStatus ? lastStatus.tooltip : request.lastStatus) +
                     ((request.lastReason && request.lastReason !== 'sent') ? ` (${request.lastReason})` : '')
                     ;
                   return (
@@ -762,7 +747,7 @@ const RequestsHistoryTable = () => {
                               <Box component="ul" sx={{ pl: 3, mt: 0, mb: 0.5, listStyleType: 'decimal' }}>
                                 {request.medicines.map((medicine, idx) => (
                                   <Box component="li" key={idx}>
-                                    {medicine.name} {t("since")} {formatDateYYYYMMDDHHMM(medicine.since)}, {t("every")} {t('day', {count: parseInt(medicine.every)})}
+                                    {medicine.name} {t("since")} {formatDateYYYYMMDDHHMM(medicine.since)}, {t("every")} {t("day", {count: parseInt(medicine.every)})}
                                   </Box>
                                 ))}
                               </Box>

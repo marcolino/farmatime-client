@@ -8,14 +8,8 @@ import {
   Typography,
   Button,
   Tooltip,
-<<<<<<< HEAD
 } from "@mui/material";
 import { Box, SectionHeader, TextFieldSearch, RequestScheduledDetails, SelectMulti } from "../components/custom";
-=======
-} from "mui-material-custom";
-import { TextFieldSearch, RequestScheduledDetails, SelectMulti } from "./custom";
-import { SectionHeader1 } from "mui-material-custom";
->>>>>>> 648f52018e27f82308f8885bc1bbbdf43c1115d2
 import { Search, ScheduleSend, NavigateBefore, NavigateNext} from "@mui/icons-material";
 import { apiCall } from "../libs/Network";
 import { isAdmin } from "../libs/Validation";

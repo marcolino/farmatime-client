@@ -338,7 +338,7 @@ const Header = ({ theme, toggleTheme }) => {
   const handleShare = async () => {
     const shareData = {
       title: t("Check out this app!"),
-      text: t("I’ve been using this web app — you should try it, it's really useful!"),
+      text: t("I've been using this web app — you should try it, it's really useful!"),
       url: config.api.productionDomains[0] // app base URL, not naked
     };
 
