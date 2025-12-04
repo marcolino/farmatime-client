@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useContext, useCallback } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -38,7 +38,6 @@ import { MedicineInputAutocomplete } from './MedicineInputAutocomplete';
 import { JobContext } from '../providers/JobContext';
 import { useSnackbarContext } from '../hooks/useSnackbarContext';
 import { useMediaQueryContext } from "../providers/MediaQueryContext";
-import { useDebounce } from '../hooks/useDebounce';
 import { StyledPaper, StyledBox } from './JobStyles';
 import { i18n } from '../i18n';
 import { localeMap, formatDateDDMMM, getLanguageBasedFormatDDMMM } from '../libs/Misc';
@@ -107,18 +106,15 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     return FilterLoading;
   });
   
-  const debouncedFieldMedicine = useDebounce(fieldMedicine, 200);
-
-  const filteredOptions = useMemo(() => {
-    if (!getFilteredOptions) return [];
-    return getFilteredOptions(debouncedFieldMedicine);
-  }, [debouncedFieldMedicine, getFilteredOptions]);
-
   // References to input fields
   const fieldMedicineRef = useRef(null);
   const fieldFrequencyRef = useRef(null);
   const fieldSinceDateRef = useRef(null);
   
+  // function today() {
+  //   return new Date();
+  // }
+
   function tomorrowAsString() {
    const today = new Date();
     const tomorrow = new Date(today);
@@ -128,7 +124,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
 
   // Reset date when locale changes
   useEffect(() => {
-    setFieldSinceDate(tomorrowAsString());
+    setFieldSinceDate(tomorrowAsString()/*new Date()*/);
   }, []);
 
   // Focus handling
@@ -429,8 +425,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                             value={option ?? null}
                             inputValue={fieldMedicine ?? ""}
                             //options={getFilteredOptions(fieldMedicine) ?? []}
-                            //getFilteredOptions={getFilteredOptions}
-                            getFilteredOptions={() => filteredOptions} // always fast, debounced
+                            getFilteredOptions={getFilteredOptions}
                             autoFocus
                             onChange={(_event, newValue) => {
                               if (typeof newValue === "string") {

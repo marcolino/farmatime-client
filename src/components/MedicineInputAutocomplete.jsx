@@ -25,7 +25,7 @@ export const MedicineInputAutocomplete = forwardRef(({
       {...props}
       freeSolo
       options={options ?? []}
-      
+      filterOptions={(options) => options} // disable built-in filtering
       value={value}
       inputValue={inputValue}
       onChange={onChange}

@@ -41,6 +41,18 @@ const RequestsScheduledCalendar = () => {
   const scrollMonthRefs = useRef([]);
   const [allUsers, setAllUsers] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [firstDayOfWeek, setFirstDayOfWeek] = useState(0);
+
+  // detect if - based on current language, weeks start from Monday or Sunday
+  useEffect(() => {
+    try {
+      const loc = new Intl.Locale(i18n.language);
+      setFirstDayOfWeek(loc.weekInfo?.firstDay === 1 ? 1 : 0);
+    } catch {
+      setFirstDayOfWeek(0)  ;
+    }
+    console.log("firstDayOfWeek:", firstDayOfWeek);
+  }, [firstDayOfWeek, i18n.language]);
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
@@ -446,7 +458,10 @@ const RequestsScheduledCalendar = () => {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const dayCells = [];
 
-    for (let i = 0; i < firstDay(year, month).getDay(); i++) dayCells.push(null);
+    const firstDayOfWeekInThisMonthYear = firstDay(year, month).getDay();
+    const shift = (firstDayOfWeekInThisMonthYear - firstDayOfWeek + 7) % 7;
+    
+    for (let i = 0; i < shift; i++) dayCells.push(null);
     for (let d = 1; d <= daysInMonth; d++) dayCells.push(d);
 
     return dayCells;
@@ -457,8 +472,13 @@ const RequestsScheduledCalendar = () => {
     const year = activeStartDate.getFullYear();
     const month = activeStartDate.getMonth(); // 0-based
     const dayCells = getDayCells(year, month);
-    const weekDays = [t("Su"), t("Mo"), t("Tu"), t("We"), t("Th"), t("Fr"), t("Sa")];
-
+    //const weekDays = [t("Su"), t("Mo"), t("Tu"), t("We"), t("Th"), t("Fr"), t("Sa")];
+    const weekDays = (firstDayOfWeek === 1) ?
+      [t("Mo"), t("Tu"), t("We"), t("Th"), t("Fr"), t("Sa"), t("Su")] :
+      [t("Su"), t("Mo"), t("Tu"), t("We"), t("Th"), t("Fr"), t("Sa")]
+      ;
+    console.log("weekdays:", weekDays);
+    
     return (
       <Box
         sx={{
@@ -481,8 +501,8 @@ const RequestsScheduledCalendar = () => {
             fontSize: theme.typography.caption.fontSize,
           }}
         >
-          {weekDays.map((wd) => (
-            <Box key={wd}>{wd}</Box>
+          {weekDays.map((wd, index) => (
+            <Box key={index}>{wd}</Box>
           ))}
         </Box>
 

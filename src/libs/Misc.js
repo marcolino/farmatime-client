@@ -274,7 +274,6 @@ export const formatDateDDMMM = (date, language = i18n.language) => {
   const dateObj = new Date(date); // use new Date here to be more generic
   const formatString = getLanguageBasedFormatDDMMM(language);
   const formatted = format(dateObj, formatString, { locale });
-  console.log("FORMATTED:", formatted);
   return formatted;
 };
 

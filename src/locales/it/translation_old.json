@@ -60,7 +60,6 @@
   "Along with the medicine, you'll choose the date the first prescription will be requested, and the frequency of the following requests.": "Insieme al medicinale, sceglierai la data in cui verrà richiesta la prima prescrizione e la frequenza delle richieste successive.",
   "An error occurred while loading job information": "Si è verificato un errore durante il caricamento delle informazioni sull'attività",
   "An unexpected error occurred: {{err}}": "Si è verificato un errore inaspettato: {{err}}",
-  "App mode": "Modalità dell'app",
   "App mode is": "La modalità dell'app è",
   "Are you still using the app?": "Stai ancora usando l'app?",
   "Are you sure you want to cancel the edits you have just done? All changes will be lost.": "Vuoi davvero annullare le modifiche appena apportate? Tutte le modifiche andranno perse.",

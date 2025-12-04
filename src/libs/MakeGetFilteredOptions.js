@@ -1,96 +1,107 @@
 /**
- * MakeGetFilteredOptions - robust ordered-match search for large flat lists.
+ * MakeGetFilteredOptions - fast, order-insensitive + simple fuzzy search
  *
- * - Pre-normalizes every label (once) to: lowercased, non-alphanum -> space, collapse spaces.
- * - All query terms must appear in order (but may have text in between)
- * - Each term may start right after or slightly overlapping the previous one
- * - Fast even for 150k entries (single pass per label)
- * - Handles numeric and alphanumeric words cleanly
- *
- * @param {string[]} medicinesList - array of display labels (ASCII is fine)
- * @param {object} opts - optional config { limit: number }
- * @returns {(inputVal: string) => string[]}
+ * - Pre-normalizes every label once
+ * - Order-insensitive: all query tokens must appear somewhere
+ * - Simple fuzzy: substring OR first 3 chars OR chars in order
+ * - Very fast on 150k rows
  */
 function makeGetFilteredOptions(medicinesList, opts = {}) {
   const limit = Number(opts.limit || 15);
 
-  // Precompute a normalized version for each label once (fast on lookup)
-  // Normalization: lowercase, remove diacritics if any, replace any non-alphanumeric with a single space, collapse spaces
-  const normalize = (s) => String(s || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // strip accents if present
-    .replace(/[^a-z0-9]+/g, " ") // non-alnum -> space (keeps digits)
-    .replace(/\s+/g, " ")
-    .trim()
-  ;
-
-  const normalizedList = medicinesList.map((lab) => normalize(lab));
-
-  // Tokenizer for the query (same normalization rules for tokens)
-  const tokenize = (str) =>
-    String(str || "")
+  const normalize = (s) =>
+    String(s || "")
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/[^a-z0-9]+/g, " ")
       .replace(/\s+/g, " ")
-      .trim()
-      .split(" ")
-      .filter(Boolean);
+      .trim();
+
+  const tokenize = (str) => normalize(str).split(" ").filter(Boolean);
+
+  // Preprocess all rows
+  const preprocessed = medicinesList.map((label) => ({
+    label,
+    tokens: tokenize(label),
+    normLabel: normalize(label),
+  }));
+
+  // Simple fuzzy: chars in order (allow 1 missing), very cheap
+  const simpleFuzzyMatch = (token, rowToken) => {
+    if (rowToken.includes(token)) return true; // exact substring
+
+    // if numeric, only exact substring
+    if (/^\d+$/.test(token)) return false;
+
+    // first 4 chars must match AND row token is long enough
+    if (token.length >= 4 && rowToken.length >= token.length && token.slice(0, 4) === rowToken.slice(0, 4)) {
+      return true;
+    }
+
+    // allow 1 char missing only if lengths are almost equal
+    if (Math.abs(token.length - rowToken.length) <= 1) {
+      let ti = 0;
+      let ri = 0;
+      let misses = 0;
+      while (ti < token.length && ri < rowToken.length) {
+        if (token[ti] === rowToken[ri]) {
+          ti++;
+          ri++;
+        } else {
+          ri++;
+          misses++;
+          if (misses > 1) return false;
+        }
+      }
+      if (ti === token.length) return true;
+    }
+
+    return false;
+  };
 
   return function getFilteredOptions(inputVal) {
     if (!inputVal) return [];
-
-    const terms = tokenize(inputVal);
-    if (terms.length === 0) return [];
+    const queryTokens = tokenize(inputVal);
+    if (queryTokens.length === 0) return [];
 
     const results = [];
 
-    // Walk the pre-normalized list; use indexOf on normalized string for robust matching
-    for (let i = 0; i < normalizedList.length; i++) {
-      const norm = normalizedList[i];
+    for (const { label, tokens: rowTokens, normLabel } of preprocessed) {
+      let allMatch = true;
+      let firstIdx = Infinity;
+      let lastIdx = -1;
 
-      // Quick reject: first term must appear
-      let start = norm.indexOf(terms[0]);
-      if (start === -1) continue;
-
-      // Ensure subsequent terms appear after the previous matched token end
-      let ok = true;
-      let lastEnd = start + terms[0].length;
-      for (let t = 1; t < terms.length; t++) {
-        const idx = norm.indexOf(terms[t], lastEnd);
-        if (idx === -1) {
-          ok = false;
+      for (const qt of queryTokens) {
+        const matched = rowTokens.some((rt) => simpleFuzzyMatch(qt, rt));
+        if (!matched) {
+          allMatch = false;
           break;
         }
-        lastEnd = idx + terms[t].length;
+
+        // update span for scoring
+        const idx = normLabel.indexOf(qt);
+        if (idx !== -1) {
+          firstIdx = Math.min(firstIdx, idx);
+          lastIdx = Math.max(lastIdx, idx + qt.length);
+        }
       }
-      if (!ok) continue;
 
-      // Scoring: prefer starts-with, prefer tighter span and more terms
+      if (!allMatch) continue;
+
+      // scoring
       let score = 0;
-      if (start === 0) score += 4; // label begins with first term
+      if (normLabel.startsWith(queryTokens[0])) score += 4;
+      const span = lastIdx - firstIdx;
+      if (span >= 0) score += Math.max(0, 5 - Math.floor(span / 10));
+      score += queryTokens.length;
 
-      const span = lastEnd - start;
-      if (span >= 0) score += Math.max(0, 5 - Math.floor(span / 10)); // closer = better
-
-      score += terms.length; // per-term small bonus
-
-      results.push({ idx: i, score });
+      results.push({ label, score });
     }
 
-    if (results.length === 0) return [];
-
-    // sort and return original labels (stable tie-break by idx)
-    results.sort((a, b) => b.score - a.score || a.idx - b.idx);
-
-    const outLen = Math.min(limit, results.length);
-    const out = new Array(outLen);
-    for (let k = 0; k < outLen; k++) out[k] = medicinesList[results[k].idx];
-    return out;
+    results.sort((a, b) => b.score - a.score);
+    return results.slice(0, limit).map((r) => r.label);
   };
 }
 
 export default makeGetFilteredOptions;
-

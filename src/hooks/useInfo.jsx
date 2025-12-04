@@ -26,11 +26,11 @@ export const useInfo = () => {
 
     const mode =
       config.mode.production ? "production" :
-      config.mode.staging ? "staging" :
-      config.mode.development ? "development" :
-      config.mode.test ? "test" :
-      config.mode.testInCI ? "testInCI" :
-      "?";
+        config.mode.staging ? "staging" :
+          config.mode.development ? "development" :
+            config.mode.test ? "test" :
+              config.mode.testInCI ? "testInCI" :
+                "?";
 
     const infoContents = (
       <Box>
@@ -82,7 +82,7 @@ export const useInfo = () => {
         <Typography variant="body1" sx={{ mt: 4 }}>
           {t("This app is produced by")} {config.company.owner.name}<br />
           {t("You can reach us at email")} &lt;{config.company.email}&gt;<br />
-          {/* {t("App mode")} {t("is")} {t(mode)}<br /> */}
+          {t("App mode")} {t("is")} {t(mode)}<br />
           {t("Version")} {t("is")} v{serverPackageJson.version} © {new Date().getFullYear()}<br />
           {t("Client build")} {t("is")} {t("n.")} {buildInfo?.client ? buildInfo.client.buildNumber : "?"} {t("on date")} {buildInfo?.client ? buildInfo.client.buildDateTime : "?"}<br />
           {t("Server build")} {t("is")} {t("n.")} {buildInfo?.server ? buildInfo.server.buildNumber : "?"} {t("on date")} {buildInfo?.server ? buildInfo.server.buildDateTime : "?"}<br />
@@ -101,5 +101,5 @@ export const useInfo = () => {
   };
 
   return { info };
-}
+};
 
