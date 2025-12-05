@@ -91,7 +91,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   //const { isLoggedIn } = useContext(AuthContext);
   const { checkUserJobRequests } = useContext(JobContext);
   const [option, setOption] = useState(null); // Initialize with null for clarity
-  const [editingItemId, setEditingItemId] = useState(null);
+  const [editingItemName, setEditingItemName] = useState(null);
   const [fieldMedicine, setFieldMedicine] = useState('');
   const [fieldFrequency, setFieldFrequency] = useState(1);
   //const [fieldSinceDate, setfieldSinceDate] = useState(new Date());
@@ -221,8 +221,8 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
       return;
     }
 
-    // // Use a unique ID for new items, if not already existing (for manual input)
-    const newItemId = option?.id || name;
+    // // Use a unique name for new items, if not already existing (for manual input)
+    //const newItemId = option?.id || name;
     const newItemName = option?.name || name;
 
     if (mode === 'add') {
@@ -239,7 +239,8 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
       }
 
       onChange([...data, {
-        id: newItemId, // Use the new unique ID or existing option ID
+        //id: newItemId, // Use the new unique ID or existing option ID
+        //id: name,
         name,
         fieldFrequency,
         fieldSinceDate,
@@ -248,7 +249,7 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
       handleEditEnd(); // close Edit mode after adding a medicine
     } else { // mode === 'update'
       onChange(data.map(item =>
-        item.id === editingItemId
+        item.name === editingItemName
           ? { ...item, option, name: name.trim(), fieldFrequency, fieldSinceDate } // Update option as well
           : item
       ));
@@ -257,16 +258,16 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
     }
     resetItems();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fieldMedicine, fieldSinceDate, fieldFrequency, option, mode, data, editingItemId, onChange, resetItems, showSnackbar, t]);
+  }, [fieldMedicine, fieldSinceDate, fieldFrequency, option, mode, data, editingItemName, onChange, resetItems, showSnackbar, t]);
 
 
-  const startEdit = useCallback((id, field) => {
-    const item = data.find(i => i.id === id);
+  const startEdit = useCallback((name, field) => {
+    const item = data.find(i => i.name === name);
     if (!item) {
-      showSnackbar(t('Item by ID {{id}} not found!', { id }), 'error');
+      showSnackbar(t('Item by name {{name}} not found!', { name }), 'error');
       return;
     }
-    setEditingItemId(id); // Use item.id for editingItemId
+    setEditingItemName(name); // Use item.name for editingItemName
     setMode('update');
     setShowAddUpdateBlock(true);
     setFieldToFocus(field); // e.g. 'name', 'frequency', or 'date'
@@ -278,26 +279,45 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
   }, [data, onEditingChange, showSnackbar, t]);
 
   const handleEditEnd = useCallback(() => {
-    setEditingItemId(null);
+    setEditingItemName(null);
     setShowAddUpdateBlock(false);
     onEditingChange(false); // Ensure parent knows editing has ended
   }, [onEditingChange]);
 
-  const removeItem = useCallback((id) => {
-    onChange(data.filter(item => item.id !== id));
-    if (editingItemId === id) { // If the removed item was being edited, reset the form
+  const removeItem = useCallback((name) => {
+    onChange(data.filter(item => item.name !== name));
+    if (editingItemName === name) { // If the removed item was being edited, reset the form
       resetItems();
       setMode('add');
       handleEditEnd();
     }
-  }, [data, onChange, editingItemId, resetItems, handleEditEnd]);
+  }, [data, onChange, editingItemName, resetItems, handleEditEnd]);
 
+  // const handleDragEnd = useCallback((event) => {
+  //   const { active, over } = event;
+  //   if (active.name !== over.name) {
+  //     const oldIndex = data.findIndex(item => item.name === active.name);
+  //     const newIndex = data.findIndex(item => item.name === over.name);
+  //     onChange(arrayMove(data, oldIndex, newIndex));
+  //   }
+  // }, [data, onChange]);
   const handleDragEnd = useCallback((event) => {
+    // console.log('🎯 Drag End Event:', event);
+    // console.log('Active:', event.active);
+    // console.log('Over:', event.over);
     const { active, over } = event;
+    if (!over) {
+      console.warn('⚠️ No "over" target - drag was cancelled or invalid');
+      return;
+    }
     if (active.id !== over.id) {
-      const oldIndex = data.findIndex(item => item.id === active.id);
-      const newIndex = data.findIndex(item => item.id === over.id);
+      //console.log('Moving item:', active.id, 'to position of:', over.id);
+      const oldIndex = data.findIndex(item => item.name === active.id);
+      const newIndex = data.findIndex(item => item.name === over.id);
+      //console.log('Old index:', oldIndex, 'New index:', newIndex);
       onChange(arrayMove(data, oldIndex, newIndex));
+    //} else {
+      //console.log('Same position - no reorder needed');
     }
   }, [data, onChange]);
   
@@ -332,7 +352,12 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
               modifiers={[restrictToVerticalAxis]}
             >
               <SortableContext
-                items={data}
+                //items={data.map(item => item.name)}
+                items={data.map(item => {
+                  //console.log('Item for SortableContext:', item.name);
+                  return item.name;
+                })}
+                //items={data}
                 strategy={verticalListSortingStrategy}
               >
                 {data.length === 0 ? (
@@ -347,15 +372,15 @@ const JobMedicines = ({ data = [], onChange, onEditingChange, onCompleted }) => 
                     }}>
                       {data.map((item) => (
                         <JobMedicinesSortableItem
-                          key={item.id}
-                          id={item.id}
+                          key={item.name}
+                          id={item.name}
                           name={item.name}
                           frequency={item.fieldFrequency}
                           date={item.fieldSinceDate}
                           formatDate={formatDateDDMMM}
                           onEdit={startEdit}
                           onRemove={removeItem}
-                          isEditing={item.id === editingItemId}
+                          isEditing={item.name === editingItemName}
                         />
                       ))}
                     </Box>

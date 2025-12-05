@@ -270,48 +270,7 @@ const RequestsHistoryTable = () => {
     toggleRow(requestId);
   };
   
-  const onSelectRow = (/*e, id*/) => {
-    // We currently do not need selecting items in this component
-    /*
-    e.stopPropagation(); // Prevents bubbling to TableRow and select the row
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-    */
-  };
-
-  // const onSwitchActiveStatus = async (jobId) => {
-  //   const jobsSwitched = getPlayPauseJob(jobId);
-  //   if (await confirmJobsOnServer(jobsSwitched)) {
-  //     setJobs(jobsSwitched);
-  //   } else { // errors are handled with jobsError
-  //     return;
-  //   }
-  // };
-
-  // const onRemoveJob = async (jobId) => {
-  //   const jobsAfterRemove = removeJob(jobId);
-  //   if (await confirmJobsOnServer(jobsAfterRemove)) {
-  //     setJobs(jobsAfterRemove);
-  //     setSelected([]);
-  //   } else { // errors are handled with jobsError
-  //     return;
-  //   }
-  // };
+  const onSelectRow = () => {};
 
   const handleSort = (columnId) => () => {
     let newDirection = "asc";

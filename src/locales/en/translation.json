@@ -283,7 +283,7 @@
   "Is the service really free?": "Is the service really free?",
   "It is recommended to check this flag if you are on a public computer, with low security": "It is recommended to check this flag if you are on a public computer, with low security",
   "It's a super-easy web app that helps you say goodbye to the hassle of remembering to request doctor prescriptions — for yourself, your loved ones, or your assisted patients.": "It's a super-easy web app that helps you say goodbye to the hassle of remembering to request doctor prescriptions — for yourself, your loved ones, or your assisted patients.",
-  "Item by ID {{id}} not found!": "Item by ID {{id}} not found!",
+  "Item by name {{name}} not found!": "Item by name {{name}} not found!",
   "items": "items",
   "Job activated": "Job activated",
   "Job is active": "Job is active",

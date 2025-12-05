@@ -17,7 +17,7 @@ const StyledJobMedicinesSortableItem = styled(Paper)(({ theme }) => ({
 }));
 
 export function JobMedicinesSortableItem({
-  id, name, frequency, date, formatDate, onEdit, onRemove, isEditing
+  name, frequency, date, formatDate, onEdit, onRemove, isEditing
 }) {
   const {
     attributes,
@@ -26,8 +26,7 @@ export function JobMedicinesSortableItem({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id });
-  //const { t } = useTranslation();
+  } = useSortable({ id: name });
   const { t } = useTranslation();
   const { isMobile } = useMediaQueryContext();
 
@@ -80,7 +79,7 @@ export function JobMedicinesSortableItem({
         <IconButton
           edge="end"
           aria-label={t('edit')}
-          onClick={() => onEdit(id)}
+          onClick={() => onEdit(name)}
           sx={{ 
             mx: 0,
             '&:hover': { bgcolor: 'success.light' }
@@ -94,7 +93,7 @@ export function JobMedicinesSortableItem({
         <IconButton
           edge="end"
           aria-label={t('delete')}
-          onClick={() => onRemove(id)}
+          onClick={() => onRemove(name)}
           sx={{
             mx: 0,
             //mx: isXs || isSm ? 0 : 0,

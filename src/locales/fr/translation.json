@@ -299,7 +299,7 @@
   "Is the service really free?": "Le service est-il vraiment gratuit?",
   "It is recommended to check this flag if you are on a public computer, with low security": "It is recommended to check this flag if you are on a public computer, with low security",
   "It's a super-easy web app that helps you say goodbye to the hassle of remembering to request doctor prescriptions — for yourself, your loved ones, or your assisted patients.": "C'est une application web super facile qui vous aide à dire adieu à la corvée de se souvenir de demander des ordonnances médicales — pour vous-même, vos proches ou vos patients assistés.",
-  "Item by ID {{id}} not found!": "Article par ID {{id}} non trouvé!",
+  "Item by name {{name}} not found!": "Article par le nom {{name}} non trouvé!",
   "items": "éléments",
   "Job activated": "Activité activée",
   "Job is active": "Activité est active",

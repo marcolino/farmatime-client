@@ -233,7 +233,7 @@
   "Install this app for a better experience!": "Installa questa app per un'esperienza migliore!",
   "It's a super-echild-friendly web app that helps you say goodbye to the hassle of remembering to request doctor prescriptions—for yourself, your loved ones, or your assisted patients.": "È un'app web per bambini che ti aiuta a dire addio alla noia di ricordare di richiedere le prescrizioni mediche, per te stesso, i tuoi cari o i tuoi pazienti assistiti.",
   "Item by id {{id}} not found!": "Elemento con id {{id}} non trovato!",
-  "Item by name {{name}} not found!": "Elemento con nome {{nome}} non trovato!",
+  "Item by ID {{id}} not found!": "Elemento con ID {{id}} non trovato!",
   "Job canceled": "Attività cancellata",
   "Job confirmed": "Attività confermata",
   "Job history": "Storia dell'attività",

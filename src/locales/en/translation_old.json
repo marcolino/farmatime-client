@@ -214,7 +214,7 @@
   "Install this app for a better experience!": "Install this app for a better experience!",
   "It's a child-friendly web app that helps you say goodbye to the hassle of remembering to request doctor prescriptions—for yourself, your loved ones, or your assisted patients.": "It's a child-friendly web app that helps you say goodbye to the hassle of remembering to request doctor prescriptions—for yourself, your loved ones, or your assisted patients.",
   "Item by id {{id}} not found!": "Item by id {{id}} not found!",
-  "Item by name {{name}} not found!": "Item by name {{name}} not found!",
+  "Item by ID {{id}} not found!": "Item by ID {{id}} not found!",
   "Job canceled": "Job canceled",
   "Job confirmed": "Job confirmed",
   "Job history": "Job history",

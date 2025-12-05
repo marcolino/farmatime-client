@@ -323,25 +323,28 @@ const JobFlow = () => {
     }));
   };
 
-  // const anyStepCompleted = () => { // Check if any previous step is completed
+  // const allStepsCompleted = () => { // Check if all steps are completed
   //   const lastIndex = jobDraft.stepsCompleted.length - 1;
   //   return jobDraft.stepsCompleted
   //     .slice(0, lastIndex)
-  //     .some(Boolean)
+  //     .every(Boolean)
   //   ;
   // };
 
-  const allStepsCompleted = () => { // Check if all previous steps are completed
-    const lastIndex = jobDraft.stepsCompleted.length - 1;
+  const allPreviousStepsCompleted = () => { // Check if all previous steps are completed
+    const lastIndex = jobDraft.stepsCompleted.length - 1 - 1;
+    if (lastIndex < 0) { // no previous step, return true
+      return true;
+    }
     return jobDraft.stepsCompleted
       .slice(0, lastIndex)
       .every(Boolean)
-      ;
+    ;
   };
 
   const handleConfirm = async () => {
     // Check if all steps are completed
-    if (!allStepsCompleted()) {
+    if (!allPreviousStepsCompleted()) {
       return showSnackbar(t("Please complete all steps"), "warning");
     }
 
